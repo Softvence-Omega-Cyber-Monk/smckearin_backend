@@ -1,0 +1,59 @@
+model PrivateCall {
+  id String @id @default(uuid())
+
+  conversationId String
+  conversation   PrivateConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  initiatorId String?
+  initiator   User? @relation("CallInitiator", fields: [initiatorId], references: [id], onDelete: SetNull)
+
+  type   CallType
+  status CallStatus @default(INITIATED)
+
+  startedAt DateTime @default(now())
+  endedAt   DateTime?
+
+  participants PrivateCallParticipant[]
+
+  createdAt DateTime @default(now())
+
+  @@map("private_calls")
+}
+
+model PrivateCallParticipant {
+  id String @id @default(uuid())
+
+  callId String
+  call   PrivateCall @relation(fields: [callId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status CallParticipantStatus @default(JOINED)
+
+  joinedAt DateTime  @default(now())
+  leftAt   DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@unique([callId, userId])
+  @@map("private_call_participants")
+}
+
+enum CallType {
+  AUDIO
+  VIDEO
+}
+
+enum CallStatus {
+  INITIATED
+  ONGOING
+  ENDED
+  MISSED
+}
+
+enum CallParticipantStatus {
+  JOINED
+  LEFT
+  MISSED
+}

@@ -1,0 +1,57 @@
+model PrivateMessage {
+  id String @id @default(uuid())
+
+  content String?
+  type    MessageType @default(TEXT)
+
+  fileId String?
+  file   FileInstance? @relation(fields: [fileId], references: [id], onDelete: SetNull)
+
+  conversationId String
+  conversation   PrivateConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  senderId String
+  sender   User @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  privateLastMessage PrivateConversation[] @relation("PrivateLastMessage")
+  statuses           PrivateMessageStatus[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([conversationId, createdAt])
+  @@map("private_messages")
+}
+
+model PrivateMessageStatus {
+  id String @id @default(uuid())
+
+  messageId String
+  message   PrivateMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status MessageDeliveryStatus @default(SENT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([messageId, userId])
+  @@map("private_message_statuses")
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+  CALL_EVENT
+}
+
+enum MessageDeliveryStatus {
+  SENT
+  DELIVERED
+  READ
+}

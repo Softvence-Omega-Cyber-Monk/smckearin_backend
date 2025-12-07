@@ -1,0 +1,32 @@
+model PrivateConversation {
+  id String @id @default(uuid())
+
+  /// User who initiated the conversation
+  initiatorId String
+  initiator   User @relation("ConversationInitiator", fields: [initiatorId], references: [id], onDelete: Cascade)
+
+  /// User who received the conversation
+  receiverId String
+  receiver   User @relation("ConversationReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  messages PrivateMessage[]
+  calls    PrivateCall[]
+
+  lastMessageId String?
+  lastMessage   PrivateMessage? @relation("PrivateLastMessage", fields: [lastMessageId], references: [id], onDelete: SetNull)
+
+  status ConversationStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([initiatorId, receiverId])
+  @@map("private_conversations")
+}
+
+
+enum ConversationStatus {
+  ACTIVE
+  ARCHIVED
+  BLOCKED
+}

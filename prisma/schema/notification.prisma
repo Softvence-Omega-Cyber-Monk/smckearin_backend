@@ -1,0 +1,35 @@
+model Notification {
+  id String @id @default(uuid())
+
+  type    String
+  title   String
+  message String
+
+  // Use JSON to store metadata
+  meta Json
+
+  users UserNotification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("notifications")
+}
+
+model UserNotification {
+  id String @id @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  notificationId String
+
+  read Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([userId, notificationId])
+  @@map("user_notifications")
+}
