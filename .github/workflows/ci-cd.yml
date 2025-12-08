@@ -99,14 +99,14 @@ jobs:
             set -e
             cd /home/${{ secrets.VPS_USER }}/server
 
-            # Pull latest images
-            sudo docker compose pull
+            # Pull latest images for the 'prod' profile
+            sudo docker compose --profile prod pull
 
             # Bring down old containers, ignore warnings
-            sudo docker compose down --remove-orphans || true
+            sudo docker compose --profile prod down --remove-orphans || true
 
             # Start new containers
-            sudo docker compose up -d
+            sudo docker compose --profile prod up -d
 
             # Clean dangling images and networks, DO NOT remove volumes
             sudo docker system prune -f || true
