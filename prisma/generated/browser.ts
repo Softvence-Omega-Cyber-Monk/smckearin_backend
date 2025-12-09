@@ -28,6 +28,11 @@ export type UserOtp = Prisma.UserOtpModel
  */
 export type RefreshToken = Prisma.RefreshTokenModel
 /**
+ * Model Driver
+ * 
+ */
+export type Driver = Prisma.DriverModel
+/**
  * Model FileInstance
  * 
  */
@@ -42,6 +47,11 @@ export type Notification = Prisma.NotificationModel
  * 
  */
 export type UserNotification = Prisma.UserNotificationModel
+/**
+ * Model NotificationSettings
+ * 
+ */
+export type NotificationSettings = Prisma.NotificationSettingsModel
 /**
  * Model PrivateCall
  * 
@@ -68,7 +78,17 @@ export type PrivateMessage = Prisma.PrivateMessageModel
  */
 export type PrivateMessageStatus = Prisma.PrivateMessageStatusModel
 /**
+ * Model Shelter
+ * 
+ */
+export type Shelter = Prisma.ShelterModel
+/**
  * Model User
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model Veterinarian
+ * 
+ */
+export type Veterinarian = Prisma.VeterinarianModel

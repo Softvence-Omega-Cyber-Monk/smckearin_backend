@@ -31,7 +31,7 @@ export * from "./enums"
  * const userOtps = await prisma.userOtp.findMany()
  * ```
  * 
- * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ * Read more in our [docs](https://pris.ly/d/client).
  */
 export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
@@ -48,6 +48,11 @@ export type UserOtp = Prisma.UserOtpModel
  */
 export type RefreshToken = Prisma.RefreshTokenModel
 /**
+ * Model Driver
+ * 
+ */
+export type Driver = Prisma.DriverModel
+/**
  * Model FileInstance
  * 
  */
@@ -62,6 +67,11 @@ export type Notification = Prisma.NotificationModel
  * 
  */
 export type UserNotification = Prisma.UserNotificationModel
+/**
+ * Model NotificationSettings
+ * 
+ */
+export type NotificationSettings = Prisma.NotificationSettingsModel
 /**
  * Model PrivateCall
  * 
@@ -88,7 +98,17 @@ export type PrivateMessage = Prisma.PrivateMessageModel
  */
 export type PrivateMessageStatus = Prisma.PrivateMessageStatusModel
 /**
+ * Model Shelter
+ * 
+ */
+export type Shelter = Prisma.ShelterModel
+/**
  * Model User
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model Veterinarian
+ * 
+ */
+export type Veterinarian = Prisma.VeterinarianModel

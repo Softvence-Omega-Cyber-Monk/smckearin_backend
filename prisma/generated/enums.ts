@@ -17,6 +17,19 @@ export const OtpType = {
 export type OtpType = (typeof OtpType)[keyof typeof OtpType]
 
 
+export const WorkingDay = {
+  MONDAY: 'MONDAY',
+  TUESDAY: 'TUESDAY',
+  WEDNESDAY: 'WEDNESDAY',
+  THURSDAY: 'THURSDAY',
+  FRIDAY: 'FRIDAY',
+  SATURDAY: 'SATURDAY',
+  SUNDAY: 'SUNDAY'
+} as const
+
+export type WorkingDay = (typeof WorkingDay)[keyof typeof WorkingDay]
+
+
 export const FileType = {
   image: 'image',
   docs: 'docs',
@@ -90,7 +103,10 @@ export type MessageDeliveryStatus = (typeof MessageDeliveryStatus)[keyof typeof 
 export const UserRole = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
-  USER: 'USER'
+  SHELTER_ADMIN: 'SHELTER_ADMIN',
+  MANAGER: 'MANAGER',
+  VETERINARIAN: 'VETERINARIAN',
+  DRIVER: 'DRIVER'
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]

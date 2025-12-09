@@ -53,15 +53,19 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   UserOtp: 'UserOtp',
   RefreshToken: 'RefreshToken',
+  Driver: 'Driver',
   FileInstance: 'FileInstance',
   Notification: 'Notification',
   UserNotification: 'UserNotification',
+  NotificationSettings: 'NotificationSettings',
   PrivateCall: 'PrivateCall',
   PrivateCallParticipant: 'PrivateCallParticipant',
   PrivateConversation: 'PrivateConversation',
   PrivateMessage: 'PrivateMessage',
   PrivateMessageStatus: 'PrivateMessageStatus',
-  User: 'User'
+  Shelter: 'Shelter',
+  User: 'User',
+  Veterinarian: 'Veterinarian'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -105,6 +109,32 @@ export const RefreshTokenScalarFieldEnum = {
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
 
 
+export const DriverScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  phone: 'phone',
+  state: 'state',
+  address: 'address',
+  vehicleType: 'vehicleType',
+  vehicleCapacity: 'vehicleCapacity',
+  yearsOfExperience: 'yearsOfExperience',
+  previousExperience: 'previousExperience',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  workingDays: 'workingDays',
+  driverLicenseId: 'driverLicenseId',
+  driverLicenseUrl: 'driverLicenseUrl',
+  vehicleRegistrationId: 'vehicleRegistrationId',
+  vehicleRegistrationUrl: 'vehicleRegistrationUrl',
+  transportCertificateId: 'transportCertificateId',
+  transportCertificateUrl: 'transportCertificateUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DriverScalarFieldEnum = (typeof DriverScalarFieldEnum)[keyof typeof DriverScalarFieldEnum]
+
+
 export const FileInstanceScalarFieldEnum = {
   id: 'id',
   filename: 'filename',
@@ -144,6 +174,20 @@ export const UserNotificationScalarFieldEnum = {
 } as const
 
 export type UserNotificationScalarFieldEnum = (typeof UserNotificationScalarFieldEnum)[keyof typeof UserNotificationScalarFieldEnum]
+
+
+export const NotificationSettingsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  emailNotifications: 'emailNotifications',
+  smsNotifications: 'smsNotifications',
+  certificateNotifications: 'certificateNotifications',
+  appointmentNotifications: 'appointmentNotifications',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NotificationSettingsScalarFieldEnum = (typeof NotificationSettingsScalarFieldEnum)[keyof typeof NotificationSettingsScalarFieldEnum]
 
 
 export const PrivateCallScalarFieldEnum = {
@@ -212,6 +256,24 @@ export const PrivateMessageStatusScalarFieldEnum = {
 export type PrivateMessageStatusScalarFieldEnum = (typeof PrivateMessageStatusScalarFieldEnum)[keyof typeof PrivateMessageStatusScalarFieldEnum]
 
 
+export const ShelterScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  address: 'address',
+  phone: 'phone',
+  description: 'description',
+  logoId: 'logoId',
+  logoUrl: 'logoUrl',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  workingDays: 'workingDays',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShelterScalarFieldEnum = (typeof ShelterScalarFieldEnum)[keyof typeof ShelterScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -223,11 +285,30 @@ export const UserScalarFieldEnum = {
   lastLoginAt: 'lastLoginAt',
   lastActiveAt: 'lastActiveAt',
   profilePictureId: 'profilePictureId',
+  profilePictureUrl: 'profilePictureUrl',
+  shelterAdminOfId: 'shelterAdminOfId',
+  managerOfId: 'managerOfId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const VeterinarianScalarFieldEnum = {
+  id: 'id',
+  phone: 'phone',
+  license: 'license',
+  description: 'description',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  workingDays: 'workingDays',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VeterinarianScalarFieldEnum = (typeof VeterinarianScalarFieldEnum)[keyof typeof VeterinarianScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -253,6 +334,14 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
 export const JsonNullValueFilter = {
   DbNull: 'DbNull',
   JsonNull: 'JsonNull',
@@ -260,12 +349,4 @@ export const JsonNullValueFilter = {
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

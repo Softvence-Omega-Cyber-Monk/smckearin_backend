@@ -256,7 +256,11 @@ export type FileInstanceWhereInput = {
   size?: Prisma.IntFilter<"FileInstance"> | number
   createdAt?: Prisma.DateTimeFilter<"FileInstance"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FileInstance"> | Date | string
-  users?: Prisma.UserListRelationFilter
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  shelter?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
+  driverLicense?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
+  vehicleRegistration?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
+  transportCertificate?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
   privateMessages?: Prisma.PrivateMessageListRelationFilter
 }
 
@@ -271,7 +275,11 @@ export type FileInstanceOrderByWithRelationInput = {
   size?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  users?: Prisma.UserOrderByRelationAggregateInput
+  user?: Prisma.UserOrderByWithRelationInput
+  shelter?: Prisma.ShelterOrderByWithRelationInput
+  driverLicense?: Prisma.DriverOrderByWithRelationInput
+  vehicleRegistration?: Prisma.DriverOrderByWithRelationInput
+  transportCertificate?: Prisma.DriverOrderByWithRelationInput
   privateMessages?: Prisma.PrivateMessageOrderByRelationAggregateInput
 }
 
@@ -289,7 +297,11 @@ export type FileInstanceWhereUniqueInput = Prisma.AtLeast<{
   size?: Prisma.IntFilter<"FileInstance"> | number
   createdAt?: Prisma.DateTimeFilter<"FileInstance"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FileInstance"> | Date | string
-  users?: Prisma.UserListRelationFilter
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  shelter?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
+  driverLicense?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
+  vehicleRegistration?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
+  transportCertificate?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
   privateMessages?: Prisma.PrivateMessageListRelationFilter
 }, "id">
 
@@ -338,7 +350,11 @@ export type FileInstanceCreateInput = {
   size: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutProfilePictureInput
+  user?: Prisma.UserCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverCreateNestedOneWithoutTransportCertificateInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
@@ -353,7 +369,11 @@ export type FileInstanceUncheckedCreateInput = {
   size: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutProfilePictureInput
+  user?: Prisma.UserUncheckedCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterUncheckedCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverUncheckedCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverUncheckedCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverUncheckedCreateNestedOneWithoutTransportCertificateInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
@@ -368,7 +388,11 @@ export type FileInstanceUpdateInput = {
   size?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutProfilePictureNestedInput
+  user?: Prisma.UserUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUpdateOneWithoutTransportCertificateNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
@@ -383,7 +407,11 @@ export type FileInstanceUncheckedUpdateInput = {
   size?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutProfilePictureNestedInput
+  user?: Prisma.UserUncheckedUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUncheckedUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUncheckedUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUncheckedUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUncheckedUpdateOneWithoutTransportCertificateNestedInput
   privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
@@ -424,6 +452,11 @@ export type FileInstanceUncheckedUpdateManyInput = {
   size?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type FileInstanceNullableScalarRelationFilter = {
+  is?: Prisma.FileInstanceWhereInput | null
+  isNot?: Prisma.FileInstanceWhereInput | null
 }
 
 export type FileInstanceCountOrderByAggregateInput = {
@@ -473,21 +506,56 @@ export type FileInstanceSumOrderByAggregateInput = {
   size?: Prisma.SortOrder
 }
 
-export type FileInstanceNullableScalarRelationFilter = {
-  is?: Prisma.FileInstanceWhereInput | null
-  isNot?: Prisma.FileInstanceWhereInput | null
+export type FileInstanceCreateNestedOneWithoutDriverLicenseInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutDriverLicenseInput, Prisma.FileInstanceUncheckedCreateWithoutDriverLicenseInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutDriverLicenseInput
+  connect?: Prisma.FileInstanceWhereUniqueInput
+}
+
+export type FileInstanceCreateNestedOneWithoutVehicleRegistrationInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutVehicleRegistrationInput, Prisma.FileInstanceUncheckedCreateWithoutVehicleRegistrationInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutVehicleRegistrationInput
+  connect?: Prisma.FileInstanceWhereUniqueInput
+}
+
+export type FileInstanceCreateNestedOneWithoutTransportCertificateInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutTransportCertificateInput, Prisma.FileInstanceUncheckedCreateWithoutTransportCertificateInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutTransportCertificateInput
+  connect?: Prisma.FileInstanceWhereUniqueInput
+}
+
+export type FileInstanceUpdateOneWithoutDriverLicenseNestedInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutDriverLicenseInput, Prisma.FileInstanceUncheckedCreateWithoutDriverLicenseInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutDriverLicenseInput
+  upsert?: Prisma.FileInstanceUpsertWithoutDriverLicenseInput
+  disconnect?: Prisma.FileInstanceWhereInput | boolean
+  delete?: Prisma.FileInstanceWhereInput | boolean
+  connect?: Prisma.FileInstanceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FileInstanceUpdateToOneWithWhereWithoutDriverLicenseInput, Prisma.FileInstanceUpdateWithoutDriverLicenseInput>, Prisma.FileInstanceUncheckedUpdateWithoutDriverLicenseInput>
+}
+
+export type FileInstanceUpdateOneWithoutVehicleRegistrationNestedInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutVehicleRegistrationInput, Prisma.FileInstanceUncheckedCreateWithoutVehicleRegistrationInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutVehicleRegistrationInput
+  upsert?: Prisma.FileInstanceUpsertWithoutVehicleRegistrationInput
+  disconnect?: Prisma.FileInstanceWhereInput | boolean
+  delete?: Prisma.FileInstanceWhereInput | boolean
+  connect?: Prisma.FileInstanceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FileInstanceUpdateToOneWithWhereWithoutVehicleRegistrationInput, Prisma.FileInstanceUpdateWithoutVehicleRegistrationInput>, Prisma.FileInstanceUncheckedUpdateWithoutVehicleRegistrationInput>
+}
+
+export type FileInstanceUpdateOneWithoutTransportCertificateNestedInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutTransportCertificateInput, Prisma.FileInstanceUncheckedCreateWithoutTransportCertificateInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutTransportCertificateInput
+  upsert?: Prisma.FileInstanceUpsertWithoutTransportCertificateInput
+  disconnect?: Prisma.FileInstanceWhereInput | boolean
+  delete?: Prisma.FileInstanceWhereInput | boolean
+  connect?: Prisma.FileInstanceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FileInstanceUpdateToOneWithWhereWithoutTransportCertificateInput, Prisma.FileInstanceUpdateWithoutTransportCertificateInput>, Prisma.FileInstanceUncheckedUpdateWithoutTransportCertificateInput>
 }
 
 export type EnumFileTypeFieldUpdateOperationsInput = {
   set?: $Enums.FileType
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type FileInstanceCreateNestedOneWithoutPrivateMessagesInput = {
@@ -506,20 +574,300 @@ export type FileInstanceUpdateOneWithoutPrivateMessagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FileInstanceUpdateToOneWithWhereWithoutPrivateMessagesInput, Prisma.FileInstanceUpdateWithoutPrivateMessagesInput>, Prisma.FileInstanceUncheckedUpdateWithoutPrivateMessagesInput>
 }
 
-export type FileInstanceCreateNestedOneWithoutUsersInput = {
-  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutUsersInput, Prisma.FileInstanceUncheckedCreateWithoutUsersInput>
-  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutUsersInput
+export type FileInstanceCreateNestedOneWithoutShelterInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutShelterInput, Prisma.FileInstanceUncheckedCreateWithoutShelterInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutShelterInput
   connect?: Prisma.FileInstanceWhereUniqueInput
 }
 
-export type FileInstanceUpdateOneWithoutUsersNestedInput = {
-  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutUsersInput, Prisma.FileInstanceUncheckedCreateWithoutUsersInput>
-  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutUsersInput
-  upsert?: Prisma.FileInstanceUpsertWithoutUsersInput
+export type FileInstanceUpdateOneWithoutShelterNestedInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutShelterInput, Prisma.FileInstanceUncheckedCreateWithoutShelterInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutShelterInput
+  upsert?: Prisma.FileInstanceUpsertWithoutShelterInput
   disconnect?: Prisma.FileInstanceWhereInput | boolean
   delete?: Prisma.FileInstanceWhereInput | boolean
   connect?: Prisma.FileInstanceWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.FileInstanceUpdateToOneWithWhereWithoutUsersInput, Prisma.FileInstanceUpdateWithoutUsersInput>, Prisma.FileInstanceUncheckedUpdateWithoutUsersInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FileInstanceUpdateToOneWithWhereWithoutShelterInput, Prisma.FileInstanceUpdateWithoutShelterInput>, Prisma.FileInstanceUncheckedUpdateWithoutShelterInput>
+}
+
+export type FileInstanceCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutUserInput, Prisma.FileInstanceUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutUserInput
+  connect?: Prisma.FileInstanceWhereUniqueInput
+}
+
+export type FileInstanceUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutUserInput, Prisma.FileInstanceUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutUserInput
+  upsert?: Prisma.FileInstanceUpsertWithoutUserInput
+  disconnect?: Prisma.FileInstanceWhereInput | boolean
+  delete?: Prisma.FileInstanceWhereInput | boolean
+  connect?: Prisma.FileInstanceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FileInstanceUpdateToOneWithWhereWithoutUserInput, Prisma.FileInstanceUpdateWithoutUserInput>, Prisma.FileInstanceUncheckedUpdateWithoutUserInput>
+}
+
+export type FileInstanceCreateWithoutDriverLicenseInput = {
+  id?: string
+  filename: string
+  originalFilename: string
+  path: string
+  url: string
+  fileType?: $Enums.FileType
+  mimeType: string
+  size: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterCreateNestedOneWithoutLogoInput
+  vehicleRegistration?: Prisma.DriverCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverCreateNestedOneWithoutTransportCertificateInput
+  privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
+}
+
+export type FileInstanceUncheckedCreateWithoutDriverLicenseInput = {
+  id?: string
+  filename: string
+  originalFilename: string
+  path: string
+  url: string
+  fileType?: $Enums.FileType
+  mimeType: string
+  size: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserUncheckedCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterUncheckedCreateNestedOneWithoutLogoInput
+  vehicleRegistration?: Prisma.DriverUncheckedCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverUncheckedCreateNestedOneWithoutTransportCertificateInput
+  privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
+}
+
+export type FileInstanceCreateOrConnectWithoutDriverLicenseInput = {
+  where: Prisma.FileInstanceWhereUniqueInput
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutDriverLicenseInput, Prisma.FileInstanceUncheckedCreateWithoutDriverLicenseInput>
+}
+
+export type FileInstanceCreateWithoutVehicleRegistrationInput = {
+  id?: string
+  filename: string
+  originalFilename: string
+  path: string
+  url: string
+  fileType?: $Enums.FileType
+  mimeType: string
+  size: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverCreateNestedOneWithoutDriverLicenseInput
+  transportCertificate?: Prisma.DriverCreateNestedOneWithoutTransportCertificateInput
+  privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
+}
+
+export type FileInstanceUncheckedCreateWithoutVehicleRegistrationInput = {
+  id?: string
+  filename: string
+  originalFilename: string
+  path: string
+  url: string
+  fileType?: $Enums.FileType
+  mimeType: string
+  size: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserUncheckedCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterUncheckedCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverUncheckedCreateNestedOneWithoutDriverLicenseInput
+  transportCertificate?: Prisma.DriverUncheckedCreateNestedOneWithoutTransportCertificateInput
+  privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
+}
+
+export type FileInstanceCreateOrConnectWithoutVehicleRegistrationInput = {
+  where: Prisma.FileInstanceWhereUniqueInput
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutVehicleRegistrationInput, Prisma.FileInstanceUncheckedCreateWithoutVehicleRegistrationInput>
+}
+
+export type FileInstanceCreateWithoutTransportCertificateInput = {
+  id?: string
+  filename: string
+  originalFilename: string
+  path: string
+  url: string
+  fileType?: $Enums.FileType
+  mimeType: string
+  size: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverCreateNestedOneWithoutVehicleRegistrationInput
+  privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
+}
+
+export type FileInstanceUncheckedCreateWithoutTransportCertificateInput = {
+  id?: string
+  filename: string
+  originalFilename: string
+  path: string
+  url: string
+  fileType?: $Enums.FileType
+  mimeType: string
+  size: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserUncheckedCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterUncheckedCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverUncheckedCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverUncheckedCreateNestedOneWithoutVehicleRegistrationInput
+  privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
+}
+
+export type FileInstanceCreateOrConnectWithoutTransportCertificateInput = {
+  where: Prisma.FileInstanceWhereUniqueInput
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutTransportCertificateInput, Prisma.FileInstanceUncheckedCreateWithoutTransportCertificateInput>
+}
+
+export type FileInstanceUpsertWithoutDriverLicenseInput = {
+  update: Prisma.XOR<Prisma.FileInstanceUpdateWithoutDriverLicenseInput, Prisma.FileInstanceUncheckedUpdateWithoutDriverLicenseInput>
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutDriverLicenseInput, Prisma.FileInstanceUncheckedCreateWithoutDriverLicenseInput>
+  where?: Prisma.FileInstanceWhereInput
+}
+
+export type FileInstanceUpdateToOneWithWhereWithoutDriverLicenseInput = {
+  where?: Prisma.FileInstanceWhereInput
+  data: Prisma.XOR<Prisma.FileInstanceUpdateWithoutDriverLicenseInput, Prisma.FileInstanceUncheckedUpdateWithoutDriverLicenseInput>
+}
+
+export type FileInstanceUpdateWithoutDriverLicenseInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  path?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUpdateOneWithoutLogoNestedInput
+  vehicleRegistration?: Prisma.DriverUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUpdateOneWithoutTransportCertificateNestedInput
+  privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
+}
+
+export type FileInstanceUncheckedUpdateWithoutDriverLicenseInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  path?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUncheckedUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUncheckedUpdateOneWithoutLogoNestedInput
+  vehicleRegistration?: Prisma.DriverUncheckedUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUncheckedUpdateOneWithoutTransportCertificateNestedInput
+  privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
+}
+
+export type FileInstanceUpsertWithoutVehicleRegistrationInput = {
+  update: Prisma.XOR<Prisma.FileInstanceUpdateWithoutVehicleRegistrationInput, Prisma.FileInstanceUncheckedUpdateWithoutVehicleRegistrationInput>
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutVehicleRegistrationInput, Prisma.FileInstanceUncheckedCreateWithoutVehicleRegistrationInput>
+  where?: Prisma.FileInstanceWhereInput
+}
+
+export type FileInstanceUpdateToOneWithWhereWithoutVehicleRegistrationInput = {
+  where?: Prisma.FileInstanceWhereInput
+  data: Prisma.XOR<Prisma.FileInstanceUpdateWithoutVehicleRegistrationInput, Prisma.FileInstanceUncheckedUpdateWithoutVehicleRegistrationInput>
+}
+
+export type FileInstanceUpdateWithoutVehicleRegistrationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  path?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUpdateOneWithoutDriverLicenseNestedInput
+  transportCertificate?: Prisma.DriverUpdateOneWithoutTransportCertificateNestedInput
+  privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
+}
+
+export type FileInstanceUncheckedUpdateWithoutVehicleRegistrationInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  path?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUncheckedUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUncheckedUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUncheckedUpdateOneWithoutDriverLicenseNestedInput
+  transportCertificate?: Prisma.DriverUncheckedUpdateOneWithoutTransportCertificateNestedInput
+  privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
+}
+
+export type FileInstanceUpsertWithoutTransportCertificateInput = {
+  update: Prisma.XOR<Prisma.FileInstanceUpdateWithoutTransportCertificateInput, Prisma.FileInstanceUncheckedUpdateWithoutTransportCertificateInput>
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutTransportCertificateInput, Prisma.FileInstanceUncheckedCreateWithoutTransportCertificateInput>
+  where?: Prisma.FileInstanceWhereInput
+}
+
+export type FileInstanceUpdateToOneWithWhereWithoutTransportCertificateInput = {
+  where?: Prisma.FileInstanceWhereInput
+  data: Prisma.XOR<Prisma.FileInstanceUpdateWithoutTransportCertificateInput, Prisma.FileInstanceUncheckedUpdateWithoutTransportCertificateInput>
+}
+
+export type FileInstanceUpdateWithoutTransportCertificateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  path?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUpdateOneWithoutVehicleRegistrationNestedInput
+  privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
+}
+
+export type FileInstanceUncheckedUpdateWithoutTransportCertificateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  path?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUncheckedUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUncheckedUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUncheckedUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUncheckedUpdateOneWithoutVehicleRegistrationNestedInput
+  privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
 export type FileInstanceCreateWithoutPrivateMessagesInput = {
@@ -533,7 +881,11 @@ export type FileInstanceCreateWithoutPrivateMessagesInput = {
   size: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutProfilePictureInput
+  user?: Prisma.UserCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverCreateNestedOneWithoutTransportCertificateInput
 }
 
 export type FileInstanceUncheckedCreateWithoutPrivateMessagesInput = {
@@ -547,7 +899,11 @@ export type FileInstanceUncheckedCreateWithoutPrivateMessagesInput = {
   size: number
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutProfilePictureInput
+  user?: Prisma.UserUncheckedCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterUncheckedCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverUncheckedCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverUncheckedCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverUncheckedCreateNestedOneWithoutTransportCertificateInput
 }
 
 export type FileInstanceCreateOrConnectWithoutPrivateMessagesInput = {
@@ -577,7 +933,11 @@ export type FileInstanceUpdateWithoutPrivateMessagesInput = {
   size?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutProfilePictureNestedInput
+  user?: Prisma.UserUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUpdateOneWithoutTransportCertificateNestedInput
 }
 
 export type FileInstanceUncheckedUpdateWithoutPrivateMessagesInput = {
@@ -591,10 +951,14 @@ export type FileInstanceUncheckedUpdateWithoutPrivateMessagesInput = {
   size?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutProfilePictureNestedInput
+  user?: Prisma.UserUncheckedUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUncheckedUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUncheckedUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUncheckedUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUncheckedUpdateOneWithoutTransportCertificateNestedInput
 }
 
-export type FileInstanceCreateWithoutUsersInput = {
+export type FileInstanceCreateWithoutShelterInput = {
   id?: string
   filename: string
   originalFilename: string
@@ -605,10 +969,14 @@ export type FileInstanceCreateWithoutUsersInput = {
   size: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutProfilePictureInput
+  driverLicense?: Prisma.DriverCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverCreateNestedOneWithoutTransportCertificateInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
-export type FileInstanceUncheckedCreateWithoutUsersInput = {
+export type FileInstanceUncheckedCreateWithoutShelterInput = {
   id?: string
   filename: string
   originalFilename: string
@@ -619,26 +987,30 @@ export type FileInstanceUncheckedCreateWithoutUsersInput = {
   size: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  user?: Prisma.UserUncheckedCreateNestedOneWithoutProfilePictureInput
+  driverLicense?: Prisma.DriverUncheckedCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverUncheckedCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverUncheckedCreateNestedOneWithoutTransportCertificateInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
-export type FileInstanceCreateOrConnectWithoutUsersInput = {
+export type FileInstanceCreateOrConnectWithoutShelterInput = {
   where: Prisma.FileInstanceWhereUniqueInput
-  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutUsersInput, Prisma.FileInstanceUncheckedCreateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutShelterInput, Prisma.FileInstanceUncheckedCreateWithoutShelterInput>
 }
 
-export type FileInstanceUpsertWithoutUsersInput = {
-  update: Prisma.XOR<Prisma.FileInstanceUpdateWithoutUsersInput, Prisma.FileInstanceUncheckedUpdateWithoutUsersInput>
-  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutUsersInput, Prisma.FileInstanceUncheckedCreateWithoutUsersInput>
+export type FileInstanceUpsertWithoutShelterInput = {
+  update: Prisma.XOR<Prisma.FileInstanceUpdateWithoutShelterInput, Prisma.FileInstanceUncheckedUpdateWithoutShelterInput>
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutShelterInput, Prisma.FileInstanceUncheckedCreateWithoutShelterInput>
   where?: Prisma.FileInstanceWhereInput
 }
 
-export type FileInstanceUpdateToOneWithWhereWithoutUsersInput = {
+export type FileInstanceUpdateToOneWithWhereWithoutShelterInput = {
   where?: Prisma.FileInstanceWhereInput
-  data: Prisma.XOR<Prisma.FileInstanceUpdateWithoutUsersInput, Prisma.FileInstanceUncheckedUpdateWithoutUsersInput>
+  data: Prisma.XOR<Prisma.FileInstanceUpdateWithoutShelterInput, Prisma.FileInstanceUncheckedUpdateWithoutShelterInput>
 }
 
-export type FileInstanceUpdateWithoutUsersInput = {
+export type FileInstanceUpdateWithoutShelterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
@@ -649,10 +1021,14 @@ export type FileInstanceUpdateWithoutUsersInput = {
   size?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutProfilePictureNestedInput
+  driverLicense?: Prisma.DriverUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUpdateOneWithoutTransportCertificateNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
-export type FileInstanceUncheckedUpdateWithoutUsersInput = {
+export type FileInstanceUncheckedUpdateWithoutShelterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   filename?: Prisma.StringFieldUpdateOperationsInput | string
   originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
@@ -663,6 +1039,98 @@ export type FileInstanceUncheckedUpdateWithoutUsersInput = {
   size?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUncheckedUpdateOneWithoutProfilePictureNestedInput
+  driverLicense?: Prisma.DriverUncheckedUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUncheckedUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUncheckedUpdateOneWithoutTransportCertificateNestedInput
+  privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
+}
+
+export type FileInstanceCreateWithoutUserInput = {
+  id?: string
+  filename: string
+  originalFilename: string
+  path: string
+  url: string
+  fileType?: $Enums.FileType
+  mimeType: string
+  size: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelter?: Prisma.ShelterCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverCreateNestedOneWithoutTransportCertificateInput
+  privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
+}
+
+export type FileInstanceUncheckedCreateWithoutUserInput = {
+  id?: string
+  filename: string
+  originalFilename: string
+  path: string
+  url: string
+  fileType?: $Enums.FileType
+  mimeType: string
+  size: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelter?: Prisma.ShelterUncheckedCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverUncheckedCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverUncheckedCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverUncheckedCreateNestedOneWithoutTransportCertificateInput
+  privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
+}
+
+export type FileInstanceCreateOrConnectWithoutUserInput = {
+  where: Prisma.FileInstanceWhereUniqueInput
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutUserInput, Prisma.FileInstanceUncheckedCreateWithoutUserInput>
+}
+
+export type FileInstanceUpsertWithoutUserInput = {
+  update: Prisma.XOR<Prisma.FileInstanceUpdateWithoutUserInput, Prisma.FileInstanceUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutUserInput, Prisma.FileInstanceUncheckedCreateWithoutUserInput>
+  where?: Prisma.FileInstanceWhereInput
+}
+
+export type FileInstanceUpdateToOneWithWhereWithoutUserInput = {
+  where?: Prisma.FileInstanceWhereInput
+  data: Prisma.XOR<Prisma.FileInstanceUpdateWithoutUserInput, Prisma.FileInstanceUncheckedUpdateWithoutUserInput>
+}
+
+export type FileInstanceUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  path?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelter?: Prisma.ShelterUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUpdateOneWithoutTransportCertificateNestedInput
+  privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
+}
+
+export type FileInstanceUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  path?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelter?: Prisma.ShelterUncheckedUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUncheckedUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUncheckedUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUncheckedUpdateOneWithoutTransportCertificateNestedInput
   privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
@@ -672,12 +1140,10 @@ export type FileInstanceUncheckedUpdateWithoutUsersInput = {
  */
 
 export type FileInstanceCountOutputType = {
-  users: number
   privateMessages: number
 }
 
 export type FileInstanceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | FileInstanceCountOutputTypeCountUsersArgs
   privateMessages?: boolean | FileInstanceCountOutputTypeCountPrivateMessagesArgs
 }
 
@@ -689,13 +1155,6 @@ export type FileInstanceCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types
    * Select specific fields to fetch from the FileInstanceCountOutputType
    */
   select?: Prisma.FileInstanceCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * FileInstanceCountOutputType without action
- */
-export type FileInstanceCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.UserWhereInput
 }
 
 /**
@@ -717,7 +1176,11 @@ export type FileInstanceSelect<ExtArgs extends runtime.Types.Extensions.Internal
   size?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  users?: boolean | Prisma.FileInstance$usersArgs<ExtArgs>
+  user?: boolean | Prisma.FileInstance$userArgs<ExtArgs>
+  shelter?: boolean | Prisma.FileInstance$shelterArgs<ExtArgs>
+  driverLicense?: boolean | Prisma.FileInstance$driverLicenseArgs<ExtArgs>
+  vehicleRegistration?: boolean | Prisma.FileInstance$vehicleRegistrationArgs<ExtArgs>
+  transportCertificate?: boolean | Prisma.FileInstance$transportCertificateArgs<ExtArgs>
   privateMessages?: boolean | Prisma.FileInstance$privateMessagesArgs<ExtArgs>
   _count?: boolean | Prisma.FileInstanceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["fileInstance"]>
@@ -763,7 +1226,11 @@ export type FileInstanceSelectScalar = {
 
 export type FileInstanceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "filename" | "originalFilename" | "path" | "url" | "fileType" | "mimeType" | "size" | "createdAt" | "updatedAt", ExtArgs["result"]["fileInstance"]>
 export type FileInstanceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | Prisma.FileInstance$usersArgs<ExtArgs>
+  user?: boolean | Prisma.FileInstance$userArgs<ExtArgs>
+  shelter?: boolean | Prisma.FileInstance$shelterArgs<ExtArgs>
+  driverLicense?: boolean | Prisma.FileInstance$driverLicenseArgs<ExtArgs>
+  vehicleRegistration?: boolean | Prisma.FileInstance$vehicleRegistrationArgs<ExtArgs>
+  transportCertificate?: boolean | Prisma.FileInstance$transportCertificateArgs<ExtArgs>
   privateMessages?: boolean | Prisma.FileInstance$privateMessagesArgs<ExtArgs>
   _count?: boolean | Prisma.FileInstanceCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -773,7 +1240,11 @@ export type FileInstanceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types
 export type $FileInstancePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "FileInstance"
   objects: {
-    users: Prisma.$UserPayload<ExtArgs>[]
+    user: Prisma.$UserPayload<ExtArgs> | null
+    shelter: Prisma.$ShelterPayload<ExtArgs> | null
+    driverLicense: Prisma.$DriverPayload<ExtArgs> | null
+    vehicleRegistration: Prisma.$DriverPayload<ExtArgs> | null
+    transportCertificate: Prisma.$DriverPayload<ExtArgs> | null
     privateMessages: Prisma.$PrivateMessagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1181,7 +1652,11 @@ readonly fields: FileInstanceFieldRefs;
  */
 export interface Prisma__FileInstanceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  users<T extends Prisma.FileInstance$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user<T extends Prisma.FileInstance$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  shelter<T extends Prisma.FileInstance$shelterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$shelterArgs<ExtArgs>>): Prisma.Prisma__ShelterClient<runtime.Types.Result.GetResult<Prisma.$ShelterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  driverLicense<T extends Prisma.FileInstance$driverLicenseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$driverLicenseArgs<ExtArgs>>): Prisma.Prisma__DriverClient<runtime.Types.Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  vehicleRegistration<T extends Prisma.FileInstance$vehicleRegistrationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$vehicleRegistrationArgs<ExtArgs>>): Prisma.Prisma__DriverClient<runtime.Types.Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  transportCertificate<T extends Prisma.FileInstance$transportCertificateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$transportCertificateArgs<ExtArgs>>): Prisma.Prisma__DriverClient<runtime.Types.Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   privateMessages<T extends Prisma.FileInstance$privateMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$privateMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1610,9 +2085,9 @@ export type FileInstanceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * FileInstance.users
+ * FileInstance.user
  */
-export type FileInstance$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type FileInstance$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the User
    */
@@ -1626,11 +2101,82 @@ export type FileInstance$usersArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
-  orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]
-  cursor?: Prisma.UserWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
+}
+
+/**
+ * FileInstance.shelter
+ */
+export type FileInstance$shelterArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Shelter
+   */
+  select?: Prisma.ShelterSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Shelter
+   */
+  omit?: Prisma.ShelterOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ShelterInclude<ExtArgs> | null
+  where?: Prisma.ShelterWhereInput
+}
+
+/**
+ * FileInstance.driverLicense
+ */
+export type FileInstance$driverLicenseArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Driver
+   */
+  select?: Prisma.DriverSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Driver
+   */
+  omit?: Prisma.DriverOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DriverInclude<ExtArgs> | null
+  where?: Prisma.DriverWhereInput
+}
+
+/**
+ * FileInstance.vehicleRegistration
+ */
+export type FileInstance$vehicleRegistrationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Driver
+   */
+  select?: Prisma.DriverSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Driver
+   */
+  omit?: Prisma.DriverOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DriverInclude<ExtArgs> | null
+  where?: Prisma.DriverWhereInput
+}
+
+/**
+ * FileInstance.transportCertificate
+ */
+export type FileInstance$transportCertificateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Driver
+   */
+  select?: Prisma.DriverSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Driver
+   */
+  omit?: Prisma.DriverOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DriverInclude<ExtArgs> | null
+  where?: Prisma.DriverWhereInput
 }
 
 /**
