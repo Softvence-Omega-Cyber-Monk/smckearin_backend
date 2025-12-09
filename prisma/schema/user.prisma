@@ -16,17 +16,17 @@ model User {
   lastActiveAt DateTime?
 
   // Avatar
-  profilePictureId String?       @unique
+  profilePictureId  String?       @unique
   profilePictureUrl String?
-  profilePicture   FileInstance? @relation(fields: [profilePictureId], references: [id], onDelete: SetNull)
+  profilePicture    FileInstance? @relation(fields: [profilePictureId], references: [id], onDelete: SetNull)
 
   // Notifications
   notificationSettings NotificationSettings?
   notifications        UserNotification[]
 
   // Authentication
-  refreshTokens        RefreshToken[]
-  otps                 UserOtp[]
+  refreshTokens RefreshToken[]
+  otps          UserOtp[]
 
   // CHAT & CALL RELATIONS
   conversationsInitiated PrivateConversation[]    @relation("ConversationInitiator")
@@ -42,6 +42,9 @@ model User {
 
   managerOfId String?
   managerOf   Shelter? @relation("Managers", fields: [managerOfId], references: [id], onDelete: SetNull)
+
+  // Driver
+  drivers Driver?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

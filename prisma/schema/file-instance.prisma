@@ -9,8 +9,11 @@ model FileInstance {
   mimeType         String
   size             Int
 
-  users           User?
-  shelters Shelter?
+  user                 User?
+  shelter              Shelter?
+  driverLicense        Driver?  @relation("DriverLicense")
+  vehicleRegistration  Driver?  @relation("VehicleRegistration")
+  transportCertificate Driver?  @relation("TransportCertificate")
 
   privateMessages PrivateMessage[]
 

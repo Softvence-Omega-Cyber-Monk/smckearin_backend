@@ -1,0 +1,36 @@
+model Driver {
+  id String @id @default(uuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  phone   String @unique
+  state   String
+  address String
+
+  vehicleType       String
+  vehicleCapacity   Int
+  yearsOfExperience Int
+
+  previousExperience String?
+
+  // Driver License
+  driverLicenseId  String?       @unique
+  driverLicenseUrl String?
+  driverLicense    FileInstance? @relation("DriverLicense", fields: [driverLicenseId], references: [id], onDelete: SetNull)
+
+  // Vehicle Registration
+  vehicleRegistrationId  String?       @unique
+  vehicleRegistrationUrl String?
+  vehicleRegistration    FileInstance? @relation("VehicleRegistration", fields: [vehicleRegistrationId], references: [id], onDelete: SetNull)
+
+  // Animal Transport Certificate
+  transportCertificateId  String?       @unique
+  transportCertificateUrl String?
+  transportCertificate    FileInstance? @relation("TransportCertificate", fields: [transportCertificateId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("drivers")
+}
