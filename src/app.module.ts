@@ -42,11 +42,25 @@ import { MainModule } from './main/main.module';
       useFactory: async (configService: ConfigService) => {
         const host = configService.getOrThrow<string>(ENVEnum.REDIS_HOST);
         const port = configService.getOrThrow<string>(ENVEnum.REDIS_PORT);
+        const username = configService.get<string>(ENVEnum.REDIS_USERNAME, {
+          infer: true,
+        });
+        const password = configService.get<string>(ENVEnum.REDIS_PASSWORD, {
+          infer: true,
+        });
 
         return {
           connection: {
             host,
             port: parseInt(port, 10),
+            ...(username &&
+              password && {
+                username,
+                password,
+                tls: {
+                  rejectUnauthorized: false,
+                },
+              }),
           },
         };
       },
