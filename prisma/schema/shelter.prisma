@@ -1,0 +1,19 @@
+model Shelter {
+  id      String  @id @default(uuid())
+  
+  name    String
+  address String?
+  phone   String?
+  description String?
+
+  logoId String? @unique
+  logoUrl String?
+  logo   FileInstance? @relation(fields: [logoId], references: [id], onDelete: SetNull)
+
+  // Shelter-level admins and their team
+  shelterAdmins User[] @relation("ShelterAdmins")
+  managers      User[] @relation("Managers")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}

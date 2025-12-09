@@ -33,3 +33,20 @@ model UserNotification {
   @@unique([userId, notificationId])
   @@map("user_notifications")
 }
+
+model NotificationSettings {
+  id String @id @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+
+  emailNotifications       Boolean @default(true)
+  smsNotifications         Boolean @default(false)
+  certificateNotifications Boolean @default(false)
+  appointmentNotifications Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("notification_settings")
+}

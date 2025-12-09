@@ -5,12 +5,12 @@ model PrivateCall {
   conversation   PrivateConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   initiatorId String?
-  initiator   User? @relation("CallInitiator", fields: [initiatorId], references: [id], onDelete: SetNull)
+  initiator   User?   @relation("CallInitiator", fields: [initiatorId], references: [id], onDelete: SetNull)
 
   type   CallType
   status CallStatus @default(INITIATED)
 
-  startedAt DateTime @default(now())
+  startedAt DateTime  @default(now())
   endedAt   DateTime?
 
   participants PrivateCallParticipant[]

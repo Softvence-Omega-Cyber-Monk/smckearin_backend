@@ -6,39 +6,42 @@ model User {
   email    String @unique
   password String // hashed password
 
-  // Settings
-  role       UserRole   @default(USER)
+  // Role & status
+  role       UserRole
   status     UserStatus @default(ACTIVE)
   isVerified Boolean    @default(false)
 
-  // Activity
+  // Activity tracking
   lastLoginAt  DateTime?
   lastActiveAt DateTime?
 
   // Avatar
-  profilePictureId String?
+  profilePictureId String?       @unique
+  profilePictureUrl String?
   profilePicture   FileInstance? @relation(fields: [profilePictureId], references: [id], onDelete: SetNull)
 
-  // Notifications & Auth
-  notifications UserNotification[]
-  refreshTokens RefreshToken[]
-  otps          UserOtp[]
+  // Notifications
+  notificationSettings NotificationSettings?
+  notifications        UserNotification[]
+
+  // Authentication
+  refreshTokens        RefreshToken[]
+  otps                 UserOtp[]
 
   // CHAT & CALL RELATIONS
-  conversationsInitiated PrivateConversation[] @relation("ConversationInitiator")
-  conversationsReceived  PrivateConversation[] @relation("ConversationReceiver")
+  conversationsInitiated PrivateConversation[]    @relation("ConversationInitiator")
+  conversationsReceived  PrivateConversation[]    @relation("ConversationReceiver")
+  messagesSent           PrivateMessage[]
+  messageStatuses        PrivateMessageStatus[]
+  callsInitiated         PrivateCall[]            @relation("CallInitiator")
+  callParticipants       PrivateCallParticipant[]
 
-  /// All messages user has sent
-  messagesSent PrivateMessage[]
+  // Shelter Association
+  shelterAdminOfId String?
+  shelterAdminOf   Shelter? @relation("ShelterAdmins", fields: [shelterAdminOfId], references: [id], onDelete: SetNull)
 
-  /// Message delivery/read statuses
-  messageStatuses PrivateMessageStatus[]
-
-  /// Calls user has initiated
-  callsInitiated PrivateCall[] @relation("CallInitiator")
-
-  /// Calls user participated in
-  callParticipants PrivateCallParticipant[]
+  managerOfId String?
+  managerOf   Shelter? @relation("Managers", fields: [managerOfId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -47,9 +50,19 @@ model User {
 }
 
 enum UserRole {
+  // System-level roles
   SUPER_ADMIN
   ADMIN
-  USER
+
+  // Shelter-level roles
+  SHELTER_ADMIN // manages MANAGERs in a shelter
+  MANAGER // managed by shelter admin
+
+  // Vet
+  VETERINARIAN
+
+  // Driver
+  DRIVER
 }
 
 enum UserStatus {
