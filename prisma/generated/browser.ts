@@ -18,6 +18,11 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model Animal
+ * 
+ */
+export type Animal = Prisma.AnimalModel
+/**
  * Model UserOtp
  * 
  */
@@ -38,6 +43,11 @@ export type Driver = Prisma.DriverModel
  */
 export type FileInstance = Prisma.FileInstanceModel
 /**
+ * Model HealthReport
+ * 
+ */
+export type HealthReport = Prisma.HealthReportModel
+/**
  * Model Notification
  * 
  */
@@ -52,16 +62,6 @@ export type UserNotification = Prisma.UserNotificationModel
  * 
  */
 export type NotificationSettings = Prisma.NotificationSettingsModel
-/**
- * Model PrivateCall
- * 
- */
-export type PrivateCall = Prisma.PrivateCallModel
-/**
- * Model PrivateCallParticipant
- * 
- */
-export type PrivateCallParticipant = Prisma.PrivateCallParticipantModel
 /**
  * Model PrivateConversation
  * 
@@ -83,10 +83,25 @@ export type PrivateMessageStatus = Prisma.PrivateMessageStatusModel
  */
 export type Shelter = Prisma.ShelterModel
 /**
+ * Model Transport
+ * 
+ */
+export type Transport = Prisma.TransportModel
+/**
  * Model User
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model VetClearanceRequest
+ * 
+ */
+export type VetClearanceRequest = Prisma.VetClearanceRequestModel
+/**
+ * Model VetAppointment
+ * 
+ */
+export type VetAppointment = Prisma.VetAppointmentModel
 /**
  * Model Veterinarian
  * 

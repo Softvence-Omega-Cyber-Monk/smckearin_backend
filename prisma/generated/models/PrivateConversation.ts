@@ -201,7 +201,6 @@ export type PrivateConversationWhereInput = {
   initiator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   receiver?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   messages?: Prisma.PrivateMessageListRelationFilter
-  calls?: Prisma.PrivateCallListRelationFilter
   lastMessage?: Prisma.XOR<Prisma.PrivateMessageNullableScalarRelationFilter, Prisma.PrivateMessageWhereInput> | null
 }
 
@@ -216,7 +215,6 @@ export type PrivateConversationOrderByWithRelationInput = {
   initiator?: Prisma.UserOrderByWithRelationInput
   receiver?: Prisma.UserOrderByWithRelationInput
   messages?: Prisma.PrivateMessageOrderByRelationAggregateInput
-  calls?: Prisma.PrivateCallOrderByRelationAggregateInput
   lastMessage?: Prisma.PrivateMessageOrderByWithRelationInput
 }
 
@@ -235,7 +233,6 @@ export type PrivateConversationWhereUniqueInput = Prisma.AtLeast<{
   initiator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   receiver?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   messages?: Prisma.PrivateMessageListRelationFilter
-  calls?: Prisma.PrivateCallListRelationFilter
   lastMessage?: Prisma.XOR<Prisma.PrivateMessageNullableScalarRelationFilter, Prisma.PrivateMessageWhereInput> | null
 }, "id" | "initiatorId_receiverId">
 
@@ -273,7 +270,6 @@ export type PrivateConversationCreateInput = {
   initiator: Prisma.UserCreateNestedOneWithoutConversationsInitiatedInput
   receiver: Prisma.UserCreateNestedOneWithoutConversationsReceivedInput
   messages?: Prisma.PrivateMessageCreateNestedManyWithoutConversationInput
-  calls?: Prisma.PrivateCallCreateNestedManyWithoutConversationInput
   lastMessage?: Prisma.PrivateMessageCreateNestedOneWithoutPrivateLastMessageInput
 }
 
@@ -286,7 +282,6 @@ export type PrivateConversationUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   messages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutConversationInput
-  calls?: Prisma.PrivateCallUncheckedCreateNestedManyWithoutConversationInput
 }
 
 export type PrivateConversationUpdateInput = {
@@ -297,7 +292,6 @@ export type PrivateConversationUpdateInput = {
   initiator?: Prisma.UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput
   receiver?: Prisma.UserUpdateOneRequiredWithoutConversationsReceivedNestedInput
   messages?: Prisma.PrivateMessageUpdateManyWithoutConversationNestedInput
-  calls?: Prisma.PrivateCallUpdateManyWithoutConversationNestedInput
   lastMessage?: Prisma.PrivateMessageUpdateOneWithoutPrivateLastMessageNestedInput
 }
 
@@ -310,7 +304,6 @@ export type PrivateConversationUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutConversationNestedInput
-  calls?: Prisma.PrivateCallUncheckedUpdateManyWithoutConversationNestedInput
 }
 
 export type PrivateConversationCreateManyInput = {
@@ -338,11 +331,6 @@ export type PrivateConversationUncheckedUpdateManyInput = {
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type PrivateConversationScalarRelationFilter = {
-  is?: Prisma.PrivateConversationWhereInput
-  isNot?: Prisma.PrivateConversationWhereInput
 }
 
 export type PrivateConversationInitiatorIdReceiverIdCompoundUniqueInput = {
@@ -380,6 +368,11 @@ export type PrivateConversationMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type PrivateConversationScalarRelationFilter = {
+  is?: Prisma.PrivateConversationWhereInput
+  isNot?: Prisma.PrivateConversationWhereInput
+}
+
 export type PrivateConversationListRelationFilter = {
   every?: Prisma.PrivateConversationWhereInput
   some?: Prisma.PrivateConversationWhereInput
@@ -388,20 +381,6 @@ export type PrivateConversationListRelationFilter = {
 
 export type PrivateConversationOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type PrivateConversationCreateNestedOneWithoutCallsInput = {
-  create?: Prisma.XOR<Prisma.PrivateConversationCreateWithoutCallsInput, Prisma.PrivateConversationUncheckedCreateWithoutCallsInput>
-  connectOrCreate?: Prisma.PrivateConversationCreateOrConnectWithoutCallsInput
-  connect?: Prisma.PrivateConversationWhereUniqueInput
-}
-
-export type PrivateConversationUpdateOneRequiredWithoutCallsNestedInput = {
-  create?: Prisma.XOR<Prisma.PrivateConversationCreateWithoutCallsInput, Prisma.PrivateConversationUncheckedCreateWithoutCallsInput>
-  connectOrCreate?: Prisma.PrivateConversationCreateOrConnectWithoutCallsInput
-  upsert?: Prisma.PrivateConversationUpsertWithoutCallsInput
-  connect?: Prisma.PrivateConversationWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.PrivateConversationUpdateToOneWithWhereWithoutCallsInput, Prisma.PrivateConversationUpdateWithoutCallsInput>, Prisma.PrivateConversationUncheckedUpdateWithoutCallsInput>
 }
 
 export type EnumConversationStatusFieldUpdateOperationsInput = {
@@ -548,66 +527,6 @@ export type PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput = {
   deleteMany?: Prisma.PrivateConversationScalarWhereInput | Prisma.PrivateConversationScalarWhereInput[]
 }
 
-export type PrivateConversationCreateWithoutCallsInput = {
-  id?: string
-  status?: $Enums.ConversationStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  initiator: Prisma.UserCreateNestedOneWithoutConversationsInitiatedInput
-  receiver: Prisma.UserCreateNestedOneWithoutConversationsReceivedInput
-  messages?: Prisma.PrivateMessageCreateNestedManyWithoutConversationInput
-  lastMessage?: Prisma.PrivateMessageCreateNestedOneWithoutPrivateLastMessageInput
-}
-
-export type PrivateConversationUncheckedCreateWithoutCallsInput = {
-  id?: string
-  initiatorId: string
-  receiverId: string
-  lastMessageId?: string | null
-  status?: $Enums.ConversationStatus
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  messages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutConversationInput
-}
-
-export type PrivateConversationCreateOrConnectWithoutCallsInput = {
-  where: Prisma.PrivateConversationWhereUniqueInput
-  create: Prisma.XOR<Prisma.PrivateConversationCreateWithoutCallsInput, Prisma.PrivateConversationUncheckedCreateWithoutCallsInput>
-}
-
-export type PrivateConversationUpsertWithoutCallsInput = {
-  update: Prisma.XOR<Prisma.PrivateConversationUpdateWithoutCallsInput, Prisma.PrivateConversationUncheckedUpdateWithoutCallsInput>
-  create: Prisma.XOR<Prisma.PrivateConversationCreateWithoutCallsInput, Prisma.PrivateConversationUncheckedCreateWithoutCallsInput>
-  where?: Prisma.PrivateConversationWhereInput
-}
-
-export type PrivateConversationUpdateToOneWithWhereWithoutCallsInput = {
-  where?: Prisma.PrivateConversationWhereInput
-  data: Prisma.XOR<Prisma.PrivateConversationUpdateWithoutCallsInput, Prisma.PrivateConversationUncheckedUpdateWithoutCallsInput>
-}
-
-export type PrivateConversationUpdateWithoutCallsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  initiator?: Prisma.UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput
-  receiver?: Prisma.UserUpdateOneRequiredWithoutConversationsReceivedNestedInput
-  messages?: Prisma.PrivateMessageUpdateManyWithoutConversationNestedInput
-  lastMessage?: Prisma.PrivateMessageUpdateOneWithoutPrivateLastMessageNestedInput
-}
-
-export type PrivateConversationUncheckedUpdateWithoutCallsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
-  receiverId?: Prisma.StringFieldUpdateOperationsInput | string
-  lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  messages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutConversationNestedInput
-}
-
 export type PrivateConversationCreateWithoutMessagesInput = {
   id?: string
   status?: $Enums.ConversationStatus
@@ -615,7 +534,6 @@ export type PrivateConversationCreateWithoutMessagesInput = {
   updatedAt?: Date | string
   initiator: Prisma.UserCreateNestedOneWithoutConversationsInitiatedInput
   receiver: Prisma.UserCreateNestedOneWithoutConversationsReceivedInput
-  calls?: Prisma.PrivateCallCreateNestedManyWithoutConversationInput
   lastMessage?: Prisma.PrivateMessageCreateNestedOneWithoutPrivateLastMessageInput
 }
 
@@ -627,7 +545,6 @@ export type PrivateConversationUncheckedCreateWithoutMessagesInput = {
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  calls?: Prisma.PrivateCallUncheckedCreateNestedManyWithoutConversationInput
 }
 
 export type PrivateConversationCreateOrConnectWithoutMessagesInput = {
@@ -643,7 +560,6 @@ export type PrivateConversationCreateWithoutLastMessageInput = {
   initiator: Prisma.UserCreateNestedOneWithoutConversationsInitiatedInput
   receiver: Prisma.UserCreateNestedOneWithoutConversationsReceivedInput
   messages?: Prisma.PrivateMessageCreateNestedManyWithoutConversationInput
-  calls?: Prisma.PrivateCallCreateNestedManyWithoutConversationInput
 }
 
 export type PrivateConversationUncheckedCreateWithoutLastMessageInput = {
@@ -654,7 +570,6 @@ export type PrivateConversationUncheckedCreateWithoutLastMessageInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   messages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutConversationInput
-  calls?: Prisma.PrivateCallUncheckedCreateNestedManyWithoutConversationInput
 }
 
 export type PrivateConversationCreateOrConnectWithoutLastMessageInput = {
@@ -685,7 +600,6 @@ export type PrivateConversationUpdateWithoutMessagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiator?: Prisma.UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput
   receiver?: Prisma.UserUpdateOneRequiredWithoutConversationsReceivedNestedInput
-  calls?: Prisma.PrivateCallUpdateManyWithoutConversationNestedInput
   lastMessage?: Prisma.PrivateMessageUpdateOneWithoutPrivateLastMessageNestedInput
 }
 
@@ -697,7 +611,6 @@ export type PrivateConversationUncheckedUpdateWithoutMessagesInput = {
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  calls?: Prisma.PrivateCallUncheckedUpdateManyWithoutConversationNestedInput
 }
 
 export type PrivateConversationUpsertWithWhereUniqueWithoutLastMessageInput = {
@@ -736,7 +649,6 @@ export type PrivateConversationCreateWithoutInitiatorInput = {
   updatedAt?: Date | string
   receiver: Prisma.UserCreateNestedOneWithoutConversationsReceivedInput
   messages?: Prisma.PrivateMessageCreateNestedManyWithoutConversationInput
-  calls?: Prisma.PrivateCallCreateNestedManyWithoutConversationInput
   lastMessage?: Prisma.PrivateMessageCreateNestedOneWithoutPrivateLastMessageInput
 }
 
@@ -748,7 +660,6 @@ export type PrivateConversationUncheckedCreateWithoutInitiatorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   messages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutConversationInput
-  calls?: Prisma.PrivateCallUncheckedCreateNestedManyWithoutConversationInput
 }
 
 export type PrivateConversationCreateOrConnectWithoutInitiatorInput = {
@@ -768,7 +679,6 @@ export type PrivateConversationCreateWithoutReceiverInput = {
   updatedAt?: Date | string
   initiator: Prisma.UserCreateNestedOneWithoutConversationsInitiatedInput
   messages?: Prisma.PrivateMessageCreateNestedManyWithoutConversationInput
-  calls?: Prisma.PrivateCallCreateNestedManyWithoutConversationInput
   lastMessage?: Prisma.PrivateMessageCreateNestedOneWithoutPrivateLastMessageInput
 }
 
@@ -780,7 +690,6 @@ export type PrivateConversationUncheckedCreateWithoutReceiverInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   messages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutConversationInput
-  calls?: Prisma.PrivateCallUncheckedCreateNestedManyWithoutConversationInput
 }
 
 export type PrivateConversationCreateOrConnectWithoutReceiverInput = {
@@ -842,7 +751,6 @@ export type PrivateConversationUpdateWithoutLastMessageInput = {
   initiator?: Prisma.UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput
   receiver?: Prisma.UserUpdateOneRequiredWithoutConversationsReceivedNestedInput
   messages?: Prisma.PrivateMessageUpdateManyWithoutConversationNestedInput
-  calls?: Prisma.PrivateCallUpdateManyWithoutConversationNestedInput
 }
 
 export type PrivateConversationUncheckedUpdateWithoutLastMessageInput = {
@@ -853,7 +761,6 @@ export type PrivateConversationUncheckedUpdateWithoutLastMessageInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutConversationNestedInput
-  calls?: Prisma.PrivateCallUncheckedUpdateManyWithoutConversationNestedInput
 }
 
 export type PrivateConversationUncheckedUpdateManyWithoutLastMessageInput = {
@@ -890,7 +797,6 @@ export type PrivateConversationUpdateWithoutInitiatorInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receiver?: Prisma.UserUpdateOneRequiredWithoutConversationsReceivedNestedInput
   messages?: Prisma.PrivateMessageUpdateManyWithoutConversationNestedInput
-  calls?: Prisma.PrivateCallUpdateManyWithoutConversationNestedInput
   lastMessage?: Prisma.PrivateMessageUpdateOneWithoutPrivateLastMessageNestedInput
 }
 
@@ -902,7 +808,6 @@ export type PrivateConversationUncheckedUpdateWithoutInitiatorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutConversationNestedInput
-  calls?: Prisma.PrivateCallUncheckedUpdateManyWithoutConversationNestedInput
 }
 
 export type PrivateConversationUncheckedUpdateManyWithoutInitiatorInput = {
@@ -921,7 +826,6 @@ export type PrivateConversationUpdateWithoutReceiverInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiator?: Prisma.UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput
   messages?: Prisma.PrivateMessageUpdateManyWithoutConversationNestedInput
-  calls?: Prisma.PrivateCallUpdateManyWithoutConversationNestedInput
   lastMessage?: Prisma.PrivateMessageUpdateOneWithoutPrivateLastMessageNestedInput
 }
 
@@ -933,7 +837,6 @@ export type PrivateConversationUncheckedUpdateWithoutReceiverInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   messages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutConversationNestedInput
-  calls?: Prisma.PrivateCallUncheckedUpdateManyWithoutConversationNestedInput
 }
 
 export type PrivateConversationUncheckedUpdateManyWithoutReceiverInput = {
@@ -952,12 +855,10 @@ export type PrivateConversationUncheckedUpdateManyWithoutReceiverInput = {
 
 export type PrivateConversationCountOutputType = {
   messages: number
-  calls: number
 }
 
 export type PrivateConversationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   messages?: boolean | PrivateConversationCountOutputTypeCountMessagesArgs
-  calls?: boolean | PrivateConversationCountOutputTypeCountCallsArgs
 }
 
 /**
@@ -977,13 +878,6 @@ export type PrivateConversationCountOutputTypeCountMessagesArgs<ExtArgs extends 
   where?: Prisma.PrivateMessageWhereInput
 }
 
-/**
- * PrivateConversationCountOutputType without action
- */
-export type PrivateConversationCountOutputTypeCountCallsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PrivateCallWhereInput
-}
-
 
 export type PrivateConversationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -996,7 +890,6 @@ export type PrivateConversationSelect<ExtArgs extends runtime.Types.Extensions.I
   initiator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   receiver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   messages?: boolean | Prisma.PrivateConversation$messagesArgs<ExtArgs>
-  calls?: boolean | Prisma.PrivateConversation$callsArgs<ExtArgs>
   lastMessage?: boolean | Prisma.PrivateConversation$lastMessageArgs<ExtArgs>
   _count?: boolean | Prisma.PrivateConversationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["privateConversation"]>
@@ -1042,7 +935,6 @@ export type PrivateConversationInclude<ExtArgs extends runtime.Types.Extensions.
   initiator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   receiver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   messages?: boolean | Prisma.PrivateConversation$messagesArgs<ExtArgs>
-  calls?: boolean | Prisma.PrivateConversation$callsArgs<ExtArgs>
   lastMessage?: boolean | Prisma.PrivateConversation$lastMessageArgs<ExtArgs>
   _count?: boolean | Prisma.PrivateConversationCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1063,7 +955,6 @@ export type $PrivateConversationPayload<ExtArgs extends runtime.Types.Extensions
     initiator: Prisma.$UserPayload<ExtArgs>
     receiver: Prisma.$UserPayload<ExtArgs>
     messages: Prisma.$PrivateMessagePayload<ExtArgs>[]
-    calls: Prisma.$PrivateCallPayload<ExtArgs>[]
     lastMessage: Prisma.$PrivateMessagePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1477,7 +1368,6 @@ export interface Prisma__PrivateConversationClient<T, Null = never, ExtArgs exte
   initiator<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   receiver<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   messages<T extends Prisma.PrivateConversation$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrivateConversation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  calls<T extends Prisma.PrivateConversation$callsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrivateConversation$callsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateCallPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lastMessage<T extends Prisma.PrivateConversation$lastMessageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrivateConversation$lastMessageArgs<ExtArgs>>): Prisma.Prisma__PrivateMessageClient<runtime.Types.Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1932,30 +1822,6 @@ export type PrivateConversation$messagesArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.PrivateMessageScalarFieldEnum | Prisma.PrivateMessageScalarFieldEnum[]
-}
-
-/**
- * PrivateConversation.calls
- */
-export type PrivateConversation$callsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PrivateCall
-   */
-  select?: Prisma.PrivateCallSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PrivateCall
-   */
-  omit?: Prisma.PrivateCallOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PrivateCallInclude<ExtArgs> | null
-  where?: Prisma.PrivateCallWhereInput
-  orderBy?: Prisma.PrivateCallOrderByWithRelationInput | Prisma.PrivateCallOrderByWithRelationInput[]
-  cursor?: Prisma.PrivateCallWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PrivateCallScalarFieldEnum | Prisma.PrivateCallScalarFieldEnum[]
 }
 
 /**

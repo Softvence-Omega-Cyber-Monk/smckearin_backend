@@ -47,11 +47,11 @@ enum MessageType {
   VIDEO
   AUDIO
   FILE
-  CALL_EVENT
+  VOICE
 }
 
 enum MessageDeliveryStatus {
   SENT
   DELIVERED
-  READ
+  SEEN
 }

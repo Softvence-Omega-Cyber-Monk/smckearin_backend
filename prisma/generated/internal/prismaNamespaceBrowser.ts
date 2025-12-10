@@ -51,20 +51,23 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Animal: 'Animal',
   UserOtp: 'UserOtp',
   RefreshToken: 'RefreshToken',
   Driver: 'Driver',
   FileInstance: 'FileInstance',
+  HealthReport: 'HealthReport',
   Notification: 'Notification',
   UserNotification: 'UserNotification',
   NotificationSettings: 'NotificationSettings',
-  PrivateCall: 'PrivateCall',
-  PrivateCallParticipant: 'PrivateCallParticipant',
   PrivateConversation: 'PrivateConversation',
   PrivateMessage: 'PrivateMessage',
   PrivateMessageStatus: 'PrivateMessageStatus',
   Shelter: 'Shelter',
+  Transport: 'Transport',
   User: 'User',
+  VetClearanceRequest: 'VetClearanceRequest',
+  VetAppointment: 'VetAppointment',
   Veterinarian: 'Veterinarian'
 } as const
 
@@ -82,6 +85,29 @@ export const TransactionIsolationLevel = {
 } as const
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const AnimalScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  breed: 'breed',
+  age: 'age',
+  weight: 'weight',
+  species: 'species',
+  gender: 'gender',
+  color: 'color',
+  specialNeeds: 'specialNeeds',
+  medicalNotes: 'medicalNotes',
+  behaviorNotes: 'behaviorNotes',
+  bondedWithId: 'bondedWithId',
+  shelterId: 'shelterId',
+  imageId: 'imageId',
+  imageUrl: 'imageUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AnimalScalarFieldEnum = (typeof AnimalScalarFieldEnum)[keyof typeof AnimalScalarFieldEnum]
 
 
 export const UserOtpScalarFieldEnum = {
@@ -151,6 +177,21 @@ export const FileInstanceScalarFieldEnum = {
 export type FileInstanceScalarFieldEnum = (typeof FileInstanceScalarFieldEnum)[keyof typeof FileInstanceScalarFieldEnum]
 
 
+export const HealthReportScalarFieldEnum = {
+  id: 'id',
+  veterinarianId: 'veterinarianId',
+  animalId: 'animalId',
+  reportType: 'reportType',
+  note: 'note',
+  reportId: 'reportId',
+  reportIdUrl: 'reportIdUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type HealthReportScalarFieldEnum = (typeof HealthReportScalarFieldEnum)[keyof typeof HealthReportScalarFieldEnum]
+
+
 export const NotificationScalarFieldEnum = {
   id: 'id',
   type: 'type',
@@ -188,33 +229,6 @@ export const NotificationSettingsScalarFieldEnum = {
 } as const
 
 export type NotificationSettingsScalarFieldEnum = (typeof NotificationSettingsScalarFieldEnum)[keyof typeof NotificationSettingsScalarFieldEnum]
-
-
-export const PrivateCallScalarFieldEnum = {
-  id: 'id',
-  conversationId: 'conversationId',
-  initiatorId: 'initiatorId',
-  type: 'type',
-  status: 'status',
-  startedAt: 'startedAt',
-  endedAt: 'endedAt',
-  createdAt: 'createdAt'
-} as const
-
-export type PrivateCallScalarFieldEnum = (typeof PrivateCallScalarFieldEnum)[keyof typeof PrivateCallScalarFieldEnum]
-
-
-export const PrivateCallParticipantScalarFieldEnum = {
-  id: 'id',
-  callId: 'callId',
-  userId: 'userId',
-  status: 'status',
-  joinedAt: 'joinedAt',
-  leftAt: 'leftAt',
-  createdAt: 'createdAt'
-} as const
-
-export type PrivateCallParticipantScalarFieldEnum = (typeof PrivateCallParticipantScalarFieldEnum)[keyof typeof PrivateCallParticipantScalarFieldEnum]
 
 
 export const PrivateConversationScalarFieldEnum = {
@@ -274,6 +288,29 @@ export const ShelterScalarFieldEnum = {
 export type ShelterScalarFieldEnum = (typeof ShelterScalarFieldEnum)[keyof typeof ShelterScalarFieldEnum]
 
 
+export const TransportScalarFieldEnum = {
+  id: 'id',
+  transportNote: 'transportNote',
+  priorityLevel: 'priorityLevel',
+  pickUpLocation: 'pickUpLocation',
+  pickUpLatitude: 'pickUpLatitude',
+  pickUpLongitude: 'pickUpLongitude',
+  dropOffLocation: 'dropOffLocation',
+  dropOffLatitude: 'dropOffLatitude',
+  dropOffLongitude: 'dropOffLongitude',
+  transPortDate: 'transPortDate',
+  transPortTime: 'transPortTime',
+  animalId: 'animalId',
+  driverId: 'driverId',
+  isVetClearanceRequired: 'isVetClearanceRequired',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TransportScalarFieldEnum = (typeof TransportScalarFieldEnum)[keyof typeof TransportScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -293,6 +330,37 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const VetClearanceRequestScalarFieldEnum = {
+  id: 'id',
+  vetClearance: 'vetClearance',
+  veterinarianId: 'veterinarianId',
+  status: 'status',
+  notFitReasons: 'notFitReasons',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VetClearanceRequestScalarFieldEnum = (typeof VetClearanceRequestScalarFieldEnum)[keyof typeof VetClearanceRequestScalarFieldEnum]
+
+
+export const VetAppointmentScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  veterinarianId: 'veterinarianId',
+  appointmentDate: 'appointmentDate',
+  appointmentTime: 'appointmentTime',
+  location: 'location',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  notes: 'notes',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VetAppointmentScalarFieldEnum = (typeof VetAppointmentScalarFieldEnum)[keyof typeof VetAppointmentScalarFieldEnum]
 
 
 export const VeterinarianScalarFieldEnum = {

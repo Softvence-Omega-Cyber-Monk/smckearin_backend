@@ -30,6 +30,22 @@ export const WorkingDay = {
 export type WorkingDay = (typeof WorkingDay)[keyof typeof WorkingDay]
 
 
+export const Gender = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
+} as const
+
+export type Gender = (typeof Gender)[keyof typeof Gender]
+
+
+export const SPECIES = {
+  DOG: 'DOG',
+  CAT: 'CAT'
+} as const
+
+export type SPECIES = (typeof SPECIES)[keyof typeof SPECIES]
+
+
 export const FileType = {
   image: 'image',
   docs: 'docs',
@@ -41,33 +57,6 @@ export const FileType = {
 } as const
 
 export type FileType = (typeof FileType)[keyof typeof FileType]
-
-
-export const CallType = {
-  AUDIO: 'AUDIO',
-  VIDEO: 'VIDEO'
-} as const
-
-export type CallType = (typeof CallType)[keyof typeof CallType]
-
-
-export const CallStatus = {
-  INITIATED: 'INITIATED',
-  ONGOING: 'ONGOING',
-  ENDED: 'ENDED',
-  MISSED: 'MISSED'
-} as const
-
-export type CallStatus = (typeof CallStatus)[keyof typeof CallStatus]
-
-
-export const CallParticipantStatus = {
-  JOINED: 'JOINED',
-  LEFT: 'LEFT',
-  MISSED: 'MISSED'
-} as const
-
-export type CallParticipantStatus = (typeof CallParticipantStatus)[keyof typeof CallParticipantStatus]
 
 
 export const ConversationStatus = {
@@ -85,7 +74,7 @@ export const MessageType = {
   VIDEO: 'VIDEO',
   AUDIO: 'AUDIO',
   FILE: 'FILE',
-  CALL_EVENT: 'CALL_EVENT'
+  VOICE: 'VOICE'
 } as const
 
 export type MessageType = (typeof MessageType)[keyof typeof MessageType]
@@ -94,10 +83,31 @@ export type MessageType = (typeof MessageType)[keyof typeof MessageType]
 export const MessageDeliveryStatus = {
   SENT: 'SENT',
   DELIVERED: 'DELIVERED',
-  READ: 'READ'
+  SEEN: 'SEEN'
 } as const
 
 export type MessageDeliveryStatus = (typeof MessageDeliveryStatus)[keyof typeof MessageDeliveryStatus]
+
+
+export const PriorityLevel = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH'
+} as const
+
+export type PriorityLevel = (typeof PriorityLevel)[keyof typeof PriorityLevel]
+
+
+export const TransportStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  CANCELLED: 'CANCELLED',
+  PICKED_UP: 'PICKED_UP',
+  IN_TRANSIT: 'IN_TRANSIT',
+  COMPLETED: 'COMPLETED'
+} as const
+
+export type TransportStatus = (typeof TransportStatus)[keyof typeof TransportStatus]
 
 
 export const UserRole = {
@@ -119,3 +129,34 @@ export const UserStatus = {
 } as const
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+
+
+export const VetClearance = {
+  Health: 'Health',
+  Vaccination: 'Vaccination',
+  Both: 'Both'
+} as const
+
+export type VetClearance = (typeof VetClearance)[keyof typeof VetClearance]
+
+
+export const VetClearanceRequestStatus = {
+  PENDING_REVIEW: 'PENDING_REVIEW',
+  PENDING_EVALUATION: 'PENDING_EVALUATION',
+  REJECTED: 'REJECTED',
+  CERTIFIED: 'CERTIFIED',
+  NOT_FIT: 'NOT_FIT',
+  NEEDS_VISIT: 'NEEDS_VISIT'
+} as const
+
+export type VetClearanceRequestStatus = (typeof VetClearanceRequestStatus)[keyof typeof VetClearanceRequestStatus]
+
+
+export const VetAppointmentStatus = {
+  SCHEDULED: 'SCHEDULED',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED',
+  MISSED: 'MISSED'
+} as const
+
+export type VetAppointmentStatus = (typeof VetAppointmentStatus)[keyof typeof VetAppointmentStatus]

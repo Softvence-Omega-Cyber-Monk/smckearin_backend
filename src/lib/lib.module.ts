@@ -4,6 +4,7 @@ import { MailModule } from './mail/mail.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 import { ChatModule } from './chat/chat.module';
+import { GoogleMapsModule } from './google-maps/google-maps.module';
 import { QueueModule } from './queue/queue.module';
 import { SeedModule } from './seed/seed.module';
 import { UtilsModule } from './utils/utils.module';
@@ -17,6 +18,7 @@ import { UtilsModule } from './utils/utils.module';
     UtilsModule,
     QueueModule,
     ChatModule,
+    GoogleMapsModule,
   ],
   exports: [],
   providers: [],

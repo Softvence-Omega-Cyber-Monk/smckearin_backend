@@ -22,10 +22,7 @@ model Transport {
   driverId String?
   driver   Driver? @relation(fields: [driverId], references: [id], onDelete: SetNull)
 
-  veterinarianId String?
-  veterinarian   Veterinarian? @relation(fields: [veterinarianId], references: [id], onDelete: SetNull)
-
-  vetClearance VetClearance
+  isVetClearanceRequired Boolean
 
   status TransportStatus
 
@@ -48,11 +45,4 @@ enum TransportStatus {
   PICKED_UP
   IN_TRANSIT
   COMPLETED
-}
-
-enum VetClearance {
-  Health
-  Vaccination
-  Both
-  None
 }

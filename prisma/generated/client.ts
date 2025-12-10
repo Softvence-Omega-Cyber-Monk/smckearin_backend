@@ -27,8 +27,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more UserOtps
- * const userOtps = await prisma.userOtp.findMany()
+ * // Fetch zero or more Animals
+ * const animals = await prisma.animal.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -37,6 +37,11 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model Animal
+ * 
+ */
+export type Animal = Prisma.AnimalModel
 /**
  * Model UserOtp
  * 
@@ -58,6 +63,11 @@ export type Driver = Prisma.DriverModel
  */
 export type FileInstance = Prisma.FileInstanceModel
 /**
+ * Model HealthReport
+ * 
+ */
+export type HealthReport = Prisma.HealthReportModel
+/**
  * Model Notification
  * 
  */
@@ -72,16 +82,6 @@ export type UserNotification = Prisma.UserNotificationModel
  * 
  */
 export type NotificationSettings = Prisma.NotificationSettingsModel
-/**
- * Model PrivateCall
- * 
- */
-export type PrivateCall = Prisma.PrivateCallModel
-/**
- * Model PrivateCallParticipant
- * 
- */
-export type PrivateCallParticipant = Prisma.PrivateCallParticipantModel
 /**
  * Model PrivateConversation
  * 
@@ -103,10 +103,25 @@ export type PrivateMessageStatus = Prisma.PrivateMessageStatusModel
  */
 export type Shelter = Prisma.ShelterModel
 /**
+ * Model Transport
+ * 
+ */
+export type Transport = Prisma.TransportModel
+/**
  * Model User
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model VetClearanceRequest
+ * 
+ */
+export type VetClearanceRequest = Prisma.VetClearanceRequestModel
+/**
+ * Model VetAppointment
+ * 
+ */
+export type VetAppointment = Prisma.VetAppointmentModel
 /**
  * Model Veterinarian
  * 

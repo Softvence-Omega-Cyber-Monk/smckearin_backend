@@ -32,6 +32,9 @@ model Animal {
   // Transports
   transports Transport[]
 
+  // Health Reports
+  healthReports HealthReport[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 

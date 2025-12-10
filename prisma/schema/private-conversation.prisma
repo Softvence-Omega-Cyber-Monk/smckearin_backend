@@ -10,7 +10,6 @@ model PrivateConversation {
   receiver   User   @relation("ConversationReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
 
   messages PrivateMessage[]
-  calls    PrivateCall[]
 
   lastMessageId String?
   lastMessage   PrivateMessage? @relation("PrivateLastMessage", fields: [lastMessageId], references: [id], onDelete: SetNull)

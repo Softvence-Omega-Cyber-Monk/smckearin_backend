@@ -218,6 +218,9 @@ export type VeterinarianWhereInput = {
   userId?: Prisma.StringFilter<"Veterinarian"> | string
   createdAt?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestListRelationFilter
+  vetAppointments?: Prisma.VetAppointmentListRelationFilter
+  healthReports?: Prisma.HealthReportListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -232,6 +235,9 @@ export type VeterinarianOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  vetClearanceRequests?: Prisma.VetClearanceRequestOrderByRelationAggregateInput
+  vetAppointments?: Prisma.VetAppointmentOrderByRelationAggregateInput
+  healthReports?: Prisma.HealthReportOrderByRelationAggregateInput
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -249,6 +255,9 @@ export type VeterinarianWhereUniqueInput = Prisma.AtLeast<{
   workingDays?: Prisma.EnumWorkingDayNullableListFilter<"Veterinarian">
   createdAt?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestListRelationFilter
+  vetAppointments?: Prisma.VetAppointmentListRelationFilter
+  healthReports?: Prisma.HealthReportListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "phone" | "license" | "userId">
 
@@ -294,6 +303,9 @@ export type VeterinarianCreateInput = {
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestCreateNestedManyWithoutVeterinarianInput
+  vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutVeterinarianInput
+  healthReports?: Prisma.HealthReportCreateNestedManyWithoutVeterinarianInput
   user: Prisma.UserCreateNestedOneWithoutVeterinariansInput
 }
 
@@ -308,6 +320,9 @@ export type VeterinarianUncheckedCreateInput = {
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedCreateNestedManyWithoutVeterinarianInput
+  vetAppointments?: Prisma.VetAppointmentUncheckedCreateNestedManyWithoutVeterinarianInput
+  healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutVeterinarianInput
 }
 
 export type VeterinarianUpdateInput = {
@@ -320,6 +335,9 @@ export type VeterinarianUpdateInput = {
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUpdateManyWithoutVeterinarianNestedInput
+  vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutVeterinarianNestedInput
+  healthReports?: Prisma.HealthReportUpdateManyWithoutVeterinarianNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutVeterinariansNestedInput
 }
 
@@ -334,6 +352,9 @@ export type VeterinarianUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedUpdateManyWithoutVeterinarianNestedInput
+  vetAppointments?: Prisma.VetAppointmentUncheckedUpdateManyWithoutVeterinarianNestedInput
+  healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutVeterinarianNestedInput
 }
 
 export type VeterinarianCreateManyInput = {
@@ -372,6 +393,11 @@ export type VeterinarianUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type VeterinarianScalarRelationFilter = {
+  is?: Prisma.VeterinarianWhereInput
+  isNot?: Prisma.VeterinarianWhereInput
 }
 
 export type VeterinarianNullableScalarRelationFilter = {
@@ -416,6 +442,20 @@ export type VeterinarianMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type VeterinarianCreateNestedOneWithoutHealthReportsInput = {
+  create?: Prisma.XOR<Prisma.VeterinarianCreateWithoutHealthReportsInput, Prisma.VeterinarianUncheckedCreateWithoutHealthReportsInput>
+  connectOrCreate?: Prisma.VeterinarianCreateOrConnectWithoutHealthReportsInput
+  connect?: Prisma.VeterinarianWhereUniqueInput
+}
+
+export type VeterinarianUpdateOneRequiredWithoutHealthReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.VeterinarianCreateWithoutHealthReportsInput, Prisma.VeterinarianUncheckedCreateWithoutHealthReportsInput>
+  connectOrCreate?: Prisma.VeterinarianCreateOrConnectWithoutHealthReportsInput
+  upsert?: Prisma.VeterinarianUpsertWithoutHealthReportsInput
+  connect?: Prisma.VeterinarianWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VeterinarianUpdateToOneWithWhereWithoutHealthReportsInput, Prisma.VeterinarianUpdateWithoutHealthReportsInput>, Prisma.VeterinarianUncheckedUpdateWithoutHealthReportsInput>
+}
+
 export type VeterinarianCreateNestedOneWithoutUserInput = {
   create?: Prisma.XOR<Prisma.VeterinarianCreateWithoutUserInput, Prisma.VeterinarianUncheckedCreateWithoutUserInput>
   connectOrCreate?: Prisma.VeterinarianCreateOrConnectWithoutUserInput
@@ -448,6 +488,38 @@ export type VeterinarianUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.VeterinarianUpdateToOneWithWhereWithoutUserInput, Prisma.VeterinarianUpdateWithoutUserInput>, Prisma.VeterinarianUncheckedUpdateWithoutUserInput>
 }
 
+export type VeterinarianCreateNestedOneWithoutVetClearanceRequestsInput = {
+  create?: Prisma.XOR<Prisma.VeterinarianCreateWithoutVetClearanceRequestsInput, Prisma.VeterinarianUncheckedCreateWithoutVetClearanceRequestsInput>
+  connectOrCreate?: Prisma.VeterinarianCreateOrConnectWithoutVetClearanceRequestsInput
+  connect?: Prisma.VeterinarianWhereUniqueInput
+}
+
+export type VeterinarianUpdateOneWithoutVetClearanceRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.VeterinarianCreateWithoutVetClearanceRequestsInput, Prisma.VeterinarianUncheckedCreateWithoutVetClearanceRequestsInput>
+  connectOrCreate?: Prisma.VeterinarianCreateOrConnectWithoutVetClearanceRequestsInput
+  upsert?: Prisma.VeterinarianUpsertWithoutVetClearanceRequestsInput
+  disconnect?: Prisma.VeterinarianWhereInput | boolean
+  delete?: Prisma.VeterinarianWhereInput | boolean
+  connect?: Prisma.VeterinarianWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VeterinarianUpdateToOneWithWhereWithoutVetClearanceRequestsInput, Prisma.VeterinarianUpdateWithoutVetClearanceRequestsInput>, Prisma.VeterinarianUncheckedUpdateWithoutVetClearanceRequestsInput>
+}
+
+export type VeterinarianCreateNestedOneWithoutVetAppointmentsInput = {
+  create?: Prisma.XOR<Prisma.VeterinarianCreateWithoutVetAppointmentsInput, Prisma.VeterinarianUncheckedCreateWithoutVetAppointmentsInput>
+  connectOrCreate?: Prisma.VeterinarianCreateOrConnectWithoutVetAppointmentsInput
+  connect?: Prisma.VeterinarianWhereUniqueInput
+}
+
+export type VeterinarianUpdateOneWithoutVetAppointmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.VeterinarianCreateWithoutVetAppointmentsInput, Prisma.VeterinarianUncheckedCreateWithoutVetAppointmentsInput>
+  connectOrCreate?: Prisma.VeterinarianCreateOrConnectWithoutVetAppointmentsInput
+  upsert?: Prisma.VeterinarianUpsertWithoutVetAppointmentsInput
+  disconnect?: Prisma.VeterinarianWhereInput | boolean
+  delete?: Prisma.VeterinarianWhereInput | boolean
+  connect?: Prisma.VeterinarianWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VeterinarianUpdateToOneWithWhereWithoutVetAppointmentsInput, Prisma.VeterinarianUpdateWithoutVetAppointmentsInput>, Prisma.VeterinarianUncheckedUpdateWithoutVetAppointmentsInput>
+}
+
 export type VeterinarianCreateworkingDaysInput = {
   set: $Enums.WorkingDay[]
 }
@@ -455,6 +527,82 @@ export type VeterinarianCreateworkingDaysInput = {
 export type VeterinarianUpdateworkingDaysInput = {
   set?: $Enums.WorkingDay[]
   push?: $Enums.WorkingDay | $Enums.WorkingDay[]
+}
+
+export type VeterinarianCreateWithoutHealthReportsInput = {
+  id?: string
+  phone?: string | null
+  license?: string | null
+  description?: string | null
+  startTime?: Date | string
+  endTime?: Date | string
+  workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestCreateNestedManyWithoutVeterinarianInput
+  vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutVeterinarianInput
+  user: Prisma.UserCreateNestedOneWithoutVeterinariansInput
+}
+
+export type VeterinarianUncheckedCreateWithoutHealthReportsInput = {
+  id?: string
+  phone?: string | null
+  license?: string | null
+  description?: string | null
+  startTime?: Date | string
+  endTime?: Date | string
+  workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedCreateNestedManyWithoutVeterinarianInput
+  vetAppointments?: Prisma.VetAppointmentUncheckedCreateNestedManyWithoutVeterinarianInput
+}
+
+export type VeterinarianCreateOrConnectWithoutHealthReportsInput = {
+  where: Prisma.VeterinarianWhereUniqueInput
+  create: Prisma.XOR<Prisma.VeterinarianCreateWithoutHealthReportsInput, Prisma.VeterinarianUncheckedCreateWithoutHealthReportsInput>
+}
+
+export type VeterinarianUpsertWithoutHealthReportsInput = {
+  update: Prisma.XOR<Prisma.VeterinarianUpdateWithoutHealthReportsInput, Prisma.VeterinarianUncheckedUpdateWithoutHealthReportsInput>
+  create: Prisma.XOR<Prisma.VeterinarianCreateWithoutHealthReportsInput, Prisma.VeterinarianUncheckedCreateWithoutHealthReportsInput>
+  where?: Prisma.VeterinarianWhereInput
+}
+
+export type VeterinarianUpdateToOneWithWhereWithoutHealthReportsInput = {
+  where?: Prisma.VeterinarianWhereInput
+  data: Prisma.XOR<Prisma.VeterinarianUpdateWithoutHealthReportsInput, Prisma.VeterinarianUncheckedUpdateWithoutHealthReportsInput>
+}
+
+export type VeterinarianUpdateWithoutHealthReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  license?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUpdateManyWithoutVeterinarianNestedInput
+  vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutVeterinarianNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutVeterinariansNestedInput
+}
+
+export type VeterinarianUncheckedUpdateWithoutHealthReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  license?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedUpdateManyWithoutVeterinarianNestedInput
+  vetAppointments?: Prisma.VetAppointmentUncheckedUpdateManyWithoutVeterinarianNestedInput
 }
 
 export type VeterinarianCreateWithoutUserInput = {
@@ -467,6 +615,9 @@ export type VeterinarianCreateWithoutUserInput = {
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestCreateNestedManyWithoutVeterinarianInput
+  vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutVeterinarianInput
+  healthReports?: Prisma.HealthReportCreateNestedManyWithoutVeterinarianInput
 }
 
 export type VeterinarianUncheckedCreateWithoutUserInput = {
@@ -479,6 +630,9 @@ export type VeterinarianUncheckedCreateWithoutUserInput = {
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedCreateNestedManyWithoutVeterinarianInput
+  vetAppointments?: Prisma.VetAppointmentUncheckedCreateNestedManyWithoutVeterinarianInput
+  healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutVeterinarianInput
 }
 
 export type VeterinarianCreateOrConnectWithoutUserInput = {
@@ -507,6 +661,9 @@ export type VeterinarianUpdateWithoutUserInput = {
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUpdateManyWithoutVeterinarianNestedInput
+  vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutVeterinarianNestedInput
+  healthReports?: Prisma.HealthReportUpdateManyWithoutVeterinarianNestedInput
 }
 
 export type VeterinarianUncheckedUpdateWithoutUserInput = {
@@ -519,8 +676,210 @@ export type VeterinarianUncheckedUpdateWithoutUserInput = {
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedUpdateManyWithoutVeterinarianNestedInput
+  vetAppointments?: Prisma.VetAppointmentUncheckedUpdateManyWithoutVeterinarianNestedInput
+  healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutVeterinarianNestedInput
 }
 
+export type VeterinarianCreateWithoutVetClearanceRequestsInput = {
+  id?: string
+  phone?: string | null
+  license?: string | null
+  description?: string | null
+  startTime?: Date | string
+  endTime?: Date | string
+  workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutVeterinarianInput
+  healthReports?: Prisma.HealthReportCreateNestedManyWithoutVeterinarianInput
+  user: Prisma.UserCreateNestedOneWithoutVeterinariansInput
+}
+
+export type VeterinarianUncheckedCreateWithoutVetClearanceRequestsInput = {
+  id?: string
+  phone?: string | null
+  license?: string | null
+  description?: string | null
+  startTime?: Date | string
+  endTime?: Date | string
+  workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  vetAppointments?: Prisma.VetAppointmentUncheckedCreateNestedManyWithoutVeterinarianInput
+  healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutVeterinarianInput
+}
+
+export type VeterinarianCreateOrConnectWithoutVetClearanceRequestsInput = {
+  where: Prisma.VeterinarianWhereUniqueInput
+  create: Prisma.XOR<Prisma.VeterinarianCreateWithoutVetClearanceRequestsInput, Prisma.VeterinarianUncheckedCreateWithoutVetClearanceRequestsInput>
+}
+
+export type VeterinarianUpsertWithoutVetClearanceRequestsInput = {
+  update: Prisma.XOR<Prisma.VeterinarianUpdateWithoutVetClearanceRequestsInput, Prisma.VeterinarianUncheckedUpdateWithoutVetClearanceRequestsInput>
+  create: Prisma.XOR<Prisma.VeterinarianCreateWithoutVetClearanceRequestsInput, Prisma.VeterinarianUncheckedCreateWithoutVetClearanceRequestsInput>
+  where?: Prisma.VeterinarianWhereInput
+}
+
+export type VeterinarianUpdateToOneWithWhereWithoutVetClearanceRequestsInput = {
+  where?: Prisma.VeterinarianWhereInput
+  data: Prisma.XOR<Prisma.VeterinarianUpdateWithoutVetClearanceRequestsInput, Prisma.VeterinarianUncheckedUpdateWithoutVetClearanceRequestsInput>
+}
+
+export type VeterinarianUpdateWithoutVetClearanceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  license?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutVeterinarianNestedInput
+  healthReports?: Prisma.HealthReportUpdateManyWithoutVeterinarianNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutVeterinariansNestedInput
+}
+
+export type VeterinarianUncheckedUpdateWithoutVetClearanceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  license?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetAppointments?: Prisma.VetAppointmentUncheckedUpdateManyWithoutVeterinarianNestedInput
+  healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutVeterinarianNestedInput
+}
+
+export type VeterinarianCreateWithoutVetAppointmentsInput = {
+  id?: string
+  phone?: string | null
+  license?: string | null
+  description?: string | null
+  startTime?: Date | string
+  endTime?: Date | string
+  workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestCreateNestedManyWithoutVeterinarianInput
+  healthReports?: Prisma.HealthReportCreateNestedManyWithoutVeterinarianInput
+  user: Prisma.UserCreateNestedOneWithoutVeterinariansInput
+}
+
+export type VeterinarianUncheckedCreateWithoutVetAppointmentsInput = {
+  id?: string
+  phone?: string | null
+  license?: string | null
+  description?: string | null
+  startTime?: Date | string
+  endTime?: Date | string
+  workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedCreateNestedManyWithoutVeterinarianInput
+  healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutVeterinarianInput
+}
+
+export type VeterinarianCreateOrConnectWithoutVetAppointmentsInput = {
+  where: Prisma.VeterinarianWhereUniqueInput
+  create: Prisma.XOR<Prisma.VeterinarianCreateWithoutVetAppointmentsInput, Prisma.VeterinarianUncheckedCreateWithoutVetAppointmentsInput>
+}
+
+export type VeterinarianUpsertWithoutVetAppointmentsInput = {
+  update: Prisma.XOR<Prisma.VeterinarianUpdateWithoutVetAppointmentsInput, Prisma.VeterinarianUncheckedUpdateWithoutVetAppointmentsInput>
+  create: Prisma.XOR<Prisma.VeterinarianCreateWithoutVetAppointmentsInput, Prisma.VeterinarianUncheckedCreateWithoutVetAppointmentsInput>
+  where?: Prisma.VeterinarianWhereInput
+}
+
+export type VeterinarianUpdateToOneWithWhereWithoutVetAppointmentsInput = {
+  where?: Prisma.VeterinarianWhereInput
+  data: Prisma.XOR<Prisma.VeterinarianUpdateWithoutVetAppointmentsInput, Prisma.VeterinarianUncheckedUpdateWithoutVetAppointmentsInput>
+}
+
+export type VeterinarianUpdateWithoutVetAppointmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  license?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUpdateManyWithoutVeterinarianNestedInput
+  healthReports?: Prisma.HealthReportUpdateManyWithoutVeterinarianNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutVeterinariansNestedInput
+}
+
+export type VeterinarianUncheckedUpdateWithoutVetAppointmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  license?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedUpdateManyWithoutVeterinarianNestedInput
+  healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutVeterinarianNestedInput
+}
+
+
+/**
+ * Count Type VeterinarianCountOutputType
+ */
+
+export type VeterinarianCountOutputType = {
+  vetClearanceRequests: number
+  vetAppointments: number
+  healthReports: number
+}
+
+export type VeterinarianCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  vetClearanceRequests?: boolean | VeterinarianCountOutputTypeCountVetClearanceRequestsArgs
+  vetAppointments?: boolean | VeterinarianCountOutputTypeCountVetAppointmentsArgs
+  healthReports?: boolean | VeterinarianCountOutputTypeCountHealthReportsArgs
+}
+
+/**
+ * VeterinarianCountOutputType without action
+ */
+export type VeterinarianCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VeterinarianCountOutputType
+   */
+  select?: Prisma.VeterinarianCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * VeterinarianCountOutputType without action
+ */
+export type VeterinarianCountOutputTypeCountVetClearanceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VetClearanceRequestWhereInput
+}
+
+/**
+ * VeterinarianCountOutputType without action
+ */
+export type VeterinarianCountOutputTypeCountVetAppointmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VetAppointmentWhereInput
+}
+
+/**
+ * VeterinarianCountOutputType without action
+ */
+export type VeterinarianCountOutputTypeCountHealthReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HealthReportWhereInput
+}
 
 
 export type VeterinarianSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -534,7 +893,11 @@ export type VeterinarianSelect<ExtArgs extends runtime.Types.Extensions.Internal
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  vetClearanceRequests?: boolean | Prisma.Veterinarian$vetClearanceRequestsArgs<ExtArgs>
+  vetAppointments?: boolean | Prisma.Veterinarian$vetAppointmentsArgs<ExtArgs>
+  healthReports?: boolean | Prisma.Veterinarian$healthReportsArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.VeterinarianCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["veterinarian"]>
 
 export type VeterinarianSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -580,7 +943,11 @@ export type VeterinarianSelectScalar = {
 
 export type VeterinarianOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "phone" | "license" | "description" | "startTime" | "endTime" | "workingDays" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["veterinarian"]>
 export type VeterinarianInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  vetClearanceRequests?: boolean | Prisma.Veterinarian$vetClearanceRequestsArgs<ExtArgs>
+  vetAppointments?: boolean | Prisma.Veterinarian$vetAppointmentsArgs<ExtArgs>
+  healthReports?: boolean | Prisma.Veterinarian$healthReportsArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  _count?: boolean | Prisma.VeterinarianCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type VeterinarianIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -592,6 +959,9 @@ export type VeterinarianIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types
 export type $VeterinarianPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Veterinarian"
   objects: {
+    vetClearanceRequests: Prisma.$VetClearanceRequestPayload<ExtArgs>[]
+    vetAppointments: Prisma.$VetAppointmentPayload<ExtArgs>[]
+    healthReports: Prisma.$HealthReportPayload<ExtArgs>[]
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -999,6 +1369,9 @@ readonly fields: VeterinarianFieldRefs;
  */
 export interface Prisma__VeterinarianClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  vetClearanceRequests<T extends Prisma.Veterinarian$vetClearanceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Veterinarian$vetClearanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VetClearanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  vetAppointments<T extends Prisma.Veterinarian$vetAppointmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Veterinarian$vetAppointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VetAppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  healthReports<T extends Prisma.Veterinarian$healthReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Veterinarian$healthReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1432,6 +1805,78 @@ export type VeterinarianDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many Veterinarians to delete.
    */
   limit?: number
+}
+
+/**
+ * Veterinarian.vetClearanceRequests
+ */
+export type Veterinarian$vetClearanceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VetClearanceRequest
+   */
+  select?: Prisma.VetClearanceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VetClearanceRequest
+   */
+  omit?: Prisma.VetClearanceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClearanceRequestInclude<ExtArgs> | null
+  where?: Prisma.VetClearanceRequestWhereInput
+  orderBy?: Prisma.VetClearanceRequestOrderByWithRelationInput | Prisma.VetClearanceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.VetClearanceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VetClearanceRequestScalarFieldEnum | Prisma.VetClearanceRequestScalarFieldEnum[]
+}
+
+/**
+ * Veterinarian.vetAppointments
+ */
+export type Veterinarian$vetAppointmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VetAppointment
+   */
+  select?: Prisma.VetAppointmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VetAppointment
+   */
+  omit?: Prisma.VetAppointmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetAppointmentInclude<ExtArgs> | null
+  where?: Prisma.VetAppointmentWhereInput
+  orderBy?: Prisma.VetAppointmentOrderByWithRelationInput | Prisma.VetAppointmentOrderByWithRelationInput[]
+  cursor?: Prisma.VetAppointmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VetAppointmentScalarFieldEnum | Prisma.VetAppointmentScalarFieldEnum[]
+}
+
+/**
+ * Veterinarian.healthReports
+ */
+export type Veterinarian$healthReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HealthReport
+   */
+  select?: Prisma.HealthReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HealthReport
+   */
+  omit?: Prisma.HealthReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HealthReportInclude<ExtArgs> | null
+  where?: Prisma.HealthReportWhereInput
+  orderBy?: Prisma.HealthReportOrderByWithRelationInput | Prisma.HealthReportOrderByWithRelationInput[]
+  cursor?: Prisma.HealthReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HealthReportScalarFieldEnum | Prisma.HealthReportScalarFieldEnum[]
 }
 
 /**

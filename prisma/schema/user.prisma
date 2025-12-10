@@ -33,8 +33,6 @@ model User {
   conversationsReceived  PrivateConversation[]    @relation("ConversationReceiver")
   messagesSent           PrivateMessage[]
   messageStatuses        PrivateMessageStatus[]
-  callsInitiated         PrivateCall[]            @relation("CallInitiator")
-  callParticipants       PrivateCallParticipant[]
 
   // Shelter Association
   shelterAdminOfId String?

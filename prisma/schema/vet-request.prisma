@@ -1,0 +1,67 @@
+model VetClearanceRequest {
+  id String @id @default(uuid())
+
+  vetClearance VetClearance
+
+  veterinarianId String?
+  veterinarian   Veterinarian? @relation(fields: [veterinarianId], references: [id], onDelete: SetNull)
+
+  status VetClearanceRequestStatus @default(PENDING_REVIEW)
+
+  notFitReasons String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  vetAppointments VetAppointment[]
+
+  @@map("vet_clearance_requests")
+}
+
+enum VetClearance {
+  Health
+  Vaccination
+  Both
+}
+
+enum VetClearanceRequestStatus {
+  PENDING_REVIEW
+  PENDING_EVALUATION
+  REJECTED
+  CERTIFIED
+  NOT_FIT
+  NEEDS_VISIT
+}
+
+model VetAppointment {
+  id String @id @default(uuid())
+
+  requestId String              @unique
+  request   VetClearanceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  veterinarianId String?
+  veterinarian   Veterinarian? @relation(fields: [veterinarianId], references: [id], onDelete: SetNull)
+
+  appointmentDate DateTime
+  appointmentTime DateTime
+
+  location  String?
+  latitude  Float?
+  longitude Float?
+
+  notes String?
+
+  status VetAppointmentStatus @default(SCHEDULED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("vet_appointments")
+}
+
+enum VetAppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  MISSED
+}

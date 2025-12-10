@@ -11,7 +11,12 @@ model Veterinarian {
 
   workingDays WorkingDay[]
 
-  transports Transport[]
+  // Vet Clearance
+  vetClearanceRequests VetClearanceRequest[]
+  vetAppointments      VetAppointment[]
+
+  // Health Reports
+  healthReports HealthReport[]
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
