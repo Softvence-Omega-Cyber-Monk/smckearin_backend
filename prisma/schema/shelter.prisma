@@ -20,6 +20,9 @@ model Shelter {
   shelterAdmins User[] @relation("ShelterAdmins")
   managers      User[] @relation("Managers")
 
+  // Animals in the shelter
+  animals Animal[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
