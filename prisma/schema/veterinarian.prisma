@@ -1,8 +1,8 @@
 model Veterinarian {
-  id        String   @id @default(uuid())
-  
-  phone     String? @unique
-  license   String? @unique
+  id String @id @default(uuid())
+
+  phone       String? @unique
+  license     String? @unique
   description String?
 
   // Operating Schedule
@@ -10,9 +10,11 @@ model Veterinarian {
   endTime   DateTime @default("1970-01-01T17:00:00.000Z")
 
   workingDays WorkingDay[]
-  
-  userId    String @unique
-  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  transports Transport[]
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

@@ -1,31 +1,36 @@
 model Animal {
-  id        String   @id @default(uuid())
-  
-  name      String
-  species   String
-  breed     String
-  color     String
-  age       Int      @default(0)
-  weight    Float    @default(0)
-  gender       Gender      @default(MALE)
+  id String @id @default(uuid())
 
-  specialNeeds String?
+  name  String
+  breed String
+
+  age    Int   @default(0)
+  weight Float @default(0)
+
+  species SPECIES
+  gender  Gender
+
+  color         String?
+  specialNeeds  String?
   medicalNotes  String?
   behaviorNotes String?
 
-  isBondedPairs Boolean @default(false)
-
-  // Self relation for bonded pairs
+  // Bonded Pair (Self Relation)
   bondedWithId String?
-  bondedWith   Animal? @relation("BondedPairs", fields: [bondedWithId], references: [id])
-  bondedBy     Animal[] @relation("BondedPairs")
+  bondedWith   Animal?  @relation("BondedPair", fields: [bondedWithId], references: [id], onDelete: SetNull)
+  bondedBy     Animal[] @relation("BondedPair")
 
-  imageId   String? @unique
-  imageUrl  String?
-  image     FileInstance? @relation(fields: [imageId], references: [id], onDelete: SetNull)
-
-  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+  // Current shelter
   shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  // File
+  imageId  String?       @unique
+  imageUrl String?
+  image    FileInstance? @relation(fields: [imageId], references: [id], onDelete: SetNull)
+
+  // Transports
+  transports Transport[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

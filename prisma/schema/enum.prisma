@@ -12,3 +12,8 @@ enum Gender {
   MALE
   FEMALE
 }
+
+enum SPECIES {
+  DOG
+  CAT
+}
