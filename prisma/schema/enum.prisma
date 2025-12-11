@@ -17,3 +17,9 @@ enum SPECIES {
   DOG
   CAT
 }
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}

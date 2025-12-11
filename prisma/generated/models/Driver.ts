@@ -54,6 +54,7 @@ export type DriverMinAggregateOutputType = {
   vehicleRegistrationUrl: string | null
   transportCertificateId: string | null
   transportCertificateUrl: string | null
+  status: $Enums.ApprovalStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -76,6 +77,7 @@ export type DriverMaxAggregateOutputType = {
   vehicleRegistrationUrl: string | null
   transportCertificateId: string | null
   transportCertificateUrl: string | null
+  status: $Enums.ApprovalStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -99,6 +101,7 @@ export type DriverCountAggregateOutputType = {
   vehicleRegistrationUrl: number
   transportCertificateId: number
   transportCertificateUrl: number
+  status: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -133,6 +136,7 @@ export type DriverMinAggregateInputType = {
   vehicleRegistrationUrl?: true
   transportCertificateId?: true
   transportCertificateUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -155,6 +159,7 @@ export type DriverMaxAggregateInputType = {
   vehicleRegistrationUrl?: true
   transportCertificateId?: true
   transportCertificateUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -178,6 +183,7 @@ export type DriverCountAggregateInputType = {
   vehicleRegistrationUrl?: true
   transportCertificateId?: true
   transportCertificateUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -288,6 +294,7 @@ export type DriverGroupByOutputType = {
   vehicleRegistrationUrl: string | null
   transportCertificateId: string | null
   transportCertificateUrl: string | null
+  status: $Enums.ApprovalStatus
   createdAt: Date
   updatedAt: Date
   _count: DriverCountAggregateOutputType | null
@@ -334,6 +341,7 @@ export type DriverWhereInput = {
   vehicleRegistrationUrl?: Prisma.StringNullableFilter<"Driver"> | string | null
   transportCertificateId?: Prisma.StringNullableFilter<"Driver"> | string | null
   transportCertificateUrl?: Prisma.StringNullableFilter<"Driver"> | string | null
+  status?: Prisma.EnumApprovalStatusFilter<"Driver"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -362,6 +370,7 @@ export type DriverOrderByWithRelationInput = {
   vehicleRegistrationUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   transportCertificateId?: Prisma.SortOrderInput | Prisma.SortOrder
   transportCertificateUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -393,6 +402,7 @@ export type DriverWhereUniqueInput = Prisma.AtLeast<{
   driverLicenseUrl?: Prisma.StringNullableFilter<"Driver"> | string | null
   vehicleRegistrationUrl?: Prisma.StringNullableFilter<"Driver"> | string | null
   transportCertificateUrl?: Prisma.StringNullableFilter<"Driver"> | string | null
+  status?: Prisma.EnumApprovalStatusFilter<"Driver"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -421,6 +431,7 @@ export type DriverOrderByWithAggregationInput = {
   vehicleRegistrationUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   transportCertificateId?: Prisma.SortOrderInput | Prisma.SortOrder
   transportCertificateUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DriverCountOrderByAggregateInput
@@ -452,6 +463,7 @@ export type DriverScalarWhereWithAggregatesInput = {
   vehicleRegistrationUrl?: Prisma.StringNullableWithAggregatesFilter<"Driver"> | string | null
   transportCertificateId?: Prisma.StringNullableWithAggregatesFilter<"Driver"> | string | null
   transportCertificateUrl?: Prisma.StringNullableWithAggregatesFilter<"Driver"> | string | null
+  status?: Prisma.EnumApprovalStatusWithAggregatesFilter<"Driver"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Driver"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Driver"> | Date | string
 }
@@ -471,6 +483,7 @@ export type DriverCreateInput = {
   driverLicenseUrl?: string | null
   vehicleRegistrationUrl?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -499,6 +512,7 @@ export type DriverUncheckedCreateInput = {
   vehicleRegistrationUrl?: string | null
   transportCertificateId?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -519,6 +533,7 @@ export type DriverUpdateInput = {
   driverLicenseUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -547,6 +562,7 @@ export type DriverUncheckedUpdateInput = {
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -571,6 +587,7 @@ export type DriverCreateManyInput = {
   vehicleRegistrationUrl?: string | null
   transportCertificateId?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -590,6 +607,7 @@ export type DriverUpdateManyMutationInput = {
   driverLicenseUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -613,6 +631,7 @@ export type DriverUncheckedUpdateManyInput = {
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -644,6 +663,7 @@ export type DriverCountOrderByAggregateInput = {
   vehicleRegistrationUrl?: Prisma.SortOrder
   transportCertificateId?: Prisma.SortOrder
   transportCertificateUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -671,6 +691,7 @@ export type DriverMaxOrderByAggregateInput = {
   vehicleRegistrationUrl?: Prisma.SortOrder
   transportCertificateId?: Prisma.SortOrder
   transportCertificateUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -693,6 +714,7 @@ export type DriverMinOrderByAggregateInput = {
   vehicleRegistrationUrl?: Prisma.SortOrder
   transportCertificateId?: Prisma.SortOrder
   transportCertificateUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -714,6 +736,10 @@ export type DriverCreateworkingDaysInput = {
 export type DriverUpdateworkingDaysInput = {
   set?: $Enums.WorkingDay[]
   push?: $Enums.WorkingDay | $Enums.WorkingDay[]
+}
+
+export type EnumApprovalStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ApprovalStatus
 }
 
 export type DriverCreateNestedOneWithoutDriverLicenseInput = {
@@ -875,6 +901,7 @@ export type DriverCreateWithoutDriverLicenseInput = {
   driverLicenseUrl?: string | null
   vehicleRegistrationUrl?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -901,6 +928,7 @@ export type DriverUncheckedCreateWithoutDriverLicenseInput = {
   vehicleRegistrationUrl?: string | null
   transportCertificateId?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -926,6 +954,7 @@ export type DriverCreateWithoutVehicleRegistrationInput = {
   driverLicenseUrl?: string | null
   vehicleRegistrationUrl?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -952,6 +981,7 @@ export type DriverUncheckedCreateWithoutVehicleRegistrationInput = {
   vehicleRegistrationUrl?: string | null
   transportCertificateId?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -977,6 +1007,7 @@ export type DriverCreateWithoutTransportCertificateInput = {
   driverLicenseUrl?: string | null
   vehicleRegistrationUrl?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -1003,6 +1034,7 @@ export type DriverUncheckedCreateWithoutTransportCertificateInput = {
   vehicleRegistrationId?: string | null
   vehicleRegistrationUrl?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -1039,6 +1071,7 @@ export type DriverUpdateWithoutDriverLicenseInput = {
   driverLicenseUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1065,6 +1098,7 @@ export type DriverUncheckedUpdateWithoutDriverLicenseInput = {
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1096,6 +1130,7 @@ export type DriverUpdateWithoutVehicleRegistrationInput = {
   driverLicenseUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1122,6 +1157,7 @@ export type DriverUncheckedUpdateWithoutVehicleRegistrationInput = {
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1153,6 +1189,7 @@ export type DriverUpdateWithoutTransportCertificateInput = {
   driverLicenseUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1179,6 +1216,7 @@ export type DriverUncheckedUpdateWithoutTransportCertificateInput = {
   vehicleRegistrationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1199,6 +1237,7 @@ export type DriverCreateWithoutTransportsInput = {
   driverLicenseUrl?: string | null
   vehicleRegistrationUrl?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -1226,6 +1265,7 @@ export type DriverUncheckedCreateWithoutTransportsInput = {
   vehicleRegistrationUrl?: string | null
   transportCertificateId?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1261,6 +1301,7 @@ export type DriverUpdateWithoutTransportsInput = {
   driverLicenseUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1288,6 +1329,7 @@ export type DriverUncheckedUpdateWithoutTransportsInput = {
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1307,6 +1349,7 @@ export type DriverCreateWithoutUserInput = {
   driverLicenseUrl?: string | null
   vehicleRegistrationUrl?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   driverLicense?: Prisma.FileInstanceCreateNestedOneWithoutDriverLicenseInput
@@ -1333,6 +1376,7 @@ export type DriverUncheckedCreateWithoutUserInput = {
   vehicleRegistrationUrl?: string | null
   transportCertificateId?: string | null
   transportCertificateUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -1369,6 +1413,7 @@ export type DriverUpdateWithoutUserInput = {
   driverLicenseUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   driverLicense?: Prisma.FileInstanceUpdateOneWithoutDriverLicenseNestedInput
@@ -1395,6 +1440,7 @@ export type DriverUncheckedUpdateWithoutUserInput = {
   vehicleRegistrationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1450,6 +1496,7 @@ export type DriverSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   vehicleRegistrationUrl?: boolean
   transportCertificateId?: boolean
   transportCertificateUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1479,6 +1526,7 @@ export type DriverSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   vehicleRegistrationUrl?: boolean
   transportCertificateId?: boolean
   transportCertificateUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1506,6 +1554,7 @@ export type DriverSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   vehicleRegistrationUrl?: boolean
   transportCertificateId?: boolean
   transportCertificateUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1533,11 +1582,12 @@ export type DriverSelectScalar = {
   vehicleRegistrationUrl?: boolean
   transportCertificateId?: boolean
   transportCertificateUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DriverOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "phone" | "state" | "address" | "vehicleType" | "vehicleCapacity" | "yearsOfExperience" | "previousExperience" | "startTime" | "endTime" | "workingDays" | "driverLicenseId" | "driverLicenseUrl" | "vehicleRegistrationId" | "vehicleRegistrationUrl" | "transportCertificateId" | "transportCertificateUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["driver"]>
+export type DriverOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "phone" | "state" | "address" | "vehicleType" | "vehicleCapacity" | "yearsOfExperience" | "previousExperience" | "startTime" | "endTime" | "workingDays" | "driverLicenseId" | "driverLicenseUrl" | "vehicleRegistrationId" | "vehicleRegistrationUrl" | "transportCertificateId" | "transportCertificateUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["driver"]>
 export type DriverInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   driverLicense?: boolean | Prisma.Driver$driverLicenseArgs<ExtArgs>
@@ -1587,6 +1637,7 @@ export type $DriverPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     vehicleRegistrationUrl: string | null
     transportCertificateId: string | null
     transportCertificateUrl: string | null
+    status: $Enums.ApprovalStatus
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["driver"]>
@@ -2035,6 +2086,7 @@ export interface DriverFieldRefs {
   readonly vehicleRegistrationUrl: Prisma.FieldRef<"Driver", 'String'>
   readonly transportCertificateId: Prisma.FieldRef<"Driver", 'String'>
   readonly transportCertificateUrl: Prisma.FieldRef<"Driver", 'String'>
+  readonly status: Prisma.FieldRef<"Driver", 'ApprovalStatus'>
   readonly createdAt: Prisma.FieldRef<"Driver", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Driver", 'DateTime'>
 }

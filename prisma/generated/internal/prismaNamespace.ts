@@ -1859,6 +1859,7 @@ export const DriverScalarFieldEnum = {
   vehicleRegistrationUrl: 'vehicleRegistrationUrl',
   transportCertificateId: 'transportCertificateId',
   transportCertificateUrl: 'transportCertificateUrl',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1986,6 +1987,7 @@ export const ShelterScalarFieldEnum = {
   startTime: 'startTime',
   endTime: 'endTime',
   workingDays: 'workingDays',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2076,6 +2078,7 @@ export const VeterinarianScalarFieldEnum = {
   startTime: 'startTime',
   endTime: 'endTime',
   workingDays: 'workingDays',
+  status: 'status',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2239,6 +2242,20 @@ export type ListEnumWorkingDayFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'WorkingDay'
  */
 export type EnumWorkingDayFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkingDay'>
+    
+
+
+/**
+ * Reference to a field of type 'ApprovalStatus'
+ */
+export type EnumApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ApprovalStatus[]'
+ */
+export type ListEnumApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalStatus[]'>
     
 
 

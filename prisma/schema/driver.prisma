@@ -38,6 +38,8 @@ model Driver {
   // Transports
   transports Transport[]
 
+  status ApprovalStatus @default(PENDING)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
