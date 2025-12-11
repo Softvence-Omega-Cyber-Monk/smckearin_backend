@@ -25,7 +25,7 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
 } from './dto/password.dto';
-import { ShelterRegisterDto } from './dto/register.dto';
+import { RegisterDto } from './dto/register.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { AuthGetProfileService } from './services/auth-get-profile.service';
 import { AuthLoginService } from './services/auth-login.service';
@@ -129,9 +129,9 @@ export class AuthController {
     return this.authUpdateProfileService.updateProfile(id, dto, file);
   }
 
-  @ApiOperation({ summary: 'Register Shelter' })
-  @Post('register/shelter')
-  async shelterRegister(@Body() body: ShelterRegisterDto) {
-    return this.authRegisterService.shelterRegister(body);
+  @ApiOperation({ summary: 'Register as shelter or vet' })
+  @Post('register')
+  async register(@Body() body: RegisterDto) {
+    return this.authRegisterService.register(body);
   }
 }
