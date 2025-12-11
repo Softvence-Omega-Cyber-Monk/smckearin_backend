@@ -25,12 +25,14 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
 } from './dto/password.dto';
+import { ShelterRegisterDto } from './dto/register.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { AuthGetProfileService } from './services/auth-get-profile.service';
 import { AuthLoginService } from './services/auth-login.service';
 import { AuthLogoutService } from './services/auth-logout.service';
 import { AuthOtpService } from './services/auth-otp.service';
 import { AuthPasswordService } from './services/auth-password.service';
+import { AuthRegisterService } from './services/auth-register.service';
 import { AuthUpdateProfileService } from './services/auth-update-profile.service';
 
 @ApiTags('Auth')
@@ -43,6 +45,7 @@ export class AuthController {
     private readonly authPasswordService: AuthPasswordService,
     private readonly authGetProfileService: AuthGetProfileService,
     private readonly authUpdateProfileService: AuthUpdateProfileService,
+    private readonly authRegisterService: AuthRegisterService,
   ) {}
 
   @ApiOperation({ summary: 'Verify OTP after Registration or Login' })
@@ -124,5 +127,11 @@ export class AuthController {
     @UploadedFile() file?: Express.Multer.File,
   ) {
     return this.authUpdateProfileService.updateProfile(id, dto, file);
+  }
+
+  @ApiOperation({ summary: 'Register Shelter' })
+  @Post('register/shelter')
+  async shelterRegister(@Body() body: ShelterRegisterDto) {
+    return this.authRegisterService.shelterRegister(body);
   }
 }

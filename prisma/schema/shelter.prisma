@@ -16,6 +16,8 @@ model Shelter {
 
   workingDays WorkingDay[]
 
+  status ShelterStatus @default(PENDING)
+
   // Shelter-level admins and their team
   shelterAdmins User[] @relation("ShelterAdmins")
   managers      User[] @relation("Managers")
@@ -25,4 +27,10 @@ model Shelter {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum ShelterStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
