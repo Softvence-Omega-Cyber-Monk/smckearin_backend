@@ -28,22 +28,6 @@ export class AuthLoginService {
       throw new AppError(400, 'Invalid password');
     }
 
-    // 1. Email verification
-    if (!user.isVerified) {
-      const otp = await this.utils.generateOTPAndSave(user.id, 'VERIFICATION');
-
-      await this.authMailService.sendVerificationCodeEmail(
-        user.email,
-        otp.toString(),
-      );
-
-      return successResponse(
-        { email: user.email },
-        'Your email is not verified. A new OTP has been sent to your email.',
-      );
-    }
-
-    // 2. Regular login
     const updatedUser = await this.prisma.client.user.update({
       where: { email },
       data: {
@@ -52,7 +36,6 @@ export class AuthLoginService {
       },
     });
 
-    // 3. Generate token
     const token = await this.utils.generateTokenPairAndSave({
       email,
       role: updatedUser.role,

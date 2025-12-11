@@ -95,7 +95,7 @@ export class ConversationQueryService {
               statuses: {
                 some: {
                   userId,
-                  status: { not: 'READ' },
+                  status: { not: 'SEEN' },
                 },
               },
             },

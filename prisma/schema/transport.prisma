@@ -1,0 +1,48 @@
+model Transport {
+  id String @id @default(uuid())
+
+  transportNote String
+
+  priorityLevel PriorityLevel
+
+  pickUpLocation  String
+  pickUpLatitude  Float
+  pickUpLongitude Float
+
+  dropOffLocation  String
+  dropOffLatitude  Float
+  dropOffLongitude Float
+
+  transPortDate DateTime
+  transPortTime DateTime
+
+  animalId String
+  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  driverId String?
+  driver   Driver? @relation(fields: [driverId], references: [id], onDelete: SetNull)
+
+  isVetClearanceRequired Boolean
+
+  status TransportStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("transports")
+}
+
+enum PriorityLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TransportStatus {
+  PENDING
+  ACCEPTED
+  CANCELLED
+  PICKED_UP
+  IN_TRANSIT
+  COMPLETED
+}

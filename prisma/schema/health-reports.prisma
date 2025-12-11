@@ -1,0 +1,22 @@
+model HealthReport {
+  id String @id @default(uuid())
+
+  veterinarianId String
+  veterinarian   Veterinarian @relation(fields: [veterinarianId], references: [id], onDelete: Cascade)
+
+  animalId String
+  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  reportType String
+
+  note String
+
+  reportId    String?       @unique
+  reportIdUrl String?
+  report      FileInstance? @relation(fields: [reportId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("health_reports")
+}

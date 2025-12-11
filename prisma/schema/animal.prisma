@@ -1,0 +1,42 @@
+model Animal {
+  id String @id @default(uuid())
+
+  name  String
+  breed String
+
+  age    Int   @default(0)
+  weight Float @default(0)
+
+  species SPECIES
+  gender  Gender
+
+  color         String?
+  specialNeeds  String?
+  medicalNotes  String?
+  behaviorNotes String?
+
+  // Bonded Pair (Self Relation)
+  bondedWithId String?
+  bondedWith   Animal?  @relation("BondedPair", fields: [bondedWithId], references: [id], onDelete: SetNull)
+  bondedBy     Animal[] @relation("BondedPair")
+
+  // Current shelter
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  // File
+  imageId  String?       @unique
+  imageUrl String?
+  image    FileInstance? @relation(fields: [imageId], references: [id], onDelete: SetNull)
+
+  // Transports
+  transports Transport[]
+
+  // Health Reports
+  healthReports HealthReport[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("animals")
+}

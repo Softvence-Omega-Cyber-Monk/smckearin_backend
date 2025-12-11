@@ -11,9 +11,9 @@ model PrivateMessage {
   conversation   PrivateConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   senderId String
-  sender   User @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
 
-  privateLastMessage PrivateConversation[] @relation("PrivateLastMessage")
+  privateLastMessage PrivateConversation[]  @relation("PrivateLastMessage")
   statuses           PrivateMessageStatus[]
 
   createdAt DateTime @default(now())
@@ -47,11 +47,11 @@ enum MessageType {
   VIDEO
   AUDIO
   FILE
-  CALL_EVENT
+  VOICE
 }
 
 enum MessageDeliveryStatus {
   SENT
   DELIVERED
-  READ
+  SEEN
 }

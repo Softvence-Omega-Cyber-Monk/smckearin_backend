@@ -1,0 +1,28 @@
+model Shelter {
+  id String @id @default(uuid())
+
+  name        String
+  address     String?
+  phone       String?
+  description String?
+
+  logoId  String?       @unique
+  logoUrl String?
+  logo    FileInstance? @relation(fields: [logoId], references: [id], onDelete: SetNull)
+
+  // Operating Schedule
+  startTime DateTime @default("1970-01-01T09:00:00.000Z")
+  endTime   DateTime @default("1970-01-01T17:00:00.000Z")
+
+  workingDays WorkingDay[]
+
+  // Shelter-level admins and their team
+  shelterAdmins User[] @relation("ShelterAdmins")
+  managers      User[] @relation("Managers")
+
+  // Animals in the shelter
+  animals Animal[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}

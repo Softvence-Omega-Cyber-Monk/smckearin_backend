@@ -18,6 +18,11 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model Animal
+ * 
+ */
+export type Animal = Prisma.AnimalModel
+/**
  * Model UserOtp
  * 
  */
@@ -28,10 +33,20 @@ export type UserOtp = Prisma.UserOtpModel
  */
 export type RefreshToken = Prisma.RefreshTokenModel
 /**
+ * Model Driver
+ * 
+ */
+export type Driver = Prisma.DriverModel
+/**
  * Model FileInstance
  * 
  */
 export type FileInstance = Prisma.FileInstanceModel
+/**
+ * Model HealthReport
+ * 
+ */
+export type HealthReport = Prisma.HealthReportModel
 /**
  * Model Notification
  * 
@@ -43,15 +58,10 @@ export type Notification = Prisma.NotificationModel
  */
 export type UserNotification = Prisma.UserNotificationModel
 /**
- * Model PrivateCall
+ * Model NotificationSettings
  * 
  */
-export type PrivateCall = Prisma.PrivateCallModel
-/**
- * Model PrivateCallParticipant
- * 
- */
-export type PrivateCallParticipant = Prisma.PrivateCallParticipantModel
+export type NotificationSettings = Prisma.NotificationSettingsModel
 /**
  * Model PrivateConversation
  * 
@@ -68,7 +78,32 @@ export type PrivateMessage = Prisma.PrivateMessageModel
  */
 export type PrivateMessageStatus = Prisma.PrivateMessageStatusModel
 /**
+ * Model Shelter
+ * 
+ */
+export type Shelter = Prisma.ShelterModel
+/**
+ * Model Transport
+ * 
+ */
+export type Transport = Prisma.TransportModel
+/**
  * Model User
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model VetClearanceRequest
+ * 
+ */
+export type VetClearanceRequest = Prisma.VetClearanceRequestModel
+/**
+ * Model VetAppointment
+ * 
+ */
+export type VetAppointment = Prisma.VetAppointmentModel
+/**
+ * Model Veterinarian
+ * 
+ */
+export type Veterinarian = Prisma.VeterinarianModel

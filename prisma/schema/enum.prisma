@@ -1,0 +1,19 @@
+enum WorkingDay {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum SPECIES {
+  DOG
+  CAT
+}

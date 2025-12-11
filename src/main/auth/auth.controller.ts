@@ -25,21 +25,18 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
 } from './dto/password.dto';
-import { RegisterDto } from './dto/register.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { AuthGetProfileService } from './services/auth-get-profile.service';
 import { AuthLoginService } from './services/auth-login.service';
 import { AuthLogoutService } from './services/auth-logout.service';
 import { AuthOtpService } from './services/auth-otp.service';
 import { AuthPasswordService } from './services/auth-password.service';
-import { AuthRegisterService } from './services/auth-register.service';
 import { AuthUpdateProfileService } from './services/auth-update-profile.service';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly authRegisterService: AuthRegisterService,
     private readonly authLoginService: AuthLoginService,
     private readonly authLogoutService: AuthLogoutService,
     private readonly authOtpService: AuthOtpService,
@@ -47,12 +44,6 @@ export class AuthController {
     private readonly authGetProfileService: AuthGetProfileService,
     private readonly authUpdateProfileService: AuthUpdateProfileService,
   ) {}
-
-  @ApiOperation({ summary: 'User Registration with Email' })
-  @Post('register')
-  async register(@Body() body: RegisterDto) {
-    return this.authRegisterService.register(body);
-  }
 
   @ApiOperation({ summary: 'Verify OTP after Registration or Login' })
   @Post('verify-otp')
