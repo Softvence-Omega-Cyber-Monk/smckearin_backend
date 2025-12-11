@@ -1,9 +1,13 @@
+import { ENVEnum } from '@/common/enum/env.enum';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { OtpType } from '@prisma';
 import * as he from 'he';
 import * as nodemailer from 'nodemailer';
 import { MailService } from '../mail.service';
 import { otpTemplate } from '../templates/otp.template';
 import { passwordResetConfirmationTemplate } from '../templates/reset-password-confirm.template';
+import { resetPasswordLinkTemplate } from '../templates/reset-password-link.template';
 
 interface EmailOptions {
   subject?: string;
@@ -12,7 +16,13 @@ interface EmailOptions {
 
 @Injectable()
 export class AuthMailService {
-  constructor(private readonly mailService: MailService) {}
+  private readonly frontendUrl: string;
+  constructor(
+    private readonly mailService: MailService,
+    private readonly config: ConfigService,
+  ) {
+    this.frontendUrl = this.config.getOrThrow<string>(ENVEnum.FRONTEND_URL);
+  }
 
   private async sendEmail(
     to: string,
@@ -59,17 +69,20 @@ export class AuthMailService {
     const safeCode = this.sanitize(code);
     const subject = options.subject || 'Password Reset Code';
 
+    const resetLink = `${this.frontendUrl}/reset-password?code=${code}&type=${OtpType.RESET}&email=${to}`;
+
     return this.sendEmail(
       to,
       subject,
-      otpTemplate({
+      resetPasswordLinkTemplate({
         title: '🔒 Password Reset Request',
         message,
         code: safeCode,
         footer:
           'If you didn’t request a password reset, you can safely ignore this email.',
+        link: resetLink,
       }),
-      `${message}\nYour password reset code: ${code}\n\nIf you did not request this, please ignore this email.`,
+      `${message}\nReset your password using this link: ${resetLink}`,
     );
   }
 
