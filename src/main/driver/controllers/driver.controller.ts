@@ -1,3 +1,4 @@
+import { ApproveOrRejectDto } from '@/common/dto/approve-reject.dto';
 import {
   ValidateAdmin,
   ValidateAuth,
@@ -7,13 +8,17 @@ import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GetApprovedDrivers } from '../dto/get-drivers.dto';
 import { GetDriverService } from '../services/get-driver.service';
+import { ManageDriverService } from '../services/manage-driver.service';
 
 @ApiTags('Driver')
 @ApiBearerAuth()
 @ValidateAuth()
 @Controller('driver')
 export class DriverController {
-  constructor(private readonly driverService: GetDriverService) {}
+  constructor(
+    private readonly driverService: GetDriverService,
+    private readonly manageDriverService: ManageDriverService,
+  ) {}
 
   @ApiOperation({ summary: 'Get all drivers (admin only)' })
   @ValidateAdmin()
@@ -33,5 +38,22 @@ export class DriverController {
   @Get('driver/:driverId')
   async getSingleDriver(@Param('driverId') driverId: string) {
     return this.driverService.getSingleDriver(driverId);
+  }
+
+  @ApiOperation({ summary: 'Approve or reject driver (admin only)' })
+  @ValidateAdmin()
+  @Get('driver/:driverId/approve')
+  async approveOrRejectDriver(
+    @Param('driverId') driverId: string,
+    @Query() dto: ApproveOrRejectDto,
+  ) {
+    return this.manageDriverService.approveOrRejectDriver(driverId, dto);
+  }
+
+  @ApiOperation({ summary: 'Delete driver and user (admin only)' })
+  @ValidateAdmin()
+  @Get('driver/:driverId/delete')
+  async deleteDriver(@Param('driverId') driverId: string) {
+    return this.manageDriverService.deleteDriver(driverId);
   }
 }
