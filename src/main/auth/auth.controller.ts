@@ -1,9 +1,10 @@
-import { GetUser, ValidateAuth } from '@/core/jwt/jwt.decorator';
+import { GetUser, ValidateAdmin, ValidateAuth } from '@/core/jwt/jwt.decorator';
 import {
   BadRequestException,
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
   UploadedFile,
@@ -109,6 +110,13 @@ export class AuthController {
   @ValidateAuth()
   async getProfile(@GetUser('sub') userId: string) {
     return this.authGetProfileService.getProfile(userId);
+  }
+
+  @ApiOperation({ summary: 'Get User Profile by Email (Admin Only)' })
+  @Get('profile/:email')
+  @ValidateAdmin()
+  async getProfileByEmail(@Param('email') email: string) {
+    return this.authGetProfileService.getProfileByEmail(email);
   }
 
   @ApiOperation({ summary: 'Update profile' })

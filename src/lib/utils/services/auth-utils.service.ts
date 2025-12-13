@@ -1,5 +1,6 @@
 import { UserResponseDto } from '@/common/dto/user-response.dto';
 import { ENVEnum } from '@/common/enum/env.enum';
+import { successResponse, TResponse } from '@/common/utils/response.util';
 import { JWTPayload, TokenPair } from '@/core/jwt/jwt.interface';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
@@ -150,5 +151,144 @@ export class AuthUtilsService {
 
   async compare(value: string, hash: string): Promise<boolean> {
     return bcrypt.compare(value, hash);
+  }
+
+  async findUserBy(
+    key: 'id' | 'email',
+    value: string,
+  ): Promise<TResponse<any>> {
+    const where: any = {};
+    where[key] = value;
+
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where,
+      include: {
+        drivers: {
+          include: {
+            driverLicense: true,
+            vehicleRegistration: true,
+            transportCertificate: true,
+          },
+        },
+        veterinarians: true,
+        shelterAdminOf: true,
+        managerOf: true,
+      },
+    });
+
+    const { drivers, veterinarians, shelterAdminOf, managerOf, ...mainUser } =
+      user;
+    const sanitizedUser = await this.sanitizeUser(mainUser);
+
+    let roleData: any = null;
+    let isApproved = true;
+
+    switch (user.role) {
+      case 'DRIVER':
+        if (drivers) {
+          roleData = {
+            driverId: drivers.id,
+            phone: drivers.phone,
+            state: drivers.state,
+            address: drivers.address,
+            vehicleType: drivers.vehicleType,
+            vehicleCapacity: drivers.vehicleCapacity,
+            yearsOfExperience: drivers.yearsOfExperience,
+            previousExperience: drivers.previousExperience,
+            startTime: drivers.startTime,
+            endTime: drivers.endTime,
+            workingDays: drivers.workingDays,
+            driverLicense: {
+              id: drivers.driverLicenseId,
+              url: drivers.driverLicenseUrl,
+              status: drivers.driverLicenseStatus,
+            },
+            vehicleRegistration: {
+              id: drivers.vehicleRegistrationId,
+              url: drivers.vehicleRegistrationUrl,
+              status: drivers.vehicleRegistrationStatus,
+            },
+            transportCertificate: {
+              id: drivers.transportCertificateId,
+              url: drivers.transportCertificateUrl,
+              status: drivers.transportCertificateStatus,
+            },
+            status: drivers.status,
+          };
+          isApproved = drivers.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
+      case 'VETERINARIAN':
+        if (veterinarians) {
+          roleData = {
+            vetId: veterinarians.id,
+            phone: veterinarians.phone,
+            license: veterinarians.license,
+            description: veterinarians.description,
+            startTime: veterinarians.startTime,
+            endTime: veterinarians.endTime,
+            workingDays: veterinarians.workingDays,
+            status: veterinarians.status,
+          };
+          isApproved = veterinarians.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
+      case 'SHELTER_ADMIN':
+        if (shelterAdminOf) {
+          roleData = {
+            shelterId: shelterAdminOf.id,
+            name: shelterAdminOf.name,
+            address: shelterAdminOf.address,
+            phone: shelterAdminOf.phone,
+            description: shelterAdminOf.description,
+            startTime: shelterAdminOf.startTime,
+            endTime: shelterAdminOf.endTime,
+            workingDays: shelterAdminOf.workingDays,
+            status: shelterAdminOf.status,
+          };
+          isApproved = shelterAdminOf.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
+      case 'MANAGER':
+        if (managerOf) {
+          roleData = {
+            shelterId: managerOf.id,
+            name: managerOf.name,
+            address: managerOf.address,
+            phone: managerOf.phone,
+            description: managerOf.description,
+            startTime: managerOf.startTime,
+            endTime: managerOf.endTime,
+            workingDays: managerOf.workingDays,
+            status: managerOf.status,
+          };
+          isApproved = managerOf.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
+      default:
+        roleData = null;
+        isApproved = true;
+    }
+
+    return successResponse(
+      {
+        ...sanitizedUser,
+        roleData,
+        isApproved,
+      },
+      'User profile fetched successfully',
+    );
   }
 }
