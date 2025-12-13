@@ -186,6 +186,11 @@ export class AuthUtilsService {
     switch (user.role) {
       case 'DRIVER':
         if (drivers) {
+          const driverLicenseUrl = drivers.driverLicenseUrl ?? null;
+          const vehicleRegistrationUrl = drivers.vehicleRegistrationUrl ?? null;
+          const transportCertificateUrl =
+            drivers.transportCertificateUrl ?? null;
+
           roleData = {
             driverId: drivers.id,
             phone: drivers.phone,
@@ -198,19 +203,22 @@ export class AuthUtilsService {
             startTime: drivers.startTime,
             endTime: drivers.endTime,
             workingDays: drivers.workingDays,
+            needsDriverLicense: !driverLicenseUrl,
             driverLicense: {
-              id: drivers.driverLicenseId,
-              url: drivers.driverLicenseUrl,
+              id: drivers.driverLicenseId ?? null,
+              url: driverLicenseUrl,
               status: drivers.driverLicenseStatus,
             },
+            needsVehicleRegistration: !vehicleRegistrationUrl,
             vehicleRegistration: {
-              id: drivers.vehicleRegistrationId,
-              url: drivers.vehicleRegistrationUrl,
+              id: drivers.vehicleRegistrationId ?? null,
+              url: vehicleRegistrationUrl,
               status: drivers.vehicleRegistrationStatus,
             },
+            needsTransportCertificate: !transportCertificateUrl,
             transportCertificate: {
-              id: drivers.transportCertificateId,
-              url: drivers.transportCertificateUrl,
+              id: drivers.transportCertificateId ?? null,
+              url: transportCertificateUrl,
               status: drivers.transportCertificateStatus,
             },
             status: drivers.status,

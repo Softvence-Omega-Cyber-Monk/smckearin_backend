@@ -45,21 +45,30 @@ export function ValidateAdmin() {
 }
 
 export function ValidateShelterAdmin() {
-  return ValidateAuth(UserEnum.SHELTER_ADMIN, UserEnum.SUPER_ADMIN);
+  return ValidateAuth(
+    UserEnum.SHELTER_ADMIN,
+    UserEnum.ADMIN,
+    UserEnum.SUPER_ADMIN,
+  );
 }
 
 export function ValidateManager() {
   return ValidateAuth(
     UserEnum.MANAGER,
     UserEnum.SHELTER_ADMIN,
+    UserEnum.ADMIN,
     UserEnum.SUPER_ADMIN,
   );
 }
 
 export function ValidateVeterinarian() {
-  return ValidateAuth(UserEnum.VETERINARIAN, UserEnum.SUPER_ADMIN);
+  return ValidateAuth(
+    UserEnum.VETERINARIAN,
+    UserEnum.ADMIN,
+    UserEnum.SUPER_ADMIN,
+  );
 }
 
 export function ValidateDriver() {
-  return ValidateAuth(UserEnum.DRIVER, UserEnum.SUPER_ADMIN);
+  return ValidateAuth(UserEnum.DRIVER, UserEnum.ADMIN, UserEnum.SUPER_ADMIN);
 }
