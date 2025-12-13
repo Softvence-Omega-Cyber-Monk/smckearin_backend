@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum } from 'class-validator';
+import { IsBoolean, IsEnum } from 'class-validator';
 
 export enum DriverDocumentType {
   DRIVER_LICENSE = 'DRIVER_LICENSE',
@@ -24,4 +24,13 @@ export class UploadDocumentDto extends DriverDocumentDeleteDto {
     description: 'Dcoument',
   })
   document: Express.Multer.File;
+}
+
+export class DocumentApproveDto extends DriverDocumentDeleteDto {
+  @ApiProperty({
+    example: true,
+    description: 'Approved or rejected',
+  })
+  @IsBoolean()
+  approved: boolean;
 }

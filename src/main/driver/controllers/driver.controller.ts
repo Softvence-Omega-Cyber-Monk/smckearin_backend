@@ -15,6 +15,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Query,
   UploadedFile,
@@ -27,7 +28,11 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { DriverDocumentDeleteDto, UploadDocumentDto } from '../dto/driver.dto';
+import {
+  DocumentApproveDto,
+  DriverDocumentDeleteDto,
+  UploadDocumentDto,
+} from '../dto/driver.dto';
 import { GetApprovedDrivers } from '../dto/get-drivers.dto';
 import { GetDriverService } from '../services/get-driver.service';
 import { ManageDriverService } from '../services/manage-driver.service';
@@ -111,5 +116,18 @@ export class DriverController {
     dto.document = file;
 
     return this.manageDriverService.uploadDriverDocument(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Approve or reject driver document (admin only)' })
+  @ValidateAdmin()
+  @Patch('driver/:driverId/document/approve')
+  async approveOrRejectDriverDocument(
+    @Param('driverId') driverId: string,
+    @Body() dto: DocumentApproveDto,
+  ) {
+    return this.manageDriverService.approveOrRejectDriverDocument(
+      driverId,
+      dto,
+    );
   }
 }

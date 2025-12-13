@@ -8,6 +8,7 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApprovalStatus, UserRole } from '@prisma';
 import {
+  DocumentApproveDto,
   DriverDocumentDeleteDto,
   DriverDocumentType,
   UploadDocumentDto,
@@ -207,5 +208,66 @@ export class ManageDriverService {
     });
 
     return successResponse(uploadedFile, `${dto.type} uploaded successfully`);
+  }
+
+  @HandleError('Failed to approve or reject driver document')
+  async approveOrRejectDriverDocument(
+    driverId: string,
+    dto: DocumentApproveDto,
+  ) {
+    const driver = await this.prisma.client.driver.findUnique({
+      where: { id: driverId },
+      select: {
+        id: true,
+        driverLicenseId: true,
+        vehicleRegistrationId: true,
+        transportCertificateId: true,
+      },
+    });
+
+    if (!driver) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Driver not found');
+    }
+
+    const status = dto.approved
+      ? ApprovalStatus.APPROVED
+      : ApprovalStatus.REJECTED;
+
+    const updateMap = {
+      [DriverDocumentType.DRIVER_LICENSE]: {
+        fileId: driver.driverLicenseId,
+        data: {
+          driverLicenseStatus: status,
+        },
+      },
+      [DriverDocumentType.VEHICLE_REGISTRATION]: {
+        fileId: driver.vehicleRegistrationId,
+        data: {
+          vehicleRegistrationStatus: status,
+        },
+      },
+      [DriverDocumentType.TRANSPORT_CERTIFICATE]: {
+        fileId: driver.transportCertificateId,
+        data: {
+          transportCertificateStatus: status,
+        },
+      },
+    };
+
+    const config = updateMap[dto.type];
+
+    if (!config?.fileId) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Document not found');
+    }
+
+    await this.prisma.client.driver.update({
+      where: { id: driverId },
+      data: config.data,
+    });
+
+    return successResponse(
+      null,
+      `${dto.type} ${dto.approved ? 'approved' : 'rejected'} successfully`,
+    );
   }
 }
