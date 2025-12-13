@@ -18,11 +18,19 @@ export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 
 // GetUser decorator
 export const GetUser = createParamDecorator(
-  (data: keyof JWTPayload | undefined, ctx: ExecutionContext) => {
+  <K extends keyof JWTPayload>(
+    data: K | undefined,
+    ctx: ExecutionContext,
+  ): JWTPayload | JWTPayload[K] | undefined => {
     const request = ctx.switchToHttp().getRequest<RequestWithUser>();
-    const user = request.user as JWTPayload | undefined;
+    const user = request.user;
+
     if (!user) return undefined;
-    if (!data) return user;
+
+    if (!data) {
+      return user;
+    }
+
     return user[data];
   },
 );

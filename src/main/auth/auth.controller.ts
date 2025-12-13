@@ -113,6 +113,7 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Get User Profile by Email (Admin Only)' })
+  @ApiBearerAuth()
   @Get('profile/:email')
   @ValidateAdmin()
   async getProfileByEmail(@Param('email') email: string) {
@@ -121,7 +122,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Update profile' })
   @ApiBearerAuth()
-  @Patch(':id')
+  @Patch()
   @ValidateAuth()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('image'))

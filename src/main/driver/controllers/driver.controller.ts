@@ -1,11 +1,15 @@
 import { ApproveOrRejectDto } from '@/common/dto/approve-reject.dto';
 import {
+  GetUser,
   ValidateAdmin,
   ValidateAuth,
+  ValidateDriver,
   ValidateManager,
 } from '@/core/jwt/jwt.decorator';
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
+import { Controller, Delete, Get, Param, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { DriverDocumentDeleteDto } from '../dto/driver.dto';
 import { GetApprovedDrivers } from '../dto/get-drivers.dto';
 import { GetDriverService } from '../services/get-driver.service';
 import { ManageDriverService } from '../services/manage-driver.service';
@@ -55,5 +59,20 @@ export class DriverController {
   @Get('driver/:driverId/delete')
   async deleteDriver(@Param('driverId') driverId: string) {
     return this.manageDriverService.deleteDriver(driverId);
+  }
+
+  @ApiOperation({ summary: 'Delete driver document' })
+  @ValidateDriver()
+  @Delete('driver/:driverId/document/:type')
+  async deleteDriverDocument(
+    @Param('driverId') driverId: string,
+    @Param() dto: DriverDocumentDeleteDto,
+    @GetUser() authUser: JWTPayload,
+  ) {
+    return this.manageDriverService.deleteDriverDocument(
+      driverId,
+      authUser,
+      dto,
+    );
   }
 }
