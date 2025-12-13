@@ -34,6 +34,12 @@ export class AuthLoginService {
         lastLoginAt: new Date(),
         lastActiveAt: new Date(),
       },
+      include: {
+        drivers: true,
+        shelterAdminOf: true,
+        managerOf: true,
+        veterinarians: true,
+      },
     });
 
     // Generate token
@@ -43,13 +49,58 @@ export class AuthLoginService {
       sub: updatedUser.id,
     });
 
-    // Determine login type based on UserRole
+    // Determine login type
     const loginType = this.getLoginType(updatedUser.role);
+
+    // Determine dynamic isApproved
+    let isApproved = true;
+
+    switch (updatedUser.role) {
+      case 'DRIVER':
+        if (updatedUser.drivers) {
+          // A driver is approved only if their overall status is APPROVED
+          isApproved = updatedUser.drivers.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
+      case 'VETERINARIAN':
+        if (updatedUser.veterinarians) {
+          // A vet is approved only if their overall status is APPROVED
+          isApproved = updatedUser.veterinarians.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
+      case 'SHELTER_ADMIN':
+        if (updatedUser.shelterAdminOf) {
+          // Check the shelter's approval status
+          isApproved = updatedUser.shelterAdminOf.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
+      case 'MANAGER':
+        if (updatedUser.managerOf) {
+          // Check the shelter managed by the user
+          isApproved = updatedUser.managerOf.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
+      default:
+        isApproved = true;
+    }
 
     return successResponse(
       {
         user: await this.utils.sanitizeUser(updatedUser),
         loginType,
+        isApproved,
         role: updatedUser.role,
         token,
       },
@@ -57,7 +108,6 @@ export class AuthLoginService {
     );
   }
 
-  // Four login types mapped to roles
   private getLoginType(role: string): string {
     switch (role) {
       case 'SUPER_ADMIN':
