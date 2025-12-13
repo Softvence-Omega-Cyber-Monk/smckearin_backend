@@ -29,8 +29,8 @@ model User {
   otps          UserOtp[]
 
   // CHAT & CALL RELATIONS
-  conversationsInitiated PrivateConversation[]    @relation("ConversationInitiator")
-  conversationsReceived  PrivateConversation[]    @relation("ConversationReceiver")
+  conversationsInitiated PrivateConversation[]  @relation("ConversationInitiator")
+  conversationsReceived  PrivateConversation[]  @relation("ConversationReceiver")
   messagesSent           PrivateMessage[]
   messageStatuses        PrivateMessageStatus[]
 
