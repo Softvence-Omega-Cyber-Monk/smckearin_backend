@@ -169,7 +169,7 @@ export class ManageDriverService {
     }
 
     // Upload file
-    const uploadedFile = await this.s3.uploadFile(dto.file);
+    const uploadedFile = await this.s3.uploadFile(dto.document);
 
     const updateMap = {
       [DriverDocumentType.DRIVER_LICENSE]: {
@@ -206,6 +206,6 @@ export class ManageDriverService {
       data: config.data,
     });
 
-    return successResponse(null, `${dto.type} uploaded successfully`);
+    return successResponse(uploadedFile, `${dto.type} uploaded successfully`);
   }
 }

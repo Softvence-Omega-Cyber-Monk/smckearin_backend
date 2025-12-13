@@ -23,5 +23,5 @@ export class UploadDocumentDto extends DriverDocumentDeleteDto {
     format: 'binary',
     description: 'Dcoument',
   })
-  file: Express.Multer.File;
+  document: Express.Multer.File;
 }

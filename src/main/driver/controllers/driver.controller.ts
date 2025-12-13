@@ -9,6 +9,7 @@ import {
 } from '@/core/jwt/jwt.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -97,17 +98,17 @@ export class DriverController {
   @ValidateDriver()
   @ApiConsumes('multipart/form-data')
   @Post('driver/me/document/:type')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('document'))
   async uploadMyDriverDocument(
     @GetUser('sub') userId: string,
-    @Param() dto: UploadDocumentDto,
+    @Body() dto: UploadDocumentDto,
     @UploadedFile() file?: Express.Multer.File,
   ) {
     if (!file) {
       throw new AppError(HttpStatus.BAD_REQUEST, 'File is required');
     }
 
-    dto.file = file;
+    dto.document = file;
 
     return this.manageDriverService.uploadDriverDocument(userId, dto);
   }
