@@ -6,6 +6,7 @@ import { AuthLogoutService } from './services/auth-logout.service';
 import { AuthOtpService } from './services/auth-otp.service';
 import { AuthPasswordService } from './services/auth-password.service';
 import { AuthUpdateProfileService } from './services/auth-update-profile.service';
+import { AuthRegisterService } from './services/auth-register.service';
 
 @Module({
   imports: [],
@@ -17,6 +18,7 @@ import { AuthUpdateProfileService } from './services/auth-update-profile.service
     AuthPasswordService,
     AuthGetProfileService,
     AuthUpdateProfileService,
+    AuthRegisterService,
   ],
 })
 export class AuthModule {}

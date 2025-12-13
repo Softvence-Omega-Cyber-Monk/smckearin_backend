@@ -31,6 +31,7 @@ export type VeterinarianMinAggregateOutputType = {
   description: string | null
   startTime: Date | null
   endTime: Date | null
+  status: $Enums.ApprovalStatus | null
   userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -43,6 +44,7 @@ export type VeterinarianMaxAggregateOutputType = {
   description: string | null
   startTime: Date | null
   endTime: Date | null
+  status: $Enums.ApprovalStatus | null
   userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -56,6 +58,7 @@ export type VeterinarianCountAggregateOutputType = {
   startTime: number
   endTime: number
   workingDays: number
+  status: number
   userId: number
   createdAt: number
   updatedAt: number
@@ -70,6 +73,7 @@ export type VeterinarianMinAggregateInputType = {
   description?: true
   startTime?: true
   endTime?: true
+  status?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -82,6 +86,7 @@ export type VeterinarianMaxAggregateInputType = {
   description?: true
   startTime?: true
   endTime?: true
+  status?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -95,6 +100,7 @@ export type VeterinarianCountAggregateInputType = {
   startTime?: true
   endTime?: true
   workingDays?: true
+  status?: true
   userId?: true
   createdAt?: true
   updatedAt?: true
@@ -181,6 +187,7 @@ export type VeterinarianGroupByOutputType = {
   startTime: Date
   endTime: Date
   workingDays: $Enums.WorkingDay[]
+  status: $Enums.ApprovalStatus
   userId: string
   createdAt: Date
   updatedAt: Date
@@ -215,6 +222,7 @@ export type VeterinarianWhereInput = {
   startTime?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
   endTime?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
   workingDays?: Prisma.EnumWorkingDayNullableListFilter<"Veterinarian">
+  status?: Prisma.EnumApprovalStatusFilter<"Veterinarian"> | $Enums.ApprovalStatus
   userId?: Prisma.StringFilter<"Veterinarian"> | string
   createdAt?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
@@ -232,6 +240,7 @@ export type VeterinarianOrderByWithRelationInput = {
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
   workingDays?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -253,6 +262,7 @@ export type VeterinarianWhereUniqueInput = Prisma.AtLeast<{
   startTime?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
   endTime?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
   workingDays?: Prisma.EnumWorkingDayNullableListFilter<"Veterinarian">
+  status?: Prisma.EnumApprovalStatusFilter<"Veterinarian"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Veterinarian"> | Date | string
   vetClearanceRequests?: Prisma.VetClearanceRequestListRelationFilter
@@ -269,6 +279,7 @@ export type VeterinarianOrderByWithAggregationInput = {
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
   workingDays?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -288,6 +299,7 @@ export type VeterinarianScalarWhereWithAggregatesInput = {
   startTime?: Prisma.DateTimeWithAggregatesFilter<"Veterinarian"> | Date | string
   endTime?: Prisma.DateTimeWithAggregatesFilter<"Veterinarian"> | Date | string
   workingDays?: Prisma.EnumWorkingDayNullableListFilter<"Veterinarian">
+  status?: Prisma.EnumApprovalStatusWithAggregatesFilter<"Veterinarian"> | $Enums.ApprovalStatus
   userId?: Prisma.StringWithAggregatesFilter<"Veterinarian"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Veterinarian"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Veterinarian"> | Date | string
@@ -301,6 +313,7 @@ export type VeterinarianCreateInput = {
   startTime?: Date | string
   endTime?: Date | string
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   vetClearanceRequests?: Prisma.VetClearanceRequestCreateNestedManyWithoutVeterinarianInput
@@ -317,6 +330,7 @@ export type VeterinarianUncheckedCreateInput = {
   startTime?: Date | string
   endTime?: Date | string
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -333,6 +347,7 @@ export type VeterinarianUpdateInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vetClearanceRequests?: Prisma.VetClearanceRequestUpdateManyWithoutVeterinarianNestedInput
@@ -349,6 +364,7 @@ export type VeterinarianUncheckedUpdateInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -365,6 +381,7 @@ export type VeterinarianCreateManyInput = {
   startTime?: Date | string
   endTime?: Date | string
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -378,6 +395,7 @@ export type VeterinarianUpdateManyMutationInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -390,6 +408,7 @@ export type VeterinarianUncheckedUpdateManyInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -413,6 +432,7 @@ export type VeterinarianCountOrderByAggregateInput = {
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
   workingDays?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -425,6 +445,7 @@ export type VeterinarianMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -437,6 +458,7 @@ export type VeterinarianMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -537,6 +559,7 @@ export type VeterinarianCreateWithoutHealthReportsInput = {
   startTime?: Date | string
   endTime?: Date | string
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   vetClearanceRequests?: Prisma.VetClearanceRequestCreateNestedManyWithoutVeterinarianInput
@@ -552,6 +575,7 @@ export type VeterinarianUncheckedCreateWithoutHealthReportsInput = {
   startTime?: Date | string
   endTime?: Date | string
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -583,6 +607,7 @@ export type VeterinarianUpdateWithoutHealthReportsInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vetClearanceRequests?: Prisma.VetClearanceRequestUpdateManyWithoutVeterinarianNestedInput
@@ -598,6 +623,7 @@ export type VeterinarianUncheckedUpdateWithoutHealthReportsInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -613,6 +639,7 @@ export type VeterinarianCreateWithoutUserInput = {
   startTime?: Date | string
   endTime?: Date | string
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   vetClearanceRequests?: Prisma.VetClearanceRequestCreateNestedManyWithoutVeterinarianInput
@@ -628,6 +655,7 @@ export type VeterinarianUncheckedCreateWithoutUserInput = {
   startTime?: Date | string
   endTime?: Date | string
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedCreateNestedManyWithoutVeterinarianInput
@@ -659,6 +687,7 @@ export type VeterinarianUpdateWithoutUserInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vetClearanceRequests?: Prisma.VetClearanceRequestUpdateManyWithoutVeterinarianNestedInput
@@ -674,6 +703,7 @@ export type VeterinarianUncheckedUpdateWithoutUserInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedUpdateManyWithoutVeterinarianNestedInput
@@ -689,6 +719,7 @@ export type VeterinarianCreateWithoutVetClearanceRequestsInput = {
   startTime?: Date | string
   endTime?: Date | string
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutVeterinarianInput
@@ -704,6 +735,7 @@ export type VeterinarianUncheckedCreateWithoutVetClearanceRequestsInput = {
   startTime?: Date | string
   endTime?: Date | string
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -735,6 +767,7 @@ export type VeterinarianUpdateWithoutVetClearanceRequestsInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutVeterinarianNestedInput
@@ -750,6 +783,7 @@ export type VeterinarianUncheckedUpdateWithoutVetClearanceRequestsInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -765,6 +799,7 @@ export type VeterinarianCreateWithoutVetAppointmentsInput = {
   startTime?: Date | string
   endTime?: Date | string
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   vetClearanceRequests?: Prisma.VetClearanceRequestCreateNestedManyWithoutVeterinarianInput
@@ -780,6 +815,7 @@ export type VeterinarianUncheckedCreateWithoutVetAppointmentsInput = {
   startTime?: Date | string
   endTime?: Date | string
   workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
   userId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -811,6 +847,7 @@ export type VeterinarianUpdateWithoutVetAppointmentsInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vetClearanceRequests?: Prisma.VetClearanceRequestUpdateManyWithoutVeterinarianNestedInput
@@ -826,6 +863,7 @@ export type VeterinarianUncheckedUpdateWithoutVetAppointmentsInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -890,6 +928,7 @@ export type VeterinarianSelect<ExtArgs extends runtime.Types.Extensions.Internal
   startTime?: boolean
   endTime?: boolean
   workingDays?: boolean
+  status?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -908,6 +947,7 @@ export type VeterinarianSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   startTime?: boolean
   endTime?: boolean
   workingDays?: boolean
+  status?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -922,6 +962,7 @@ export type VeterinarianSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   startTime?: boolean
   endTime?: boolean
   workingDays?: boolean
+  status?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -936,12 +977,13 @@ export type VeterinarianSelectScalar = {
   startTime?: boolean
   endTime?: boolean
   workingDays?: boolean
+  status?: boolean
   userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type VeterinarianOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "phone" | "license" | "description" | "startTime" | "endTime" | "workingDays" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["veterinarian"]>
+export type VeterinarianOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "phone" | "license" | "description" | "startTime" | "endTime" | "workingDays" | "status" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["veterinarian"]>
 export type VeterinarianInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   vetClearanceRequests?: boolean | Prisma.Veterinarian$vetClearanceRequestsArgs<ExtArgs>
   vetAppointments?: boolean | Prisma.Veterinarian$vetAppointmentsArgs<ExtArgs>
@@ -972,6 +1014,7 @@ export type $VeterinarianPayload<ExtArgs extends runtime.Types.Extensions.Intern
     startTime: Date
     endTime: Date
     workingDays: $Enums.WorkingDay[]
+    status: $Enums.ApprovalStatus
     userId: string
     createdAt: Date
     updatedAt: Date
@@ -1409,6 +1452,7 @@ export interface VeterinarianFieldRefs {
   readonly startTime: Prisma.FieldRef<"Veterinarian", 'DateTime'>
   readonly endTime: Prisma.FieldRef<"Veterinarian", 'DateTime'>
   readonly workingDays: Prisma.FieldRef<"Veterinarian", 'WorkingDay[]'>
+  readonly status: Prisma.FieldRef<"Veterinarian", 'ApprovalStatus'>
   readonly userId: Prisma.FieldRef<"Veterinarian", 'String'>
   readonly createdAt: Prisma.FieldRef<"Veterinarian", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Veterinarian", 'DateTime'>

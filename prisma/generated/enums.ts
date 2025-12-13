@@ -46,6 +46,15 @@ export const SPECIES = {
 export type SPECIES = (typeof SPECIES)[keyof typeof SPECIES]
 
 
+export const ApprovalStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ApprovalStatus = (typeof ApprovalStatus)[keyof typeof ApprovalStatus]
+
+
 export const FileType = {
   image: 'image',
   docs: 'docs',

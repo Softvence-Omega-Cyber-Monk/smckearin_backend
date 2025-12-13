@@ -150,10 +150,14 @@ export const DriverScalarFieldEnum = {
   workingDays: 'workingDays',
   driverLicenseId: 'driverLicenseId',
   driverLicenseUrl: 'driverLicenseUrl',
+  driverLicenseStatus: 'driverLicenseStatus',
   vehicleRegistrationId: 'vehicleRegistrationId',
   vehicleRegistrationUrl: 'vehicleRegistrationUrl',
+  vehicleRegistrationStatus: 'vehicleRegistrationStatus',
   transportCertificateId: 'transportCertificateId',
   transportCertificateUrl: 'transportCertificateUrl',
+  transportCertificateStatus: 'transportCertificateStatus',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -281,6 +285,7 @@ export const ShelterScalarFieldEnum = {
   startTime: 'startTime',
   endTime: 'endTime',
   workingDays: 'workingDays',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -371,6 +376,7 @@ export const VeterinarianScalarFieldEnum = {
   startTime: 'startTime',
   endTime: 'endTime',
   workingDays: 'workingDays',
+  status: 'status',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

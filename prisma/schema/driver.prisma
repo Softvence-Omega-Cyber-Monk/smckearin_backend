@@ -21,19 +21,25 @@ model Driver {
   workingDays WorkingDay[]
 
   // Driver License
-  driverLicenseId  String?       @unique
-  driverLicenseUrl String?
-  driverLicense    FileInstance? @relation("DriverLicense", fields: [driverLicenseId], references: [id], onDelete: SetNull)
+  driverLicenseId     String?        @unique
+  driverLicenseUrl    String?
+  driverLicense       FileInstance?  @relation("DriverLicense", fields: [driverLicenseId], references: [id], onDelete: SetNull)
+  driverLicenseStatus ApprovalStatus @default(PENDING)
 
   // Vehicle Registration
-  vehicleRegistrationId  String?       @unique
-  vehicleRegistrationUrl String?
-  vehicleRegistration    FileInstance? @relation("VehicleRegistration", fields: [vehicleRegistrationId], references: [id], onDelete: SetNull)
+  vehicleRegistrationId     String?        @unique
+  vehicleRegistrationUrl    String?
+  vehicleRegistration       FileInstance?  @relation("VehicleRegistration", fields: [vehicleRegistrationId], references: [id], onDelete: SetNull)
+  vehicleRegistrationStatus ApprovalStatus @default(PENDING)
 
   // Animal Transport Certificate
-  transportCertificateId  String?       @unique
-  transportCertificateUrl String?
-  transportCertificate    FileInstance? @relation("TransportCertificate", fields: [transportCertificateId], references: [id], onDelete: SetNull)
+  transportCertificateId     String?        @unique
+  transportCertificateUrl    String?
+  transportCertificate       FileInstance?  @relation("TransportCertificate", fields: [transportCertificateId], references: [id], onDelete: SetNull)
+  transportCertificateStatus ApprovalStatus @default(PENDING)
+
+  // Overall driver approval status
+  status ApprovalStatus @default(PENDING)
 
   // Transports
   transports Transport[]

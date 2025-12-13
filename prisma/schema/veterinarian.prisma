@@ -18,6 +18,8 @@ model Veterinarian {
   // Health Reports
   healthReports HealthReport[]
 
+  status ApprovalStatus @default(PENDING)
+
   userId String @unique
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
