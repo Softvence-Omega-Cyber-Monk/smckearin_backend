@@ -1,22 +1,23 @@
 import { GetUser, ValidateAuth } from '@/core/jwt/jwt.decorator';
-import { MulterService } from '@/lib/file/services/multer.service';
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
   Patch,
   Post,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiBearerAuth,
   ApiConsumes,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { FileType } from '@prisma';
+import { DriverRegisterDto } from './dto/driver-register.dto';
 import { LoginDto } from './dto/login.dto';
 import { LogoutDto, RefreshTokenDto } from './dto/logout.dto';
 import { ResendOtpDto, VerifyOTPDto } from './dto/otp.dto';
@@ -115,12 +116,7 @@ export class AuthController {
   @Patch(':id')
   @ValidateAuth()
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(
-    FileInterceptor(
-      'image',
-      new MulterService().createMulterOptions('./temp', 'temp', FileType.image),
-    ),
-  )
+  @UseInterceptors(FileInterceptor('image'))
   update(
     @GetUser('sub') id: string,
     @Body() dto: UpdateProfileDto,
@@ -133,5 +129,42 @@ export class AuthController {
   @Post('register')
   async register(@Body() body: RegisterDto) {
     return this.authRegisterService.register(body);
+  }
+
+  @ApiOperation({ summary: 'Register as driver' })
+  @Post('driver/register')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(AnyFilesInterceptor())
+  async driverRegister(
+    @Body() body: DriverRegisterDto,
+    @UploadedFiles() files?: Express.Multer.File[],
+  ) {
+    if (!files || files.length < 3) {
+      throw new BadRequestException(
+        'driverLicense, vehicleRegistration, and transportCertificate are required',
+      );
+    }
+
+    // Map files to DTO
+    files.forEach((file) => {
+      if (file.fieldname === 'driverLicense') body.driverLicense = file;
+      if (file.fieldname === 'vehicleRegistration')
+        body.vehicleRegistration = file;
+      if (file.fieldname === 'transportCertificate')
+        body.transportCertificate = file;
+    });
+
+    // Ensure all required files are actually uploaded
+    if (
+      !body.driverLicense ||
+      !body.vehicleRegistration ||
+      !body.transportCertificate
+    ) {
+      throw new BadRequestException(
+        'driverLicense, vehicleRegistration, and transportCertificate are required',
+      );
+    }
+
+    return this.authRegisterService.driverRegister(body);
   }
 }
