@@ -16,3 +16,12 @@ export class DriverDocumentDeleteDto {
   @IsEnum(DriverDocumentType)
   type: DriverDocumentType;
 }
+
+export class UploadDocumentDto extends DriverDocumentDeleteDto {
+  @ApiProperty({
+    type: 'string',
+    format: 'binary',
+    description: 'Dcoument',
+  })
+  file: Express.Multer.File;
+}

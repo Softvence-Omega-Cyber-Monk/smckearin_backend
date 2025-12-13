@@ -1,4 +1,5 @@
 import { ApproveOrRejectDto } from '@/common/dto/approve-reject.dto';
+import { AppError } from '@/core/error/handle-error.app';
 import {
   GetUser,
   ValidateAdmin,
@@ -7,9 +8,25 @@ import {
   ValidateManager,
 } from '@/core/jwt/jwt.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
-import { Controller, Delete, Get, Param, Query } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { DriverDocumentDeleteDto } from '../dto/driver.dto';
+import {
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { DriverDocumentDeleteDto, UploadDocumentDto } from '../dto/driver.dto';
 import { GetApprovedDrivers } from '../dto/get-drivers.dto';
 import { GetDriverService } from '../services/get-driver.service';
 import { ManageDriverService } from '../services/manage-driver.service';
@@ -74,5 +91,24 @@ export class DriverController {
       authUser,
       dto,
     );
+  }
+
+  @ApiOperation({ summary: 'Driver upload own document' })
+  @ValidateDriver()
+  @ApiConsumes('multipart/form-data')
+  @Post('driver/me/document/:type')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadMyDriverDocument(
+    @GetUser('sub') userId: string,
+    @Param() dto: UploadDocumentDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new AppError(HttpStatus.BAD_REQUEST, 'File is required');
+    }
+
+    dto.file = file;
+
+    return this.manageDriverService.uploadDriverDocument(userId, dto);
   }
 }

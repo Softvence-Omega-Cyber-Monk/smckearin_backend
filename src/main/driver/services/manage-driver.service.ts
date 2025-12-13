@@ -7,7 +7,11 @@ import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApprovalStatus, UserRole } from '@prisma';
-import { DriverDocumentDeleteDto, DriverDocumentType } from '../dto/driver.dto';
+import {
+  DriverDocumentDeleteDto,
+  DriverDocumentType,
+  UploadDocumentDto,
+} from '../dto/driver.dto';
 
 @Injectable()
 export class ManageDriverService {
@@ -132,5 +136,76 @@ export class ManageDriverService {
     await this.s3.deleteFile(config.fileId);
 
     return successResponse(null, `${dto.type} deleted successfully`);
+  }
+
+  @HandleError('Failed to upload driver document')
+  async uploadDriverDocument(userId: string, dto: UploadDocumentDto) {
+    const driver = await this.prisma.client.driver.findUnique({
+      where: { userId },
+      include: {
+        driverLicense: true,
+        vehicleRegistration: true,
+        transportCertificate: true,
+      },
+    });
+
+    if (!driver) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Driver profile not found');
+    }
+
+    // Delete previous file
+    if (dto.type === DriverDocumentType.DRIVER_LICENSE) {
+      if (driver.driverLicenseId) {
+        await this.s3.deleteFile(driver.driverLicenseId);
+      }
+    } else if (dto.type === DriverDocumentType.VEHICLE_REGISTRATION) {
+      if (driver.vehicleRegistrationId) {
+        await this.s3.deleteFile(driver.vehicleRegistrationId);
+      }
+    } else if (dto.type === DriverDocumentType.TRANSPORT_CERTIFICATE) {
+      if (driver.transportCertificateId) {
+        await this.s3.deleteFile(driver.transportCertificateId);
+      }
+    }
+
+    // Upload file
+    const uploadedFile = await this.s3.uploadFile(dto.file);
+
+    const updateMap = {
+      [DriverDocumentType.DRIVER_LICENSE]: {
+        data: {
+          driverLicenseId: uploadedFile.id,
+          driverLicenseUrl: uploadedFile.url,
+          driverLicenseStatus: ApprovalStatus.PENDING,
+        },
+      },
+      [DriverDocumentType.VEHICLE_REGISTRATION]: {
+        data: {
+          vehicleRegistrationId: uploadedFile.id,
+          vehicleRegistrationUrl: uploadedFile.url,
+          vehicleRegistrationStatus: ApprovalStatus.PENDING,
+        },
+      },
+      [DriverDocumentType.TRANSPORT_CERTIFICATE]: {
+        data: {
+          transportCertificateId: uploadedFile.id,
+          transportCertificateUrl: uploadedFile.url,
+          transportCertificateStatus: ApprovalStatus.PENDING,
+        },
+      },
+    };
+
+    const config = updateMap[dto.type];
+
+    if (!config) {
+      throw new AppError(HttpStatus.BAD_REQUEST, 'Invalid document type');
+    }
+
+    await this.prisma.client.driver.update({
+      where: { id: driver.id },
+      data: config.data,
+    });
+
+    return successResponse(null, `${dto.type} uploaded successfully`);
   }
 }
