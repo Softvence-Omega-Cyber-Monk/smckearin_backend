@@ -127,3 +127,8 @@ export type VetAppointment = Prisma.VetAppointmentModel
  * 
  */
 export type Veterinarian = Prisma.VeterinarianModel
+/**
+ * Model VetDocument
+ * 
+ */
+export type VetDocument = Prisma.VetDocumentModel

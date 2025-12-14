@@ -43,6 +43,9 @@ export class SuperAdminService implements OnModuleInit {
           isVerified: true,
           lastLoginAt: new Date(),
           lastActiveAt: new Date(),
+          notificationSettings: {
+            create: {},
+          },
         },
       });
       this.logger.log(

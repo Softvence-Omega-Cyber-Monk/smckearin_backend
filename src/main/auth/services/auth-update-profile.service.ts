@@ -1,10 +1,11 @@
 import { successResponse } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { AuthUtilsService } from '@/lib/utils/services/auth-utils.service';
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { FileInstance } from '@prisma';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
 
@@ -18,16 +19,19 @@ export class AuthUpdateProfileService {
 
   @HandleError('Failed to update profile', 'User')
   async updateProfile(
-    userId: string,
+    authUser: JWTPayload,
     dto: UpdateProfileDto,
     file?: Express.Multer.File,
   ) {
-    const user = await this.prisma.client.user.findUnique({
-      where: { id: userId },
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: authUser.sub },
     });
 
-    if (!user) {
-      throw new AppError(404, 'User not found');
+    if (user.role === 'VETERINARIAN' || user.role === 'DRIVER') {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Drivers and veterinarians cannot update their profile',
+      );
     }
 
     // * if image is provided, upload to S3 and update user
@@ -41,7 +45,7 @@ export class AuthUpdateProfileService {
     }
 
     const updatedUser = await this.prisma.client.user.update({
-      where: { id: userId },
+      where: { id: user.id },
       data: {
         name: dto.name?.trim() ? dto.name.trim() : user.name,
         ...(fileInstance && {

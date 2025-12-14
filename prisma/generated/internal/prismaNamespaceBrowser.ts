@@ -68,7 +68,8 @@ export const ModelName = {
   User: 'User',
   VetClearanceRequest: 'VetClearanceRequest',
   VetAppointment: 'VetAppointment',
-  Veterinarian: 'Veterinarian'
+  Veterinarian: 'Veterinarian',
+  VetDocument: 'VetDocument'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -228,6 +229,8 @@ export const NotificationSettingsScalarFieldEnum = {
   smsNotifications: 'smsNotifications',
   certificateNotifications: 'certificateNotifications',
   appointmentNotifications: 'appointmentNotifications',
+  tripNotifications: 'tripNotifications',
+  paymentNotifications: 'paymentNotifications',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -383,6 +386,20 @@ export const VeterinarianScalarFieldEnum = {
 } as const
 
 export type VeterinarianScalarFieldEnum = (typeof VeterinarianScalarFieldEnum)[keyof typeof VeterinarianScalarFieldEnum]
+
+
+export const VetDocumentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  vetId: 'vetId',
+  documentId: 'documentId',
+  documentUrl: 'documentUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VetDocumentScalarFieldEnum = (typeof VetDocumentScalarFieldEnum)[keyof typeof VetDocumentScalarFieldEnum]
 
 
 export const SortOrder = {

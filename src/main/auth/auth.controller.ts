@@ -36,6 +36,7 @@ import { AuthOtpService } from './services/auth-otp.service';
 import { AuthPasswordService } from './services/auth-password.service';
 import { AuthRegisterService } from './services/auth-register.service';
 import { AuthUpdateProfileService } from './services/auth-update-profile.service';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -49,6 +50,49 @@ export class AuthController {
     private readonly authUpdateProfileService: AuthUpdateProfileService,
     private readonly authRegisterService: AuthRegisterService,
   ) {}
+
+  @ApiOperation({ summary: 'Register as shelter or vet' })
+  @Post('register')
+  async register(@Body() body: RegisterDto) {
+    return this.authRegisterService.register(body);
+  }
+
+  @ApiOperation({ summary: 'Register as driver' })
+  @Post('driver/register')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(AnyFilesInterceptor())
+  async driverRegister(
+    @Body() body: DriverRegisterDto,
+    @UploadedFiles() files?: Express.Multer.File[],
+  ) {
+    if (!files || files.length < 3) {
+      throw new BadRequestException(
+        'driverLicense, vehicleRegistration, and transportCertificate are required',
+      );
+    }
+
+    // Map files to DTO
+    files.forEach((file) => {
+      if (file.fieldname === 'driverLicense') body.driverLicense = file;
+      if (file.fieldname === 'vehicleRegistration')
+        body.vehicleRegistration = file;
+      if (file.fieldname === 'transportCertificate')
+        body.transportCertificate = file;
+    });
+
+    // Ensure all required files are actually uploaded
+    if (
+      !body.driverLicense ||
+      !body.vehicleRegistration ||
+      !body.transportCertificate
+    ) {
+      throw new BadRequestException(
+        'driverLicense, vehicleRegistration, and transportCertificate are required',
+      );
+    }
+
+    return this.authRegisterService.driverRegister(body);
+  }
 
   @ApiOperation({ summary: 'Verify OTP after Registration or Login' })
   @Post('verify-otp')
@@ -120,60 +164,19 @@ export class AuthController {
     return this.authGetProfileService.getProfileByEmail(email);
   }
 
-  @ApiOperation({ summary: 'Update profile' })
+  @ApiOperation({
+    summary: 'Update Admin / Super Admin / Manager / Shelter Admin profile',
+  })
   @ApiBearerAuth()
   @Patch()
   @ValidateAuth()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('image'))
   update(
-    @GetUser('sub') id: string,
+    @GetUser() authUser: JWTPayload,
     @Body() dto: UpdateProfileDto,
     @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.authUpdateProfileService.updateProfile(id, dto, file);
-  }
-
-  @ApiOperation({ summary: 'Register as shelter or vet' })
-  @Post('register')
-  async register(@Body() body: RegisterDto) {
-    return this.authRegisterService.register(body);
-  }
-
-  @ApiOperation({ summary: 'Register as driver' })
-  @Post('driver/register')
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(AnyFilesInterceptor())
-  async driverRegister(
-    @Body() body: DriverRegisterDto,
-    @UploadedFiles() files?: Express.Multer.File[],
-  ) {
-    if (!files || files.length < 3) {
-      throw new BadRequestException(
-        'driverLicense, vehicleRegistration, and transportCertificate are required',
-      );
-    }
-
-    // Map files to DTO
-    files.forEach((file) => {
-      if (file.fieldname === 'driverLicense') body.driverLicense = file;
-      if (file.fieldname === 'vehicleRegistration')
-        body.vehicleRegistration = file;
-      if (file.fieldname === 'transportCertificate')
-        body.transportCertificate = file;
-    });
-
-    // Ensure all required files are actually uploaded
-    if (
-      !body.driverLicense ||
-      !body.vehicleRegistration ||
-      !body.transportCertificate
-    ) {
-      throw new BadRequestException(
-        'driverLicense, vehicleRegistration, and transportCertificate are required',
-      );
-    }
-
-    return this.authRegisterService.driverRegister(body);
+    return this.authUpdateProfileService.updateProfile(authUser, dto, file);
   }
 }

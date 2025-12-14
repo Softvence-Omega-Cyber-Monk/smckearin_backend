@@ -170,7 +170,11 @@ export class AuthUtilsService {
             transportCertificate: true,
           },
         },
-        veterinarians: true,
+        veterinarians: {
+          include: {
+            vetDocuments: true,
+          },
+        },
         shelterAdminOf: true,
         managerOf: true,
       },
@@ -246,6 +250,7 @@ export class AuthUtilsService {
             endTime: veterinarians.endTime,
             workingDays: veterinarians.workingDays,
             status: veterinarians.status,
+            vetDocuments: veterinarians.vetDocuments,
           };
           isApproved = veterinarians.status === 'APPROVED';
         } else {
