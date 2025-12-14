@@ -5,6 +5,7 @@ import { OtpType } from '@prisma';
 import * as he from 'he';
 import * as nodemailer from 'nodemailer';
 import { MailService } from '../mail.service';
+import { invitationTemplate } from '../templates/invitation.template';
 import { otpTemplate } from '../templates/otp.template';
 import { passwordResetConfirmationTemplate } from '../templates/reset-password-confirm.template';
 import { resetPasswordLinkTemplate } from '../templates/reset-password-link.template';
@@ -100,6 +101,30 @@ export class AuthMailService {
       subject,
       passwordResetConfirmationTemplate(message),
       message,
+    );
+  }
+
+  async sendAdminInvitationEmail(
+    to: string,
+    name: string,
+    password: string,
+    options: EmailOptions = {},
+  ): Promise<nodemailer.SentMessageInfo> {
+    const subject = options.subject || 'Invitation to Join Administration Team';
+    const loginLink = `${this.frontendUrl}/login`;
+
+    return this.sendEmail(
+      to,
+      subject,
+      invitationTemplate({
+        title: 'Welcome to the Team',
+        name,
+        email: to,
+        password,
+        loginLink,
+        footer: 'Please do not share your credentials with anyone.',
+      }),
+      `You have been invited as an Admin.\nEmail: ${to}\nPassword: ${password}\nLogin here: ${loginLink}`,
     );
   }
 }
