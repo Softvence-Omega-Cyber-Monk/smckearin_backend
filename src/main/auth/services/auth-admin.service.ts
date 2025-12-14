@@ -21,7 +21,7 @@ export class AuthAdminService {
   @HandleError('Failed to fetch admins')
   async getAdmins() {
     const admins = await this.prisma.client.user.findMany({
-      where: { role: UserEnum.SHELTER_ADMIN },
+      where: { role: { in: [UserEnum.ADMIN, UserEnum.SUPER_ADMIN] } },
     });
     return successResponse(admins, 'Admins fetched successfully');
   }

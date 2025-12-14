@@ -7,6 +7,7 @@ import { AuthPasswordController } from './controllers/auth-password.controller';
 import { AuthProfileController } from './controllers/auth-profile.controller';
 import { AuthRegistrationController } from './controllers/auth-registration.controller';
 import { AuthSettingsController } from './controllers/auth-settings.controller';
+import { AuthShelterController } from './controllers/auth-shelter.controller';
 import { AuthAdminService } from './services/auth-admin.service';
 import { AuthGetProfileService } from './services/auth-get-profile.service';
 import { AuthLoginService } from './services/auth-login.service';
@@ -16,6 +17,7 @@ import { AuthOtpService } from './services/auth-otp.service';
 import { AuthPasswordService } from './services/auth-password.service';
 import { AuthRegisterService } from './services/auth-register.service';
 import { AuthSettingService } from './services/auth-setting.service';
+import { AuthShelterService } from './services/auth-shelter.service';
 import { AuthUpdateProfileService } from './services/auth-update-profile.service';
 
 @Module({
@@ -29,6 +31,7 @@ import { AuthUpdateProfileService } from './services/auth-update-profile.service
     AuthNotificationController,
     AuthSettingsController,
     AuthAdminController,
+    AuthShelterController,
   ],
   providers: [
     AuthLoginService,
@@ -41,6 +44,7 @@ import { AuthUpdateProfileService } from './services/auth-update-profile.service
     AuthNotificationService,
     AuthSettingService,
     AuthAdminService,
+    AuthShelterService,
   ],
 })
 export class AuthModule {}
