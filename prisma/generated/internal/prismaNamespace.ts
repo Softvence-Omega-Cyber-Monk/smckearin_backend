@@ -2174,6 +2174,7 @@ export const VetDocumentScalarFieldEnum = {
   vetId: 'vetId',
   documentId: 'documentId',
   documentUrl: 'documentUrl',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

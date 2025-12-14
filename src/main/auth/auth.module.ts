@@ -8,6 +8,7 @@ import { AuthPasswordService } from './services/auth-password.service';
 import { AuthUpdateProfileService } from './services/auth-update-profile.service';
 import { AuthRegisterService } from './services/auth-register.service';
 import { AuthNotificationService } from './services/auth-notification.service';
+import { AuthSettingService } from './services/auth-setting.service';
 
 @Module({
   imports: [],
@@ -21,6 +22,7 @@ import { AuthNotificationService } from './services/auth-notification.service';
     AuthUpdateProfileService,
     AuthRegisterService,
     AuthNotificationService,
+    AuthSettingService,
   ],
 })
 export class AuthModule {}

@@ -31,6 +31,7 @@ export type VetDocumentMinAggregateOutputType = {
   vetId: string | null
   documentId: string | null
   documentUrl: string | null
+  status: $Enums.ApprovalStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -42,6 +43,7 @@ export type VetDocumentMaxAggregateOutputType = {
   vetId: string | null
   documentId: string | null
   documentUrl: string | null
+  status: $Enums.ApprovalStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -53,6 +55,7 @@ export type VetDocumentCountAggregateOutputType = {
   vetId: number
   documentId: number
   documentUrl: number
+  status: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -66,6 +69,7 @@ export type VetDocumentMinAggregateInputType = {
   vetId?: true
   documentId?: true
   documentUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -77,6 +81,7 @@ export type VetDocumentMaxAggregateInputType = {
   vetId?: true
   documentId?: true
   documentUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -88,6 +93,7 @@ export type VetDocumentCountAggregateInputType = {
   vetId?: true
   documentId?: true
   documentUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -172,6 +178,7 @@ export type VetDocumentGroupByOutputType = {
   vetId: string
   documentId: string
   documentUrl: string
+  status: $Enums.ApprovalStatus
   createdAt: Date
   updatedAt: Date
   _count: VetDocumentCountAggregateOutputType | null
@@ -204,6 +211,7 @@ export type VetDocumentWhereInput = {
   vetId?: Prisma.StringFilter<"VetDocument"> | string
   documentId?: Prisma.StringFilter<"VetDocument"> | string
   documentUrl?: Prisma.StringFilter<"VetDocument"> | string
+  status?: Prisma.EnumApprovalStatusFilter<"VetDocument"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFilter<"VetDocument"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VetDocument"> | Date | string
   vet?: Prisma.XOR<Prisma.VeterinarianScalarRelationFilter, Prisma.VeterinarianWhereInput>
@@ -217,6 +225,7 @@ export type VetDocumentOrderByWithRelationInput = {
   vetId?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   documentUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   vet?: Prisma.VeterinarianOrderByWithRelationInput
@@ -233,6 +242,7 @@ export type VetDocumentWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.StringFilter<"VetDocument"> | string
   vetId?: Prisma.StringFilter<"VetDocument"> | string
   documentUrl?: Prisma.StringFilter<"VetDocument"> | string
+  status?: Prisma.EnumApprovalStatusFilter<"VetDocument"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFilter<"VetDocument"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VetDocument"> | Date | string
   vet?: Prisma.XOR<Prisma.VeterinarianScalarRelationFilter, Prisma.VeterinarianWhereInput>
@@ -246,6 +256,7 @@ export type VetDocumentOrderByWithAggregationInput = {
   vetId?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   documentUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.VetDocumentCountOrderByAggregateInput
@@ -263,6 +274,7 @@ export type VetDocumentScalarWhereWithAggregatesInput = {
   vetId?: Prisma.StringWithAggregatesFilter<"VetDocument"> | string
   documentId?: Prisma.StringWithAggregatesFilter<"VetDocument"> | string
   documentUrl?: Prisma.StringWithAggregatesFilter<"VetDocument"> | string
+  status?: Prisma.EnumApprovalStatusWithAggregatesFilter<"VetDocument"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"VetDocument"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"VetDocument"> | Date | string
 }
@@ -272,6 +284,7 @@ export type VetDocumentCreateInput = {
   name: string
   type: string
   documentUrl: string
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   vet: Prisma.VeterinarianCreateNestedOneWithoutVetDocumentsInput
@@ -285,6 +298,7 @@ export type VetDocumentUncheckedCreateInput = {
   vetId: string
   documentId: string
   documentUrl: string
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -294,6 +308,7 @@ export type VetDocumentUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vet?: Prisma.VeterinarianUpdateOneRequiredWithoutVetDocumentsNestedInput
@@ -307,6 +322,7 @@ export type VetDocumentUncheckedUpdateInput = {
   vetId?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -318,6 +334,7 @@ export type VetDocumentCreateManyInput = {
   vetId: string
   documentId: string
   documentUrl: string
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -327,6 +344,7 @@ export type VetDocumentUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -338,6 +356,7 @@ export type VetDocumentUncheckedUpdateManyInput = {
   vetId?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -364,6 +383,7 @@ export type VetDocumentCountOrderByAggregateInput = {
   vetId?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   documentUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -375,6 +395,7 @@ export type VetDocumentMaxOrderByAggregateInput = {
   vetId?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   documentUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -386,6 +407,7 @@ export type VetDocumentMinOrderByAggregateInput = {
   vetId?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   documentUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -469,6 +491,7 @@ export type VetDocumentCreateWithoutDocumentInput = {
   name: string
   type: string
   documentUrl: string
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   vet: Prisma.VeterinarianCreateNestedOneWithoutVetDocumentsInput
@@ -480,6 +503,7 @@ export type VetDocumentUncheckedCreateWithoutDocumentInput = {
   type: string
   vetId: string
   documentUrl: string
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -505,6 +529,7 @@ export type VetDocumentUpdateWithoutDocumentInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   vet?: Prisma.VeterinarianUpdateOneRequiredWithoutVetDocumentsNestedInput
@@ -516,6 +541,7 @@ export type VetDocumentUncheckedUpdateWithoutDocumentInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   vetId?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -525,6 +551,7 @@ export type VetDocumentCreateWithoutVetInput = {
   name: string
   type: string
   documentUrl: string
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   document: Prisma.FileInstanceCreateNestedOneWithoutVetDocumentsInput
@@ -536,6 +563,7 @@ export type VetDocumentUncheckedCreateWithoutVetInput = {
   type: string
   documentId: string
   documentUrl: string
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -576,6 +604,7 @@ export type VetDocumentScalarWhereInput = {
   vetId?: Prisma.StringFilter<"VetDocument"> | string
   documentId?: Prisma.StringFilter<"VetDocument"> | string
   documentUrl?: Prisma.StringFilter<"VetDocument"> | string
+  status?: Prisma.EnumApprovalStatusFilter<"VetDocument"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFilter<"VetDocument"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VetDocument"> | Date | string
 }
@@ -586,6 +615,7 @@ export type VetDocumentCreateManyVetInput = {
   type: string
   documentId: string
   documentUrl: string
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -595,6 +625,7 @@ export type VetDocumentUpdateWithoutVetInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   document?: Prisma.FileInstanceUpdateOneRequiredWithoutVetDocumentsNestedInput
@@ -606,6 +637,7 @@ export type VetDocumentUncheckedUpdateWithoutVetInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -616,6 +648,7 @@ export type VetDocumentUncheckedUpdateManyWithoutVetInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -629,6 +662,7 @@ export type VetDocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   vetId?: boolean
   documentId?: boolean
   documentUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   vet?: boolean | Prisma.VeterinarianDefaultArgs<ExtArgs>
@@ -642,6 +676,7 @@ export type VetDocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   vetId?: boolean
   documentId?: boolean
   documentUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   vet?: boolean | Prisma.VeterinarianDefaultArgs<ExtArgs>
@@ -655,6 +690,7 @@ export type VetDocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   vetId?: boolean
   documentId?: boolean
   documentUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   vet?: boolean | Prisma.VeterinarianDefaultArgs<ExtArgs>
@@ -668,11 +704,12 @@ export type VetDocumentSelectScalar = {
   vetId?: boolean
   documentId?: boolean
   documentUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type VetDocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "type" | "vetId" | "documentId" | "documentUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["vetDocument"]>
+export type VetDocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "type" | "vetId" | "documentId" | "documentUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["vetDocument"]>
 export type VetDocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   vet?: boolean | Prisma.VeterinarianDefaultArgs<ExtArgs>
   document?: boolean | Prisma.FileInstanceDefaultArgs<ExtArgs>
@@ -699,6 +736,7 @@ export type $VetDocumentPayload<ExtArgs extends runtime.Types.Extensions.Interna
     vetId: string
     documentId: string
     documentUrl: string
+    status: $Enums.ApprovalStatus
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["vetDocument"]>
@@ -1132,6 +1170,7 @@ export interface VetDocumentFieldRefs {
   readonly vetId: Prisma.FieldRef<"VetDocument", 'String'>
   readonly documentId: Prisma.FieldRef<"VetDocument", 'String'>
   readonly documentUrl: Prisma.FieldRef<"VetDocument", 'String'>
+  readonly status: Prisma.FieldRef<"VetDocument", 'ApprovalStatus'>
   readonly createdAt: Prisma.FieldRef<"VetDocument", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"VetDocument", 'DateTime'>
 }

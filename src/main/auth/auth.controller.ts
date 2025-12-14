@@ -32,6 +32,7 @@ import {
   ResetPasswordDto,
 } from './dto/password.dto';
 import { RegisterDto } from './dto/register.dto';
+import { UpdateOperatingScheduleDto } from './dto/setting.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { AuthGetProfileService } from './services/auth-get-profile.service';
 import { AuthLoginService } from './services/auth-login.service';
@@ -40,6 +41,7 @@ import { AuthNotificationService } from './services/auth-notification.service';
 import { AuthOtpService } from './services/auth-otp.service';
 import { AuthPasswordService } from './services/auth-password.service';
 import { AuthRegisterService } from './services/auth-register.service';
+import { AuthSettingService } from './services/auth-setting.service';
 import { AuthUpdateProfileService } from './services/auth-update-profile.service';
 
 @ApiTags('Auth, Profile & Settings')
@@ -54,6 +56,7 @@ export class AuthController {
     private readonly authUpdateProfileService: AuthUpdateProfileService,
     private readonly authRegisterService: AuthRegisterService,
     private readonly authNotificationService: AuthNotificationService,
+    private readonly authSettingService: AuthSettingService,
   ) {}
 
   @ApiOperation({ summary: 'Register as shelter or vet' })
@@ -235,5 +238,24 @@ export class AuthController {
       notificationId,
       userId,
     );
+  }
+
+  @ApiOperation({ summary: 'Get Operating Schedule' })
+  @ApiBearerAuth()
+  @Get('operating-schedule')
+  @ValidateAuth()
+  async getOperatingSchedule(@GetUser() authUser: JWTPayload) {
+    return this.authSettingService.getOperatingSchedule(authUser);
+  }
+
+  @ApiOperation({ summary: 'Update Operating Schedule' })
+  @ApiBearerAuth()
+  @Patch('operating-schedule')
+  @ValidateAuth()
+  async updateOperatingSchedule(
+    @GetUser() authUser: JWTPayload,
+    @Body() dto: UpdateOperatingScheduleDto,
+  ) {
+    return this.authSettingService.updateOperatingSchedule(authUser, dto);
   }
 }
