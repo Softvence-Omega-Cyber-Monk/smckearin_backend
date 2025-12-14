@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { WorkingDay } from '@prisma';
-import { IsArray, IsNotEmpty, Matches } from 'class-validator';
+import { IsNotEmpty, IsString, Matches } from 'class-validator';
 
 export class UpdateOperatingScheduleDto {
   @ApiProperty({ example: '09:00', description: 'Start time in HH:mm format' })
@@ -18,10 +17,9 @@ export class UpdateOperatingScheduleDto {
   endTime: string;
 
   @ApiProperty({
-    example: [WorkingDay.MONDAY, WorkingDay.TUESDAY],
-    enum: WorkingDay,
-    isArray: true,
+    example: 'MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY',
+    description: 'Comma-separated list of working days',
   })
-  @IsArray()
-  workingDays: WorkingDay[];
+  @IsString()
+  workingDays: string;
 }
