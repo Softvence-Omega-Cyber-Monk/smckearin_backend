@@ -397,6 +397,7 @@ export const ModelName = {
   PrivateMessage: 'PrivateMessage',
   PrivateMessageStatus: 'PrivateMessageStatus',
   Shelter: 'Shelter',
+  ShelterDocument: 'ShelterDocument',
   Transport: 'Transport',
   User: 'User',
   VetClearanceRequest: 'VetClearanceRequest',
@@ -418,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "animal" | "userOtp" | "refreshToken" | "driver" | "fileInstance" | "healthReport" | "notification" | "userNotification" | "notificationSettings" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "transport" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
+    modelProps: "animal" | "userOtp" | "refreshToken" | "driver" | "fileInstance" | "healthReport" | "notification" | "userNotification" | "notificationSettings" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transport" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1384,6 +1385,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ShelterDocument: {
+      payload: Prisma.$ShelterDocumentPayload<ExtArgs>
+      fields: Prisma.ShelterDocumentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ShelterDocumentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShelterDocumentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ShelterDocumentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShelterDocumentPayload>
+        }
+        findFirst: {
+          args: Prisma.ShelterDocumentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShelterDocumentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ShelterDocumentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShelterDocumentPayload>
+        }
+        findMany: {
+          args: Prisma.ShelterDocumentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShelterDocumentPayload>[]
+        }
+        create: {
+          args: Prisma.ShelterDocumentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShelterDocumentPayload>
+        }
+        createMany: {
+          args: Prisma.ShelterDocumentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ShelterDocumentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShelterDocumentPayload>[]
+        }
+        delete: {
+          args: Prisma.ShelterDocumentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShelterDocumentPayload>
+        }
+        update: {
+          args: Prisma.ShelterDocumentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShelterDocumentPayload>
+        }
+        deleteMany: {
+          args: Prisma.ShelterDocumentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ShelterDocumentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ShelterDocumentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShelterDocumentPayload>[]
+        }
+        upsert: {
+          args: Prisma.ShelterDocumentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ShelterDocumentPayload>
+        }
+        aggregate: {
+          args: Prisma.ShelterDocumentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateShelterDocument>
+        }
+        groupBy: {
+          args: Prisma.ShelterDocumentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ShelterDocumentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ShelterDocumentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ShelterDocumentCountAggregateOutputType> | number
+        }
+      }
+    }
     Transport: {
       payload: Prisma.$TransportPayload<ExtArgs>
       fields: Prisma.TransportFieldRefs
@@ -2075,6 +2150,19 @@ export const ShelterScalarFieldEnum = {
 export type ShelterScalarFieldEnum = (typeof ShelterScalarFieldEnum)[keyof typeof ShelterScalarFieldEnum]
 
 
+export const ShelterDocumentScalarFieldEnum = {
+  id: 'id',
+  shelterId: 'shelterId',
+  documentId: 'documentId',
+  documentUrl: 'documentUrl',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShelterDocumentScalarFieldEnum = (typeof ShelterDocumentScalarFieldEnum)[keyof typeof ShelterDocumentScalarFieldEnum]
+
+
 export const TransportScalarFieldEnum = {
   id: 'id',
   transportNote: 'transportNote',
@@ -2636,6 +2724,7 @@ export type GlobalOmitConfig = {
   privateMessage?: Prisma.PrivateMessageOmit
   privateMessageStatus?: Prisma.PrivateMessageStatusOmit
   shelter?: Prisma.ShelterOmit
+  shelterDocument?: Prisma.ShelterDocumentOmit
   transport?: Prisma.TransportOmit
   user?: Prisma.UserOmit
   vetClearanceRequest?: Prisma.VetClearanceRequestOmit

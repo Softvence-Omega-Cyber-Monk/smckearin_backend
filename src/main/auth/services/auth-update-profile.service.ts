@@ -10,6 +10,8 @@ import { FileInstance, Prisma } from '@prisma';
 import {
   UpdateDriverProfileDto,
   UpdateProfileDto,
+  UpdateShelterProfileDto,
+  UpdateVetProfileDto,
 } from '../dto/update-profile.dto';
 
 @Injectable()
@@ -128,6 +130,153 @@ export class AuthUpdateProfileService {
     return successResponse(
       await this.authUtils.sanitizeUser(updatedUser),
       'Driver profile updated successfully',
+    );
+  }
+
+  @HandleError('Failed to update veterinarian profile', 'Veterinarian')
+  async updateVetProfile(
+    userId: string,
+    dto: UpdateVetProfileDto,
+    file?: Express.Multer.File,
+  ) {
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
+      include: { veterinarians: true },
+    });
+
+    if (!user.veterinarians) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Veterinarian profile not found',
+      );
+    }
+
+    // * if phone is provided, check if it's unique
+    if (dto.phone) {
+      const existingVet = await this.prisma.client.veterinarian.findFirst({
+        where: { phone: dto.phone },
+      });
+      if (existingVet && existingVet.id !== user.veterinarians.id) {
+        throw new AppError(HttpStatus.CONFLICT, 'Phone already in use');
+      }
+    }
+
+    // * if license is provided, check if it's unique
+    if (dto.license) {
+      const existingVet = await this.prisma.client.veterinarian.findFirst({
+        where: { license: dto.license },
+      });
+      if (existingVet && existingVet.id !== user.veterinarians.id) {
+        throw new AppError(
+          HttpStatus.CONFLICT,
+          'License number already in use',
+        );
+      }
+    }
+
+    // Handle image upload
+    let fileInstance: FileInstance | undefined;
+    if (file) {
+      fileInstance = await this.s3.uploadFile(file);
+      if (user.profilePictureId) {
+        await this.s3.deleteFile(user.profilePictureId);
+      }
+    }
+
+    // Update user fields
+    const updatedUserData: Prisma.UserUpdateInput = {};
+    if (dto.name?.trim()) updatedUserData.name = dto.name.trim();
+    if (fileInstance)
+      updatedUserData.profilePicture = { connect: fileInstance };
+
+    // Update veterinarian fields
+    const updatedVetData: Prisma.VeterinarianUpdateInput = {};
+    if (dto.phone) updatedVetData.phone = dto.phone;
+    if (dto.license) updatedVetData.license = dto.license;
+    if (dto.description) updatedVetData.description = dto.description;
+
+    // Use transaction/update to ensure consistency
+    const updatedUser = await this.prisma.client.user.update({
+      where: { id: user.id },
+      data: {
+        ...updatedUserData,
+        veterinarians: {
+          update: updatedVetData,
+        },
+      },
+      include: { veterinarians: true, profilePicture: true },
+    });
+
+    return successResponse(
+      await this.authUtils.sanitizeUser(updatedUser),
+      'Veterinarian profile updated successfully',
+    );
+  }
+
+  @HandleError('Failed to update shelter profile', 'Shelter')
+  async updateShelterProfile(
+    userId: string,
+    dto: UpdateShelterProfileDto,
+    file?: Express.Multer.File,
+  ) {
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
+      select: {
+        id: true,
+        shelterAdminOf: {
+          include: { logo: true },
+        },
+        managerOf: {
+          include: { logo: true },
+        },
+      },
+    });
+
+    const shelter = user.shelterAdminOf || user.managerOf;
+
+    if (!shelter) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'User is not an admin or manager of any shelter',
+      );
+    }
+
+    // * if phone is provided, check if it's unique
+    if (dto.phone) {
+      const existingShelter = await this.prisma.client.shelter.findFirst({
+        where: { phone: dto.phone },
+      });
+      if (existingShelter && existingShelter.id !== shelter.id) {
+        throw new AppError(HttpStatus.CONFLICT, 'Phone already in use');
+      }
+    }
+
+    // Handle logo upload
+    let fileInstance: FileInstance | undefined;
+    if (file) {
+      fileInstance = await this.s3.uploadFile(file);
+      if (shelter.logoId) {
+        await this.s3.deleteFile(shelter.logoId);
+      }
+    }
+
+    // Prepare update data
+    const updateData: Prisma.ShelterUpdateInput = {};
+    if (dto.name?.trim()) updateData.name = dto.name.trim();
+    if (dto.address) updateData.address = dto.address;
+    if (dto.phone) updateData.phone = dto.phone;
+    if (dto.description) updateData.description = dto.description;
+    if (fileInstance) updateData.logo = { connect: fileInstance };
+
+    const updatedShelter = await this.prisma.client.shelter.update({
+      where: { id: shelter.id },
+      data: updateData,
+      include: { logo: true },
+    });
+
+    return successResponse(
+      updatedShelter,
+      'Shelter profile updated successfully',
     );
   }
 }

@@ -78,3 +78,71 @@ export class UpdateDriverProfileDto extends UpdateProfileDto {
   @IsString()
   previousExperience?: string;
 }
+
+export class UpdateVetProfileDto extends UpdateProfileDto {
+  @ApiPropertyOptional({
+    example: '1234567890',
+    description: 'Optional phone number',
+  })
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @ApiPropertyOptional({
+    example: 'VET-12345',
+    description: 'Optional license number',
+  })
+  @IsOptional()
+  @IsString()
+  license?: string;
+
+  @ApiPropertyOptional({
+    example: 'Specialist in small animals',
+    description: 'Optional description',
+  })
+  @IsOptional()
+  @IsString()
+  description?: string;
+}
+
+export class UpdateShelterProfileDto {
+  @ApiPropertyOptional({
+    example: 'Happy Shelter',
+    description: 'Optional name',
+  })
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @ApiPropertyOptional({
+    type: 'string',
+    format: 'binary',
+    description: 'Optional shelter logo',
+  })
+  @IsOptional()
+  file?: Express.Multer.File;
+
+  @ApiPropertyOptional({
+    example: '123 Shelter St, City',
+    description: 'Optional address',
+  })
+  @IsOptional()
+  @IsString()
+  address?: string;
+
+  @ApiPropertyOptional({
+    example: '1234567890',
+    description: 'Optional phone number',
+  })
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @ApiPropertyOptional({
+    example: 'A safe haven for animals',
+    description: 'Optional description',
+  })
+  @IsOptional()
+  @IsString()
+  description?: string;
+}

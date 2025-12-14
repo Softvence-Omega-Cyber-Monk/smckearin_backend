@@ -3,7 +3,7 @@ model Shelter {
 
   name        String
   address     String?
-  phone       String?
+  phone       String? @unique
   description String?
 
   logoId  String?       @unique
@@ -25,6 +25,29 @@ model Shelter {
   // Animals in the shelter
   animals Animal[]
 
+  // Shelter Documents
+  shelterDocuments ShelterDocument[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("shelters")
+}
+
+model ShelterDocument {
+  id String @id @default(uuid())
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  documentId  String       @unique
+  documentUrl String
+  document    FileInstance @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  status ApprovalStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("shelter_documents")
 }

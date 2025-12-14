@@ -236,7 +236,7 @@ CREATE TABLE "private_message_statuses" (
 );
 
 -- CreateTable
-CREATE TABLE "Shelter" (
+CREATE TABLE "shelters" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "address" TEXT,
@@ -251,7 +251,20 @@ CREATE TABLE "Shelter" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Shelter_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "shelters_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "shelter_documents" (
+    "id" TEXT NOT NULL,
+    "shelterId" TEXT NOT NULL,
+    "documentId" TEXT NOT NULL,
+    "documentUrl" TEXT NOT NULL,
+    "status" "ApprovalStatus" NOT NULL DEFAULT 'PENDING',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "shelter_documents_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -404,7 +417,13 @@ CREATE INDEX "private_messages_conversationId_createdAt_idx" ON "private_message
 CREATE UNIQUE INDEX "private_message_statuses_messageId_userId_key" ON "private_message_statuses"("messageId", "userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Shelter_logoId_key" ON "Shelter"("logoId");
+CREATE UNIQUE INDEX "shelters_phone_key" ON "shelters"("phone");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "shelters_logoId_key" ON "shelters"("logoId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "shelter_documents_documentId_key" ON "shelter_documents"("documentId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
@@ -431,7 +450,7 @@ CREATE UNIQUE INDEX "vet_documents_documentId_key" ON "vet_documents"("documentI
 ALTER TABLE "animals" ADD CONSTRAINT "animals_bondedWithId_fkey" FOREIGN KEY ("bondedWithId") REFERENCES "animals"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "animals" ADD CONSTRAINT "animals_shelterId_fkey" FOREIGN KEY ("shelterId") REFERENCES "Shelter"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "animals" ADD CONSTRAINT "animals_shelterId_fkey" FOREIGN KEY ("shelterId") REFERENCES "shelters"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "animals" ADD CONSTRAINT "animals_imageId_fkey" FOREIGN KEY ("imageId") REFERENCES "file_instances"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -497,7 +516,13 @@ ALTER TABLE "private_message_statuses" ADD CONSTRAINT "private_message_statuses_
 ALTER TABLE "private_message_statuses" ADD CONSTRAINT "private_message_statuses_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Shelter" ADD CONSTRAINT "Shelter_logoId_fkey" FOREIGN KEY ("logoId") REFERENCES "file_instances"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "shelters" ADD CONSTRAINT "shelters_logoId_fkey" FOREIGN KEY ("logoId") REFERENCES "file_instances"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "shelter_documents" ADD CONSTRAINT "shelter_documents_shelterId_fkey" FOREIGN KEY ("shelterId") REFERENCES "shelters"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "shelter_documents" ADD CONSTRAINT "shelter_documents_documentId_fkey" FOREIGN KEY ("documentId") REFERENCES "file_instances"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "transports" ADD CONSTRAINT "transports_animalId_fkey" FOREIGN KEY ("animalId") REFERENCES "animals"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -509,10 +534,10 @@ ALTER TABLE "transports" ADD CONSTRAINT "transports_driverId_fkey" FOREIGN KEY (
 ALTER TABLE "users" ADD CONSTRAINT "users_profilePictureId_fkey" FOREIGN KEY ("profilePictureId") REFERENCES "file_instances"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "users" ADD CONSTRAINT "users_shelterAdminOfId_fkey" FOREIGN KEY ("shelterAdminOfId") REFERENCES "Shelter"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "users" ADD CONSTRAINT "users_shelterAdminOfId_fkey" FOREIGN KEY ("shelterAdminOfId") REFERENCES "shelters"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "users" ADD CONSTRAINT "users_managerOfId_fkey" FOREIGN KEY ("managerOfId") REFERENCES "Shelter"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "users" ADD CONSTRAINT "users_managerOfId_fkey" FOREIGN KEY ("managerOfId") REFERENCES "shelters"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "vet_clearance_requests" ADD CONSTRAINT "vet_clearance_requests_veterinarianId_fkey" FOREIGN KEY ("veterinarianId") REFERENCES "veterinarians"("id") ON DELETE SET NULL ON UPDATE CASCADE;
