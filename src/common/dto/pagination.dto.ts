@@ -13,10 +13,10 @@ export class PaginationDto {
   @Min(1)
   page?: number = 1;
 
-  @ApiPropertyOptional({ default: 10, description: 'Number of items per page' })
+  @ApiPropertyOptional({ default: 50, description: 'Number of items per page' })
   @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(1)
-  limit?: number = 10;
+  limit?: number = 50;
 }
