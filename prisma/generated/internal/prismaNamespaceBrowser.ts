@@ -64,6 +64,7 @@ export const ModelName = {
   PrivateMessage: 'PrivateMessage',
   PrivateMessageStatus: 'PrivateMessageStatus',
   Shelter: 'Shelter',
+  ShelterDocument: 'ShelterDocument',
   Transport: 'Transport',
   User: 'User',
   VetClearanceRequest: 'VetClearanceRequest',
@@ -294,6 +295,19 @@ export const ShelterScalarFieldEnum = {
 } as const
 
 export type ShelterScalarFieldEnum = (typeof ShelterScalarFieldEnum)[keyof typeof ShelterScalarFieldEnum]
+
+
+export const ShelterDocumentScalarFieldEnum = {
+  id: 'id',
+  shelterId: 'shelterId',
+  documentId: 'documentId',
+  documentUrl: 'documentUrl',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ShelterDocumentScalarFieldEnum = (typeof ShelterDocumentScalarFieldEnum)[keyof typeof ShelterDocumentScalarFieldEnum]
 
 
 export const TransportScalarFieldEnum = {

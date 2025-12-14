@@ -1,4 +1,11 @@
-import { GetUser, ValidateAdmin, ValidateAuth } from '@/core/jwt/jwt.decorator';
+import {
+  GetUser,
+  ValidateAdmin,
+  ValidateAuth,
+  ValidateDriver,
+  ValidateManager,
+  ValidateVeterinarian,
+} from '@/core/jwt/jwt.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import {
   Body,
@@ -16,7 +23,12 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { UpdateProfileDto } from '../dto/update-profile.dto';
+import {
+  UpdateDriverProfileDto,
+  UpdateProfileDto,
+  UpdateShelterProfileDto,
+  UpdateVetProfileDto,
+} from '../dto/update-profile.dto';
 import { AuthGetProfileService } from '../services/auth-get-profile.service';
 import { AuthUpdateProfileService } from '../services/auth-update-profile.service';
 
@@ -58,5 +70,51 @@ export class AuthProfileController {
     @UploadedFile() file?: Express.Multer.File,
   ) {
     return this.authUpdateProfileService.updateProfile(authUser, dto, file);
+  }
+
+  @ApiOperation({ summary: 'Update Driver profile' })
+  @ApiBearerAuth()
+  @Patch('driver/profile')
+  @ValidateDriver()
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateDriverProfile(
+    @GetUser('sub') userId: string,
+    @Body() dto: UpdateDriverProfileDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    return this.authUpdateProfileService.updateDriverProfile(userId, dto, file);
+  }
+
+  @ApiOperation({ summary: 'Update Veterinarian profile' })
+  @ApiBearerAuth()
+  @Patch('veterinarian/profile')
+  @ValidateVeterinarian()
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateVetProfile(
+    @GetUser('sub') userId: string,
+    @Body() dto: UpdateVetProfileDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    return this.authUpdateProfileService.updateVetProfile(userId, dto, file);
+  }
+
+  @ApiOperation({ summary: 'Update Shelter profile' })
+  @ApiBearerAuth()
+  @Patch('shelter/profile')
+  @ValidateManager()
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateShelterProfile(
+    @GetUser('sub') userId: string,
+    @Body() dto: UpdateShelterProfileDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    return this.authUpdateProfileService.updateShelterProfile(
+      userId,
+      dto,
+      file,
+    );
   }
 }

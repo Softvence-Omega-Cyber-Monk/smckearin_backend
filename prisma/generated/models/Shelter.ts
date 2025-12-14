@@ -246,6 +246,7 @@ export type ShelterWhereInput = {
   shelterAdmins?: Prisma.UserListRelationFilter
   managers?: Prisma.UserListRelationFilter
   animals?: Prisma.AnimalListRelationFilter
+  shelterDocuments?: Prisma.ShelterDocumentListRelationFilter
 }
 
 export type ShelterOrderByWithRelationInput = {
@@ -266,17 +267,18 @@ export type ShelterOrderByWithRelationInput = {
   shelterAdmins?: Prisma.UserOrderByRelationAggregateInput
   managers?: Prisma.UserOrderByRelationAggregateInput
   animals?: Prisma.AnimalOrderByRelationAggregateInput
+  shelterDocuments?: Prisma.ShelterDocumentOrderByRelationAggregateInput
 }
 
 export type ShelterWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  phone?: string
   logoId?: string
   AND?: Prisma.ShelterWhereInput | Prisma.ShelterWhereInput[]
   OR?: Prisma.ShelterWhereInput[]
   NOT?: Prisma.ShelterWhereInput | Prisma.ShelterWhereInput[]
   name?: Prisma.StringFilter<"Shelter"> | string
   address?: Prisma.StringNullableFilter<"Shelter"> | string | null
-  phone?: Prisma.StringNullableFilter<"Shelter"> | string | null
   description?: Prisma.StringNullableFilter<"Shelter"> | string | null
   logoUrl?: Prisma.StringNullableFilter<"Shelter"> | string | null
   startTime?: Prisma.StringFilter<"Shelter"> | string
@@ -289,7 +291,8 @@ export type ShelterWhereUniqueInput = Prisma.AtLeast<{
   shelterAdmins?: Prisma.UserListRelationFilter
   managers?: Prisma.UserListRelationFilter
   animals?: Prisma.AnimalListRelationFilter
-}, "id" | "logoId">
+  shelterDocuments?: Prisma.ShelterDocumentListRelationFilter
+}, "id" | "phone" | "logoId">
 
 export type ShelterOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -346,6 +349,7 @@ export type ShelterCreateInput = {
   shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateInput = {
@@ -365,6 +369,7 @@ export type ShelterUncheckedCreateInput = {
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUpdateInput = {
@@ -384,6 +389,7 @@ export type ShelterUpdateInput = {
   shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateInput = {
@@ -403,6 +409,7 @@ export type ShelterUncheckedUpdateInput = {
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterCreateManyInput = {
@@ -563,6 +570,20 @@ export type ShelterUpdateworkingDaysInput = {
   push?: $Enums.WorkingDay | $Enums.WorkingDay[]
 }
 
+export type ShelterCreateNestedOneWithoutShelterDocumentsInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutShelterDocumentsInput, Prisma.ShelterUncheckedCreateWithoutShelterDocumentsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutShelterDocumentsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+}
+
+export type ShelterUpdateOneRequiredWithoutShelterDocumentsNestedInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutShelterDocumentsInput, Prisma.ShelterUncheckedCreateWithoutShelterDocumentsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutShelterDocumentsInput
+  upsert?: Prisma.ShelterUpsertWithoutShelterDocumentsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutShelterDocumentsInput, Prisma.ShelterUpdateWithoutShelterDocumentsInput>, Prisma.ShelterUncheckedUpdateWithoutShelterDocumentsInput>
+}
+
 export type ShelterCreateNestedOneWithoutShelterAdminsInput = {
   create?: Prisma.XOR<Prisma.ShelterCreateWithoutShelterAdminsInput, Prisma.ShelterUncheckedCreateWithoutShelterAdminsInput>
   connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutShelterAdminsInput
@@ -611,6 +632,7 @@ export type ShelterCreateWithoutAnimalsInput = {
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
   shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutAnimalsInput = {
@@ -629,6 +651,7 @@ export type ShelterUncheckedCreateWithoutAnimalsInput = {
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutAnimalsInput = {
@@ -663,6 +686,7 @@ export type ShelterUpdateWithoutAnimalsInput = {
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
   shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutAnimalsInput = {
@@ -681,6 +705,7 @@ export type ShelterUncheckedUpdateWithoutAnimalsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterCreateWithoutLogoInput = {
@@ -699,6 +724,7 @@ export type ShelterCreateWithoutLogoInput = {
   shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutLogoInput = {
@@ -717,6 +743,7 @@ export type ShelterUncheckedCreateWithoutLogoInput = {
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutLogoInput = {
@@ -751,6 +778,7 @@ export type ShelterUpdateWithoutLogoInput = {
   shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutLogoInput = {
@@ -759,6 +787,99 @@ export type ShelterUncheckedUpdateWithoutLogoInput = {
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterCreateWithoutShelterDocumentsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
+  shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterUncheckedCreateWithoutShelterDocumentsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoId?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterCreateOrConnectWithoutShelterDocumentsInput = {
+  where: Prisma.ShelterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutShelterDocumentsInput, Prisma.ShelterUncheckedCreateWithoutShelterDocumentsInput>
+}
+
+export type ShelterUpsertWithoutShelterDocumentsInput = {
+  update: Prisma.XOR<Prisma.ShelterUpdateWithoutShelterDocumentsInput, Prisma.ShelterUncheckedUpdateWithoutShelterDocumentsInput>
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutShelterDocumentsInput, Prisma.ShelterUncheckedCreateWithoutShelterDocumentsInput>
+  where?: Prisma.ShelterWhereInput
+}
+
+export type ShelterUpdateToOneWithWhereWithoutShelterDocumentsInput = {
+  where?: Prisma.ShelterWhereInput
+  data: Prisma.XOR<Prisma.ShelterUpdateWithoutShelterDocumentsInput, Prisma.ShelterUncheckedUpdateWithoutShelterDocumentsInput>
+}
+
+export type ShelterUpdateWithoutShelterDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
+  shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterUncheckedUpdateWithoutShelterDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   startTime?: Prisma.StringFieldUpdateOperationsInput | string
   endTime?: Prisma.StringFieldUpdateOperationsInput | string
@@ -787,6 +908,7 @@ export type ShelterCreateWithoutShelterAdminsInput = {
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutShelterAdminsInput = {
@@ -805,6 +927,7 @@ export type ShelterUncheckedCreateWithoutShelterAdminsInput = {
   updatedAt?: Date | string
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutShelterAdminsInput = {
@@ -828,6 +951,7 @@ export type ShelterCreateWithoutManagersInput = {
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
   shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutManagersInput = {
@@ -846,6 +970,7 @@ export type ShelterUncheckedCreateWithoutManagersInput = {
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutManagersInput = {
@@ -880,6 +1005,7 @@ export type ShelterUpdateWithoutShelterAdminsInput = {
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutShelterAdminsInput = {
@@ -898,6 +1024,7 @@ export type ShelterUncheckedUpdateWithoutShelterAdminsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUpsertWithoutManagersInput = {
@@ -927,6 +1054,7 @@ export type ShelterUpdateWithoutManagersInput = {
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
   shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutManagersInput = {
@@ -945,6 +1073,7 @@ export type ShelterUncheckedUpdateWithoutManagersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 
@@ -956,12 +1085,14 @@ export type ShelterCountOutputType = {
   shelterAdmins: number
   managers: number
   animals: number
+  shelterDocuments: number
 }
 
 export type ShelterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   shelterAdmins?: boolean | ShelterCountOutputTypeCountShelterAdminsArgs
   managers?: boolean | ShelterCountOutputTypeCountManagersArgs
   animals?: boolean | ShelterCountOutputTypeCountAnimalsArgs
+  shelterDocuments?: boolean | ShelterCountOutputTypeCountShelterDocumentsArgs
 }
 
 /**
@@ -995,6 +1126,13 @@ export type ShelterCountOutputTypeCountAnimalsArgs<ExtArgs extends runtime.Types
   where?: Prisma.AnimalWhereInput
 }
 
+/**
+ * ShelterCountOutputType without action
+ */
+export type ShelterCountOutputTypeCountShelterDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ShelterDocumentWhereInput
+}
+
 
 export type ShelterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1014,6 +1152,7 @@ export type ShelterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   shelterAdmins?: boolean | Prisma.Shelter$shelterAdminsArgs<ExtArgs>
   managers?: boolean | Prisma.Shelter$managersArgs<ExtArgs>
   animals?: boolean | Prisma.Shelter$animalsArgs<ExtArgs>
+  shelterDocuments?: boolean | Prisma.Shelter$shelterDocumentsArgs<ExtArgs>
   _count?: boolean | Prisma.ShelterCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["shelter"]>
 
@@ -1073,6 +1212,7 @@ export type ShelterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   shelterAdmins?: boolean | Prisma.Shelter$shelterAdminsArgs<ExtArgs>
   managers?: boolean | Prisma.Shelter$managersArgs<ExtArgs>
   animals?: boolean | Prisma.Shelter$animalsArgs<ExtArgs>
+  shelterDocuments?: boolean | Prisma.Shelter$shelterDocumentsArgs<ExtArgs>
   _count?: boolean | Prisma.ShelterCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ShelterIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1089,6 +1229,7 @@ export type $ShelterPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     shelterAdmins: Prisma.$UserPayload<ExtArgs>[]
     managers: Prisma.$UserPayload<ExtArgs>[]
     animals: Prisma.$AnimalPayload<ExtArgs>[]
+    shelterDocuments: Prisma.$ShelterDocumentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1502,6 +1643,7 @@ export interface Prisma__ShelterClient<T, Null = never, ExtArgs extends runtime.
   shelterAdmins<T extends Prisma.Shelter$shelterAdminsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$shelterAdminsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   managers<T extends Prisma.Shelter$managersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$managersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   animals<T extends Prisma.Shelter$animalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$animalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnimalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  shelterDocuments<T extends Prisma.Shelter$shelterDocumentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$shelterDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShelterDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2028,6 +2170,30 @@ export type Shelter$animalsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.AnimalScalarFieldEnum | Prisma.AnimalScalarFieldEnum[]
+}
+
+/**
+ * Shelter.shelterDocuments
+ */
+export type Shelter$shelterDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ShelterDocument
+   */
+  select?: Prisma.ShelterDocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ShelterDocument
+   */
+  omit?: Prisma.ShelterDocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ShelterDocumentInclude<ExtArgs> | null
+  where?: Prisma.ShelterDocumentWhereInput
+  orderBy?: Prisma.ShelterDocumentOrderByWithRelationInput | Prisma.ShelterDocumentOrderByWithRelationInput[]
+  cursor?: Prisma.ShelterDocumentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ShelterDocumentScalarFieldEnum | Prisma.ShelterDocumentScalarFieldEnum[]
 }
 
 /**

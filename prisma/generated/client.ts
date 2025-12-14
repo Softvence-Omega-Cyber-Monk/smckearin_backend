@@ -103,6 +103,11 @@ export type PrivateMessageStatus = Prisma.PrivateMessageStatusModel
  */
 export type Shelter = Prisma.ShelterModel
 /**
+ * Model ShelterDocument
+ * 
+ */
+export type ShelterDocument = Prisma.ShelterDocumentModel
+/**
  * Model Transport
  * 
  */

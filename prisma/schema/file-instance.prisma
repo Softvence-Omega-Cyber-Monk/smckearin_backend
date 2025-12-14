@@ -17,6 +17,7 @@ model FileInstance {
   tripAnimal           Animal?
   healthReports        HealthReport?
   vetDocuments         VetDocument?
+  shelterDocuments ShelterDocument?
 
   privateMessages PrivateMessage[]
 
