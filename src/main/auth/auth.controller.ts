@@ -1,4 +1,6 @@
+import { PaginationDto } from '@/common/dto/pagination.dto';
 import { GetUser, ValidateAdmin, ValidateAuth } from '@/core/jwt/jwt.decorator';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
 import {
   BadRequestException,
   Body,
@@ -7,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UploadedFiles,
   UseInterceptors,
@@ -21,6 +24,7 @@ import {
 import { DriverRegisterDto } from './dto/driver-register.dto';
 import { LoginDto } from './dto/login.dto';
 import { LogoutDto, RefreshTokenDto } from './dto/logout.dto';
+import { NotificationSettingsDto } from './dto/notification.dto';
 import { ResendOtpDto, VerifyOTPDto } from './dto/otp.dto';
 import {
   ChangePasswordDto,
@@ -32,13 +36,13 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { AuthGetProfileService } from './services/auth-get-profile.service';
 import { AuthLoginService } from './services/auth-login.service';
 import { AuthLogoutService } from './services/auth-logout.service';
+import { AuthNotificationService } from './services/auth-notification.service';
 import { AuthOtpService } from './services/auth-otp.service';
 import { AuthPasswordService } from './services/auth-password.service';
 import { AuthRegisterService } from './services/auth-register.service';
 import { AuthUpdateProfileService } from './services/auth-update-profile.service';
-import { JWTPayload } from '@/core/jwt/jwt.interface';
 
-@ApiTags('Auth')
+@ApiTags('Auth, Profile & Settings')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -49,6 +53,7 @@ export class AuthController {
     private readonly authGetProfileService: AuthGetProfileService,
     private readonly authUpdateProfileService: AuthUpdateProfileService,
     private readonly authRegisterService: AuthRegisterService,
+    private readonly authNotificationService: AuthNotificationService,
   ) {}
 
   @ApiOperation({ summary: 'Register as shelter or vet' })
@@ -178,5 +183,57 @@ export class AuthController {
     @UploadedFile() file?: Express.Multer.File,
   ) {
     return this.authUpdateProfileService.updateProfile(authUser, dto, file);
+  }
+
+  @ApiOperation({ summary: 'Get Notification Setting' })
+  @ApiBearerAuth()
+  @Get('notification-setting')
+  @ValidateAuth()
+  async getNotificationSetting(@GetUser('sub') userId: string) {
+    return this.authNotificationService.createOrGetNotificationSetting(userId);
+  }
+
+  @ApiOperation({ summary: 'Update Notification Setting' })
+  @ApiBearerAuth()
+  @Patch('notification-setting')
+  @ValidateAuth()
+  async updateVetShelterNotificationSetting(
+    @GetUser('sub') userId: string,
+    @Body() dto: NotificationSettingsDto,
+  ) {
+    return this.authNotificationService.updateNotificationSettings(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get User Notifications' })
+  @ApiBearerAuth()
+  @Get('notifications')
+  @ValidateAuth()
+  async getUserNotifications(
+    @GetUser('sub') userId: string,
+    @Query() dto: PaginationDto,
+  ) {
+    return this.authNotificationService.getUserNotifications(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Mark All Notifications Read' })
+  @ApiBearerAuth()
+  @Patch('notifications')
+  @ValidateAuth()
+  asyncAllNotificationsRead(@GetUser('sub') userId: string) {
+    return this.authNotificationService.markAllNotificationsRead(userId);
+  }
+
+  @ApiOperation({ summary: 'Mark Own Notification Read' })
+  @ApiBearerAuth()
+  @Patch('notifications/:notificationId')
+  @ValidateAuth()
+  async markNotificationRead(
+    @Param('notificationId') notificationId: string,
+    @GetUser('sub') userId: string,
+  ) {
+    return this.authNotificationService.markNotificationRead(
+      notificationId,
+      userId,
+    );
   }
 }
