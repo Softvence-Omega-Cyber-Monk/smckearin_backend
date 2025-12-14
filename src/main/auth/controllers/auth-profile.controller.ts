@@ -1,4 +1,9 @@
-import { GetUser, ValidateAdmin, ValidateAuth } from '@/core/jwt/jwt.decorator';
+import {
+  GetUser,
+  ValidateAdmin,
+  ValidateAuth,
+  ValidateDriver,
+} from '@/core/jwt/jwt.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import {
   Body,
@@ -16,7 +21,10 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { UpdateProfileDto } from '../dto/update-profile.dto';
+import {
+  UpdateDriverProfileDto,
+  UpdateProfileDto,
+} from '../dto/update-profile.dto';
 import { AuthGetProfileService } from '../services/auth-get-profile.service';
 import { AuthUpdateProfileService } from '../services/auth-update-profile.service';
 
@@ -58,5 +66,19 @@ export class AuthProfileController {
     @UploadedFile() file?: Express.Multer.File,
   ) {
     return this.authUpdateProfileService.updateProfile(authUser, dto, file);
+  }
+
+  @ApiOperation({ summary: 'Update Driver profile' })
+  @ApiBearerAuth()
+  @Patch('driver/profile')
+  @ValidateDriver()
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateDriverProfile(
+    @GetUser('sub') userId: string,
+    @Body() dto: UpdateDriverProfileDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    return this.authUpdateProfileService.updateDriverProfile(userId, dto, file);
   }
 }
