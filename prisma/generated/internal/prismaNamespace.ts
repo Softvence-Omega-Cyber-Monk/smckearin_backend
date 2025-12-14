@@ -401,7 +401,8 @@ export const ModelName = {
   User: 'User',
   VetClearanceRequest: 'VetClearanceRequest',
   VetAppointment: 'VetAppointment',
-  Veterinarian: 'Veterinarian'
+  Veterinarian: 'Veterinarian',
+  VetDocument: 'VetDocument'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -417,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "animal" | "userOtp" | "refreshToken" | "driver" | "fileInstance" | "healthReport" | "notification" | "userNotification" | "notificationSettings" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "transport" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian"
+    modelProps: "animal" | "userOtp" | "refreshToken" | "driver" | "fileInstance" | "healthReport" | "notification" | "userNotification" | "notificationSettings" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "transport" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1753,6 +1754,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    VetDocument: {
+      payload: Prisma.$VetDocumentPayload<ExtArgs>
+      fields: Prisma.VetDocumentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VetDocumentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetDocumentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VetDocumentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetDocumentPayload>
+        }
+        findFirst: {
+          args: Prisma.VetDocumentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetDocumentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VetDocumentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetDocumentPayload>
+        }
+        findMany: {
+          args: Prisma.VetDocumentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetDocumentPayload>[]
+        }
+        create: {
+          args: Prisma.VetDocumentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetDocumentPayload>
+        }
+        createMany: {
+          args: Prisma.VetDocumentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VetDocumentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetDocumentPayload>[]
+        }
+        delete: {
+          args: Prisma.VetDocumentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetDocumentPayload>
+        }
+        update: {
+          args: Prisma.VetDocumentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetDocumentPayload>
+        }
+        deleteMany: {
+          args: Prisma.VetDocumentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VetDocumentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VetDocumentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetDocumentPayload>[]
+        }
+        upsert: {
+          args: Prisma.VetDocumentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VetDocumentPayload>
+        }
+        aggregate: {
+          args: Prisma.VetDocumentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVetDocument>
+        }
+        groupBy: {
+          args: Prisma.VetDocumentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VetDocumentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VetDocumentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VetDocumentCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1933,6 +2008,8 @@ export const NotificationSettingsScalarFieldEnum = {
   smsNotifications: 'smsNotifications',
   certificateNotifications: 'certificateNotifications',
   appointmentNotifications: 'appointmentNotifications',
+  tripNotifications: 'tripNotifications',
+  paymentNotifications: 'paymentNotifications',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2088,6 +2165,21 @@ export const VeterinarianScalarFieldEnum = {
 } as const
 
 export type VeterinarianScalarFieldEnum = (typeof VeterinarianScalarFieldEnum)[keyof typeof VeterinarianScalarFieldEnum]
+
+
+export const VetDocumentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  vetId: 'vetId',
+  documentId: 'documentId',
+  documentUrl: 'documentUrl',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VetDocumentScalarFieldEnum = (typeof VetDocumentScalarFieldEnum)[keyof typeof VetDocumentScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2549,6 +2641,7 @@ export type GlobalOmitConfig = {
   vetClearanceRequest?: Prisma.VetClearanceRequestOmit
   vetAppointment?: Prisma.VetAppointmentOmit
   veterinarian?: Prisma.VeterinarianOmit
+  vetDocument?: Prisma.VetDocumentOmit
 }
 
 /* Types for Logging */

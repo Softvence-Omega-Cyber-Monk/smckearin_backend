@@ -31,6 +31,8 @@ export type NotificationSettingsMinAggregateOutputType = {
   smsNotifications: boolean | null
   certificateNotifications: boolean | null
   appointmentNotifications: boolean | null
+  tripNotifications: boolean | null
+  paymentNotifications: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -42,6 +44,8 @@ export type NotificationSettingsMaxAggregateOutputType = {
   smsNotifications: boolean | null
   certificateNotifications: boolean | null
   appointmentNotifications: boolean | null
+  tripNotifications: boolean | null
+  paymentNotifications: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -53,6 +57,8 @@ export type NotificationSettingsCountAggregateOutputType = {
   smsNotifications: number
   certificateNotifications: number
   appointmentNotifications: number
+  tripNotifications: number
+  paymentNotifications: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -66,6 +72,8 @@ export type NotificationSettingsMinAggregateInputType = {
   smsNotifications?: true
   certificateNotifications?: true
   appointmentNotifications?: true
+  tripNotifications?: true
+  paymentNotifications?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -77,6 +85,8 @@ export type NotificationSettingsMaxAggregateInputType = {
   smsNotifications?: true
   certificateNotifications?: true
   appointmentNotifications?: true
+  tripNotifications?: true
+  paymentNotifications?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -88,6 +98,8 @@ export type NotificationSettingsCountAggregateInputType = {
   smsNotifications?: true
   certificateNotifications?: true
   appointmentNotifications?: true
+  tripNotifications?: true
+  paymentNotifications?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -172,6 +184,8 @@ export type NotificationSettingsGroupByOutputType = {
   smsNotifications: boolean
   certificateNotifications: boolean
   appointmentNotifications: boolean
+  tripNotifications: boolean
+  paymentNotifications: boolean
   createdAt: Date
   updatedAt: Date
   _count: NotificationSettingsCountAggregateOutputType | null
@@ -204,6 +218,8 @@ export type NotificationSettingsWhereInput = {
   smsNotifications?: Prisma.BoolFilter<"NotificationSettings"> | boolean
   certificateNotifications?: Prisma.BoolFilter<"NotificationSettings"> | boolean
   appointmentNotifications?: Prisma.BoolFilter<"NotificationSettings"> | boolean
+  tripNotifications?: Prisma.BoolFilter<"NotificationSettings"> | boolean
+  paymentNotifications?: Prisma.BoolFilter<"NotificationSettings"> | boolean
   createdAt?: Prisma.DateTimeFilter<"NotificationSettings"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"NotificationSettings"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -216,6 +232,8 @@ export type NotificationSettingsOrderByWithRelationInput = {
   smsNotifications?: Prisma.SortOrder
   certificateNotifications?: Prisma.SortOrder
   appointmentNotifications?: Prisma.SortOrder
+  tripNotifications?: Prisma.SortOrder
+  paymentNotifications?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -231,6 +249,8 @@ export type NotificationSettingsWhereUniqueInput = Prisma.AtLeast<{
   smsNotifications?: Prisma.BoolFilter<"NotificationSettings"> | boolean
   certificateNotifications?: Prisma.BoolFilter<"NotificationSettings"> | boolean
   appointmentNotifications?: Prisma.BoolFilter<"NotificationSettings"> | boolean
+  tripNotifications?: Prisma.BoolFilter<"NotificationSettings"> | boolean
+  paymentNotifications?: Prisma.BoolFilter<"NotificationSettings"> | boolean
   createdAt?: Prisma.DateTimeFilter<"NotificationSettings"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"NotificationSettings"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -243,6 +263,8 @@ export type NotificationSettingsOrderByWithAggregationInput = {
   smsNotifications?: Prisma.SortOrder
   certificateNotifications?: Prisma.SortOrder
   appointmentNotifications?: Prisma.SortOrder
+  tripNotifications?: Prisma.SortOrder
+  paymentNotifications?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.NotificationSettingsCountOrderByAggregateInput
@@ -260,6 +282,8 @@ export type NotificationSettingsScalarWhereWithAggregatesInput = {
   smsNotifications?: Prisma.BoolWithAggregatesFilter<"NotificationSettings"> | boolean
   certificateNotifications?: Prisma.BoolWithAggregatesFilter<"NotificationSettings"> | boolean
   appointmentNotifications?: Prisma.BoolWithAggregatesFilter<"NotificationSettings"> | boolean
+  tripNotifications?: Prisma.BoolWithAggregatesFilter<"NotificationSettings"> | boolean
+  paymentNotifications?: Prisma.BoolWithAggregatesFilter<"NotificationSettings"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"NotificationSettings"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"NotificationSettings"> | Date | string
 }
@@ -270,6 +294,8 @@ export type NotificationSettingsCreateInput = {
   smsNotifications?: boolean
   certificateNotifications?: boolean
   appointmentNotifications?: boolean
+  tripNotifications?: boolean
+  paymentNotifications?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutNotificationSettingsInput
@@ -282,6 +308,8 @@ export type NotificationSettingsUncheckedCreateInput = {
   smsNotifications?: boolean
   certificateNotifications?: boolean
   appointmentNotifications?: boolean
+  tripNotifications?: boolean
+  paymentNotifications?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -292,6 +320,8 @@ export type NotificationSettingsUpdateInput = {
   smsNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   certificateNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   appointmentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tripNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paymentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutNotificationSettingsNestedInput
@@ -304,6 +334,8 @@ export type NotificationSettingsUncheckedUpdateInput = {
   smsNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   certificateNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   appointmentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tripNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paymentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -315,6 +347,8 @@ export type NotificationSettingsCreateManyInput = {
   smsNotifications?: boolean
   certificateNotifications?: boolean
   appointmentNotifications?: boolean
+  tripNotifications?: boolean
+  paymentNotifications?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -325,6 +359,8 @@ export type NotificationSettingsUpdateManyMutationInput = {
   smsNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   certificateNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   appointmentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tripNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paymentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -336,6 +372,8 @@ export type NotificationSettingsUncheckedUpdateManyInput = {
   smsNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   certificateNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   appointmentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tripNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paymentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -347,6 +385,8 @@ export type NotificationSettingsCountOrderByAggregateInput = {
   smsNotifications?: Prisma.SortOrder
   certificateNotifications?: Prisma.SortOrder
   appointmentNotifications?: Prisma.SortOrder
+  tripNotifications?: Prisma.SortOrder
+  paymentNotifications?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -358,6 +398,8 @@ export type NotificationSettingsMaxOrderByAggregateInput = {
   smsNotifications?: Prisma.SortOrder
   certificateNotifications?: Prisma.SortOrder
   appointmentNotifications?: Prisma.SortOrder
+  tripNotifications?: Prisma.SortOrder
+  paymentNotifications?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -369,6 +411,8 @@ export type NotificationSettingsMinOrderByAggregateInput = {
   smsNotifications?: Prisma.SortOrder
   certificateNotifications?: Prisma.SortOrder
   appointmentNotifications?: Prisma.SortOrder
+  tripNotifications?: Prisma.SortOrder
+  paymentNotifications?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -416,6 +460,8 @@ export type NotificationSettingsCreateWithoutUserInput = {
   smsNotifications?: boolean
   certificateNotifications?: boolean
   appointmentNotifications?: boolean
+  tripNotifications?: boolean
+  paymentNotifications?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -426,6 +472,8 @@ export type NotificationSettingsUncheckedCreateWithoutUserInput = {
   smsNotifications?: boolean
   certificateNotifications?: boolean
   appointmentNotifications?: boolean
+  tripNotifications?: boolean
+  paymentNotifications?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -452,6 +500,8 @@ export type NotificationSettingsUpdateWithoutUserInput = {
   smsNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   certificateNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   appointmentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tripNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paymentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -462,6 +512,8 @@ export type NotificationSettingsUncheckedUpdateWithoutUserInput = {
   smsNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   certificateNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   appointmentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tripNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paymentNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -475,6 +527,8 @@ export type NotificationSettingsSelect<ExtArgs extends runtime.Types.Extensions.
   smsNotifications?: boolean
   certificateNotifications?: boolean
   appointmentNotifications?: boolean
+  tripNotifications?: boolean
+  paymentNotifications?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -487,6 +541,8 @@ export type NotificationSettingsSelectCreateManyAndReturn<ExtArgs extends runtim
   smsNotifications?: boolean
   certificateNotifications?: boolean
   appointmentNotifications?: boolean
+  tripNotifications?: boolean
+  paymentNotifications?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -499,6 +555,8 @@ export type NotificationSettingsSelectUpdateManyAndReturn<ExtArgs extends runtim
   smsNotifications?: boolean
   certificateNotifications?: boolean
   appointmentNotifications?: boolean
+  tripNotifications?: boolean
+  paymentNotifications?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -511,11 +569,13 @@ export type NotificationSettingsSelectScalar = {
   smsNotifications?: boolean
   certificateNotifications?: boolean
   appointmentNotifications?: boolean
+  tripNotifications?: boolean
+  paymentNotifications?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type NotificationSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "emailNotifications" | "smsNotifications" | "certificateNotifications" | "appointmentNotifications" | "createdAt" | "updatedAt", ExtArgs["result"]["notificationSettings"]>
+export type NotificationSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "emailNotifications" | "smsNotifications" | "certificateNotifications" | "appointmentNotifications" | "tripNotifications" | "paymentNotifications" | "createdAt" | "updatedAt", ExtArgs["result"]["notificationSettings"]>
 export type NotificationSettingsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -538,6 +598,8 @@ export type $NotificationSettingsPayload<ExtArgs extends runtime.Types.Extension
     smsNotifications: boolean
     certificateNotifications: boolean
     appointmentNotifications: boolean
+    tripNotifications: boolean
+    paymentNotifications: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["notificationSettings"]>
@@ -970,6 +1032,8 @@ export interface NotificationSettingsFieldRefs {
   readonly smsNotifications: Prisma.FieldRef<"NotificationSettings", 'Boolean'>
   readonly certificateNotifications: Prisma.FieldRef<"NotificationSettings", 'Boolean'>
   readonly appointmentNotifications: Prisma.FieldRef<"NotificationSettings", 'Boolean'>
+  readonly tripNotifications: Prisma.FieldRef<"NotificationSettings", 'Boolean'>
+  readonly paymentNotifications: Prisma.FieldRef<"NotificationSettings", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"NotificationSettings", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"NotificationSettings", 'DateTime'>
 }

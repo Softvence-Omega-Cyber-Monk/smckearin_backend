@@ -5,9 +5,9 @@ model Veterinarian {
   license     String? @unique
   description String?
 
-  // Operating Schedule
-  startTime DateTime @default("1970-01-01T09:00:00.000Z")
-  endTime   DateTime @default("1970-01-01T17:00:00.000Z")
+  // Operating Schedule (HH:mm format)
+  startTime String @default("09:00")
+  endTime   String @default("17:00")
 
   workingDays WorkingDay[]
 
@@ -18,6 +18,9 @@ model Veterinarian {
   // Health Reports
   healthReports HealthReport[]
 
+  // Vet Documents
+  vetDocuments VetDocument[]
+
   status ApprovalStatus @default(PENDING)
 
   userId String @unique
@@ -27,4 +30,25 @@ model Veterinarian {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@map("veterinarians")
+}
+
+model VetDocument {
+  id String @id @default(uuid())
+
+  name String
+  type String
+
+  vetId String
+  vet   Veterinarian @relation(fields: [vetId], references: [id], onDelete: Cascade)
+
+  documentId  String       @unique
+  documentUrl String
+  document    FileInstance @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  status ApprovalStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("vet_documents")
 }

@@ -16,6 +16,7 @@ model FileInstance {
   transportCertificate Driver?       @relation("TransportCertificate")
   tripAnimal           Animal?
   healthReports        HealthReport?
+  vetDocuments         VetDocument?
 
   privateMessages PrivateMessage[]
 

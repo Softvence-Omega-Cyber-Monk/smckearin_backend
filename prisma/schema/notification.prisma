@@ -40,10 +40,17 @@ model NotificationSettings {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 
-  emailNotifications       Boolean @default(true)
-  smsNotifications         Boolean @default(false)
+  // Global settings (all users)
+  emailNotifications Boolean @default(true)
+  smsNotifications   Boolean @default(false)
+
+  // Shelter admin / Manager / Vet
   certificateNotifications Boolean @default(false)
   appointmentNotifications Boolean @default(true)
+
+  // Driver, Admin & Superadmin
+  tripNotifications Boolean @default(true)
+  paymentNotifications Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

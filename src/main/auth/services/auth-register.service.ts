@@ -48,6 +48,9 @@ export class AuthRegisterService {
             name: dto.name,
             role: 'SHELTER_ADMIN',
             shelterAdminOf: { connect: { id: shelter.id } },
+            notificationSettings: {
+              create: {},
+            },
           },
         });
 
@@ -156,6 +159,9 @@ export class AuthRegisterService {
           password: hashedPassword,
           name: dto.name,
           role: 'DRIVER',
+          notificationSettings: {
+            create: {},
+          },
         },
       });
 

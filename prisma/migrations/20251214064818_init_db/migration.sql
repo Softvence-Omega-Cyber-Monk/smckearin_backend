@@ -11,6 +11,9 @@ CREATE TYPE "Gender" AS ENUM ('MALE', 'FEMALE');
 CREATE TYPE "SPECIES" AS ENUM ('DOG', 'CAT');
 
 -- CreateEnum
+CREATE TYPE "ApprovalStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
+
+-- CreateEnum
 CREATE TYPE "FileType" AS ENUM ('image', 'docs', 'link', 'document', 'any', 'video', 'audio');
 
 -- CreateEnum
@@ -102,15 +105,19 @@ CREATE TABLE "drivers" (
     "vehicleCapacity" INTEGER NOT NULL,
     "yearsOfExperience" INTEGER NOT NULL,
     "previousExperience" TEXT,
-    "startTime" TIMESTAMP(3) NOT NULL DEFAULT '1970-01-01 09:00:00 +00:00',
-    "endTime" TIMESTAMP(3) NOT NULL DEFAULT '1970-01-01 17:00:00 +00:00',
+    "startTime" TEXT NOT NULL DEFAULT '09:00',
+    "endTime" TEXT NOT NULL DEFAULT '17:00',
     "workingDays" "WorkingDay"[],
     "driverLicenseId" TEXT,
     "driverLicenseUrl" TEXT,
+    "driverLicenseStatus" "ApprovalStatus" NOT NULL DEFAULT 'PENDING',
     "vehicleRegistrationId" TEXT,
     "vehicleRegistrationUrl" TEXT,
+    "vehicleRegistrationStatus" "ApprovalStatus" NOT NULL DEFAULT 'PENDING',
     "transportCertificateId" TEXT,
     "transportCertificateUrl" TEXT,
+    "transportCertificateStatus" "ApprovalStatus" NOT NULL DEFAULT 'PENDING',
+    "status" "ApprovalStatus" NOT NULL DEFAULT 'PENDING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -181,6 +188,8 @@ CREATE TABLE "notification_settings" (
     "smsNotifications" BOOLEAN NOT NULL DEFAULT false,
     "certificateNotifications" BOOLEAN NOT NULL DEFAULT false,
     "appointmentNotifications" BOOLEAN NOT NULL DEFAULT true,
+    "tripNotifications" BOOLEAN NOT NULL DEFAULT true,
+    "paymentNotifications" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -235,9 +244,10 @@ CREATE TABLE "Shelter" (
     "description" TEXT,
     "logoId" TEXT,
     "logoUrl" TEXT,
-    "startTime" TIMESTAMP(3) NOT NULL DEFAULT '1970-01-01 09:00:00 +00:00',
-    "endTime" TIMESTAMP(3) NOT NULL DEFAULT '1970-01-01 17:00:00 +00:00',
+    "startTime" TEXT NOT NULL DEFAULT '09:00',
+    "endTime" TEXT NOT NULL DEFAULT '17:00',
     "workingDays" "WorkingDay"[],
+    "status" "ApprovalStatus" NOT NULL DEFAULT 'PENDING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -325,14 +335,30 @@ CREATE TABLE "veterinarians" (
     "phone" TEXT,
     "license" TEXT,
     "description" TEXT,
-    "startTime" TIMESTAMP(3) NOT NULL DEFAULT '1970-01-01 09:00:00 +00:00',
-    "endTime" TIMESTAMP(3) NOT NULL DEFAULT '1970-01-01 17:00:00 +00:00',
+    "startTime" TEXT NOT NULL DEFAULT '09:00',
+    "endTime" TEXT NOT NULL DEFAULT '17:00',
     "workingDays" "WorkingDay"[],
+    "status" "ApprovalStatus" NOT NULL DEFAULT 'PENDING',
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "veterinarians_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "vet_documents" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "vetId" TEXT NOT NULL,
+    "documentId" TEXT NOT NULL,
+    "documentUrl" TEXT NOT NULL,
+    "status" "ApprovalStatus" NOT NULL DEFAULT 'PENDING',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "vet_documents_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -397,6 +423,9 @@ CREATE UNIQUE INDEX "veterinarians_license_key" ON "veterinarians"("license");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "veterinarians_userId_key" ON "veterinarians"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "vet_documents_documentId_key" ON "vet_documents"("documentId");
 
 -- AddForeignKey
 ALTER TABLE "animals" ADD CONSTRAINT "animals_bondedWithId_fkey" FOREIGN KEY ("bondedWithId") REFERENCES "animals"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -496,3 +525,9 @@ ALTER TABLE "vet_appointments" ADD CONSTRAINT "vet_appointments_veterinarianId_f
 
 -- AddForeignKey
 ALTER TABLE "veterinarians" ADD CONSTRAINT "veterinarians_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "vet_documents" ADD CONSTRAINT "vet_documents_vetId_fkey" FOREIGN KEY ("vetId") REFERENCES "veterinarians"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "vet_documents" ADD CONSTRAINT "vet_documents_documentId_fkey" FOREIGN KEY ("documentId") REFERENCES "file_instances"("id") ON DELETE CASCADE ON UPDATE CASCADE;
