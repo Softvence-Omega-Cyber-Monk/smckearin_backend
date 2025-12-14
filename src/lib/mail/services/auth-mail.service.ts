@@ -9,6 +9,7 @@ import { invitationTemplate } from '../templates/invitation.template';
 import { otpTemplate } from '../templates/otp.template';
 import { passwordResetConfirmationTemplate } from '../templates/reset-password-confirm.template';
 import { resetPasswordLinkTemplate } from '../templates/reset-password-link.template';
+import { shelterInvitationTemplate } from '../templates/shelter-invitation.template';
 
 interface EmailOptions {
   subject?: string;
@@ -125,6 +126,33 @@ export class AuthMailService {
         footer: 'Please do not share your credentials with anyone.',
       }),
       `You have been invited as an Admin.\nEmail: ${to}\nPassword: ${password}\nLogin here: ${loginLink}`,
+    );
+  }
+
+  async sendShelterInvitationEmail(
+    to: string,
+    name: string,
+    shelterName: string,
+    password: string,
+    options: EmailOptions = {},
+  ): Promise<nodemailer.SentMessageInfo> {
+    const subject =
+      options.subject || `Invitation to Join ${shelterName}`;
+    const loginLink = `${this.frontendUrl}/login`;
+
+    return this.sendEmail(
+      to,
+      subject,
+      shelterInvitationTemplate({
+        title: 'Welcome to the Shelter',
+        name,
+        shelterName,
+        email: to,
+        password,
+        loginLink,
+        footer: 'Please do not share your credentials with anyone.',
+      }),
+      `You have been invited to join ${shelterName}.\nEmail: ${to}\nPassword: ${password}\nLogin here: ${loginLink}`,
     );
   }
 }

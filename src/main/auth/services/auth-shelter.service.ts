@@ -18,29 +18,33 @@ export class AuthShelterService {
     private readonly mailService: AuthMailService,
   ) {}
 
-  private async getShelterId(userId: string): Promise<string> {
+  private async getShelter(userId: string): Promise<{ id: string; name: string }> {
     const user = await this.prisma.client.user.findUnique({
       where: { id: userId },
-      select: { shelterAdminOfId: true },
+      select: {
+        shelterAdminOf: {
+          select: { id: true, name: true },
+        },
+      },
     });
 
-    if (!user || !user.shelterAdminOfId) {
+    if (!user || !user.shelterAdminOf) {
       throw new AppError(
         HttpStatus.FORBIDDEN,
         'User is not associated with any shelter as Admin',
       );
     }
 
-    return user.shelterAdminOfId;
+    return user.shelterAdminOf;
   }
 
   @HandleError('Failed to fetch shelter team')
   async getTeam(userId: string) {
-    const shelterId = await this.getShelterId(userId);
+    const shelter = await this.getShelter(userId);
 
     const team = await this.prisma.client.user.findMany({
       where: {
-        OR: [{ shelterAdminOfId: shelterId }, { managerOfId: shelterId }],
+        OR: [{ shelterAdminOfId: shelter.id }, { managerOfId: shelter.id }],
       },
     });
 
@@ -49,7 +53,7 @@ export class AuthShelterService {
 
   @HandleError('Failed to invite shelter member')
   async inviteMember(userId: string, dto: InviteShelterMemberDto) {
-    const shelterId = await this.getShelterId(userId);
+    const shelter = await this.getShelter(userId);
 
     const existingUser = await this.prisma.client.user.findUnique({
       where: { email: dto.email },
@@ -73,14 +77,15 @@ export class AuthShelterService {
         notificationSettings: { create: {} },
         // Associate with the shelter based on role
         ...(dto.role === UserEnum.SHELTER_ADMIN
-          ? { shelterAdminOfId: shelterId }
-          : { managerOfId: shelterId }),
+          ? { shelterAdminOfId: shelter.id }
+          : { managerOfId: shelter.id }),
       },
     });
 
-    await this.mailService.sendAdminInvitationEmail(
+    await this.mailService.sendShelterInvitationEmail(
       dto.email,
       dto.name,
+      shelter.name,
       generatedPassword,
     );
 
@@ -93,7 +98,8 @@ export class AuthShelterService {
 
   @HandleError("Failed to update member's role")
   async changeRole(userId: string, memberId: string, dto: ShelterRoleDto) {
-    const shelterId = await this.getShelterId(userId);
+    const shelter = await this.getShelter(userId);
+    const shelterId = shelter.id;
 
     const member = await this.prisma.client.user.findUnique({
       where: { id: memberId },
@@ -158,7 +164,8 @@ export class AuthShelterService {
 
   @HandleError('Failed to remove shelter member')
   async removeMember(userId: string, memberId: string) {
-    const shelterId = await this.getShelterId(userId);
+    const shelter = await this.getShelter(userId);
+    const shelterId = shelter.id;
 
     const member = await this.prisma.client.user.findUnique({
       where: { id: memberId },
