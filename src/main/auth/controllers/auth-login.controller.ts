@@ -6,7 +6,7 @@ import { LogoutDto, RefreshTokenDto } from '../dto/logout.dto';
 import { AuthLoginService } from '../services/auth-login.service';
 import { AuthLogoutService } from '../services/auth-logout.service';
 
-@ApiTags('Auth, Profile & Settings')
+@ApiTags('Auth, Login')
 @Controller('auth')
 export class AuthLoginController {
   constructor(

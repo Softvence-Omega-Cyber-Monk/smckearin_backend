@@ -3,7 +3,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResendOtpDto, VerifyOTPDto } from '../dto/otp.dto';
 import { AuthOtpService } from '../services/auth-otp.service';
 
-@ApiTags('Auth, Profile & Settings')
+@ApiTags('Auth, OTP')
 @Controller('auth')
 export class AuthOtpController {
   constructor(private readonly authOtpService: AuthOtpService) {}

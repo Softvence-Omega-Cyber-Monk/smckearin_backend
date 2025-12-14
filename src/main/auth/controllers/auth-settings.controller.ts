@@ -5,7 +5,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UpdateOperatingScheduleDto } from '../dto/setting.dto';
 import { AuthSettingService } from '../services/auth-setting.service';
 
-@ApiTags('Auth, Profile & Settings')
+@ApiTags('Auth, Settings')
 @Controller('auth')
 export class AuthSettingsController {
   constructor(private readonly authSettingService: AuthSettingService) {}

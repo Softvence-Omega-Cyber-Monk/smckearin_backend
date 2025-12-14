@@ -20,7 +20,7 @@ import { UpdateProfileDto } from '../dto/update-profile.dto';
 import { AuthGetProfileService } from '../services/auth-get-profile.service';
 import { AuthUpdateProfileService } from '../services/auth-update-profile.service';
 
-@ApiTags('Auth, Profile & Settings')
+@ApiTags('Auth, Profile')
 @Controller('auth')
 export class AuthProfileController {
   constructor(

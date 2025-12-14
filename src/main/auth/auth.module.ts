@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AuthAdminController } from './controllers/auth-admin.controller';
 import { AuthLoginController } from './controllers/auth-login.controller';
 import { AuthNotificationController } from './controllers/auth-notification.controller';
 import { AuthOtpController } from './controllers/auth-otp.controller';
@@ -6,6 +7,7 @@ import { AuthPasswordController } from './controllers/auth-password.controller';
 import { AuthProfileController } from './controllers/auth-profile.controller';
 import { AuthRegistrationController } from './controllers/auth-registration.controller';
 import { AuthSettingsController } from './controllers/auth-settings.controller';
+import { AuthAdminService } from './services/auth-admin.service';
 import { AuthGetProfileService } from './services/auth-get-profile.service';
 import { AuthLoginService } from './services/auth-login.service';
 import { AuthLogoutService } from './services/auth-logout.service';
@@ -26,6 +28,7 @@ import { AuthUpdateProfileService } from './services/auth-update-profile.service
     AuthProfileController,
     AuthNotificationController,
     AuthSettingsController,
+    AuthAdminController,
   ],
   providers: [
     AuthLoginService,
@@ -37,6 +40,7 @@ import { AuthUpdateProfileService } from './services/auth-update-profile.service
     AuthRegisterService,
     AuthNotificationService,
     AuthSettingService,
+    AuthAdminService,
   ],
 })
 export class AuthModule {}

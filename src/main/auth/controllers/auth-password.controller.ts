@@ -8,7 +8,7 @@ import {
 } from '../dto/password.dto';
 import { AuthPasswordService } from '../services/auth-password.service';
 
-@ApiTags('Auth, Profile & Settings')
+@ApiTags('Auth, Password')
 @Controller('auth')
 export class AuthPasswordController {
   constructor(private readonly authPasswordService: AuthPasswordService) {}

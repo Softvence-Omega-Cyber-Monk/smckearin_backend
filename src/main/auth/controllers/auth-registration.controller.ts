@@ -12,7 +12,7 @@ import { DriverRegisterDto } from '../dto/driver-register.dto';
 import { RegisterDto } from '../dto/register.dto';
 import { AuthRegisterService } from '../services/auth-register.service';
 
-@ApiTags('Auth, Profile & Settings')
+@ApiTags('Auth, Registration')
 @Controller('auth')
 export class AuthRegistrationController {
   constructor(private readonly authRegisterService: AuthRegisterService) {}

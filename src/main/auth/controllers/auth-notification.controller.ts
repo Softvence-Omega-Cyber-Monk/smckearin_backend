@@ -5,7 +5,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { NotificationSettingsDto } from '../dto/notification.dto';
 import { AuthNotificationService } from '../services/auth-notification.service';
 
-@ApiTags('Auth, Profile & Settings')
+@ApiTags('Auth, Notification')
 @Controller('auth')
 export class AuthNotificationController {
   constructor(
