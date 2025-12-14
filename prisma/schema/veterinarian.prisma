@@ -18,6 +18,9 @@ model Veterinarian {
   // Health Reports
   healthReports HealthReport[]
 
+  // Vet Documents
+  vetDocuments VetDocument[]
+
   status ApprovalStatus @default(PENDING)
 
   userId String @unique
@@ -27,4 +30,23 @@ model Veterinarian {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@map("veterinarians")
+}
+
+model VetDocument {
+  id String @id @default(uuid())
+
+  name String
+  type String
+
+  vetId String
+  vet   Veterinarian @relation(fields: [vetId], references: [id], onDelete: Cascade)
+
+  documentId  String       @unique
+  documentUrl String
+  document    FileInstance @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("vet_documents")
 }
