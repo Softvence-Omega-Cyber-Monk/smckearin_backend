@@ -136,8 +136,7 @@ export class AuthMailService {
     password: string,
     options: EmailOptions = {},
   ): Promise<nodemailer.SentMessageInfo> {
-    const subject =
-      options.subject || `Invitation to Join ${shelterName}`;
+    const subject = options.subject || `Invitation to Join ${shelterName}`;
     const loginLink = `${this.frontendUrl}/login`;
 
     return this.sendEmail(

@@ -18,7 +18,9 @@ export class AuthShelterService {
     private readonly mailService: AuthMailService,
   ) {}
 
-  private async getShelter(userId: string): Promise<{ id: string; name: string }> {
+  private async getShelter(
+    userId: string,
+  ): Promise<{ id: string; name: string }> {
     const user = await this.prisma.client.user.findUnique({
       where: { id: userId },
       select: {
