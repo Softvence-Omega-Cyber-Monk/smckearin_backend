@@ -3,8 +3,12 @@ import { successResponse } from '@/common/utils/response.util';
 import { SocketSafe } from '@/core/socket/socket-safe.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
+import { Prisma } from '@prisma';
 import { Socket } from 'socket.io';
-import { LoadConversationsDto } from '../dto/conversation.dto';
+import {
+  ConversationType,
+  LoadConversationsDto,
+} from '../dto/conversation.dto';
 
 @Injectable()
 export class ConversationQueryService {
@@ -12,314 +16,314 @@ export class ConversationQueryService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * Hybrid conversation loader:
-   * - Without search: Load existing conversations (Chat List).
-   * - With search: Load potential contacts (Global Search) + Status of existing conversation.
-   */
   @SocketSafe()
   async loadConversations(client: Socket, dto: LoadConversationsDto) {
     const userId = client.data.userId;
-    const { page = 1, limit = 20, search, type } = dto;
+    const { page = 1, limit = 20, type } = dto;
     const skip = (page - 1) * limit;
-
-    this.logger.debug(
-      `Loading conversations for user ${userId}, page ${page}, limit ${limit} and search ${search} type ${dto.type}`,
-    );
 
     const user = await this.prisma.client.user.findUniqueOrThrow({
       where: { id: userId },
       select: {
         id: true,
+        role: true,
         shelterAdminOfId: true,
         managerOfId: true,
       },
     });
 
+    // Determine user's shelter(s) if admin/manager
     const myShelterIds: string[] = [];
     if (user.shelterAdminOfId) myShelterIds.push(user.shelterAdminOfId);
     if (user.managerOfId) myShelterIds.push(user.managerOfId);
 
-    const rawResults: any[] = [];
-    let total = 0;
+    let result: { list: any[]; total: number };
 
-    // PATH 1: NO SEARCH -> Load Existing Conversations Only
-    if (!search) {
-      const whereClause: any = {};
-
-      // Type Filtering for Chat List
-      if (type === 'SHELTER') {
-        // Show chats involving a shelter
-        whereClause.shelterId = { not: null };
-        // Access control
-        whereClause.OR = [
-          { initiatorId: userId },
-          { receiverId: userId },
-          ...(myShelterIds.length > 0
-            ? [{ shelterId: { in: myShelterIds } }]
-            : []),
-        ];
-      } else if (type === 'DRIVER' || type === 'VET') {
-        // Show chats with Users of specific role
-        // AND shelterId is null (User-User chat)
-        whereClause.shelterId = null;
-
-        const targetRole = type === 'VET' ? 'VETERINARIAN' : 'DRIVER';
-        whereClause.OR = [
-          { initiatorId: userId, receiver: { role: targetRole } },
-          { receiverId: userId, initiator: { role: targetRole } },
-        ];
+    // Decide which helper(s) to call based on role & type filter
+    if (user.role === 'VETERINARIAN') {
+      if (type === ConversationType.SHELTER) {
+        result = await this.loadShelters(userId, myShelterIds, skip, limit);
       } else {
-        // "All" chats? Or fallback?
-        // Load everything where I am involved
-        whereClause.OR = [
-          { initiatorId: userId },
-          { receiverId: userId },
-          ...(myShelterIds.length > 0
-            ? [{ shelterId: { in: myShelterIds } }]
-            : []),
-        ];
+        // Default: show drivers
+        result = await this.loadDrivers(userId, skip, limit);
       }
-
-      const [conversations, count] = await this.prisma.client.$transaction([
-        this.prisma.client.privateConversation.findMany({
-          where: whereClause,
-          include: {
-            initiator: this.selectUserPartial(),
-            receiver: this.selectUserPartial(),
-            shelter: this.selectShelterPartial(),
-            lastMessage: {
-              include: { sender: { select: { name: true } } }, // Basic sender info
-            },
-          },
-          orderBy: { updatedAt: 'desc' },
-          skip,
-          take: limit,
-        }),
-        this.prisma.client.privateConversation.count({ where: whereClause }),
-      ]);
-
-      total = count;
-
-      // Transform to unified format
-      conversations.forEach((conv) => {
-        const formatted = this.formatConversationResult(
-          conv,
+    } else if (user.role === 'DRIVER') {
+      if (type === ConversationType.SHELTER) {
+        result = await this.loadShelters(userId, myShelterIds, skip, limit);
+      } else {
+        // Default: show vets
+        result = await this.loadVets(userId, skip, limit);
+      }
+    } else if (user.role === 'SHELTER_ADMIN' || user.role === 'MANAGER') {
+      // Shelter sees both vets and drivers
+      if (type === ConversationType.VET) {
+        result = await this.loadVets(userId, skip, limit, myShelterIds);
+      } else if (type === ConversationType.DRIVER) {
+        result = await this.loadDrivers(userId, skip, limit, myShelterIds);
+      } else {
+        // merged list: vets + drivers
+        const vets = await this.loadVets(userId, skip, limit, myShelterIds);
+        const drivers = await this.loadDrivers(
           userId,
+          skip,
+          limit,
           myShelterIds,
         );
-        // If type filtering was strict (e.g. searching generic users but only wanting those with Driver role),
-        // we did that in DB.
-        if (formatted) rawResults.push(formatted);
-      });
-    } else {
-      // PATH 2: WITH SEARCH -> Global Search (Users & Shelters)
-      // Note: This matches "Entities" and checks if we have a chat.
-
-      // Strategy:
-      // 1. Search Users (if not type=SHELTER)
-      // 2. Search Shelters (if type=SHELTER or no type)
-      // 3. Merge? Pagination is tricky.
-      // Simplified: If type provided, search ONLY that table.
-      // If NO type provided, we might default to Users or handle both?
-      // Given DTO has `type` mainly required? No, checks `if type provided`.
-
-      let foundEntities = [];
-
-      if (type === 'SHELTER') {
-        // Search Shelters
-        const whereShelter: any = {
-          name: { contains: search, mode: 'insensitive' },
+        result = {
+          list: [...vets.list, ...drivers.list],
+          total: vets.total + drivers.total,
         };
-        // Exclude my own shelters?
-        if (myShelterIds.length > 0) whereShelter.id = { notIn: myShelterIds };
-
-        const [shelters, count] = await this.prisma.client.$transaction([
-          this.prisma.client.shelter.findMany({
-            where: whereShelter,
-            select: {
-              id: true,
-              name: true,
-              logoUrl: true,
-              // Check for existing conv
-              conversations: {
-                where: {
-                  OR: [{ initiatorId: userId }, { receiverId: userId }],
-                },
-                include: {
-                  lastMessage: {
-                    include: { sender: { select: { name: true } } },
-                  },
-                },
-                take: 1,
-              },
-            },
-            skip,
-            take: limit,
-            orderBy: { name: 'asc' },
-          }),
-          this.prisma.client.shelter.count({ where: whereShelter }),
-        ]);
-
-        total = count;
-        foundEntities = shelters.map((s) => ({
-          id: s.id,
-          name: s.name,
-          image: s.logoUrl,
-          type: 'SHELTER',
-          existingConv: s.conversations?.[0],
-        }));
-      } else {
-        // Search Users (VET or DRIVER)
-        // If type is not provided, maybe search All Users?
-        // Let's assume default to searching Users if not Shelter.
-
-        const whereUser: any = {
-          name: { contains: search, mode: 'insensitive' },
-          id: { not: userId },
-        };
-
-        if (type === 'VET') whereUser.role = 'VETERINARIAN';
-        if (type === 'DRIVER') whereUser.role = 'DRIVER';
-
-        const [users, count] = await this.prisma.client.$transaction([
-          this.prisma.client.user.findMany({
-            where: whereUser,
-            select: {
-              id: true,
-              name: true,
-              profilePictureId: true,
-              role: true,
-              // Check for existing conv (User-User or Shelter-User)
-              conversationsInitiated: {
-                where: { receiverId: userId }, // User-User
-                include: {
-                  lastMessage: {
-                    include: { sender: { select: { name: true } } },
-                  },
-                },
-                take: 1,
-              },
-              conversationsReceived: {
-                where: { initiatorId: userId }, // User-User
-                include: {
-                  lastMessage: {
-                    include: { sender: { select: { name: true } } },
-                  },
-                },
-                take: 1,
-              },
-              // Checking Shelter-User chats here is hard (I as admin vs User).
-              // Let's assume Contact Search is personal for now or strictly User-User.
-            },
-            skip,
-            take: limit,
-            orderBy: { name: 'asc' },
-          }),
-          this.prisma.client.user.count({ where: whereUser }),
-        ]);
-
-        total = count;
-
-        foundEntities = users.map((u) => {
-          // Find best conversation
-          const c1 = u.conversationsInitiated?.[0];
-          const c2 = u.conversationsReceived?.[0];
-          const existing =
-            c1 && c2 ? (c1.updatedAt > c2.updatedAt ? c1 : c2) : c1 || c2;
-
-          return {
-            id: u.id,
-            name: u.name,
-            image: u.profilePictureId,
-            type:
-              u.role === 'VETERINARIAN'
-                ? 'VET'
-                : u.role === 'DRIVER'
-                  ? 'DRIVER'
-                  : 'USER',
-            existingConv: existing,
-          };
-        });
       }
-
-      // Transform Entities to Response Format
-      foundEntities.forEach((ent) => {
-        rawResults.push({
-          id: ent.id, // ID of the Entity (Target)
-          name: ent.name,
-          type: ent.type,
-          image: ent.image, // Optional helper
-          lastMessage: ent.existingConv?.lastMessage?.content || 'No chat yet',
-          conversationId: ent.existingConv?.id || null, // Helpful for frontend to know if they need to 'create' or 'join'
-          isActive: !!ent.existingConv,
-          lastActiveAt: ent.existingConv?.updatedAt || null,
-        });
-      });
+    } else {
+      // fallback: load all existing conversations
+      result = await this.loadAllExistingConversations(
+        userId,
+        myShelterIds,
+        skip,
+        limit,
+      );
     }
 
-    client.emit(
-      EventsEnum.CONVERSATION_LIST_RESPONSE,
-      successResponse({
-        list: rawResults,
-        pagination: {
-          page,
-          limit,
-          total,
-          totalPages: Math.ceil(total / limit),
-        },
-      }),
-    );
-
-    return successResponse({
-      list: rawResults,
-      pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
+    const payload = successResponse({
+      list: result.list,
+      pagination: {
+        page,
+        limit,
+        total: result.total,
+        totalPages: Math.ceil(result.total / limit),
+      },
     });
+
+    client.emit(EventsEnum.CONVERSATION_LIST_RESPONSE, payload);
+    return payload;
   }
 
-  // Helpers
-  private selectUserPartial() {
-    return {
-      select: { id: true, name: true, role: true, profilePictureId: true },
+  /** ---------------- Helper: load All Existing Conversations ---------------- */
+  private async loadAllExistingConversations(
+    userId: string,
+    myShelterIds: string[],
+    skip = 0,
+    limit = 20,
+  ): Promise<{ list: any[]; total: number }> {
+    const where: Prisma.PrivateConversationWhereInput = {
+      OR: [
+        { initiatorId: userId },
+        { receiverId: userId },
+        ...(myShelterIds.length ? [{ shelterId: { in: myShelterIds } }] : []),
+      ],
     };
+    const [conversations, count] = await this.prisma.client.$transaction([
+      this.prisma.client.privateConversation.findMany({
+        where,
+        include: {
+          initiator: {
+            select: {
+              id: true,
+              name: true,
+              role: true,
+              profilePictureId: true,
+            },
+          },
+          receiver: {
+            select: {
+              id: true,
+              name: true,
+              role: true,
+              profilePictureId: true,
+            },
+          },
+          shelter: { select: { id: true, name: true, logoUrl: true } },
+          lastMessage: { include: { sender: { select: { name: true } } } },
+        },
+        orderBy: { updatedAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.client.privateConversation.count({ where }),
+    ]);
+    const list = conversations
+      .map((conv) => this.formatConversationResult(conv, userId, myShelterIds))
+      .filter(Boolean);
+    return { list, total: count };
   }
 
-  private selectShelterPartial() {
-    return { select: { id: true, name: true, logoUrl: true } };
+  /** ---------------- Helper: load Vets ---------------- */
+  private async loadVets(
+    userId: string,
+    skip = 0,
+    limit = 20,
+    shelterIds: string[] = [],
+  ): Promise<{ list: any[]; total: number }> {
+    // Vets connected to this shelter(s) or user
+    const where: Prisma.PrivateConversationWhereInput = {
+      shelterId: shelterIds.length ? { in: shelterIds } : undefined,
+      OR: [
+        { initiatorId: userId, receiver: { role: 'VETERINARIAN' } },
+        { receiverId: userId, initiator: { role: 'VETERINARIAN' } },
+      ],
+    };
+
+    const [conversations, count] = await this.prisma.client.$transaction([
+      this.prisma.client.privateConversation.findMany({
+        where,
+        include: {
+          initiator: {
+            select: {
+              id: true,
+              name: true,
+              role: true,
+              profilePictureId: true,
+            },
+          },
+          receiver: {
+            select: {
+              id: true,
+              name: true,
+              role: true,
+              profilePictureId: true,
+            },
+          },
+          lastMessage: { include: { sender: { select: { name: true } } } },
+        },
+        orderBy: { updatedAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.client.privateConversation.count({ where }),
+    ]);
+
+    const list = conversations
+      .map((c) => this.formatConversationResult(c, userId, shelterIds))
+      .filter(Boolean);
+    return { list, total: count };
   }
 
+  /** ---------------- Helper: load Drivers ---------------- */
+  private async loadDrivers(
+    userId: string,
+    skip = 0,
+    limit = 20,
+    shelterIds: string[] = [],
+  ): Promise<{ list: any[]; total: number }> {
+    const where: Prisma.PrivateConversationWhereInput = {
+      shelterId: shelterIds.length ? { in: shelterIds } : undefined,
+      OR: [
+        { initiatorId: userId, receiver: { role: 'DRIVER' } },
+        { receiverId: userId, initiator: { role: 'DRIVER' } },
+      ],
+    };
+
+    const [conversations, count] = await this.prisma.client.$transaction([
+      this.prisma.client.privateConversation.findMany({
+        where,
+        include: {
+          initiator: {
+            select: {
+              id: true,
+              name: true,
+              role: true,
+              profilePictureId: true,
+            },
+          },
+          receiver: {
+            select: {
+              id: true,
+              name: true,
+              role: true,
+              profilePictureId: true,
+            },
+          },
+          lastMessage: { include: { sender: { select: { name: true } } } },
+        },
+        orderBy: { updatedAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.client.privateConversation.count({ where }),
+    ]);
+
+    const list = conversations
+      .map((c) => this.formatConversationResult(c, userId, shelterIds))
+      .filter(Boolean);
+    return { list, total: count };
+  }
+
+  /** ---------------- Helper: load Shelters ---------------- */
+  private async loadShelters(
+    userId: string,
+    shelterIds: string[] = [],
+    skip = 0,
+    limit = 20,
+  ): Promise<{ list: any[]; total: number }> {
+    const where: any = { shelterId: { not: null } };
+    where.OR = [
+      { initiatorId: userId },
+      { receiverId: userId },
+      ...(shelterIds.length ? [{ shelterId: { in: shelterIds } }] : []),
+    ];
+
+    const [conversations, count] = await this.prisma.client.$transaction([
+      this.prisma.client.privateConversation.findMany({
+        where,
+        include: {
+          initiator: {
+            select: {
+              id: true,
+              name: true,
+              role: true,
+              profilePictureId: true,
+            },
+          },
+          receiver: {
+            select: {
+              id: true,
+              name: true,
+              role: true,
+              profilePictureId: true,
+            },
+          },
+          shelter: { select: { id: true, name: true, logoUrl: true } },
+          lastMessage: { include: { sender: { select: { name: true } } } },
+        },
+        orderBy: { updatedAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.client.privateConversation.count({ where }),
+    ]);
+
+    const list = conversations
+      .map((c) => this.formatConversationResult(c, userId, shelterIds))
+      .filter(Boolean);
+    return { list, total: count };
+  }
+
+  /** ---------------- Shared formatter ---------------- */
   private formatConversationResult(
     conv: any,
     userId: string,
-    myShelterIds: string[],
+    shelterIds: string[],
   ) {
-    // Determine "Other Participant"
     let otherPart: any = null;
     let type = 'USER';
-
-    const isMyShelter = myShelterIds.includes(conv.shelterId || '');
+    const isMyShelter =
+      shelterIds.length > 0 && shelterIds.includes(conv.shelterId || '');
 
     if (conv.shelterId) {
-      if (isMyShelter) {
-        // I am Shelter -> Other is User (Initiator or Receiver)
-        // Usually Initiator
-        otherPart =
-          !myShelterIds.includes(conv.initiatorId) && conv.initiatorId
-            ? conv.initiator
-            : conv.receiver;
-        type =
-          otherPart?.role === 'VETERINARIAN'
+      otherPart = isMyShelter
+        ? !shelterIds.includes(conv.initiatorId)
+          ? conv.initiator
+          : conv.receiver
+        : conv.shelter;
+      type =
+        conv.shelterId && !isMyShelter
+          ? 'SHELTER'
+          : otherPart?.role === 'VETERINARIAN'
             ? 'VET'
             : otherPart?.role === 'DRIVER'
               ? 'DRIVER'
               : 'USER';
-      } else {
-        // I am User -> Other is Shelter
-        otherPart = conv.shelter;
-        type = 'SHELTER';
-      }
     } else {
-      // User-User
       otherPart = conv.initiatorId === userId ? conv.receiver : conv.initiator;
       type =
         otherPart?.role === 'VETERINARIAN'
@@ -329,12 +333,12 @@ export class ConversationQueryService {
             : 'USER';
     }
 
-    if (!otherPart) return null; // Should not happen
+    if (!otherPart) return null;
 
     return {
       id: otherPart.id,
       name: otherPart.name,
-      type: type,
+      type,
       lastMessage: conv.lastMessage?.content || 'Msg',
       isActive: true,
       conversationId: conv.id,
