@@ -1,5 +1,5 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export enum ConversationType {
@@ -21,4 +21,14 @@ export class LoadConversationsDto extends PaginationDto {
   @IsOptional()
   @IsEnum(ConversationType)
   type?: ConversationType;
+}
+
+export class InitOrLoadSingleConversationDto {
+  @ApiProperty({ description: 'Conversation ID' })
+  @IsString()
+  id: string;
+
+  @ApiProperty({ description: 'Type of conversation' })
+  @IsEnum(ConversationType)
+  type: ConversationType;
 }

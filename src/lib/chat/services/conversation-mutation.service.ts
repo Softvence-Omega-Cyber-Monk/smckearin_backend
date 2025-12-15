@@ -11,6 +11,4 @@ export class ConversationMutationService {
     @Inject(forwardRef(() => ChatGateway))
     private readonly chatGateway: ChatGateway,
   ) {}
-
-  
 }

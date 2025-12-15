@@ -2,17 +2,27 @@ import { EventsEnum } from '@/common/enum/queue-events.enum';
 import { successPaginatedResponse } from '@/common/utils/response.util';
 import { SocketSafe } from '@/core/socket/socket-safe.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { Prisma } from '@prisma';
 import { Socket } from 'socket.io';
+import { ChatGateway } from '../chat.gateway';
 import {
   ConversationType,
   LoadConversationsDto,
 } from '../dto/conversation.dto';
+import {
+  Contact,
+  ContactType,
+  LoadContactsResult,
+} from '../types/conversation.types';
 
 @Injectable()
 export class ConversationQueryService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(forwardRef(() => ChatGateway))
+    private readonly chatGateway: ChatGateway,
+  ) {}
 
   @SocketSafe()
   async loadConversations(client: Socket, dto: LoadConversationsDto) {
@@ -35,7 +45,7 @@ export class ConversationQueryService {
     const userShelterId: string | null =
       user.shelterAdminOfId ?? user.managerOfId ?? null;
 
-    let result: { list: any[]; total: number };
+    let result: LoadContactsResult;
 
     // * If no type is provided, load all available contacts (merged view)
     if (!type) {
@@ -118,9 +128,9 @@ export class ConversationQueryService {
     skip = 0,
     limit = 20,
     search = '',
-  ): Promise<{ list: any[]; total: number }> {
+  ): Promise<LoadContactsResult> {
     // Based on user role, fetch all their possible contacts
-    const contacts: any[] = [];
+    const contacts: Contact[] = [];
 
     if (userRole === 'VETERINARIAN') {
       // Vets can contact: Shelters + Drivers
@@ -145,11 +155,12 @@ export class ConversationQueryService {
       contacts.push(...vets.list, ...drivers.list);
     }
 
-    // Sort all contacts by lastActiveAt (most recent first)
-    contacts.sort(
-      (a, b) =>
-        new Date(b.lastActiveAt).getTime() - new Date(a.lastActiveAt).getTime(),
-    );
+    // Sort all contacts: Online first, then by createdAt desc (or default order)
+    // Removed lastActiveAt, so simple sort by active status first
+    contacts.sort((a, b) => {
+      if (a.isActive === b.isActive) return 0;
+      return a.isActive ? -1 : 1;
+    });
 
     // Apply pagination
     const total = contacts.length;
@@ -165,7 +176,7 @@ export class ConversationQueryService {
     limit = 20,
     search = '',
     userShelterId: string | null = null,
-  ): Promise<{ list: any[]; total: number }> {
+  ): Promise<LoadContactsResult> {
     // Get ALL vets from the system
     const vetWhere: Prisma.UserWhereInput = {
       role: 'VETERINARIAN',
@@ -182,7 +193,6 @@ export class ConversationQueryService {
           role: true,
           profilePictureId: true,
           profilePictureUrl: true,
-          lastActiveAt: true,
         },
         orderBy: { name: 'asc' },
         skip,
@@ -238,26 +248,25 @@ export class ConversationQueryService {
     );
 
     // Format the results
-    const list = vets.map((vet) => {
+    const list: Contact[] = vets.map((vet) => {
       const conv = convMap.get(vet.id);
       return {
         id: vet.id,
         name: vet.name,
-        type: 'VET',
+        type: ContactType.VET,
         lastMessage: conv?.lastMessage?.content || 'No message yet',
-        isActive: true,
+        lastMessageAt: conv?.updatedAt || null,
+        isActive: this.chatGateway.isOnline(vet.id),
         conversationId: conv?.id || null,
-        lastActiveAt: conv?.updatedAt || vet.lastActiveAt || new Date(),
         avatarUrl: vet.profilePictureUrl || this.getDefaultAvatar(vet.name),
-        profilePictureId: vet.profilePictureId,
       };
     });
 
-    // Sort by lastActiveAt (most recent first)
-    list.sort(
-      (a, b) =>
-        new Date(b.lastActiveAt).getTime() - new Date(a.lastActiveAt).getTime(),
-    );
+    // Sort: Online first
+    list.sort((a, b) => {
+      if (a.isActive === b.isActive) return 0;
+      return a.isActive ? -1 : 1;
+    });
 
     return { list, total: totalVets };
   }
@@ -269,7 +278,7 @@ export class ConversationQueryService {
     limit = 20,
     search = '',
     userShelterId: string | null = null,
-  ): Promise<{ list: any[]; total: number }> {
+  ): Promise<LoadContactsResult> {
     // Get ALL drivers from the system
     const driverWhere: Prisma.UserWhereInput = {
       role: 'DRIVER',
@@ -289,7 +298,6 @@ export class ConversationQueryService {
           role: true,
           profilePictureId: true,
           profilePictureUrl: true,
-          lastActiveAt: true,
         },
         orderBy: { name: 'asc' },
         skip,
@@ -345,26 +353,26 @@ export class ConversationQueryService {
     );
 
     // Format the results
-    const list = drivers.map((driver) => {
+    const list: Contact[] = drivers.map((driver) => {
       const conv = convMap.get(driver.id);
       return {
         id: driver.id,
         name: driver.name,
-        type: 'DRIVER',
+        type: ContactType.DRIVER,
         lastMessage: conv?.lastMessage?.content || 'No message yet',
-        isActive: true,
+        lastMessageAt: conv?.updatedAt || null,
+        isActive: this.chatGateway.isOnline(driver.id),
         conversationId: conv?.id || null,
-        lastActiveAt: conv?.updatedAt || driver.lastActiveAt || new Date(),
         avatarUrl:
           driver.profilePictureUrl || this.getDefaultAvatar(driver.name),
       };
     });
 
-    // Sort by lastActiveAt (most recent first)
-    list.sort(
-      (a, b) =>
-        new Date(b.lastActiveAt).getTime() - new Date(a.lastActiveAt).getTime(),
-    );
+    // Sort: Online first
+    list.sort((a, b) => {
+      if (a.isActive === b.isActive) return 0;
+      return a.isActive ? -1 : 1;
+    });
 
     return { list, total: totalDrivers };
   }
@@ -375,7 +383,7 @@ export class ConversationQueryService {
     skip = 0,
     limit = 20,
     search = '',
-  ): Promise<{ list: any[]; total: number }> {
+  ): Promise<LoadContactsResult> {
     // Get ALL shelters from the system
     const shelterWhere: Prisma.ShelterWhereInput = {
       status: 'APPROVED', // Only show approved shelters
@@ -391,6 +399,8 @@ export class ConversationQueryService {
           logoId: true,
           logoUrl: true,
           updatedAt: true,
+          managers: { select: { id: true } },
+          shelterAdmins: { select: { id: true } },
         },
         orderBy: { name: 'asc' },
         skip,
@@ -417,25 +427,33 @@ export class ConversationQueryService {
     const convMap = new Map(conversations.map((c) => [c.shelterId!, c]));
 
     // Format the results
-    const list = shelters.map((shelter) => {
+    const list: Contact[] = shelters.map((shelter) => {
       const conv = convMap.get(shelter.id);
+
+      // Check if ANY member (manager or admin) is online
+      const teamIds = [
+        ...shelter.shelterAdmins?.map((a) => a.id),
+        ...shelter.managers?.map((m) => m.id),
+      ];
+      const isTeamActive = teamIds.some((id) => this.chatGateway.isOnline(id));
+
       return {
         id: shelter.id,
         name: shelter.name,
-        type: 'SHELTER',
+        type: ContactType.SHELTER,
         lastMessage: conv?.lastMessage?.content || 'No message yet',
-        isActive: true,
+        lastMessageAt: conv?.updatedAt || null,
+        isActive: isTeamActive,
         conversationId: conv?.id || null,
-        lastActiveAt: conv?.updatedAt || shelter.updatedAt || new Date(),
         avatarUrl: shelter.logoUrl || this.getDefaultAvatar(shelter.name),
       };
     });
 
-    // Sort by lastActiveAt (most recent first)
-    list.sort(
-      (a, b) =>
-        new Date(b.lastActiveAt).getTime() - new Date(a.lastActiveAt).getTime(),
-    );
+    // Sort: Based on last message time
+    list.sort((a, b) => {
+      if (a.lastMessageAt === b.lastMessageAt) return 0;
+      return a.lastMessageAt ? -1 : 1;
+    });
 
     return { list, total: totalShelters };
   }
