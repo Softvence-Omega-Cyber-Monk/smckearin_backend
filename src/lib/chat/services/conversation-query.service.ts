@@ -2,7 +2,7 @@ import { EventsEnum } from '@/common/enum/queue-events.enum';
 import { successPaginatedResponse } from '@/common/utils/response.util';
 import { SocketSafe } from '@/core/socket/socket-safe.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma';
 import { Socket } from 'socket.io';
 import {
@@ -12,8 +12,6 @@ import {
 
 @Injectable()
 export class ConversationQueryService {
-  private logger = new Logger(ConversationQueryService.name);
-
   constructor(private readonly prisma: PrismaService) {}
 
   @SocketSafe()
@@ -51,25 +49,37 @@ export class ConversationQueryService {
       // Decide which helper(s) to call based on role & type filter
       if (user.role === 'VETERINARIAN') {
         if (type === ConversationType.SHELTER) {
-          result = await this.loadShelters(userId, userShelterId, skip, limit);
+          result = await this.loadAllShelters(userId, skip, limit, search);
         } else {
-          // Default: show drivers
-          result = await this.loadDrivers(userId, skip, limit);
+          // Show all drivers
+          result = await this.loadAllDrivers(userId, skip, limit, search);
         }
       } else if (user.role === 'DRIVER') {
         if (type === ConversationType.SHELTER) {
-          result = await this.loadShelters(userId, userShelterId, skip, limit);
+          result = await this.loadAllShelters(userId, skip, limit, search);
         } else {
-          // Default: show vets
-          result = await this.loadVets(userId, skip, limit);
+          // Show all vets
+          result = await this.loadAllVets(userId, skip, limit, search);
         }
       } else if (user.role === 'SHELTER_ADMIN' || user.role === 'MANAGER') {
         // Shelter sees both vets and drivers
         if (type === ConversationType.VET) {
-          result = await this.loadVets(userId, skip, limit, userShelterId);
+          result = await this.loadAllVets(
+            userId,
+            skip,
+            limit,
+            search,
+            userShelterId,
+          );
         } else {
-          // Default: show drivers
-          result = await this.loadDrivers(userId, skip, limit, userShelterId);
+          // Show all drivers
+          result = await this.loadAllDrivers(
+            userId,
+            skip,
+            limit,
+            search,
+            userShelterId,
+          );
         }
       } else {
         // fallback: load all existing conversations
@@ -145,156 +155,253 @@ export class ConversationQueryService {
     return { list, total: count };
   }
 
-  /** ---------------- Helper: load Vets ---------------- */
-  private async loadVets(
+  /** ---------------- Helper: load ALL Vets ---------------- */
+  private async loadAllVets(
     userId: string,
     skip = 0,
     limit = 20,
+    search = '',
     userShelterId: string | null = null,
   ): Promise<{ list: any[]; total: number }> {
-    // Vets connected to this shelter or user
-    const where: Prisma.PrivateConversationWhereInput = {
-      // restrict to conversations attached to shelter if provided
-      ...(userShelterId ? { shelterId: userShelterId } : {}),
-      OR: [
-        { initiatorId: userId, receiver: { role: 'VETERINARIAN' } },
-        { receiverId: userId, initiator: { role: 'VETERINARIAN' } },
-      ],
+    // Get ALL vets from the system
+    const vetWhere: Prisma.UserWhereInput = {
+      role: 'VETERINARIAN',
+      status: 'ACTIVE',
+      ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
-    const [conversations, count] = await this.prisma.client.$transaction([
-      this.prisma.client.privateConversation.findMany({
-        where,
-        include: {
-          initiator: {
-            select: {
-              id: true,
-              name: true,
-              role: true,
-              profilePictureId: true,
-            },
-          },
-          receiver: {
-            select: {
-              id: true,
-              name: true,
-              role: true,
-              profilePictureId: true,
-            },
-          },
-          lastMessage: { include: { sender: { select: { name: true } } } },
+    const [vets, totalVets] = await this.prisma.client.$transaction([
+      this.prisma.client.user.findMany({
+        where: vetWhere,
+        select: {
+          id: true,
+          name: true,
+          role: true,
+          profilePictureId: true,
+          lastActiveAt: true,
         },
-        orderBy: { updatedAt: 'desc' },
+        orderBy: { name: 'asc' },
         skip,
         take: limit,
       }),
-      this.prisma.client.privateConversation.count({ where }),
+      this.prisma.client.user.count({ where: vetWhere }),
     ]);
 
-    const list = conversations
-      .map((c) => this.formatConversationResult(c, userId, userShelterId))
-      .filter(Boolean);
-    return { list, total: count };
+    // Now fetch existing conversations for these vets
+    const vetIds = vets.map((v) => v.id);
+    const conversations = await this.prisma.client.privateConversation.findMany(
+      {
+        where: {
+          ...(userShelterId ? { shelterId: userShelterId } : {}),
+          OR: [
+            { initiatorId: userId, receiverId: { in: vetIds } },
+            { receiverId: userId, initiatorId: { in: vetIds } },
+            ...(userShelterId
+              ? [
+                  { shelterId: userShelterId, initiatorId: { in: vetIds } },
+                  { shelterId: userShelterId, receiverId: { in: vetIds } },
+                ]
+              : []),
+          ],
+        },
+        include: {
+          lastMessage: { include: { sender: { select: { name: true } } } },
+        },
+      },
+    );
+
+    // Create a map of vet conversations
+    const convMap = new Map(
+      conversations.map((c) => {
+        const vetId =
+          c.initiatorId === userId || c.initiatorId === userShelterId
+            ? c.receiverId
+            : c.initiatorId;
+        return [vetId, c];
+      }),
+    );
+
+    // Format the results
+    const list = vets.map((vet) => {
+      const conv = convMap.get(vet.id);
+      return {
+        id: vet.id,
+        name: vet.name,
+        type: 'VET',
+        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        isActive: true,
+        conversationId: conv?.id || null,
+        lastActiveAt: conv?.updatedAt || vet.lastActiveAt || new Date(),
+        profilePictureId: vet.profilePictureId,
+      };
+    });
+
+    // Sort by lastActiveAt (most recent first)
+    list.sort(
+      (a, b) =>
+        new Date(b.lastActiveAt).getTime() - new Date(a.lastActiveAt).getTime(),
+    );
+
+    return { list, total: totalVets };
   }
 
-  /** ---------------- Helper: load Drivers ---------------- */
-  private async loadDrivers(
+  /** ---------------- Helper: load ALL Drivers (not just existing conversations) ---------------- */
+  private async loadAllDrivers(
     userId: string,
     skip = 0,
     limit = 20,
+    search = '',
     userShelterId: string | null = null,
   ): Promise<{ list: any[]; total: number }> {
-    const where: Prisma.PrivateConversationWhereInput = {
-      ...(userShelterId ? { shelterId: userShelterId } : {}),
-      OR: [
-        { initiatorId: userId, receiver: { role: 'DRIVER' } },
-        { receiverId: userId, initiator: { role: 'DRIVER' } },
-      ],
+    // Get ALL drivers from the system
+    const driverWhere: Prisma.UserWhereInput = {
+      role: 'DRIVER',
+      status: 'ACTIVE',
+      ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
-    const [conversations, count] = await this.prisma.client.$transaction([
-      this.prisma.client.privateConversation.findMany({
-        where,
-        include: {
-          initiator: {
-            select: {
-              id: true,
-              name: true,
-              role: true,
-              profilePictureId: true,
-            },
-          },
-          receiver: {
-            select: {
-              id: true,
-              name: true,
-              role: true,
-              profilePictureId: true,
-            },
-          },
-          lastMessage: { include: { sender: { select: { name: true } } } },
+    const [drivers, totalDrivers] = await this.prisma.client.$transaction([
+      this.prisma.client.user.findMany({
+        where: driverWhere,
+        select: {
+          id: true,
+          name: true,
+          role: true,
+          profilePictureId: true,
+          lastActiveAt: true,
         },
-        orderBy: { updatedAt: 'desc' },
+        orderBy: { name: 'asc' },
         skip,
         take: limit,
       }),
-      this.prisma.client.privateConversation.count({ where }),
+      this.prisma.client.user.count({ where: driverWhere }),
     ]);
 
-    const list = conversations
-      .map((c) => this.formatConversationResult(c, userId, userShelterId))
-      .filter(Boolean);
-    return { list, total: count };
+    // Now fetch existing conversations for these drivers
+    const driverIds = drivers.map((d) => d.id);
+    const conversations = await this.prisma.client.privateConversation.findMany(
+      {
+        where: {
+          ...(userShelterId ? { shelterId: userShelterId } : {}),
+          OR: [
+            { initiatorId: userId, receiverId: { in: driverIds } },
+            { receiverId: userId, initiatorId: { in: driverIds } },
+            ...(userShelterId
+              ? [
+                  { shelterId: userShelterId, initiatorId: { in: driverIds } },
+                  { shelterId: userShelterId, receiverId: { in: driverIds } },
+                ]
+              : []),
+          ],
+        },
+        include: {
+          lastMessage: { include: { sender: { select: { name: true } } } },
+        },
+      },
+    );
+
+    // Create a map of driver conversations
+    const convMap = new Map(
+      conversations.map((c) => {
+        const driverId =
+          c.initiatorId === userId || c.initiatorId === userShelterId
+            ? c.receiverId
+            : c.initiatorId;
+        return [driverId, c];
+      }),
+    );
+
+    // Format the results
+    const list = drivers.map((driver) => {
+      const conv = convMap.get(driver.id);
+      return {
+        id: driver.id,
+        name: driver.name,
+        type: 'DRIVER',
+        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        isActive: true,
+        conversationId: conv?.id || null,
+        lastActiveAt: conv?.updatedAt || driver.lastActiveAt || new Date(),
+        profilePictureId: driver.profilePictureId,
+      };
+    });
+
+    // Sort by lastActiveAt (most recent first)
+    list.sort(
+      (a, b) =>
+        new Date(b.lastActiveAt).getTime() - new Date(a.lastActiveAt).getTime(),
+    );
+
+    return { list, total: totalDrivers };
   }
 
-  /** ---------------- Helper: load Shelters ---------------- */
-  private async loadShelters(
+  /** ---------------- Helper: load ALL Shelters (not just existing conversations) ---------------- */
+  private async loadAllShelters(
     userId: string,
-    userShelterId: string | null = null,
     skip = 0,
     limit = 20,
+    search = '',
   ): Promise<{ list: any[]; total: number }> {
-    const where: any = { shelterId: { not: null } };
-    where.OR = [
-      { initiatorId: userId },
-      { receiverId: userId },
-      ...(userShelterId ? [{ shelterId: userShelterId }] : []),
-    ];
+    // Get ALL shelters from the system
+    const shelterWhere: Prisma.ShelterWhereInput = {
+      ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
+    };
 
-    const [conversations, count] = await this.prisma.client.$transaction([
-      this.prisma.client.privateConversation.findMany({
-        where,
-        include: {
-          initiator: {
-            select: {
-              id: true,
-              name: true,
-              role: true,
-              profilePictureId: true,
-            },
-          },
-          receiver: {
-            select: {
-              id: true,
-              name: true,
-              role: true,
-              profilePictureId: true,
-            },
-          },
-          shelter: { select: { id: true, name: true, logoUrl: true } },
-          lastMessage: { include: { sender: { select: { name: true } } } },
+    const [shelters, totalShelters] = await this.prisma.client.$transaction([
+      this.prisma.client.shelter.findMany({
+        where: shelterWhere,
+        select: {
+          id: true,
+          name: true,
+          logoUrl: true,
+          updatedAt: true,
         },
-        orderBy: { updatedAt: 'desc' },
+        orderBy: { name: 'asc' },
         skip,
         take: limit,
       }),
-      this.prisma.client.privateConversation.count({ where }),
+      this.prisma.client.shelter.count({ where: shelterWhere }),
     ]);
 
-    const list = conversations
-      .map((c) => this.formatConversationResult(c, userId, userShelterId))
-      .filter(Boolean);
-    return { list, total: count };
+    // Now fetch existing conversations for these shelters
+    const shelterIds = shelters.map((s) => s.id);
+    const conversations = await this.prisma.client.privateConversation.findMany(
+      {
+        where: {
+          shelterId: { in: shelterIds },
+          OR: [{ initiatorId: userId }, { receiverId: userId }],
+        },
+        include: {
+          lastMessage: { include: { sender: { select: { name: true } } } },
+        },
+      },
+    );
+
+    // Create a map of shelter conversations
+    const convMap = new Map(conversations.map((c) => [c.shelterId, c]));
+
+    // Format the results
+    const list = shelters.map((shelter) => {
+      const conv = convMap.get(shelter.id);
+      return {
+        id: shelter.id,
+        name: shelter.name,
+        type: 'SHELTER',
+        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        isActive: true,
+        conversationId: conv?.id || null,
+        lastActiveAt: conv?.updatedAt || shelter.updatedAt || new Date(),
+        logoUrl: shelter.logoUrl,
+      };
+    });
+
+    // Sort by lastActiveAt (most recent first)
+    list.sort(
+      (a, b) =>
+        new Date(b.lastActiveAt).getTime() - new Date(a.lastActiveAt).getTime(),
+    );
+
+    return { list, total: totalShelters };
   }
 
   /** ---------------- Shared formatter ---------------- */
