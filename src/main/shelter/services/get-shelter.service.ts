@@ -2,9 +2,10 @@ import {
   successPaginatedResponse,
   successResponse,
 } from '@/common/utils/response.util';
+import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import {
   Animal,
   ApprovalStatus,
@@ -119,6 +120,57 @@ export class GetShelterService {
     return successResponse(flattenedShelter, 'Shelter found');
   }
 
+  @HandleError('Failed to get own shelter documents')
+  async getOwnShelterDocuments(userId: string) {
+    const shelter = await this.prisma.client.shelter.findFirst({
+      where: {
+        OR: [
+          { shelterAdmins: { some: { id: userId } } },
+          { managers: { some: { id: userId } } },
+        ],
+      },
+      include: {
+        shelterDocuments: {
+          include: {
+            document: true,
+          },
+        },
+      },
+    });
+
+    if (!shelter) {
+      throw new AppError(
+        HttpStatus.NOT_FOUND,
+        'Shelter not found for this user',
+      );
+    }
+
+    const globalStatus = this.getGlobalShelterStatus(
+      shelter.status,
+      shelter.shelterDocuments,
+    );
+
+    return successResponse(
+      {
+        shelterStatus: globalStatus.status,
+        shelterStatusDescription: globalStatus.description,
+        documents: shelter.shelterDocuments.map((doc) => ({
+          documentId: doc.documentId,
+          url: doc.documentUrl,
+          name: doc.name,
+          type: doc.type,
+          status: doc.status,
+          createdAt: doc.createdAt,
+          updatedAt: doc.updatedAt,
+          mimeType: doc.document.mimeType,
+          size: doc.document.size,
+          originalName: doc.document.originalFilename,
+        })),
+      },
+      'Documents found',
+    );
+  }
+
   private flattenShelter = (shelter: ShelterWithRelations) => {
     return {
       id: shelter.id,
@@ -145,6 +197,8 @@ export class GetShelterService {
       documents: shelter.shelterDocuments.map((doc) => ({
         documentId: doc.documentId,
         url: doc.documentUrl,
+        name: doc.name,
+        type: doc.type,
         status: doc.status,
         createdAt: doc.createdAt,
         updatedAt: doc.updatedAt,
@@ -173,4 +227,49 @@ export class GetShelterService {
       transportsNumber: shelter.transports.length,
     };
   };
+
+  private getGlobalShelterStatus(
+    shelterStatus: ApprovalStatus,
+    documents: { status: ApprovalStatus }[],
+  ): {
+    status: string;
+    description: string;
+  } {
+    if (
+      shelterStatus === ApprovalStatus.REJECTED ||
+      documents.some((d) => d.status === ApprovalStatus.REJECTED)
+    ) {
+      return {
+        status: 'REJECTED',
+        description:
+          'Your shelter verification was rejected. Please review and resubmit documents.',
+      };
+    }
+
+    const allApproved =
+      shelterStatus === ApprovalStatus.APPROVED &&
+      documents.length > 0 &&
+      documents.every((d) => d.status === ApprovalStatus.APPROVED);
+
+    if (allApproved) {
+      return {
+        status: 'APPROVED',
+        description: 'Your shelter is verified and approved.',
+      };
+    }
+
+    if (documents.some((d) => d.status === ApprovalStatus.PENDING)) {
+      return {
+        status: 'UNDER_REVIEW',
+        description:
+          'Your shelter is under review. We are verifying your documents.',
+      };
+    }
+
+    return {
+      status: 'PENDING',
+      description:
+        'Your shelter profile is incomplete. Please submit required documents.',
+    };
+  }
 }
