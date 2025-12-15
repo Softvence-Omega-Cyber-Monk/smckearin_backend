@@ -299,6 +299,8 @@ export type ShelterScalarFieldEnum = (typeof ShelterScalarFieldEnum)[keyof typeo
 
 export const ShelterDocumentScalarFieldEnum = {
   id: 'id',
+  name: 'name',
+  type: 'type',
   shelterId: 'shelterId',
   documentId: 'documentId',
   documentUrl: 'documentUrl',
@@ -324,6 +326,7 @@ export const TransportScalarFieldEnum = {
   transPortTime: 'transPortTime',
   animalId: 'animalId',
   driverId: 'driverId',
+  shelterId: 'shelterId',
   isVetClearanceRequired: 'isVetClearanceRequired',
   status: 'status',
   createdAt: 'createdAt',

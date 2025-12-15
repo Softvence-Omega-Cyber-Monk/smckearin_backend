@@ -22,6 +22,9 @@ model Transport {
   driverId String?
   driver   Driver? @relation(fields: [driverId], references: [id], onDelete: SetNull)
 
+  shelterId String?
+  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
   isVetClearanceRequired Boolean
 
   status TransportStatus
