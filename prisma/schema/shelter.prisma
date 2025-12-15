@@ -28,6 +28,9 @@ model Shelter {
   // Shelter Documents
   shelterDocuments ShelterDocument[]
 
+  // Transports
+  transports Transport[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
@@ -36,6 +39,9 @@ model Shelter {
 
 model ShelterDocument {
   id String @id @default(uuid())
+
+  name String
+  type String
 
   shelterId String
   shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)

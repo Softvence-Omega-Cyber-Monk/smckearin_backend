@@ -26,6 +26,8 @@ export type AggregateShelterDocument = {
 
 export type ShelterDocumentMinAggregateOutputType = {
   id: string | null
+  name: string | null
+  type: string | null
   shelterId: string | null
   documentId: string | null
   documentUrl: string | null
@@ -36,6 +38,8 @@ export type ShelterDocumentMinAggregateOutputType = {
 
 export type ShelterDocumentMaxAggregateOutputType = {
   id: string | null
+  name: string | null
+  type: string | null
   shelterId: string | null
   documentId: string | null
   documentUrl: string | null
@@ -46,6 +50,8 @@ export type ShelterDocumentMaxAggregateOutputType = {
 
 export type ShelterDocumentCountAggregateOutputType = {
   id: number
+  name: number
+  type: number
   shelterId: number
   documentId: number
   documentUrl: number
@@ -58,6 +64,8 @@ export type ShelterDocumentCountAggregateOutputType = {
 
 export type ShelterDocumentMinAggregateInputType = {
   id?: true
+  name?: true
+  type?: true
   shelterId?: true
   documentId?: true
   documentUrl?: true
@@ -68,6 +76,8 @@ export type ShelterDocumentMinAggregateInputType = {
 
 export type ShelterDocumentMaxAggregateInputType = {
   id?: true
+  name?: true
+  type?: true
   shelterId?: true
   documentId?: true
   documentUrl?: true
@@ -78,6 +88,8 @@ export type ShelterDocumentMaxAggregateInputType = {
 
 export type ShelterDocumentCountAggregateInputType = {
   id?: true
+  name?: true
+  type?: true
   shelterId?: true
   documentId?: true
   documentUrl?: true
@@ -161,6 +173,8 @@ export type ShelterDocumentGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type ShelterDocumentGroupByOutputType = {
   id: string
+  name: string
+  type: string
   shelterId: string
   documentId: string
   documentUrl: string
@@ -192,6 +206,8 @@ export type ShelterDocumentWhereInput = {
   OR?: Prisma.ShelterDocumentWhereInput[]
   NOT?: Prisma.ShelterDocumentWhereInput | Prisma.ShelterDocumentWhereInput[]
   id?: Prisma.StringFilter<"ShelterDocument"> | string
+  name?: Prisma.StringFilter<"ShelterDocument"> | string
+  type?: Prisma.StringFilter<"ShelterDocument"> | string
   shelterId?: Prisma.StringFilter<"ShelterDocument"> | string
   documentId?: Prisma.StringFilter<"ShelterDocument"> | string
   documentUrl?: Prisma.StringFilter<"ShelterDocument"> | string
@@ -204,6 +220,8 @@ export type ShelterDocumentWhereInput = {
 
 export type ShelterDocumentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   shelterId?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   documentUrl?: Prisma.SortOrder
@@ -220,6 +238,8 @@ export type ShelterDocumentWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ShelterDocumentWhereInput | Prisma.ShelterDocumentWhereInput[]
   OR?: Prisma.ShelterDocumentWhereInput[]
   NOT?: Prisma.ShelterDocumentWhereInput | Prisma.ShelterDocumentWhereInput[]
+  name?: Prisma.StringFilter<"ShelterDocument"> | string
+  type?: Prisma.StringFilter<"ShelterDocument"> | string
   shelterId?: Prisma.StringFilter<"ShelterDocument"> | string
   documentUrl?: Prisma.StringFilter<"ShelterDocument"> | string
   status?: Prisma.EnumApprovalStatusFilter<"ShelterDocument"> | $Enums.ApprovalStatus
@@ -231,6 +251,8 @@ export type ShelterDocumentWhereUniqueInput = Prisma.AtLeast<{
 
 export type ShelterDocumentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   shelterId?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   documentUrl?: Prisma.SortOrder
@@ -247,6 +269,8 @@ export type ShelterDocumentScalarWhereWithAggregatesInput = {
   OR?: Prisma.ShelterDocumentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ShelterDocumentScalarWhereWithAggregatesInput | Prisma.ShelterDocumentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ShelterDocument"> | string
+  name?: Prisma.StringWithAggregatesFilter<"ShelterDocument"> | string
+  type?: Prisma.StringWithAggregatesFilter<"ShelterDocument"> | string
   shelterId?: Prisma.StringWithAggregatesFilter<"ShelterDocument"> | string
   documentId?: Prisma.StringWithAggregatesFilter<"ShelterDocument"> | string
   documentUrl?: Prisma.StringWithAggregatesFilter<"ShelterDocument"> | string
@@ -257,6 +281,8 @@ export type ShelterDocumentScalarWhereWithAggregatesInput = {
 
 export type ShelterDocumentCreateInput = {
   id?: string
+  name: string
+  type: string
   documentUrl: string
   status?: $Enums.ApprovalStatus
   createdAt?: Date | string
@@ -267,6 +293,8 @@ export type ShelterDocumentCreateInput = {
 
 export type ShelterDocumentUncheckedCreateInput = {
   id?: string
+  name: string
+  type: string
   shelterId: string
   documentId: string
   documentUrl: string
@@ -277,6 +305,8 @@ export type ShelterDocumentUncheckedCreateInput = {
 
 export type ShelterDocumentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -287,6 +317,8 @@ export type ShelterDocumentUpdateInput = {
 
 export type ShelterDocumentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
@@ -297,6 +329,8 @@ export type ShelterDocumentUncheckedUpdateInput = {
 
 export type ShelterDocumentCreateManyInput = {
   id?: string
+  name: string
+  type: string
   shelterId: string
   documentId: string
   documentUrl: string
@@ -307,6 +341,8 @@ export type ShelterDocumentCreateManyInput = {
 
 export type ShelterDocumentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -315,6 +351,8 @@ export type ShelterDocumentUpdateManyMutationInput = {
 
 export type ShelterDocumentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
@@ -340,6 +378,8 @@ export type ShelterDocumentOrderByRelationAggregateInput = {
 
 export type ShelterDocumentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   shelterId?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   documentUrl?: Prisma.SortOrder
@@ -350,6 +390,8 @@ export type ShelterDocumentCountOrderByAggregateInput = {
 
 export type ShelterDocumentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   shelterId?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   documentUrl?: Prisma.SortOrder
@@ -360,6 +402,8 @@ export type ShelterDocumentMaxOrderByAggregateInput = {
 
 export type ShelterDocumentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   shelterId?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
   documentUrl?: Prisma.SortOrder
@@ -444,6 +488,8 @@ export type ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput = {
 
 export type ShelterDocumentCreateWithoutDocumentInput = {
   id?: string
+  name: string
+  type: string
   documentUrl: string
   status?: $Enums.ApprovalStatus
   createdAt?: Date | string
@@ -453,6 +499,8 @@ export type ShelterDocumentCreateWithoutDocumentInput = {
 
 export type ShelterDocumentUncheckedCreateWithoutDocumentInput = {
   id?: string
+  name: string
+  type: string
   shelterId: string
   documentUrl: string
   status?: $Enums.ApprovalStatus
@@ -478,6 +526,8 @@ export type ShelterDocumentUpdateToOneWithWhereWithoutDocumentInput = {
 
 export type ShelterDocumentUpdateWithoutDocumentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -487,6 +537,8 @@ export type ShelterDocumentUpdateWithoutDocumentInput = {
 
 export type ShelterDocumentUncheckedUpdateWithoutDocumentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
@@ -496,6 +548,8 @@ export type ShelterDocumentUncheckedUpdateWithoutDocumentInput = {
 
 export type ShelterDocumentCreateWithoutShelterInput = {
   id?: string
+  name: string
+  type: string
   documentUrl: string
   status?: $Enums.ApprovalStatus
   createdAt?: Date | string
@@ -505,6 +559,8 @@ export type ShelterDocumentCreateWithoutShelterInput = {
 
 export type ShelterDocumentUncheckedCreateWithoutShelterInput = {
   id?: string
+  name: string
+  type: string
   documentId: string
   documentUrl: string
   status?: $Enums.ApprovalStatus
@@ -543,6 +599,8 @@ export type ShelterDocumentScalarWhereInput = {
   OR?: Prisma.ShelterDocumentScalarWhereInput[]
   NOT?: Prisma.ShelterDocumentScalarWhereInput | Prisma.ShelterDocumentScalarWhereInput[]
   id?: Prisma.StringFilter<"ShelterDocument"> | string
+  name?: Prisma.StringFilter<"ShelterDocument"> | string
+  type?: Prisma.StringFilter<"ShelterDocument"> | string
   shelterId?: Prisma.StringFilter<"ShelterDocument"> | string
   documentId?: Prisma.StringFilter<"ShelterDocument"> | string
   documentUrl?: Prisma.StringFilter<"ShelterDocument"> | string
@@ -553,6 +611,8 @@ export type ShelterDocumentScalarWhereInput = {
 
 export type ShelterDocumentCreateManyShelterInput = {
   id?: string
+  name: string
+  type: string
   documentId: string
   documentUrl: string
   status?: $Enums.ApprovalStatus
@@ -562,6 +622,8 @@ export type ShelterDocumentCreateManyShelterInput = {
 
 export type ShelterDocumentUpdateWithoutShelterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -571,6 +633,8 @@ export type ShelterDocumentUpdateWithoutShelterInput = {
 
 export type ShelterDocumentUncheckedUpdateWithoutShelterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
@@ -580,6 +644,8 @@ export type ShelterDocumentUncheckedUpdateWithoutShelterInput = {
 
 export type ShelterDocumentUncheckedUpdateManyWithoutShelterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
   documentUrl?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
@@ -591,6 +657,8 @@ export type ShelterDocumentUncheckedUpdateManyWithoutShelterInput = {
 
 export type ShelterDocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  name?: boolean
+  type?: boolean
   shelterId?: boolean
   documentId?: boolean
   documentUrl?: boolean
@@ -603,6 +671,8 @@ export type ShelterDocumentSelect<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type ShelterDocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  name?: boolean
+  type?: boolean
   shelterId?: boolean
   documentId?: boolean
   documentUrl?: boolean
@@ -615,6 +685,8 @@ export type ShelterDocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
 
 export type ShelterDocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  name?: boolean
+  type?: boolean
   shelterId?: boolean
   documentId?: boolean
   documentUrl?: boolean
@@ -627,6 +699,8 @@ export type ShelterDocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
 
 export type ShelterDocumentSelectScalar = {
   id?: boolean
+  name?: boolean
+  type?: boolean
   shelterId?: boolean
   documentId?: boolean
   documentUrl?: boolean
@@ -635,7 +709,7 @@ export type ShelterDocumentSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ShelterDocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "shelterId" | "documentId" | "documentUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["shelterDocument"]>
+export type ShelterDocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "type" | "shelterId" | "documentId" | "documentUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["shelterDocument"]>
 export type ShelterDocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   shelter?: boolean | Prisma.ShelterDefaultArgs<ExtArgs>
   document?: boolean | Prisma.FileInstanceDefaultArgs<ExtArgs>
@@ -657,6 +731,8 @@ export type $ShelterDocumentPayload<ExtArgs extends runtime.Types.Extensions.Int
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    name: string
+    type: string
     shelterId: string
     documentId: string
     documentUrl: string
@@ -1089,6 +1165,8 @@ export interface Prisma__ShelterDocumentClient<T, Null = never, ExtArgs extends 
  */
 export interface ShelterDocumentFieldRefs {
   readonly id: Prisma.FieldRef<"ShelterDocument", 'String'>
+  readonly name: Prisma.FieldRef<"ShelterDocument", 'String'>
+  readonly type: Prisma.FieldRef<"ShelterDocument", 'String'>
   readonly shelterId: Prisma.FieldRef<"ShelterDocument", 'String'>
   readonly documentId: Prisma.FieldRef<"ShelterDocument", 'String'>
   readonly documentUrl: Prisma.FieldRef<"ShelterDocument", 'String'>

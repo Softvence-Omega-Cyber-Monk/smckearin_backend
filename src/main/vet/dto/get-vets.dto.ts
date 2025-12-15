@@ -3,14 +3,17 @@ import { ApiPropertyOptional } from '@nestjs/swagger';
 import { ApprovalStatus } from '@prisma';
 import { IsOptional, IsString } from 'class-validator';
 
-export class GetApprovedDrivers extends PaginationDto {
-  @ApiPropertyOptional({ description: 'Search query', example: 'John Doe' })
+export class GetApprovedVets extends PaginationDto {
+  @ApiPropertyOptional({
+    description: 'Search query (name, phone, license)',
+    example: 'John Doe',
+  })
   @IsOptional()
   @IsString()
   search?: string;
 }
 
-export class GetDriversDto extends GetApprovedDrivers {
+export class GetVetsDto extends GetApprovedVets {
   @ApiPropertyOptional({
     description: 'Status',
     example: ApprovalStatus.PENDING,
