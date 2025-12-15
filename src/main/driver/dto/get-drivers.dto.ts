@@ -7,7 +7,7 @@ export class GetApprovedDrivers extends PaginationDto {
   @ApiPropertyOptional({ description: 'Search query', example: 'John Doe' })
   @IsOptional()
   @IsString()
-  search: string;
+  search?: string;
 }
 
 export class GetDriversDto extends GetApprovedDrivers {

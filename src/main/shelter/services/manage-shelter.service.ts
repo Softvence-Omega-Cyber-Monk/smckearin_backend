@@ -37,19 +37,24 @@ export class ManageShelterService {
 
   @HandleError('Failed to delete shelter')
   async deleteShelter(shelterId: string) {
-    // delete its associated members
-    await this.prisma.client.user.deleteMany({
-      where: {
-        OR: [{ shelterAdminOfId: shelterId }, { managerOfId: shelterId }],
-      },
+    await this.prisma.client.$transaction(async (tx) => {
+      // delete associated members
+      await tx.user.deleteMany({
+        where: {
+          OR: [{ shelterAdminOfId: shelterId }, { managerOfId: shelterId }],
+        },
+      });
+
+      // delete shelter
+      await tx.shelter.delete({
+        where: { id: shelterId },
+      });
     });
 
-    // delete shelter
-    await this.prisma.client.shelter.delete({
-      where: { id: shelterId },
-    });
-
-    return successResponse(null, 'Shelter deleted successfully');
+    return successResponse(
+      null,
+      'Shelter with its members deleted successfully',
+    );
   }
 
   @HandleError('Failed to upload shelter document')
