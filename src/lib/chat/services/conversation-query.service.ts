@@ -37,13 +37,15 @@ export class ConversationQueryService {
 
     let result: { list: any[]; total: number };
 
-    // * If no type is provided, load all existing conversations
+    // * If no type is provided, load all available contacts (merged view)
     if (!type) {
-      result = await this.loadAllExistingConversations(
+      result = await this.loadAllAvailableContacts(
         userId,
+        user.role,
         userShelterId,
         skip,
         limit,
+        search,
       );
     } else {
       // Decide which helper(s) to call based on role & type filter
@@ -82,12 +84,14 @@ export class ConversationQueryService {
           );
         }
       } else {
-        // fallback: load all existing conversations
-        result = await this.loadAllExistingConversations(
+        // fallback: load all available contacts
+        result = await this.loadAllAvailableContacts(
           userId,
+          user.role,
           userShelterId,
           skip,
           limit,
+          search,
         );
       }
     }
@@ -99,63 +103,62 @@ export class ConversationQueryService {
         limit,
         total: result.total,
       },
-      `Conversations fetched successfully based on type ${type} and role ${user.role}`,
+      `Conversations fetched successfully for user ${userId}`,
     );
 
     client.emit(EventsEnum.CONVERSATION_LIST_RESPONSE, payload);
     return payload;
   }
 
-  /** ---------------- Helper: load All Existing Conversations ---------------- */
-  private async loadAllExistingConversations(
+  /** ---------------- Helper: load All Available Contacts (merged view) ---------------- */
+  private async loadAllAvailableContacts(
     userId: string,
+    userRole: string,
     userShelterId: string | null,
     skip = 0,
     limit = 20,
+    search = '',
   ): Promise<{ list: any[]; total: number }> {
-    const where: Prisma.PrivateConversationWhereInput = {
-      OR: [
-        { initiatorId: userId },
-        { receiverId: userId },
-        ...(userShelterId ? [{ shelterId: userShelterId }] : []),
-      ],
-    };
-    const [conversations, count] = await this.prisma.client.$transaction([
-      this.prisma.client.privateConversation.findMany({
-        where,
-        include: {
-          initiator: {
-            select: {
-              id: true,
-              name: true,
-              role: true,
-              profilePictureId: true,
-            },
-          },
-          receiver: {
-            select: {
-              id: true,
-              name: true,
-              role: true,
-              profilePictureId: true,
-            },
-          },
-          shelter: { select: { id: true, name: true, logoUrl: true } },
-          lastMessage: { include: { sender: { select: { name: true } } } },
-        },
-        orderBy: { updatedAt: 'desc' },
-        skip,
-        take: limit,
-      }),
-      this.prisma.client.privateConversation.count({ where }),
-    ]);
-    const list = conversations
-      .map((conv) => this.formatConversationResult(conv, userId, userShelterId))
-      .filter(Boolean);
-    return { list, total: count };
+    // Based on user role, fetch all their possible contacts
+    const contacts: any[] = [];
+
+    if (userRole === 'VETERINARIAN') {
+      // Vets can contact: Shelters + Drivers
+      const [shelters, drivers] = await Promise.all([
+        this.loadAllShelters(userId, 0, 999, search),
+        this.loadAllDrivers(userId, 0, 999, search),
+      ]);
+      contacts.push(...shelters.list, ...drivers.list);
+    } else if (userRole === 'DRIVER') {
+      // Drivers can contact: Shelters + Vets
+      const [shelters, vets] = await Promise.all([
+        this.loadAllShelters(userId, 0, 999, search),
+        this.loadAllVets(userId, 0, 999, search),
+      ]);
+      contacts.push(...shelters.list, ...vets.list);
+    } else if (userRole === 'SHELTER_ADMIN' || userRole === 'MANAGER') {
+      // Shelters can contact: Vets + Drivers
+      const [vets, drivers] = await Promise.all([
+        this.loadAllVets(userId, 0, 999, search, userShelterId),
+        this.loadAllDrivers(userId, 0, 999, search, userShelterId),
+      ]);
+      contacts.push(...vets.list, ...drivers.list);
+    }
+
+    // Sort all contacts by lastActiveAt (most recent first)
+    contacts.sort(
+      (a, b) =>
+        new Date(b.lastActiveAt).getTime() - new Date(a.lastActiveAt).getTime(),
+    );
+
+    // Apply pagination
+    const total = contacts.length;
+    const paginatedList = contacts.slice(skip, skip + limit);
+
+    return { list: paginatedList, total };
   }
 
-  /** ---------------- Helper: load ALL Vets ---------------- */
+  /** ---------------- Helper: load ALL Vets (not just existing conversations) ---------------- */
   private async loadAllVets(
     userId: string,
     skip = 0,
@@ -178,6 +181,7 @@ export class ConversationQueryService {
           name: true,
           role: true,
           profilePictureId: true,
+          profilePictureUrl: true,
           lastActiveAt: true,
         },
         orderBy: { name: 'asc' },
@@ -189,21 +193,33 @@ export class ConversationQueryService {
 
     // Now fetch existing conversations for these vets
     const vetIds = vets.map((v) => v.id);
+
+    // Build conversation query based on whether user is from shelter or individual
+    const conversationWhere: any = {
+      OR: userShelterId
+        ? [
+            // Shelter-based conversations
+            { shelterId: userShelterId, initiatorId: { in: vetIds } },
+            { shelterId: userShelterId, receiverId: { in: vetIds } },
+          ]
+        : [
+            // Individual user conversations
+            {
+              initiatorId: userId,
+              receiverId: { in: vetIds },
+              shelterId: null,
+            },
+            {
+              receiverId: userId,
+              initiatorId: { in: vetIds },
+              shelterId: null,
+            },
+          ],
+    };
+
     const conversations = await this.prisma.client.privateConversation.findMany(
       {
-        where: {
-          ...(userShelterId ? { shelterId: userShelterId } : {}),
-          OR: [
-            { initiatorId: userId, receiverId: { in: vetIds } },
-            { receiverId: userId, initiatorId: { in: vetIds } },
-            ...(userShelterId
-              ? [
-                  { shelterId: userShelterId, initiatorId: { in: vetIds } },
-                  { shelterId: userShelterId, receiverId: { in: vetIds } },
-                ]
-              : []),
-          ],
-        },
+        where: conversationWhere,
         include: {
           lastMessage: { include: { sender: { select: { name: true } } } },
         },
@@ -214,10 +230,10 @@ export class ConversationQueryService {
     const convMap = new Map(
       conversations.map((c) => {
         const vetId =
-          c.initiatorId === userId || c.initiatorId === userShelterId
-            ? c.receiverId
-            : c.initiatorId;
-        return [vetId, c];
+          c.initiatorId !== userId && c.initiatorId !== userShelterId
+            ? c.initiatorId
+            : c.receiverId;
+        return [vetId!, c];
       }),
     );
 
@@ -232,6 +248,7 @@ export class ConversationQueryService {
         isActive: true,
         conversationId: conv?.id || null,
         lastActiveAt: conv?.updatedAt || vet.lastActiveAt || new Date(),
+        avatarUrl: vet.profilePictureUrl || this.getDefaultAvatar(vet.name),
         profilePictureId: vet.profilePictureId,
       };
     });
@@ -257,6 +274,9 @@ export class ConversationQueryService {
     const driverWhere: Prisma.UserWhereInput = {
       role: 'DRIVER',
       status: 'ACTIVE',
+      drivers: {
+        status: 'APPROVED',
+      },
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
@@ -268,6 +288,7 @@ export class ConversationQueryService {
           name: true,
           role: true,
           profilePictureId: true,
+          profilePictureUrl: true,
           lastActiveAt: true,
         },
         orderBy: { name: 'asc' },
@@ -279,21 +300,33 @@ export class ConversationQueryService {
 
     // Now fetch existing conversations for these drivers
     const driverIds = drivers.map((d) => d.id);
+
+    // Build conversation query based on whether user is from shelter or individual
+    const conversationWhere: Prisma.PrivateConversationWhereInput = {
+      OR: userShelterId
+        ? [
+            // Shelter-based conversations
+            { shelterId: userShelterId, initiatorId: { in: driverIds } },
+            { shelterId: userShelterId, receiverId: { in: driverIds } },
+          ]
+        : [
+            // Individual user conversations
+            {
+              initiatorId: userId,
+              receiverId: { in: driverIds },
+              shelterId: null,
+            },
+            {
+              receiverId: userId,
+              initiatorId: { in: driverIds },
+              shelterId: null,
+            },
+          ],
+    };
+
     const conversations = await this.prisma.client.privateConversation.findMany(
       {
-        where: {
-          ...(userShelterId ? { shelterId: userShelterId } : {}),
-          OR: [
-            { initiatorId: userId, receiverId: { in: driverIds } },
-            { receiverId: userId, initiatorId: { in: driverIds } },
-            ...(userShelterId
-              ? [
-                  { shelterId: userShelterId, initiatorId: { in: driverIds } },
-                  { shelterId: userShelterId, receiverId: { in: driverIds } },
-                ]
-              : []),
-          ],
-        },
+        where: conversationWhere,
         include: {
           lastMessage: { include: { sender: { select: { name: true } } } },
         },
@@ -304,10 +337,10 @@ export class ConversationQueryService {
     const convMap = new Map(
       conversations.map((c) => {
         const driverId =
-          c.initiatorId === userId || c.initiatorId === userShelterId
-            ? c.receiverId
-            : c.initiatorId;
-        return [driverId, c];
+          c.initiatorId !== userId && c.initiatorId !== userShelterId
+            ? c.initiatorId
+            : c.receiverId;
+        return [driverId!, c];
       }),
     );
 
@@ -322,7 +355,8 @@ export class ConversationQueryService {
         isActive: true,
         conversationId: conv?.id || null,
         lastActiveAt: conv?.updatedAt || driver.lastActiveAt || new Date(),
-        profilePictureId: driver.profilePictureId,
+        avatarUrl:
+          driver.profilePictureUrl || this.getDefaultAvatar(driver.name),
       };
     });
 
@@ -344,6 +378,7 @@ export class ConversationQueryService {
   ): Promise<{ list: any[]; total: number }> {
     // Get ALL shelters from the system
     const shelterWhere: Prisma.ShelterWhereInput = {
+      status: 'APPROVED', // Only show approved shelters
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
@@ -353,6 +388,7 @@ export class ConversationQueryService {
         select: {
           id: true,
           name: true,
+          logoId: true,
           logoUrl: true,
           updatedAt: true,
         },
@@ -378,7 +414,7 @@ export class ConversationQueryService {
     );
 
     // Create a map of shelter conversations
-    const convMap = new Map(conversations.map((c) => [c.shelterId, c]));
+    const convMap = new Map(conversations.map((c) => [c.shelterId!, c]));
 
     // Format the results
     const list = shelters.map((shelter) => {
@@ -391,7 +427,7 @@ export class ConversationQueryService {
         isActive: true,
         conversationId: conv?.id || null,
         lastActiveAt: conv?.updatedAt || shelter.updatedAt || new Date(),
-        logoUrl: shelter.logoUrl,
+        avatarUrl: shelter.logoUrl || this.getDefaultAvatar(shelter.name),
       };
     });
 
@@ -404,50 +440,9 @@ export class ConversationQueryService {
     return { list, total: totalShelters };
   }
 
-  /** ---------------- Shared formatter ---------------- */
-  private formatConversationResult(
-    conv: any,
-    userId: string,
-    userShelterId: string | null,
-  ) {
-    let otherPart: any = null;
-    let type = 'USER';
-    const isMyShelter = !!userShelterId && userShelterId === conv.shelterId;
-
-    if (conv.shelterId) {
-      otherPart = isMyShelter
-        ? !userShelterId || userShelterId !== conv.initiatorId
-          ? conv.initiator
-          : conv.receiver
-        : conv.shelter;
-      type =
-        conv.shelterId && !isMyShelter
-          ? 'SHELTER'
-          : otherPart?.role === 'VETERINARIAN'
-            ? 'VET'
-            : otherPart?.role === 'DRIVER'
-              ? 'DRIVER'
-              : 'USER';
-    } else {
-      otherPart = conv.initiatorId === userId ? conv.receiver : conv.initiator;
-      type =
-        otherPart?.role === 'VETERINARIAN'
-          ? 'VET'
-          : otherPart?.role === 'DRIVER'
-            ? 'DRIVER'
-            : 'USER';
-    }
-
-    if (!otherPart) return null;
-
-    return {
-      id: otherPart.id,
-      name: otherPart.name,
-      type,
-      lastMessage: conv.lastMessage?.content || 'No message yet',
-      isActive: true,
-      conversationId: conv.id,
-      lastActiveAt: conv.updatedAt,
-    };
+  /** ---------------- Helper: Generate default avatar URL based on name ---------------- */
+  private getDefaultAvatar(name: string): string {
+    const encodedName = encodeURIComponent(name);
+    return `https://ui-avatars.com/api/?name=${encodedName}&background=random&size=200`;
   }
 }
