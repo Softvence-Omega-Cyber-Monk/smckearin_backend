@@ -1,6 +1,12 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
+
+export enum ConversationType {
+  VET = 'VET',
+  DRIVER = 'DRIVER',
+  SHELTER = 'SHELTER',
+}
 
 /** ---------------- Load multiple conversations (with pagination + search) ---------------- */
 export class LoadConversationsDto extends PaginationDto {
@@ -10,28 +16,20 @@ export class LoadConversationsDto extends PaginationDto {
   @IsOptional()
   @IsString()
   search?: string;
+
+  @ApiPropertyOptional({ description: 'Type of conversations to load' })
+  @IsOptional()
+  @IsEnum(ConversationType)
+  type?: ConversationType;
 }
 
-/** ---------------- Load a single conversation with paginated messages ---------------- */
-export class LoadSingleConversationDto extends PaginationDto {
-  @ApiProperty({ description: 'ID of the conversation to load' })
-  @IsNotEmpty()
+/** ---------------- Init or load single conversation ---------------- */
+export class InitOrLoadSingleConversationDto extends PaginationDto {
+  @ApiProperty({ description: 'Conversation ID' })
   @IsString()
-  conversationId: string;
-}
+  id: string;
 
-/** ---------------- Initiate a new conversation with a specific user ---------------- */
-export class InitConversationWithUserDto {
-  @ApiProperty({ description: 'ID of the user to initiate conversation with' })
-  @IsNotEmpty()
-  @IsString()
-  userId: string;
-}
-
-/** ---------------- Conversation actions (delete, archive, block, unblock) ---------------- */
-export class ConversationActionDto {
-  @ApiProperty({ description: 'ID of the conversation' })
-  @IsNotEmpty()
-  @IsString()
-  conversationId: string;
+  @ApiProperty({ description: 'Type of conversation' })
+  @IsEnum(ConversationType)
+  type: ConversationType;
 }

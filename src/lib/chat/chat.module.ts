@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { ChatGateway } from './chat.gateway';
-import { ConversationMutationService } from './services/conversation-mutation.service';
 import { ConversationQueryService } from './services/conversation-query.service';
+import { ConversationSingleQueryService } from './services/conversation-single-query.service';
 import { MessageService } from './services/message.service';
 
 @Global()
@@ -10,7 +10,7 @@ import { MessageService } from './services/message.service';
     ChatGateway,
     MessageService,
     ConversationQueryService,
-    ConversationMutationService,
+    ConversationSingleQueryService,
   ],
 })
 export class ChatModule {}

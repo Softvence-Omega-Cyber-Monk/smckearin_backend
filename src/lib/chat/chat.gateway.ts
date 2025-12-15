@@ -6,14 +6,10 @@ import { JwtService } from '@nestjs/jwt';
 import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { PrismaService } from '../prisma/prisma.service';
-import {
-  ConversationActionDto,
-  InitConversationWithUserDto,
-  LoadConversationsDto,
-  LoadSingleConversationDto,
-} from './dto/conversation.dto';
-import { ConversationMutationService } from './services/conversation-mutation.service';
+import { LoadConversationsDto } from './dto/conversation.dto';
 import { ConversationQueryService } from './services/conversation-query.service';
+import { ConversationSingleQueryService } from './services/conversation-single-query.service';
+import { MessageService } from './services/message.service';
 
 @WebSocketGateway({
   cors: {
@@ -30,6 +26,7 @@ import { ConversationQueryService } from './services/conversation-query.service'
       'http://13.62.62.158:4173',
       'http://13.62.62.158:5173',
       'http://13.62.62.158:5174',
+      'https://rescuetransit.ai',
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
@@ -43,7 +40,8 @@ export class ChatGateway extends BaseGateway {
     protected readonly prisma: PrismaService,
     protected readonly jwtService: JwtService,
     private readonly conversationQueryService: ConversationQueryService,
-    private readonly conversationMutationService: ConversationMutationService,
+    private readonly conversationSingleQueryService: ConversationSingleQueryService,
+    private readonly messageService: MessageService,
   ) {
     super(configService, prisma, jwtService, ChatGateway.name);
   }
@@ -55,41 +53,35 @@ export class ChatGateway extends BaseGateway {
   }
 
   @SubscribeMessage(EventsEnum.CONVERSATION_LOAD)
-  async handleLoadSingleConversation(
-    client: Socket,
-    dto: LoadSingleConversationDto,
-  ) {
-    return this.conversationQueryService.loadSingleConversation(client, dto);
-  }
-
-  @SubscribeMessage(EventsEnum.CONVERSATION_INITIATE)
-  async handleInitiateConversation(
-    client: Socket,
-    dto: InitConversationWithUserDto,
-  ) {
-    return this.conversationMutationService.initiateConversationWithUser(
+  async handleLoadSingleConversation(client: Socket, dto: any) {
+    return this.conversationSingleQueryService.loadSingleConversation(
       client,
       dto,
     );
   }
 
-  @SubscribeMessage(EventsEnum.CONVERSATION_DELETE)
-  async handleDeleteConversation(client: Socket, dto: ConversationActionDto) {
-    return this.conversationMutationService.deleteConversation(client, dto);
+  /** ---------------- Message Handlers ---------------- */
+  @SubscribeMessage(EventsEnum.MESSAGE_SEND)
+  async handleSendMessage(client: Socket, dto: any) {
+    return this.messageService.sendMessage(client, dto);
   }
 
-  @SubscribeMessage(EventsEnum.CONVERSATION_ARCHIVE)
-  async handleArchiveConversation(client: Socket, dto: ConversationActionDto) {
-    return this.conversationMutationService.archiveConversation(client, dto);
+  @SubscribeMessage(EventsEnum.MESSAGE_MARK_READ)
+  async handleMarkAsRead(client: Socket, dto: any) {
+    return this.messageService.markAsRead(client, dto);
   }
 
-  @SubscribeMessage(EventsEnum.CONVERSATION_BLOCK)
-  async handleBlockConversation(client: Socket, dto: ConversationActionDto) {
-    return this.conversationMutationService.blockConversation(client, dto);
-  }
+  async emitToShelterTeam(shelterId: string, event: string, data: any) {
+    // Find all users who are admins or managers of the shelter
+    const teamMembers = await this.prisma.client.user.findMany({
+      where: {
+        OR: [{ shelterAdminOfId: shelterId }, { managerOfId: shelterId }],
+      },
+      select: { id: true },
+    });
 
-  @SubscribeMessage(EventsEnum.CONVERSATION_UNBLOCK)
-  async handleUnblockConversation(client: Socket, dto: ConversationActionDto) {
-    return this.conversationMutationService.unblockConversation(client, dto);
+    for (const member of teamMembers) {
+      this.emitToUserFirstSocket(member.id, event, data);
+    }
   }
 }

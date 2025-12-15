@@ -743,10 +743,12 @@ export type UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConversationsInitiatedInput, Prisma.UserUpdateWithoutConversationsInitiatedInput>, Prisma.UserUncheckedUpdateWithoutConversationsInitiatedInput>
 }
 
-export type UserUpdateOneRequiredWithoutConversationsReceivedNestedInput = {
+export type UserUpdateOneWithoutConversationsReceivedNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutConversationsReceivedInput, Prisma.UserUncheckedCreateWithoutConversationsReceivedInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutConversationsReceivedInput
   upsert?: Prisma.UserUpsertWithoutConversationsReceivedInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConversationsReceivedInput, Prisma.UserUpdateWithoutConversationsReceivedInput>, Prisma.UserUncheckedUpdateWithoutConversationsReceivedInput>
 }
