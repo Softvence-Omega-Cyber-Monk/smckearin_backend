@@ -261,13 +261,23 @@ export class ConversationSingleQueryService {
             avatarUrl:
               otherUser.profilePictureUrl ||
               this.getDefaultAvatar(otherUser.name),
-            isActive: otherUser.isActive,
+            isActive: this.chatGateway.isOnline(otherUser.id),
             type: otherUser.role === 'VETERINARIAN' ? 'VET' : 'DRIVER',
           };
         }
       } else {
         // Current user is NOT from the shelter, show the shelter
         if (conversation.shelter) {
+          // Check if ANY member (manager or admin) is online
+          const teamIds = [
+            ...(conversation.shelter.shelterAdmins?.map((a: any) => a.id) ||
+              []),
+            ...(conversation.shelter.managers?.map((m: any) => m.id) || []),
+          ];
+          const isTeamActive = teamIds.some((id: string) =>
+            this.chatGateway.isOnline(id),
+          );
+
           return {
             id: conversation.shelter.id,
             name: conversation.shelter.name,
@@ -275,7 +285,7 @@ export class ConversationSingleQueryService {
             avatarUrl:
               conversation.shelter.logoUrl ||
               this.getDefaultAvatar(conversation.shelter.name),
-            isActive: true,
+            isActive: isTeamActive,
             type: 'SHELTER',
           };
         }
@@ -295,7 +305,7 @@ export class ConversationSingleQueryService {
           avatarUrl:
             otherUser.profilePictureUrl ||
             this.getDefaultAvatar(otherUser.name),
-          isActive: otherUser.isActive,
+          isActive: this.chatGateway.isOnline(otherUser.id),
           type:
             otherUser.role === 'VETERINARIAN'
               ? 'VET'
@@ -376,6 +386,8 @@ export class ConversationSingleQueryService {
           name: true,
           logoUrl: true,
           logoId: true,
+          shelterAdmins: { select: { id: true } },
+          managers: { select: { id: true } },
         },
       },
       messages: {
