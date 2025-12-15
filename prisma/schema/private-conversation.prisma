@@ -5,9 +5,13 @@ model PrivateConversation {
   initiatorId String
   initiator   User   @relation("ConversationInitiator", fields: [initiatorId], references: [id], onDelete: Cascade)
 
-  /// User who received the conversation
-  receiverId String
-  receiver   User   @relation("ConversationReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  /// User who received the conversation (Optional if chatting with a shelter)
+  receiverId String?
+  receiver   User?   @relation("ConversationReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  /// Shelter participating in the conversation (Optional if chatting with a user)
+  shelterId String?
+  shelter   Shelter? @relation("ShelterConversations", fields: [shelterId], references: [id], onDelete: Cascade)
 
   messages PrivateMessage[]
 
@@ -19,7 +23,7 @@ model PrivateConversation {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  @@unique([initiatorId, receiverId])
+  @@unique([initiatorId, receiverId, shelterId])
   @@map("private_conversations")
 }
 

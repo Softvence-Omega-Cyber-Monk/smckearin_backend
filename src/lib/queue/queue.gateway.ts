@@ -23,6 +23,7 @@ import { NotificationPayload } from './interface/queue.payload';
       'http://13.62.62.158:4173',
       'http://13.62.62.158:5173',
       'http://13.62.62.158:5174',
+      'https://rescuetransit.ai',
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],

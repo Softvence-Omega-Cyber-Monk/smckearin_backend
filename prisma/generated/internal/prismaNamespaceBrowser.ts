@@ -243,6 +243,7 @@ export const PrivateConversationScalarFieldEnum = {
   id: 'id',
   initiatorId: 'initiatorId',
   receiverId: 'receiverId',
+  shelterId: 'shelterId',
   lastMessageId: 'lastMessageId',
   status: 'status',
   createdAt: 'createdAt',
