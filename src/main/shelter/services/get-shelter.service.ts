@@ -82,7 +82,7 @@ export class GetShelterService {
       this.prisma.client.shelter.count({ where }),
     ]);
 
-    const flattenedShelters = shelters.map(this.flattenShelter);
+    const flattenedShelters = shelters?.map(this.flattenShelter);
 
     return successPaginatedResponse(
       flattenedShelters,
@@ -155,7 +155,8 @@ export class GetShelterService {
         shelterStatus: globalStatus.status,
         shelterStatusDescription: globalStatus.description,
         documents: shelter.shelterDocuments.map((doc) => ({
-          documentId: doc.documentId,
+          documentId: doc.id,
+          fileId: doc.documentId,
           url: doc.documentUrl,
           name: doc.name,
           type: doc.type,
@@ -189,42 +190,46 @@ export class GetShelterService {
         name: admin.name,
         email: admin.email,
       })),
-      managers: shelter.managers.map((manager) => ({
-        id: manager.id,
-        name: manager.name,
-        email: manager.email,
-      })),
-      documents: shelter.shelterDocuments.map((doc) => ({
-        documentId: doc.documentId,
-        url: doc.documentUrl,
-        name: doc.name,
-        type: doc.type,
-        status: doc.status,
-        createdAt: doc.createdAt,
-        updatedAt: doc.updatedAt,
-        mimeType: doc.document.mimeType,
-        size: doc.document.size,
-        originalName: doc.document.originalFilename,
-      })),
-      animals: shelter.animals.map((animal) => ({
-        id: animal.id,
-        name: animal.name,
-        species: animal.species,
-        breed: animal.breed,
-      })),
-      transports: shelter.transports.map((transport) => ({
-        id: transport.id,
-        priorityLevel: transport.priorityLevel,
-        transportNote: transport.transportNote,
-        pickUpLocation: transport.pickUpLocation,
-        pickUpLatitude: transport.pickUpLatitude,
-        pickUpLongitude: transport.pickUpLongitude,
-        dropOffLocation: transport.dropOffLocation,
-        dropOffLatitude: transport.dropOffLatitude,
-        dropOffLongitude: transport.dropOffLongitude,
-      })),
-      animalsNumber: shelter.animals.length,
-      transportsNumber: shelter.transports.length,
+      managers:
+        shelter.managers?.map((manager) => ({
+          id: manager.id,
+          name: manager.name,
+          email: manager.email,
+        })) ?? [],
+      documents:
+        shelter.shelterDocuments?.map((doc) => ({
+          documentId: doc.documentId,
+          url: doc.documentUrl,
+          name: doc.name,
+          type: doc.type,
+          status: doc.status,
+          createdAt: doc.createdAt,
+          updatedAt: doc.updatedAt,
+          mimeType: doc.document.mimeType,
+          size: doc.document.size,
+          originalName: doc.document.originalFilename,
+        })) ?? [],
+      animals:
+        shelter.animals?.map((animal) => ({
+          id: animal.id,
+          name: animal.name,
+          species: animal.species,
+          breed: animal.breed,
+        })) ?? [],
+      transports:
+        shelter.transports?.map((transport) => ({
+          id: transport.id,
+          priorityLevel: transport.priorityLevel,
+          transportNote: transport.transportNote,
+          pickUpLocation: transport.pickUpLocation,
+          pickUpLatitude: transport.pickUpLatitude,
+          pickUpLongitude: transport.pickUpLongitude,
+          dropOffLocation: transport.dropOffLocation,
+          dropOffLatitude: transport.dropOffLatitude,
+          dropOffLongitude: transport.dropOffLongitude,
+        })) ?? [],
+      animalsNumber: shelter.animals?.length ?? 0,
+      transportsNumber: shelter.transports?.length ?? 0,
     };
   };
 

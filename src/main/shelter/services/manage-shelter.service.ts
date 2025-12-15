@@ -37,7 +37,14 @@ export class ManageShelterService {
 
   @HandleError('Failed to delete shelter')
   async deleteShelter(shelterId: string) {
-    // We do NOT delete the associated users, as they might be independent of the shelter or manage multiple.
+    // delete its associated members
+    await this.prisma.client.user.deleteMany({
+      where: {
+        OR: [{ shelterAdminOfId: shelterId }, { managerOfId: shelterId }],
+      },
+    });
+
+    // delete shelter
     await this.prisma.client.shelter.delete({
       where: { id: shelterId },
     });
