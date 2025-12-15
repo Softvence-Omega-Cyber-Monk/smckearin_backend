@@ -23,7 +23,8 @@ export class LoadConversationsDto extends PaginationDto {
   type?: ConversationType;
 }
 
-export class InitOrLoadSingleConversationDto {
+/** ---------------- Init or load single conversation ---------------- */
+export class InitOrLoadSingleConversationDto extends PaginationDto {
   @ApiProperty({ description: 'Conversation ID' })
   @IsString()
   id: string;

@@ -7,8 +7,8 @@ import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { PrismaService } from '../prisma/prisma.service';
 import { LoadConversationsDto } from './dto/conversation.dto';
-import { ConversationMutationService } from './services/conversation-mutation.service';
 import { ConversationQueryService } from './services/conversation-query.service';
+import { ConversationSingleQueryService } from './services/conversation-single-query.service';
 
 @WebSocketGateway({
   cors: {
@@ -39,7 +39,7 @@ export class ChatGateway extends BaseGateway {
     protected readonly prisma: PrismaService,
     protected readonly jwtService: JwtService,
     private readonly conversationQueryService: ConversationQueryService,
-    private readonly conversationMutationService: ConversationMutationService,
+    private readonly conversationSingleQueryService: ConversationSingleQueryService,
   ) {
     super(configService, prisma, jwtService, ChatGateway.name);
   }
@@ -48,6 +48,14 @@ export class ChatGateway extends BaseGateway {
   @SubscribeMessage(EventsEnum.CONVERSATION_LOAD_LIST)
   async handleLoadConversations(client: Socket, dto: LoadConversationsDto) {
     return this.conversationQueryService.loadConversations(client, dto);
+  }
+
+  @SubscribeMessage(EventsEnum.CONVERSATION_LOAD)
+  async handleLoadSingleConversation(client: Socket, dto: any) {
+    return this.conversationSingleQueryService.loadSingleConversation(
+      client,
+      dto,
+    );
   }
 
   async emitToShelterTeam(shelterId: string, event: string, data: any) {
