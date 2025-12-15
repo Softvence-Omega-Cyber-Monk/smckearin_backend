@@ -1,4 +1,4 @@
-import { FileInstance, MessageType } from '@prisma';
+import { MessageType } from '@prisma';
 import { ConversationType } from '../dto/conversation.dto';
 
 export interface SingleConversationResponse {
@@ -25,7 +25,6 @@ export interface FormattedMessage {
   type: MessageType;
   sender: MessageSender;
   fileUrl: string | null;
-  file: FileInstance | null;
   isMine: boolean;
   isFromShelter: boolean;
   isFromDriver: boolean;

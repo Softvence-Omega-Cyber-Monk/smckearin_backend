@@ -7,7 +7,7 @@ import {
 import { SocketSafe } from '@/core/socket/socket-safe.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
-import { Prisma } from '@prisma';
+import { MessageDeliveryStatus, Prisma } from '@prisma';
 import { Socket } from 'socket.io';
 import { ChatGateway } from '../chat.gateway';
 import {
@@ -19,6 +19,78 @@ import {
   FormattedMessage,
   SingleConversationResponse,
 } from '../types/single-conversation.types';
+
+// Define the include object outside the class for type inference
+const conversationInclude = {
+  initiator: {
+    select: {
+      id: true,
+      name: true,
+      role: true,
+      profilePictureId: true,
+      profilePictureUrl: true,
+      shelterAdminOfId: true,
+      managerOfId: true,
+    },
+  },
+  receiver: {
+    select: {
+      id: true,
+      name: true,
+      role: true,
+      profilePictureId: true,
+      profilePictureUrl: true,
+      shelterAdminOfId: true,
+      managerOfId: true,
+    },
+  },
+  shelter: {
+    select: {
+      id: true,
+      name: true,
+      logoUrl: true,
+      logoId: true,
+      shelterAdmins: { select: { id: true } },
+      managers: { select: { id: true } },
+    },
+  },
+  messages: {
+    orderBy: { createdAt: 'asc' as const },
+    include: {
+      sender: {
+        select: {
+          id: true,
+          name: true,
+          role: true,
+          profilePictureId: true,
+          profilePictureUrl: true,
+          shelterAdminOfId: true,
+          managerOfId: true,
+        },
+      },
+      file: {
+        select: {
+          id: true,
+          url: true,
+          fileType: true,
+          mimeType: true,
+          size: true,
+        },
+      },
+      statuses: {
+        select: {
+          userId: true,
+          status: true,
+        },
+      },
+    },
+  },
+} satisfies Prisma.PrivateConversationInclude;
+
+// Infer the return type of the conversation query
+type ConversationWithRelations = Prisma.PrivateConversationGetPayload<{
+  include: typeof conversationInclude;
+}>;
 
 @Injectable()
 export class ConversationSingleQueryService {
@@ -59,7 +131,7 @@ export class ConversationSingleQueryService {
     const userShelterId =
       currentUser.shelterAdminOfId ?? currentUser.managerOfId ?? null;
 
-    let conversation;
+    let conversation: ConversationWithRelations;
 
     // Find or create conversation based on type
     if (type === ConversationType.SHELTER) {
@@ -79,6 +151,9 @@ export class ConversationSingleQueryService {
     } else {
       throw new Error(`Invalid conversation type: ${type}`);
     }
+
+    // Sync Read Status (Mark unseen messages as SEEN)
+    await this.markMessagesAsSeen(userId, conversation.id);
 
     // Format the response
     const response = await this.formatConversationResponse(
@@ -101,14 +176,14 @@ export class ConversationSingleQueryService {
   private async findOrCreateShelterConversation(
     userId: string,
     shelterId: string,
-  ) {
+  ): Promise<ConversationWithRelations> {
     // Find existing conversation
     let conversation = await this.prisma.client.privateConversation.findFirst({
       where: {
         shelterId: shelterId,
         OR: [{ initiatorId: userId }, { receiverId: userId }],
       },
-      include: this.getConversationInclude(),
+      include: conversationInclude,
     });
 
     // Create if not exists
@@ -120,11 +195,11 @@ export class ConversationSingleQueryService {
           shelterId: shelterId,
           // receiverId is null when chatting with a shelter
         },
-        include: this.getConversationInclude(),
+        include: conversationInclude,
       });
     }
 
-    return conversation;
+    return conversation as ConversationWithRelations;
   }
 
   /** Find or create conversation with a USER (VET or DRIVER) */
@@ -132,7 +207,7 @@ export class ConversationSingleQueryService {
     userId: string,
     targetUserId: string,
     userShelterId: string | null,
-  ) {
+  ): Promise<ConversationWithRelations> {
     // If user is from a shelter, conversation should be shelter-based
     if (userShelterId) {
       // Find shelter-based conversation
@@ -142,7 +217,7 @@ export class ConversationSingleQueryService {
             shelterId: userShelterId,
             OR: [{ initiatorId: targetUserId }, { receiverId: targetUserId }],
           },
-          include: this.getConversationInclude(),
+          include: conversationInclude,
         },
       );
 
@@ -157,11 +232,11 @@ export class ConversationSingleQueryService {
             receiverId: targetUserId,
             shelterId: userShelterId,
           },
-          include: this.getConversationInclude(),
+          include: conversationInclude,
         });
       }
 
-      return conversation;
+      return conversation as ConversationWithRelations;
     } else {
       // Individual user to user conversation (no shelter)
       let conversation = await this.prisma.client.privateConversation.findFirst(
@@ -173,7 +248,7 @@ export class ConversationSingleQueryService {
               { initiatorId: targetUserId, receiverId: userId },
             ],
           },
-          include: this.getConversationInclude(),
+          include: conversationInclude,
         },
       );
 
@@ -186,17 +261,52 @@ export class ConversationSingleQueryService {
             initiatorId: userId,
             receiverId: targetUserId,
           },
-          include: this.getConversationInclude(),
+          include: conversationInclude,
         });
       }
 
-      return conversation;
+      return conversation as ConversationWithRelations;
+    }
+  }
+
+  /** Mark all unseen messages in this conversation for this user as SEEN */
+  private async markMessagesAsSeen(userId: string, conversationId: string) {
+    const unseenMessages = await this.prisma.client.privateMessage.findMany({
+      where: {
+        conversationId: conversationId,
+        statuses: {
+          some: {
+            userId: userId,
+            status: { not: MessageDeliveryStatus.SEEN },
+          },
+        },
+      },
+      select: { id: true },
+    });
+
+    for (const message of unseenMessages) {
+      await this.prisma.client.privateMessageStatus.upsert({
+        where: {
+          messageId_userId: {
+            messageId: message.id,
+            userId: userId,
+          },
+        },
+        update: {
+          status: MessageDeliveryStatus.SEEN,
+        },
+        create: {
+          userId: userId,
+          messageId: message.id,
+          status: MessageDeliveryStatus.SEEN,
+        },
+      });
     }
   }
 
   /** Format conversation response with proper participant display logic */
   private async formatConversationResponse(
-    conversation: any,
+    conversation: ConversationWithRelations,
     userId: string,
     userShelterId: string | null,
     page: number,
@@ -215,7 +325,8 @@ export class ConversationSingleQueryService {
     const paginatedMessages = conversation.messages.slice(skip, skip + limit);
 
     const formattedMessages: FormattedMessage[] = paginatedMessages.map(
-      (msg: any) => this.formatMessage(msg, userId),
+      (msg: ConversationWithRelations['messages'][number]) =>
+        this.formatMessage(msg, userId),
     );
 
     const response: SingleConversationResponse = {
@@ -240,7 +351,7 @@ export class ConversationSingleQueryService {
 
   /** Get single participant with proper display logic for team-based shelters */
   private getConversationParticipant(
-    conversation: any,
+    conversation: ConversationWithRelations,
     userId: string,
     userShelterId: string | null,
   ): ConversationParticipant {
@@ -270,9 +381,8 @@ export class ConversationSingleQueryService {
         if (conversation.shelter) {
           // Check if ANY member (manager or admin) is online
           const teamIds = [
-            ...(conversation.shelter.shelterAdmins?.map((a: any) => a.id) ||
-              []),
-            ...(conversation.shelter.managers?.map((m: any) => m.id) || []),
+            ...(conversation.shelter.shelterAdmins?.map((a) => a.id) || []),
+            ...(conversation.shelter.managers?.map((m) => m.id) || []),
           ];
           const isTeamActive = teamIds.some((id: string) =>
             this.chatGateway.isOnline(id),
@@ -320,7 +430,10 @@ export class ConversationSingleQueryService {
   }
 
   /** Format individual message */
-  private formatMessage(msg: any, userId: string): FormattedMessage {
+  private formatMessage(
+    msg: ConversationWithRelations['messages'][number],
+    userId: string,
+  ): FormattedMessage {
     const isMine = msg.senderId === userId;
 
     // Determine sender type
@@ -332,7 +445,7 @@ export class ConversationSingleQueryService {
 
     return {
       id: msg.id,
-      content: msg.content,
+      content: msg.content ?? '', // ensure string for content
       type: msg.type,
       sender: {
         id: msg.sender.id,
@@ -341,85 +454,20 @@ export class ConversationSingleQueryService {
           msg.sender.profilePictureUrl ||
           this.getDefaultAvatar(msg.sender.name),
       },
-      fileUrl: msg.fileUrl ?? null,
-      file: msg.file ?? null,
+      fileUrl: msg.file?.url ?? null,
       isMine,
       isFromShelter,
       isFromDriver,
       isFromVet,
       readBy:
-        msg.statuses?.filter((s: any) => s.isRead).map((s: any) => s.userId) ||
-        [],
+        msg.statuses
+          ?.filter(
+            (s) =>
+              s.userId !== userId && s.status === MessageDeliveryStatus.SEEN,
+          )
+          .map((s) => s.userId) || [],
       createdAt: msg.createdAt,
       updatedAt: msg.updatedAt,
-    };
-  }
-
-  /** Include relations for conversation query */
-  private getConversationInclude(): Prisma.PrivateConversationInclude {
-    return {
-      initiator: {
-        select: {
-          id: true,
-          name: true,
-          role: true,
-          profilePictureId: true,
-          profilePictureUrl: true,
-          shelterAdminOfId: true,
-          managerOfId: true,
-        },
-      },
-      receiver: {
-        select: {
-          id: true,
-          name: true,
-          role: true,
-          profilePictureId: true,
-          profilePictureUrl: true,
-          shelterAdminOfId: true,
-          managerOfId: true,
-        },
-      },
-      shelter: {
-        select: {
-          id: true,
-          name: true,
-          logoUrl: true,
-          logoId: true,
-          shelterAdmins: { select: { id: true } },
-          managers: { select: { id: true } },
-        },
-      },
-      messages: {
-        orderBy: { createdAt: 'asc' },
-        include: {
-          sender: {
-            select: {
-              id: true,
-              name: true,
-              role: true,
-              profilePictureId: true,
-              profilePictureUrl: true,
-              shelterAdminOfId: true,
-              managerOfId: true,
-            },
-          },
-          file: {
-            select: {
-              id: true,
-              url: true,
-              fileType: true,
-              mimeType: true,
-              size: true,
-            },
-          },
-          statuses: {
-            select: {
-              userId: true,
-            },
-          },
-        },
-      },
     };
   }
 
