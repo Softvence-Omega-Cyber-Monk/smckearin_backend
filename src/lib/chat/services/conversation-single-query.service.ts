@@ -15,49 +15,22 @@ import {
   InitOrLoadSingleConversationDto,
 } from '../dto/conversation.dto';
 import {
+  ChatParticipantType,
   ConversationParticipant,
+  ConversationWithRelations,
   FormattedMessage,
+  ReadByParticipant,
   SingleConversationResponse,
 } from '../types/single-conversation.types';
 
-// Define the include object outside the class for type inference
-const conversationInclude = {
-  initiator: {
-    select: {
-      id: true,
-      name: true,
-      role: true,
-      profilePictureId: true,
-      profilePictureUrl: true,
-      shelterAdminOfId: true,
-      managerOfId: true,
-    },
-  },
-  receiver: {
-    select: {
-      id: true,
-      name: true,
-      role: true,
-      profilePictureId: true,
-      profilePictureUrl: true,
-      shelterAdminOfId: true,
-      managerOfId: true,
-    },
-  },
-  shelter: {
-    select: {
-      id: true,
-      name: true,
-      logoUrl: true,
-      logoId: true,
-      shelterAdmins: { select: { id: true } },
-      managers: { select: { id: true } },
-    },
-  },
-  messages: {
-    orderBy: { createdAt: 'asc' as const },
-    include: {
-      sender: {
+@Injectable()
+export class ConversationSingleQueryService {
+  private readonly logger = new Logger(ConversationSingleQueryService.name);
+
+  // Private helper for conversation include
+  private get conversationInclude() {
+    return {
+      initiator: {
         select: {
           id: true,
           name: true,
@@ -68,33 +41,70 @@ const conversationInclude = {
           managerOfId: true,
         },
       },
-      file: {
+      receiver: {
         select: {
           id: true,
-          url: true,
-          fileType: true,
-          mimeType: true,
-          size: true,
+          name: true,
+          role: true,
+          profilePictureId: true,
+          profilePictureUrl: true,
+          shelterAdminOfId: true,
+          managerOfId: true,
         },
       },
-      statuses: {
+      shelter: {
         select: {
-          userId: true,
-          status: true,
+          id: true,
+          name: true,
+          logoUrl: true,
+          logoId: true,
+          shelterAdmins: { select: { id: true } },
+          managers: { select: { id: true } },
         },
       },
-    },
-  },
-} satisfies Prisma.PrivateConversationInclude;
-
-// Infer the return type of the conversation query
-type ConversationWithRelations = Prisma.PrivateConversationGetPayload<{
-  include: typeof conversationInclude;
-}>;
-
-@Injectable()
-export class ConversationSingleQueryService {
-  private readonly logger = new Logger(ConversationSingleQueryService.name);
+      messages: {
+        orderBy: { createdAt: 'asc' as const },
+        include: {
+          sender: {
+            select: {
+              id: true,
+              name: true,
+              role: true,
+              profilePictureId: true,
+              profilePictureUrl: true,
+              shelterAdminOfId: true,
+              managerOfId: true,
+            },
+          },
+          file: {
+            select: {
+              id: true,
+              url: true,
+              fileType: true,
+              mimeType: true,
+              size: true,
+            },
+          },
+          statuses: {
+            select: {
+              userId: true,
+              status: true,
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  role: true,
+                  profilePictureUrl: true,
+                  shelterAdminOfId: true,
+                  managerOfId: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    } satisfies Prisma.PrivateConversationInclude;
+  }
 
   constructor(
     private readonly prisma: PrismaService,
@@ -183,7 +193,7 @@ export class ConversationSingleQueryService {
         shelterId: shelterId,
         OR: [{ initiatorId: userId }, { receiverId: userId }],
       },
-      include: conversationInclude,
+      include: this.conversationInclude,
     });
 
     // Create if not exists
@@ -195,7 +205,7 @@ export class ConversationSingleQueryService {
           shelterId: shelterId,
           // receiverId is null when chatting with a shelter
         },
-        include: conversationInclude,
+        include: this.conversationInclude,
       });
     }
 
@@ -217,7 +227,7 @@ export class ConversationSingleQueryService {
             shelterId: userShelterId,
             OR: [{ initiatorId: targetUserId }, { receiverId: targetUserId }],
           },
-          include: conversationInclude,
+          include: this.conversationInclude,
         },
       );
 
@@ -232,7 +242,7 @@ export class ConversationSingleQueryService {
             receiverId: targetUserId,
             shelterId: userShelterId,
           },
-          include: conversationInclude,
+          include: this.conversationInclude,
         });
       }
 
@@ -248,7 +258,7 @@ export class ConversationSingleQueryService {
               { initiatorId: targetUserId, receiverId: userId },
             ],
           },
-          include: conversationInclude,
+          include: this.conversationInclude,
         },
       );
 
@@ -261,7 +271,7 @@ export class ConversationSingleQueryService {
             initiatorId: userId,
             receiverId: targetUserId,
           },
-          include: conversationInclude,
+          include: this.conversationInclude,
         });
       }
 
@@ -373,7 +383,10 @@ export class ConversationSingleQueryService {
               otherUser.profilePictureUrl ||
               this.getDefaultAvatar(otherUser.name),
             isActive: this.chatGateway.isOnline(otherUser.id),
-            type: otherUser.role === 'VETERINARIAN' ? 'VET' : 'DRIVER',
+            type:
+              otherUser.role === 'VETERINARIAN'
+                ? ChatParticipantType.VET
+                : ChatParticipantType.DRIVER,
           };
         }
       } else {
@@ -396,7 +409,7 @@ export class ConversationSingleQueryService {
               conversation.shelter.logoUrl ||
               this.getDefaultAvatar(conversation.shelter.name),
             isActive: isTeamActive,
-            type: 'SHELTER',
+            type: ChatParticipantType.SHELTER,
           };
         }
       }
@@ -418,10 +431,10 @@ export class ConversationSingleQueryService {
           isActive: this.chatGateway.isOnline(otherUser.id),
           type:
             otherUser.role === 'VETERINARIAN'
-              ? 'VET'
+              ? ChatParticipantType.VET
               : otherUser.role === 'DRIVER'
-                ? 'DRIVER'
-                : 'USER',
+                ? ChatParticipantType.DRIVER
+                : ChatParticipantType.USER,
         };
       }
     }
@@ -443,6 +456,55 @@ export class ConversationSingleQueryService {
     const isFromVet = msg.sender?.role === 'VETERINARIAN';
     const isFromDriver = msg.sender?.role === 'DRIVER';
 
+    // Format readBy
+    const readBy: ReadByParticipant[] = msg.statuses
+      .filter(
+        (s) => s.userId !== userId && s.status === MessageDeliveryStatus.SEEN,
+      )
+      .map((s) => {
+        const reader = s.user;
+        const readerShelterId = reader?.shelterAdminOfId || reader?.managerOfId;
+
+        // Logic to determine type and name
+        // Case 1: Reader is a Vet
+        if (reader.role === 'VETERINARIAN') {
+          return {
+            id: reader.id,
+            name: reader.name,
+            type: ChatParticipantType.VET,
+          };
+        }
+        // Case 2: Reader is a Driver
+        if (reader.role === 'DRIVER') {
+          return {
+            id: reader.id,
+            name: reader.name,
+            type: ChatParticipantType.DRIVER,
+          };
+        }
+
+        // Case 3: Reader is Shelter Staff (Admin/Manager)
+        if (readerShelterId) {
+          return {
+            id: readerShelterId, // Group by Shelter ID
+            name: 'Shelter',
+            type: ChatParticipantType.SHELTER,
+          };
+        }
+
+        // Case 4: Regular User or fallback
+        return {
+          id: reader.id,
+          name: reader.name,
+          type: ChatParticipantType.USER,
+        };
+      })
+      // Deduplicate by ID and type
+      .filter(
+        (v, i, a) =>
+          a.findIndex((t) => t.id === v.id && t.type === v.type) === i,
+      );
+
     return {
       id: msg.id,
       content: msg.content ?? '', // ensure string for content
@@ -455,17 +517,13 @@ export class ConversationSingleQueryService {
           this.getDefaultAvatar(msg.sender.name),
       },
       fileUrl: msg.file?.url ?? null,
+      file: msg.file ?? null,
       isMine,
       isFromShelter,
       isFromDriver,
       isFromVet,
-      readBy:
-        msg.statuses
-          ?.filter(
-            (s) =>
-              s.userId !== userId && s.status === MessageDeliveryStatus.SEEN,
-          )
-          .map((s) => s.userId) || [],
+      isRead: readBy.length > 0 && readBy.some((r) => r.id !== msg.senderId),
+      readBy: readBy,
       createdAt: msg.createdAt,
       updatedAt: msg.updatedAt,
     };
