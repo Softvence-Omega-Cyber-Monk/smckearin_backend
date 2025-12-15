@@ -9,6 +9,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { LoadConversationsDto } from './dto/conversation.dto';
 import { ConversationQueryService } from './services/conversation-query.service';
 import { ConversationSingleQueryService } from './services/conversation-single-query.service';
+import { MessageService } from './services/message.service';
 
 @WebSocketGateway({
   cors: {
@@ -40,6 +41,7 @@ export class ChatGateway extends BaseGateway {
     protected readonly jwtService: JwtService,
     private readonly conversationQueryService: ConversationQueryService,
     private readonly conversationSingleQueryService: ConversationSingleQueryService,
+    private readonly messageService: MessageService,
   ) {
     super(configService, prisma, jwtService, ChatGateway.name);
   }
@@ -56,6 +58,17 @@ export class ChatGateway extends BaseGateway {
       client,
       dto,
     );
+  }
+
+  /** ---------------- Message Handlers ---------------- */
+  @SubscribeMessage(EventsEnum.MESSAGE_SEND)
+  async handleSendMessage(client: Socket, dto: any) {
+    return this.messageService.sendMessage(client, dto);
+  }
+
+  @SubscribeMessage(EventsEnum.MESSAGE_MARK_READ)
+  async handleMarkAsRead(client: Socket, dto: any) {
+    return this.messageService.markAsRead(client, dto);
   }
 
   async emitToShelterTeam(shelterId: string, event: string, data: any) {

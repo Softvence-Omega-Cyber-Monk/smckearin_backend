@@ -6,8 +6,8 @@ export enum EventsEnum {
   // === Messaging ===
   MESSAGE_SEND = 'private:message_send', // Client -> Server: send a new message
   MESSAGE_NEW = 'private:message_new', // Server -> other participant: new message delivered
-  MESSAGE_STATUS_UPDATE = 'private:message_status_update', // Server -> Client: delivered/read updates
   MESSAGE_MARK_READ = 'private:message_mark_read', // Client -> Server: mark messages as read
+  MESSAGE_STATUS_UPDATE = 'private:message_status_update', // Server -> Client: delivered/read updates
 
   // === Conversation ===
   CONVERSATION_LOAD_LIST = 'private:conversation_load_list', // Client -> Server

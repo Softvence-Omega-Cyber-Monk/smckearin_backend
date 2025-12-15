@@ -25,9 +25,6 @@ export class BaseMessageDto {
   fileId?: string;
 }
 
-// ----------------------
-// Send message
-// ----------------------
 export class SendMessageDto extends BaseMessageDto {
   @ApiProperty({ description: 'ID of the conversation to send message to' })
   @IsNotEmpty()
@@ -35,39 +32,6 @@ export class SendMessageDto extends BaseMessageDto {
   conversationId: string;
 }
 
-// ----------------------
-// Edit message
-// ----------------------
-export class EditMessageDto {
-  @ApiProperty({ description: 'ID of the message to edit' })
-  @IsNotEmpty()
-  @IsString()
-  messageId: string;
-
-  @ApiProperty({ description: 'New content for the message' })
-  @IsNotEmpty()
-  @IsString()
-  content: string;
-}
-
-// ----------------------
-// Reaction management
-// ----------------------
-export class ReactionDto {
-  @ApiProperty({ description: 'ID of the message to react to' })
-  @IsNotEmpty()
-  @IsString()
-  messageId: string;
-
-  @ApiProperty({ description: 'Reaction emoji' })
-  @IsNotEmpty()
-  @IsString()
-  reaction: string;
-}
-
-// ----------------------
-// Mark message as read
-// ----------------------
 export class MarkReadDto {
   @ApiProperty({ description: 'IDs of messages to mark as read' })
   @IsNotEmpty()
@@ -76,9 +40,6 @@ export class MarkReadDto {
   messageIds: string[];
 }
 
-// ----------------------
-// Delete message
-// ----------------------
 export class DeleteMessageDto {
   @ApiProperty({ description: 'ID of the message to delete' })
   @IsNotEmpty()
