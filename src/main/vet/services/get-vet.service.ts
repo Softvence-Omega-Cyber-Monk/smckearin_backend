@@ -176,9 +176,9 @@ export class GetVetService {
           status: doc.status,
           createdAt: doc.createdAt,
           updatedAt: doc.updatedAt,
-          mimeType: doc.document.mimeType,
-          size: doc.document.size,
-          originalName: doc.document.originalFilename,
+          mimeType: doc.document?.mimeType ?? null,
+          size: doc.document?.size ?? null,
+          originalName: doc.document?.originalFilename ?? null,
         })) ?? [],
     };
   };
