@@ -2,6 +2,8 @@ import { GetUser, ValidateManager } from '@/core/jwt/jwt.decorator';
 import {
   Body,
   Controller,
+  Param,
+  Patch,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -33,5 +35,18 @@ export class AnimalController {
     @UploadedFile() file?: Express.Multer.File,
   ) {
     return this.animalService.createAnimal(userId, dto, file);
+  }
+
+  @ApiOperation({ summary: 'Update animal (manager only)' })
+  @Patch(':id')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateAnimal(
+    @GetUser('sub') userId: string,
+    @Param('id') animalId: string,
+    @Body() dto: CreateAnimalDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    return this.animalService.updateAnimal(userId, animalId, dto, file);
   }
 }
