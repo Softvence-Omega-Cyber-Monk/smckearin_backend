@@ -119,6 +119,16 @@ export const TransportStatus = {
 export type TransportStatus = (typeof TransportStatus)[keyof typeof TransportStatus]
 
 
+export const RequiredVetClearanceType = {
+  Health: 'Health',
+  Vaccination: 'Vaccination',
+  Both: 'Both',
+  No: 'No'
+} as const
+
+export type RequiredVetClearanceType = (typeof RequiredVetClearanceType)[keyof typeof RequiredVetClearanceType]
+
+
 export const UserRole = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',

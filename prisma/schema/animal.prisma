@@ -30,7 +30,8 @@ model Animal {
   image    FileInstance? @relation(fields: [imageId], references: [id], onDelete: SetNull)
 
   // Transports
-  transports Transport[]
+  transports             Transport[]
+  transportsAsBondedPair Transport[] @relation("BondedPair")
 
   // Health Reports
   healthReports HealthReport[]

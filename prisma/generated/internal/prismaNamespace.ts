@@ -2179,9 +2179,13 @@ export const TransportScalarFieldEnum = {
   transPortDate: 'transPortDate',
   transPortTime: 'transPortTime',
   animalId: 'animalId',
+  isBondedPair: 'isBondedPair',
+  bondedPairId: 'bondedPairId',
+  vetId: 'vetId',
   driverId: 'driverId',
   shelterId: 'shelterId',
   isVetClearanceRequired: 'isVetClearanceRequired',
+  vetClearanceType: 'vetClearanceType',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2534,6 +2538,20 @@ export type EnumPriorityLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'PriorityLevel[]'
  */
 export type ListEnumPriorityLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PriorityLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RequiredVetClearanceType'
+ */
+export type EnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequiredVetClearanceType'>
+    
+
+
+/**
+ * Reference to a field of type 'RequiredVetClearanceType[]'
+ */
+export type ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequiredVetClearanceType[]'>
     
 
 

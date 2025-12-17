@@ -49,7 +49,7 @@ model NotificationSettings {
   appointmentNotifications Boolean @default(true)
 
   // Driver, Admin & Superadmin
-  tripNotifications Boolean @default(true)
+  tripNotifications    Boolean @default(true)
   paymentNotifications Boolean @default(false)
 
   createdAt DateTime @default(now())

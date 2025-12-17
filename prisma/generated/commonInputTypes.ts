@@ -371,6 +371,13 @@ export type EnumPriorityLevelFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel> | $Enums.PriorityLevel
 }
 
+export type EnumRequiredVetClearanceTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.RequiredVetClearanceType | Prisma.EnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.RequiredVetClearanceType[] | Prisma.ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RequiredVetClearanceType[] | Prisma.ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRequiredVetClearanceTypeFilter<$PrismaModel> | $Enums.RequiredVetClearanceType
+}
+
 export type EnumTransportStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.TransportStatus | Prisma.EnumTransportStatusFieldRefInput<$PrismaModel>
   in?: $Enums.TransportStatus[] | Prisma.ListEnumTransportStatusFieldRefInput<$PrismaModel>
@@ -386,6 +393,16 @@ export type EnumPriorityLevelWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel>
   _max?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel>
+}
+
+export type EnumRequiredVetClearanceTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RequiredVetClearanceType | Prisma.EnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.RequiredVetClearanceType[] | Prisma.ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RequiredVetClearanceType[] | Prisma.ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRequiredVetClearanceTypeWithAggregatesFilter<$PrismaModel> | $Enums.RequiredVetClearanceType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRequiredVetClearanceTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRequiredVetClearanceTypeFilter<$PrismaModel>
 }
 
 export type EnumTransportStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -867,6 +884,13 @@ export type NestedEnumPriorityLevelFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel> | $Enums.PriorityLevel
 }
 
+export type NestedEnumRequiredVetClearanceTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.RequiredVetClearanceType | Prisma.EnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.RequiredVetClearanceType[] | Prisma.ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RequiredVetClearanceType[] | Prisma.ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRequiredVetClearanceTypeFilter<$PrismaModel> | $Enums.RequiredVetClearanceType
+}
+
 export type NestedEnumTransportStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.TransportStatus | Prisma.EnumTransportStatusFieldRefInput<$PrismaModel>
   in?: $Enums.TransportStatus[] | Prisma.ListEnumTransportStatusFieldRefInput<$PrismaModel>
@@ -882,6 +906,16 @@ export type NestedEnumPriorityLevelWithAggregatesFilter<$PrismaModel = never> = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel>
   _max?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel>
+}
+
+export type NestedEnumRequiredVetClearanceTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.RequiredVetClearanceType | Prisma.EnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.RequiredVetClearanceType[] | Prisma.ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.RequiredVetClearanceType[] | Prisma.ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumRequiredVetClearanceTypeWithAggregatesFilter<$PrismaModel> | $Enums.RequiredVetClearanceType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumRequiredVetClearanceTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumRequiredVetClearanceTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumTransportStatusWithAggregatesFilter<$PrismaModel = never> = {

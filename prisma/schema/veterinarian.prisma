@@ -21,6 +21,9 @@ model Veterinarian {
   // Vet Documents
   vetDocuments VetDocument[]
 
+  // Assigned Transports
+  transports Transport[]
+
   status ApprovalStatus @default(PENDING)
 
   userId String @unique

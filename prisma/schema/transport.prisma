@@ -19,15 +19,25 @@ model Transport {
   animalId String
   animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
 
+  isBondedPair Boolean @default(false)
+
+  bondedPairId String?
+  bondedPair   Animal? @relation("BondedPair", fields: [bondedPairId], references: [id], onDelete: SetNull)
+
+  vetId String?
+  vet   Veterinarian? @relation(fields: [vetId], references: [id], onDelete: SetNull)
+
   driverId String?
   driver   Driver? @relation(fields: [driverId], references: [id], onDelete: SetNull)
 
   shelterId String?
-  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: SetNull)
 
-  isVetClearanceRequired Boolean
+  isVetClearanceRequired Boolean @default(false)
 
-  status TransportStatus
+  vetClearanceType RequiredVetClearanceType @default(No)
+
+  status TransportStatus @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -48,4 +58,11 @@ enum TransportStatus {
   PICKED_UP
   IN_TRANSIT
   COMPLETED
+}
+
+enum RequiredVetClearanceType {
+  Health
+  Vaccination
+  Both
+  No
 }
