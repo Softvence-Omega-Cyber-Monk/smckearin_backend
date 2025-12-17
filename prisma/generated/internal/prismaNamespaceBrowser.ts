@@ -105,6 +105,7 @@ export const AnimalScalarFieldEnum = {
   shelterId: 'shelterId',
   imageId: 'imageId',
   imageUrl: 'imageUrl',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -9,6 +9,15 @@
 * 🟢 You can import this file directly.
 */
 
+export const Status = {
+  ADOPTED: 'ADOPTED',
+  AT_SHELTER: 'AT_SHELTER',
+  IN_TRANSIT: 'IN_TRANSIT'
+} as const
+
+export type Status = (typeof Status)[keyof typeof Status]
+
+
 export const OtpType = {
   VERIFICATION: 'VERIFICATION',
   RESET: 'RESET'

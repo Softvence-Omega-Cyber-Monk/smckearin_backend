@@ -5,6 +5,7 @@ import { ShelterModule } from './shelter/shelter.module';
 import { TransportModule } from './transport/transport.module';
 import { UploadModule } from './upload/upload.module';
 import { VetModule } from './vet/vet.module';
+import { AnimalModule } from './animal/animal.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { VetModule } from './vet/vet.module';
     ShelterModule,
     UploadModule,
     TransportModule,
+    AnimalModule,
   ],
 })
 export class MainModule {}

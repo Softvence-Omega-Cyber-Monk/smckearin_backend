@@ -1,3 +1,4 @@
+import { successResponse } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
@@ -66,6 +67,13 @@ export class CreateTransportService {
         );
       }
 
+      if (dto.animalId === dto.bondedPairId) {
+        throw new AppError(
+          HttpStatus.BAD_REQUEST,
+          'Animal and bonded pair cannot be the same',
+        );
+      }
+
       const bondedAnimal = await this.prisma.client.animal.findFirst({
         where: {
           id: dto.bondedPairId,
@@ -113,6 +121,22 @@ export class CreateTransportService {
       },
     });
 
-    return transport;
+    await this.prisma.client.animal.update({
+      where: { id: dto.animalId },
+      data: { status: 'IN_TRANSIT' },
+    });
+
+    if (dto.isBondedPair && dto.bondedPairId) {
+      await this.prisma.client.animal.update({
+        where: { id: dto.bondedPairId },
+        data: { status: 'IN_TRANSIT' },
+      });
+      await this.prisma.client.animal.update({
+        where: { id: dto.animalId },
+        data: { bondedWithId: dto.bondedPairId },
+      });
+    }
+
+    return successResponse(transport, 'Transport created successfully');
   }
 }

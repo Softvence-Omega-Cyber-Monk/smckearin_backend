@@ -36,8 +36,16 @@ model Animal {
   // Health Reports
   healthReports HealthReport[]
 
+  status Status @default(IN_TRANSIT)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
   @@map("animals")
+}
+
+enum Status {
+  ADOPTED
+  AT_SHELTER
+  IN_TRANSIT
 }
