@@ -63,7 +63,7 @@ export class VetController {
 
   @ApiOperation({ summary: 'Approve or reject vet (admin only)' })
   @ValidateAdmin()
-  @Get('vet/:vetId/approve')
+  @Patch('vet/:vetId/approve')
   async approveOrRejectVet(
     @Param('vetId') vetId: string,
     @Query() dto: ApproveOrRejectDto,
@@ -93,6 +93,13 @@ export class VetController {
   @Get('vet/me/document')
   async getOwnVetDocuments(@GetUser('sub') userId: string) {
     return this.vetService.getOwnVetDocuments(userId);
+  }
+
+  @ApiOperation({ summary: 'Get single vet document' })
+  @ValidateVeterinarian()
+  @Get('vet/document/:documentId')
+  async getSingleVetDocument(@Param('documentId') documentId: string) {
+    return this.vetService.getSingleVetDocument(documentId);
   }
 
   @ApiOperation({ summary: 'Vet upload document' })

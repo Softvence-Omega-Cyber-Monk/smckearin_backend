@@ -152,6 +152,37 @@ export class GetVetService {
     );
   }
 
+  @HandleError('Failed to get single vet document')
+  async getSingleVetDocument(documentId: string) {
+    const doc = await this.prisma.client.vetDocument.findUnique({
+      where: { id: documentId },
+      include: {
+        document: true,
+      },
+    });
+
+    if (!doc) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Document not found');
+    }
+
+    return successResponse(
+      {
+        documentId: doc.id,
+        fileId: doc.documentId,
+        url: doc.documentUrl,
+        name: doc.name,
+        type: doc.type,
+        status: doc.status,
+        createdAt: doc.createdAt,
+        updatedAt: doc.updatedAt,
+        mimeType: doc.document.mimeType,
+        size: doc.document.size,
+        originalName: doc.document.originalFilename,
+      },
+      'Document found',
+    );
+  }
+
   private flattenVet = (vet: VetWithRelations) => {
     return {
       id: vet.id,

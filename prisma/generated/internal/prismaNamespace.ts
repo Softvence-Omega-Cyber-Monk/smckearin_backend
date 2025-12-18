@@ -1958,6 +1958,7 @@ export const AnimalScalarFieldEnum = {
   shelterId: 'shelterId',
   imageId: 'imageId',
   imageUrl: 'imageUrl',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2179,9 +2180,13 @@ export const TransportScalarFieldEnum = {
   transPortDate: 'transPortDate',
   transPortTime: 'transPortTime',
   animalId: 'animalId',
+  isBondedPair: 'isBondedPair',
+  bondedPairId: 'bondedPairId',
+  vetId: 'vetId',
   driverId: 'driverId',
   shelterId: 'shelterId',
   isVetClearanceRequired: 'isVetClearanceRequired',
+  vetClearanceType: 'vetClearanceType',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2391,6 +2396,20 @@ export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
 
 
 /**
+ * Reference to a field of type 'Status'
+ */
+export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
+    
+
+
+/**
+ * Reference to a field of type 'Status[]'
+ */
+export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
+    
+
+
+/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -2534,6 +2553,20 @@ export type EnumPriorityLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'PriorityLevel[]'
  */
 export type ListEnumPriorityLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PriorityLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RequiredVetClearanceType'
+ */
+export type EnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequiredVetClearanceType'>
+    
+
+
+/**
+ * Reference to a field of type 'RequiredVetClearanceType[]'
+ */
+export type ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RequiredVetClearanceType[]'>
     
 
 

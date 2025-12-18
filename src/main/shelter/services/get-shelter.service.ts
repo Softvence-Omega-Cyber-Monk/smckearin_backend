@@ -172,6 +172,37 @@ export class GetShelterService {
     );
   }
 
+  @HandleError('Failed to get single shelter document')
+  async getSingleShelterDocument(documentId: string) {
+    const doc = await this.prisma.client.shelterDocument.findUnique({
+      where: { id: documentId },
+      include: {
+        document: true,
+      },
+    });
+
+    if (!doc) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Document not found');
+    }
+
+    return successResponse(
+      {
+        documentId: doc.id,
+        fileId: doc.documentId,
+        url: doc.documentUrl,
+        name: doc.name,
+        type: doc.type,
+        status: doc.status,
+        createdAt: doc.createdAt,
+        updatedAt: doc.updatedAt,
+        mimeType: doc.document.mimeType,
+        size: doc.document.size,
+        originalName: doc.document.originalFilename,
+      },
+      'Document found',
+    );
+  }
+
   private flattenShelter = (shelter: ShelterWithRelations) => {
     return {
       id: shelter.id,

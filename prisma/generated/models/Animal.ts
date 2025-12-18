@@ -52,6 +52,7 @@ export type AnimalMinAggregateOutputType = {
   shelterId: string | null
   imageId: string | null
   imageUrl: string | null
+  status: $Enums.Status | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,6 +73,7 @@ export type AnimalMaxAggregateOutputType = {
   shelterId: string | null
   imageId: string | null
   imageUrl: string | null
+  status: $Enums.Status | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -92,6 +94,7 @@ export type AnimalCountAggregateOutputType = {
   shelterId: number
   imageId: number
   imageUrl: number
+  status: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -124,6 +127,7 @@ export type AnimalMinAggregateInputType = {
   shelterId?: true
   imageId?: true
   imageUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -144,6 +148,7 @@ export type AnimalMaxAggregateInputType = {
   shelterId?: true
   imageId?: true
   imageUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -164,6 +169,7 @@ export type AnimalCountAggregateInputType = {
   shelterId?: true
   imageId?: true
   imageUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -271,6 +277,7 @@ export type AnimalGroupByOutputType = {
   shelterId: string
   imageId: string | null
   imageUrl: string | null
+  status: $Enums.Status
   createdAt: Date
   updatedAt: Date
   _count: AnimalCountAggregateOutputType | null
@@ -314,6 +321,7 @@ export type AnimalWhereInput = {
   shelterId?: Prisma.StringFilter<"Animal"> | string
   imageId?: Prisma.StringNullableFilter<"Animal"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Animal"> | string | null
+  status?: Prisma.EnumStatusFilter<"Animal"> | $Enums.Status
   createdAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
   bondedWith?: Prisma.XOR<Prisma.AnimalNullableScalarRelationFilter, Prisma.AnimalWhereInput> | null
@@ -321,6 +329,7 @@ export type AnimalWhereInput = {
   shelter?: Prisma.XOR<Prisma.ShelterScalarRelationFilter, Prisma.ShelterWhereInput>
   image?: Prisma.XOR<Prisma.FileInstanceNullableScalarRelationFilter, Prisma.FileInstanceWhereInput> | null
   transports?: Prisma.TransportListRelationFilter
+  transportsAsBondedPair?: Prisma.TransportListRelationFilter
   healthReports?: Prisma.HealthReportListRelationFilter
 }
 
@@ -340,6 +349,7 @@ export type AnimalOrderByWithRelationInput = {
   shelterId?: Prisma.SortOrder
   imageId?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   bondedWith?: Prisma.AnimalOrderByWithRelationInput
@@ -347,6 +357,7 @@ export type AnimalOrderByWithRelationInput = {
   shelter?: Prisma.ShelterOrderByWithRelationInput
   image?: Prisma.FileInstanceOrderByWithRelationInput
   transports?: Prisma.TransportOrderByRelationAggregateInput
+  transportsAsBondedPair?: Prisma.TransportOrderByRelationAggregateInput
   healthReports?: Prisma.HealthReportOrderByRelationAggregateInput
 }
 
@@ -369,6 +380,7 @@ export type AnimalWhereUniqueInput = Prisma.AtLeast<{
   bondedWithId?: Prisma.StringNullableFilter<"Animal"> | string | null
   shelterId?: Prisma.StringFilter<"Animal"> | string
   imageUrl?: Prisma.StringNullableFilter<"Animal"> | string | null
+  status?: Prisma.EnumStatusFilter<"Animal"> | $Enums.Status
   createdAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
   bondedWith?: Prisma.XOR<Prisma.AnimalNullableScalarRelationFilter, Prisma.AnimalWhereInput> | null
@@ -376,6 +388,7 @@ export type AnimalWhereUniqueInput = Prisma.AtLeast<{
   shelter?: Prisma.XOR<Prisma.ShelterScalarRelationFilter, Prisma.ShelterWhereInput>
   image?: Prisma.XOR<Prisma.FileInstanceNullableScalarRelationFilter, Prisma.FileInstanceWhereInput> | null
   transports?: Prisma.TransportListRelationFilter
+  transportsAsBondedPair?: Prisma.TransportListRelationFilter
   healthReports?: Prisma.HealthReportListRelationFilter
 }, "id" | "imageId">
 
@@ -395,6 +408,7 @@ export type AnimalOrderByWithAggregationInput = {
   shelterId?: Prisma.SortOrder
   imageId?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.AnimalCountOrderByAggregateInput
@@ -423,6 +437,7 @@ export type AnimalScalarWhereWithAggregatesInput = {
   shelterId?: Prisma.StringWithAggregatesFilter<"Animal"> | string
   imageId?: Prisma.StringNullableWithAggregatesFilter<"Animal"> | string | null
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Animal"> | string | null
+  status?: Prisma.EnumStatusWithAggregatesFilter<"Animal"> | $Enums.Status
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Animal"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Animal"> | Date | string
 }
@@ -440,6 +455,7 @@ export type AnimalCreateInput = {
   medicalNotes?: string | null
   behaviorNotes?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
@@ -447,6 +463,7 @@ export type AnimalCreateInput = {
   shelter: Prisma.ShelterCreateNestedOneWithoutAnimalsInput
   image?: Prisma.FileInstanceCreateNestedOneWithoutTripAnimalInput
   transports?: Prisma.TransportCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutAnimalInput
 }
 
@@ -466,10 +483,12 @@ export type AnimalUncheckedCreateInput = {
   shelterId: string
   imageId?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutAnimalInput
 }
 
@@ -486,6 +505,7 @@ export type AnimalUpdateInput = {
   medicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   behaviorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
@@ -493,6 +513,7 @@ export type AnimalUpdateInput = {
   shelter?: Prisma.ShelterUpdateOneRequiredWithoutAnimalsNestedInput
   image?: Prisma.FileInstanceUpdateOneWithoutTripAnimalNestedInput
   transports?: Prisma.TransportUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUpdateManyWithoutBondedPairNestedInput
   healthReports?: Prisma.HealthReportUpdateManyWithoutAnimalNestedInput
 }
 
@@ -512,10 +533,12 @@ export type AnimalUncheckedUpdateInput = {
   shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedUpdateManyWithoutBondedPairNestedInput
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutAnimalNestedInput
 }
 
@@ -535,6 +558,7 @@ export type AnimalCreateManyInput = {
   shelterId: string
   imageId?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -552,6 +576,7 @@ export type AnimalUpdateManyMutationInput = {
   medicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   behaviorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -572,6 +597,7 @@ export type AnimalUncheckedUpdateManyInput = {
   shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -607,6 +633,7 @@ export type AnimalCountOrderByAggregateInput = {
   shelterId?: Prisma.SortOrder
   imageId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -632,6 +659,7 @@ export type AnimalMaxOrderByAggregateInput = {
   shelterId?: Prisma.SortOrder
   imageId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -652,6 +680,7 @@ export type AnimalMinOrderByAggregateInput = {
   shelterId?: Prisma.SortOrder
   imageId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -716,6 +745,10 @@ export type EnumGenderFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type EnumStatusFieldUpdateOperationsInput = {
+  set?: $Enums.Status
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -854,12 +887,28 @@ export type AnimalCreateNestedOneWithoutTransportsInput = {
   connect?: Prisma.AnimalWhereUniqueInput
 }
 
+export type AnimalCreateNestedOneWithoutTransportsAsBondedPairInput = {
+  create?: Prisma.XOR<Prisma.AnimalCreateWithoutTransportsAsBondedPairInput, Prisma.AnimalUncheckedCreateWithoutTransportsAsBondedPairInput>
+  connectOrCreate?: Prisma.AnimalCreateOrConnectWithoutTransportsAsBondedPairInput
+  connect?: Prisma.AnimalWhereUniqueInput
+}
+
 export type AnimalUpdateOneRequiredWithoutTransportsNestedInput = {
   create?: Prisma.XOR<Prisma.AnimalCreateWithoutTransportsInput, Prisma.AnimalUncheckedCreateWithoutTransportsInput>
   connectOrCreate?: Prisma.AnimalCreateOrConnectWithoutTransportsInput
   upsert?: Prisma.AnimalUpsertWithoutTransportsInput
   connect?: Prisma.AnimalWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.AnimalUpdateToOneWithWhereWithoutTransportsInput, Prisma.AnimalUpdateWithoutTransportsInput>, Prisma.AnimalUncheckedUpdateWithoutTransportsInput>
+}
+
+export type AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput = {
+  create?: Prisma.XOR<Prisma.AnimalCreateWithoutTransportsAsBondedPairInput, Prisma.AnimalUncheckedCreateWithoutTransportsAsBondedPairInput>
+  connectOrCreate?: Prisma.AnimalCreateOrConnectWithoutTransportsAsBondedPairInput
+  upsert?: Prisma.AnimalUpsertWithoutTransportsAsBondedPairInput
+  disconnect?: Prisma.AnimalWhereInput | boolean
+  delete?: Prisma.AnimalWhereInput | boolean
+  connect?: Prisma.AnimalWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AnimalUpdateToOneWithWhereWithoutTransportsAsBondedPairInput, Prisma.AnimalUpdateWithoutTransportsAsBondedPairInput>, Prisma.AnimalUncheckedUpdateWithoutTransportsAsBondedPairInput>
 }
 
 export type AnimalCreateWithoutBondedByInput = {
@@ -875,12 +924,14 @@ export type AnimalCreateWithoutBondedByInput = {
   medicalNotes?: string | null
   behaviorNotes?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
   shelter: Prisma.ShelterCreateNestedOneWithoutAnimalsInput
   image?: Prisma.FileInstanceCreateNestedOneWithoutTripAnimalInput
   transports?: Prisma.TransportCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutAnimalInput
 }
 
@@ -900,9 +951,11 @@ export type AnimalUncheckedCreateWithoutBondedByInput = {
   shelterId: string
   imageId?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutAnimalInput
 }
 
@@ -924,12 +977,14 @@ export type AnimalCreateWithoutBondedWithInput = {
   medicalNotes?: string | null
   behaviorNotes?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalCreateNestedManyWithoutBondedWithInput
   shelter: Prisma.ShelterCreateNestedOneWithoutAnimalsInput
   image?: Prisma.FileInstanceCreateNestedOneWithoutTripAnimalInput
   transports?: Prisma.TransportCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutAnimalInput
 }
 
@@ -948,10 +1003,12 @@ export type AnimalUncheckedCreateWithoutBondedWithInput = {
   shelterId: string
   imageId?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutAnimalInput
 }
 
@@ -989,12 +1046,14 @@ export type AnimalUpdateWithoutBondedByInput = {
   medicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   behaviorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
   shelter?: Prisma.ShelterUpdateOneRequiredWithoutAnimalsNestedInput
   image?: Prisma.FileInstanceUpdateOneWithoutTripAnimalNestedInput
   transports?: Prisma.TransportUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUpdateManyWithoutBondedPairNestedInput
   healthReports?: Prisma.HealthReportUpdateManyWithoutAnimalNestedInput
 }
 
@@ -1014,9 +1073,11 @@ export type AnimalUncheckedUpdateWithoutBondedByInput = {
   shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedUpdateManyWithoutBondedPairNestedInput
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutAnimalNestedInput
 }
 
@@ -1055,6 +1116,7 @@ export type AnimalScalarWhereInput = {
   shelterId?: Prisma.StringFilter<"Animal"> | string
   imageId?: Prisma.StringNullableFilter<"Animal"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Animal"> | string | null
+  status?: Prisma.EnumStatusFilter<"Animal"> | $Enums.Status
   createdAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
 }
@@ -1072,12 +1134,14 @@ export type AnimalCreateWithoutImageInput = {
   medicalNotes?: string | null
   behaviorNotes?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
   bondedBy?: Prisma.AnimalCreateNestedManyWithoutBondedWithInput
   shelter: Prisma.ShelterCreateNestedOneWithoutAnimalsInput
   transports?: Prisma.TransportCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutAnimalInput
 }
 
@@ -1096,10 +1160,12 @@ export type AnimalUncheckedCreateWithoutImageInput = {
   bondedWithId?: string | null
   shelterId: string
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutAnimalInput
 }
 
@@ -1132,12 +1198,14 @@ export type AnimalUpdateWithoutImageInput = {
   medicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   behaviorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
   bondedBy?: Prisma.AnimalUpdateManyWithoutBondedWithNestedInput
   shelter?: Prisma.ShelterUpdateOneRequiredWithoutAnimalsNestedInput
   transports?: Prisma.TransportUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUpdateManyWithoutBondedPairNestedInput
   healthReports?: Prisma.HealthReportUpdateManyWithoutAnimalNestedInput
 }
 
@@ -1156,10 +1224,12 @@ export type AnimalUncheckedUpdateWithoutImageInput = {
   bondedWithId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedUpdateManyWithoutBondedPairNestedInput
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutAnimalNestedInput
 }
 
@@ -1176,6 +1246,7 @@ export type AnimalCreateWithoutHealthReportsInput = {
   medicalNotes?: string | null
   behaviorNotes?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
@@ -1183,6 +1254,7 @@ export type AnimalCreateWithoutHealthReportsInput = {
   shelter: Prisma.ShelterCreateNestedOneWithoutAnimalsInput
   image?: Prisma.FileInstanceCreateNestedOneWithoutTripAnimalInput
   transports?: Prisma.TransportCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportCreateNestedManyWithoutBondedPairInput
 }
 
 export type AnimalUncheckedCreateWithoutHealthReportsInput = {
@@ -1201,10 +1273,12 @@ export type AnimalUncheckedCreateWithoutHealthReportsInput = {
   shelterId: string
   imageId?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedCreateNestedManyWithoutBondedPairInput
 }
 
 export type AnimalCreateOrConnectWithoutHealthReportsInput = {
@@ -1236,6 +1310,7 @@ export type AnimalUpdateWithoutHealthReportsInput = {
   medicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   behaviorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
@@ -1243,6 +1318,7 @@ export type AnimalUpdateWithoutHealthReportsInput = {
   shelter?: Prisma.ShelterUpdateOneRequiredWithoutAnimalsNestedInput
   image?: Prisma.FileInstanceUpdateOneWithoutTripAnimalNestedInput
   transports?: Prisma.TransportUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUpdateManyWithoutBondedPairNestedInput
 }
 
 export type AnimalUncheckedUpdateWithoutHealthReportsInput = {
@@ -1261,10 +1337,12 @@ export type AnimalUncheckedUpdateWithoutHealthReportsInput = {
   shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedUpdateManyWithoutBondedPairNestedInput
 }
 
 export type AnimalCreateWithoutShelterInput = {
@@ -1280,12 +1358,14 @@ export type AnimalCreateWithoutShelterInput = {
   medicalNotes?: string | null
   behaviorNotes?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
   bondedBy?: Prisma.AnimalCreateNestedManyWithoutBondedWithInput
   image?: Prisma.FileInstanceCreateNestedOneWithoutTripAnimalInput
   transports?: Prisma.TransportCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutAnimalInput
 }
 
@@ -1304,10 +1384,12 @@ export type AnimalUncheckedCreateWithoutShelterInput = {
   bondedWithId?: string | null
   imageId?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutAnimalInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutAnimalInput
 }
 
@@ -1350,12 +1432,14 @@ export type AnimalCreateWithoutTransportsInput = {
   medicalNotes?: string | null
   behaviorNotes?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
   bondedBy?: Prisma.AnimalCreateNestedManyWithoutBondedWithInput
   shelter: Prisma.ShelterCreateNestedOneWithoutAnimalsInput
   image?: Prisma.FileInstanceCreateNestedOneWithoutTripAnimalInput
+  transportsAsBondedPair?: Prisma.TransportCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutAnimalInput
 }
 
@@ -1375,15 +1459,70 @@ export type AnimalUncheckedCreateWithoutTransportsInput = {
   shelterId: string
   imageId?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedCreateNestedManyWithoutBondedPairInput
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutAnimalInput
 }
 
 export type AnimalCreateOrConnectWithoutTransportsInput = {
   where: Prisma.AnimalWhereUniqueInput
   create: Prisma.XOR<Prisma.AnimalCreateWithoutTransportsInput, Prisma.AnimalUncheckedCreateWithoutTransportsInput>
+}
+
+export type AnimalCreateWithoutTransportsAsBondedPairInput = {
+  id?: string
+  name: string
+  breed: string
+  age?: number
+  weight?: number
+  species: $Enums.SPECIES
+  gender: $Enums.Gender
+  color?: string | null
+  specialNeeds?: string | null
+  medicalNotes?: string | null
+  behaviorNotes?: string | null
+  imageUrl?: string | null
+  status?: $Enums.Status
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
+  bondedBy?: Prisma.AnimalCreateNestedManyWithoutBondedWithInput
+  shelter: Prisma.ShelterCreateNestedOneWithoutAnimalsInput
+  image?: Prisma.FileInstanceCreateNestedOneWithoutTripAnimalInput
+  transports?: Prisma.TransportCreateNestedManyWithoutAnimalInput
+  healthReports?: Prisma.HealthReportCreateNestedManyWithoutAnimalInput
+}
+
+export type AnimalUncheckedCreateWithoutTransportsAsBondedPairInput = {
+  id?: string
+  name: string
+  breed: string
+  age?: number
+  weight?: number
+  species: $Enums.SPECIES
+  gender: $Enums.Gender
+  color?: string | null
+  specialNeeds?: string | null
+  medicalNotes?: string | null
+  behaviorNotes?: string | null
+  bondedWithId?: string | null
+  shelterId: string
+  imageId?: string | null
+  imageUrl?: string | null
+  status?: $Enums.Status
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
+  transports?: Prisma.TransportUncheckedCreateNestedManyWithoutAnimalInput
+  healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutAnimalInput
+}
+
+export type AnimalCreateOrConnectWithoutTransportsAsBondedPairInput = {
+  where: Prisma.AnimalWhereUniqueInput
+  create: Prisma.XOR<Prisma.AnimalCreateWithoutTransportsAsBondedPairInput, Prisma.AnimalUncheckedCreateWithoutTransportsAsBondedPairInput>
 }
 
 export type AnimalUpsertWithoutTransportsInput = {
@@ -1410,12 +1549,14 @@ export type AnimalUpdateWithoutTransportsInput = {
   medicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   behaviorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
   bondedBy?: Prisma.AnimalUpdateManyWithoutBondedWithNestedInput
   shelter?: Prisma.ShelterUpdateOneRequiredWithoutAnimalsNestedInput
   image?: Prisma.FileInstanceUpdateOneWithoutTripAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUpdateManyWithoutBondedPairNestedInput
   healthReports?: Prisma.HealthReportUpdateManyWithoutAnimalNestedInput
 }
 
@@ -1435,9 +1576,70 @@ export type AnimalUncheckedUpdateWithoutTransportsInput = {
   shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedUpdateManyWithoutBondedPairNestedInput
+  healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutAnimalNestedInput
+}
+
+export type AnimalUpsertWithoutTransportsAsBondedPairInput = {
+  update: Prisma.XOR<Prisma.AnimalUpdateWithoutTransportsAsBondedPairInput, Prisma.AnimalUncheckedUpdateWithoutTransportsAsBondedPairInput>
+  create: Prisma.XOR<Prisma.AnimalCreateWithoutTransportsAsBondedPairInput, Prisma.AnimalUncheckedCreateWithoutTransportsAsBondedPairInput>
+  where?: Prisma.AnimalWhereInput
+}
+
+export type AnimalUpdateToOneWithWhereWithoutTransportsAsBondedPairInput = {
+  where?: Prisma.AnimalWhereInput
+  data: Prisma.XOR<Prisma.AnimalUpdateWithoutTransportsAsBondedPairInput, Prisma.AnimalUncheckedUpdateWithoutTransportsAsBondedPairInput>
+}
+
+export type AnimalUpdateWithoutTransportsAsBondedPairInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  breed?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  weight?: Prisma.FloatFieldUpdateOperationsInput | number
+  species?: Prisma.EnumSPECIESFieldUpdateOperationsInput | $Enums.SPECIES
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  specialNeeds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  medicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  behaviorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
+  bondedBy?: Prisma.AnimalUpdateManyWithoutBondedWithNestedInput
+  shelter?: Prisma.ShelterUpdateOneRequiredWithoutAnimalsNestedInput
+  image?: Prisma.FileInstanceUpdateOneWithoutTripAnimalNestedInput
+  transports?: Prisma.TransportUpdateManyWithoutAnimalNestedInput
+  healthReports?: Prisma.HealthReportUpdateManyWithoutAnimalNestedInput
+}
+
+export type AnimalUncheckedUpdateWithoutTransportsAsBondedPairInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  breed?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  weight?: Prisma.FloatFieldUpdateOperationsInput | number
+  species?: Prisma.EnumSPECIESFieldUpdateOperationsInput | $Enums.SPECIES
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  specialNeeds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  medicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  behaviorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bondedWithId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
+  transports?: Prisma.TransportUncheckedUpdateManyWithoutAnimalNestedInput
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutAnimalNestedInput
 }
 
@@ -1456,6 +1658,7 @@ export type AnimalCreateManyBondedWithInput = {
   shelterId: string
   imageId?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1473,12 +1676,14 @@ export type AnimalUpdateWithoutBondedWithInput = {
   medicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   behaviorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUpdateManyWithoutBondedWithNestedInput
   shelter?: Prisma.ShelterUpdateOneRequiredWithoutAnimalsNestedInput
   image?: Prisma.FileInstanceUpdateOneWithoutTripAnimalNestedInput
   transports?: Prisma.TransportUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUpdateManyWithoutBondedPairNestedInput
   healthReports?: Prisma.HealthReportUpdateManyWithoutAnimalNestedInput
 }
 
@@ -1497,10 +1702,12 @@ export type AnimalUncheckedUpdateWithoutBondedWithInput = {
   shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedUpdateManyWithoutBondedPairNestedInput
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutAnimalNestedInput
 }
 
@@ -1519,6 +1726,7 @@ export type AnimalUncheckedUpdateManyWithoutBondedWithInput = {
   shelterId?: Prisma.StringFieldUpdateOperationsInput | string
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1538,6 +1746,7 @@ export type AnimalCreateManyShelterInput = {
   bondedWithId?: string | null
   imageId?: string | null
   imageUrl?: string | null
+  status?: $Enums.Status
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1555,12 +1764,14 @@ export type AnimalUpdateWithoutShelterInput = {
   medicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   behaviorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
   bondedBy?: Prisma.AnimalUpdateManyWithoutBondedWithNestedInput
   image?: Prisma.FileInstanceUpdateOneWithoutTripAnimalNestedInput
   transports?: Prisma.TransportUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUpdateManyWithoutBondedPairNestedInput
   healthReports?: Prisma.HealthReportUpdateManyWithoutAnimalNestedInput
 }
 
@@ -1579,10 +1790,12 @@ export type AnimalUncheckedUpdateWithoutShelterInput = {
   bondedWithId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutAnimalNestedInput
+  transportsAsBondedPair?: Prisma.TransportUncheckedUpdateManyWithoutBondedPairNestedInput
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutAnimalNestedInput
 }
 
@@ -1601,6 +1814,7 @@ export type AnimalUncheckedUpdateManyWithoutShelterInput = {
   bondedWithId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1613,12 +1827,14 @@ export type AnimalUncheckedUpdateManyWithoutShelterInput = {
 export type AnimalCountOutputType = {
   bondedBy: number
   transports: number
+  transportsAsBondedPair: number
   healthReports: number
 }
 
 export type AnimalCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bondedBy?: boolean | AnimalCountOutputTypeCountBondedByArgs
   transports?: boolean | AnimalCountOutputTypeCountTransportsArgs
+  transportsAsBondedPair?: boolean | AnimalCountOutputTypeCountTransportsAsBondedPairArgs
   healthReports?: boolean | AnimalCountOutputTypeCountHealthReportsArgs
 }
 
@@ -1649,6 +1865,13 @@ export type AnimalCountOutputTypeCountTransportsArgs<ExtArgs extends runtime.Typ
 /**
  * AnimalCountOutputType without action
  */
+export type AnimalCountOutputTypeCountTransportsAsBondedPairArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransportWhereInput
+}
+
+/**
+ * AnimalCountOutputType without action
+ */
 export type AnimalCountOutputTypeCountHealthReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.HealthReportWhereInput
 }
@@ -1670,6 +1893,7 @@ export type AnimalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   shelterId?: boolean
   imageId?: boolean
   imageUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   bondedWith?: boolean | Prisma.Animal$bondedWithArgs<ExtArgs>
@@ -1677,6 +1901,7 @@ export type AnimalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   shelter?: boolean | Prisma.ShelterDefaultArgs<ExtArgs>
   image?: boolean | Prisma.Animal$imageArgs<ExtArgs>
   transports?: boolean | Prisma.Animal$transportsArgs<ExtArgs>
+  transportsAsBondedPair?: boolean | Prisma.Animal$transportsAsBondedPairArgs<ExtArgs>
   healthReports?: boolean | Prisma.Animal$healthReportsArgs<ExtArgs>
   _count?: boolean | Prisma.AnimalCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["animal"]>
@@ -1697,6 +1922,7 @@ export type AnimalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   shelterId?: boolean
   imageId?: boolean
   imageUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   bondedWith?: boolean | Prisma.Animal$bondedWithArgs<ExtArgs>
@@ -1720,6 +1946,7 @@ export type AnimalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   shelterId?: boolean
   imageId?: boolean
   imageUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   bondedWith?: boolean | Prisma.Animal$bondedWithArgs<ExtArgs>
@@ -1743,17 +1970,19 @@ export type AnimalSelectScalar = {
   shelterId?: boolean
   imageId?: boolean
   imageUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AnimalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "breed" | "age" | "weight" | "species" | "gender" | "color" | "specialNeeds" | "medicalNotes" | "behaviorNotes" | "bondedWithId" | "shelterId" | "imageId" | "imageUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["animal"]>
+export type AnimalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "breed" | "age" | "weight" | "species" | "gender" | "color" | "specialNeeds" | "medicalNotes" | "behaviorNotes" | "bondedWithId" | "shelterId" | "imageId" | "imageUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["animal"]>
 export type AnimalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bondedWith?: boolean | Prisma.Animal$bondedWithArgs<ExtArgs>
   bondedBy?: boolean | Prisma.Animal$bondedByArgs<ExtArgs>
   shelter?: boolean | Prisma.ShelterDefaultArgs<ExtArgs>
   image?: boolean | Prisma.Animal$imageArgs<ExtArgs>
   transports?: boolean | Prisma.Animal$transportsArgs<ExtArgs>
+  transportsAsBondedPair?: boolean | Prisma.Animal$transportsAsBondedPairArgs<ExtArgs>
   healthReports?: boolean | Prisma.Animal$healthReportsArgs<ExtArgs>
   _count?: boolean | Prisma.AnimalCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1776,6 +2005,7 @@ export type $AnimalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     shelter: Prisma.$ShelterPayload<ExtArgs>
     image: Prisma.$FileInstancePayload<ExtArgs> | null
     transports: Prisma.$TransportPayload<ExtArgs>[]
+    transportsAsBondedPair: Prisma.$TransportPayload<ExtArgs>[]
     healthReports: Prisma.$HealthReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1794,6 +2024,7 @@ export type $AnimalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     shelterId: string
     imageId: string | null
     imageUrl: string | null
+    status: $Enums.Status
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["animal"]>
@@ -2195,6 +2426,7 @@ export interface Prisma__AnimalClient<T, Null = never, ExtArgs extends runtime.T
   shelter<T extends Prisma.ShelterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ShelterDefaultArgs<ExtArgs>>): Prisma.Prisma__ShelterClient<runtime.Types.Result.GetResult<Prisma.$ShelterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   image<T extends Prisma.Animal$imageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Animal$imageArgs<ExtArgs>>): Prisma.Prisma__FileInstanceClient<runtime.Types.Result.GetResult<Prisma.$FileInstancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   transports<T extends Prisma.Animal$transportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Animal$transportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transportsAsBondedPair<T extends Prisma.Animal$transportsAsBondedPairArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Animal$transportsAsBondedPairArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   healthReports<T extends Prisma.Animal$healthReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Animal$healthReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2240,6 +2472,7 @@ export interface AnimalFieldRefs {
   readonly shelterId: Prisma.FieldRef<"Animal", 'String'>
   readonly imageId: Prisma.FieldRef<"Animal", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Animal", 'String'>
+  readonly status: Prisma.FieldRef<"Animal", 'Status'>
   readonly createdAt: Prisma.FieldRef<"Animal", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Animal", 'DateTime'>
 }
@@ -2703,6 +2936,30 @@ export type Animal$imageArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
  * Animal.transports
  */
 export type Animal$transportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transport
+   */
+  select?: Prisma.TransportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transport
+   */
+  omit?: Prisma.TransportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransportInclude<ExtArgs> | null
+  where?: Prisma.TransportWhereInput
+  orderBy?: Prisma.TransportOrderByWithRelationInput | Prisma.TransportOrderByWithRelationInput[]
+  cursor?: Prisma.TransportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransportScalarFieldEnum | Prisma.TransportScalarFieldEnum[]
+}
+
+/**
+ * Animal.transportsAsBondedPair
+ */
+export type Animal$transportsAsBondedPairArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Transport
    */

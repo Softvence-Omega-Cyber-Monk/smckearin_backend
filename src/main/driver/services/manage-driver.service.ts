@@ -6,7 +6,7 @@ import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { ApprovalStatus, UserRole } from '@prisma';
+import { ApprovalStatus } from '@prisma';
 import {
   DocumentApproveDto,
   DriverDocumentDeleteDto,
@@ -68,30 +68,19 @@ export class ManageDriverService {
 
   @HandleError('Failed to delete driver document')
   async deleteDriverDocument(
-    driverId: string,
     authUser: JWTPayload,
     dto: DriverDocumentDeleteDto,
   ) {
-    const driver = await this.prisma.client.driver.findUnique({
-      where: { id: driverId },
-      include: {
-        driverLicense: true,
-        vehicleRegistration: true,
-        transportCertificate: true,
-      },
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: authUser.sub },
+    });
+
+    const driver = await this.prisma.client.driver.findUniqueOrThrow({
+      where: { userId: user.id },
     });
 
     if (!driver) {
       throw new AppError(HttpStatus.NOT_FOUND, 'Driver not found');
-    }
-
-    const isAdmin =
-      authUser.role === UserRole.ADMIN ||
-      authUser.role === UserRole.SUPER_ADMIN;
-    const isOwner = driver.userId === authUser.sub;
-
-    if (!isAdmin && !isOwner) {
-      throw new AppError(HttpStatus.FORBIDDEN, 'Forbidden');
     }
 
     const deleteMap = {
@@ -123,20 +112,71 @@ export class ManageDriverService {
 
     const config = deleteMap[dto.type];
 
-    if (!config?.fileId) {
+    if (!config || !config.fileId) {
       throw new AppError(HttpStatus.NOT_FOUND, 'Document not found');
     }
 
     await this.prisma.client.driver.update({
-      where: { id: driverId },
-      data: {
-        ...config.update,
-      },
+      where: { id: driver.id },
+      data: config.update,
     });
 
     await this.s3.deleteFile(config.fileId);
 
     return successResponse(null, `${dto.type} deleted successfully`);
+  }
+
+  @HandleError('Failed to get own driver documents')
+  async getMyDriverDocuments(authUser: JWTPayload) {
+    const driver = await this.prisma.client.driver.findUnique({
+      where: { userId: authUser.sub },
+      include: {
+        driverLicense: true,
+        vehicleRegistration: true,
+        transportCertificate: true,
+      },
+    });
+
+    if (!driver) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Driver profile not found');
+    }
+
+    const driverLicenseUrl = driver.driverLicenseUrl ?? null;
+    const vehicleRegistrationUrl = driver.vehicleRegistrationUrl ?? null;
+    const transportCertificateUrl = driver.transportCertificateUrl ?? null;
+
+    return successResponse(
+      {
+        needsDriverLicense: !driverLicenseUrl,
+        driverLicense: {
+          type: 'Driver License',
+          id: driver.driverLicenseId ?? null,
+          url: driverLicenseUrl,
+          status: driver.driverLicenseStatus,
+          uploadedAt: driver.driverLicense?.updatedAt ?? null,
+          documentType: driver.driverLicense?.mimeType ?? null,
+        },
+        needsVehicleRegistration: !vehicleRegistrationUrl,
+        vehicleRegistration: {
+          type: 'Vehicle Registration',
+          id: driver.vehicleRegistrationId ?? null,
+          url: vehicleRegistrationUrl,
+          status: driver.vehicleRegistrationStatus,
+          uploadedAt: driver.vehicleRegistration?.updatedAt ?? null,
+          documentType: driver.vehicleRegistration?.mimeType ?? null,
+        },
+        needsTransportCertificate: !transportCertificateUrl,
+        transportCertificate: {
+          type: 'Transport Certificate',
+          id: driver.transportCertificateId ?? null,
+          url: transportCertificateUrl,
+          status: driver.transportCertificateStatus,
+          uploadedAt: driver.transportCertificate?.updatedAt ?? null,
+          documentType: driver.transportCertificate?.mimeType ?? null,
+        },
+      },
+      'Driver documents retrieved successfully',
+    );
   }
 
   @HandleError('Failed to upload driver document')

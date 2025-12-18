@@ -126,6 +126,7 @@ export class GetDriverService {
       updatedAt: driver.updatedAt,
       needsDriverLicense: !driverLicenseUrl,
       driverLicense: {
+        type: 'Driver License',
         id: driver.driverLicenseId ?? null,
         url: driverLicenseUrl,
         status: driver.driverLicenseStatus,
@@ -134,6 +135,7 @@ export class GetDriverService {
       },
       needsVehicleRegistration: !vehicleRegistrationUrl,
       vehicleRegistration: {
+        type: 'Vehicle Registration',
         id: driver.vehicleRegistrationId ?? null,
         url: vehicleRegistrationUrl,
         status: driver.vehicleRegistrationStatus,
@@ -142,6 +144,7 @@ export class GetDriverService {
       },
       needsTransportCertificate: !transportCertificateUrl,
       transportCertificate: {
+        type: 'Transport Certificate',
         id: driver.transportCertificateId ?? null,
         url: transportCertificateUrl,
         status: driver.transportCertificateStatus,

@@ -66,7 +66,7 @@ export class ShelterController {
 
   @ApiOperation({ summary: 'Approve or reject shelter (admin only)' })
   @ValidateAdmin()
-  @Get('shelter/:shelterId/approve')
+  @Patch('shelter/:shelterId/approve')
   async approveOrRejectShelter(
     @Param('shelterId') shelterId: string,
     @Query() dto: ApproveOrRejectDto,
@@ -99,6 +99,13 @@ export class ShelterController {
   @Get('shelter/me/document')
   async getOwnShelterDocuments(userId: string) {
     return this.shelterService.getOwnShelterDocuments(userId);
+  }
+
+  @ApiOperation({ summary: 'Get single shelter document' })
+  @ValidateManager()
+  @Get('shelter/document/:documentId')
+  async getSingleShelterDocument(@Param('documentId') documentId: string) {
+    return this.shelterService.getSingleShelterDocument(documentId);
   }
 
   @ApiOperation({ summary: 'Shelter upload document' })

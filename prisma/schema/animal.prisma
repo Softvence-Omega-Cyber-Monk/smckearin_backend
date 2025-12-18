@@ -30,13 +30,22 @@ model Animal {
   image    FileInstance? @relation(fields: [imageId], references: [id], onDelete: SetNull)
 
   // Transports
-  transports Transport[]
+  transports             Transport[]
+  transportsAsBondedPair Transport[] @relation("BondedPair")
 
   // Health Reports
   healthReports HealthReport[]
+
+  status Status @default(IN_TRANSIT)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
   @@map("animals")
+}
+
+enum Status {
+  ADOPTED
+  AT_SHELTER
+  IN_TRANSIT
 }

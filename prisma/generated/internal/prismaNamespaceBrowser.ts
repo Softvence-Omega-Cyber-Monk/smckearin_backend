@@ -105,6 +105,7 @@ export const AnimalScalarFieldEnum = {
   shelterId: 'shelterId',
   imageId: 'imageId',
   imageUrl: 'imageUrl',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -326,9 +327,13 @@ export const TransportScalarFieldEnum = {
   transPortDate: 'transPortDate',
   transPortTime: 'transPortTime',
   animalId: 'animalId',
+  isBondedPair: 'isBondedPair',
+  bondedPairId: 'bondedPairId',
+  vetId: 'vetId',
   driverId: 'driverId',
   shelterId: 'shelterId',
   isVetClearanceRequired: 'isVetClearanceRequired',
+  vetClearanceType: 'vetClearanceType',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
