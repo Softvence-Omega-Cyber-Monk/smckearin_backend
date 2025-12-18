@@ -4,11 +4,12 @@ import {
   ValidateAuth,
   ValidateManager,
 } from '@/core/jwt/jwt.decorator';
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateTransportDto } from '../dto/create-transport.dto';
 import { GetTransportDto } from '../dto/get-transport.dto';
 import { CreateTransportService } from '../services/create-transport.service';
+import { GetSingleTransportService } from '../services/get-single-transport.service';
 import { GetTransportService } from '../services/get-transport.service';
 
 @ApiTags('Transport')
@@ -19,6 +20,7 @@ export class TransportController {
   constructor(
     private readonly createTransportService: CreateTransportService,
     private readonly transportService: GetTransportService,
+    private readonly getSingleTransportService: GetSingleTransportService,
   ) {}
 
   @ApiOperation({ summary: 'Create transport' })
@@ -46,5 +48,12 @@ export class TransportController {
   @Get('all')
   async getAllTransports(@Query() dto: GetTransportDto) {
     return this.transportService.getAllTransports(dto);
+  }
+
+  @ApiOperation({ summary: 'Get single transport' })
+  @ValidateAuth()
+  @Get(':id')
+  async getSingleTransport(@Param('id') transportId: string) {
+    return this.getSingleTransportService.getSingleTransport(transportId);
   }
 }
