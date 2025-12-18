@@ -1,5 +1,6 @@
 import {
   GetUser,
+  ValidateAdmin,
   ValidateAuth,
   ValidateManager,
 } from '@/core/jwt/jwt.decorator';
@@ -30,12 +31,20 @@ export class TransportController {
     return this.createTransportService.createTransport(userId, dto);
   }
 
-  @ApiOperation({ summary: 'Get transports of a shelter' })
+  @ApiOperation({ summary: 'Get own shelter transports' })
+  @ValidateManager()
   @Get()
   async getTransports(
     @GetUser('sub') userId: string,
     @Query() dto: GetTransportDto,
   ) {
     return this.transportService.getTransports(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get all transports (admin)' })
+  @ValidateAdmin()
+  @Get('all')
+  async getAllTransports(@Query() dto: GetTransportDto) {
+    return this.transportService.getAllTransports(dto);
   }
 }
