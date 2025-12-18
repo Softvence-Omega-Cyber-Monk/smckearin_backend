@@ -565,14 +565,6 @@ export type VetAppointmentUncheckedUpdateManyWithoutRequestNestedInput = {
   deleteMany?: Prisma.VetAppointmentScalarWhereInput | Prisma.VetAppointmentScalarWhereInput[]
 }
 
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type EnumVetAppointmentStatusFieldUpdateOperationsInput = {
   set?: $Enums.VetAppointmentStatus
 }

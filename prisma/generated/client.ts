@@ -113,6 +113,11 @@ export type ShelterDocument = Prisma.ShelterDocumentModel
  */
 export type Transport = Prisma.TransportModel
 /**
+ * Model TransportTimeline
+ * 
+ */
+export type TransportTimeline = Prisma.TransportTimelineModel
+/**
  * Model User
  * 
  */
