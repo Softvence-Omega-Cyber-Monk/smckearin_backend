@@ -1,5 +1,6 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { TransportStatus } from '@prisma';
 import { Type } from 'class-transformer';
 import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
@@ -43,4 +44,15 @@ export class GetTransportByLocationDto extends GetTransportDto {
   @Type(() => Number)
   @IsNumber()
   radiusKm: number;
+}
+
+export class GetAllTransportHistory extends GetTransportDto {
+  @ApiPropertyOptional({
+    description: 'Filter transports by status',
+    enum: TransportStatus,
+    example: TransportStatus.COMPLETED,
+  })
+  @IsOptional()
+  @IsEnum(TransportStatus)
+  status?: TransportStatus;
 }
