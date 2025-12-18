@@ -12,97 +12,57 @@ export class CreateTransportService {
 
   @HandleError('Unable to create transport')
   async createTransport(userId: string, dto: CreateTransportDto) {
+    // 1. Validate user and shelter
     const user = await this.prisma.client.user.findUniqueOrThrow({
       where: { id: userId },
-      select: {
-        id: true,
-        shelterAdminOfId: true,
-        managerOfId: true,
-      },
+      select: { id: true, shelterAdminOfId: true, managerOfId: true },
     });
 
     const shelterId = user.shelterAdminOfId ?? user.managerOfId;
-
-    if (!shelterId) {
+    if (!shelterId)
       throw new AppError(
         HttpStatus.FORBIDDEN,
         'User does not belong to any shelter',
       );
-    }
 
-    // check if shelter if shelter is approved
     const shelter = await this.prisma.client.shelter.findUniqueOrThrow({
       where: { id: shelterId },
-      select: {
-        id: true,
-        status: true,
-      },
+      select: { id: true, status: true },
     });
-
-    if (shelter.status !== 'APPROVED') {
+    if (shelter.status !== 'APPROVED')
       throw new AppError(HttpStatus.FORBIDDEN, 'Shelter is not approved');
-    }
 
-    // Validate animal ownership (must belong to same shelter)
-    const animal = await this.prisma.client.animal.findFirst({
-      where: {
-        id: dto.animalId,
-        shelterId,
-      },
-    });
-
-    if (!animal) {
-      throw new AppError(
-        HttpStatus.BAD_REQUEST,
-        'Animal does not belong to your shelter',
-      );
-    }
-
-    if (animal.status !== 'AT_SHELTER') {
-      throw new AppError(
-        HttpStatus.BAD_REQUEST,
-        'Animal is not available for transport',
-      );
-    }
-
-    // Bonded pair validation
-    if (dto.isBondedPair) {
-      if (!dto.bondedPairId) {
-        throw new AppError(
-          HttpStatus.BAD_REQUEST,
-          'bondedPairId is required when isBondedPair is true',
-        );
-      }
-
-      if (dto.animalId === dto.bondedPairId) {
+    // 2. Validate animal(s)
+    const animalsToTransport = [dto.animalId];
+    if (dto.isBondedPair && dto.bondedPairId) {
+      if (dto.animalId === dto.bondedPairId)
         throw new AppError(
           HttpStatus.BAD_REQUEST,
           'Animal and bonded pair cannot be the same',
         );
-      }
-
-      const bondedAnimal = await this.prisma.client.animal.findFirst({
-        where: {
-          id: dto.bondedPairId,
-          shelterId,
-        },
-      });
-
-      if (!bondedAnimal) {
-        throw new AppError(
-          HttpStatus.BAD_REQUEST,
-          'Bonded pair animal does not belong to your shelter',
-        );
-      }
-
-      if (bondedAnimal.status !== 'AT_SHELTER') {
-        throw new AppError(
-          HttpStatus.BAD_REQUEST,
-          'Bonded pair animal is not available for transport',
-        );
-      }
+      animalsToTransport.push(dto.bondedPairId);
     }
 
+    const animals = await this.prisma.client.animal.findMany({
+      where: { id: { in: animalsToTransport }, shelterId },
+    });
+
+    if (animals.length !== animalsToTransport.length) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'One or more animals do not belong to your shelter',
+      );
+    }
+
+    animals.forEach((animal) => {
+      if (animal.status !== 'AT_SHELTER')
+        throw new AppError(
+          HttpStatus.BAD_REQUEST,
+          `${animal.name} is not available for transport`,
+        );
+    });
+
+    // 3. Create transport
     const transport = await this.prisma.client.transport.create({
       data: {
         transportNote: dto.transportNote,
@@ -135,21 +95,22 @@ export class CreateTransportService {
       },
     });
 
-    await this.prisma.client.animal.update({
-      where: { id: dto.animalId },
-      data: { status: 'IN_TRANSIT' },
+    // 4. Update animal status`
+    await this.prisma.client.animal.updateMany({
+      where: { id: { in: animalsToTransport } },
+      data: { status: 'IN_TRANSIT', bondedWithId: dto.bondedPairId ?? null },
     });
 
-    if (dto.isBondedPair && dto.bondedPairId) {
-      await this.prisma.client.animal.update({
-        where: { id: dto.bondedPairId },
-        data: { status: 'IN_TRANSIT' },
-      });
-      await this.prisma.client.animal.update({
-        where: { id: dto.animalId },
-        data: { bondedWithId: dto.bondedPairId },
-      });
-    }
+    // 5. Create initial timeline
+    await this.prisma.client.transportTimeline.create({
+      data: {
+        transportId: transport.id,
+        status: 'PENDING',
+        note: 'Transport created',
+        latitude: dto.pickUpLatitude,
+        longitude: dto.pickUpLongitude,
+      },
+    });
 
     return successResponse(transport, 'Transport created successfully');
   }

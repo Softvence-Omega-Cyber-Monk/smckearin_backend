@@ -36,7 +36,7 @@ model Animal {
   // Health Reports
   healthReports HealthReport[]
 
-  status Status @default(IN_TRANSIT)
+  status Status @default(AT_SHELTER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

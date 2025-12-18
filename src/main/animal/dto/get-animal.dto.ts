@@ -1,7 +1,8 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Gender, SPECIES, Status } from '@prisma';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
 export class GetAnimalDto extends PaginationDto {
   @ApiPropertyOptional({ description: 'Search query', example: 'Buddy' })
@@ -34,4 +35,18 @@ export class GetAnimalDto extends PaginationDto {
   @IsOptional()
   @IsEnum(Status)
   status?: Status;
+}
+
+export class GetPendingAnimalDto {
+  @ApiPropertyOptional({ description: 'Search query', example: 'Buddy' })
+  @IsOptional()
+  @IsString()
+  search?: string;
+
+  @ApiPropertyOptional({ description: 'Max number of results', example: 10 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(1)
+  limit?: number;
 }

@@ -18,7 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { CreateAnimalDto } from '../dto/create-animal.dto';
-import { GetAnimalDto } from '../dto/get-animal.dto';
+import { GetAnimalDto, GetPendingAnimalDto } from '../dto/get-animal.dto';
 import { AnimalService } from '../services/animal.service';
 import { GetAnimalsService } from '../services/get-animals.service';
 
@@ -70,6 +70,17 @@ export class AnimalController {
   @Get()
   async getAnimals(@GetUser('sub') userId: string, @Query() dto: GetAnimalDto) {
     return this.getAnimalsService.getAnimals(userId, dto);
+  }
+
+  @ApiOperation({
+    summary: 'Get animals that are available for transport (shelter only)',
+  })
+  @Get('at-shelter')
+  async getPendingAnimals(
+    @GetUser('sub') userId: string,
+    @Query() dto: GetPendingAnimalDto,
+  ) {
+    return this.getAnimalsService.getPendingAnimals(userId, dto);
   }
 
   @ApiOperation({ summary: 'Get single animal (shelter only)' })

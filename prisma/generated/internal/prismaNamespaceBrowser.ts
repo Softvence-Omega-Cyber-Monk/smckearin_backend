@@ -66,6 +66,7 @@ export const ModelName = {
   Shelter: 'Shelter',
   ShelterDocument: 'ShelterDocument',
   Transport: 'Transport',
+  TransportTimeline: 'TransportTimeline',
   User: 'User',
   VetClearanceRequest: 'VetClearanceRequest',
   VetAppointment: 'VetAppointment',
@@ -340,6 +341,19 @@ export const TransportScalarFieldEnum = {
 } as const
 
 export type TransportScalarFieldEnum = (typeof TransportScalarFieldEnum)[keyof typeof TransportScalarFieldEnum]
+
+
+export const TransportTimelineScalarFieldEnum = {
+  id: 'id',
+  transportId: 'transportId',
+  status: 'status',
+  note: 'note',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  createdAt: 'createdAt'
+} as const
+
+export type TransportTimelineScalarFieldEnum = (typeof TransportTimelineScalarFieldEnum)[keyof typeof TransportTimelineScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

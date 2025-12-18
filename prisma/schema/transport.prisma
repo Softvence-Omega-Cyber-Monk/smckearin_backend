@@ -39,6 +39,8 @@ model Transport {
 
   status TransportStatus @default(PENDING)
 
+  transportTimelines TransportTimeline[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
@@ -65,4 +67,22 @@ enum RequiredVetClearanceType {
   Vaccination
   Both
   No
+}
+
+model TransportTimeline {
+  id String @id @default(uuid())
+
+  transportId String
+  transport   Transport @relation(fields: [transportId], references: [id], onDelete: Cascade)
+
+  status TransportStatus
+
+  note      String?
+  latitude  Float?
+  longitude Float?
+
+  createdAt DateTime @default(now())
+
+  @@index([transportId])
+  @@map("transport_timelines")
 }

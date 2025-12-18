@@ -399,6 +399,7 @@ export const ModelName = {
   Shelter: 'Shelter',
   ShelterDocument: 'ShelterDocument',
   Transport: 'Transport',
+  TransportTimeline: 'TransportTimeline',
   User: 'User',
   VetClearanceRequest: 'VetClearanceRequest',
   VetAppointment: 'VetAppointment',
@@ -419,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "animal" | "userOtp" | "refreshToken" | "driver" | "fileInstance" | "healthReport" | "notification" | "userNotification" | "notificationSettings" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transport" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
+    modelProps: "animal" | "userOtp" | "refreshToken" | "driver" | "fileInstance" | "healthReport" | "notification" | "userNotification" | "notificationSettings" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1533,6 +1534,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TransportTimeline: {
+      payload: Prisma.$TransportTimelinePayload<ExtArgs>
+      fields: Prisma.TransportTimelineFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TransportTimelineFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportTimelinePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TransportTimelineFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportTimelinePayload>
+        }
+        findFirst: {
+          args: Prisma.TransportTimelineFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportTimelinePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TransportTimelineFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportTimelinePayload>
+        }
+        findMany: {
+          args: Prisma.TransportTimelineFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportTimelinePayload>[]
+        }
+        create: {
+          args: Prisma.TransportTimelineCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportTimelinePayload>
+        }
+        createMany: {
+          args: Prisma.TransportTimelineCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TransportTimelineCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportTimelinePayload>[]
+        }
+        delete: {
+          args: Prisma.TransportTimelineDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportTimelinePayload>
+        }
+        update: {
+          args: Prisma.TransportTimelineUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportTimelinePayload>
+        }
+        deleteMany: {
+          args: Prisma.TransportTimelineDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TransportTimelineUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TransportTimelineUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportTimelinePayload>[]
+        }
+        upsert: {
+          args: Prisma.TransportTimelineUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportTimelinePayload>
+        }
+        aggregate: {
+          args: Prisma.TransportTimelineAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTransportTimeline>
+        }
+        groupBy: {
+          args: Prisma.TransportTimelineGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransportTimelineGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TransportTimelineCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransportTimelineCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -2195,6 +2270,19 @@ export const TransportScalarFieldEnum = {
 export type TransportScalarFieldEnum = (typeof TransportScalarFieldEnum)[keyof typeof TransportScalarFieldEnum]
 
 
+export const TransportTimelineScalarFieldEnum = {
+  id: 'id',
+  transportId: 'transportId',
+  status: 'status',
+  note: 'note',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  createdAt: 'createdAt'
+} as const
+
+export type TransportTimelineScalarFieldEnum = (typeof TransportTimelineScalarFieldEnum)[keyof typeof TransportTimelineScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -2763,6 +2851,7 @@ export type GlobalOmitConfig = {
   shelter?: Prisma.ShelterOmit
   shelterDocument?: Prisma.ShelterDocumentOmit
   transport?: Prisma.TransportOmit
+  transportTimeline?: Prisma.TransportTimelineOmit
   user?: Prisma.UserOmit
   vetClearanceRequest?: Prisma.VetClearanceRequestOmit
   vetAppointment?: Prisma.VetAppointmentOmit
