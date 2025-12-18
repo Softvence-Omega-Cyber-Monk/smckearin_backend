@@ -63,7 +63,7 @@ export class VetController {
 
   @ApiOperation({ summary: 'Approve or reject vet (admin only)' })
   @ValidateAdmin()
-  @Get('vet/:vetId/approve')
+  @Patch('vet/:vetId/approve')
   async approveOrRejectVet(
     @Param('vetId') vetId: string,
     @Query() dto: ApproveOrRejectDto,
