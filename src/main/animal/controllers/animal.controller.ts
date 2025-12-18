@@ -2,6 +2,7 @@ import { GetUser, ValidateManager } from '@/core/jwt/jwt.decorator';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -58,7 +59,7 @@ export class AnimalController {
   }
 
   @ApiOperation({ summary: 'Delete animal (shelter only)' })
-  @Patch(':id')
+  @Delete(':id')
   async deleteAnimal(
     @GetUser('sub') userId: string,
     @Param('id') animalId: string,
