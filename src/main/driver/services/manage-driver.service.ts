@@ -6,7 +6,7 @@ import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { ApprovalStatus } from '@prisma';
+import { ApprovalStatus, UserRole } from '@prisma';
 import {
   DocumentApproveDto,
   DriverDocumentDeleteDto,
@@ -119,6 +119,79 @@ export class ManageDriverService {
     await this.prisma.client.driver.update({
       where: { id: driver.id },
       data: config.update,
+    });
+
+    await this.s3.deleteFile(config.fileId);
+
+    return successResponse(null, `${dto.type} deleted successfully`);
+  }
+
+  @HandleError('Failed to delete driver document')
+  async deleteDriverDocumentBuAdmin(
+    driverId: string,
+    authUser: JWTPayload,
+    dto: DriverDocumentDeleteDto,
+  ) {
+    const driver = await this.prisma.client.driver.findUnique({
+      where: { id: driverId },
+      include: {
+        driverLicense: true,
+        vehicleRegistration: true,
+        transportCertificate: true,
+      },
+    });
+
+    if (!driver) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Driver not found');
+    }
+
+    const isAdmin =
+      authUser.role === UserRole.ADMIN ||
+      authUser.role === UserRole.SUPER_ADMIN;
+    const isOwner = driver.userId === authUser.sub;
+
+    if (!isAdmin && !isOwner) {
+      throw new AppError(HttpStatus.FORBIDDEN, 'Forbidden');
+    }
+
+    const deleteMap = {
+      [DriverDocumentType.DRIVER_LICENSE]: {
+        fileId: driver.driverLicenseId,
+        update: {
+          driverLicenseId: null,
+          driverLicenseUrl: null,
+          driverLicenseStatus: ApprovalStatus.PENDING,
+        },
+      },
+      [DriverDocumentType.VEHICLE_REGISTRATION]: {
+        fileId: driver.vehicleRegistrationId,
+        update: {
+          vehicleRegistrationId: null,
+          vehicleRegistrationUrl: null,
+          vehicleRegistrationStatus: ApprovalStatus.PENDING,
+        },
+      },
+      [DriverDocumentType.TRANSPORT_CERTIFICATE]: {
+        fileId: driver.transportCertificateId,
+        update: {
+          transportCertificateId: null,
+          transportCertificateUrl: null,
+          transportCertificateStatus: ApprovalStatus.PENDING,
+        },
+      },
+    };
+
+    const config = deleteMap[dto.type];
+
+    if (!config?.fileId) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Document not found');
+    }
+
+    await this.prisma.client.driver.update({
+      where: { id: driverId },
+      data: {
+        ...config.update,
+      },
     });
 
     await this.s3.deleteFile(config.fileId);
