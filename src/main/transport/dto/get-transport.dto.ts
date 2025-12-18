@@ -1,6 +1,7 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export enum TransportDateFilter {
   TODAY = 'TODAY',
@@ -25,4 +26,21 @@ export class GetTransportDto extends PaginationDto {
   @IsOptional()
   @IsEnum(TransportDateFilter)
   dateFilter?: TransportDateFilter;
+}
+
+export class GetTransportByLocationDto extends GetTransportDto {
+  @ApiProperty({ example: 40.7128 })
+  @Type(() => Number)
+  @IsNumber()
+  latitude: number;
+
+  @ApiProperty({ example: -74.006 })
+  @Type(() => Number)
+  @IsNumber()
+  longitude: number;
+
+  @ApiProperty({ example: 10 })
+  @Type(() => Number)
+  @IsNumber()
+  radiusKm: number;
 }
