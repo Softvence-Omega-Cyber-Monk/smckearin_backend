@@ -58,6 +58,13 @@ export class CreateTransportService {
       );
     }
 
+    if (animal.status !== 'AT_SHELTER') {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Animal is not available for transport',
+      );
+    }
+
     // Bonded pair validation
     if (dto.isBondedPair) {
       if (!dto.bondedPairId) {
@@ -85,6 +92,13 @@ export class CreateTransportService {
         throw new AppError(
           HttpStatus.BAD_REQUEST,
           'Bonded pair animal does not belong to your shelter',
+        );
+      }
+
+      if (bondedAnimal.status !== 'AT_SHELTER') {
+        throw new AppError(
+          HttpStatus.BAD_REQUEST,
+          'Bonded pair animal is not available for transport',
         );
       }
     }

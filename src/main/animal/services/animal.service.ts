@@ -151,4 +151,54 @@ export class AnimalService {
 
     return successResponse(updatedAnimal, 'Animal updated successfully');
   }
+
+  @HandleError('Error deleting animal')
+  async deleteAnimal(userId: string, animalId: string) {
+    // Fetch user and associated shelter
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
+      select: {
+        id: true,
+        shelterAdminOfId: true,
+        managerOfId: true,
+      },
+    });
+
+    const shelterId = user.shelterAdminOfId ?? user.managerOfId;
+
+    if (!shelterId) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'User does not belong to any shelter',
+      );
+    }
+
+    // Fetch the animal to ensure it exists and belongs to user's shelter
+    const animal = await this.prisma.client.animal.findUniqueOrThrow({
+      where: { id: animalId },
+      select: {
+        id: true,
+        shelterId: true,
+        imageId: true,
+      },
+    });
+
+    if (animal.shelterId !== shelterId) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'You do not have permission to delete this animal',
+      );
+    }
+
+    if (animal.imageId) {
+      await this.s3.deleteFile(animal.imageId);
+    }
+
+    // Delete the animal
+    await this.prisma.client.animal.delete({
+      where: { id: animalId },
+    });
+
+    return successResponse(null, 'Animal deleted successfully');
+  }
 }

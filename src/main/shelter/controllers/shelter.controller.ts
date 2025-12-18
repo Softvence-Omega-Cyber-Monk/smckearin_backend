@@ -101,6 +101,13 @@ export class ShelterController {
     return this.shelterService.getOwnShelterDocuments(userId);
   }
 
+  @ApiOperation({ summary: 'Get single shelter document' })
+  @ValidateManager()
+  @Get('shelter/document/:documentId')
+  async getSingleShelterDocument(@Param('documentId') documentId: string) {
+    return this.shelterService.getSingleShelterDocument(documentId);
+  }
+
   @ApiOperation({ summary: 'Shelter upload document' })
   @ValidateManager()
   @ApiConsumes('multipart/form-data')

@@ -79,7 +79,7 @@ export class DriverController {
 
   @ApiOperation({ summary: 'Delete driver and user (admin only)' })
   @ValidateAdmin()
-  @Get('driver/:driverId/delete')
+  @Delete('driver/:driverId/delete')
   async deleteDriver(@Param('driverId') driverId: string) {
     return this.manageDriverService.deleteDriver(driverId);
   }

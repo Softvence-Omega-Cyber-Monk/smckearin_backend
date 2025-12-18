@@ -95,6 +95,13 @@ export class VetController {
     return this.vetService.getOwnVetDocuments(userId);
   }
 
+  @ApiOperation({ summary: 'Get single vet document' })
+  @ValidateVeterinarian()
+  @Get('vet/document/:documentId')
+  async getSingleVetDocument(@Param('documentId') documentId: string) {
+    return this.vetService.getSingleVetDocument(documentId);
+  }
+
   @ApiOperation({ summary: 'Vet upload document' })
   @ValidateVeterinarian()
   @ApiConsumes('multipart/form-data')
