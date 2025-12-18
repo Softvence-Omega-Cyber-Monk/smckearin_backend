@@ -66,7 +66,7 @@ export class ShelterController {
 
   @ApiOperation({ summary: 'Approve or reject shelter (admin only)' })
   @ValidateAdmin()
-  @Patch('shelter/:shelterId/approve')
+  @Get('shelter/:shelterId/approve')
   async approveOrRejectShelter(
     @Param('shelterId') shelterId: string,
     @Query() dto: ApproveOrRejectDto,

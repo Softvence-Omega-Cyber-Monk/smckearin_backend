@@ -69,7 +69,7 @@ export class DriverController {
 
   @ApiOperation({ summary: 'Approve or reject driver (admin only)' })
   @ValidateAdmin()
-  @Patch('driver/:driverId/approve')
+  @Get('driver/:driverId/approve')
   async approveOrRejectDriver(
     @Param('driverId') driverId: string,
     @Query() dto: ApproveOrRejectDto,
@@ -92,6 +92,21 @@ export class DriverController {
     @GetUser() authUser: JWTPayload,
   ) {
     return this.manageDriverService.deleteDriverDocument(authUser, dto);
+  }
+
+  @ApiOperation({ summary: 'Delete driver document' })
+  @ValidateDriver()
+  @Delete('driver/:driverId/document/:type')
+  async deleteDriverDocumentAdmin(
+    @Param('driverId') driverId: string,
+    @Param() dto: DriverDocumentDeleteDto,
+    @GetUser() authUser: JWTPayload,
+  ) {
+    return this.manageDriverService.deleteDriverDocumentBuAdmin(
+      driverId,
+      authUser,
+      dto,
+    );
   }
 
   @ApiOperation({ summary: 'Get my driver documents' })
