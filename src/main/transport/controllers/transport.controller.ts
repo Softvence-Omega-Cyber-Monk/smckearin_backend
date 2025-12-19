@@ -97,7 +97,7 @@ export class TransportController {
 
   @ApiOperation({ summary: 'Get single transport' })
   @ValidateAuth()
-  @Get(':id')
+  @Get('single/:id')
   async getSingleTransport(@Param('id') transportId: string) {
     return this.getSingleTransportService.getSingleTransport(transportId);
   }
