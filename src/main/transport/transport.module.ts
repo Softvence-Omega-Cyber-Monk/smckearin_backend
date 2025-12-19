@@ -4,6 +4,7 @@ import { CreateTransportService } from './services/create-transport.service';
 import { GetSingleTransportService } from './services/get-single-transport.service';
 import { GetTransportService } from './services/get-transport.service';
 import { GetDriverTransportService } from './services/get-driver-transport.service';
+import { ManageTransportService } from './services/manage-transport.service';
 
 @Module({
   controllers: [TransportController],
@@ -12,6 +13,7 @@ import { GetDriverTransportService } from './services/get-driver-transport.servi
     GetTransportService,
     GetSingleTransportService,
     GetDriverTransportService,
+    ManageTransportService,
   ],
 })
 export class TransportModule {}

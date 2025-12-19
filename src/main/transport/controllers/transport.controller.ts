@@ -1,3 +1,4 @@
+import { ApproveOrRejectDto } from '@/common/dto/approve-reject.dto';
 import {
   GetUser,
   ValidateAdmin,
@@ -5,7 +6,17 @@ import {
   ValidateDriver,
   ValidateManager,
 } from '@/core/jwt/jwt.decorator';
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateTransportDto } from '../dto/create-transport.dto';
 import {
@@ -17,6 +28,7 @@ import { CreateTransportService } from '../services/create-transport.service';
 import { GetDriverTransportService } from '../services/get-driver-transport.service';
 import { GetSingleTransportService } from '../services/get-single-transport.service';
 import { GetTransportService } from '../services/get-transport.service';
+import { ManageTransportService } from '../services/manage-transport.service';
 
 @ApiTags('Transport')
 @ApiBearerAuth()
@@ -28,6 +40,7 @@ export class TransportController {
     private readonly transportService: GetTransportService,
     private readonly getSingleTransportService: GetSingleTransportService,
     private readonly getDriverTransportService: GetDriverTransportService,
+    private readonly manageTransportService: ManageTransportService,
   ) {}
 
   @ApiOperation({ summary: 'Create transport' })
@@ -50,6 +63,31 @@ export class TransportController {
     return this.transportService.getTransports(userId, dto);
   }
 
+  @ApiOperation({ summary: 'Delete transport by admin or shelter' })
+  @ValidateManager()
+  @Delete('delete/:id')
+  async deleteTransport(
+    @GetUser() authUser: JWTPayload,
+    @Param('id') id: string,
+  ) {
+    return this.manageTransportService.deleteTransport(id, authUser);
+  }
+
+  @ApiOperation({ summary: 'Accept or reject transport by driver' })
+  @ValidateDriver()
+  @Patch('accept-reject/:id')
+  async acceptOrRejectTransport(
+    @GetUser() authUser: JWTPayload,
+    @Param('id') id: string,
+    @Body() dto: ApproveOrRejectDto,
+  ) {
+    return this.manageTransportService.acceptOrRejectTransport(
+      id,
+      authUser,
+      dto,
+    );
+  }
+
   @ApiOperation({ summary: 'Get all transports (admin)' })
   @ValidateAdmin()
   @Get('all')
@@ -64,7 +102,7 @@ export class TransportController {
     return this.getSingleTransportService.getSingleTransport(transportId);
   }
 
-  @ApiOperation({ summary: 'Get all active transport by location' })
+  @ApiOperation({ summary: 'Get all active transport by location (driver)' })
   @ValidateDriver()
   @Get('driver/location')
   async getAllActiveTransportByLocation(
@@ -77,7 +115,7 @@ export class TransportController {
     );
   }
 
-  @ApiOperation({ summary: 'Get active transport of driver' })
+  @ApiOperation({ summary: 'Get active transport of driver (driver)' })
   @ValidateDriver()
   @Get('driver/active')
   async getActiveTransportOfDriver(
@@ -90,7 +128,7 @@ export class TransportController {
     );
   }
 
-  @ApiOperation({ summary: 'Get all transport history of driver' })
+  @ApiOperation({ summary: 'Get all transport history of driver (driver)' })
   @ValidateDriver()
   @Get('driver/history')
   async getAllDriverTransportHistory(
