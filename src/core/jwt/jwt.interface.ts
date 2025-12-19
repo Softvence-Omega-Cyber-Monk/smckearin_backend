@@ -1,9 +1,10 @@
+import { UserRole } from '@prisma';
 import { Request } from 'express';
 
 export interface JWTPayload {
   sub: string;
   email: string;
-  role: string;
+  role: UserRole;
 }
 
 export interface RequestWithUser extends Request {
