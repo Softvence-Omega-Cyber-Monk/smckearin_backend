@@ -43,7 +43,7 @@ export class TransportController {
     private readonly manageTransportService: ManageTransportService,
   ) {}
 
-  @ApiOperation({ summary: 'Create transport' })
+  @ApiOperation({ summary: 'Create transport (shelter)' })
   @ValidateManager()
   @Post()
   async createTransport(
@@ -53,14 +53,92 @@ export class TransportController {
     return this.createTransportService.createTransport(userId, dto);
   }
 
-  @ApiOperation({ summary: 'Get own shelter transports' })
+  @ApiOperation({ summary: 'Get own shelter transports (shelter)' })
   @ValidateManager()
-  @Get()
+  @Get('shelter/history')
   async getTransports(
     @GetUser('sub') userId: string,
     @Query() dto: GetTransportDto,
   ) {
     return this.transportService.getTransports(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get all active transport (shelter)' })
+  @ValidateManager()
+  @Get('shelter/active')
+  async getAllActiveTransports(
+    @GetUser('sub') userId: string,
+    @Query() dto: GetTransportDto,
+  ) {
+    return this.transportService.getAllActiveTransports(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Assign driver to transport (shelter)' })
+  @ValidateManager()
+  @Patch('shelter/:id/driver/:driverId/assign')
+  async assignDriverToTransport(
+    @GetUser() authUser: JWTPayload,
+    @Param('id') id: string,
+    @Param('driverId') driverId: string,
+  ) {
+    return this.manageTransportService.assignDriverToTransport(
+      authUser,
+      id,
+      driverId,
+    );
+  }
+
+  @ApiOperation({ summary: 'Get all transports (admin)' })
+  @ValidateAdmin()
+  @Get('all')
+  async getAllTransports(@Query() dto: GetTransportDto) {
+    return this.transportService.getAllTransports(dto);
+  }
+
+  @ApiOperation({ summary: 'Get all active transport by location (driver)' })
+  @ValidateDriver()
+  @Get('driver/location')
+  async getAllActiveTransportByLocation(
+    @GetUser('sub') userId: string,
+    @Query() dto: GetTransportByLocationDto,
+  ) {
+    return this.getDriverTransportService.getUnAssignedOrSelfAssignedTransport(
+      userId,
+      dto,
+    );
+  }
+
+  @ApiOperation({ summary: 'Get active transport of driver' })
+  @ValidateDriver()
+  @Get('driver/active')
+  async getActiveTransportOfDriver(
+    @GetUser('sub') userId: string,
+    @Query() dto: GetTransportDto,
+  ) {
+    return this.getDriverTransportService.getActiveTransportOfDriver(
+      userId,
+      dto,
+    );
+  }
+
+  @ApiOperation({ summary: 'Get all transport history of driver' })
+  @ValidateDriver()
+  @Get('driver/history')
+  async getAllDriverTransportHistory(
+    @GetUser('sub') userId: string,
+    @Query() dto: GetAllTransportHistory,
+  ) {
+    return this.getDriverTransportService.getAllDriverTransportHistory(
+      userId,
+      dto,
+    );
+  }
+
+  @ApiOperation({ summary: 'Get single transport' })
+  @ValidateAuth()
+  @Get('single/:id')
+  async getSingleTransport(@Param('id') transportId: string) {
+    return this.getSingleTransportService.getSingleTransport(transportId);
   }
 
   @ApiOperation({ summary: 'Delete transport by admin or shelter' })
@@ -84,59 +162,6 @@ export class TransportController {
     return this.manageTransportService.acceptOrRejectTransport(
       id,
       authUser,
-      dto,
-    );
-  }
-
-  @ApiOperation({ summary: 'Get all transports (admin)' })
-  @ValidateAdmin()
-  @Get('all')
-  async getAllTransports(@Query() dto: GetTransportDto) {
-    return this.transportService.getAllTransports(dto);
-  }
-
-  @ApiOperation({ summary: 'Get single transport' })
-  @ValidateAuth()
-  @Get('single/:id')
-  async getSingleTransport(@Param('id') transportId: string) {
-    return this.getSingleTransportService.getSingleTransport(transportId);
-  }
-
-  @ApiOperation({ summary: 'Get all active transport by location (driver)' })
-  @ValidateDriver()
-  @Get('driver/location')
-  async getAllActiveTransportByLocation(
-    @GetUser('sub') userId: string,
-    @Query() dto: GetTransportByLocationDto,
-  ) {
-    return this.getDriverTransportService.getUnAssignedOrSelfAssignedTransport(
-      userId,
-      dto,
-    );
-  }
-
-  @ApiOperation({ summary: 'Get active transport of driver (driver)' })
-  @ValidateDriver()
-  @Get('driver/active')
-  async getActiveTransportOfDriver(
-    @GetUser('sub') userId: string,
-    @Query() dto: GetTransportDto,
-  ) {
-    return this.getDriverTransportService.getActiveTransportOfDriver(
-      userId,
-      dto,
-    );
-  }
-
-  @ApiOperation({ summary: 'Get all transport history of driver (driver)' })
-  @ValidateDriver()
-  @Get('driver/history')
-  async getAllDriverTransportHistory(
-    @GetUser('sub') userId: string,
-    @Query() dto: GetAllTransportHistory,
-  ) {
-    return this.getDriverTransportService.getAllDriverTransportHistory(
-      userId,
       dto,
     );
   }
