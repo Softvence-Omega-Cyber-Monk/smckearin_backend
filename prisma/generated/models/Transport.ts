@@ -60,6 +60,7 @@ export type TransportMinAggregateOutputType = {
   shelterId: string | null
   isVetClearanceRequired: boolean | null
   vetClearanceType: $Enums.RequiredVetClearanceType | null
+  vetClearanceRequestId: string | null
   status: $Enums.TransportStatus | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -85,6 +86,7 @@ export type TransportMaxAggregateOutputType = {
   shelterId: string | null
   isVetClearanceRequired: boolean | null
   vetClearanceType: $Enums.RequiredVetClearanceType | null
+  vetClearanceRequestId: string | null
   status: $Enums.TransportStatus | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -110,6 +112,7 @@ export type TransportCountAggregateOutputType = {
   shelterId: number
   isVetClearanceRequired: number
   vetClearanceType: number
+  vetClearanceRequestId: number
   status: number
   createdAt: number
   updatedAt: number
@@ -151,6 +154,7 @@ export type TransportMinAggregateInputType = {
   shelterId?: true
   isVetClearanceRequired?: true
   vetClearanceType?: true
+  vetClearanceRequestId?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -176,6 +180,7 @@ export type TransportMaxAggregateInputType = {
   shelterId?: true
   isVetClearanceRequired?: true
   vetClearanceType?: true
+  vetClearanceRequestId?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -201,6 +206,7 @@ export type TransportCountAggregateInputType = {
   shelterId?: true
   isVetClearanceRequired?: true
   vetClearanceType?: true
+  vetClearanceRequestId?: true
   status?: true
   createdAt?: true
   updatedAt?: true
@@ -313,6 +319,7 @@ export type TransportGroupByOutputType = {
   shelterId: string | null
   isVetClearanceRequired: boolean
   vetClearanceType: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId: string | null
   status: $Enums.TransportStatus
   createdAt: Date
   updatedAt: Date
@@ -361,6 +368,7 @@ export type TransportWhereInput = {
   shelterId?: Prisma.StringNullableFilter<"Transport"> | string | null
   isVetClearanceRequired?: Prisma.BoolFilter<"Transport"> | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFilter<"Transport"> | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.StringNullableFilter<"Transport"> | string | null
   status?: Prisma.EnumTransportStatusFilter<"Transport"> | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
@@ -369,6 +377,7 @@ export type TransportWhereInput = {
   vet?: Prisma.XOR<Prisma.VeterinarianNullableScalarRelationFilter, Prisma.VeterinarianWhereInput> | null
   driver?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
   shelter?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
+  vetClearanceRequest?: Prisma.XOR<Prisma.VetClearanceRequestNullableScalarRelationFilter, Prisma.VetClearanceRequestWhereInput> | null
   transportTimelines?: Prisma.TransportTimelineListRelationFilter
 }
 
@@ -392,6 +401,7 @@ export type TransportOrderByWithRelationInput = {
   shelterId?: Prisma.SortOrderInput | Prisma.SortOrder
   isVetClearanceRequired?: Prisma.SortOrder
   vetClearanceType?: Prisma.SortOrder
+  vetClearanceRequestId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -400,11 +410,13 @@ export type TransportOrderByWithRelationInput = {
   vet?: Prisma.VeterinarianOrderByWithRelationInput
   driver?: Prisma.DriverOrderByWithRelationInput
   shelter?: Prisma.ShelterOrderByWithRelationInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestOrderByWithRelationInput
   transportTimelines?: Prisma.TransportTimelineOrderByRelationAggregateInput
 }
 
 export type TransportWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  vetClearanceRequestId?: string
   AND?: Prisma.TransportWhereInput | Prisma.TransportWhereInput[]
   OR?: Prisma.TransportWhereInput[]
   NOT?: Prisma.TransportWhereInput | Prisma.TransportWhereInput[]
@@ -434,8 +446,9 @@ export type TransportWhereUniqueInput = Prisma.AtLeast<{
   vet?: Prisma.XOR<Prisma.VeterinarianNullableScalarRelationFilter, Prisma.VeterinarianWhereInput> | null
   driver?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
   shelter?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
+  vetClearanceRequest?: Prisma.XOR<Prisma.VetClearanceRequestNullableScalarRelationFilter, Prisma.VetClearanceRequestWhereInput> | null
   transportTimelines?: Prisma.TransportTimelineListRelationFilter
-}, "id">
+}, "id" | "vetClearanceRequestId">
 
 export type TransportOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -457,6 +470,7 @@ export type TransportOrderByWithAggregationInput = {
   shelterId?: Prisma.SortOrderInput | Prisma.SortOrder
   isVetClearanceRequired?: Prisma.SortOrder
   vetClearanceType?: Prisma.SortOrder
+  vetClearanceRequestId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -490,6 +504,7 @@ export type TransportScalarWhereWithAggregatesInput = {
   shelterId?: Prisma.StringNullableWithAggregatesFilter<"Transport"> | string | null
   isVetClearanceRequired?: Prisma.BoolWithAggregatesFilter<"Transport"> | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeWithAggregatesFilter<"Transport"> | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.StringNullableWithAggregatesFilter<"Transport"> | string | null
   status?: Prisma.EnumTransportStatusWithAggregatesFilter<"Transport"> | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Transport"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Transport"> | Date | string
@@ -518,6 +533,7 @@ export type TransportCreateInput = {
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
   driver?: Prisma.DriverCreateNestedOneWithoutTransportsInput
   shelter?: Prisma.ShelterCreateNestedOneWithoutTransportsInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestCreateNestedOneWithoutTransportsInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
 }
 
@@ -541,6 +557,7 @@ export type TransportUncheckedCreateInput = {
   shelterId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -570,6 +587,7 @@ export type TransportUpdateInput = {
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
   driver?: Prisma.DriverUpdateOneWithoutTransportsNestedInput
   shelter?: Prisma.ShelterUpdateOneWithoutTransportsNestedInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestUpdateOneWithoutTransportsNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
 }
 
@@ -593,6 +611,7 @@ export type TransportUncheckedUpdateInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -619,6 +638,7 @@ export type TransportCreateManyInput = {
   shelterId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -664,6 +684,7 @@ export type TransportUncheckedUpdateManyInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -699,6 +720,7 @@ export type TransportCountOrderByAggregateInput = {
   shelterId?: Prisma.SortOrder
   isVetClearanceRequired?: Prisma.SortOrder
   vetClearanceType?: Prisma.SortOrder
+  vetClearanceRequestId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -731,6 +753,7 @@ export type TransportMaxOrderByAggregateInput = {
   shelterId?: Prisma.SortOrder
   isVetClearanceRequired?: Prisma.SortOrder
   vetClearanceType?: Prisma.SortOrder
+  vetClearanceRequestId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -756,6 +779,7 @@ export type TransportMinOrderByAggregateInput = {
   shelterId?: Prisma.SortOrder
   isVetClearanceRequired?: Prisma.SortOrder
   vetClearanceType?: Prisma.SortOrder
+  vetClearanceRequestId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -771,6 +795,11 @@ export type TransportSumOrderByAggregateInput = {
 export type TransportScalarRelationFilter = {
   is?: Prisma.TransportWhereInput
   isNot?: Prisma.TransportWhereInput
+}
+
+export type TransportNullableScalarRelationFilter = {
+  is?: Prisma.TransportWhereInput | null
+  isNot?: Prisma.TransportWhereInput | null
 }
 
 export type TransportCreateNestedManyWithoutAnimalInput = {
@@ -967,6 +996,38 @@ export type TransportUpdateOneRequiredWithoutTransportTimelinesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TransportUpdateToOneWithWhereWithoutTransportTimelinesInput, Prisma.TransportUpdateWithoutTransportTimelinesInput>, Prisma.TransportUncheckedUpdateWithoutTransportTimelinesInput>
 }
 
+export type TransportCreateNestedOneWithoutVetClearanceRequestInput = {
+  create?: Prisma.XOR<Prisma.TransportCreateWithoutVetClearanceRequestInput, Prisma.TransportUncheckedCreateWithoutVetClearanceRequestInput>
+  connectOrCreate?: Prisma.TransportCreateOrConnectWithoutVetClearanceRequestInput
+  connect?: Prisma.TransportWhereUniqueInput
+}
+
+export type TransportUncheckedCreateNestedOneWithoutVetClearanceRequestInput = {
+  create?: Prisma.XOR<Prisma.TransportCreateWithoutVetClearanceRequestInput, Prisma.TransportUncheckedCreateWithoutVetClearanceRequestInput>
+  connectOrCreate?: Prisma.TransportCreateOrConnectWithoutVetClearanceRequestInput
+  connect?: Prisma.TransportWhereUniqueInput
+}
+
+export type TransportUpdateOneWithoutVetClearanceRequestNestedInput = {
+  create?: Prisma.XOR<Prisma.TransportCreateWithoutVetClearanceRequestInput, Prisma.TransportUncheckedCreateWithoutVetClearanceRequestInput>
+  connectOrCreate?: Prisma.TransportCreateOrConnectWithoutVetClearanceRequestInput
+  upsert?: Prisma.TransportUpsertWithoutVetClearanceRequestInput
+  disconnect?: Prisma.TransportWhereInput | boolean
+  delete?: Prisma.TransportWhereInput | boolean
+  connect?: Prisma.TransportWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TransportUpdateToOneWithWhereWithoutVetClearanceRequestInput, Prisma.TransportUpdateWithoutVetClearanceRequestInput>, Prisma.TransportUncheckedUpdateWithoutVetClearanceRequestInput>
+}
+
+export type TransportUncheckedUpdateOneWithoutVetClearanceRequestNestedInput = {
+  create?: Prisma.XOR<Prisma.TransportCreateWithoutVetClearanceRequestInput, Prisma.TransportUncheckedCreateWithoutVetClearanceRequestInput>
+  connectOrCreate?: Prisma.TransportCreateOrConnectWithoutVetClearanceRequestInput
+  upsert?: Prisma.TransportUpsertWithoutVetClearanceRequestInput
+  disconnect?: Prisma.TransportWhereInput | boolean
+  delete?: Prisma.TransportWhereInput | boolean
+  connect?: Prisma.TransportWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TransportUpdateToOneWithWhereWithoutVetClearanceRequestInput, Prisma.TransportUpdateWithoutVetClearanceRequestInput>, Prisma.TransportUncheckedUpdateWithoutVetClearanceRequestInput>
+}
+
 export type TransportCreateNestedManyWithoutVetInput = {
   create?: Prisma.XOR<Prisma.TransportCreateWithoutVetInput, Prisma.TransportUncheckedCreateWithoutVetInput> | Prisma.TransportCreateWithoutVetInput[] | Prisma.TransportUncheckedCreateWithoutVetInput[]
   connectOrCreate?: Prisma.TransportCreateOrConnectWithoutVetInput | Prisma.TransportCreateOrConnectWithoutVetInput[]
@@ -1031,6 +1092,7 @@ export type TransportCreateWithoutAnimalInput = {
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
   driver?: Prisma.DriverCreateNestedOneWithoutTransportsInput
   shelter?: Prisma.ShelterCreateNestedOneWithoutTransportsInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestCreateNestedOneWithoutTransportsInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
 }
 
@@ -1053,6 +1115,7 @@ export type TransportUncheckedCreateWithoutAnimalInput = {
   shelterId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1091,6 +1154,7 @@ export type TransportCreateWithoutBondedPairInput = {
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
   driver?: Prisma.DriverCreateNestedOneWithoutTransportsInput
   shelter?: Prisma.ShelterCreateNestedOneWithoutTransportsInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestCreateNestedOneWithoutTransportsInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
 }
 
@@ -1113,6 +1177,7 @@ export type TransportUncheckedCreateWithoutBondedPairInput = {
   shelterId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1168,6 +1233,7 @@ export type TransportScalarWhereInput = {
   shelterId?: Prisma.StringNullableFilter<"Transport"> | string | null
   isVetClearanceRequired?: Prisma.BoolFilter<"Transport"> | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFilter<"Transport"> | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.StringNullableFilter<"Transport"> | string | null
   status?: Prisma.EnumTransportStatusFilter<"Transport"> | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
@@ -1211,6 +1277,7 @@ export type TransportCreateWithoutDriverInput = {
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
   shelter?: Prisma.ShelterCreateNestedOneWithoutTransportsInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestCreateNestedOneWithoutTransportsInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
 }
 
@@ -1233,6 +1300,7 @@ export type TransportUncheckedCreateWithoutDriverInput = {
   shelterId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1287,6 +1355,7 @@ export type TransportCreateWithoutShelterInput = {
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
   driver?: Prisma.DriverCreateNestedOneWithoutTransportsInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestCreateNestedOneWithoutTransportsInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
 }
 
@@ -1309,6 +1378,7 @@ export type TransportUncheckedCreateWithoutShelterInput = {
   driverId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1364,6 +1434,7 @@ export type TransportCreateWithoutTransportTimelinesInput = {
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
   driver?: Prisma.DriverCreateNestedOneWithoutTransportsInput
   shelter?: Prisma.ShelterCreateNestedOneWithoutTransportsInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestCreateNestedOneWithoutTransportsInput
 }
 
 export type TransportUncheckedCreateWithoutTransportTimelinesInput = {
@@ -1386,6 +1457,7 @@ export type TransportUncheckedCreateWithoutTransportTimelinesInput = {
   shelterId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1430,6 +1502,7 @@ export type TransportUpdateWithoutTransportTimelinesInput = {
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
   driver?: Prisma.DriverUpdateOneWithoutTransportsNestedInput
   shelter?: Prisma.ShelterUpdateOneWithoutTransportsNestedInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestUpdateOneWithoutTransportsNestedInput
 }
 
 export type TransportUncheckedUpdateWithoutTransportTimelinesInput = {
@@ -1452,9 +1525,130 @@ export type TransportUncheckedUpdateWithoutTransportTimelinesInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TransportCreateWithoutVetClearanceRequestInput = {
+  id?: string
+  transportNote: string
+  priorityLevel: $Enums.PriorityLevel
+  pickUpLocation: string
+  pickUpLatitude: number
+  pickUpLongitude: number
+  dropOffLocation: string
+  dropOffLatitude: number
+  dropOffLongitude: number
+  transPortDate: Date | string
+  transPortTime: Date | string
+  isBondedPair?: boolean
+  isVetClearanceRequired?: boolean
+  vetClearanceType?: $Enums.RequiredVetClearanceType
+  status?: $Enums.TransportStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  animal: Prisma.AnimalCreateNestedOneWithoutTransportsInput
+  bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
+  vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
+  driver?: Prisma.DriverCreateNestedOneWithoutTransportsInput
+  shelter?: Prisma.ShelterCreateNestedOneWithoutTransportsInput
+  transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
+}
+
+export type TransportUncheckedCreateWithoutVetClearanceRequestInput = {
+  id?: string
+  transportNote: string
+  priorityLevel: $Enums.PriorityLevel
+  pickUpLocation: string
+  pickUpLatitude: number
+  pickUpLongitude: number
+  dropOffLocation: string
+  dropOffLatitude: number
+  dropOffLongitude: number
+  transPortDate: Date | string
+  transPortTime: Date | string
+  animalId: string
+  isBondedPair?: boolean
+  bondedPairId?: string | null
+  vetId?: string | null
+  driverId?: string | null
+  shelterId?: string | null
+  isVetClearanceRequired?: boolean
+  vetClearanceType?: $Enums.RequiredVetClearanceType
+  status?: $Enums.TransportStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
+}
+
+export type TransportCreateOrConnectWithoutVetClearanceRequestInput = {
+  where: Prisma.TransportWhereUniqueInput
+  create: Prisma.XOR<Prisma.TransportCreateWithoutVetClearanceRequestInput, Prisma.TransportUncheckedCreateWithoutVetClearanceRequestInput>
+}
+
+export type TransportUpsertWithoutVetClearanceRequestInput = {
+  update: Prisma.XOR<Prisma.TransportUpdateWithoutVetClearanceRequestInput, Prisma.TransportUncheckedUpdateWithoutVetClearanceRequestInput>
+  create: Prisma.XOR<Prisma.TransportCreateWithoutVetClearanceRequestInput, Prisma.TransportUncheckedCreateWithoutVetClearanceRequestInput>
+  where?: Prisma.TransportWhereInput
+}
+
+export type TransportUpdateToOneWithWhereWithoutVetClearanceRequestInput = {
+  where?: Prisma.TransportWhereInput
+  data: Prisma.XOR<Prisma.TransportUpdateWithoutVetClearanceRequestInput, Prisma.TransportUncheckedUpdateWithoutVetClearanceRequestInput>
+}
+
+export type TransportUpdateWithoutVetClearanceRequestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transportNote?: Prisma.StringFieldUpdateOperationsInput | string
+  priorityLevel?: Prisma.EnumPriorityLevelFieldUpdateOperationsInput | $Enums.PriorityLevel
+  pickUpLocation?: Prisma.StringFieldUpdateOperationsInput | string
+  pickUpLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  pickUpLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
+  dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transPortTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  animal?: Prisma.AnimalUpdateOneRequiredWithoutTransportsNestedInput
+  bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
+  vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
+  driver?: Prisma.DriverUpdateOneWithoutTransportsNestedInput
+  shelter?: Prisma.ShelterUpdateOneWithoutTransportsNestedInput
+  transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
+}
+
+export type TransportUncheckedUpdateWithoutVetClearanceRequestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transportNote?: Prisma.StringFieldUpdateOperationsInput | string
+  priorityLevel?: Prisma.EnumPriorityLevelFieldUpdateOperationsInput | $Enums.PriorityLevel
+  pickUpLocation?: Prisma.StringFieldUpdateOperationsInput | string
+  pickUpLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  pickUpLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
+  dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transPortTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  animalId?: Prisma.StringFieldUpdateOperationsInput | string
+  isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bondedPairId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportCreateWithoutVetInput = {
@@ -1479,6 +1673,7 @@ export type TransportCreateWithoutVetInput = {
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   driver?: Prisma.DriverCreateNestedOneWithoutTransportsInput
   shelter?: Prisma.ShelterCreateNestedOneWithoutTransportsInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestCreateNestedOneWithoutTransportsInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
 }
 
@@ -1501,6 +1696,7 @@ export type TransportUncheckedCreateWithoutVetInput = {
   shelterId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1552,6 +1748,7 @@ export type TransportCreateManyAnimalInput = {
   shelterId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1576,6 +1773,7 @@ export type TransportCreateManyBondedPairInput = {
   shelterId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1603,6 +1801,7 @@ export type TransportUpdateWithoutAnimalInput = {
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
   driver?: Prisma.DriverUpdateOneWithoutTransportsNestedInput
   shelter?: Prisma.ShelterUpdateOneWithoutTransportsNestedInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestUpdateOneWithoutTransportsNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
 }
 
@@ -1625,6 +1824,7 @@ export type TransportUncheckedUpdateWithoutAnimalInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1650,6 +1850,7 @@ export type TransportUncheckedUpdateManyWithoutAnimalInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1677,6 +1878,7 @@ export type TransportUpdateWithoutBondedPairInput = {
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
   driver?: Prisma.DriverUpdateOneWithoutTransportsNestedInput
   shelter?: Prisma.ShelterUpdateOneWithoutTransportsNestedInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestUpdateOneWithoutTransportsNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
 }
 
@@ -1699,6 +1901,7 @@ export type TransportUncheckedUpdateWithoutBondedPairInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1724,6 +1927,7 @@ export type TransportUncheckedUpdateManyWithoutBondedPairInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1748,6 +1952,7 @@ export type TransportCreateManyDriverInput = {
   shelterId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1775,6 +1980,7 @@ export type TransportUpdateWithoutDriverInput = {
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
   shelter?: Prisma.ShelterUpdateOneWithoutTransportsNestedInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestUpdateOneWithoutTransportsNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
 }
 
@@ -1797,6 +2003,7 @@ export type TransportUncheckedUpdateWithoutDriverInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1822,6 +2029,7 @@ export type TransportUncheckedUpdateManyWithoutDriverInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1846,6 +2054,7 @@ export type TransportCreateManyShelterInput = {
   driverId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1873,6 +2082,7 @@ export type TransportUpdateWithoutShelterInput = {
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
   driver?: Prisma.DriverUpdateOneWithoutTransportsNestedInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestUpdateOneWithoutTransportsNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
 }
 
@@ -1895,6 +2105,7 @@ export type TransportUncheckedUpdateWithoutShelterInput = {
   driverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1920,6 +2131,7 @@ export type TransportUncheckedUpdateManyWithoutShelterInput = {
   driverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1944,6 +2156,7 @@ export type TransportCreateManyVetInput = {
   shelterId?: string | null
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1971,6 +2184,7 @@ export type TransportUpdateWithoutVetInput = {
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   driver?: Prisma.DriverUpdateOneWithoutTransportsNestedInput
   shelter?: Prisma.ShelterUpdateOneWithoutTransportsNestedInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestUpdateOneWithoutTransportsNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
 }
 
@@ -1993,6 +2207,7 @@ export type TransportUncheckedUpdateWithoutVetInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2018,6 +2233,7 @@ export type TransportUncheckedUpdateManyWithoutVetInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2074,6 +2290,7 @@ export type TransportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   shelterId?: boolean
   isVetClearanceRequired?: boolean
   vetClearanceType?: boolean
+  vetClearanceRequestId?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -2082,6 +2299,7 @@ export type TransportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   vet?: boolean | Prisma.Transport$vetArgs<ExtArgs>
   driver?: boolean | Prisma.Transport$driverArgs<ExtArgs>
   shelter?: boolean | Prisma.Transport$shelterArgs<ExtArgs>
+  vetClearanceRequest?: boolean | Prisma.Transport$vetClearanceRequestArgs<ExtArgs>
   transportTimelines?: boolean | Prisma.Transport$transportTimelinesArgs<ExtArgs>
   _count?: boolean | Prisma.TransportCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transport"]>
@@ -2106,6 +2324,7 @@ export type TransportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   shelterId?: boolean
   isVetClearanceRequired?: boolean
   vetClearanceType?: boolean
+  vetClearanceRequestId?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -2114,6 +2333,7 @@ export type TransportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   vet?: boolean | Prisma.Transport$vetArgs<ExtArgs>
   driver?: boolean | Prisma.Transport$driverArgs<ExtArgs>
   shelter?: boolean | Prisma.Transport$shelterArgs<ExtArgs>
+  vetClearanceRequest?: boolean | Prisma.Transport$vetClearanceRequestArgs<ExtArgs>
 }, ExtArgs["result"]["transport"]>
 
 export type TransportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2136,6 +2356,7 @@ export type TransportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   shelterId?: boolean
   isVetClearanceRequired?: boolean
   vetClearanceType?: boolean
+  vetClearanceRequestId?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -2144,6 +2365,7 @@ export type TransportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   vet?: boolean | Prisma.Transport$vetArgs<ExtArgs>
   driver?: boolean | Prisma.Transport$driverArgs<ExtArgs>
   shelter?: boolean | Prisma.Transport$shelterArgs<ExtArgs>
+  vetClearanceRequest?: boolean | Prisma.Transport$vetClearanceRequestArgs<ExtArgs>
 }, ExtArgs["result"]["transport"]>
 
 export type TransportSelectScalar = {
@@ -2166,18 +2388,20 @@ export type TransportSelectScalar = {
   shelterId?: boolean
   isVetClearanceRequired?: boolean
   vetClearanceType?: boolean
+  vetClearanceRequestId?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TransportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transportNote" | "priorityLevel" | "pickUpLocation" | "pickUpLatitude" | "pickUpLongitude" | "dropOffLocation" | "dropOffLatitude" | "dropOffLongitude" | "transPortDate" | "transPortTime" | "animalId" | "isBondedPair" | "bondedPairId" | "vetId" | "driverId" | "shelterId" | "isVetClearanceRequired" | "vetClearanceType" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["transport"]>
+export type TransportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transportNote" | "priorityLevel" | "pickUpLocation" | "pickUpLatitude" | "pickUpLongitude" | "dropOffLocation" | "dropOffLatitude" | "dropOffLongitude" | "transPortDate" | "transPortTime" | "animalId" | "isBondedPair" | "bondedPairId" | "vetId" | "driverId" | "shelterId" | "isVetClearanceRequired" | "vetClearanceType" | "vetClearanceRequestId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["transport"]>
 export type TransportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   animal?: boolean | Prisma.AnimalDefaultArgs<ExtArgs>
   bondedPair?: boolean | Prisma.Transport$bondedPairArgs<ExtArgs>
   vet?: boolean | Prisma.Transport$vetArgs<ExtArgs>
   driver?: boolean | Prisma.Transport$driverArgs<ExtArgs>
   shelter?: boolean | Prisma.Transport$shelterArgs<ExtArgs>
+  vetClearanceRequest?: boolean | Prisma.Transport$vetClearanceRequestArgs<ExtArgs>
   transportTimelines?: boolean | Prisma.Transport$transportTimelinesArgs<ExtArgs>
   _count?: boolean | Prisma.TransportCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -2187,6 +2411,7 @@ export type TransportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   vet?: boolean | Prisma.Transport$vetArgs<ExtArgs>
   driver?: boolean | Prisma.Transport$driverArgs<ExtArgs>
   shelter?: boolean | Prisma.Transport$shelterArgs<ExtArgs>
+  vetClearanceRequest?: boolean | Prisma.Transport$vetClearanceRequestArgs<ExtArgs>
 }
 export type TransportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   animal?: boolean | Prisma.AnimalDefaultArgs<ExtArgs>
@@ -2194,6 +2419,7 @@ export type TransportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   vet?: boolean | Prisma.Transport$vetArgs<ExtArgs>
   driver?: boolean | Prisma.Transport$driverArgs<ExtArgs>
   shelter?: boolean | Prisma.Transport$shelterArgs<ExtArgs>
+  vetClearanceRequest?: boolean | Prisma.Transport$vetClearanceRequestArgs<ExtArgs>
 }
 
 export type $TransportPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2204,6 +2430,7 @@ export type $TransportPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     vet: Prisma.$VeterinarianPayload<ExtArgs> | null
     driver: Prisma.$DriverPayload<ExtArgs> | null
     shelter: Prisma.$ShelterPayload<ExtArgs> | null
+    vetClearanceRequest: Prisma.$VetClearanceRequestPayload<ExtArgs> | null
     transportTimelines: Prisma.$TransportTimelinePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -2226,6 +2453,7 @@ export type $TransportPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     shelterId: string | null
     isVetClearanceRequired: boolean
     vetClearanceType: $Enums.RequiredVetClearanceType
+    vetClearanceRequestId: string | null
     status: $Enums.TransportStatus
     createdAt: Date
     updatedAt: Date
@@ -2628,6 +2856,7 @@ export interface Prisma__TransportClient<T, Null = never, ExtArgs extends runtim
   vet<T extends Prisma.Transport$vetArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transport$vetArgs<ExtArgs>>): Prisma.Prisma__VeterinarianClient<runtime.Types.Result.GetResult<Prisma.$VeterinarianPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   driver<T extends Prisma.Transport$driverArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transport$driverArgs<ExtArgs>>): Prisma.Prisma__DriverClient<runtime.Types.Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   shelter<T extends Prisma.Transport$shelterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transport$shelterArgs<ExtArgs>>): Prisma.Prisma__ShelterClient<runtime.Types.Result.GetResult<Prisma.$ShelterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  vetClearanceRequest<T extends Prisma.Transport$vetClearanceRequestArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transport$vetClearanceRequestArgs<ExtArgs>>): Prisma.Prisma__VetClearanceRequestClient<runtime.Types.Result.GetResult<Prisma.$VetClearanceRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   transportTimelines<T extends Prisma.Transport$transportTimelinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transport$transportTimelinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportTimelinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2677,6 +2906,7 @@ export interface TransportFieldRefs {
   readonly shelterId: Prisma.FieldRef<"Transport", 'String'>
   readonly isVetClearanceRequired: Prisma.FieldRef<"Transport", 'Boolean'>
   readonly vetClearanceType: Prisma.FieldRef<"Transport", 'RequiredVetClearanceType'>
+  readonly vetClearanceRequestId: Prisma.FieldRef<"Transport", 'String'>
   readonly status: Prisma.FieldRef<"Transport", 'TransportStatus'>
   readonly createdAt: Prisma.FieldRef<"Transport", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Transport", 'DateTime'>
@@ -3149,6 +3379,25 @@ export type Transport$shelterArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.ShelterInclude<ExtArgs> | null
   where?: Prisma.ShelterWhereInput
+}
+
+/**
+ * Transport.vetClearanceRequest
+ */
+export type Transport$vetClearanceRequestArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VetClearanceRequest
+   */
+  select?: Prisma.VetClearanceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VetClearanceRequest
+   */
+  omit?: Prisma.VetClearanceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VetClearanceRequestInclude<ExtArgs> | null
+  where?: Prisma.VetClearanceRequestWhereInput
 }
 
 /**

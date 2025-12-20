@@ -336,6 +336,7 @@ export const TransportScalarFieldEnum = {
   shelterId: 'shelterId',
   isVetClearanceRequired: 'isVetClearanceRequired',
   vetClearanceType: 'vetClearanceType',
+  vetClearanceRequestId: 'vetClearanceRequestId',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

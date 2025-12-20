@@ -194,6 +194,7 @@ export type VetClearanceRequestWhereInput = {
   notFitReasons?: Prisma.StringNullableListFilter<"VetClearanceRequest">
   createdAt?: Prisma.DateTimeFilter<"VetClearanceRequest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VetClearanceRequest"> | Date | string
+  transports?: Prisma.XOR<Prisma.TransportNullableScalarRelationFilter, Prisma.TransportWhereInput> | null
   veterinarian?: Prisma.XOR<Prisma.VeterinarianNullableScalarRelationFilter, Prisma.VeterinarianWhereInput> | null
   vetAppointments?: Prisma.VetAppointmentListRelationFilter
 }
@@ -206,6 +207,7 @@ export type VetClearanceRequestOrderByWithRelationInput = {
   notFitReasons?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  transports?: Prisma.TransportOrderByWithRelationInput
   veterinarian?: Prisma.VeterinarianOrderByWithRelationInput
   vetAppointments?: Prisma.VetAppointmentOrderByRelationAggregateInput
 }
@@ -221,6 +223,7 @@ export type VetClearanceRequestWhereUniqueInput = Prisma.AtLeast<{
   notFitReasons?: Prisma.StringNullableListFilter<"VetClearanceRequest">
   createdAt?: Prisma.DateTimeFilter<"VetClearanceRequest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"VetClearanceRequest"> | Date | string
+  transports?: Prisma.XOR<Prisma.TransportNullableScalarRelationFilter, Prisma.TransportWhereInput> | null
   veterinarian?: Prisma.XOR<Prisma.VeterinarianNullableScalarRelationFilter, Prisma.VeterinarianWhereInput> | null
   vetAppointments?: Prisma.VetAppointmentListRelationFilter
 }, "id">
@@ -258,6 +261,7 @@ export type VetClearanceRequestCreateInput = {
   notFitReasons?: Prisma.VetClearanceRequestCreatenotFitReasonsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  transports?: Prisma.TransportCreateNestedOneWithoutVetClearanceRequestInput
   veterinarian?: Prisma.VeterinarianCreateNestedOneWithoutVetClearanceRequestsInput
   vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutRequestInput
 }
@@ -270,6 +274,7 @@ export type VetClearanceRequestUncheckedCreateInput = {
   notFitReasons?: Prisma.VetClearanceRequestCreatenotFitReasonsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  transports?: Prisma.TransportUncheckedCreateNestedOneWithoutVetClearanceRequestInput
   vetAppointments?: Prisma.VetAppointmentUncheckedCreateNestedManyWithoutRequestInput
 }
 
@@ -280,6 +285,7 @@ export type VetClearanceRequestUpdateInput = {
   notFitReasons?: Prisma.VetClearanceRequestUpdatenotFitReasonsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transports?: Prisma.TransportUpdateOneWithoutVetClearanceRequestNestedInput
   veterinarian?: Prisma.VeterinarianUpdateOneWithoutVetClearanceRequestsNestedInput
   vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutRequestNestedInput
 }
@@ -292,6 +298,7 @@ export type VetClearanceRequestUncheckedUpdateInput = {
   notFitReasons?: Prisma.VetClearanceRequestUpdatenotFitReasonsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transports?: Prisma.TransportUncheckedUpdateOneWithoutVetClearanceRequestNestedInput
   vetAppointments?: Prisma.VetAppointmentUncheckedUpdateManyWithoutRequestNestedInput
 }
 
@@ -322,6 +329,11 @@ export type VetClearanceRequestUncheckedUpdateManyInput = {
   notFitReasons?: Prisma.VetClearanceRequestUpdatenotFitReasonsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type VetClearanceRequestNullableScalarRelationFilter = {
+  is?: Prisma.VetClearanceRequestWhereInput | null
+  isNot?: Prisma.VetClearanceRequestWhereInput | null
 }
 
 export type StringNullableListFilter<$PrismaModel = never> = {
@@ -373,6 +385,22 @@ export type VetClearanceRequestListRelationFilter = {
 
 export type VetClearanceRequestOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type VetClearanceRequestCreateNestedOneWithoutTransportsInput = {
+  create?: Prisma.XOR<Prisma.VetClearanceRequestCreateWithoutTransportsInput, Prisma.VetClearanceRequestUncheckedCreateWithoutTransportsInput>
+  connectOrCreate?: Prisma.VetClearanceRequestCreateOrConnectWithoutTransportsInput
+  connect?: Prisma.VetClearanceRequestWhereUniqueInput
+}
+
+export type VetClearanceRequestUpdateOneWithoutTransportsNestedInput = {
+  create?: Prisma.XOR<Prisma.VetClearanceRequestCreateWithoutTransportsInput, Prisma.VetClearanceRequestUncheckedCreateWithoutTransportsInput>
+  connectOrCreate?: Prisma.VetClearanceRequestCreateOrConnectWithoutTransportsInput
+  upsert?: Prisma.VetClearanceRequestUpsertWithoutTransportsInput
+  disconnect?: Prisma.VetClearanceRequestWhereInput | boolean
+  delete?: Prisma.VetClearanceRequestWhereInput | boolean
+  connect?: Prisma.VetClearanceRequestWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VetClearanceRequestUpdateToOneWithWhereWithoutTransportsInput, Prisma.VetClearanceRequestUpdateWithoutTransportsInput>, Prisma.VetClearanceRequestUncheckedUpdateWithoutTransportsInput>
 }
 
 export type VetClearanceRequestCreatenotFitReasonsInput = {
@@ -448,6 +476,66 @@ export type VetClearanceRequestUncheckedUpdateManyWithoutVeterinarianNestedInput
   deleteMany?: Prisma.VetClearanceRequestScalarWhereInput | Prisma.VetClearanceRequestScalarWhereInput[]
 }
 
+export type VetClearanceRequestCreateWithoutTransportsInput = {
+  id?: string
+  vetClearance: $Enums.VetClearance
+  status?: $Enums.VetClearanceRequestStatus
+  notFitReasons?: Prisma.VetClearanceRequestCreatenotFitReasonsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  veterinarian?: Prisma.VeterinarianCreateNestedOneWithoutVetClearanceRequestsInput
+  vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutRequestInput
+}
+
+export type VetClearanceRequestUncheckedCreateWithoutTransportsInput = {
+  id?: string
+  vetClearance: $Enums.VetClearance
+  veterinarianId?: string | null
+  status?: $Enums.VetClearanceRequestStatus
+  notFitReasons?: Prisma.VetClearanceRequestCreatenotFitReasonsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  vetAppointments?: Prisma.VetAppointmentUncheckedCreateNestedManyWithoutRequestInput
+}
+
+export type VetClearanceRequestCreateOrConnectWithoutTransportsInput = {
+  where: Prisma.VetClearanceRequestWhereUniqueInput
+  create: Prisma.XOR<Prisma.VetClearanceRequestCreateWithoutTransportsInput, Prisma.VetClearanceRequestUncheckedCreateWithoutTransportsInput>
+}
+
+export type VetClearanceRequestUpsertWithoutTransportsInput = {
+  update: Prisma.XOR<Prisma.VetClearanceRequestUpdateWithoutTransportsInput, Prisma.VetClearanceRequestUncheckedUpdateWithoutTransportsInput>
+  create: Prisma.XOR<Prisma.VetClearanceRequestCreateWithoutTransportsInput, Prisma.VetClearanceRequestUncheckedCreateWithoutTransportsInput>
+  where?: Prisma.VetClearanceRequestWhereInput
+}
+
+export type VetClearanceRequestUpdateToOneWithWhereWithoutTransportsInput = {
+  where?: Prisma.VetClearanceRequestWhereInput
+  data: Prisma.XOR<Prisma.VetClearanceRequestUpdateWithoutTransportsInput, Prisma.VetClearanceRequestUncheckedUpdateWithoutTransportsInput>
+}
+
+export type VetClearanceRequestUpdateWithoutTransportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  vetClearance?: Prisma.EnumVetClearanceFieldUpdateOperationsInput | $Enums.VetClearance
+  status?: Prisma.EnumVetClearanceRequestStatusFieldUpdateOperationsInput | $Enums.VetClearanceRequestStatus
+  notFitReasons?: Prisma.VetClearanceRequestUpdatenotFitReasonsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  veterinarian?: Prisma.VeterinarianUpdateOneWithoutVetClearanceRequestsNestedInput
+  vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutRequestNestedInput
+}
+
+export type VetClearanceRequestUncheckedUpdateWithoutTransportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  vetClearance?: Prisma.EnumVetClearanceFieldUpdateOperationsInput | $Enums.VetClearance
+  veterinarianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumVetClearanceRequestStatusFieldUpdateOperationsInput | $Enums.VetClearanceRequestStatus
+  notFitReasons?: Prisma.VetClearanceRequestUpdatenotFitReasonsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetAppointments?: Prisma.VetAppointmentUncheckedUpdateManyWithoutRequestNestedInput
+}
+
 export type VetClearanceRequestCreateWithoutVetAppointmentsInput = {
   id?: string
   vetClearance: $Enums.VetClearance
@@ -455,6 +543,7 @@ export type VetClearanceRequestCreateWithoutVetAppointmentsInput = {
   notFitReasons?: Prisma.VetClearanceRequestCreatenotFitReasonsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  transports?: Prisma.TransportCreateNestedOneWithoutVetClearanceRequestInput
   veterinarian?: Prisma.VeterinarianCreateNestedOneWithoutVetClearanceRequestsInput
 }
 
@@ -466,6 +555,7 @@ export type VetClearanceRequestUncheckedCreateWithoutVetAppointmentsInput = {
   notFitReasons?: Prisma.VetClearanceRequestCreatenotFitReasonsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  transports?: Prisma.TransportUncheckedCreateNestedOneWithoutVetClearanceRequestInput
 }
 
 export type VetClearanceRequestCreateOrConnectWithoutVetAppointmentsInput = {
@@ -491,6 +581,7 @@ export type VetClearanceRequestUpdateWithoutVetAppointmentsInput = {
   notFitReasons?: Prisma.VetClearanceRequestUpdatenotFitReasonsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transports?: Prisma.TransportUpdateOneWithoutVetClearanceRequestNestedInput
   veterinarian?: Prisma.VeterinarianUpdateOneWithoutVetClearanceRequestsNestedInput
 }
 
@@ -502,6 +593,7 @@ export type VetClearanceRequestUncheckedUpdateWithoutVetAppointmentsInput = {
   notFitReasons?: Prisma.VetClearanceRequestUpdatenotFitReasonsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transports?: Prisma.TransportUncheckedUpdateOneWithoutVetClearanceRequestNestedInput
 }
 
 export type VetClearanceRequestCreateWithoutVeterinarianInput = {
@@ -511,6 +603,7 @@ export type VetClearanceRequestCreateWithoutVeterinarianInput = {
   notFitReasons?: Prisma.VetClearanceRequestCreatenotFitReasonsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  transports?: Prisma.TransportCreateNestedOneWithoutVetClearanceRequestInput
   vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutRequestInput
 }
 
@@ -521,6 +614,7 @@ export type VetClearanceRequestUncheckedCreateWithoutVeterinarianInput = {
   notFitReasons?: Prisma.VetClearanceRequestCreatenotFitReasonsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  transports?: Prisma.TransportUncheckedCreateNestedOneWithoutVetClearanceRequestInput
   vetAppointments?: Prisma.VetAppointmentUncheckedCreateNestedManyWithoutRequestInput
 }
 
@@ -579,6 +673,7 @@ export type VetClearanceRequestUpdateWithoutVeterinarianInput = {
   notFitReasons?: Prisma.VetClearanceRequestUpdatenotFitReasonsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transports?: Prisma.TransportUpdateOneWithoutVetClearanceRequestNestedInput
   vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutRequestNestedInput
 }
 
@@ -589,6 +684,7 @@ export type VetClearanceRequestUncheckedUpdateWithoutVeterinarianInput = {
   notFitReasons?: Prisma.VetClearanceRequestUpdatenotFitReasonsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transports?: Prisma.TransportUncheckedUpdateOneWithoutVetClearanceRequestNestedInput
   vetAppointments?: Prisma.VetAppointmentUncheckedUpdateManyWithoutRequestNestedInput
 }
 
@@ -640,6 +736,7 @@ export type VetClearanceRequestSelect<ExtArgs extends runtime.Types.Extensions.I
   notFitReasons?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  transports?: boolean | Prisma.VetClearanceRequest$transportsArgs<ExtArgs>
   veterinarian?: boolean | Prisma.VetClearanceRequest$veterinarianArgs<ExtArgs>
   vetAppointments?: boolean | Prisma.VetClearanceRequest$vetAppointmentsArgs<ExtArgs>
   _count?: boolean | Prisma.VetClearanceRequestCountOutputTypeDefaultArgs<ExtArgs>
@@ -679,6 +776,7 @@ export type VetClearanceRequestSelectScalar = {
 
 export type VetClearanceRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "vetClearance" | "veterinarianId" | "status" | "notFitReasons" | "createdAt" | "updatedAt", ExtArgs["result"]["vetClearanceRequest"]>
 export type VetClearanceRequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  transports?: boolean | Prisma.VetClearanceRequest$transportsArgs<ExtArgs>
   veterinarian?: boolean | Prisma.VetClearanceRequest$veterinarianArgs<ExtArgs>
   vetAppointments?: boolean | Prisma.VetClearanceRequest$vetAppointmentsArgs<ExtArgs>
   _count?: boolean | Prisma.VetClearanceRequestCountOutputTypeDefaultArgs<ExtArgs>
@@ -693,6 +791,7 @@ export type VetClearanceRequestIncludeUpdateManyAndReturn<ExtArgs extends runtim
 export type $VetClearanceRequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "VetClearanceRequest"
   objects: {
+    transports: Prisma.$TransportPayload<ExtArgs> | null
     veterinarian: Prisma.$VeterinarianPayload<ExtArgs> | null
     vetAppointments: Prisma.$VetAppointmentPayload<ExtArgs>[]
   }
@@ -1098,6 +1197,7 @@ readonly fields: VetClearanceRequestFieldRefs;
  */
 export interface Prisma__VetClearanceRequestClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  transports<T extends Prisma.VetClearanceRequest$transportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VetClearanceRequest$transportsArgs<ExtArgs>>): Prisma.Prisma__TransportClient<runtime.Types.Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   veterinarian<T extends Prisma.VetClearanceRequest$veterinarianArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VetClearanceRequest$veterinarianArgs<ExtArgs>>): Prisma.Prisma__VeterinarianClient<runtime.Types.Result.GetResult<Prisma.$VeterinarianPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   vetAppointments<T extends Prisma.VetClearanceRequest$vetAppointmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.VetClearanceRequest$vetAppointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VetAppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1529,6 +1629,25 @@ export type VetClearanceRequestDeleteManyArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many VetClearanceRequests to delete.
    */
   limit?: number
+}
+
+/**
+ * VetClearanceRequest.transports
+ */
+export type VetClearanceRequest$transportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transport
+   */
+  select?: Prisma.TransportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transport
+   */
+  omit?: Prisma.TransportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransportInclude<ExtArgs> | null
+  where?: Prisma.TransportWhereInput
 }
 
 /**

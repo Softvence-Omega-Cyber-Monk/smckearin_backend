@@ -37,6 +37,9 @@ model Transport {
 
   vetClearanceType RequiredVetClearanceType @default(No)
 
+  vetClearanceRequestId String?  @unique
+  vetClearanceRequest   VetClearanceRequest? @relation(fields: [vetClearanceRequestId], references: [id], onDelete: SetNull)
+
   status TransportStatus @default(PENDING)
 
   transportTimelines TransportTimeline[]
