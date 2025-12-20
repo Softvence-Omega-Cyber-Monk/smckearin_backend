@@ -2120,6 +2120,7 @@ export const HealthReportScalarFieldEnum = {
   note: 'note',
   reportId: 'reportId',
   reportIdUrl: 'reportIdUrl',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
