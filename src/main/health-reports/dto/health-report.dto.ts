@@ -63,3 +63,29 @@ export class CreateHealthReportDto {
   @IsOptional()
   note: string;
 }
+
+export class UpdateHealthReportDto {
+  @ApiPropertyOptional({
+    type: 'string',
+    format: 'binary',
+    description: 'Report file update',
+  })
+  @IsOptional()
+  report?: Express.Multer.File;
+
+  @ApiPropertyOptional({
+    description: 'Report type',
+    example: 'Vaccination',
+  })
+  @IsOptional()
+  @IsString()
+  reportType?: string;
+
+  @ApiPropertyOptional({
+    description: 'Report note',
+    example: 'Vaccination was done successfully',
+  })
+  @IsOptional()
+  @IsString()
+  note?: string;
+}

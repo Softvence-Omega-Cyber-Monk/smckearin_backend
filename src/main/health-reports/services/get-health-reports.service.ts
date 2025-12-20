@@ -115,9 +115,13 @@ export class GetHealthReportsService {
 
   @HandleError('Could not fetch health reports', 'Health reports')
   async getVetsHealthReports(userId: string, dto: GetTransportDto) {
-    const vet = await this.prisma.client.veterinarian.findUniqueOrThrow({
+    const vet = await this.prisma.client.veterinarian.findUnique({
       where: { userId },
     });
+
+    if (!vet) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Veterinarian not found');
+    }
 
     const { page, limit, skip } = this.getPagination(dto);
 

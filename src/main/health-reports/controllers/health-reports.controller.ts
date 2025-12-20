@@ -27,7 +27,10 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { CreateHealthReportDto } from '../dto/health-report.dto';
+import {
+  CreateHealthReportDto,
+  UpdateHealthReportDto,
+} from '../dto/health-report.dto';
 import { GetHealthReportsService } from '../services/get-health-reports.service';
 import { HealthReportsService } from '../services/health-reports.service';
 import { ManageHealthReportsService } from '../services/manage-health-reports.service';
@@ -79,6 +82,28 @@ export class HealthReportsController {
     @Query() dto: GetTransportDto,
   ) {
     return this.getHealthReportsService.getVetsHealthReports(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Update health report (Veterinarian)' })
+  @ValidateVeterinarian()
+  @ApiConsumes('multipart/form-data')
+  @Post(':reportId/update')
+  @UseInterceptors(FileInterceptor('report'))
+  async updateHealthReport(
+    @Param('reportId') reportId: string,
+    @Body() dto: UpdateHealthReportDto,
+    @GetUser() authUser: JWTPayload,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    if (file) {
+      dto.report = file;
+    }
+
+    return this.manageHealthReportsService.updateHealthReport(
+      reportId,
+      dto,
+      authUser,
+    );
   }
 
   @ApiOperation({ summary: 'Get all health reports (Admin)' })
