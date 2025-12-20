@@ -1,9 +1,11 @@
 import { AppError } from '@/core/error/handle-error.app';
 import {
   GetUser,
+  ValidateAdmin,
   ValidateAuth,
   ValidateVeterinarian,
 } from '@/core/jwt/jwt.decorator';
+import { GetTransportDto } from '@/main/transport/dto/get-transport.dto';
 import {
   Body,
   Controller,
@@ -11,6 +13,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -56,10 +59,29 @@ export class HealthReportsController {
     return this.healthReportsService.createHealthReport(userId, dto);
   }
 
-  @ApiOperation({ summary: 'Get single health report (All)' })
-  @ValidateVeterinarian()
-  @Get('veterinarian/:reportId')
+  @ApiOperation({
+    summary: 'Get single health report (All authenticated users)',
+  })
+  @ValidateAuth()
+  @Get(':reportId/single')
   async getSingleHealthReport(@Param('reportId') reportId: string) {
     return this.getHealthReportsService.getSingleHealthReport(reportId);
+  }
+
+  @ApiOperation({ summary: "Get veterinarian's health reports (Veterinarian)" })
+  @ValidateVeterinarian()
+  @Get('veterinarian/list')
+  async getVetsHealthReports(
+    @GetUser('sub') userId: string,
+    @Query() dto: GetTransportDto,
+  ) {
+    return this.getHealthReportsService.getVetsHealthReports(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get all health reports (Admin)' })
+  @ValidateAdmin()
+  @Get('list')
+  async getAllHealthReports(@Query() dto: GetTransportDto) {
+    return this.getHealthReportsService.getAllHealthReports(dto);
   }
 }
