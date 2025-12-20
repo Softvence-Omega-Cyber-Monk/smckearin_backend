@@ -1,3 +1,4 @@
+import { PaginationDto } from '@/common/dto/pagination.dto';
 import { Injectable } from '@nestjs/common';
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 
@@ -56,5 +57,12 @@ export class UtilsService {
     } catch {
       return fallback;
     }
+  }
+
+  getPagination(dto: PaginationDto) {
+    const page = dto.page && +dto.page > 0 ? +dto.page : 1;
+    const limit = dto.limit && +dto.limit > 0 ? +dto.limit : 10;
+    const skip = (page - 1) * limit;
+    return { page, limit, skip };
   }
 }

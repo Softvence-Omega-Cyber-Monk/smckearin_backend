@@ -3,6 +3,8 @@ model VetClearanceRequest {
 
   vetClearance VetClearance
 
+  transports Transport?
+
   veterinarianId String?
   veterinarian   Veterinarian? @relation(fields: [veterinarianId], references: [id], onDelete: SetNull)
 
@@ -43,7 +45,6 @@ model VetAppointment {
   veterinarian   Veterinarian? @relation(fields: [veterinarianId], references: [id], onDelete: SetNull)
 
   appointmentDate DateTime
-  appointmentTime DateTime
 
   location  String?
   latitude  Float?

@@ -327,7 +327,6 @@ export const TransportScalarFieldEnum = {
   dropOffLatitude: 'dropOffLatitude',
   dropOffLongitude: 'dropOffLongitude',
   transPortDate: 'transPortDate',
-  transPortTime: 'transPortTime',
   animalId: 'animalId',
   isBondedPair: 'isBondedPair',
   bondedPairId: 'bondedPairId',
@@ -336,6 +335,7 @@ export const TransportScalarFieldEnum = {
   shelterId: 'shelterId',
   isVetClearanceRequired: 'isVetClearanceRequired',
   vetClearanceType: 'vetClearanceType',
+  vetClearanceRequestId: 'vetClearanceRequestId',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -396,7 +396,6 @@ export const VetAppointmentScalarFieldEnum = {
   requestId: 'requestId',
   veterinarianId: 'veterinarianId',
   appointmentDate: 'appointmentDate',
-  appointmentTime: 'appointmentTime',
   location: 'location',
   latitude: 'latitude',
   longitude: 'longitude',

@@ -118,7 +118,6 @@ export class GetSingleTransportService {
 
       // Transport timing
       transportDate: transport.transPortDate,
-      transportTime: transport.transPortTime,
       createdAt: transport.createdAt,
       updatedAt: transport.updatedAt,
     };

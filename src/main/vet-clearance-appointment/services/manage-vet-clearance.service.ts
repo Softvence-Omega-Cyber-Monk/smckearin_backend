@@ -1,0 +1,137 @@
+import { successResponse } from '@/common/utils/response.util';
+import { AppError } from '@/core/error/handle-error.app';
+import { HandleError } from '@/core/error/handle-error.decorator';
+import { PrismaService } from '@/lib/prisma/prisma.service';
+import { UtilsService } from '@/lib/utils/services/utils.service';
+import { HttpStatus, Injectable } from '@nestjs/common';
+import { VetClearanceRequestStatus } from '@prisma';
+import { CreateVetAppointmentDto } from '../dto/vet-appointment.dto';
+import {
+  MakeNotFitDto,
+  VetClearanceAction,
+  VetClearanceActionDto,
+} from '../dto/vet-clearance.dto';
+
+@Injectable()
+export class ManageVetClearanceService {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly utils: UtilsService,
+  ) {}
+
+  @HandleError('Unable to approve/reject vet clearance request')
+  async approveRrRejectAVetClearanceRequest(
+    userId: string,
+    id: string,
+    dto: VetClearanceActionDto,
+  ) {
+    const { request } = await this.getRequestForVeterinarian(userId, id);
+
+    if (
+      !['PENDING_REVIEW', 'PENDING_EVALUATION', 'NEEDS_VISIT'].includes(
+        request.status,
+      )
+    )
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Request is not pending or needs visit',
+      );
+
+    const newStatus = this.mapVetClearanceAction(dto.action);
+
+    const updatedRequest = await this.prisma.client.vetClearanceRequest.update({
+      where: { id },
+      data: { status: newStatus },
+    });
+
+    return successResponse(updatedRequest, 'Request updated successfully');
+  }
+
+  @HandleError('Unable to make vet clearance request not fit for transport')
+  async makeAVetClearanceRequestNotFitForTransport(
+    userId: string,
+    id: string,
+    dto: MakeNotFitDto,
+  ) {
+    await this.getRequestForVeterinarian(userId, id);
+
+    const updatedRequest = await this.prisma.client.vetClearanceRequest.update({
+      where: { id },
+      data: { status: 'NOT_FIT', notFitReasons: dto.notFitReasons },
+    });
+
+    return successResponse(updatedRequest, 'Request updated successfully');
+  }
+
+  @HandleError('Unable to make an appointment for vet clearance request')
+  async makeAnAppointmentForVetClearanceRequest(
+    userId: string,
+    id: string,
+    dto: CreateVetAppointmentDto,
+  ) {
+    const { veterinarian, request } = await this.getRequestForVeterinarian(
+      userId,
+      id,
+    );
+
+    const vetAppointment = await this.prisma.client.vetAppointment.create({
+      data: {
+        veterinarianId: veterinarian.id,
+        requestId: request.id,
+        appointmentDate: new Date(dto.appointmentDate),
+      },
+    });
+
+    return successResponse(
+      vetAppointment,
+      'Appointment scheduled successfully',
+    );
+  }
+
+  private async getRequestForVeterinarian(userId: string, requestId: string) {
+    const request = await this.prisma.client.vetClearanceRequest.findUnique({
+      where: { id: requestId },
+    });
+
+    if (!request) throw new AppError(HttpStatus.NOT_FOUND, 'Request not found');
+
+    const veterinarian = await this.prisma.client.veterinarian.findUnique({
+      where: { userId },
+    });
+
+    if (!veterinarian)
+      throw new AppError(HttpStatus.NOT_FOUND, 'Veterinarian not found');
+
+    if (request.veterinarianId !== veterinarian.id)
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'Request does not belong to user',
+      );
+
+    return { request, veterinarian };
+  }
+
+  private mapVetClearanceAction = (
+    action: VetClearanceAction,
+  ): VetClearanceRequestStatus => {
+    switch (action) {
+      case VetClearanceAction.APPROVE:
+        return 'PENDING_EVALUATION';
+
+      case VetClearanceAction.REJECT:
+        return 'REJECTED';
+
+      case VetClearanceAction.NEEDS_VISIT:
+        return 'NEEDS_VISIT';
+
+      case VetClearanceAction.FIT_FOR_TRANSPORT:
+        return 'CERTIFIED';
+
+      default:
+        throw new AppError(
+          HttpStatus.BAD_REQUEST,
+          'Invalid vet clearance action',
+        );
+    }
+  };
+}

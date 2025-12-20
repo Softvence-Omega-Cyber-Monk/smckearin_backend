@@ -14,7 +14,6 @@ model Transport {
   dropOffLongitude Float
 
   transPortDate DateTime
-  transPortTime DateTime
 
   animalId String
   animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
@@ -36,6 +35,9 @@ model Transport {
   isVetClearanceRequired Boolean @default(false)
 
   vetClearanceType RequiredVetClearanceType @default(No)
+
+  vetClearanceRequestId String?  @unique
+  vetClearanceRequest   VetClearanceRequest? @relation(fields: [vetClearanceRequestId], references: [id], onDelete: SetNull)
 
   status TransportStatus @default(PENDING)
 
