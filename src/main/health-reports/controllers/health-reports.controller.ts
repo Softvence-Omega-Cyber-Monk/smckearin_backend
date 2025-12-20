@@ -1,3 +1,4 @@
+import { ApproveOrRejectDto } from '@/common/dto/approve-reject.dto';
 import { AppError } from '@/core/error/handle-error.app';
 import {
   GetUser,
@@ -5,10 +6,12 @@ import {
   ValidateAuth,
   ValidateVeterinarian,
 } from '@/core/jwt/jwt.decorator';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { GetTransportDto } from '@/main/transport/dto/get-transport.dto';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -83,5 +86,28 @@ export class HealthReportsController {
   @Get('list')
   async getAllHealthReports(@Query() dto: GetTransportDto) {
     return this.getHealthReportsService.getAllHealthReports(dto);
+  }
+
+  @ApiOperation({ summary: 'Delete health report (Veterinarian & Admin)' })
+  @ValidateVeterinarian()
+  @Delete(':reportId/delete')
+  async deleteHealthReport(
+    @Param('reportId') reportId: string,
+    @GetUser() authUser: JWTPayload,
+  ) {
+    return this.manageHealthReportsService.deleteHealthReport(
+      reportId,
+      authUser,
+    );
+  }
+
+  @ApiOperation({ summary: 'Approve or reject health report (Admin)' })
+  @ValidateAdmin()
+  @Post(':reportId/approve-or-reject')
+  async approveOrReject(
+    @Param('reportId') reportId: string,
+    @Body() dto: ApproveOrRejectDto,
+  ) {
+    return this.manageHealthReportsService.approveOrReject(reportId, dto);
   }
 }
