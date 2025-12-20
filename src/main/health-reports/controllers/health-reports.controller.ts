@@ -7,7 +7,9 @@ import {
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
+  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -52,5 +54,12 @@ export class HealthReportsController {
     dto.report = file;
 
     return this.healthReportsService.createHealthReport(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get single health report (All)' })
+  @ValidateVeterinarian()
+  @Get('veterinarian/:reportId')
+  async getSingleHealthReport(@Param('reportId') reportId: string) {
+    return this.getHealthReportsService.getSingleHealthReport(reportId);
   }
 }
