@@ -18,8 +18,8 @@ import { HealthReportsModule } from './health-reports/health-reports.module';
     AnimalModule,
     TransportModule,
     StatsModule,
-    UploadModule,
     HealthReportsModule,
+    UploadModule,
   ],
 })
 export class MainModule {}
