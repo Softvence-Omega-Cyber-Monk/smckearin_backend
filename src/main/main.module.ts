@@ -7,6 +7,7 @@ import { StatsModule } from './stats/stats.module';
 import { TransportModule } from './transport/transport.module';
 import { UploadModule } from './upload/upload.module';
 import { VetModule } from './vet/vet.module';
+import { HealthReportsModule } from './health-reports/health-reports.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { VetModule } from './vet/vet.module';
     AnimalModule,
     TransportModule,
     StatsModule,
+    HealthReportsModule,
     UploadModule,
   ],
 })

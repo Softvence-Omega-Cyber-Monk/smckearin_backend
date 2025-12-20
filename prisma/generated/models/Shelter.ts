@@ -473,11 +473,6 @@ export type ShelterUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ShelterScalarRelationFilter = {
-  is?: Prisma.ShelterWhereInput
-  isNot?: Prisma.ShelterWhereInput
-}
-
 export type ShelterNullableScalarRelationFilter = {
   is?: Prisma.ShelterWhereInput | null
   isNot?: Prisma.ShelterWhereInput | null
@@ -529,16 +524,23 @@ export type ShelterMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type ShelterScalarRelationFilter = {
+  is?: Prisma.ShelterWhereInput
+  isNot?: Prisma.ShelterWhereInput
+}
+
 export type ShelterCreateNestedOneWithoutAnimalsInput = {
   create?: Prisma.XOR<Prisma.ShelterCreateWithoutAnimalsInput, Prisma.ShelterUncheckedCreateWithoutAnimalsInput>
   connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutAnimalsInput
   connect?: Prisma.ShelterWhereUniqueInput
 }
 
-export type ShelterUpdateOneRequiredWithoutAnimalsNestedInput = {
+export type ShelterUpdateOneWithoutAnimalsNestedInput = {
   create?: Prisma.XOR<Prisma.ShelterCreateWithoutAnimalsInput, Prisma.ShelterUncheckedCreateWithoutAnimalsInput>
   connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutAnimalsInput
   upsert?: Prisma.ShelterUpsertWithoutAnimalsInput
+  disconnect?: Prisma.ShelterWhereInput | boolean
+  delete?: Prisma.ShelterWhereInput | boolean
   connect?: Prisma.ShelterWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutAnimalsInput, Prisma.ShelterUpdateWithoutAnimalsInput>, Prisma.ShelterUncheckedUpdateWithoutAnimalsInput>
 }

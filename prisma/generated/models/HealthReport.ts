@@ -32,6 +32,7 @@ export type HealthReportMinAggregateOutputType = {
   note: string | null
   reportId: string | null
   reportIdUrl: string | null
+  status: $Enums.ApprovalStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,6 +45,7 @@ export type HealthReportMaxAggregateOutputType = {
   note: string | null
   reportId: string | null
   reportIdUrl: string | null
+  status: $Enums.ApprovalStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +58,7 @@ export type HealthReportCountAggregateOutputType = {
   note: number
   reportId: number
   reportIdUrl: number
+  status: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -70,6 +73,7 @@ export type HealthReportMinAggregateInputType = {
   note?: true
   reportId?: true
   reportIdUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +86,7 @@ export type HealthReportMaxAggregateInputType = {
   note?: true
   reportId?: true
   reportIdUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -94,6 +99,7 @@ export type HealthReportCountAggregateInputType = {
   note?: true
   reportId?: true
   reportIdUrl?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -179,6 +185,7 @@ export type HealthReportGroupByOutputType = {
   note: string
   reportId: string | null
   reportIdUrl: string | null
+  status: $Enums.ApprovalStatus
   createdAt: Date
   updatedAt: Date
   _count: HealthReportCountAggregateOutputType | null
@@ -212,6 +219,7 @@ export type HealthReportWhereInput = {
   note?: Prisma.StringFilter<"HealthReport"> | string
   reportId?: Prisma.StringNullableFilter<"HealthReport"> | string | null
   reportIdUrl?: Prisma.StringNullableFilter<"HealthReport"> | string | null
+  status?: Prisma.EnumApprovalStatusFilter<"HealthReport"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFilter<"HealthReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HealthReport"> | Date | string
   veterinarian?: Prisma.XOR<Prisma.VeterinarianScalarRelationFilter, Prisma.VeterinarianWhereInput>
@@ -227,6 +235,7 @@ export type HealthReportOrderByWithRelationInput = {
   note?: Prisma.SortOrder
   reportId?: Prisma.SortOrderInput | Prisma.SortOrder
   reportIdUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   veterinarian?: Prisma.VeterinarianOrderByWithRelationInput
@@ -245,6 +254,7 @@ export type HealthReportWhereUniqueInput = Prisma.AtLeast<{
   reportType?: Prisma.StringFilter<"HealthReport"> | string
   note?: Prisma.StringFilter<"HealthReport"> | string
   reportIdUrl?: Prisma.StringNullableFilter<"HealthReport"> | string | null
+  status?: Prisma.EnumApprovalStatusFilter<"HealthReport"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFilter<"HealthReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HealthReport"> | Date | string
   veterinarian?: Prisma.XOR<Prisma.VeterinarianScalarRelationFilter, Prisma.VeterinarianWhereInput>
@@ -260,6 +270,7 @@ export type HealthReportOrderByWithAggregationInput = {
   note?: Prisma.SortOrder
   reportId?: Prisma.SortOrderInput | Prisma.SortOrder
   reportIdUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.HealthReportCountOrderByAggregateInput
@@ -278,6 +289,7 @@ export type HealthReportScalarWhereWithAggregatesInput = {
   note?: Prisma.StringWithAggregatesFilter<"HealthReport"> | string
   reportId?: Prisma.StringNullableWithAggregatesFilter<"HealthReport"> | string | null
   reportIdUrl?: Prisma.StringNullableWithAggregatesFilter<"HealthReport"> | string | null
+  status?: Prisma.EnumApprovalStatusWithAggregatesFilter<"HealthReport"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"HealthReport"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"HealthReport"> | Date | string
 }
@@ -287,6 +299,7 @@ export type HealthReportCreateInput = {
   reportType: string
   note: string
   reportIdUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   veterinarian: Prisma.VeterinarianCreateNestedOneWithoutHealthReportsInput
@@ -302,6 +315,7 @@ export type HealthReportUncheckedCreateInput = {
   note: string
   reportId?: string | null
   reportIdUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -311,6 +325,7 @@ export type HealthReportUpdateInput = {
   reportType?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   veterinarian?: Prisma.VeterinarianUpdateOneRequiredWithoutHealthReportsNestedInput
@@ -326,6 +341,7 @@ export type HealthReportUncheckedUpdateInput = {
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -338,6 +354,7 @@ export type HealthReportCreateManyInput = {
   note: string
   reportId?: string | null
   reportIdUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -347,6 +364,7 @@ export type HealthReportUpdateManyMutationInput = {
   reportType?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -359,6 +377,7 @@ export type HealthReportUncheckedUpdateManyInput = {
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -386,6 +405,7 @@ export type HealthReportCountOrderByAggregateInput = {
   note?: Prisma.SortOrder
   reportId?: Prisma.SortOrder
   reportIdUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -398,6 +418,7 @@ export type HealthReportMaxOrderByAggregateInput = {
   note?: Prisma.SortOrder
   reportId?: Prisma.SortOrder
   reportIdUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -410,6 +431,7 @@ export type HealthReportMinOrderByAggregateInput = {
   note?: Prisma.SortOrder
   reportId?: Prisma.SortOrder
   reportIdUrl?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -535,6 +557,7 @@ export type HealthReportCreateWithoutAnimalInput = {
   reportType: string
   note: string
   reportIdUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   veterinarian: Prisma.VeterinarianCreateNestedOneWithoutHealthReportsInput
@@ -548,6 +571,7 @@ export type HealthReportUncheckedCreateWithoutAnimalInput = {
   note: string
   reportId?: string | null
   reportIdUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -589,6 +613,7 @@ export type HealthReportScalarWhereInput = {
   note?: Prisma.StringFilter<"HealthReport"> | string
   reportId?: Prisma.StringNullableFilter<"HealthReport"> | string | null
   reportIdUrl?: Prisma.StringNullableFilter<"HealthReport"> | string | null
+  status?: Prisma.EnumApprovalStatusFilter<"HealthReport"> | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFilter<"HealthReport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HealthReport"> | Date | string
 }
@@ -598,6 +623,7 @@ export type HealthReportCreateWithoutReportInput = {
   reportType: string
   note: string
   reportIdUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   veterinarian: Prisma.VeterinarianCreateNestedOneWithoutHealthReportsInput
@@ -611,6 +637,7 @@ export type HealthReportUncheckedCreateWithoutReportInput = {
   reportType: string
   note: string
   reportIdUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -636,6 +663,7 @@ export type HealthReportUpdateWithoutReportInput = {
   reportType?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   veterinarian?: Prisma.VeterinarianUpdateOneRequiredWithoutHealthReportsNestedInput
@@ -649,6 +677,7 @@ export type HealthReportUncheckedUpdateWithoutReportInput = {
   reportType?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -658,6 +687,7 @@ export type HealthReportCreateWithoutVeterinarianInput = {
   reportType: string
   note: string
   reportIdUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   animal: Prisma.AnimalCreateNestedOneWithoutHealthReportsInput
@@ -671,6 +701,7 @@ export type HealthReportUncheckedCreateWithoutVeterinarianInput = {
   note: string
   reportId?: string | null
   reportIdUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -708,6 +739,7 @@ export type HealthReportCreateManyAnimalInput = {
   note: string
   reportId?: string | null
   reportIdUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -717,6 +749,7 @@ export type HealthReportUpdateWithoutAnimalInput = {
   reportType?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   veterinarian?: Prisma.VeterinarianUpdateOneRequiredWithoutHealthReportsNestedInput
@@ -730,6 +763,7 @@ export type HealthReportUncheckedUpdateWithoutAnimalInput = {
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -741,6 +775,7 @@ export type HealthReportUncheckedUpdateManyWithoutAnimalInput = {
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -752,6 +787,7 @@ export type HealthReportCreateManyVeterinarianInput = {
   note: string
   reportId?: string | null
   reportIdUrl?: string | null
+  status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -761,6 +797,7 @@ export type HealthReportUpdateWithoutVeterinarianInput = {
   reportType?: Prisma.StringFieldUpdateOperationsInput | string
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animal?: Prisma.AnimalUpdateOneRequiredWithoutHealthReportsNestedInput
@@ -774,6 +811,7 @@ export type HealthReportUncheckedUpdateWithoutVeterinarianInput = {
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -785,6 +823,7 @@ export type HealthReportUncheckedUpdateManyWithoutVeterinarianInput = {
   note?: Prisma.StringFieldUpdateOperationsInput | string
   reportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reportIdUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -799,6 +838,7 @@ export type HealthReportSelect<ExtArgs extends runtime.Types.Extensions.Internal
   note?: boolean
   reportId?: boolean
   reportIdUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   veterinarian?: boolean | Prisma.VeterinarianDefaultArgs<ExtArgs>
@@ -814,6 +854,7 @@ export type HealthReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   note?: boolean
   reportId?: boolean
   reportIdUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   veterinarian?: boolean | Prisma.VeterinarianDefaultArgs<ExtArgs>
@@ -829,6 +870,7 @@ export type HealthReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   note?: boolean
   reportId?: boolean
   reportIdUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   veterinarian?: boolean | Prisma.VeterinarianDefaultArgs<ExtArgs>
@@ -844,11 +886,12 @@ export type HealthReportSelectScalar = {
   note?: boolean
   reportId?: boolean
   reportIdUrl?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type HealthReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "veterinarianId" | "animalId" | "reportType" | "note" | "reportId" | "reportIdUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["healthReport"]>
+export type HealthReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "veterinarianId" | "animalId" | "reportType" | "note" | "reportId" | "reportIdUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["healthReport"]>
 export type HealthReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   veterinarian?: boolean | Prisma.VeterinarianDefaultArgs<ExtArgs>
   animal?: boolean | Prisma.AnimalDefaultArgs<ExtArgs>
@@ -880,6 +923,7 @@ export type $HealthReportPayload<ExtArgs extends runtime.Types.Extensions.Intern
     note: string
     reportId: string | null
     reportIdUrl: string | null
+    status: $Enums.ApprovalStatus
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["healthReport"]>
@@ -1315,6 +1359,7 @@ export interface HealthReportFieldRefs {
   readonly note: Prisma.FieldRef<"HealthReport", 'String'>
   readonly reportId: Prisma.FieldRef<"HealthReport", 'String'>
   readonly reportIdUrl: Prisma.FieldRef<"HealthReport", 'String'>
+  readonly status: Prisma.FieldRef<"HealthReport", 'ApprovalStatus'>
   readonly createdAt: Prisma.FieldRef<"HealthReport", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"HealthReport", 'DateTime'>
 }
