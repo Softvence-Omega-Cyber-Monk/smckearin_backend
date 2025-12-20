@@ -5,6 +5,7 @@ import {
 } from '@/core/jwt/jwt.decorator';
 import { Controller, Get, Param, Patch, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CreateVetAppointmentDto } from './dto/vet-appointment.dto';
 import {
   GetVetClearanceDto,
   VetClearanceActionDto,
@@ -36,13 +37,17 @@ export class VetClearanceAppointmentController {
     return this.vetClearanceService.getOwnVetClearanceRequests(userId, dto);
   }
 
-  @ApiOperation({ summary: 'Get single vet clearance request' })
+  @ApiOperation({
+    summary: 'Get single vet clearance request (all authorized users)',
+  })
   @Get('vet/clearance-requests/:id')
   async getSingleVetClearanceRequest(@Param('id') id: string) {
     return this.vetClearanceService.getSingleVetClearanceRequest(id);
   }
 
-  @ApiOperation({ summary: 'Approve or reject vet clearance request' })
+  @ApiOperation({
+    summary: 'Approve or reject vet clearance request (veterinarian)',
+  })
   @Patch('vet/clearance-requests/:id/action')
   @ValidateVeterinarian()
   async manageOwnVetClearanceRequest(
@@ -51,6 +56,23 @@ export class VetClearanceAppointmentController {
     @Query() dto: VetClearanceActionDto,
   ) {
     return this.manageVetClearanceService.approveRrRejectAVetClearanceRequest(
+      userId,
+      id,
+      dto,
+    );
+  }
+
+  @ApiOperation({
+    summary: 'Schedule an appointment for vet clearance request (veterinarian)',
+  })
+  @Patch('vet/clearance-requests/:id/appointment')
+  @ValidateVeterinarian()
+  async scheduleAAppointmentForVetClearanceRequest(
+    @GetUser('sub') userId: string,
+    @Param('id') id: string,
+    @Query() dto: CreateVetAppointmentDto,
+  ) {
+    return this.manageVetClearanceService.makeAnAppointmentForVetClearanceRequest(
       userId,
       id,
       dto,

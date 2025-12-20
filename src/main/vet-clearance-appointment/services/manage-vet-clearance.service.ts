@@ -5,6 +5,7 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { UtilsService } from '@/lib/utils/services/utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { VetClearanceRequestStatus } from '@prisma';
+import { CreateVetAppointmentDto } from '../dto/vet-appointment.dto';
 import {
   MakeNotFitDto,
   VetClearanceAction,
@@ -24,40 +25,17 @@ export class ManageVetClearanceService {
     id: string,
     dto: VetClearanceActionDto,
   ) {
-    // Validate request belong to user
-    const request = await this.prisma.client.vetClearanceRequest.findUnique({
-      where: { id },
-    });
-
-    if (!request) {
-      throw new AppError(HttpStatus.NOT_FOUND, 'Request not found');
-    }
-
-    const veterinarian = await this.prisma.client.veterinarian.findUnique({
-      where: { userId },
-    });
-
-    if (!veterinarian) {
-      throw new AppError(HttpStatus.NOT_FOUND, 'Veterinarian not found');
-    }
-
-    if (request.veterinarianId !== veterinarian.id) {
-      throw new AppError(
-        HttpStatus.FORBIDDEN,
-        'Request does not belong to user',
-      );
-    }
+    const { request } = await this.getRequestForVeterinarian(userId, id);
 
     if (
-      request.status !== 'PENDING_REVIEW' &&
-      request.status !== 'PENDING_EVALUATION' &&
-      request.status !== 'NEEDS_VISIT'
-    ) {
+      !['PENDING_REVIEW', 'PENDING_EVALUATION', 'NEEDS_VISIT'].includes(
+        request.status,
+      )
+    )
       throw new AppError(
         HttpStatus.BAD_REQUEST,
         'Request is not pending or needs visit',
       );
-    }
 
     const newStatus = this.mapVetClearanceAction(dto.action);
 
@@ -75,13 +53,7 @@ export class ManageVetClearanceService {
     id: string,
     dto: MakeNotFitDto,
   ) {
-    const request = await this.prisma.client.vetClearanceRequest.findUnique({
-      where: { id },
-    });
-
-    if (!request) {
-      throw new AppError(HttpStatus.NOT_FOUND, 'Request not found');
-    }
+    await this.getRequestForVeterinarian(userId, id);
 
     const updatedRequest = await this.prisma.client.vetClearanceRequest.update({
       where: { id },
@@ -91,11 +63,53 @@ export class ManageVetClearanceService {
     return successResponse(updatedRequest, 'Request updated successfully');
   }
 
+  @HandleError('Unable to make an appointment for vet clearance request')
   async makeAnAppointmentForVetClearanceRequest(
     userId: string,
     id: string,
-    dto: MakeNotFitDto,
-  ) {}
+    dto: CreateVetAppointmentDto,
+  ) {
+    const { veterinarian, request } = await this.getRequestForVeterinarian(
+      userId,
+      id,
+    );
+
+    const vetAppointment = await this.prisma.client.vetAppointment.create({
+      data: {
+        veterinarianId: veterinarian.id,
+        requestId: request.id,
+        appointmentDate: new Date(dto.appointmentDate),
+      },
+    });
+
+    return successResponse(
+      vetAppointment,
+      'Appointment scheduled successfully',
+    );
+  }
+
+  private async getRequestForVeterinarian(userId: string, requestId: string) {
+    const request = await this.prisma.client.vetClearanceRequest.findUnique({
+      where: { id: requestId },
+    });
+
+    if (!request) throw new AppError(HttpStatus.NOT_FOUND, 'Request not found');
+
+    const veterinarian = await this.prisma.client.veterinarian.findUnique({
+      where: { userId },
+    });
+
+    if (!veterinarian)
+      throw new AppError(HttpStatus.NOT_FOUND, 'Veterinarian not found');
+
+    if (request.veterinarianId !== veterinarian.id)
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'Request does not belong to user',
+      );
+
+    return { request, veterinarian };
+  }
 
   private mapVetClearanceAction = (
     action: VetClearanceAction,
