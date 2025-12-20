@@ -76,7 +76,7 @@ export class ManageHealthReportsService {
     dto: UpdateHealthReportDto,
     authUser: JWTPayload,
   ) {
-    // Fetch report
+    // Fetch the existing health report
     const report = await this.prisma.client.healthReport.findUnique({
       where: { id: reportId },
     });
@@ -85,10 +85,10 @@ export class ManageHealthReportsService {
       throw new AppError(HttpStatus.NOT_FOUND, 'Health report not found');
     }
 
+    // Only admin or report owner (vet) can update
     const isAdmin =
       authUser.role === 'ADMIN' || authUser.role === 'SUPER_ADMIN';
 
-    // Fetch vet for current user
     const vet = await this.prisma.client.veterinarian.findUnique({
       where: { userId: authUser.sub },
       select: { id: true },
@@ -101,10 +101,11 @@ export class ManageHealthReportsService {
     }
 
     let reportIdToSave = report.reportId;
+    let reportIdUrlToSave = report.reportIdUrl;
 
-    // If a new file is uploaded, replace the old one
+    // Handle new file upload
     if (dto.report) {
-      // Delete old file from S3 if exists
+      // Delete old file if exists
       if (report.reportId) {
         await this.s3.deleteFile(report.reportId);
       }
@@ -112,6 +113,7 @@ export class ManageHealthReportsService {
       // Upload new file
       const uploadedFile = await this.s3.uploadFile(dto.report);
       reportIdToSave = uploadedFile.id;
+      reportIdUrlToSave = uploadedFile.url;
     }
 
     // Update only health report fields
@@ -121,7 +123,7 @@ export class ManageHealthReportsService {
         reportType: dto.reportType ?? report.reportType,
         note: dto.note ?? report.note,
         reportId: reportIdToSave,
-        reportIdUrl: !dto.report ? undefined : report.reportIdUrl,
+        reportIdUrl: reportIdUrlToSave,
       },
       include: {
         veterinarian: true,
