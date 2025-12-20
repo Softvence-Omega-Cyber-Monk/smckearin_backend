@@ -7,7 +7,7 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { UtilsService } from '@/lib/utils/services/utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma';
+import { Prisma, VetClearanceRequestStatus } from '@prisma';
 import { GetVetClearanceDto } from '../dto/vet-appointment-clearance.dto';
 
 @Injectable()
@@ -94,31 +94,37 @@ export class VetClearanceService {
     ]);
 
     // Transform response
-    const transformed = clearances.map((c) => ({
-      id: c.id,
-      animalId: c.transports?.animalId,
-      vetClearance: c.vetClearance,
-      status: c.status,
-      veterinarianId: c.veterinarianId,
-      veterinarianName: c.veterinarian?.user?.name ?? null,
-      notFitReasons: c.notFitReasons,
-      createdAt: c.createdAt,
-      updatedAt: c.updatedAt,
-      animalInfo: c.transports?.animal,
-      shelterInfo: c.transports?.shelter,
-      transPortDate: c.transports?.transPortDate,
-      transPortTime: c.transports?.transPortTime,
-      transport: c.transports
-        ? {
-            id: c.transports.id,
-            transportNote: c.transports.transportNote,
-            priorityLevel: c.transports.priorityLevel,
-            status: c.transports.status,
-            transPortDate: c.transports.transPortDate,
-            transPortTime: c.transports.transPortTime,
-          }
-        : null,
-    }));
+    const transformed = clearances.map((c) => {
+      const flags = this.getStatusFlags(c.status);
+      return {
+        id: c.id,
+        animalId: c.transports?.animalId,
+        vetClearance: c.vetClearance,
+        status: c.status,
+        veterinarianId: c.veterinarianId,
+        veterinarianName: c.veterinarian?.user?.name ?? null,
+        notFitReasons: c.notFitReasons,
+        createdAt: c.createdAt,
+        updatedAt: c.updatedAt,
+        animalInfo: c.transports?.animal,
+        shelterInfo: c.transports?.shelter,
+        transPortDate: c.transports?.transPortDate,
+        transPortTime: c.transports?.transPortTime,
+
+        ...flags,
+
+        transport: c.transports
+          ? {
+              id: c.transports.id,
+              transportNote: c.transports.transportNote,
+              priorityLevel: c.transports.priorityLevel,
+              status: c.transports.status,
+              transPortDate: c.transports.transPortDate,
+              transPortTime: c.transports.transPortTime,
+            }
+          : null,
+      };
+    });
 
     return successPaginatedResponse(
       transformed,
@@ -162,8 +168,18 @@ export class VetClearanceService {
       animalBreed: clearance.transports?.animal?.breed ?? null,
 
       shelterName: clearance.transports?.shelter?.name ?? null,
+
+      ...this.getStatusFlags(clearance.status),
     };
 
     return successResponse(payload, 'Vet clearance fetched successfully');
+  }
+
+  private getStatusFlags(status: VetClearanceRequestStatus) {
+    return {
+      needsReview: status === 'PENDING_REVIEW',
+      needsEvaluation: status === 'PENDING_EVALUATION',
+      needsVisit: status === 'NEEDS_VISIT',
+    };
   }
 }

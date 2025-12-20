@@ -1,5 +1,5 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { VetClearanceRequestStatus } from '@prisma';
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 
@@ -17,4 +17,21 @@ export class GetVetClearanceDto extends PaginationDto {
   @IsOptional()
   @IsEnum(VetClearanceRequestStatus)
   status?: VetClearanceRequestStatus;
+}
+
+export enum VetClearanceAction {
+  APPROVE = 'APPROVE',
+  REJECT = 'REJECT',
+  NEEDS_VISIT = 'NEEDS_VISIT',
+  FIT_FOR_TRANSPORT = 'FIT_FOR_TRANSPORT',
+}
+
+export class VetClearanceActionDto {
+  @ApiProperty({
+    description: 'Action',
+    enum: VetClearanceAction,
+    example: VetClearanceAction.APPROVE,
+  })
+  @IsEnum(VetClearanceAction)
+  action: VetClearanceAction;
 }
