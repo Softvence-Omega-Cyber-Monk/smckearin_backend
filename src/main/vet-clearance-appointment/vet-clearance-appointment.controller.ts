@@ -3,7 +3,7 @@ import {
   ValidateAuth,
   ValidateVeterinarian,
 } from '@/core/jwt/jwt.decorator';
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GetVetClearanceDto } from './dto/vet-appointment-clearance.dto';
 import { ManageVetAppointmentService } from './services/manage-vet-appointment.service';
@@ -31,5 +31,11 @@ export class VetClearanceAppointmentController {
     @Query() dto: GetVetClearanceDto,
   ) {
     return this.vetClearanceService.getOwnVetClearanceRequests(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get single vet clearance request' })
+  @Get('vet/clearance-requests/:id')
+  async getSingleVetClearanceRequest(@Param('id') id: string) {
+    return this.vetClearanceService.getSingleVetClearanceRequest(id);
   }
 }

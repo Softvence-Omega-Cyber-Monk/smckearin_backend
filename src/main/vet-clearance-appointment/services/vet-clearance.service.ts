@@ -1,4 +1,7 @@
-import { successPaginatedResponse } from '@/common/utils/response.util';
+import {
+  successPaginatedResponse,
+  successResponse,
+} from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
@@ -122,5 +125,45 @@ export class VetClearanceService {
       { page, limit, total },
       'Vet clearance fetched successfully',
     );
+  }
+
+  @HandleError('Failed to get single vet clearance')
+  async getSingleVetClearanceRequest(id: string) {
+    const clearance = await this.prisma.client.vetClearanceRequest.findUnique({
+      where: { id },
+      include: {
+        veterinarian: { include: { user: true } },
+        transports: {
+          include: {
+            animal: true,
+            shelter: true,
+          },
+        },
+      },
+    });
+
+    if (!clearance) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Vet clearance not found');
+    }
+
+    const payload = {
+      id: clearance.id,
+      animalId: clearance.transports?.animalId,
+      status: clearance.status,
+
+      transPortDate: clearance.transports?.transPortDate ?? null,
+      transPortTime: clearance.transports?.transPortTime ?? null,
+
+      veterinarianName: clearance.veterinarian?.user?.name ?? null,
+
+      transportNote: clearance.transports?.transportNote ?? null,
+
+      animalName: clearance.transports?.animal?.name ?? null,
+      animalBreed: clearance.transports?.animal?.breed ?? null,
+
+      shelterName: clearance.transports?.shelter?.name ?? null,
+    };
+
+    return successResponse(payload, 'Vet clearance fetched successfully');
   }
 }
