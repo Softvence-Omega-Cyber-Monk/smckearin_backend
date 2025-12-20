@@ -21,8 +21,8 @@ model Animal {
   bondedBy     Animal[] @relation("BondedPair")
 
   // Current shelter
-  shelterId String
-  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+  shelterId String?
+  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: SetNull)
 
   // File
   imageId  String?       @unique
