@@ -1,4 +1,8 @@
-import { GetUser, ValidateManager } from '@/core/jwt/jwt.decorator';
+import {
+  GetUser,
+  ValidateAuth,
+  ValidateManager,
+} from '@/core/jwt/jwt.decorator';
 import {
   Body,
   Controller,
@@ -25,7 +29,7 @@ import { GetAnimalsService } from '../services/get-animals.service';
 
 @ApiTags('Animal')
 @ApiBearerAuth()
-@ValidateManager()
+@ValidateAuth()
 @Controller('animal')
 export class AnimalController {
   constructor(
@@ -35,6 +39,7 @@ export class AnimalController {
 
   @ApiOperation({ summary: 'Create animal (shelter only)' })
   @Post()
+  @ValidateManager()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('image'))
   async createAnimal(
@@ -46,6 +51,7 @@ export class AnimalController {
   }
 
   @ApiOperation({ summary: 'Update animal (shelter only)' })
+  @ValidateManager()
   @Patch(':id')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('image'))
@@ -60,6 +66,7 @@ export class AnimalController {
 
   @ApiOperation({ summary: 'Delete animal (shelter only)' })
   @Delete(':id')
+  @ValidateManager()
   async deleteAnimal(
     @GetUser('sub') userId: string,
     @Param('id') animalId: string,
@@ -69,6 +76,7 @@ export class AnimalController {
 
   @ApiOperation({ summary: 'Get own shelter animals (shelter only)' })
   @Get()
+  @ValidateManager()
   async getAnimals(@GetUser('sub') userId: string, @Query() dto: GetAnimalDto) {
     return this.getAnimalsService.getAnimals(userId, dto);
   }
@@ -84,12 +92,9 @@ export class AnimalController {
     return this.getAnimalsService.getPendingAnimals(userId, dto);
   }
 
-  @ApiOperation({ summary: 'Get single animal (shelter only)' })
+  @ApiOperation({ summary: 'Get single animal (any authenticated user)' })
   @Get(':id')
-  async getSingleAnimal(
-    @GetUser('sub') userId: string,
-    @Param('id') id: string,
-  ) {
-    return this.getAnimalsService.getSingleAnimal(userId, id);
+  async getSingleAnimal(@Param('id') id: string) {
+    return this.getAnimalsService.getSingleAnimal(id);
   }
 }

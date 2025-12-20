@@ -120,25 +120,7 @@ export class GetAnimalsService {
   }
 
   @HandleError("Can't get single animal")
-  async getSingleAnimal(userId: string, animalId: string) {
-    const user = await this.prisma.client.user.findUniqueOrThrow({
-      where: { id: userId },
-      select: {
-        id: true,
-        shelterAdminOfId: true,
-        managerOfId: true,
-      },
-    });
-
-    const shelterId = user.shelterAdminOfId ?? user.managerOfId;
-
-    if (!shelterId) {
-      throw new AppError(
-        HttpStatus.FORBIDDEN,
-        'User does not belong to any shelter',
-      );
-    }
-
+  async getSingleAnimal(animalId: string) {
     const animal = await this.prisma.client.animal.findUniqueOrThrow({
       where: { id: animalId },
       include: {
