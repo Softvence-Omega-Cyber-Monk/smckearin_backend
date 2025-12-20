@@ -41,7 +41,6 @@ export type VetAppointmentMinAggregateOutputType = {
   requestId: string | null
   veterinarianId: string | null
   appointmentDate: Date | null
-  appointmentTime: Date | null
   location: string | null
   latitude: number | null
   longitude: number | null
@@ -56,7 +55,6 @@ export type VetAppointmentMaxAggregateOutputType = {
   requestId: string | null
   veterinarianId: string | null
   appointmentDate: Date | null
-  appointmentTime: Date | null
   location: string | null
   latitude: number | null
   longitude: number | null
@@ -71,7 +69,6 @@ export type VetAppointmentCountAggregateOutputType = {
   requestId: number
   veterinarianId: number
   appointmentDate: number
-  appointmentTime: number
   location: number
   latitude: number
   longitude: number
@@ -98,7 +95,6 @@ export type VetAppointmentMinAggregateInputType = {
   requestId?: true
   veterinarianId?: true
   appointmentDate?: true
-  appointmentTime?: true
   location?: true
   latitude?: true
   longitude?: true
@@ -113,7 +109,6 @@ export type VetAppointmentMaxAggregateInputType = {
   requestId?: true
   veterinarianId?: true
   appointmentDate?: true
-  appointmentTime?: true
   location?: true
   latitude?: true
   longitude?: true
@@ -128,7 +123,6 @@ export type VetAppointmentCountAggregateInputType = {
   requestId?: true
   veterinarianId?: true
   appointmentDate?: true
-  appointmentTime?: true
   location?: true
   latitude?: true
   longitude?: true
@@ -230,7 +224,6 @@ export type VetAppointmentGroupByOutputType = {
   requestId: string
   veterinarianId: string | null
   appointmentDate: Date
-  appointmentTime: Date
   location: string | null
   latitude: number | null
   longitude: number | null
@@ -268,7 +261,6 @@ export type VetAppointmentWhereInput = {
   requestId?: Prisma.StringFilter<"VetAppointment"> | string
   veterinarianId?: Prisma.StringNullableFilter<"VetAppointment"> | string | null
   appointmentDate?: Prisma.DateTimeFilter<"VetAppointment"> | Date | string
-  appointmentTime?: Prisma.DateTimeFilter<"VetAppointment"> | Date | string
   location?: Prisma.StringNullableFilter<"VetAppointment"> | string | null
   latitude?: Prisma.FloatNullableFilter<"VetAppointment"> | number | null
   longitude?: Prisma.FloatNullableFilter<"VetAppointment"> | number | null
@@ -285,7 +277,6 @@ export type VetAppointmentOrderByWithRelationInput = {
   requestId?: Prisma.SortOrder
   veterinarianId?: Prisma.SortOrderInput | Prisma.SortOrder
   appointmentDate?: Prisma.SortOrder
-  appointmentTime?: Prisma.SortOrder
   location?: Prisma.SortOrderInput | Prisma.SortOrder
   latitude?: Prisma.SortOrderInput | Prisma.SortOrder
   longitude?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -305,7 +296,6 @@ export type VetAppointmentWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.VetAppointmentWhereInput | Prisma.VetAppointmentWhereInput[]
   veterinarianId?: Prisma.StringNullableFilter<"VetAppointment"> | string | null
   appointmentDate?: Prisma.DateTimeFilter<"VetAppointment"> | Date | string
-  appointmentTime?: Prisma.DateTimeFilter<"VetAppointment"> | Date | string
   location?: Prisma.StringNullableFilter<"VetAppointment"> | string | null
   latitude?: Prisma.FloatNullableFilter<"VetAppointment"> | number | null
   longitude?: Prisma.FloatNullableFilter<"VetAppointment"> | number | null
@@ -322,7 +312,6 @@ export type VetAppointmentOrderByWithAggregationInput = {
   requestId?: Prisma.SortOrder
   veterinarianId?: Prisma.SortOrderInput | Prisma.SortOrder
   appointmentDate?: Prisma.SortOrder
-  appointmentTime?: Prisma.SortOrder
   location?: Prisma.SortOrderInput | Prisma.SortOrder
   latitude?: Prisma.SortOrderInput | Prisma.SortOrder
   longitude?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -345,7 +334,6 @@ export type VetAppointmentScalarWhereWithAggregatesInput = {
   requestId?: Prisma.StringWithAggregatesFilter<"VetAppointment"> | string
   veterinarianId?: Prisma.StringNullableWithAggregatesFilter<"VetAppointment"> | string | null
   appointmentDate?: Prisma.DateTimeWithAggregatesFilter<"VetAppointment"> | Date | string
-  appointmentTime?: Prisma.DateTimeWithAggregatesFilter<"VetAppointment"> | Date | string
   location?: Prisma.StringNullableWithAggregatesFilter<"VetAppointment"> | string | null
   latitude?: Prisma.FloatNullableWithAggregatesFilter<"VetAppointment"> | number | null
   longitude?: Prisma.FloatNullableWithAggregatesFilter<"VetAppointment"> | number | null
@@ -358,7 +346,6 @@ export type VetAppointmentScalarWhereWithAggregatesInput = {
 export type VetAppointmentCreateInput = {
   id?: string
   appointmentDate: Date | string
-  appointmentTime: Date | string
   location?: string | null
   latitude?: number | null
   longitude?: number | null
@@ -375,7 +362,6 @@ export type VetAppointmentUncheckedCreateInput = {
   requestId: string
   veterinarianId?: string | null
   appointmentDate: Date | string
-  appointmentTime: Date | string
   location?: string | null
   latitude?: number | null
   longitude?: number | null
@@ -388,7 +374,6 @@ export type VetAppointmentUncheckedCreateInput = {
 export type VetAppointmentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   appointmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appointmentTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -405,7 +390,6 @@ export type VetAppointmentUncheckedUpdateInput = {
   requestId?: Prisma.StringFieldUpdateOperationsInput | string
   veterinarianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appointmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appointmentTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -420,7 +404,6 @@ export type VetAppointmentCreateManyInput = {
   requestId: string
   veterinarianId?: string | null
   appointmentDate: Date | string
-  appointmentTime: Date | string
   location?: string | null
   latitude?: number | null
   longitude?: number | null
@@ -433,7 +416,6 @@ export type VetAppointmentCreateManyInput = {
 export type VetAppointmentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   appointmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appointmentTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -448,7 +430,6 @@ export type VetAppointmentUncheckedUpdateManyInput = {
   requestId?: Prisma.StringFieldUpdateOperationsInput | string
   veterinarianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appointmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appointmentTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -473,7 +454,6 @@ export type VetAppointmentCountOrderByAggregateInput = {
   requestId?: Prisma.SortOrder
   veterinarianId?: Prisma.SortOrder
   appointmentDate?: Prisma.SortOrder
-  appointmentTime?: Prisma.SortOrder
   location?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
@@ -493,7 +473,6 @@ export type VetAppointmentMaxOrderByAggregateInput = {
   requestId?: Prisma.SortOrder
   veterinarianId?: Prisma.SortOrder
   appointmentDate?: Prisma.SortOrder
-  appointmentTime?: Prisma.SortOrder
   location?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
@@ -508,7 +487,6 @@ export type VetAppointmentMinOrderByAggregateInput = {
   requestId?: Prisma.SortOrder
   veterinarianId?: Prisma.SortOrder
   appointmentDate?: Prisma.SortOrder
-  appointmentTime?: Prisma.SortOrder
   location?: Prisma.SortOrder
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
@@ -614,7 +592,6 @@ export type VetAppointmentUncheckedUpdateManyWithoutVeterinarianNestedInput = {
 export type VetAppointmentCreateWithoutRequestInput = {
   id?: string
   appointmentDate: Date | string
-  appointmentTime: Date | string
   location?: string | null
   latitude?: number | null
   longitude?: number | null
@@ -629,7 +606,6 @@ export type VetAppointmentUncheckedCreateWithoutRequestInput = {
   id?: string
   veterinarianId?: string | null
   appointmentDate: Date | string
-  appointmentTime: Date | string
   location?: string | null
   latitude?: number | null
   longitude?: number | null
@@ -673,7 +649,6 @@ export type VetAppointmentScalarWhereInput = {
   requestId?: Prisma.StringFilter<"VetAppointment"> | string
   veterinarianId?: Prisma.StringNullableFilter<"VetAppointment"> | string | null
   appointmentDate?: Prisma.DateTimeFilter<"VetAppointment"> | Date | string
-  appointmentTime?: Prisma.DateTimeFilter<"VetAppointment"> | Date | string
   location?: Prisma.StringNullableFilter<"VetAppointment"> | string | null
   latitude?: Prisma.FloatNullableFilter<"VetAppointment"> | number | null
   longitude?: Prisma.FloatNullableFilter<"VetAppointment"> | number | null
@@ -686,7 +661,6 @@ export type VetAppointmentScalarWhereInput = {
 export type VetAppointmentCreateWithoutVeterinarianInput = {
   id?: string
   appointmentDate: Date | string
-  appointmentTime: Date | string
   location?: string | null
   latitude?: number | null
   longitude?: number | null
@@ -701,7 +675,6 @@ export type VetAppointmentUncheckedCreateWithoutVeterinarianInput = {
   id?: string
   requestId: string
   appointmentDate: Date | string
-  appointmentTime: Date | string
   location?: string | null
   latitude?: number | null
   longitude?: number | null
@@ -741,7 +714,6 @@ export type VetAppointmentCreateManyRequestInput = {
   id?: string
   veterinarianId?: string | null
   appointmentDate: Date | string
-  appointmentTime: Date | string
   location?: string | null
   latitude?: number | null
   longitude?: number | null
@@ -754,7 +726,6 @@ export type VetAppointmentCreateManyRequestInput = {
 export type VetAppointmentUpdateWithoutRequestInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   appointmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appointmentTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -769,7 +740,6 @@ export type VetAppointmentUncheckedUpdateWithoutRequestInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   veterinarianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appointmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appointmentTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -783,7 +753,6 @@ export type VetAppointmentUncheckedUpdateManyWithoutRequestInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   veterinarianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appointmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appointmentTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -797,7 +766,6 @@ export type VetAppointmentCreateManyVeterinarianInput = {
   id?: string
   requestId: string
   appointmentDate: Date | string
-  appointmentTime: Date | string
   location?: string | null
   latitude?: number | null
   longitude?: number | null
@@ -810,7 +778,6 @@ export type VetAppointmentCreateManyVeterinarianInput = {
 export type VetAppointmentUpdateWithoutVeterinarianInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   appointmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appointmentTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -825,7 +792,6 @@ export type VetAppointmentUncheckedUpdateWithoutVeterinarianInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   requestId?: Prisma.StringFieldUpdateOperationsInput | string
   appointmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appointmentTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -839,7 +805,6 @@ export type VetAppointmentUncheckedUpdateManyWithoutVeterinarianInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   requestId?: Prisma.StringFieldUpdateOperationsInput | string
   appointmentDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  appointmentTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -856,7 +821,6 @@ export type VetAppointmentSelect<ExtArgs extends runtime.Types.Extensions.Intern
   requestId?: boolean
   veterinarianId?: boolean
   appointmentDate?: boolean
-  appointmentTime?: boolean
   location?: boolean
   latitude?: boolean
   longitude?: boolean
@@ -873,7 +837,6 @@ export type VetAppointmentSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   requestId?: boolean
   veterinarianId?: boolean
   appointmentDate?: boolean
-  appointmentTime?: boolean
   location?: boolean
   latitude?: boolean
   longitude?: boolean
@@ -890,7 +853,6 @@ export type VetAppointmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   requestId?: boolean
   veterinarianId?: boolean
   appointmentDate?: boolean
-  appointmentTime?: boolean
   location?: boolean
   latitude?: boolean
   longitude?: boolean
@@ -907,7 +869,6 @@ export type VetAppointmentSelectScalar = {
   requestId?: boolean
   veterinarianId?: boolean
   appointmentDate?: boolean
-  appointmentTime?: boolean
   location?: boolean
   latitude?: boolean
   longitude?: boolean
@@ -917,7 +878,7 @@ export type VetAppointmentSelectScalar = {
   updatedAt?: boolean
 }
 
-export type VetAppointmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "requestId" | "veterinarianId" | "appointmentDate" | "appointmentTime" | "location" | "latitude" | "longitude" | "notes" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["vetAppointment"]>
+export type VetAppointmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "requestId" | "veterinarianId" | "appointmentDate" | "location" | "latitude" | "longitude" | "notes" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["vetAppointment"]>
 export type VetAppointmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   request?: boolean | Prisma.VetClearanceRequestDefaultArgs<ExtArgs>
   veterinarian?: boolean | Prisma.VetAppointment$veterinarianArgs<ExtArgs>
@@ -942,7 +903,6 @@ export type $VetAppointmentPayload<ExtArgs extends runtime.Types.Extensions.Inte
     requestId: string
     veterinarianId: string | null
     appointmentDate: Date
-    appointmentTime: Date
     location: string | null
     latitude: number | null
     longitude: number | null
@@ -1379,7 +1339,6 @@ export interface VetAppointmentFieldRefs {
   readonly requestId: Prisma.FieldRef<"VetAppointment", 'String'>
   readonly veterinarianId: Prisma.FieldRef<"VetAppointment", 'String'>
   readonly appointmentDate: Prisma.FieldRef<"VetAppointment", 'DateTime'>
-  readonly appointmentTime: Prisma.FieldRef<"VetAppointment", 'DateTime'>
   readonly location: Prisma.FieldRef<"VetAppointment", 'String'>
   readonly latitude: Prisma.FieldRef<"VetAppointment", 'Float'>
   readonly longitude: Prisma.FieldRef<"VetAppointment", 'Float'>

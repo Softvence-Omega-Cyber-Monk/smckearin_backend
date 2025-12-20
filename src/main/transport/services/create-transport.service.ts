@@ -157,7 +157,6 @@ export class CreateTransportService {
         dropOffLongitude: dto.dropOffLongitude,
 
         transPortDate: new Date(dto.transPortDate),
-        transPortTime: new Date(dto.transPortTime),
 
         animalId: dto.animalId,
 

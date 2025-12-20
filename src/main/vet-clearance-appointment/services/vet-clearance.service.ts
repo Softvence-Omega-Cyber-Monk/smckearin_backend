@@ -8,7 +8,7 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { UtilsService } from '@/lib/utils/services/utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { Prisma, VetClearanceRequestStatus } from '@prisma';
-import { GetVetClearanceDto } from '../dto/vet-appointment-clearance.dto';
+import { GetVetClearanceDto } from '../dto/vet-clearance.dto';
 
 @Injectable()
 export class VetClearanceService {
@@ -109,7 +109,6 @@ export class VetClearanceService {
         animalInfo: c.transports?.animal,
         shelterInfo: c.transports?.shelter,
         transPortDate: c.transports?.transPortDate,
-        transPortTime: c.transports?.transPortTime,
 
         ...flags,
 
@@ -120,7 +119,6 @@ export class VetClearanceService {
               priorityLevel: c.transports.priorityLevel,
               status: c.transports.status,
               transPortDate: c.transports.transPortDate,
-              transPortTime: c.transports.transPortTime,
             }
           : null,
       };
@@ -158,7 +156,6 @@ export class VetClearanceService {
       status: clearance.status,
 
       transPortDate: clearance.transports?.transPortDate ?? null,
-      transPortTime: clearance.transports?.transPortTime ?? null,
 
       veterinarianName: clearance.veterinarian?.user?.name ?? null,
 

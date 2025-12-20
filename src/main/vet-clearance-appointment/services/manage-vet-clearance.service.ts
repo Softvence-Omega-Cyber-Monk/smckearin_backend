@@ -6,9 +6,10 @@ import { UtilsService } from '@/lib/utils/services/utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { VetClearanceRequestStatus } from '@prisma';
 import {
+  MakeNotFitDto,
   VetClearanceAction,
   VetClearanceActionDto,
-} from '../dto/vet-appointment-clearance.dto';
+} from '../dto/vet-clearance.dto';
 
 @Injectable()
 export class ManageVetClearanceService {
@@ -67,6 +68,34 @@ export class ManageVetClearanceService {
 
     return successResponse(updatedRequest, 'Request updated successfully');
   }
+
+  @HandleError('Unable to make vet clearance request not fit for transport')
+  async makeAVetClearanceRequestNotFitForTransport(
+    userId: string,
+    id: string,
+    dto: MakeNotFitDto,
+  ) {
+    const request = await this.prisma.client.vetClearanceRequest.findUnique({
+      where: { id },
+    });
+
+    if (!request) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Request not found');
+    }
+
+    const updatedRequest = await this.prisma.client.vetClearanceRequest.update({
+      where: { id },
+      data: { status: 'NOT_FIT', notFitReasons: dto.notFitReasons },
+    });
+
+    return successResponse(updatedRequest, 'Request updated successfully');
+  }
+
+  async makeAnAppointmentForVetClearanceRequest(
+    userId: string,
+    id: string,
+    dto: MakeNotFitDto,
+  ) {}
 
   private mapVetClearanceAction = (
     action: VetClearanceAction,

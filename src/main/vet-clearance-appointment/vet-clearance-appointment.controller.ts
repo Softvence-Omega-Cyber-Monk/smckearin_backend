@@ -8,7 +8,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   GetVetClearanceDto,
   VetClearanceActionDto,
-} from './dto/vet-appointment-clearance.dto';
+} from './dto/vet-clearance.dto';
 import { ManageVetAppointmentService } from './services/manage-vet-appointment.service';
 import { ManageVetClearanceService } from './services/manage-vet-clearance.service';
 import { VetAppointmentService } from './services/vet-appointment.service';

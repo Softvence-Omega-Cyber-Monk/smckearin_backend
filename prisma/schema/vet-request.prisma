@@ -45,7 +45,6 @@ model VetAppointment {
   veterinarian   Veterinarian? @relation(fields: [veterinarianId], references: [id], onDelete: SetNull)
 
   appointmentDate DateTime
-  appointmentTime DateTime
 
   location  String?
   latitude  Float?

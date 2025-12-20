@@ -1,7 +1,7 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { VetClearanceRequestStatus } from '@prisma';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class GetVetClearanceDto extends PaginationDto {
   @ApiPropertyOptional({ description: 'Search query', example: 'Buddy' })
@@ -34,4 +34,10 @@ export class VetClearanceActionDto {
   })
   @IsEnum(VetClearanceAction)
   action: VetClearanceAction;
+}
+
+export class MakeNotFitDto {
+  @ApiProperty({ description: 'Reasons for not fit', example: 'Not fit' })
+  @IsArray()
+  notFitReasons: string[];
 }

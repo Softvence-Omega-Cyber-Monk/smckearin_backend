@@ -66,13 +66,6 @@ export class CreateTransportDto {
   transPortDate: string;
 
   @ApiProperty({
-    description: 'Transport time (ISO format)',
-    example: '2025-12-20T10:30:00.000Z',
-  })
-  @IsISO8601()
-  transPortTime: string;
-
-  @ApiProperty({
     description: 'Primary animal ID',
     example: 'uuid-animal-id',
   })
