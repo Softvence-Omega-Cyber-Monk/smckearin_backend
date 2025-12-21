@@ -1,5 +1,5 @@
 import { ApproveOrRejectDto } from '@/common/dto/approve-reject.dto';
-import { successResponse } from '@/common/utils/response.util';
+import { successResponse, TResponse } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
@@ -15,7 +15,7 @@ export class ManageTransportService {
   async deleteTransport(
     transportId: string,
     authUser: JWTPayload,
-  ): Promise<void> {
+  ): Promise<TResponse> {
     const transport = await this.prisma.client.transport.findUniqueOrThrow({
       where: { id: transportId },
       select: { shelterId: true },
@@ -23,11 +23,13 @@ export class ManageTransportService {
 
     if (this.isAdmin(authUser.role)) {
       await this.deleteById(transportId);
-      return;
+      return successResponse(null, 'Transport deleted successfully');
     }
 
     await this.validateShelterAccess(transport.shelterId, authUser.sub);
     await this.deleteById(transportId);
+
+    return successResponse(null, 'Transport deleted successfully');
   }
 
   @HandleError('Unable to accept or reject transport')
