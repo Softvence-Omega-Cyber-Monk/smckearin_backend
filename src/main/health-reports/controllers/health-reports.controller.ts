@@ -32,6 +32,7 @@ import {
   UpdateHealthReportDto,
 } from '../dto/health-report.dto';
 import { GetHealthReportsService } from '../services/get-health-reports.service';
+import { HealthReportStatsService } from '../services/health-reports-stats.service';
 import { HealthReportsService } from '../services/health-reports.service';
 import { ManageHealthReportsService } from '../services/manage-health-reports.service';
 
@@ -44,6 +45,7 @@ export class HealthReportsController {
     private readonly getHealthReportsService: GetHealthReportsService,
     private readonly healthReportsService: HealthReportsService,
     private readonly manageHealthReportsService: ManageHealthReportsService,
+    private readonly healthReportStatsService: HealthReportStatsService,
   ) {}
 
   @ApiOperation({ summary: 'Create health report (Veterinarian)' })
@@ -111,6 +113,13 @@ export class HealthReportsController {
   @Get('list')
   async getAllHealthReports(@Query() dto: GetTransportDto) {
     return this.getHealthReportsService.getAllHealthReports(dto);
+  }
+
+  @ApiOperation({ summary: 'Get own health report stats (Veterinarian)' })
+  @ValidateVeterinarian()
+  @Get('stats/veterinarians')
+  async getVetsHealthReportStats(@GetUser('sub') userId: string) {
+    return this.healthReportStatsService.getVetsHealthReportStats(userId);
   }
 
   @ApiOperation({ summary: 'Delete health report (Veterinarian & Admin)' })

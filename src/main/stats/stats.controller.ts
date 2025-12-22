@@ -56,6 +56,13 @@ export class StatsController {
     return this.adminGraphStatsService.getTransportGraph(filterDto);
   }
 
+  @ApiOperation({ summary: 'Get admin operational overview' })
+  @Get('admin/stats/overview')
+  @ValidateAdmin()
+  async getOperationalOverview(@Query() filterDto: GraphFilterDto) {
+    return this.adminGraphStatsService.getOperationalOverview(filterDto);
+  }
+
   @ApiOperation({ summary: 'Get shelter stats' })
   @Get('shelter/stats')
   @ValidateManager()
