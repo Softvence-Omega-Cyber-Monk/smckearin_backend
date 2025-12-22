@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Gender, SPECIES } from '@prisma';
+import { Transform } from 'class-transformer';
 import { IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateHealthReportDto {
@@ -15,6 +16,7 @@ export class CreateHealthReportDto {
     example: 'uuid-animal-id',
   })
   @IsOptional()
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsUUID()
   animalId?: string;
 
