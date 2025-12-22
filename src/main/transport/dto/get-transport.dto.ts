@@ -1,7 +1,7 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { TransportStatus } from '@prisma';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export enum TransportDateFilter {
@@ -25,6 +25,7 @@ export class GetTransportDto extends PaginationDto {
     example: TransportDateFilter.LAST_WEEK,
   })
   @IsOptional()
+  @Transform(({ value }) => (value === '' ? undefined : value))
   @IsEnum(TransportDateFilter)
   dateFilter?: TransportDateFilter;
 }
