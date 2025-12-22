@@ -16,18 +16,62 @@ export class ManageTransportService {
     transportId: string,
     authUser: JWTPayload,
   ): Promise<TResponse> {
+    // Get transport with bonded pair data
     const transport = await this.prisma.client.transport.findUniqueOrThrow({
       where: { id: transportId },
-      select: { shelterId: true },
+      select: {
+        shelterId: true,
+        animalId: true,
+        isBondedPair: true,
+        bondedPairId: true,
+      },
     });
 
+    if (!transport.animalId) {
+      throw new AppError(400, 'Transport does not have a primary animal');
+    }
+
+    // Build animal list for update
+    const animalsToReturn = [transport.animalId];
+
+    if (transport.isBondedPair && transport.bondedPairId) {
+      animalsToReturn.push(transport.bondedPairId);
+    }
+
+    // Admin flow — bypass access checks
     if (this.isAdmin(authUser.role)) {
-      await this.deleteById(transportId);
+      await this.prisma.client.$transaction(async (trx) => {
+        // STEP 1 — Return all animals to shelter
+        await trx.animal.updateMany({
+          where: { id: { in: animalsToReturn } },
+          data: { shelterId: transport.shelterId, status: 'AT_SHELTER' },
+        });
+
+        // STEP 2 — Delete transport
+        await trx.transport.delete({
+          where: { id: transportId },
+        });
+      });
+
       return successResponse(null, 'Transport deleted successfully');
     }
 
+    // Shelter user → must have access
     await this.validateShelterAccess(transport.shelterId, authUser.sub);
-    await this.deleteById(transportId);
+
+    // Use transaction for safe operations
+    await this.prisma.client.$transaction(async (trx) => {
+      // STEP 1 — Move animal(s) back to shelter
+      await trx.animal.updateMany({
+        where: { id: { in: animalsToReturn } },
+        data: { shelterId: transport.shelterId, status: 'AT_SHELTER' },
+      });
+
+      // STEP 2 — Delete transport
+      await trx.transport.delete({
+        where: { id: transportId },
+      });
+    });
 
     return successResponse(null, 'Transport deleted successfully');
   }
