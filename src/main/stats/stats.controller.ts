@@ -13,6 +13,7 @@ import { AdminGraphStatsService } from './services/admin-graph-stats.service';
 import { AdminStatsService } from './services/admin-stats.service';
 import { DriverStatsService } from './services/driver-stats.service';
 import { ShelterStatsService } from './services/shelter-stats.service';
+import { VetGraphStatsService } from './services/vet-graph-stats.service';
 import { VetStatsService } from './services/vet-stats.service';
 
 @ApiTags('Stats & Analytics')
@@ -26,6 +27,7 @@ export class StatsController {
     private readonly adminStatsService: AdminStatsService,
     private readonly shelterStatsService: ShelterStatsService,
     private readonly adminGraphStatsService: AdminGraphStatsService,
+    private readonly vetGraphStatsService: VetGraphStatsService,
   ) {}
 
   @ApiOperation({ summary: 'Get driver stats' })
@@ -40,6 +42,20 @@ export class StatsController {
   @ValidateVeterinarian()
   async getVetStats(@GetUser('sub') userId: string) {
     return this.vetStatsService.getVetStats(userId);
+  }
+
+  @ApiOperation({ summary: 'Get vet pie chart stats' })
+  @Get('vet/stats/chart')
+  @ValidateVeterinarian()
+  async getCertificationOverview(@GetUser('sub') userId: string) {
+    return this.vetGraphStatsService.getCertificationOverview(userId);
+  }
+
+  @ApiOperation({ summary: 'Get vet certification stats (vet)' })
+  @Get('vet/stats/certification')
+  @ValidateVeterinarian()
+  async getCertificationStats(@GetUser('sub') userId: string) {
+    return this.vetGraphStatsService.getCertificationStats(userId);
   }
 
   @ApiOperation({ summary: 'Get admin stats' })
