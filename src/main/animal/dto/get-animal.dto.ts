@@ -29,7 +29,7 @@ export class GetAnimalDto extends PaginationDto {
 
   @ApiPropertyOptional({
     description: 'Filter by status',
-    example: Status.ADOPTED,
+    example: Status.AT_SHELTER,
     enum: Status,
   })
   @IsOptional()

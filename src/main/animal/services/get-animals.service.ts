@@ -132,4 +132,40 @@ export class GetAnimalsService {
 
     return successResponse(animal, 'Animal found');
   }
+
+  @HandleError("Can't get all animals system-wide")
+  async getAllAnimalsSystemWide(dto: GetAnimalDto) {
+    const page = dto.page && +dto.page > 0 ? +dto.page : 1;
+    const limit = dto.limit && +dto.limit > 0 ? +dto.limit : 50;
+    const skip = (page - 1) * limit;
+
+    const where: Prisma.AnimalWhereInput = {};
+
+    if (dto.search) {
+      where.OR = [
+        { name: { contains: dto.search, mode: 'insensitive' } },
+        { breed: { contains: dto.search, mode: 'insensitive' } },
+      ];
+    }
+
+    if (dto.species) where.species = dto.species;
+    if (dto.gender) where.gender = dto.gender;
+    if (dto.status) where.status = dto.status;
+
+    const [animals, total] = await this.prisma.client.$transaction([
+      this.prisma.client.animal.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.client.animal.count({ where }),
+    ]);
+
+    return successPaginatedResponse(
+      animals,
+      { page, limit, total },
+      'All animals fetched system-wide',
+    );
+  }
 }

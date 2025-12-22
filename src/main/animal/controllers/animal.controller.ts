@@ -92,6 +92,12 @@ export class AnimalController {
     return this.getAnimalsService.getPendingAnimals(userId, dto);
   }
 
+  @ApiOperation({ summary: 'Get all animals (any authenticated user)' })
+  @Get('system-wide/all')
+  async getAllAnimalsSystemWide(@Query() dto: GetAnimalDto) {
+    return this.getAnimalsService.getAllAnimalsSystemWide(dto);
+  }
+
   @ApiOperation({ summary: 'Get single animal (any authenticated user)' })
   @Get(':id')
   async getSingleAnimal(@Param('id') id: string) {
