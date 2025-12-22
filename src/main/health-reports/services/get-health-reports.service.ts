@@ -5,9 +5,13 @@ import {
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
-import { GetTransportDto } from '@/main/transport/dto/get-transport.dto';
+import {
+  GetTransportDto,
+  TransportDateFilter,
+} from '@/main/transport/dto/get-transport.dto';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma';
+import { DateTime } from 'luxon';
 
 @Injectable()
 export class GetHealthReportsService {
@@ -87,6 +91,45 @@ export class GetHealthReportsService {
     };
   }
 
+  private applyDateFilter(
+    where: Prisma.HealthReportWhereInput,
+    filter?: TransportDateFilter,
+  ) {
+    if (!filter || filter === TransportDateFilter.ALL) return;
+
+    const now = DateTime.now();
+    let start: DateTime;
+    let end: DateTime;
+
+    switch (filter) {
+      case TransportDateFilter.TODAY:
+        start = now.startOf('day');
+        end = now.endOf('day');
+        break;
+      case TransportDateFilter.THIS_WEEK:
+        start = now.startOf('week');
+        end = now.endOf('week');
+        break;
+      case TransportDateFilter.LAST_WEEK:
+        start = now.minus({ weeks: 1 }).startOf('week');
+        end = now.minus({ weeks: 1 }).endOf('week');
+        break;
+      case TransportDateFilter.THIS_MONTH:
+        start = now.startOf('month');
+        end = now.endOf('month');
+        break;
+      case TransportDateFilter.LAST_MONTH:
+        start = now.minus({ months: 1 }).startOf('month');
+        end = now.minus({ months: 1 }).endOf('month');
+        break;
+    }
+
+    where.createdAt = {
+      gte: start.toJSDate(),
+      lte: end.toJSDate(),
+    };
+  }
+
   @HandleError('Could not fetch health report', 'Health report')
   async getSingleHealthReport(reportId: string) {
     const report = await this.prisma.client.healthReport.findUnique({
@@ -130,6 +173,7 @@ export class GetHealthReportsService {
     };
 
     this.applySearchFilter(where, dto.search);
+    this.applyDateFilter(where, dto.dateFilter);
 
     const [reports, total] = await this.prisma.client.$transaction([
       this.prisma.client.healthReport.findMany({
@@ -162,6 +206,7 @@ export class GetHealthReportsService {
     const where: Prisma.HealthReportWhereInput = {};
 
     this.applySearchFilter(where, dto.search);
+    this.applyDateFilter(where, dto.dateFilter);
 
     const [reports, total] = await this.prisma.client.$transaction([
       this.prisma.client.healthReport.findMany({
