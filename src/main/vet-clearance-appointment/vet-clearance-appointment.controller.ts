@@ -5,6 +5,7 @@ import {
 } from '@/core/jwt/jwt.decorator';
 import { Controller, Delete, Get, Param, Patch, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { GetTransportDto } from '../transport/dto/get-transport.dto';
 import {
   CreateVetAppointmentDto,
   UpdateVetAppointmentStatusDto,
@@ -82,6 +83,27 @@ export class VetClearanceAppointmentController {
     );
   }
 
+  @ApiOperation({ summary: 'Get own vet appointments' })
+  @Get('vet/appointments')
+  @ValidateVeterinarian()
+  async getOwnVetAppointments(
+    @GetUser('sub') userId: string,
+    dto: GetTransportDto,
+  ) {
+    return this.vetAppointmentService.getOwnVetAppointments(userId, dto);
+  }
+
+  @ApiOperation({
+    summary: 'Get single vet appointment (all authorized users)',
+  })
+  @Get('vet/appointments/:id')
+  async getSingleAppointment(
+    @GetUser('sub') userId: string,
+    @Param('id') id: string,
+  ) {
+    return this.vetAppointmentService.getSingleAppointment(userId, id);
+  }
+
   @ApiOperation({
     summary: 'Mark an appointment as missed or completed (veterinarian)',
   })
@@ -102,28 +124,37 @@ export class VetClearanceAppointmentController {
   @ApiOperation({ summary: 'Cancel an appointment (veterinarian)' })
   @ValidateVeterinarian()
   @Patch('vet/appointments/:id/cancel')
-  async cancelAppointment(@GetUser('sub') userId: string, id: string) {
+  async cancelAppointment(
+    @GetUser('sub') userId: string,
+    @Param('id') id: string,
+  ) {
     return this.manageVetAppointmentService.cancelAppointment(userId, id);
   }
 
   @ApiOperation({ summary: 'Complete an appointment (veterinarian)' })
   @ValidateVeterinarian()
   @Patch('vet/appointments/:id/complete')
-  async completeAppointment(@GetUser('sub') userId: string, id: string) {
+  async completeAppointment(
+    @GetUser('sub') userId: string,
+    @Param('id') id: string,
+  ) {
     return this.manageVetAppointmentService.completeAppointment(userId, id);
   }
 
   @ApiOperation({ summary: 'Mark an appointment as missed (veterinarian)' })
   @ValidateVeterinarian()
   @Patch('vet/appointments/:id/missed')
-  async markMissed(@GetUser('sub') userId: string, id: string) {
+  async markMissed(@GetUser('sub') userId: string, @Param('id') id: string) {
     return this.manageVetAppointmentService.markMissed(userId, id);
   }
 
   @ApiOperation({ summary: 'Delete an appointment (veterinarian)' })
   @ValidateVeterinarian()
   @Delete('vet/appointments/:id')
-  async deleteAppointment(@GetUser('sub') userId: string, id: string) {
+  async deleteAppointment(
+    @GetUser('sub') userId: string,
+    @Param('id') id: string,
+  ) {
     return this.manageVetAppointmentService.deleteAppointment(userId, id);
   }
 }
