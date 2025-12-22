@@ -11,7 +11,7 @@ import {
   TransportDateFilter,
 } from '@/main/transport/dto/get-transport.dto';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma';
+import { Prisma, VetAppointmentStatus } from '@prisma';
 import { DateTime } from 'luxon';
 
 @Injectable()
@@ -220,5 +220,83 @@ export class VetAppointmentService {
     };
 
     return successResponse(transformed, 'Appointment fetched successfully');
+  }
+
+  @HandleError('Failed to load appointment stats')
+  async getVetAppointmentStats(userId: string, timezone?: string) {
+    const vet = await this.prisma.client.veterinarian.findUnique({
+      where: { userId },
+    });
+
+    if (!vet) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'User is not a veterinarian');
+    }
+
+    const defaultTz = 'America/New_York';
+    const appliedTz = timezone || defaultTz;
+
+    const tzCheck = DateTime.now().setZone(appliedTz);
+
+    if (!tzCheck.isValid) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        `Invalid timezone: "${appliedTz}". Please send a valid IANA timezone (e.g. "Asia/Dhaka", "Europe/London")`,
+      );
+    }
+
+    const now = tzCheck;
+
+    const startOfToday = now.startOf('day').toUTC().toJSDate();
+    const endOfToday = now.endOf('day').toUTC().toJSDate();
+
+    const todayAppointments = await this.prisma.client.vetAppointment.count({
+      where: {
+        veterinarianId: vet.id,
+        appointmentDate: {
+          gte: startOfToday,
+          lte: endOfToday,
+        },
+      },
+    });
+
+    const upcomingAppointments = await this.prisma.client.vetAppointment.count({
+      where: {
+        veterinarianId: vet.id,
+        appointmentDate: {
+          gt: endOfToday,
+        },
+        status: {
+          in: [VetAppointmentStatus.SCHEDULED],
+        },
+      },
+    });
+
+    const totalAppointments = await this.prisma.client.vetAppointment.count({
+      where: { veterinarianId: vet.id },
+    });
+
+    const completedAppointments = await this.prisma.client.vetAppointment.count(
+      {
+        where: {
+          veterinarianId: vet.id,
+          status: VetAppointmentStatus.COMPLETED,
+        },
+      },
+    );
+
+    return successResponse(
+      {
+        timezoneUsed: appliedTz,
+        todayRangeUTC: {
+          startOfToday,
+          endOfToday,
+        },
+        todayAppointments,
+        upcomingAppointments,
+        totalAppointments,
+        completedAppointments,
+      },
+      'Vet appointment stats fetched successfully',
+    );
   }
 }

@@ -20,3 +20,15 @@ export class UpdateVetAppointmentStatusDto {
   @IsEnum(VetAppointmentStatus)
   status: VetAppointmentStatus;
 }
+
+import { IsOptional, IsString } from 'class-validator';
+
+export class GetVetAppointmentStatsDto {
+  @ApiProperty({
+    example: 'Asia/Dhaka',
+    description: 'Optional timezone',
+  })
+  @IsOptional()
+  @IsString()
+  timezone?: string;
+}

@@ -104,6 +104,13 @@ export class VetClearanceAppointmentController {
     return this.vetAppointmentService.getSingleAppointment(userId, id);
   }
 
+  @ApiOperation({ summary: 'Get vet appointment stats (veterinarian)' })
+  @Get('vet/appointments/stats/me')
+  @ValidateVeterinarian()
+  async getVetAppointmentStats(@GetUser('sub') userId: string) {
+    return this.vetAppointmentService.getVetAppointmentStats(userId);
+  }
+
   @ApiOperation({
     summary: 'Mark an appointment as missed or completed (veterinarian)',
   })
