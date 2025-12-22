@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsISO8601 } from 'class-validator';
+import { VetAppointmentStatus } from '@prisma';
+import { IsEnum, IsISO8601 } from 'class-validator';
 
 export class CreateVetAppointmentDto {
   @ApiProperty({
@@ -8,4 +9,14 @@ export class CreateVetAppointmentDto {
   })
   @IsISO8601()
   appointmentDate: string;
+}
+
+export class UpdateVetAppointmentStatusDto {
+  @ApiProperty({
+    enum: VetAppointmentStatus,
+    example: VetAppointmentStatus.SCHEDULED,
+    description: 'Appointment status',
+  })
+  @IsEnum(VetAppointmentStatus)
+  status: VetAppointmentStatus;
 }

@@ -3,9 +3,12 @@ import {
   ValidateAuth,
   ValidateVeterinarian,
 } from '@/core/jwt/jwt.decorator';
-import { Controller, Get, Param, Patch, Query } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Patch, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateVetAppointmentDto } from './dto/vet-appointment.dto';
+import {
+  CreateVetAppointmentDto,
+  UpdateVetAppointmentStatusDto,
+} from './dto/vet-appointment.dto';
 import {
   GetVetClearanceDto,
   VetClearanceActionDto,
@@ -77,5 +80,50 @@ export class VetClearanceAppointmentController {
       id,
       dto,
     );
+  }
+
+  @ApiOperation({
+    summary: 'Mark an appointment as missed or completed (veterinarian)',
+  })
+  @ValidateVeterinarian()
+  @Patch('vet/appointments/:id/status')
+  async updateAppointmentStatus(
+    @GetUser('sub') userId: string,
+    @Param('id') id: string,
+    @Query() dto: UpdateVetAppointmentStatusDto,
+  ) {
+    return this.manageVetAppointmentService.updateAppointmentStatus(
+      userId,
+      id,
+      dto,
+    );
+  }
+
+  @ApiOperation({ summary: 'Cancel an appointment (veterinarian)' })
+  @ValidateVeterinarian()
+  @Patch('vet/appointments/:id/cancel')
+  async cancelAppointment(@GetUser('sub') userId: string, id: string) {
+    return this.manageVetAppointmentService.cancelAppointment(userId, id);
+  }
+
+  @ApiOperation({ summary: 'Complete an appointment (veterinarian)' })
+  @ValidateVeterinarian()
+  @Patch('vet/appointments/:id/complete')
+  async completeAppointment(@GetUser('sub') userId: string, id: string) {
+    return this.manageVetAppointmentService.completeAppointment(userId, id);
+  }
+
+  @ApiOperation({ summary: 'Mark an appointment as missed (veterinarian)' })
+  @ValidateVeterinarian()
+  @Patch('vet/appointments/:id/missed')
+  async markMissed(@GetUser('sub') userId: string, id: string) {
+    return this.manageVetAppointmentService.markMissed(userId, id);
+  }
+
+  @ApiOperation({ summary: 'Delete an appointment (veterinarian)' })
+  @ValidateVeterinarian()
+  @Delete('vet/appointments/:id')
+  async deleteAppointment(@GetUser('sub') userId: string, id: string) {
+    return this.manageVetAppointmentService.deleteAppointment(userId, id);
   }
 }
