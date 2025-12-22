@@ -88,7 +88,7 @@ export class VetClearanceAppointmentController {
   @ValidateVeterinarian()
   async getOwnVetAppointments(
     @GetUser('sub') userId: string,
-    dto: GetTransportDto,
+    @Query() dto: GetTransportDto,
   ) {
     return this.vetAppointmentService.getOwnVetAppointments(userId, dto);
   }
