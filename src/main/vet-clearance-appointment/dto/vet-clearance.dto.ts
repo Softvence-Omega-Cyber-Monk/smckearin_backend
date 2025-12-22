@@ -1,6 +1,8 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
+import { TransportDateFilter } from '@/main/transport/dto/get-transport.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { VetClearanceRequestStatus } from '@prisma';
+import { Transform } from 'class-transformer';
 import { IsArray, IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class GetVetClearanceDto extends PaginationDto {
@@ -17,6 +19,16 @@ export class GetVetClearanceDto extends PaginationDto {
   @IsOptional()
   @IsEnum(VetClearanceRequestStatus)
   status?: VetClearanceRequestStatus;
+
+  @ApiPropertyOptional({
+    description: 'Filter transports by date',
+    enum: TransportDateFilter,
+    example: TransportDateFilter.LAST_WEEK,
+  })
+  @IsOptional()
+  @Transform(({ value }) => (value === '' ? undefined : value))
+  @IsEnum(TransportDateFilter)
+  dateFilter?: TransportDateFilter;
 }
 
 export enum VetClearanceAction {
