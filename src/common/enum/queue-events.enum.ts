@@ -25,4 +25,8 @@ export enum QueueEventsEnum {
   NOTIFICATION = 'queue:notification',
   MESSAGES = 'queue:messages',
   GENERIC = 'queue:generic',
+
+  // === Transport tracking events ===
+  TRANSPORT_LOCATION_UPDATE = 'queue:transport_location_update',
+  TRANSPORT_STATUS_UPDATE = 'queue:transport_status_update',
 }

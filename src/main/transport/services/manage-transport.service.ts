@@ -11,12 +11,83 @@ import { TransportStatus, UserRole } from '@prisma';
 export class ManageTransportService {
   constructor(private readonly prisma: PrismaService) {}
 
+  private async addTimeline(
+    transportId: string,
+    status: TransportStatus,
+    note?: string,
+    latitude?: number,
+    longitude?: number,
+  ) {
+    await this.prisma.client.transportTimeline.create({
+      data: {
+        transportId,
+        status,
+        note,
+        latitude,
+        longitude,
+      },
+    });
+  }
+
+  private isAdmin(role: UserRole): boolean {
+    return role === UserRole.ADMIN || role === UserRole.SUPER_ADMIN;
+  }
+
+  private async validateDriverOwnership(
+    driverId: string | null,
+    userId: string,
+  ): Promise<void> {
+    if (!driverId) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'Transport has no driver assigned',
+      );
+    }
+
+    const driver = await this.prisma.client.driver.findUniqueOrThrow({
+      where: { id: driverId },
+      select: { userId: true },
+    });
+
+    if (driver.userId !== userId) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'You are not allowed to modify this transport',
+      );
+    }
+  }
+
+  private async validateShelterAccess(
+    transportShelterId: string | null,
+    userId: string,
+  ): Promise<void> {
+    if (!transportShelterId) {
+      throw new AppError(HttpStatus.UNAUTHORIZED, 'Unable to modify transport');
+    }
+
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
+      select: {
+        shelterAdminOfId: true,
+        managerOfId: true,
+      },
+    });
+
+    const userShelterId = user.shelterAdminOfId ?? user.managerOfId;
+
+    if (userShelterId !== transportShelterId) {
+      throw new AppError(
+        HttpStatus.UNAUTHORIZED,
+        'Transport does not belong to you',
+      );
+    }
+  }
+
   @HandleError('Unable to delete transport')
   async deleteTransport(
     transportId: string,
     authUser: JWTPayload,
   ): Promise<TResponse> {
-    // Get transport with bonded pair data
     const transport = await this.prisma.client.transport.findUniqueOrThrow({
       where: { id: transportId },
       select: {
@@ -31,46 +102,56 @@ export class ManageTransportService {
       throw new AppError(400, 'Transport does not have a primary animal');
     }
 
-    // Build animal list for update
     const animalsToReturn = [transport.animalId];
-
     if (transport.isBondedPair && transport.bondedPairId) {
       animalsToReturn.push(transport.bondedPairId);
     }
 
-    // Admin flow — bypass access checks
     if (this.isAdmin(authUser.role)) {
       await this.prisma.client.$transaction(async (trx) => {
-        // STEP 1 — Return all animals to shelter
+        // Move animals back
         await trx.animal.updateMany({
           where: { id: { in: animalsToReturn } },
           data: { shelterId: transport.shelterId, status: 'AT_SHELTER' },
         });
 
-        // STEP 2 — Delete transport
-        await trx.transport.delete({
-          where: { id: transportId },
+        // Timeline entry
+        await trx.transportTimeline.create({
+          data: {
+            transportId,
+            status: TransportStatus.CANCELLED,
+            note: 'Transport deleted by admin',
+          },
         });
+
+        // Delete transport
+        await trx.transport.delete({ where: { id: transportId } });
       });
 
       return successResponse(null, 'Transport deleted successfully');
     }
 
-    // Shelter user → must have access
+    // Shelter user → check access
     await this.validateShelterAccess(transport.shelterId, authUser.sub);
 
-    // Use transaction for safe operations
     await this.prisma.client.$transaction(async (trx) => {
-      // STEP 1 — Move animal(s) back to shelter
+      // Move animals back
       await trx.animal.updateMany({
         where: { id: { in: animalsToReturn } },
         data: { shelterId: transport.shelterId, status: 'AT_SHELTER' },
       });
 
-      // STEP 2 — Delete transport
-      await trx.transport.delete({
-        where: { id: transportId },
+      // Timeline entry
+      await trx.transportTimeline.create({
+        data: {
+          transportId,
+          status: TransportStatus.CANCELLED,
+          note: 'Transport deleted by shelter user',
+        },
       });
+
+      // Delete transport
+      await trx.transport.delete({ where: { id: transportId } });
     });
 
     return successResponse(null, 'Transport deleted successfully');
@@ -102,6 +183,13 @@ export class ManageTransportService {
       },
     });
 
+    // Add timeline
+    await this.addTimeline(
+      transportId,
+      updated.status,
+      dto.approved ? 'Transport accepted' : 'Transport rejected',
+    );
+
     return successResponse(
       updated,
       `Transport ${dto.approved ? 'accepted' : 'rejected'} successfully`,
@@ -114,7 +202,6 @@ export class ManageTransportService {
     transportId: string,
     driverId: string,
   ) {
-    // check user is admin or owner of the transport
     const transport = await this.prisma.client.transport.findUniqueOrThrow({
       where: { id: transportId },
       select: { shelterId: true, driverId: true, status: true },
@@ -124,7 +211,6 @@ export class ManageTransportService {
       await this.validateShelterAccess(transport.shelterId, authUser.sub);
     }
 
-    // check if transport is pending or cancelled
     if (
       transport.status !== TransportStatus.PENDING &&
       transport.status !== TransportStatus.CANCELLED
@@ -132,69 +218,18 @@ export class ManageTransportService {
       throw new AppError(HttpStatus.FORBIDDEN, 'Transport is not pending');
     }
 
-    await this.prisma.client.transport.update({
+    const updated = await this.prisma.client.transport.update({
       where: { id: transportId },
       data: { driverId },
     });
-  }
 
-  private async validateDriverOwnership(
-    driverId: string | null,
-    userId: string,
-  ): Promise<void> {
-    if (!driverId) {
-      throw new AppError(
-        HttpStatus.FORBIDDEN,
-        'Transport has no driver assigned',
-      );
-    }
+    // Timeline entry
+    await this.addTimeline(
+      transportId,
+      TransportStatus.PENDING,
+      `Driver assigned: ${driverId}`,
+    );
 
-    const driver = await this.prisma.client.driver.findUniqueOrThrow({
-      where: { id: driverId },
-      select: { userId: true },
-    });
-
-    if (driver.userId !== userId) {
-      throw new AppError(
-        HttpStatus.FORBIDDEN,
-        'You are not allowed to modify this transport',
-      );
-    }
-  }
-
-  private isAdmin(role: UserRole): boolean {
-    return role === UserRole.ADMIN || role === UserRole.SUPER_ADMIN;
-  }
-
-  private async validateShelterAccess(
-    transportShelterId: string | null,
-    userId: string,
-  ): Promise<void> {
-    if (!transportShelterId) {
-      throw new AppError(HttpStatus.UNAUTHORIZED, 'Unable to delete transport');
-    }
-
-    const user = await this.prisma.client.user.findUniqueOrThrow({
-      where: { id: userId },
-      select: {
-        shelterAdminOfId: true,
-        managerOfId: true,
-      },
-    });
-
-    const userShelterId = user.shelterAdminOfId ?? user.managerOfId;
-
-    if (userShelterId !== transportShelterId) {
-      throw new AppError(
-        HttpStatus.UNAUTHORIZED,
-        'Transport does not belong to you',
-      );
-    }
-  }
-
-  private async deleteById(transportId: string): Promise<void> {
-    await this.prisma.client.transport.delete({
-      where: { id: transportId },
-    });
+    return successResponse(updated, 'Driver assigned successfully');
   }
 }
