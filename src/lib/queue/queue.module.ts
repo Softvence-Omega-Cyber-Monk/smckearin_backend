@@ -3,6 +3,7 @@ import { BullModule } from '@nestjs/bullmq';
 import { Global, Module } from '@nestjs/common';
 import { GenericEventsService } from './events/generic-events.service';
 import { QueueGateway } from './queue.gateway';
+import { TransportTrackingService } from './services/transport-tracking.service';
 import { GenericTriggerService } from './trigger/generic-trigger.service';
 import { GenericWorkerService } from './worker/generic-worker.service';
 
@@ -19,6 +20,7 @@ import { GenericWorkerService } from './worker/generic-worker.service';
     GenericTriggerService,
     GenericEventsService,
     GenericWorkerService,
+    TransportTrackingService,
   ],
   exports: [BullModule],
 })

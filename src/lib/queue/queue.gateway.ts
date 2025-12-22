@@ -3,10 +3,12 @@ import { BaseGateway } from '@/core/socket/base.gateway';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { WebSocketGateway } from '@nestjs/websockets';
+import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { PrismaService } from '../prisma/prisma.service';
+import { TransportLocationUpdateDto } from './dto/transport-tracking.dto';
 import { NotificationPayload } from './interface/queue.payload';
+import { TransportTrackingService } from './services/transport-tracking.service';
 
 @WebSocketGateway({
   cors: {
@@ -36,6 +38,7 @@ export class QueueGateway extends BaseGateway {
     protected readonly configService: ConfigService,
     protected readonly prisma: PrismaService,
     protected readonly jwtService: JwtService,
+    private readonly transportTrackingService: TransportTrackingService,
   ) {
     super(configService, prisma, jwtService, QueueGateway.name);
   }
@@ -145,5 +148,26 @@ export class QueueGateway extends BaseGateway {
     this.logger.log(
       `Notification sent to ${admins.length} admins via ${event}`,
     );
+  }
+
+  /** --- TRANSPORT --- */
+  public joinTransportRoom(client: Socket, transportId: string) {
+    const room = `transport-${transportId}`;
+    client.join(room);
+  }
+
+  public emitToRoom(room: string, event: QueueEventsEnum, payload: any) {
+    this.server.to(room).emit(event, payload);
+  }
+
+  public leaveTransportRoom(client: Socket, transportId: string) {
+    const room = `transport-${transportId}`;
+    client.leave(room);
+  }
+
+  // Transport handlers
+  @SubscribeMessage(QueueEventsEnum.TRANSPORT_LOCATION_UPDATE)
+  async handleUpdateLocation(client: Socket, dto: TransportLocationUpdateDto) {
+    return this.transportTrackingService.updateLocation(client, dto);
   }
 }
