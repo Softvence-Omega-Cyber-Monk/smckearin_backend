@@ -5,6 +5,8 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { DocumentNotificationService } from '@/lib/queue/services/document-notification.service';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApprovalStatus, UserRole } from '@prisma';
 import {
@@ -19,6 +21,8 @@ export class ManageDriverService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly s3: S3Service,
+    private readonly userNotificationService: UserNotificationService,
+    private readonly documentNotificationService: DocumentNotificationService,
   ) {}
 
   @HandleError('Failed to approve or reject driver')
@@ -36,6 +40,11 @@ export class ManageDriverService {
     // Recipients: The driver user (via driver.userId)
     // Settings: emailNotifications
     // Meta: { driverId, status, approved: dto.approved }
+    await this.userNotificationService.notifyApprovalStatusChange(
+      'DRIVER',
+      driverId,
+      approved,
+    );
 
     return successResponse(
       null,
@@ -64,6 +73,17 @@ export class ManageDriverService {
       // Settings: emailNotifications
       // Meta: { driverId: driver.id, driverName: (fetch from user), driverEmail: (fetch from user) }
       // Note: Fetch user details BEFORE deletion to send notification
+      const user = await tx.user.findUnique({
+        where: { id: driver.userId },
+        select: { name: true, email: true },
+      });
+      if (user) {
+        await this.userNotificationService.notifyAccountDeletion(
+          'DRIVER',
+          driver.userId,
+          { name: user.name, email: user.email },
+        );
+      }
 
       // 1Delete driver first
       await tx.driver.delete({
@@ -338,6 +358,11 @@ export class ManageDriverService {
     // Recipients: All users with role SUPER_ADMIN or ADMIN
     // Settings: emailNotifications, certificateNotifications
     // Meta: { driverId: driver.id, driverName: (fetch from user), documentType: dto.type, documentId: uploadedFile.id }
+    await this.documentNotificationService.notifyDocumentEvent(
+      'DRIVER_DOCUMENT_UPLOADED',
+      driver.id,
+      { type: dto.type },
+    );
 
     return successResponse(uploadedFile, `${dto.type} uploaded successfully`);
   }
@@ -402,6 +427,11 @@ export class ManageDriverService {
     // Recipients: The driver user (via driver.userId)
     // Settings: emailNotifications, certificateNotifications
     // Meta: { driverId, documentType: dto.type, status, approved: dto.approved }
+    await this.documentNotificationService.notifyDocumentEvent(
+      'DRIVER_DOCUMENT_APPROVED',
+      driverId,
+      { type: dto.type, approved: dto.approved },
+    );
 
     return successResponse(
       null,

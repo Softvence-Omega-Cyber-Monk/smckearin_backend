@@ -2,12 +2,16 @@ import { successResponse } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { VetNotificationService } from '@/lib/queue/services/vet-notification.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { UpdateVetAppointmentStatusDto } from '../dto/vet-appointment.dto';
 
 @Injectable()
 export class ManageVetAppointmentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly vetNotificationService: VetNotificationService,
+  ) {}
 
   private async checkOwnership(userId: string, appointmentId: string) {
     const vet = await this.prisma.client.veterinarian.findUnique({
@@ -50,6 +54,11 @@ export class ManageVetAppointmentService {
     //   2. All users with role ADMIN or SUPER_ADMIN
     // Settings: appointmentNotifications, emailNotifications
     // Meta: { appointmentId, requestId: (fetch from appointment), transportId: (fetch from request), shelterId: (fetch from transport), newStatus: dto.status, veterinarianId: (fetch from appointment) }
+    await this.vetNotificationService.notifyAppointmentEvent(
+      'STATUS_UPDATED',
+      appointmentId,
+      { status: dto.status },
+    );
 
     return successResponse(updated, 'Appointment status updated');
   }
@@ -70,6 +79,10 @@ export class ManageVetAppointmentService {
     //   2. All users with role ADMIN or SUPER_ADMIN
     // Settings: appointmentNotifications, emailNotifications
     // Meta: { appointmentId, requestId: (fetch from appointment), transportId: (fetch from request), shelterId: (fetch from transport), veterinarianId: (fetch from appointment) }
+    await this.vetNotificationService.notifyAppointmentEvent(
+      'CANCELLED',
+      appointmentId,
+    );
 
     return successResponse(updated, 'Appointment cancelled');
   }
@@ -90,6 +103,10 @@ export class ManageVetAppointmentService {
     //   2. Assigned driver (if exists in related transport) - via driver.userId
     // Settings: appointmentNotifications, emailNotifications, tripNotifications
     // Meta: { appointmentId, requestId: (fetch from appointment), transportId: (fetch from request), shelterId: (fetch from transport), veterinarianId: (fetch from appointment) }
+    await this.vetNotificationService.notifyAppointmentEvent(
+      'COMPLETED',
+      appointmentId,
+    );
 
     return successResponse(updated, 'Appointment marked as completed');
   }
@@ -110,6 +127,10 @@ export class ManageVetAppointmentService {
     //   2. All users with role ADMIN or SUPER_ADMIN
     // Settings: appointmentNotifications, emailNotifications
     // Meta: { appointmentId, requestId: (fetch from appointment), transportId: (fetch from request), shelterId: (fetch from transport), veterinarianId: (fetch from appointment) }
+    await this.vetNotificationService.notifyAppointmentEvent(
+      'MISSED',
+      appointmentId,
+    );
 
     return successResponse(updated, 'Appointment marked as missed');
   }

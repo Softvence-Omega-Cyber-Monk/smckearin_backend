@@ -283,4 +283,54 @@ export class UserNotificationService extends BaseNotificationService {
       ['emailNotifications'],
     );
   }
+
+  // ==================== ACCOUNT DELETION ====================
+
+  async notifyAccountDeletion(
+    type: 'SHELTER' | 'DRIVER' | 'VET',
+    userId: string,
+    details: {
+      name: string;
+      email: string;
+      shelterId?: string;
+      teamMemberIds?: string[];
+    },
+  ) {
+    const notifType =
+      type === 'SHELTER'
+        ? NotificationType.SHELTER_DELETED
+        : type === 'DRIVER'
+          ? NotificationType.DRIVER_DELETED
+          : NotificationType.VET_DELETED;
+
+    const title = `${type.charAt(0) + type.slice(1).toLowerCase()} Account Deleted`;
+    const message =
+      type === 'SHELTER'
+        ? `The shelter "${details.name}" has been deleted from the system.`
+        : `Your ${type.toLowerCase()} account has been deleted.`;
+
+    const recipients =
+      type === 'SHELTER' ? details.teamMemberIds || [] : [userId];
+
+    if (recipients.length === 0) return;
+
+    await this.createAndEmitNotification(
+      notifType,
+      title,
+      message,
+      recipients,
+      {
+        performedBy: 'ADMIN',
+        recordType:
+          type === 'SHELTER'
+            ? 'Shelter'
+            : type === 'DRIVER'
+              ? 'Driver'
+              : 'Veterinarian',
+        recordId: type === 'SHELTER' ? details.shelterId : userId,
+        others: { name: details.name, email: details.email },
+      },
+      ['emailNotifications'],
+    );
+  }
 }

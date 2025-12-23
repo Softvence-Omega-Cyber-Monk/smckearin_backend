@@ -60,6 +60,10 @@ export class ManageShelterService {
       select: { id: true, name: true },
     });
 
+    if (!shelter) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Shelter not found');
+    }
+
     // TODO: NOTIFICATION - Shelter Deletion
     // What: Send notification about shelter deletion (send BEFORE deletion)
     // Recipients:
@@ -69,6 +73,23 @@ export class ManageShelterService {
     // Meta: { shelterId, shelterName: (fetch shelter name before deletion) }
     // Note: Fetch shelter and team member details BEFORE deletion to send notifications
     // Note: Notification is sent in the transaction before deletion
+    const members = await this.prisma.client.user.findMany({
+      where: {
+        OR: [{ shelterAdminOfId: shelterId }, { managerOfId: shelterId }],
+      },
+      select: { id: true },
+    });
+    const teamMemberIds = members.map((m) => m.id);
+    await this.userNotificationService.notifyAccountDeletion(
+      'SHELTER',
+      '',
+      {
+        name: shelter.name,
+        email: '',
+        shelterId,
+        teamMemberIds,
+      },
+    );
 
     await this.prisma.client.$transaction(async (tx) => {
       // delete associated members

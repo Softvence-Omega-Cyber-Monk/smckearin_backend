@@ -4,12 +4,16 @@ import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { TransportNotificationService } from '@/lib/queue/services/transport-notification.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { TransportStatus, UserRole } from '@prisma';
 
 @Injectable()
 export class ManageTransportService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly transportNotificationService: TransportNotificationService,
+  ) {}
 
   private async addTimeline(
     transportId: string,
@@ -137,6 +141,10 @@ export class ManageTransportService {
       // Settings: tripNotifications, emailNotifications
       // Meta: { transportId, shelterId: transport.shelterId, deletedBy: 'admin' }
       // Note: Fetch transport details including driver and vet BEFORE deletion
+      await this.transportNotificationService.notifyTransportEvent(
+        'DELETED',
+        transportId,
+      );
 
       return successResponse(null, 'Transport deleted successfully');
     }
@@ -172,6 +180,10 @@ export class ManageTransportService {
     // Settings: tripNotifications, emailNotifications
     // Meta: { transportId, shelterId: transport.shelterId, deletedBy: 'shelter' }
     // Note: Fetch transport details including driver and vet BEFORE deletion
+    await this.transportNotificationService.notifyTransportEvent(
+      'DELETED',
+      transportId,
+    );
 
     return successResponse(null, 'Transport deleted successfully');
   }
@@ -216,6 +228,11 @@ export class ManageTransportService {
     //   2. All users with role ADMIN or SUPER_ADMIN
     // Settings: tripNotifications, emailNotifications
     // Meta: { transportId, shelterId: (fetch from transport), driverId: transport.driverId, accepted: dto.approved, status: updated.status }
+    await this.transportNotificationService.notifyTransportEvent(
+      'DRIVER_DECISION',
+      transportId,
+      { accepted: dto.approved },
+    );
 
     return successResponse(
       updated,
@@ -264,6 +281,11 @@ export class ManageTransportService {
     //   2. All SHELTER_ADMIN and MANAGER users of the transport's shelter (transport.shelterId)
     // Settings: tripNotifications, emailNotifications
     // Meta: { transportId, shelterId: transport.shelterId, driverId, assignedBy: authUser.sub }
+    await this.transportNotificationService.notifyTransportEvent(
+      'DRIVER_ASSIGNED',
+      transportId,
+      { driverId },
+    );
 
     return successResponse(updated, 'Driver assigned successfully');
   }

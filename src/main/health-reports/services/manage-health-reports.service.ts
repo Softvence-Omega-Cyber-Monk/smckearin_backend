@@ -5,6 +5,7 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { VetNotificationService } from '@/lib/queue/services/vet-notification.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { UpdateHealthReportDto } from '../dto/health-report.dto';
 
@@ -13,6 +14,7 @@ export class ManageHealthReportsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly s3: S3Service,
+    private readonly vetNotificationService: VetNotificationService,
   ) {}
 
   @HandleError('Failed to delete health report')
@@ -49,6 +51,10 @@ export class ManageHealthReportsService {
     // Settings: emailNotifications, certificateNotifications
     // Meta: { reportId: report.id, animalId: report.animalId, shelterId: (fetch from animal), veterinarianId: report.veterinarianId }
     // Note: Fetch animal and shelter details BEFORE deletion
+    await this.vetNotificationService.notifyHealthReportEvent(
+      'DELETED',
+      reportId,
+    );
 
     // Delete from DB
     await this.prisma.client.healthReport.delete({
@@ -80,6 +86,10 @@ export class ManageHealthReportsService {
     //   2. All SHELTER_ADMIN and MANAGER users of the animal's shelter (fetch via report.animalId -> animal.shelterId)
     // Settings: emailNotifications, certificateNotifications
     // Meta: { reportId, animalId: (fetch from report), shelterId: (fetch from animal), veterinarianId: (fetch from report), status, approved: dto.approved }
+    await this.vetNotificationService.notifyHealthReportEvent(
+      approved ? 'APPROVED' : 'REJECTED',
+      reportId,
+    );
 
     return successResponse(
       null,
@@ -156,6 +166,7 @@ export class ManageHealthReportsService {
     //   2. All users with role ADMIN or SUPER_ADMIN
     // Settings: emailNotifications, certificateNotifications
     // Meta: { reportId, animalId: report.animalId, shelterId: (fetch from animal), veterinarianId: report.veterinarianId, reportType: updatedReport.reportType }
+    await this.vetNotificationService.notifyHealthReportEvent('UPDATED', reportId);
 
     return successResponse(updatedReport, 'Health report updated successfully');
   }

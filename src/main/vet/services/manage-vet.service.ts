@@ -5,6 +5,8 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { DocumentNotificationService } from '@/lib/queue/services/document-notification.service';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApprovalStatus, UserRole } from '@prisma';
 import { UploadVetDocumentDto, VetDocumentApproveDto } from '../dto/vet.dto';
@@ -14,6 +16,8 @@ export class ManageVetService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly s3: S3Service,
+    private readonly userNotificationService: UserNotificationService,
+    private readonly documentNotificationService: DocumentNotificationService,
   ) {}
 
   @HandleError('Failed to approve or reject vet')
@@ -31,6 +35,11 @@ export class ManageVetService {
     // Recipients: The veterinarian user (via vet.userId)
     // Settings: emailNotifications
     // Meta: { vetId, status, approved: dto.approved }
+    await this.userNotificationService.notifyApprovalStatusChange(
+      'VET',
+      vetId,
+      approved,
+    );
 
     return successResponse(null, `${approved ? 'Approved' : 'Rejected'} vet`);
   }
@@ -56,6 +65,17 @@ export class ManageVetService {
       // Settings: emailNotifications
       // Meta: { vetId: vet.id, vetName: (fetch from user), vetEmail: (fetch from user) }
       // Note: Fetch user details BEFORE deletion to send notification
+      const user = await tx.user.findUnique({
+        where: { id: vet.userId },
+        select: { name: true, email: true },
+      });
+      if (user) {
+        await this.userNotificationService.notifyAccountDeletion(
+          'VET',
+          vet.userId,
+          { name: user.name, email: user.email },
+        );
+      }
 
       // Delete vet first
       await tx.veterinarian.delete({
@@ -99,11 +119,17 @@ export class ManageVetService {
       },
     });
 
+
     // TODO: NOTIFICATION - New Vet Document Uploaded
     // What: Send notification about new vet document requiring approval
     // Recipients: All users with role SUPER_ADMIN or ADMIN
     // Settings: emailNotifications, certificateNotifications
     // Meta: { vetId: vet.id, vetName: (fetch from user), documentType: dto.type, documentName: dto.name, documentId: doc.id }
+    await this.documentNotificationService.notifyDocumentEvent(
+      'VET_DOCUMENT_UPLOADED',
+      vet.id,
+      { name: dto.name, type: dto.type, vetId: vet.id },
+    );
 
     return successResponse(doc, 'Document uploaded successfully');
   }
@@ -176,6 +202,11 @@ export class ManageVetService {
     // Recipients: The veterinarian user (via doc.vetId -> vet.userId)
     // Settings: emailNotifications, certificateNotifications
     // Meta: { vetId: doc.vetId, documentType: doc.type, documentName: doc.name, status, approved: dto.approved }
+    await this.documentNotificationService.notifyDocumentEvent(
+      'VET_DOCUMENT_APPROVED',
+      doc.vetId,
+      { name: doc.name, type: doc.type, approved: dto.approved, vetId: doc.vetId },
+    );
 
     return successResponse(
       null,

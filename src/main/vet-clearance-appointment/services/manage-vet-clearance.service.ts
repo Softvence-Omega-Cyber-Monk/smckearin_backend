@@ -2,6 +2,7 @@ import { successResponse } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { VetNotificationService } from '@/lib/queue/services/vet-notification.service';
 import { UtilsService } from '@/lib/utils/services/utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { VetClearanceRequestStatus } from '@prisma';
@@ -17,6 +18,7 @@ export class ManageVetClearanceService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly utils: UtilsService,
+    private readonly vetNotificationService: VetNotificationService,
   ) {}
 
   @HandleError('Unable to approve/reject vet clearance request')
@@ -51,6 +53,11 @@ export class ManageVetClearanceService {
     //   2. All users with role ADMIN or SUPER_ADMIN
     // Settings: emailNotifications, certificateNotifications
     // Meta: { requestId: id, transportId: (fetch from request), shelterId: (fetch from transport), newStatus, action: dto.action, veterinarianId: request.veterinarianId }
+    await this.vetNotificationService.notifyVetClearanceEvent(
+      'STATUS_CHANGED',
+      id,
+      { newStatus },
+    );
 
     return successResponse(updatedRequest, 'Request updated successfully');
   }
@@ -76,6 +83,9 @@ export class ManageVetClearanceService {
     //   3. All users with role ADMIN or SUPER_ADMIN
     // Settings: emailNotifications, certificateNotifications, tripNotifications
     // Meta: { requestId: id, transportId: (fetch from request), shelterId: (fetch from transport), notFitReasons: dto.notFitReasons, veterinarianId: (fetch from request) }
+    await this.vetNotificationService.notifyVetClearanceEvent('NOT_FIT', id, {
+      notFitReasons: dto.notFitReasons,
+    });
 
     return successResponse(updatedRequest, 'Request updated successfully');
   }
@@ -106,6 +116,10 @@ export class ManageVetClearanceService {
     //   2. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via request -> transport -> shelterId)
     // Settings: appointmentNotifications, emailNotifications
     // Meta: { appointmentId: vetAppointment.id, requestId: id, transportId: (fetch from request), shelterId: (fetch from transport), veterinarianId: veterinarian.id, appointmentDate: dto.appointmentDate }
+    await this.vetNotificationService.notifyAppointmentEvent(
+      'SCHEDULED',
+      vetAppointment.id,
+    );
 
     return successResponse(
       vetAppointment,
