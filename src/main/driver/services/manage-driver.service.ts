@@ -8,10 +8,10 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApprovalStatus, UserRole } from '@prisma';
 import {
-  DocumentApproveDto,
-  DriverDocumentDeleteDto,
-  DriverDocumentType,
-  UploadDocumentDto,
+    DocumentApproveDto,
+    DriverDocumentDeleteDto,
+    DriverDocumentType,
+    UploadDocumentDto,
 } from '../dto/driver.dto';
 
 @Injectable()
@@ -30,6 +30,12 @@ export class ManageDriverService {
       where: { id: driverId },
       data: { status },
     });
+
+    // TODO: NOTIFICATION - Driver Approval Status Changed
+    // What: Send notification about driver approval/rejection decision
+    // Recipients: The driver user (via driver.userId)
+    // Settings: emailNotifications
+    // Meta: { driverId, status, approved: dto.approved }
 
     return successResponse(
       null,
@@ -51,6 +57,13 @@ export class ManageDriverService {
       if (!driver) {
         throw new AppError(HttpStatus.NOT_FOUND, 'Driver not found');
       }
+
+      // TODO: NOTIFICATION - Driver Account Deletion
+      // What: Send notification about driver account deletion (send BEFORE deletion)
+      // Recipients: The driver user (driver.userId)
+      // Settings: emailNotifications
+      // Meta: { driverId: driver.id, driverName: (fetch from user), driverEmail: (fetch from user) }
+      // Note: Fetch user details BEFORE deletion to send notification
 
       // 1Delete driver first
       await tx.driver.delete({
@@ -320,6 +333,12 @@ export class ManageDriverService {
       data: config.data,
     });
 
+    // TODO: NOTIFICATION - New Driver Document Uploaded
+    // What: Send notification about new driver document requiring approval
+    // Recipients: All users with role SUPER_ADMIN or ADMIN
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { driverId: driver.id, driverName: (fetch from user), documentType: dto.type, documentId: uploadedFile.id }
+
     return successResponse(uploadedFile, `${dto.type} uploaded successfully`);
   }
 
@@ -377,6 +396,12 @@ export class ManageDriverService {
       where: { id: driverId },
       data: config.data,
     });
+
+    // TODO: NOTIFICATION - Driver Document Approval Status Changed
+    // What: Send notification about driver document approval/rejection
+    // Recipients: The driver user (via driver.userId)
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { driverId, documentType: dto.type, status, approved: dto.approved }
 
     return successResponse(
       null,

@@ -91,6 +91,13 @@ export class AuthShelterService {
       generatedPassword,
     );
 
+    // TODO: NOTIFICATION - Shelter Team Member Invited
+    // What: Send notification to shelter admins about new team member invitation
+    // Recipients: All SHELTER_ADMIN users in the same shelter (excluding the inviter)
+    // Settings: emailNotifications
+    // Meta: { shelterId: shelter.id, shelterName: shelter.name, invitedEmail: dto.email, invitedName: dto.name, role: dto.role }
+    // Note: The invited user already receives an email via sendShelterInvitationEmail
+
     const sanitizedUser = await this.authUtils.sanitizeUser(newUser);
     return successResponse(
       sanitizedUser,
@@ -157,6 +164,14 @@ export class AuthShelterService {
       data: updateData,
     });
 
+    // TODO: NOTIFICATION - Shelter Member Role Changed
+    // What: Send notification about role change
+    // Recipients:
+    //   1. The member whose role was changed (memberId)
+    //   2. All SHELTER_ADMIN users in the same shelter (excluding the one making the change)
+    // Settings: emailNotifications
+    // Meta: { shelterId, shelterName: shelter.name, memberName: updatedUser.name, memberEmail: updatedUser.email, oldRole: member.role, newRole: dto.role }
+
     const sanitizedUser = await this.authUtils.sanitizeUser(updatedUser);
     return successResponse(
       sanitizedUser,
@@ -203,6 +218,15 @@ export class AuthShelterService {
         );
       }
     }
+
+    // TODO: NOTIFICATION - Shelter Member Removed
+    // What: Send notification about member removal
+    // Recipients:
+    //   1. The member being removed (send before deletion)
+    //   2. All remaining SHELTER_ADMIN users in the same shelter
+    // Settings: emailNotifications
+    // Meta: { shelterId, shelterName: shelter.name, removedMemberName: member.name, removedMemberEmail: member.email, removedMemberRole: member.role }
+    // Note: Send notification to the removed member BEFORE deleting the user
 
     const removedUser = await this.prisma.client.user.delete({
       where: { id: memberId },

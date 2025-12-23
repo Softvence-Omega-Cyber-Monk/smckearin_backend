@@ -128,6 +128,16 @@ export class ManageTransportService {
         await trx.transport.delete({ where: { id: transportId } });
       });
 
+      // TODO: NOTIFICATION - Transport Deleted by Admin
+      // What: Send notification about transport cancellation/deletion
+      // Recipients:
+      //   1. Assigned driver (if transport.driverId exists) - via driver.userId
+      //   2. Assigned veterinarian (if transport.vetId exists) - via vet.userId
+      //   3. All SHELTER_ADMIN and MANAGER users of the shelter (transport.shelterId)
+      // Settings: tripNotifications, emailNotifications
+      // Meta: { transportId, shelterId: transport.shelterId, deletedBy: 'admin' }
+      // Note: Fetch transport details including driver and vet BEFORE deletion
+
       return successResponse(null, 'Transport deleted successfully');
     }
 
@@ -153,6 +163,15 @@ export class ManageTransportService {
       // Delete transport
       await trx.transport.delete({ where: { id: transportId } });
     });
+
+    // TODO: NOTIFICATION - Transport Deleted by Shelter
+    // What: Send notification about transport cancellation/deletion
+    // Recipients:
+    //   1. Assigned driver (if transport.driverId exists) - via driver.userId
+    //   2. Assigned veterinarian (if transport.vetId exists) - via vet.userId
+    // Settings: tripNotifications, emailNotifications
+    // Meta: { transportId, shelterId: transport.shelterId, deletedBy: 'shelter' }
+    // Note: Fetch transport details including driver and vet BEFORE deletion
 
     return successResponse(null, 'Transport deleted successfully');
   }
@@ -189,6 +208,14 @@ export class ManageTransportService {
       updated.status,
       dto.approved ? 'Transport accepted' : 'Transport rejected',
     );
+
+    // TODO: NOTIFICATION - Transport Accepted/Rejected by Driver
+    // What: Send notification about driver's decision on transport request
+    // Recipients:
+    //   1. All SHELTER_ADMIN and MANAGER users of the transport's shelter (fetch via transport.shelterId)
+    //   2. All users with role ADMIN or SUPER_ADMIN
+    // Settings: tripNotifications, emailNotifications
+    // Meta: { transportId, shelterId: (fetch from transport), driverId: transport.driverId, accepted: dto.approved, status: updated.status }
 
     return successResponse(
       updated,
@@ -229,6 +256,14 @@ export class ManageTransportService {
       TransportStatus.PENDING,
       `Driver assigned: ${driverId}`,
     );
+
+    // TODO: NOTIFICATION - Driver Assigned to Transport
+    // What: Send notification about driver assignment
+    // Recipients:
+    //   1. The assigned driver - via driver.userId
+    //   2. All SHELTER_ADMIN and MANAGER users of the transport's shelter (transport.shelterId)
+    // Settings: tripNotifications, emailNotifications
+    // Meta: { transportId, shelterId: transport.shelterId, driverId, assignedBy: authUser.sub }
 
     return successResponse(updated, 'Driver assigned successfully');
   }

@@ -57,6 +57,13 @@ export class AuthAdminService {
       generatedPassword,
     );
 
+    // TODO: NOTIFICATION - Admin Invited to System
+    // What: Send notification to super admins about new admin invitation
+    // Recipients: All SUPER_ADMIN users (excluding the one sending the invite)
+    // Settings: emailNotifications
+    // Meta: { invitedEmail: dto.email, invitedName: dto.name, role: dto.role }
+    // Note: The invited admin already receives an email via sendAdminInvitationEmail
+
     const sanitizedUser = await this.authUtils.sanitizeUser(newUser);
     return successResponse(
       sanitizedUser,
@@ -96,6 +103,14 @@ export class AuthAdminService {
       data: { role: dto.role },
     });
 
+    // TODO: NOTIFICATION - Admin Role Changed
+    // What: Send notification about admin role change
+    // Recipients:
+    //   1. The admin whose role was changed (userId)
+    //   2. All SUPER_ADMIN users (excluding the one making the change)
+    // Settings: emailNotifications
+    // Meta: { adminName: updatedUser.name, adminEmail: updatedUser.email, oldRole: user.role, newRole: dto.role }
+
     const sanitizedUser = await this.authUtils.sanitizeUser(updatedUser);
     return successResponse(
       sanitizedUser,
@@ -125,6 +140,15 @@ export class AuthAdminService {
         );
       }
     }
+
+    // TODO: NOTIFICATION - Admin Deleted from System
+    // What: Send notification about admin deletion
+    // Recipients:
+    //   1. The admin being deleted (send before deletion)
+    //   2. All remaining SUPER_ADMIN users
+    // Settings: emailNotifications
+    // Meta: { deletedAdminName: user.name, deletedAdminEmail: user.email, deletedAdminRole: user.role }
+    // Note: Send notification to the deleted admin BEFORE deleting the user
 
     const deletedUser = await this.prisma.client.user.delete({
       where: { id: userId },

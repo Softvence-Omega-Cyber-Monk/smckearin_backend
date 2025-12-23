@@ -57,6 +57,12 @@ export class AuthRegisterService {
         return { shelter, user };
       });
 
+      // TODO: NOTIFICATION - New Shelter Admin Registered
+      // What: Send notification about new shelter registration requiring approval
+      // Recipients: All users with role SUPER_ADMIN
+      // Settings: emailNotifications
+      // Meta: { shelterId: result.shelter.id, shelterName: result.shelter.name, adminName: result.user.name, adminEmail: result.user.email }
+
       const sanitizedUser = await this.utils.sanitizeUser(result.user);
       return successResponse(
         { shelter: result.shelter, user: sanitizedUser },
@@ -82,6 +88,12 @@ export class AuthRegisterService {
 
         return { user, vet };
       });
+
+      // TODO: NOTIFICATION - New Veterinarian Registered
+      // What: Send notification about new vet registration requiring approval
+      // Recipients: All users with role SUPER_ADMIN or ADMIN
+      // Settings: emailNotifications
+      // Meta: { vetId: result.vet.id, vetName: result.user.name, vetEmail: result.user.email }
 
       const sanitizedUser = await this.utils.sanitizeUser(result.user);
       return successResponse(
@@ -186,6 +198,12 @@ export class AuthRegisterService {
 
       return { user, driver };
     });
+
+    // TODO: NOTIFICATION - New Driver Registered
+    // What: Send notification about new driver registration requiring document approval
+    // Recipients: All users with role SUPER_ADMIN or ADMIN
+    // Settings: emailNotifications
+    // Meta: { driverId: result.driver.id, driverName: result.user.name, driverEmail: result.user.email, phone: result.driver.phone }
 
     // 8. Sanitize user before returning
     const sanitizedUser = await this.utils.sanitizeUser(result.user);

@@ -41,6 +41,15 @@ export class ManageHealthReportsService {
       throw new AppError(HttpStatus.FORBIDDEN, 'Forbidden');
     }
 
+    // TODO: NOTIFICATION - Health Report Deleted
+    // What: Send notification about health report deletion
+    // Recipients:
+    //   1. All SHELTER_ADMIN and MANAGER users of the animal's shelter (via report.animalId -> animal.shelterId)
+    //   2. All users with role ADMIN or SUPER_ADMIN
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { reportId: report.id, animalId: report.animalId, shelterId: (fetch from animal), veterinarianId: report.veterinarianId }
+    // Note: Fetch animal and shelter details BEFORE deletion
+
     // Delete from DB
     await this.prisma.client.healthReport.delete({
       where: { id: report.id },
@@ -63,6 +72,14 @@ export class ManageHealthReportsService {
       where: { id: reportId },
       data: { status },
     });
+
+    // TODO: NOTIFICATION - Health Report Approval Status Changed
+    // What: Send notification about health report approval/rejection
+    // Recipients:
+    //   1. The veterinarian who created the report (via report.veterinarianId -> vet.userId)
+    //   2. All SHELTER_ADMIN and MANAGER users of the animal's shelter (fetch via report.animalId -> animal.shelterId)
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { reportId, animalId: (fetch from report), shelterId: (fetch from animal), veterinarianId: (fetch from report), status, approved: dto.approved }
 
     return successResponse(
       null,
@@ -131,6 +148,14 @@ export class ManageHealthReportsService {
         report: true,
       },
     });
+
+    // TODO: NOTIFICATION - Health Report Updated
+    // What: Send notification about health report update
+    // Recipients:
+    //   1. All SHELTER_ADMIN and MANAGER users of the animal's shelter (via report.animalId -> animal.shelterId)
+    //   2. All users with role ADMIN or SUPER_ADMIN
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { reportId, animalId: report.animalId, shelterId: (fetch from animal), veterinarianId: report.veterinarianId, reportType: updatedReport.reportType }
 
     return successResponse(updatedReport, 'Health report updated successfully');
   }

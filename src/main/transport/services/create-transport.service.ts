@@ -191,6 +191,15 @@ export class CreateTransportService {
       },
     });
 
+    // TODO: NOTIFICATION - New Transport Request Created
+    // What: Send notification about new transport request
+    // Recipients:
+    //   1. Assigned driver (if dto.driverId is provided) - via driver.userId
+    //   2. Assigned veterinarian (if dto.vetId is provided and isVetClearanceRequired) - via vet.userId
+    //   3. All users with role ADMIN or SUPER_ADMIN
+    // Settings: tripNotifications, emailNotifications
+    // Meta: { transportId: transport.id, animalId: dto.animalId, shelterId, driverId: dto.driverId, vetId: dto.vetId, priorityLevel: dto.priorityLevel, transPortDate: dto.transPortDate, isVetClearanceRequired }
+
     return successResponse(transport, 'Transport created successfully');
   }
 

@@ -43,6 +43,14 @@ export class ManageVetAppointmentService {
       data: { status: dto.status },
     });
 
+    // TODO: NOTIFICATION - Vet Appointment Status Updated
+    // What: Send notification about appointment status change
+    // Recipients:
+    //   1. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via appointment -> request -> transport -> shelterId)
+    //   2. All users with role ADMIN or SUPER_ADMIN
+    // Settings: appointmentNotifications, emailNotifications
+    // Meta: { appointmentId, requestId: (fetch from appointment), transportId: (fetch from request), shelterId: (fetch from transport), newStatus: dto.status, veterinarianId: (fetch from appointment) }
+
     return successResponse(updated, 'Appointment status updated');
   }
 
@@ -54,6 +62,14 @@ export class ManageVetAppointmentService {
       where: { id: appointmentId },
       data: { status: 'CANCELLED' },
     });
+
+    // TODO: NOTIFICATION - Vet Appointment Cancelled
+    // What: Send notification about appointment cancellation
+    // Recipients:
+    //   1. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via appointment -> request -> transport -> shelterId)
+    //   2. All users with role ADMIN or SUPER_ADMIN
+    // Settings: appointmentNotifications, emailNotifications
+    // Meta: { appointmentId, requestId: (fetch from appointment), transportId: (fetch from request), shelterId: (fetch from transport), veterinarianId: (fetch from appointment) }
 
     return successResponse(updated, 'Appointment cancelled');
   }
@@ -67,6 +83,14 @@ export class ManageVetAppointmentService {
       data: { status: 'COMPLETED' },
     });
 
+    // TODO: NOTIFICATION - Vet Appointment Completed
+    // What: Send notification about appointment completion
+    // Recipients:
+    //   1. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via appointment -> request -> transport -> shelterId)
+    //   2. Assigned driver (if exists in related transport) - via driver.userId
+    // Settings: appointmentNotifications, emailNotifications, tripNotifications
+    // Meta: { appointmentId, requestId: (fetch from appointment), transportId: (fetch from request), shelterId: (fetch from transport), veterinarianId: (fetch from appointment) }
+
     return successResponse(updated, 'Appointment marked as completed');
   }
 
@@ -78,6 +102,14 @@ export class ManageVetAppointmentService {
       where: { id: appointmentId },
       data: { status: 'MISSED' },
     });
+
+    // TODO: NOTIFICATION - Vet Appointment Missed
+    // What: Send notification about missed appointment
+    // Recipients:
+    //   1. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via appointment -> request -> transport -> shelterId)
+    //   2. All users with role ADMIN or SUPER_ADMIN
+    // Settings: appointmentNotifications, emailNotifications
+    // Meta: { appointmentId, requestId: (fetch from appointment), transportId: (fetch from request), shelterId: (fetch from transport), veterinarianId: (fetch from appointment) }
 
     return successResponse(updated, 'Appointment marked as missed');
   }

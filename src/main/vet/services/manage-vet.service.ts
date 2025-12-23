@@ -26,6 +26,12 @@ export class ManageVetService {
       data: { status },
     });
 
+    // TODO: NOTIFICATION - Veterinarian Approval Status Changed
+    // What: Send notification about vet approval/rejection decision
+    // Recipients: The veterinarian user (via vet.userId)
+    // Settings: emailNotifications
+    // Meta: { vetId, status, approved: dto.approved }
+
     return successResponse(null, `${approved ? 'Approved' : 'Rejected'} vet`);
   }
 
@@ -43,6 +49,13 @@ export class ManageVetService {
       if (!vet) {
         throw new AppError(HttpStatus.NOT_FOUND, 'Vet not found');
       }
+
+      // TODO: NOTIFICATION - Veterinarian Account Deletion
+      // What: Send notification about vet account deletion (send BEFORE deletion)
+      // Recipients: The veterinarian user (vet.userId)
+      // Settings: emailNotifications
+      // Meta: { vetId: vet.id, vetName: (fetch from user), vetEmail: (fetch from user) }
+      // Note: Fetch user details BEFORE deletion to send notification
 
       // Delete vet first
       await tx.veterinarian.delete({
@@ -85,6 +98,12 @@ export class ManageVetService {
         document: true,
       },
     });
+
+    // TODO: NOTIFICATION - New Vet Document Uploaded
+    // What: Send notification about new vet document requiring approval
+    // Recipients: All users with role SUPER_ADMIN or ADMIN
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { vetId: vet.id, vetName: (fetch from user), documentType: dto.type, documentName: dto.name, documentId: doc.id }
 
     return successResponse(doc, 'Document uploaded successfully');
   }
@@ -151,6 +170,12 @@ export class ManageVetService {
       where: { id: doc.id },
       data: { status },
     });
+
+    // TODO: NOTIFICATION - Vet Document Approval Status Changed
+    // What: Send notification about vet document approval/rejection
+    // Recipients: The veterinarian user (via doc.vetId -> vet.userId)
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { vetId: doc.vetId, documentType: doc.type, documentName: doc.name, status, approved: dto.approved }
 
     return successResponse(
       null,

@@ -8,8 +8,8 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApprovalStatus, UserRole } from '@prisma';
 import {
-  ShelterDocumentApproveDto,
-  UploadShelterDocumentDto,
+    ShelterDocumentApproveDto,
+    UploadShelterDocumentDto,
 } from '../dto/shelter.dto';
 
 @Injectable()
@@ -29,6 +29,14 @@ export class ManageShelterService {
       data: { status },
     });
 
+    // TODO: NOTIFICATION - Shelter Approval Status Changed
+    // What: Send notification about shelter approval/rejection decision
+    // Recipients:
+    //   1. All SHELTER_ADMIN users of this shelter
+    //   2. All MANAGER users of this shelter
+    // Settings: emailNotifications
+    // Meta: { shelterId, status, approved: dto.approved }
+
     return successResponse(
       null,
       `${approved ? 'Approved' : 'Rejected'} shelter`,
@@ -37,6 +45,15 @@ export class ManageShelterService {
 
   @HandleError('Failed to delete shelter')
   async deleteShelter(shelterId: string) {
+    // TODO: NOTIFICATION - Shelter Deletion
+    // What: Send notification about shelter deletion (send BEFORE deletion)
+    // Recipients:
+    //   1. All SHELTER_ADMIN users of this shelter
+    //   2. All MANAGER users of this shelter
+    // Settings: emailNotifications
+    // Meta: { shelterId, shelterName: (fetch shelter name before deletion) }
+    // Note: Fetch shelter and team member details BEFORE deletion to send notifications
+
     await this.prisma.client.$transaction(async (tx) => {
       // delete associated members
       await tx.user.deleteMany({
@@ -92,6 +109,12 @@ export class ManageShelterService {
         document: true,
       },
     });
+
+    // TODO: NOTIFICATION - New Shelter Document Uploaded
+    // What: Send notification about new shelter document requiring approval
+    // Recipients: All users with role SUPER_ADMIN or ADMIN
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { shelterId: shelter.id, shelterName: shelter.name, documentType: dto.type, documentName: dto.name, documentId: doc.id }
 
     return successResponse(doc, 'Document uploaded successfully');
   }
@@ -161,6 +184,14 @@ export class ManageShelterService {
       where: { id: doc.id },
       data: { status },
     });
+
+    // TODO: NOTIFICATION - Shelter Document Approval Status Changed
+    // What: Send notification about shelter document approval/rejection
+    // Recipients:
+    //   1. All SHELTER_ADMIN users of the shelter
+    //   2. All MANAGER users of the shelter
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { shelterId: doc.shelterId, documentType: doc.type, documentName: doc.name, status, approved: dto.approved }
 
     return successResponse(
       null,

@@ -7,9 +7,9 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { VetClearanceRequestStatus } from '@prisma';
 import { CreateVetAppointmentDto } from '../dto/vet-appointment.dto';
 import {
-  MakeNotFitDto,
-  VetClearanceAction,
-  VetClearanceActionDto,
+    MakeNotFitDto,
+    VetClearanceAction,
+    VetClearanceActionDto,
 } from '../dto/vet-clearance.dto';
 
 @Injectable()
@@ -44,6 +44,14 @@ export class ManageVetClearanceService {
       data: { status: newStatus },
     });
 
+    // TODO: NOTIFICATION - Vet Clearance Request Status Changed
+    // What: Send notification about vet clearance decision
+    // Recipients:
+    //   1. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via request -> transport -> shelterId)
+    //   2. All users with role ADMIN or SUPER_ADMIN
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { requestId: id, transportId: (fetch from request), shelterId: (fetch from transport), newStatus, action: dto.action, veterinarianId: request.veterinarianId }
+
     return successResponse(updatedRequest, 'Request updated successfully');
   }
 
@@ -59,6 +67,15 @@ export class ManageVetClearanceService {
       where: { id },
       data: { status: 'NOT_FIT', notFitReasons: dto.notFitReasons },
     });
+
+    // TODO: NOTIFICATION - Animal Marked Not Fit for Transport
+    // What: Send notification that animal cannot be transported
+    // Recipients:
+    //   1. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via request -> transport -> shelterId)
+    //   2. Assigned driver (if exists in related transport) - via driver.userId
+    //   3. All users with role ADMIN or SUPER_ADMIN
+    // Settings: emailNotifications, certificateNotifications, tripNotifications
+    // Meta: { requestId: id, transportId: (fetch from request), shelterId: (fetch from transport), notFitReasons: dto.notFitReasons, veterinarianId: (fetch from request) }
 
     return successResponse(updatedRequest, 'Request updated successfully');
   }
@@ -81,6 +98,14 @@ export class ManageVetClearanceService {
         appointmentDate: new Date(dto.appointmentDate),
       },
     });
+
+    // TODO: NOTIFICATION - Vet Appointment Scheduled
+    // What: Send notification about scheduled vet appointment
+    // Recipients:
+    //   1. The veterinarian (veterinarian.id -> vet.userId)
+    //   2. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via request -> transport -> shelterId)
+    // Settings: appointmentNotifications, emailNotifications
+    // Meta: { appointmentId: vetAppointment.id, requestId: id, transportId: (fetch from request), shelterId: (fetch from transport), veterinarianId: veterinarian.id, appointmentDate: dto.appointmentDate }
 
     return successResponse(
       vetAppointment,
