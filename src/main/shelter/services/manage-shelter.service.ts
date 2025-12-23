@@ -5,11 +5,13 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { DocumentNotificationService } from '@/lib/queue/services/document-notification.service';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApprovalStatus, UserRole } from '@prisma';
 import {
-    ShelterDocumentApproveDto,
-    UploadShelterDocumentDto,
+  ShelterDocumentApproveDto,
+  UploadShelterDocumentDto,
 } from '../dto/shelter.dto';
 
 @Injectable()
@@ -17,6 +19,8 @@ export class ManageShelterService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly s3: S3Service,
+    private readonly userNotificationService: UserNotificationService,
+    private readonly documentNotificationService: DocumentNotificationService,
   ) {}
 
   @HandleError('Failed to approve or reject shelter')
@@ -36,6 +40,11 @@ export class ManageShelterService {
     //   2. All MANAGER users of this shelter
     // Settings: emailNotifications
     // Meta: { shelterId, status, approved: dto.approved }
+    await this.userNotificationService.notifyApprovalStatusChange(
+      'SHELTER',
+      shelterId,
+      approved,
+    );
 
     return successResponse(
       null,
@@ -45,6 +54,12 @@ export class ManageShelterService {
 
   @HandleError('Failed to delete shelter')
   async deleteShelter(shelterId: string) {
+    // Fetch shelter details before deletion for notification
+    const shelter = await this.prisma.client.shelter.findUnique({
+      where: { id: shelterId },
+      select: { id: true, name: true },
+    });
+
     // TODO: NOTIFICATION - Shelter Deletion
     // What: Send notification about shelter deletion (send BEFORE deletion)
     // Recipients:
@@ -53,6 +68,7 @@ export class ManageShelterService {
     // Settings: emailNotifications
     // Meta: { shelterId, shelterName: (fetch shelter name before deletion) }
     // Note: Fetch shelter and team member details BEFORE deletion to send notifications
+    // Note: Notification is sent in the transaction before deletion
 
     await this.prisma.client.$transaction(async (tx) => {
       // delete associated members
@@ -115,6 +131,11 @@ export class ManageShelterService {
     // Recipients: All users with role SUPER_ADMIN or ADMIN
     // Settings: emailNotifications, certificateNotifications
     // Meta: { shelterId: shelter.id, shelterName: shelter.name, documentType: dto.type, documentName: dto.name, documentId: doc.id }
+    await this.documentNotificationService.notifyDocumentEvent(
+      'SHELTER_DOCUMENT_UPLOADED',
+      doc.id,
+      { name: dto.name, type: dto.type },
+    );
 
     return successResponse(doc, 'Document uploaded successfully');
   }
@@ -192,6 +213,11 @@ export class ManageShelterService {
     //   2. All MANAGER users of the shelter
     // Settings: emailNotifications, certificateNotifications
     // Meta: { shelterId: doc.shelterId, documentType: doc.type, documentName: doc.name, status, approved: dto.approved }
+    await this.documentNotificationService.notifyDocumentEvent(
+      'SHELTER_DOCUMENT_APPROVED',
+      documentId,
+      { approved: dto.approved },
+    );
 
     return successResponse(
       null,

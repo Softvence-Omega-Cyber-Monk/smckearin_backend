@@ -3,7 +3,12 @@ import { BullModule } from '@nestjs/bullmq';
 import { Global, Module } from '@nestjs/common';
 import { GenericEventsService } from './events/generic-events.service';
 import { QueueGateway } from './queue.gateway';
+import { BaseNotificationService } from './services/base-notification.service';
+import { DocumentNotificationService } from './services/document-notification.service';
+import { TransportNotificationService } from './services/transport-notification.service';
 import { TransportTrackingService } from './services/transport-tracking.service';
+import { UserNotificationService } from './services/user-notification.service';
+import { VetNotificationService } from './services/vet-notification.service';
 import { GenericTriggerService } from './trigger/generic-trigger.service';
 import { GenericWorkerService } from './worker/generic-worker.service';
 
@@ -21,7 +26,18 @@ import { GenericWorkerService } from './worker/generic-worker.service';
     GenericEventsService,
     GenericWorkerService,
     TransportTrackingService,
+    BaseNotificationService,
+    UserNotificationService,
+    DocumentNotificationService,
+    TransportNotificationService,
+    VetNotificationService,
   ],
-  exports: [BullModule],
+  exports: [
+    BullModule,
+    UserNotificationService,
+    DocumentNotificationService,
+    TransportNotificationService,
+    VetNotificationService,
+  ],
 })
 export class QueueModule {}

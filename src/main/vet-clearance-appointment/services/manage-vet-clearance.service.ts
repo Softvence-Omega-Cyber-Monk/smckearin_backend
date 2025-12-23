@@ -7,9 +7,9 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { VetClearanceRequestStatus } from '@prisma';
 import { CreateVetAppointmentDto } from '../dto/vet-appointment.dto';
 import {
-    MakeNotFitDto,
-    VetClearanceAction,
-    VetClearanceActionDto,
+  MakeNotFitDto,
+  VetClearanceAction,
+  VetClearanceActionDto,
 } from '../dto/vet-clearance.dto';
 
 @Injectable()

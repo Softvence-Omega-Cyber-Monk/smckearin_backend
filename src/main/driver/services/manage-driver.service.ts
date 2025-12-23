@@ -8,10 +8,10 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApprovalStatus, UserRole } from '@prisma';
 import {
-    DocumentApproveDto,
-    DriverDocumentDeleteDto,
-    DriverDocumentType,
-    UploadDocumentDto,
+  DocumentApproveDto,
+  DriverDocumentDeleteDto,
+  DriverDocumentType,
+  UploadDocumentDto,
 } from '../dto/driver.dto';
 
 @Injectable()

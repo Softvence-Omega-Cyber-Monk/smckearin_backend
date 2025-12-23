@@ -9,6 +9,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { randomBytes } from 'crypto';
 import { AdminRoleDto } from '../dto/admin-role.dto';
 import { InviteAdminDto } from '../dto/invite-admin.dto';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 
 @Injectable()
 export class AuthAdminService {
@@ -16,6 +17,7 @@ export class AuthAdminService {
     private readonly prisma: PrismaService,
     private readonly authUtils: AuthUtilsService,
     private readonly mailService: AuthMailService,
+    private readonly notificationService: UserNotificationService,
   ) {}
 
   @HandleError('Failed to fetch admins')
@@ -63,6 +65,11 @@ export class AuthAdminService {
     // Settings: emailNotifications
     // Meta: { invitedEmail: dto.email, invitedName: dto.name, role: dto.role }
     // Note: The invited admin already receives an email via sendAdminInvitationEmail
+    await this.notificationService.notifyAdminManagement(
+      'INVITED',
+      { id: newUser.id, name: newUser.name, email: newUser.email },
+      dto.role,
+    );
 
     const sanitizedUser = await this.authUtils.sanitizeUser(newUser);
     return successResponse(
@@ -110,6 +117,17 @@ export class AuthAdminService {
     //   2. All SUPER_ADMIN users (excluding the one making the change)
     // Settings: emailNotifications
     // Meta: { adminName: updatedUser.name, adminEmail: updatedUser.email, oldRole: user.role, newRole: dto.role }
+    await this.notificationService.notifyAdminManagement(
+      'ROLE_CHANGED',
+      {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+      },
+      dto.role,
+      user.role,
+    );
 
     const sanitizedUser = await this.authUtils.sanitizeUser(updatedUser);
     return successResponse(
@@ -149,6 +167,12 @@ export class AuthAdminService {
     // Settings: emailNotifications
     // Meta: { deletedAdminName: user.name, deletedAdminEmail: user.email, deletedAdminRole: user.role }
     // Note: Send notification to the deleted admin BEFORE deleting the user
+    await this.notificationService.notifyAdminManagement('DELETED', {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
 
     const deletedUser = await this.prisma.client.user.delete({
       where: { id: userId },
