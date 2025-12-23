@@ -119,7 +119,6 @@ export class ManageVetService {
       },
     });
 
-
     // TODO: NOTIFICATION - New Vet Document Uploaded
     // What: Send notification about new vet document requiring approval
     // Recipients: All users with role SUPER_ADMIN or ADMIN
@@ -205,7 +204,12 @@ export class ManageVetService {
     await this.documentNotificationService.notifyDocumentEvent(
       'VET_DOCUMENT_APPROVED',
       doc.vetId,
-      { name: doc.name, type: doc.type, approved: dto.approved, vetId: doc.vetId },
+      {
+        name: doc.name,
+        type: doc.type,
+        approved: dto.approved,
+        vetId: doc.vetId,
+      },
     );
 
     return successResponse(

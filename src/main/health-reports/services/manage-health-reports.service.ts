@@ -166,7 +166,10 @@ export class ManageHealthReportsService {
     //   2. All users with role ADMIN or SUPER_ADMIN
     // Settings: emailNotifications, certificateNotifications
     // Meta: { reportId, animalId: report.animalId, shelterId: (fetch from animal), veterinarianId: report.veterinarianId, reportType: updatedReport.reportType }
-    await this.vetNotificationService.notifyHealthReportEvent('UPDATED', reportId);
+    await this.vetNotificationService.notifyHealthReportEvent(
+      'UPDATED',
+      reportId,
+    );
 
     return successResponse(updatedReport, 'Health report updated successfully');
   }

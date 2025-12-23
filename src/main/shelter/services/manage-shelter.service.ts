@@ -80,16 +80,12 @@ export class ManageShelterService {
       select: { id: true },
     });
     const teamMemberIds = members.map((m) => m.id);
-    await this.userNotificationService.notifyAccountDeletion(
-      'SHELTER',
-      '',
-      {
-        name: shelter.name,
-        email: '',
-        shelterId,
-        teamMemberIds,
-      },
-    );
+    await this.userNotificationService.notifyAccountDeletion('SHELTER', '', {
+      name: shelter.name,
+      email: '',
+      shelterId,
+      teamMemberIds,
+    });
 
     await this.prisma.client.$transaction(async (tx) => {
       // delete associated members
