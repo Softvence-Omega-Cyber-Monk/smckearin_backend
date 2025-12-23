@@ -2,6 +2,7 @@ import { successResponse } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { VetNotificationService } from '@/lib/queue/services/vet-notification.service';
 import { UtilsService } from '@/lib/utils/services/utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { VetClearanceRequestStatus } from '@prisma';
@@ -17,6 +18,7 @@ export class ManageVetClearanceService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly utils: UtilsService,
+    private readonly vetNotificationService: VetNotificationService,
   ) {}
 
   @HandleError('Unable to approve/reject vet clearance request')
@@ -44,6 +46,19 @@ export class ManageVetClearanceService {
       data: { status: newStatus },
     });
 
+    // TODO: NOTIFICATION - Vet Clearance Request Status Changed
+    // What: Send notification about vet clearance decision
+    // Recipients:
+    //   1. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via request -> transport -> shelterId)
+    //   2. All users with role ADMIN or SUPER_ADMIN
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { requestId: id, transportId: (fetch from request), shelterId: (fetch from transport), newStatus, action: dto.action, veterinarianId: request.veterinarianId }
+    await this.vetNotificationService.notifyVetClearanceEvent(
+      'STATUS_CHANGED',
+      id,
+      { newStatus },
+    );
+
     return successResponse(updatedRequest, 'Request updated successfully');
   }
 
@@ -58,6 +73,18 @@ export class ManageVetClearanceService {
     const updatedRequest = await this.prisma.client.vetClearanceRequest.update({
       where: { id },
       data: { status: 'NOT_FIT', notFitReasons: dto.notFitReasons },
+    });
+
+    // TODO: NOTIFICATION - Animal Marked Not Fit for Transport
+    // What: Send notification that animal cannot be transported
+    // Recipients:
+    //   1. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via request -> transport -> shelterId)
+    //   2. Assigned driver (if exists in related transport) - via driver.userId
+    //   3. All users with role ADMIN or SUPER_ADMIN
+    // Settings: emailNotifications, certificateNotifications, tripNotifications
+    // Meta: { requestId: id, transportId: (fetch from request), shelterId: (fetch from transport), notFitReasons: dto.notFitReasons, veterinarianId: (fetch from request) }
+    await this.vetNotificationService.notifyVetClearanceEvent('NOT_FIT', id, {
+      notFitReasons: dto.notFitReasons,
     });
 
     return successResponse(updatedRequest, 'Request updated successfully');
@@ -81,6 +108,18 @@ export class ManageVetClearanceService {
         appointmentDate: new Date(dto.appointmentDate),
       },
     });
+
+    // TODO: NOTIFICATION - Vet Appointment Scheduled
+    // What: Send notification about scheduled vet appointment
+    // Recipients:
+    //   1. The veterinarian (veterinarian.id -> vet.userId)
+    //   2. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via request -> transport -> shelterId)
+    // Settings: appointmentNotifications, emailNotifications
+    // Meta: { appointmentId: vetAppointment.id, requestId: id, transportId: (fetch from request), shelterId: (fetch from transport), veterinarianId: veterinarian.id, appointmentDate: dto.appointmentDate }
+    await this.vetNotificationService.notifyAppointmentEvent(
+      'SCHEDULED',
+      vetAppointment.id,
+    );
 
     return successResponse(
       vetAppointment,

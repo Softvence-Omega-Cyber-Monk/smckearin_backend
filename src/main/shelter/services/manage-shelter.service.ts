@@ -5,6 +5,8 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { DocumentNotificationService } from '@/lib/queue/services/document-notification.service';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApprovalStatus, UserRole } from '@prisma';
 import {
@@ -17,6 +19,8 @@ export class ManageShelterService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly s3: S3Service,
+    private readonly userNotificationService: UserNotificationService,
+    private readonly documentNotificationService: DocumentNotificationService,
   ) {}
 
   @HandleError('Failed to approve or reject shelter')
@@ -29,6 +33,19 @@ export class ManageShelterService {
       data: { status },
     });
 
+    // TODO: NOTIFICATION - Shelter Approval Status Changed
+    // What: Send notification about shelter approval/rejection decision
+    // Recipients:
+    //   1. All SHELTER_ADMIN users of this shelter
+    //   2. All MANAGER users of this shelter
+    // Settings: emailNotifications
+    // Meta: { shelterId, status, approved: dto.approved }
+    await this.userNotificationService.notifyApprovalStatusChange(
+      'SHELTER',
+      shelterId,
+      approved,
+    );
+
     return successResponse(
       null,
       `${approved ? 'Approved' : 'Rejected'} shelter`,
@@ -37,6 +54,39 @@ export class ManageShelterService {
 
   @HandleError('Failed to delete shelter')
   async deleteShelter(shelterId: string) {
+    // Fetch shelter details before deletion for notification
+    const shelter = await this.prisma.client.shelter.findUnique({
+      where: { id: shelterId },
+      select: { id: true, name: true },
+    });
+
+    if (!shelter) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Shelter not found');
+    }
+
+    // TODO: NOTIFICATION - Shelter Deletion
+    // What: Send notification about shelter deletion (send BEFORE deletion)
+    // Recipients:
+    //   1. All SHELTER_ADMIN users of this shelter
+    //   2. All MANAGER users of this shelter
+    // Settings: emailNotifications
+    // Meta: { shelterId, shelterName: (fetch shelter name before deletion) }
+    // Note: Fetch shelter and team member details BEFORE deletion to send notifications
+    // Note: Notification is sent in the transaction before deletion
+    const members = await this.prisma.client.user.findMany({
+      where: {
+        OR: [{ shelterAdminOfId: shelterId }, { managerOfId: shelterId }],
+      },
+      select: { id: true },
+    });
+    const teamMemberIds = members.map((m) => m.id);
+    await this.userNotificationService.notifyAccountDeletion('SHELTER', '', {
+      name: shelter.name,
+      email: '',
+      shelterId,
+      teamMemberIds,
+    });
+
     await this.prisma.client.$transaction(async (tx) => {
       // delete associated members
       await tx.user.deleteMany({
@@ -92,6 +142,17 @@ export class ManageShelterService {
         document: true,
       },
     });
+
+    // TODO: NOTIFICATION - New Shelter Document Uploaded
+    // What: Send notification about new shelter document requiring approval
+    // Recipients: All users with role SUPER_ADMIN or ADMIN
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { shelterId: shelter.id, shelterName: shelter.name, documentType: dto.type, documentName: dto.name, documentId: doc.id }
+    await this.documentNotificationService.notifyDocumentEvent(
+      'SHELTER_DOCUMENT_UPLOADED',
+      doc.id,
+      { name: dto.name, type: dto.type },
+    );
 
     return successResponse(doc, 'Document uploaded successfully');
   }
@@ -161,6 +222,19 @@ export class ManageShelterService {
       where: { id: doc.id },
       data: { status },
     });
+
+    // TODO: NOTIFICATION - Shelter Document Approval Status Changed
+    // What: Send notification about shelter document approval/rejection
+    // Recipients:
+    //   1. All SHELTER_ADMIN users of the shelter
+    //   2. All MANAGER users of the shelter
+    // Settings: emailNotifications, certificateNotifications
+    // Meta: { shelterId: doc.shelterId, documentType: doc.type, documentName: doc.name, status, approved: dto.approved }
+    await this.documentNotificationService.notifyDocumentEvent(
+      'SHELTER_DOCUMENT_APPROVED',
+      documentId,
+      { approved: dto.approved },
+    );
 
     return successResponse(
       null,

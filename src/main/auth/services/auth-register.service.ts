@@ -8,6 +8,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { FileInstance } from '@prisma';
 import { DriverRegisterDto } from '../dto/driver-register.dto';
 import { RegisterDto, RegisterType } from '../dto/register.dto';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 
 @Injectable()
 export class AuthRegisterService {
@@ -15,6 +16,7 @@ export class AuthRegisterService {
     private readonly prisma: PrismaService,
     private readonly utils: AuthUtilsService,
     private readonly s3: S3Service,
+    private readonly notificationService: UserNotificationService,
   ) {}
 
   @HandleError('Failed to register user')
@@ -57,6 +59,17 @@ export class AuthRegisterService {
         return { shelter, user };
       });
 
+      // TODO: NOTIFICATION - New Shelter Admin Registered
+      // What: Send notification about new shelter registration requiring approval
+      // Recipients: All users with role SUPER_ADMIN
+      // Settings: emailNotifications
+      // Meta: { shelterId: result.shelter.id, shelterName: result.shelter.name, adminName: result.user.name, adminEmail: result.user.email }
+      await this.notificationService.notifyUserRegistration(
+        'SHELTER',
+        result.shelter.id,
+        result.user,
+      );
+
       const sanitizedUser = await this.utils.sanitizeUser(result.user);
       return successResponse(
         { shelter: result.shelter, user: sanitizedUser },
@@ -82,6 +95,17 @@ export class AuthRegisterService {
 
         return { user, vet };
       });
+
+      // TODO: NOTIFICATION - New Veterinarian Registered
+      // What: Send notification about new vet registration requiring approval
+      // Recipients: All users with role SUPER_ADMIN or ADMIN
+      // Settings: emailNotifications
+      // Meta: { vetId: result.vet.id, vetName: result.user.name, vetEmail: result.user.email }
+      await this.notificationService.notifyUserRegistration(
+        'VET',
+        result.vet.id,
+        result.user,
+      );
 
       const sanitizedUser = await this.utils.sanitizeUser(result.user);
       return successResponse(
@@ -186,6 +210,17 @@ export class AuthRegisterService {
 
       return { user, driver };
     });
+
+    // TODO: NOTIFICATION - New Driver Registered
+    // What: Send notification about new driver registration requiring document approval
+    // Recipients: All users with role SUPER_ADMIN or ADMIN
+    // Settings: emailNotifications
+    // Meta: { driverId: result.driver.id, driverName: result.user.name, driverEmail: result.user.email, phone: result.driver.phone }
+    await this.notificationService.notifyUserRegistration(
+      'DRIVER',
+      result.driver.id,
+      result.user,
+    );
 
     // 8. Sanitize user before returning
     const sanitizedUser = await this.utils.sanitizeUser(result.user);

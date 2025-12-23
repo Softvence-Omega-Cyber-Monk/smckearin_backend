@@ -2,13 +2,17 @@ import { successResponse } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { TransportNotificationService } from '@/lib/queue/services/transport-notification.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { RequiredVetClearanceType, VetClearance } from '@prisma';
 import { CreateTransportDto } from '../dto/create-transport.dto';
 
 @Injectable()
 export class CreateTransportService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly transportNotificationService: TransportNotificationService,
+  ) {}
 
   @HandleError('Failed to create transport', 'Transport')
   async createTransport(userId: string, dto: CreateTransportDto) {
@@ -190,6 +194,28 @@ export class CreateTransportService {
         longitude: dto.pickUpLongitude,
       },
     });
+
+    // TODO: NOTIFICATION - New Transport Request Created
+    // What: Send notification about new transport request
+    // Recipients:
+    //   1. Assigned driver (if dto.driverId is provided) - via driver.userId
+    //   2. Assigned veterinarian (if dto.vetId is provided and isVetClearanceRequired) - via vet.userId
+    //   3. All users with role ADMIN or SUPER_ADMIN
+    // Settings: tripNotifications, emailNotifications
+    // Meta: { transportId: transport.id, animalId: dto.animalId, shelterId, driverId: dto.driverId, vetId: dto.vetId, priorityLevel: dto.priorityLevel, transPortDate: dto.transPortDate, isVetClearanceRequired }
+    await this.transportNotificationService.notifyTransportEvent(
+      'CREATED',
+      transport.id,
+      {
+        animalId: dto.animalId,
+        shelterId,
+        driverId: dto.driverId,
+        vetId: dto.vetId,
+        priorityLevel: dto.priorityLevel,
+        transPortDate: dto.transPortDate,
+        isVetClearanceRequired,
+      },
+    );
 
     return successResponse(transport, 'Transport created successfully');
   }

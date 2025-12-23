@@ -9,6 +9,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { randomBytes } from 'crypto';
 import { InviteShelterMemberDto } from '../dto/invite-shelter-member.dto';
 import { ShelterRoleDto } from '../dto/shelter-role.dto';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 
 @Injectable()
 export class AuthShelterService {
@@ -16,6 +17,7 @@ export class AuthShelterService {
     private readonly prisma: PrismaService,
     private readonly authUtils: AuthUtilsService,
     private readonly mailService: AuthMailService,
+    private readonly notificationService: UserNotificationService,
   ) {}
 
   private async getShelter(
@@ -91,6 +93,19 @@ export class AuthShelterService {
       generatedPassword,
     );
 
+    // TODO: NOTIFICATION - Shelter Team Member Invited
+    // What: Send notification to shelter admins about new team member invitation
+    // Recipients: All SHELTER_ADMIN users in the same shelter (excluding the inviter)
+    // Settings: emailNotifications
+    // Meta: { shelterId: shelter.id, shelterName: shelter.name, invitedEmail: dto.email, invitedName: dto.name, role: dto.role }
+    // Note: The invited user already receives an email via sendShelterInvitationEmail
+    await this.notificationService.notifyTeamManagement(
+      'INVITED',
+      shelter.id,
+      { id: newUser.id, name: newUser.name, email: newUser.email },
+      dto.role,
+    );
+
     const sanitizedUser = await this.authUtils.sanitizeUser(newUser);
     return successResponse(
       sanitizedUser,
@@ -157,6 +172,21 @@ export class AuthShelterService {
       data: updateData,
     });
 
+    // TODO: NOTIFICATION - Shelter Member Role Changed
+    // What: Send notification about role change
+    // Recipients:
+    //   1. The member whose role was changed (memberId)
+    //   2. All SHELTER_ADMIN users in the same shelter (excluding the one making the change)
+    // Settings: emailNotifications
+    // Meta: { shelterId, shelterName: shelter.name, memberName: updatedUser.name, memberEmail: updatedUser.email, oldRole: member.role, newRole: dto.role }
+    await this.notificationService.notifyTeamManagement(
+      'ROLE_CHANGED',
+      shelterId,
+      { id: updatedUser.id, name: updatedUser.name, email: updatedUser.email },
+      dto.role,
+      member.role,
+    );
+
     const sanitizedUser = await this.authUtils.sanitizeUser(updatedUser);
     return successResponse(
       sanitizedUser,
@@ -203,6 +233,21 @@ export class AuthShelterService {
         );
       }
     }
+
+    // TODO: NOTIFICATION - Shelter Member Removed
+    // What: Send notification about member removal
+    // Recipients:
+    //   1. The member being removed (send before deletion)
+    //   2. All remaining SHELTER_ADMIN users in the same shelter
+    // Settings: emailNotifications
+    // Meta: { shelterId, shelterName: shelter.name, removedMemberName: member.name, removedMemberEmail: member.email, removedMemberRole: member.role }
+    // Note: Send notification to the removed member BEFORE deleting the user
+    await this.notificationService.notifyTeamManagement('REMOVED', shelterId, {
+      id: member.id,
+      name: member.name,
+      email: member.email,
+      role: member.role,
+    });
 
     const removedUser = await this.prisma.client.user.delete({
       where: { id: memberId },
