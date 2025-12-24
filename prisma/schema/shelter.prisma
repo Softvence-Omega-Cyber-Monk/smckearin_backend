@@ -18,6 +18,8 @@ model Shelter {
 
   status ApprovalStatus @default(PENDING)
 
+  stripeCustomerId String? @unique
+
   // Shelter-level admins and their team
   shelterAdmins User[] @relation("ShelterAdmins")
   managers      User[] @relation("Managers")

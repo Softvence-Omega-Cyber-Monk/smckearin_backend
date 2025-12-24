@@ -36,15 +36,21 @@ model Transport {
 
   vetClearanceType RequiredVetClearanceType @default(No)
 
-  vetClearanceRequestId String?  @unique
+  vetClearanceRequestId String?              @unique
   vetClearanceRequest   VetClearanceRequest? @relation(fields: [vetClearanceRequestId], references: [id], onDelete: SetNull)
 
   status TransportStatus @default(PENDING)
 
+  paymentMode    PaymentMode @default(VOLUNTEER)
+  paymentEnabled Boolean     @default(false)
+
+  pricingSnapshot PricingSnapshot?
+  transaction     Transaction?
+
   transportTimelines TransportTimeline[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
   acceptedAt DateTime?
 
   @@map("transports")

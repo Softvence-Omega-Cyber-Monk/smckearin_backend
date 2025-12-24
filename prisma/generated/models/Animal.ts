@@ -715,19 +715,7 @@ export type AnimalUncheckedCreateNestedManyWithoutBondedWithInput = {
   connect?: Prisma.AnimalWhereUniqueInput | Prisma.AnimalWhereUniqueInput[]
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
 export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
-export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
   decrement?: number
@@ -749,10 +737,6 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type EnumStatusFieldUpdateOperationsInput = {
   set?: $Enums.Status
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
 }
 
 export type AnimalUpdateOneWithoutBondedByNestedInput = {

@@ -8,6 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/AnimalComplexityFee'
 export type * from './models/Animal'
 export type * from './models/UserOtp'
 export type * from './models/RefreshToken'
@@ -17,11 +18,15 @@ export type * from './models/HealthReport'
 export type * from './models/Notification'
 export type * from './models/UserNotification'
 export type * from './models/NotificationSettings'
+export type * from './models/PaymentSettings'
+export type * from './models/PricingRule'
+export type * from './models/PricingSnapshot'
 export type * from './models/PrivateConversation'
 export type * from './models/PrivateMessage'
 export type * from './models/PrivateMessageStatus'
 export type * from './models/Shelter'
 export type * from './models/ShelterDocument'
+export type * from './models/Transaction'
 export type * from './models/Transport'
 export type * from './models/TransportTimeline'
 export type * from './models/User'

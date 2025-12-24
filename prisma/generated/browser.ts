@@ -18,6 +18,11 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model AnimalComplexityFee
+ * 
+ */
+export type AnimalComplexityFee = Prisma.AnimalComplexityFeeModel
+/**
  * Model Animal
  * 
  */
@@ -63,6 +68,21 @@ export type UserNotification = Prisma.UserNotificationModel
  */
 export type NotificationSettings = Prisma.NotificationSettingsModel
 /**
+ * Model PaymentSettings
+ * 
+ */
+export type PaymentSettings = Prisma.PaymentSettingsModel
+/**
+ * Model PricingRule
+ * 
+ */
+export type PricingRule = Prisma.PricingRuleModel
+/**
+ * Model PricingSnapshot
+ * 
+ */
+export type PricingSnapshot = Prisma.PricingSnapshotModel
+/**
  * Model PrivateConversation
  * 
  */
@@ -87,6 +107,11 @@ export type Shelter = Prisma.ShelterModel
  * 
  */
 export type ShelterDocument = Prisma.ShelterDocumentModel
+/**
+ * Model Transaction
+ * 
+ */
+export type Transaction = Prisma.TransactionModel
 /**
  * Model Transport
  * 

@@ -1,0 +1,29 @@
+model PricingSnapshot {
+  id String @id @default(uuid())
+
+  transportId String    @unique
+  transport   Transport @relation(fields: [transportId], references: [id], onDelete: Cascade)
+
+  // Distance & Time recorded at time of snapshot
+  distanceMiles   Float
+  durationMinutes Float
+
+  // Rates captured at time of snapshot
+  ratePerMile   Float
+  ratePerMinute Float
+
+  // Breakdown results
+  distanceCost        Float
+  timeCost            Float
+  animalComplexityFee Float
+  multiAnimalFee      Float
+  platformFeeAmount   Float
+
+  // Final calculations
+  driverGrossPayout Float
+  totalRideCost     Float
+
+  createdAt DateTime @default(now())
+
+  @@map("pricing_snapshots")
+}
