@@ -25,25 +25,38 @@ export class TransportTrackingService {
       this.logger.log(`Updating location for transport ${payload.transportId}`);
 
       const userId = client.data.userId;
+      this.logger.log(`User ID: ${userId}`);
 
-      const user = await this.prisma.client.user.findUniqueOrThrow({
+      const user = await this.prisma.client.user.findUnique({
         where: { id: userId },
         select: { id: true },
       });
 
-      const driver = await this.prisma.client.driver.findUniqueOrThrow({
+      if (!user) {
+        return errorResponse(null, 'User not found');
+      }
+
+      const driver = await this.prisma.client.driver.findUnique({
         where: { userId: user.id },
         select: { id: true },
       });
+
+      if (!driver) {
+        return errorResponse(null, 'Driver not found');
+      }
 
       const driverId = driver?.id;
       const { transportId, latitude, longitude } = payload;
 
       // check driver ownership
-      const transport = await this.prisma.client.transport.findUniqueOrThrow({
+      const transport = await this.prisma.client.transport.findUnique({
         where: { id: transportId },
         select: { driverId: true },
       });
+
+      if (!transport) {
+        return errorResponse(null, 'Transport not found');
+      }
 
       if (transport?.driverId !== driverId) {
         return errorResponse(null, 'Transport does not belong to this driver');

@@ -1,3 +1,5 @@
+import { QueueGateway } from '@/lib/queue/queue.gateway';
+import { TransportTrackingService } from '@/lib/queue/trip/transport-tracking.service';
 import { Module } from '@nestjs/common';
 import { TransportController } from './controllers/transport.controller';
 import { CreateTransportService } from './services/create-transport.service';
@@ -16,6 +18,8 @@ import { ManageTransportService } from './services/manage-transport.service';
     GetDriverTransportService,
     ManageTransportService,
     GetLiveTrackingService,
+    TransportTrackingService,
+    QueueGateway,
   ],
 })
 export class TransportModule {}
