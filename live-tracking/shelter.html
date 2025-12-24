@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shelter - Live Monitoring</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #6366f1;
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f8fafc;
+        --text-dim: #94a3b8;
+        --success: #10b981;
+        --danger: #ef4444;
+      }
+
+      body {
+        font-family: 'Outfit', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        margin: 0;
+        padding: 24px;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        gap: 32px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .sidebar {
+        background: var(--card);
+        padding: 32px;
+        border-radius: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        height: max-content;
+      }
+
+      h1 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: grey;
+      }
+      .online {
+        background: var(--success);
+        box-shadow: 0 0 10px var(--success);
+      }
+
+      .group {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+      }
+      .group:last-child {
+        border: none;
+      }
+
+      label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-dim);
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.2);
+        color: white;
+        box-sizing: border-box;
+        margin-bottom: 12px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        transition: 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+      .btn-ghost {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+        opacity: 0.9;
+      }
+      .btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      .main {
+        background: var(--card);
+        border-radius: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 32px;
+      }
+
+      .header-stats {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 32px;
+      }
+      .stat-box {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 16px 24px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        flex: 1;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+      .stat-value {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      pre {
+        background: #000;
+        padding: 24px;
+        border-radius: 16px;
+        font-size: 13px;
+        color: #10b981;
+        overflow-x: auto;
+        max-height: 500px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        font-family: 'JetBrains Mono', monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h1>
+          <div id="dot" class="status-dot"></div>
+          Network
+        </h1>
+
+        <div class="group">
+          <label>1. Authentication</label>
+          <input type="password" id="token" placeholder="Bearer Token" />
+          <button id="connectBtn" class="btn btn-primary">
+            Establish Connection
+          </button>
+        </div>
+
+        <div
+          class="group"
+          id="roomSection"
+          style="opacity: 0.5; pointer-events: none"
+        >
+          <label>2. Monitor Transport</label>
+          <input type="text" id="transportId" placeholder="UUID of Trip" />
+          <button id="joinBtn" class="btn btn-primary">
+            Join tracking room
+          </button>
+          <button
+            id="refreshBtn"
+            class="btn btn-ghost"
+            style="margin-top: 12px"
+          >
+            Pull Snapshot
+          </button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <h1>Real-time Event Feed</h1>
+        <div class="header-stats">
+          <div class="stat-box">
+            <div class="stat-label">Subject</div>
+            <div id="tripSubject" class="stat-value">---</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Progress</div>
+            <div id="tripProgress" class="stat-value">0%</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Status</div>
+            <div id="tripStatus" class="stat-value">Pending</div>
+          </div>
+        </div>
+
+        <label>JSON Data Stream</label>
+        <pre id="stream">// Ready for incoming events...</pre>
+      </main>
+    </div>
+
+    <script>
+      let socket;
+
+      const connectBtn = document.getElementById('connectBtn');
+      const roomSection = document.getElementById('roomSection');
+      const dot = document.getElementById('dot');
+
+      connectBtn.onclick = () => {
+        if (socket && socket.connected) {
+          socket.disconnect();
+          return;
+        }
+
+        const token = document.getElementById('token').value;
+        if (!token) return alert('Token missing');
+
+        socket = io('http://localhost:3000/queue', {
+          auth: { token: `Bearer ${token}` },
+          transports: ['websocket'],
+        });
+
+        socket.on('connect', () => {
+          connectBtn.innerText = 'Go Offline';
+          connectBtn.style.background = '#EF4444';
+          dot.className = 'status-dot online';
+          roomSection.style.opacity = '1';
+          roomSection.style.pointerEvents = 'auto';
+        });
+
+        socket.on('disconnect', () => {
+          connectBtn.innerText = 'Establish Connection';
+          connectBtn.style.background = '#6366F1';
+          dot.className = 'status-dot';
+          roomSection.style.opacity = '0.5';
+          roomSection.style.pointerEvents = 'none';
+        });
+
+        socket.on('queue:transport_tracking_data', (res) => {
+          render(res.data);
+        });
+      };
+
+      document.getElementById('joinBtn').onclick = () => {
+        const transportId = document.getElementById('transportId').value;
+        if (!transportId) return alert('ID required');
+        socket.emit('queue:transport_join_tracking', { transportId });
+      };
+
+      document.getElementById('refreshBtn').onclick = () => {
+        const transportId = document.getElementById('transportId').value;
+        socket.emit('queue:transport_get_live_data', { transportId }, (res) => {
+          if (res.data) render(res.data);
+        });
+      };
+
+      function render(data) {
+        document.getElementById('stream').innerText = JSON.stringify(
+          data,
+          null,
+          4,
+        );
+        document.getElementById('tripSubject').innerText =
+          data.animalName || '---';
+        document.getElementById('tripProgress').innerText =
+          Math.round(data.progressPercentage || 0) + '%';
+        document.getElementById('tripStatus').innerText =
+          data.status || 'Active';
+      }
+    </script>
+  </body>
+</html>

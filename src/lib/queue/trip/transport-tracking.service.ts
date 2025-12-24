@@ -108,7 +108,7 @@ export class TransportTrackingService {
 
       return eventPayload;
     } catch (error: any) {
-      this.logger.error('Failed to update transport location', error.stack);
+      this.logger.error('Failed to update transport location', error);
       try {
         simplifyError(error, 'Failed to update location', 'Transport');
       } catch (simplifiedError: any) {
@@ -133,6 +133,8 @@ export class TransportTrackingService {
               },
             },
           },
+          transportTimelines: true,
+          shelter: true,
         },
       });
 
@@ -263,6 +265,11 @@ export class TransportTrackingService {
         estimatedDropOffTime: new Date(Date.now() + leg.duration.value * 1000),
 
         milestones,
+
+        timeLine: transport.transportTimelines,
+
+        shelterId: transport.shelterId,
+        shelterName: transport?.shelter?.name ?? undefined,
 
         routePolyline: route.overview_polyline.points,
       };
