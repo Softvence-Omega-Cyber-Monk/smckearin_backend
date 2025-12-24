@@ -29,11 +29,15 @@ export type AggregateDriver = {
 export type DriverAvgAggregateOutputType = {
   vehicleCapacity: number | null
   yearsOfExperience: number | null
+  currentLatitude: number | null
+  currentLongitude: number | null
 }
 
 export type DriverSumAggregateOutputType = {
   vehicleCapacity: number | null
   yearsOfExperience: number | null
+  currentLatitude: number | null
+  currentLongitude: number | null
 }
 
 export type DriverMinAggregateOutputType = {
@@ -58,6 +62,9 @@ export type DriverMinAggregateOutputType = {
   transportCertificateUrl: string | null
   transportCertificateStatus: $Enums.ApprovalStatus | null
   status: $Enums.ApprovalStatus | null
+  currentLatitude: number | null
+  currentLongitude: number | null
+  lastLocationPing: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -84,6 +91,9 @@ export type DriverMaxAggregateOutputType = {
   transportCertificateUrl: string | null
   transportCertificateStatus: $Enums.ApprovalStatus | null
   status: $Enums.ApprovalStatus | null
+  currentLatitude: number | null
+  currentLongitude: number | null
+  lastLocationPing: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -111,6 +121,9 @@ export type DriverCountAggregateOutputType = {
   transportCertificateUrl: number
   transportCertificateStatus: number
   status: number
+  currentLatitude: number
+  currentLongitude: number
+  lastLocationPing: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -120,11 +133,15 @@ export type DriverCountAggregateOutputType = {
 export type DriverAvgAggregateInputType = {
   vehicleCapacity?: true
   yearsOfExperience?: true
+  currentLatitude?: true
+  currentLongitude?: true
 }
 
 export type DriverSumAggregateInputType = {
   vehicleCapacity?: true
   yearsOfExperience?: true
+  currentLatitude?: true
+  currentLongitude?: true
 }
 
 export type DriverMinAggregateInputType = {
@@ -149,6 +166,9 @@ export type DriverMinAggregateInputType = {
   transportCertificateUrl?: true
   transportCertificateStatus?: true
   status?: true
+  currentLatitude?: true
+  currentLongitude?: true
+  lastLocationPing?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -175,6 +195,9 @@ export type DriverMaxAggregateInputType = {
   transportCertificateUrl?: true
   transportCertificateStatus?: true
   status?: true
+  currentLatitude?: true
+  currentLongitude?: true
+  lastLocationPing?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -202,6 +225,9 @@ export type DriverCountAggregateInputType = {
   transportCertificateUrl?: true
   transportCertificateStatus?: true
   status?: true
+  currentLatitude?: true
+  currentLongitude?: true
+  lastLocationPing?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -316,6 +342,9 @@ export type DriverGroupByOutputType = {
   transportCertificateUrl: string | null
   transportCertificateStatus: $Enums.ApprovalStatus
   status: $Enums.ApprovalStatus
+  currentLatitude: number | null
+  currentLongitude: number | null
+  lastLocationPing: Date | null
   createdAt: Date
   updatedAt: Date
   _count: DriverCountAggregateOutputType | null
@@ -366,6 +395,9 @@ export type DriverWhereInput = {
   transportCertificateUrl?: Prisma.StringNullableFilter<"Driver"> | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFilter<"Driver"> | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFilter<"Driver"> | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.FloatNullableFilter<"Driver"> | number | null
+  currentLongitude?: Prisma.FloatNullableFilter<"Driver"> | number | null
+  lastLocationPing?: Prisma.DateTimeNullableFilter<"Driver"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -398,6 +430,9 @@ export type DriverOrderByWithRelationInput = {
   transportCertificateUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   transportCertificateStatus?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  currentLatitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  currentLongitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastLocationPing?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -433,6 +468,9 @@ export type DriverWhereUniqueInput = Prisma.AtLeast<{
   transportCertificateUrl?: Prisma.StringNullableFilter<"Driver"> | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFilter<"Driver"> | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFilter<"Driver"> | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.FloatNullableFilter<"Driver"> | number | null
+  currentLongitude?: Prisma.FloatNullableFilter<"Driver"> | number | null
+  lastLocationPing?: Prisma.DateTimeNullableFilter<"Driver"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -465,6 +503,9 @@ export type DriverOrderByWithAggregationInput = {
   transportCertificateUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   transportCertificateStatus?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  currentLatitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  currentLongitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastLocationPing?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DriverCountOrderByAggregateInput
@@ -500,6 +541,9 @@ export type DriverScalarWhereWithAggregatesInput = {
   transportCertificateUrl?: Prisma.StringNullableWithAggregatesFilter<"Driver"> | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusWithAggregatesFilter<"Driver"> | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusWithAggregatesFilter<"Driver"> | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.FloatNullableWithAggregatesFilter<"Driver"> | number | null
+  currentLongitude?: Prisma.FloatNullableWithAggregatesFilter<"Driver"> | number | null
+  lastLocationPing?: Prisma.DateTimeNullableWithAggregatesFilter<"Driver"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Driver"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Driver"> | Date | string
 }
@@ -523,6 +567,9 @@ export type DriverCreateInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -555,6 +602,9 @@ export type DriverUncheckedCreateInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -579,6 +629,9 @@ export type DriverUpdateInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -611,6 +664,9 @@ export type DriverUncheckedUpdateInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -639,6 +695,9 @@ export type DriverCreateManyInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -662,6 +721,9 @@ export type DriverUpdateManyMutationInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -689,6 +751,9 @@ export type DriverUncheckedUpdateManyInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -724,6 +789,9 @@ export type DriverCountOrderByAggregateInput = {
   transportCertificateUrl?: Prisma.SortOrder
   transportCertificateStatus?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  currentLatitude?: Prisma.SortOrder
+  currentLongitude?: Prisma.SortOrder
+  lastLocationPing?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -731,6 +799,8 @@ export type DriverCountOrderByAggregateInput = {
 export type DriverAvgOrderByAggregateInput = {
   vehicleCapacity?: Prisma.SortOrder
   yearsOfExperience?: Prisma.SortOrder
+  currentLatitude?: Prisma.SortOrder
+  currentLongitude?: Prisma.SortOrder
 }
 
 export type DriverMaxOrderByAggregateInput = {
@@ -755,6 +825,9 @@ export type DriverMaxOrderByAggregateInput = {
   transportCertificateUrl?: Prisma.SortOrder
   transportCertificateStatus?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  currentLatitude?: Prisma.SortOrder
+  currentLongitude?: Prisma.SortOrder
+  lastLocationPing?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -781,6 +854,9 @@ export type DriverMinOrderByAggregateInput = {
   transportCertificateUrl?: Prisma.SortOrder
   transportCertificateStatus?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  currentLatitude?: Prisma.SortOrder
+  currentLongitude?: Prisma.SortOrder
+  lastLocationPing?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -788,6 +864,8 @@ export type DriverMinOrderByAggregateInput = {
 export type DriverSumOrderByAggregateInput = {
   vehicleCapacity?: Prisma.SortOrder
   yearsOfExperience?: Prisma.SortOrder
+  currentLatitude?: Prisma.SortOrder
+  currentLongitude?: Prisma.SortOrder
 }
 
 export type DriverNullableScalarRelationFilter = {
@@ -806,6 +884,18 @@ export type DriverUpdateworkingDaysInput = {
 
 export type EnumApprovalStatusFieldUpdateOperationsInput = {
   set?: $Enums.ApprovalStatus
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type DriverCreateNestedOneWithoutDriverLicenseInput = {
@@ -971,6 +1061,9 @@ export type DriverCreateWithoutDriverLicenseInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -1001,6 +1094,9 @@ export type DriverUncheckedCreateWithoutDriverLicenseInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -1030,6 +1126,9 @@ export type DriverCreateWithoutVehicleRegistrationInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -1060,6 +1159,9 @@ export type DriverUncheckedCreateWithoutVehicleRegistrationInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -1089,6 +1191,9 @@ export type DriverCreateWithoutTransportCertificateInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -1119,6 +1224,9 @@ export type DriverUncheckedCreateWithoutTransportCertificateInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -1159,6 +1267,9 @@ export type DriverUpdateWithoutDriverLicenseInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1189,6 +1300,9 @@ export type DriverUncheckedUpdateWithoutDriverLicenseInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1224,6 +1338,9 @@ export type DriverUpdateWithoutVehicleRegistrationInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1254,6 +1371,9 @@ export type DriverUncheckedUpdateWithoutVehicleRegistrationInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1289,6 +1409,9 @@ export type DriverUpdateWithoutTransportCertificateInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1319,6 +1442,9 @@ export type DriverUncheckedUpdateWithoutTransportCertificateInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1343,6 +1469,9 @@ export type DriverCreateWithoutTransportsInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -1374,6 +1503,9 @@ export type DriverUncheckedCreateWithoutTransportsInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1413,6 +1545,9 @@ export type DriverUpdateWithoutTransportsInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1444,6 +1579,9 @@ export type DriverUncheckedUpdateWithoutTransportsInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1467,6 +1605,9 @@ export type DriverCreateWithoutUserInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   driverLicense?: Prisma.FileInstanceCreateNestedOneWithoutDriverLicenseInput
@@ -1497,6 +1638,9 @@ export type DriverUncheckedCreateWithoutUserInput = {
   transportCertificateUrl?: string | null
   transportCertificateStatus?: $Enums.ApprovalStatus
   status?: $Enums.ApprovalStatus
+  currentLatitude?: number | null
+  currentLongitude?: number | null
+  lastLocationPing?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -1537,6 +1681,9 @@ export type DriverUpdateWithoutUserInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   driverLicense?: Prisma.FileInstanceUpdateOneWithoutDriverLicenseNestedInput
@@ -1567,6 +1714,9 @@ export type DriverUncheckedUpdateWithoutUserInput = {
   transportCertificateUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transportCertificateStatus?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1626,6 +1776,9 @@ export type DriverSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   transportCertificateUrl?: boolean
   transportCertificateStatus?: boolean
   status?: boolean
+  currentLatitude?: boolean
+  currentLongitude?: boolean
+  lastLocationPing?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1659,6 +1812,9 @@ export type DriverSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   transportCertificateUrl?: boolean
   transportCertificateStatus?: boolean
   status?: boolean
+  currentLatitude?: boolean
+  currentLongitude?: boolean
+  lastLocationPing?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1690,6 +1846,9 @@ export type DriverSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   transportCertificateUrl?: boolean
   transportCertificateStatus?: boolean
   status?: boolean
+  currentLatitude?: boolean
+  currentLongitude?: boolean
+  lastLocationPing?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1721,11 +1880,14 @@ export type DriverSelectScalar = {
   transportCertificateUrl?: boolean
   transportCertificateStatus?: boolean
   status?: boolean
+  currentLatitude?: boolean
+  currentLongitude?: boolean
+  lastLocationPing?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DriverOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "phone" | "state" | "address" | "vehicleType" | "vehicleCapacity" | "yearsOfExperience" | "previousExperience" | "startTime" | "endTime" | "workingDays" | "driverLicenseId" | "driverLicenseUrl" | "driverLicenseStatus" | "vehicleRegistrationId" | "vehicleRegistrationUrl" | "vehicleRegistrationStatus" | "transportCertificateId" | "transportCertificateUrl" | "transportCertificateStatus" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["driver"]>
+export type DriverOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "phone" | "state" | "address" | "vehicleType" | "vehicleCapacity" | "yearsOfExperience" | "previousExperience" | "startTime" | "endTime" | "workingDays" | "driverLicenseId" | "driverLicenseUrl" | "driverLicenseStatus" | "vehicleRegistrationId" | "vehicleRegistrationUrl" | "vehicleRegistrationStatus" | "transportCertificateId" | "transportCertificateUrl" | "transportCertificateStatus" | "status" | "currentLatitude" | "currentLongitude" | "lastLocationPing" | "createdAt" | "updatedAt", ExtArgs["result"]["driver"]>
 export type DriverInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   driverLicense?: boolean | Prisma.Driver$driverLicenseArgs<ExtArgs>
@@ -1779,6 +1941,9 @@ export type $DriverPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     transportCertificateUrl: string | null
     transportCertificateStatus: $Enums.ApprovalStatus
     status: $Enums.ApprovalStatus
+    currentLatitude: number | null
+    currentLongitude: number | null
+    lastLocationPing: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["driver"]>
@@ -2231,6 +2396,9 @@ export interface DriverFieldRefs {
   readonly transportCertificateUrl: Prisma.FieldRef<"Driver", 'String'>
   readonly transportCertificateStatus: Prisma.FieldRef<"Driver", 'ApprovalStatus'>
   readonly status: Prisma.FieldRef<"Driver", 'ApprovalStatus'>
+  readonly currentLatitude: Prisma.FieldRef<"Driver", 'Float'>
+  readonly currentLongitude: Prisma.FieldRef<"Driver", 'Float'>
+  readonly lastLocationPing: Prisma.FieldRef<"Driver", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Driver", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Driver", 'DateTime'>
 }

@@ -29,4 +29,8 @@ export enum QueueEventsEnum {
   // === Transport tracking events ===
   TRANSPORT_LOCATION_UPDATE = 'queue:transport_location_update',
   TRANSPORT_STATUS_UPDATE = 'queue:transport_status_update',
+  TRANSPORT_JOIN_TRACKING = 'queue:transport_join_tracking',
+  TRANSPORT_LEAVE_TRACKING = 'queue:transport_leave_tracking',
+  TRANSPORT_GET_LIVE_DATA = 'queue:transport_get_live_data',
+  TRANSPORT_TRACKING_DATA = 'queue:transport_tracking_data',
 }

@@ -93,7 +93,7 @@ export class ManageHealthReportsService {
 
     return successResponse(
       null,
-      `${approved ? 'Approved' : 'Rejected'} driver`,
+      `${approved ? 'Approved' : 'Rejected'} health report`,
     );
   }
 

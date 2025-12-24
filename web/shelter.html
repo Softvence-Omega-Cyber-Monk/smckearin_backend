@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelter - Live Monitoring</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366F1;
+            --card: #1E293B;
+            --bg: #0F172A;
+            --text: #F8FAFC;
+            --text-dim: #94A3B8;
+            --accent: #E11D48;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 24px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .panel {
+            background: var(--card);
+            padding: 32px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+        }
+
+        h1 { font-size: 24px; margin-bottom: 24px; color: var(--primary); }
+        
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 12px; color: var(--text-dim); margin-bottom: 4px; text-transform: uppercase; }
+        input { 
+            width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); 
+            background: rgba(0,0,0,0.2); color: white; box-sizing: border-box;
+        }
+
+        button {
+            width: 100%; padding: 12px; background: var(--primary); color: white; border: none;
+            border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px;
+        }
+
+        .data-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .stat { margin-bottom: 12px; }
+        .stat-label { font-size: 12px; color: var(--text-dim); }
+        .stat-value { font-size: 18px; font-weight: 600; }
+
+        .progress-bar {
+            width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-top: 10px;
+        }
+        #progressFill { height: 100%; background: var(--primary); width: 0%; transition: width 0.5s; }
+
+        .main-view {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        pre {
+            background: rgba(0,0,0,0.4);
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            overflow-x: auto;
+            color: #10B981;
+            max-height: 600px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.2);
+            color: #10B981;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <aside class="panel">
+            <h1>Tracking Control</h1>
+            <div class="form-group">
+                <label>Token (JWT)</label>
+                <input type="text" id="token" placeholder="Bearer Token">
+            </div>
+            <div class="form-group">
+                <label>Transport ID</label>
+                <input type="text" id="transportId" placeholder="UUID">
+            </div>
+            <button id="joinBtn">Join Tracking Room</button>
+            <button id="refreshBtn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">Refresh Data</button>
+
+            <div id="summary" class="data-card" style="display: none;">
+                <div class="stat">
+                    <div class="stat-label">Animal</div>
+                    <div class="stat-value" id="animalName">...</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Progress</div>
+                    <div class="stat-value" id="progressText">0%</div>
+                    <div class="progress-bar"><div id="progressFill"></div></div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">ETA</div>
+                    <div class="stat-value" id="eta">...</div>
+                </div>
+                <div id="connectedBadge" class="badge">Driver Connected</div>
+            </div>
+        </aside>
+
+        <main class="main-view">
+            <h1>Live JSON Stream</h1>
+            <div id="statusText" style="margin-bottom: 16px; color: var(--text-dim);">Waiting for connection...</div>
+            <pre id="jsonOutput">// Tracking data will appear here in real-time...</pre>
+        </main>
+    </div>
+
+    <script>
+        let socket;
+
+        document.getElementById('joinBtn').onclick = () => {
+            const token = document.getElementById('token').value;
+            const transportId = document.getElementById('transportId').value;
+
+            if (!token || !transportId) return alert('Fill all fields');
+
+            if (!socket) {
+                socket = io('http://localhost:3000/queue', {
+                    auth: { token: `Bearer ${token}` },
+                    transports: ['websocket']
+                });
+
+                socket.on('connect', () => {
+                    document.getElementById('statusText').innerText = 'Connected - In room: ' + transportId;
+                });
+
+                socket.on('queue:transport_tracking_data', (res) => {
+                    console.log('Received:', res);
+                    updateUI(res.data);
+                });
+            }
+
+            socket.emit('queue:transport_join_tracking', { transportId }, (res) => {
+                console.log('Join Response:', res);
+            });
+        };
+
+        document.getElementById('refreshBtn').onclick = () => {
+            const transportId = document.getElementById('transportId').value;
+            if (socket) {
+                socket.emit('queue:transport_get_live_data', { transportId }, (res) => {
+                    console.log('Manual Refresh:', res);
+                    if (res.data) updateUI(res.data);
+                });
+            }
+        };
+
+        function updateUI(data) {
+            document.getElementById('summary').style.display = 'block';
+            document.getElementById('jsonOutput').textContent = JSON.stringify(data, null, 2);
+            
+            document.getElementById('animalName').innerText = `${data.animalName} (${data.animalBreed})`;
+            document.getElementById('progressText').innerText = Math.round(data.progressPercentage) + '%';
+            document.getElementById('progressFill').style.width = data.progressPercentage + '%';
+            document.getElementById('eta').innerText = new Date(data.estimatedDropOffTime).toLocaleTimeString();
+            
+            const badge = document.getElementById('connectedBadge');
+            badge.innerText = data.driverConnected ? 'Driver Connected' : 'Driver Offline';
+            badge.style.background = data.driverConnected ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)';
+            badge.style.color = data.driverConnected ? '#10B981' : '#EF4444';
+        }
+    </script>
+</body>
+</html>

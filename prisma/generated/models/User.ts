@@ -873,10 +873,6 @@ export type EnumUserStatusFieldUpdateOperationsInput = {
   set?: $Enums.UserStatus
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type UserCreateNestedOneWithoutVeterinariansInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutVeterinariansInput, Prisma.UserUncheckedCreateWithoutVeterinariansInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutVeterinariansInput

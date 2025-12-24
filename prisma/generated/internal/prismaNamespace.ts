@@ -2089,6 +2089,9 @@ export const DriverScalarFieldEnum = {
   transportCertificateUrl: 'transportCertificateUrl',
   transportCertificateStatus: 'transportCertificateStatus',
   status: 'status',
+  currentLatitude: 'currentLatitude',
+  currentLongitude: 'currentLongitude',
+  lastLocationPing: 'lastLocationPing',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2265,7 +2268,8 @@ export const TransportScalarFieldEnum = {
   vetClearanceRequestId: 'vetClearanceRequestId',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  acceptedAt: 'acceptedAt'
 } as const
 
 export type TransportScalarFieldEnum = (typeof TransportScalarFieldEnum)[keyof typeof TransportScalarFieldEnum]
