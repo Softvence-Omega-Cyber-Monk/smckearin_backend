@@ -7,6 +7,7 @@ import { ChatModule } from './chat/chat.module';
 import { GoogleMapsModule } from './google-maps/google-maps.module';
 import { QueueModule } from './queue/queue.module';
 import { SeedModule } from './seed/seed.module';
+import { StripeModule } from './stripe/stripe.module';
 import { UtilsModule } from './utils/utils.module';
 
 @Module({
@@ -19,6 +20,7 @@ import { UtilsModule } from './utils/utils.module';
     QueueModule,
     ChatModule,
     GoogleMapsModule,
+    StripeModule,
   ],
   exports: [],
   providers: [],
