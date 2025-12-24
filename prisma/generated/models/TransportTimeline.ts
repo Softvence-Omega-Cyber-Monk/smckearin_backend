@@ -453,14 +453,6 @@ export type TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput = {
   deleteMany?: Prisma.TransportTimelineScalarWhereInput | Prisma.TransportTimelineScalarWhereInput[]
 }
 
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type TransportTimelineCreateWithoutTransportInput = {
   id?: string
   status: $Enums.TransportStatus

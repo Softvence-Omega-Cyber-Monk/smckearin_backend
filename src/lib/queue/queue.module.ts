@@ -6,10 +6,10 @@ import { QueueGateway } from './queue.gateway';
 import { BaseNotificationService } from './services/base-notification.service';
 import { DocumentNotificationService } from './services/document-notification.service';
 import { TransportNotificationService } from './services/transport-notification.service';
-import { TransportTrackingService } from './services/transport-tracking.service';
 import { UserNotificationService } from './services/user-notification.service';
 import { VetNotificationService } from './services/vet-notification.service';
 import { GenericTriggerService } from './trigger/generic-trigger.service';
+import { TransportTrackingService } from './trip/transport-tracking.service';
 import { GenericWorkerService } from './worker/generic-worker.service';
 
 @Global()

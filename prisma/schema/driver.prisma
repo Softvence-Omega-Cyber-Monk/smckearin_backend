@@ -41,6 +41,11 @@ model Driver {
   // Overall driver approval status
   status ApprovalStatus @default(PENDING)
 
+  // Real-time tracking
+  currentLatitude  Float?
+  currentLongitude Float?
+  lastLocationPing DateTime?
+
   // Transports
   transports Transport[]
 

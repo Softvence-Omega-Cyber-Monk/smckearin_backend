@@ -26,6 +26,7 @@ import {
 } from '../dto/get-transport.dto';
 import { CreateTransportService } from '../services/create-transport.service';
 import { GetDriverTransportService } from '../services/get-driver-transport.service';
+import { GetLiveTrackingService } from '../services/get-live-tracking.service';
 import { GetSingleTransportService } from '../services/get-single-transport.service';
 import { GetTransportService } from '../services/get-transport.service';
 import { ManageTransportService } from '../services/manage-transport.service';
@@ -41,6 +42,7 @@ export class TransportController {
     private readonly getSingleTransportService: GetSingleTransportService,
     private readonly getDriverTransportService: GetDriverTransportService,
     private readonly manageTransportService: ManageTransportService,
+    private readonly getLiveTrackingService: GetLiveTrackingService,
   ) {}
 
   @ApiOperation({ summary: 'Create transport (shelter)' })
@@ -164,5 +166,11 @@ export class TransportController {
       authUser,
       dto,
     );
+  }
+  @ApiOperation({ summary: 'Get live tracking data for a transport' })
+  @ValidateAuth()
+  @Get(':id/live')
+  async getLiveTracking(@Param('id') id: string) {
+    return this.getLiveTrackingService.getLiveTracking(id);
   }
 }

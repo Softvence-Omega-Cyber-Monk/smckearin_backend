@@ -8,7 +8,7 @@ import { Socket } from 'socket.io';
 import { PrismaService } from '../prisma/prisma.service';
 import { TransportLocationUpdateDto } from './dto/transport-tracking.dto';
 import { NotificationPayload } from './interface/queue.payload';
-import { TransportTrackingService } from './services/transport-tracking.service';
+import { TransportTrackingService } from './trip/transport-tracking.service';
 
 @WebSocketGateway({
   cors: {

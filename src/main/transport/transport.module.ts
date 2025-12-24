@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TransportController } from './controllers/transport.controller';
 import { CreateTransportService } from './services/create-transport.service';
+import { GetDriverTransportService } from './services/get-driver-transport.service';
+import { GetLiveTrackingService } from './services/get-live-tracking.service';
 import { GetSingleTransportService } from './services/get-single-transport.service';
 import { GetTransportService } from './services/get-transport.service';
-import { GetDriverTransportService } from './services/get-driver-transport.service';
 import { ManageTransportService } from './services/manage-transport.service';
 
 @Module({
@@ -14,6 +15,7 @@ import { ManageTransportService } from './services/manage-transport.service';
     GetSingleTransportService,
     GetDriverTransportService,
     ManageTransportService,
+    GetLiveTrackingService,
   ],
 })
 export class TransportModule {}
