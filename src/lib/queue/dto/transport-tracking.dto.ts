@@ -24,3 +24,13 @@ export class TransportLocationUpdateDto {
   @IsNumber()
   longitude: number;
 }
+
+export class TransportIdDto {
+  @ApiProperty({
+    description: 'Unique identifier of the transport',
+    example: 'tr_1234567890',
+  })
+  @IsString()
+  @IsNotEmpty()
+  transportId: string;
+}

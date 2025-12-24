@@ -7,7 +7,10 @@ import { JwtService } from '@nestjs/jwt';
 import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { PrismaService } from '../prisma/prisma.service';
-import { TransportLocationUpdateDto } from './dto/transport-tracking.dto';
+import {
+  TransportIdDto,
+  TransportLocationUpdateDto,
+} from './dto/transport-tracking.dto';
 import { NotificationPayload } from './interface/queue.payload';
 import { TransportTrackingService } from './trip/transport-tracking.service';
 
@@ -173,7 +176,7 @@ export class QueueGateway extends BaseGateway {
   }
 
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_JOIN_TRACKING)
-  async handleJoinTracking(client: Socket, data: { transportId: string }) {
+  async handleJoinTracking(client: Socket, data: TransportIdDto) {
     this.joinTransportRoom(client, data.transportId);
     this.logger.log(
       `Client ${client.id} joined tracking for ${data.transportId}`,
@@ -192,7 +195,7 @@ export class QueueGateway extends BaseGateway {
   }
 
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_GET_LIVE_DATA)
-  async handleGetLiveData(client: Socket, data: { transportId: string }) {
+  async handleGetLiveData(client: Socket, data: TransportIdDto) {
     const liveData = await this.transportTrackingService.getLiveTrackingData(
       data.transportId,
     );
@@ -200,7 +203,7 @@ export class QueueGateway extends BaseGateway {
   }
 
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_LEAVE_TRACKING)
-  async handleLeaveTracking(client: Socket, data: { transportId: string }) {
+  async handleLeaveTracking(client: Socket, data: TransportIdDto) {
     this.leaveTransportRoom(client, data.transportId);
     this.logger.log(
       `Client ${client.id} left tracking for ${data.transportId}`,
