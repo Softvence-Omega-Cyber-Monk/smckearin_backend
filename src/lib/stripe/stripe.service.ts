@@ -91,21 +91,21 @@ export class StripeService {
       );
     } else {
       const newCustomer = await this.createCustomer({
-        email: metadata.email,
-        name: metadata.name,
-        userId,
+        email: metadata.email as string,
+        name: metadata.name as string,
+        userId: metadata.userId as string,
       });
       customerId = newCustomer.id;
     }
 
     const intent = await this.stripe.paymentIntents.create(
       {
-        amount: metadata.priceCents,
+        amount: metadata.priceCents || 0,
         currency: 'usd',
         customer: customerId,
         receipt_email: metadata.email,
         automatic_payment_methods: { enabled: true },
-        metadata,
+        metadata: metadata as any,
         setup_future_usage: 'off_session',
       },
       {
@@ -115,6 +115,67 @@ export class StripeService {
 
     this.logger.log(`Created payment intent ${intent.id}`);
     return intent;
+  }
+
+  // Stripe Connect (Express) Methods
+  async createExpressAccount(email: string) {
+    const account = await this.stripe.accounts.create({
+      type: 'express',
+      country: 'US', // default to US
+      email,
+      capabilities: {
+        transfers: { requested: true },
+        card_payments: { requested: true },
+      },
+    });
+
+    this.logger.log(
+      `Created Stripe Express account ${account.id} for ${email}`,
+    );
+    return account;
+  }
+
+  async createAccountOnboardingLink(
+    stripeAccountId: string,
+    refreshUrl: string,
+    returnUrl: string,
+  ) {
+    const link = await this.stripe.accountLinks.create({
+      account: stripeAccountId,
+      refresh_url: refreshUrl,
+      return_url: returnUrl,
+      type: 'account_onboarding',
+    });
+
+    this.logger.log(`Created onboarding link for account ${stripeAccountId}`);
+    return link;
+  }
+
+  async createDestinationCharge({
+    amountCents,
+    destinationAccountId,
+    platformFeeCents,
+    metadata,
+  }: {
+    amountCents: number;
+    destinationAccountId: string;
+    platformFeeCents: number;
+    metadata: Metadata;
+  }) {
+    const paymentIntent = await this.stripe.paymentIntents.create({
+      amount: amountCents,
+      currency: 'usd',
+      application_fee_amount: platformFeeCents,
+      transfer_data: {
+        destination: destinationAccountId,
+      },
+      metadata: metadata as any,
+    });
+
+    this.logger.log(
+      `Created destination charge ${paymentIntent.id} for account ${destinationAccountId}`,
+    );
+    return paymentIntent;
   }
 
   // Setup Intent Management
@@ -140,9 +201,9 @@ export class StripeService {
         );
       } else {
         const newCustomer = await this.createCustomer({
-          email: metadata.email,
-          name: metadata.name,
-          userId: metadata.userId,
+          email: metadata.email as string,
+          name: metadata.name as string,
+          userId: metadata.userId as string,
         });
         customerId = newCustomer.id;
         this.logger.log(
