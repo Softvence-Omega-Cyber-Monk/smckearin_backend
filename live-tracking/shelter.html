@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shelter Monitoring Dashboard</title>
+    <title>Shelter Monitoring - Live Tracking</title>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
@@ -19,6 +19,7 @@
         --text-dim: #94a3b8;
         --success: #10b981;
         --accent: #f43f5e;
+        --warning: #f59e0b;
       }
 
       body {
@@ -31,40 +32,47 @@
         overflow: hidden;
       }
 
-      /* Side Panel */
+      /* Sidebar */
       .sidebar {
-        width: 400px;
+        width: 420px;
         background: var(--card);
         border-right: 1px solid rgba(255, 255, 255, 0.1);
         display: flex;
         flex-direction: column;
-        z-index: 10;
-        padding: 24px;
+        padding: 32px;
         box-sizing: border-box;
+        overflow-y: auto;
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
       }
 
       h1 {
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 24px;
+        font-size: 22px;
+        margin-bottom: 32px;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
       }
       .dot {
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
         background: grey;
+        transition: 0.3s;
       }
       .dot.online {
         background: var(--success);
-        box-shadow: 0 0 10px var(--success);
+        box-shadow: 0 0 12px var(--success);
       }
 
-      .form-group {
-        margin-bottom: 20px;
+      .group {
+        margin-bottom: 32px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 24px;
       }
+      .group:last-child {
+        border: none;
+      }
+
       label {
         display: block;
         font-size: 11px;
@@ -72,88 +80,130 @@
         color: var(--text-dim);
         margin-bottom: 8px;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.12em;
       }
       input {
         width: 100%;
-        padding: 12px;
+        padding: 14px;
         border-radius: 12px;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.3);
         color: white;
         box-sizing: border-box;
         margin-bottom: 12px;
+        font-family: inherit;
+        font-size: 14px;
+      }
+      input:focus {
+        outline: none;
+        border-color: var(--primary);
       }
 
       .btn {
         width: 100%;
-        padding: 12px;
+        padding: 14px;
         border-radius: 12px;
         font-weight: 600;
         cursor: pointer;
         border: none;
-        transition: 0.2s;
+        transition: all 0.2s;
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 8px;
         font-size: 14px;
+        font-family: inherit;
       }
       .btn-primary {
         background: var(--primary);
         color: white;
       }
       .btn-secondary {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.08);
         color: white;
         border: 1px solid rgba(255, 255, 255, 0.1);
       }
       .btn:hover {
-        transform: translateY(-1px);
-        opacity: 0.9;
+        transform: translateY(-2px);
+        filter: brightness(1.1);
+      }
+      .btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none;
       }
 
-      /* Stats Card */
-      .stats-container {
-        margin-top: 24px;
+      /* Real-time Data Display */
+      #dataDisplay {
         display: none;
+        margin-top: 10px;
       }
-      .stat-card {
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 16px;
-        padding: 20px;
+      .card {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 20px;
+        padding: 24px;
         border: 1px solid rgba(255, 255, 255, 0.05);
-        margin-bottom: 16px;
+        margin-bottom: 20px;
       }
-      .stat-label {
+      .card-title {
         font-size: 11px;
         color: var(--text-dim);
         text-transform: uppercase;
+        margin-bottom: 12px;
+        font-weight: 700;
+      }
+      .animal-header {
+        font-size: 20px;
+        font-weight: 600;
         margin-bottom: 4px;
       }
-      .stat-header {
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 12px;
+      .animal-breed {
+        font-size: 14px;
+        color: var(--text-dim);
+        margin-bottom: 16px;
       }
 
+      .progress-section {
+        margin: 20px 0;
+      }
+      .progress-text {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
       .progress-bar {
         width: 100%;
-        height: 6px;
+        height: 8px;
         background: rgba(255, 255, 255, 0.1);
-        border-radius: 3px;
+        border-radius: 4px;
         overflow: hidden;
-        margin: 10px 0;
       }
-      #progressFill {
-        height: 100%;
-        background: var(--primary);
+      #fill {
         width: 0%;
-        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        background: linear-gradient(to right, var(--primary), var(--success));
+        transition: width 0.8s ease;
       }
 
-      /* Map Area */
-      .map-wrapper {
+      .milestones {
+        font-size: 13px;
+        max-height: 250px;
+        overflow-y: auto;
+      }
+      .milestone {
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        opacity: 0.8;
+      }
+      .milestone b {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--text);
+      }
+
+      /* Map Container */
+      .map-section {
         flex: 1;
         position: relative;
       }
@@ -162,29 +212,49 @@
         height: 100%;
       }
 
-      .overlay-info {
+      /* Fixed Overlay Widgets */
+      .info-overlay {
         position: absolute;
-        top: 20px;
-        right: 20px;
-        background: var(--card);
-        padding: 16px 24px;
-        border-radius: 16px;
+        top: 32px;
+        right: 32px;
+        background: rgba(30, 41, 59, 0.8);
+        backdrop-filter: blur(12px);
+        padding: 24px 32px;
+        border-radius: 24px;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         display: flex;
-        gap: 24px;
-        backdrop-filter: blur(10px);
+        gap: 40px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+      .info-stat {
+        display: flex;
+        flex-direction: column;
+      }
+      .info-label {
+        font-size: 11px;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        font-weight: 700;
+      }
+      .info-val {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--success);
       }
 
-      .milestones {
-        max-height: 200px;
-        overflow-y: auto;
-        font-size: 13px;
-        color: var(--text-dim);
-      }
-      .milestone {
-        padding: 8px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      #errorBox {
+        position: absolute;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--accent);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        display: none;
+        z-index: 100;
       }
     </style>
   </head>
@@ -192,187 +262,164 @@
     <aside class="sidebar">
       <h1>
         <div id="statusDot" class="dot"></div>
-        Shelter Monitoring
+        Shelter Live Monitor
       </h1>
 
-      <div class="form-group">
-        <label>Google Maps API Key</label>
+      <!-- Step 1: Maps -->
+      <div class="group">
+        <label>1. Maps Integration</label>
         <input
           type="password"
           id="gmapsKey"
-          placeholder="Enter API Key to load Map"
+          placeholder="Google Maps API Key"
         />
-        <button id="loadMapBtn" class="btn btn-secondary">Init Map</button>
+        <button id="btnInitMap" class="btn btn-secondary">
+          Initialize Visuals
+        </button>
       </div>
 
+      <!-- Step 2: Auth -->
+      <div class="group">
+        <label>2. Authentication</label>
+        <input type="password" id="authToken" placeholder="Bearer JWT Token" />
+        <button id="btnConnect" class="btn btn-primary">
+          Connect to Network
+        </button>
+      </div>
+
+      <!-- Step 3: Tracking -->
       <div
-        class="form-group"
-        style="
-          padding-top: 20px;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-        "
+        class="group"
+        id="trackingGroup"
+        style="opacity: 0.3; pointer-events: none"
       >
-        <label>Authentication</label>
-        <input type="password" id="token" placeholder="Bearer Token" />
-        <button id="connectBtn" class="btn btn-primary">
-          Connect WebSockets
-        </button>
-      </div>
-
-      <div id="trackingControls" style="opacity: 0.3; pointer-events: none">
-        <label>Tracking</label>
+        <label>3. Monitoring</label>
         <input type="text" id="transportId" placeholder="Transport UUID" />
-        <button id="joinBtn" class="btn btn-primary">
-          Start Live Tracking
+        <button id="btnJoin" class="btn btn-primary">
+          Start Real-time View
+        </button>
+        <button
+          id="btnRefresh"
+          class="btn btn-secondary"
+          style="margin-top: 10px"
+        >
+          Refresh Current Data
         </button>
       </div>
 
-      <div id="statsContainer" class="stats-container">
-        <div class="stat-card">
-          <div class="stat-label">Animal Profile</div>
-          <div class="stat-header" id="animalName">---</div>
-          <div
-            id="transportStatus"
-            style="font-size: 13px; color: var(--success)"
-          >
-            IN TRANSIT
+      <!-- Active Stats -->
+      <div id="dataDisplay">
+        <div class="card">
+          <div class="card-title">Subject Details</div>
+          <div class="animal-header" id="uiAnimal">---</div>
+          <div class="animal-breed" id="uiBreed">---</div>
+          <div id="uiShelter" style="font-size: 12px; color: var(--text-dim)">
+            Shelter: ---
           </div>
         </div>
 
-        <div class="stat-card">
-          <div class="stat-label">Trip Progress</div>
-          <div class="stat-header" id="progressVal">0%</div>
-          <div class="progress-bar"><div id="progressFill"></div></div>
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              font-size: 12px;
-              color: var(--text-dim);
-            "
-          >
-            <span id="distTraveled">0 miles</span>
-            <span id="distRemaining">0 miles</span>
+        <div class="card">
+          <div class="card-title">Trip Dynamics</div>
+          <div class="progress-section">
+            <div class="progress-text">
+              <span id="uiProgress">Progress: 0%</span>
+              <span id="uiDist">---</span>
+            </div>
+            <div class="progress-bar"><div id="fill"></div></div>
+          </div>
+          <div style="font-size: 12px; color: var(--text-dim)" id="uiDriver">
+            Driver: Offline
           </div>
         </div>
 
-        <div class="stat-card">
-          <label>Upcoming Milestones</label>
-          <div id="milestonesList" class="milestones">
-            <!-- Milestones go here -->
+        <div class="card" style="margin-bottom: 0">
+          <div class="card-title">Live Route Milestones</div>
+          <div id="uiMilestones" class="milestones">
+            <div class="milestone">Waiting for data updates...</div>
           </div>
         </div>
       </div>
     </aside>
 
-    <main class="map-wrapper">
+    <main class="map-section">
       <div id="map"></div>
-      <div class="overlay-info" id="etaBox" style="display: none">
-        <div>
-          <div class="stat-label">Destination ETA</div>
-          <div
-            id="etaTime"
-            style="font-size: 20px; font-weight: 600; color: var(--success)"
-          >
-            ---
-          </div>
+      <div id="errorBox">Error: Something went wrong</div>
+
+      <div class="info-overlay" id="uiOverlay" style="display: none">
+        <div class="info-stat">
+          <span class="info-label">Estimated Delivery</span>
+          <span class="info-val" id="uiEta">--:-- --</span>
         </div>
         <div
+          class="info-stat"
           style="
             border-left: 1px solid rgba(255, 255, 255, 0.1);
-            padding-left: 24px;
+            padding-left: 40px;
           "
         >
-          <div class="stat-label">Driver Connectivity</div>
-          <div id="driverStatus" style="font-size: 16px; font-weight: 600">
-            Offline
-          </div>
+          <span class="info-label">Travel Time Left</span>
+          <span class="info-val" id="uiTime">-- mins</span>
         </div>
       </div>
     </main>
 
     <script>
-      let socket;
-      let map, driverMarker, pickupMarker, dropoffMarker, routePath;
-      let mapReady = false;
+      let socket,
+        map,
+        markers = {},
+        routePolyline,
+        mapReady = false;
 
-      // Map Initialization
-      document.getElementById('loadMapBtn').onclick = () => {
+      // --- MAP LOGIC ---
+      document.getElementById('btnInitMap').onclick = () => {
         const key = document.getElementById('gmapsKey').value;
         if (!key) return alert('API Key required');
 
         const script = document.createElement('script');
         script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=geometry`;
         script.onload = () => {
-          initMap();
+          map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: { lat: 37.7749, lng: -122.4194 },
+            styles: [
+              { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+              {
+                elementType: 'labels.text.stroke',
+                stylers: [{ color: '#242f3e' }],
+              },
+              {
+                elementType: 'labels.text.fill',
+                stylers: [{ color: '#746855' }],
+              },
+              {
+                featureType: 'road',
+                elementType: 'geometry',
+                stylers: [{ color: '#38414e' }],
+              },
+              {
+                featureType: 'water',
+                elementType: 'geometry',
+                stylers: [{ color: '#17263c' }],
+              },
+            ],
+            disableDefaultUI: true,
+          });
+          routePolyline = new google.maps.Polyline({
+            strokeColor: '#818CF8',
+            strokeOpacity: 0.8,
+            strokeWeight: 6,
+            map,
+          });
           mapReady = true;
-          document.getElementById('loadMapBtn').style.display = 'none';
-          document.getElementById('gmapsKey').parentElement.style.display =
+          document.getElementById('btnInitMap').parentElement.style.display =
             'none';
         };
         document.head.appendChild(script);
       };
 
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 12,
-          center: { lat: 40.7128, lng: -74.006 },
-          styles: [
-            { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
-            {
-              elementType: 'labels.text.stroke',
-              stylers: [{ color: '#242f3e' }],
-            },
-            {
-              elementType: 'labels.text.fill',
-              stylers: [{ color: '#746855' }],
-            },
-            {
-              featureType: 'road',
-              elementType: 'geometry',
-              stylers: [{ color: '#38414e' }],
-            },
-            {
-              featureType: 'water',
-              elementType: 'geometry',
-              stylers: [{ color: '#17263c' }],
-            },
-          ],
-          disableDefaultUI: true,
-        });
-
-        routePath = new google.maps.Polyline({
-          strokeColor: '#6366F1',
-          strokeOpacity: 0.8,
-          strokeWeight: 5,
-          map: map,
-        });
-
-        const createIcon = (url) => ({
-          url,
-          scaledSize: new google.maps.Size(40, 40),
-        });
-
-        pickupMarker = new google.maps.Marker({
-          map,
-          label: 'P',
-          title: 'Pickup',
-        });
-        dropoffMarker = new google.maps.Marker({
-          map,
-          label: 'D',
-          title: 'Dropoff',
-        });
-        driverMarker = new google.maps.Marker({
-          map,
-          label: '🚗',
-          title: 'Driver',
-        });
-      }
-
-      // Socket Logic
-      document.getElementById('connectBtn').onclick = () => {
-        const token = document.getElementById('token').value;
+      // --- SOCKET LOGIC ---
+      document.getElementById('btnConnect').onclick = () => {
+        const token = document.getElementById('authToken').value.trim();
         if (!token) return alert('Token required');
 
         socket = io('http://localhost:3000/queue', {
@@ -382,59 +429,93 @@
 
         socket.on('connect', () => {
           document.getElementById('statusDot').className = 'dot online';
-          document.getElementById('connectBtn').style.display = 'none';
-          document.getElementById('trackingControls').style.opacity = '1';
-          document.getElementById('trackingControls').style.pointerEvents =
-            'auto';
+          document.getElementById('btnConnect').style.display = 'none';
+          document.getElementById('trackingGroup').style.opacity = '1';
+          document.getElementById('trackingGroup').style.pointerEvents = 'auto';
+        });
+
+        socket.on('disconnect', () => {
+          showError('Disconnected from server');
+          document.getElementById('statusDot').className = 'dot';
         });
 
         socket.on('queue:transport_tracking_data', (res) => {
-          console.log('Update:', res.data);
-          updateUI(res.data);
+          console.log('📡 Real-time Update Received:', res);
+          if (res.status === 'success') renderUI(res.data);
+          else showError(res.message);
         });
       };
 
-      document.getElementById('joinBtn').onclick = () => {
-        const id = document.getElementById('transportId').value;
-        if (!id) return alert('Transport ID required');
-        socket.emit('queue:transport_join_tracking', { transportId: id });
-        document.getElementById('statsContainer').style.display = 'block';
-        document.getElementById('etaBox').style.display = 'flex';
+      document.getElementById('btnJoin').onclick = () => {
+        const transportId = document.getElementById('transportId').value.trim();
+        if (!transportId) return alert('Transport ID required');
+
+        socket.emit('queue:transport_join_tracking', { transportId }, (res) => {
+          if (res.status === 'success') {
+            document.getElementById('dataDisplay').style.display = 'block';
+            document.getElementById('uiOverlay').style.display = 'flex';
+          } else {
+            showError(res.message);
+          }
+        });
       };
 
-      function updateUI(data) {
-        // Textual Data
-        document.getElementById('animalName').innerText = data.animalName;
-        document.getElementById('progressVal').innerText =
-          Math.round(data.progressPercentage) + '%';
-        document.getElementById('progressFill').style.width =
+      document.getElementById('btnRefresh').onclick = () => {
+        const transportId = document.getElementById('transportId').value.trim();
+        if (!transportId) return alert('Transport ID required');
+
+        socket.emit('queue:transport_get_live_data', { transportId }, (res) => {
+          console.log('🔄 Data Refreshed manually:', res);
+          if (res.status === 'success') renderUI(res.data);
+          else showError(res.message);
+        });
+      };
+
+      // --- UI RENDERING ---
+      function renderUI(data) {
+        if (!data) return;
+
+        // 1. Text Data
+        document.getElementById('uiAnimal').innerText = data.animalName;
+        document.getElementById('uiBreed').innerText = data.animalBreed;
+        document.getElementById('uiShelter').innerText =
+          `Shelter: ${data.shelterName || '---'}`;
+        document.getElementById('uiProgress').innerText =
+          `Progress: ${Math.round(data.progressPercentage)}%`;
+        document.getElementById('uiDist').innerText =
+          `${data.distanceRemaining.toFixed(1)} miles left`;
+        document.getElementById('fill').style.width =
           data.progressPercentage + '%';
-        document.getElementById('distRemaining').innerText =
-          data.distanceRemaining.toFixed(1) + ' miles left';
-        document.getElementById('etaTime').innerText = new Date(
+        document.getElementById('uiDriver').innerText =
+          `Driver: ${data.driverName || 'N/A'} (${data.driverConnected ? 'ONLINE' : 'OFFLINE'})`;
+        document.getElementById('uiDriver').style.color = data.driverConnected
+          ? 'var(--success)'
+          : 'var(--accent)';
+
+        // 2. Overlay Data
+        document.getElementById('uiEta').innerText = new Date(
           data.estimatedDropOffTime,
         ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        document.getElementById('uiTime').innerText =
+          Math.round(data.estimatedTimeRemainingMinutes) + ' mins';
 
-        const driverStatus = document.getElementById('driverStatus');
-        driverStatus.innerText = data.driverConnected ? 'ONLINE' : 'OFFLINE';
-        driverStatus.style.color = data.driverConnected ? '#10B981' : '#F43F5E';
+        // 3. Milestones
+        if (data.milestones && data.milestones.length) {
+          document.getElementById('uiMilestones').innerHTML = data.milestones
+            .map(
+              (m) => `
+                    <div class="milestone">
+                        <b>${m.name}</b>
+                        <span>ETA: ${new Date(m.eta).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                `,
+            )
+            .join('');
+        }
 
-        // Milestones
-        const milestonesList = document.getElementById('milestonesList');
-        milestonesList.innerHTML = data.milestones
-          .map(
-            (m) => `
-                <div class="milestone">
-                    <b>${m.name}</b><br/>
-                    <small>ETA: ${new Date(m.eta).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
-                </div>
-            `,
-          )
-          .join('');
-
-        // Map Data
+        // 4. Map Logic
         if (mapReady) {
-          const pos = {
+          const driverPos = {
             lat: data.currentLatitude || data.pickUpLatitude,
             lng: data.currentLongitude || data.pickUpLongitude,
           };
@@ -447,23 +528,39 @@
             lng: data.dropOffLongitude,
           };
 
-          pickupMarker.setPosition(pickup);
-          dropoffMarker.setPosition(dropoff);
-          driverMarker.setPosition(pos);
+          updateMarker('driver', driverPos, '🚗');
+          updateMarker('pickup', pickup, 'P');
+          updateMarker('dropoff', dropoff, 'D');
 
-          // Decode Polyline
-          const path = google.maps.geometry.encoding.decodePath(
-            data.routePolyline,
-          );
-          routePath.setPath(path);
+          if (data.routePolyline) {
+            const path = google.maps.geometry.encoding.decodePath(
+              data.routePolyline,
+            );
+            routePolyline.setPath(path);
+          }
 
-          // Auto-zoom to fit pickup/dropoff/driver
+          // Bounds adjustment
           const bounds = new google.maps.LatLngBounds();
           bounds.extend(pickup);
           bounds.extend(dropoff);
-          bounds.extend(pos);
-          map.fitBounds(bounds, 50);
+          bounds.extend(driverPos);
+          map.fitBounds(bounds, 80);
         }
+      }
+
+      function updateMarker(key, position, label) {
+        if (!markers[key]) {
+          markers[key] = new google.maps.Marker({ map, label, position });
+        } else {
+          markers[key].setPosition(position);
+        }
+      }
+
+      function showError(msg) {
+        const box = document.getElementById('errorBox');
+        box.innerText = msg;
+        box.style.display = 'block';
+        setTimeout(() => (box.style.display = 'none'), 5000);
       }
     </script>
   </body>
