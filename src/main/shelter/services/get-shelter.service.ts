@@ -122,27 +122,40 @@ export class GetShelterService {
 
   @HandleError('Failed to get own shelter documents')
   async getOwnShelterDocuments(userId: string) {
-    const shelter = await this.prisma.client.shelter.findFirst({
-      where: {
-        OR: [
-          { shelterAdmins: { some: { id: userId } } },
-          { managers: { some: { id: userId } } },
-        ],
+    // STEP 1: Load which shelter the user belongs to
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+      select: {
+        shelterAdminOfId: true,
+        managerOfId: true,
       },
+    });
+
+    if (!user) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'User does not exist');
+    }
+
+    const shelterId = user.shelterAdminOfId ?? user.managerOfId;
+
+    if (!shelterId) {
+      throw new AppError(
+        HttpStatus.NOT_FOUND,
+        'User is not assigned to any shelter',
+      );
+    }
+
+    // STEP 2: Fetch shelter + documents
+    const shelter = await this.prisma.client.shelter.findUnique({
+      where: { id: shelterId },
       include: {
         shelterDocuments: {
-          include: {
-            document: true,
-          },
+          include: { document: true },
         },
       },
     });
 
     if (!shelter) {
-      throw new AppError(
-        HttpStatus.NOT_FOUND,
-        'Shelter not found for this user',
-      );
+      throw new AppError(HttpStatus.NOT_FOUND, 'Shelter not found');
     }
 
     const globalStatus = this.getGlobalShelterStatus(

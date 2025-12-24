@@ -97,7 +97,7 @@ export class ShelterController {
   @ApiOperation({ summary: 'Get own shelter documents' })
   @ValidateManager()
   @Get('shelter/me/document')
-  async getOwnShelterDocuments(userId: string) {
+  async getOwnShelterDocuments(@GetUser('sub') userId: string) {
     return this.shelterService.getOwnShelterDocuments(userId);
   }
 
