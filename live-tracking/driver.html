@@ -301,11 +301,7 @@
             longitude,
           },
           (res) => {
-            if (res.success) {
-              log('Location synced to server', '#10B981');
-            } else {
-              log('Update failed: ' + res.message, '#EF4444');
-            }
+            log('Server Response: ' + (res.message || 'Updated'));
           },
         );
       };

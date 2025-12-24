@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vet - Patient Arrival Monitor</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #10b981;
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f8fafc;
+      }
+
+      body {
+        font-family: 'Outfit', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        padding: 40px;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: var(--card);
+        padding: 32px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      h1 {
+        color: var(--primary);
+        margin-bottom: 24px;
+      }
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.2);
+        color: white;
+        box-sizing: border-box;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .arrival-card {
+        margin-top: 32px;
+        padding: 24px;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px dashed var(--primary);
+        border-radius: 16px;
+        text-align: center;
+        display: none;
+      }
+      .eta-big {
+        font-size: 48px;
+        font-weight: 700;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Patient Intake Monitor</h1>
+      <p>Monitor the arrival of your upcoming animal transport.</p>
+
+      <input type="password" id="token" placeholder="Bearer Token" />
+      <input type="text" id="id" placeholder="Transport ID" />
+      <button id="trackBtn">Start Monitoring</button>
+
+      <div id="card" class="arrival-card">
+        <div id="animal">Animal Name</div>
+        <div class="eta-big" id="eta">--:--</div>
+        <div id="miles">-- miles away</div>
+        <div
+          style="margin-top: 10px; font-size: 13px; opacity: 0.7"
+          id="status"
+        >
+          Status: Tracking...
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let socket;
+      document.getElementById('trackBtn').onclick = () => {
+        const token = document.getElementById('token').value;
+        const transportId = document.getElementById('id').value;
+
+        socket = io('http://localhost:3000/queue', {
+          auth: { token: `Bearer ${token}` },
+          transports: ['websocket'],
+        });
+
+        socket.on('connect', () => {
+          socket.emit('queue:transport_join_tracking', { transportId });
+          document.getElementById('card').style.display = 'block';
+        });
+
+        socket.on('queue:transport_tracking_data', (res) => {
+          const d = res.data;
+          document.getElementById('animal').innerText =
+            `Incoming: ${d.animalName}`;
+          document.getElementById('eta').innerText = new Date(
+            d.estimatedDropOffTime,
+          ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          document.getElementById('miles').innerText =
+            d.distanceRemaining.toFixed(1) + ' miles remaining';
+          document.getElementById('status').innerText =
+            `Status: ${d.status} (${d.driverConnected ? 'Driver Online' : 'Driver Offline'})`;
+        });
+      };
+    </script>
+  </body>
+</html>

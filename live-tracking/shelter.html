@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shelter - Live Monitoring</title>
+    <title>Shelter Monitoring Dashboard</title>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+    <script id="gmapsScript"></script>
     <style>
       :root {
         --primary: #6366f1;
@@ -17,7 +18,7 @@
         --text: #f8fafc;
         --text-dim: #94a3b8;
         --success: #10b981;
-        --danger: #ef4444;
+        --accent: #f43f5e;
       }
 
       body {
@@ -25,54 +26,45 @@
         background: var(--bg);
         color: var(--text);
         margin: 0;
-        padding: 24px;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
       }
 
-      .layout {
-        display: grid;
-        grid-template-columns: 380px 1fr;
-        gap: 32px;
-        max-width: 1400px;
-        margin: 0 auto;
-      }
-
+      /* Side Panel */
       .sidebar {
+        width: 400px;
         background: var(--card);
-        padding: 32px;
-        border-radius: 28px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        height: max-content;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        z-index: 10;
+        padding: 24px;
+        box-sizing: border-box;
       }
 
       h1 {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 600;
         margin-bottom: 24px;
         display: flex;
         align-items: center;
         gap: 10px;
       }
-
-      .status-dot {
+      .dot {
         width: 8px;
         height: 8px;
         border-radius: 50%;
         background: grey;
       }
-      .online {
+      .dot.online {
         background: var(--success);
         box-shadow: 0 0 10px var(--success);
       }
 
-      .group {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        padding-bottom: 24px;
-        margin-bottom: 24px;
+      .form-group {
+        margin-bottom: 20px;
       }
-      .group:last-child {
-        border: none;
-      }
-
       label {
         display: block;
         font-size: 11px;
@@ -111,7 +103,7 @@
         background: var(--primary);
         color: white;
       }
-      .btn-ghost {
+      .btn-secondary {
         background: rgba(255, 255, 255, 0.05);
         color: white;
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -120,29 +112,18 @@
         transform: translateY(-1px);
         opacity: 0.9;
       }
-      .btn:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-      }
 
-      .main {
-        background: var(--card);
-        border-radius: 28px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 32px;
+      /* Stats Card */
+      .stats-container {
+        margin-top: 24px;
+        display: none;
       }
-
-      .header-stats {
-        display: flex;
-        gap: 24px;
-        margin-bottom: 32px;
-      }
-      .stat-box {
+      .stat-card {
         background: rgba(0, 0, 0, 0.2);
-        padding: 16px 24px;
         border-radius: 16px;
+        padding: 20px;
         border: 1px solid rgba(255, 255, 255, 0.05);
-        flex: 1;
+        margin-bottom: 16px;
       }
       .stat-label {
         font-size: 11px;
@@ -150,97 +131,249 @@
         text-transform: uppercase;
         margin-bottom: 4px;
       }
-      .stat-value {
-        font-size: 18px;
+      .stat-header {
+        font-size: 16px;
         font-weight: 600;
+        margin-bottom: 12px;
       }
 
-      pre {
-        background: #000;
-        padding: 24px;
+      .progress-bar {
+        width: 100%;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 10px 0;
+      }
+      #progressFill {
+        height: 100%;
+        background: var(--primary);
+        width: 0%;
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Map Area */
+      .map-wrapper {
+        flex: 1;
+        position: relative;
+      }
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+
+      .overlay-info {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: var(--card);
+        padding: 16px 24px;
         border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        display: flex;
+        gap: 24px;
+        backdrop-filter: blur(10px);
+      }
+
+      .milestones {
+        max-height: 200px;
+        overflow-y: auto;
         font-size: 13px;
-        color: #10b981;
-        overflow-x: auto;
-        max-height: 500px;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        font-family: 'JetBrains Mono', monospace;
+        color: var(--text-dim);
+      }
+      .milestone {
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       }
     </style>
   </head>
   <body>
-    <div class="layout">
-      <aside class="sidebar">
-        <h1>
-          <div id="dot" class="status-dot"></div>
-          Network
-        </h1>
+    <aside class="sidebar">
+      <h1>
+        <div id="statusDot" class="dot"></div>
+        Shelter Monitoring
+      </h1>
 
-        <div class="group">
-          <label>1. Authentication</label>
-          <input type="password" id="token" placeholder="Bearer Token" />
-          <button id="connectBtn" class="btn btn-primary">
-            Establish Connection
-          </button>
-        </div>
+      <div class="form-group">
+        <label>Google Maps API Key</label>
+        <input
+          type="password"
+          id="gmapsKey"
+          placeholder="Enter API Key to load Map"
+        />
+        <button id="loadMapBtn" class="btn btn-secondary">Init Map</button>
+      </div>
 
-        <div
-          class="group"
-          id="roomSection"
-          style="opacity: 0.5; pointer-events: none"
-        >
-          <label>2. Monitor Transport</label>
-          <input type="text" id="transportId" placeholder="UUID of Trip" />
-          <button id="joinBtn" class="btn btn-primary">
-            Join tracking room
-          </button>
-          <button
-            id="refreshBtn"
-            class="btn btn-ghost"
-            style="margin-top: 12px"
+      <div
+        class="form-group"
+        style="
+          padding-top: 20px;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+        "
+      >
+        <label>Authentication</label>
+        <input type="password" id="token" placeholder="Bearer Token" />
+        <button id="connectBtn" class="btn btn-primary">
+          Connect WebSockets
+        </button>
+      </div>
+
+      <div id="trackingControls" style="opacity: 0.3; pointer-events: none">
+        <label>Tracking</label>
+        <input type="text" id="transportId" placeholder="Transport UUID" />
+        <button id="joinBtn" class="btn btn-primary">
+          Start Live Tracking
+        </button>
+      </div>
+
+      <div id="statsContainer" class="stats-container">
+        <div class="stat-card">
+          <div class="stat-label">Animal Profile</div>
+          <div class="stat-header" id="animalName">---</div>
+          <div
+            id="transportStatus"
+            style="font-size: 13px; color: var(--success)"
           >
-            Pull Snapshot
-          </button>
-        </div>
-      </aside>
-
-      <main class="main">
-        <h1>Real-time Event Feed</h1>
-        <div class="header-stats">
-          <div class="stat-box">
-            <div class="stat-label">Subject</div>
-            <div id="tripSubject" class="stat-value">---</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-label">Progress</div>
-            <div id="tripProgress" class="stat-value">0%</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-label">Status</div>
-            <div id="tripStatus" class="stat-value">Pending</div>
+            IN TRANSIT
           </div>
         </div>
 
-        <label>JSON Data Stream</label>
-        <pre id="stream">// Ready for incoming events...</pre>
-      </main>
-    </div>
+        <div class="stat-card">
+          <div class="stat-label">Trip Progress</div>
+          <div class="stat-header" id="progressVal">0%</div>
+          <div class="progress-bar"><div id="progressFill"></div></div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-size: 12px;
+              color: var(--text-dim);
+            "
+          >
+            <span id="distTraveled">0 miles</span>
+            <span id="distRemaining">0 miles</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <label>Upcoming Milestones</label>
+          <div id="milestonesList" class="milestones">
+            <!-- Milestones go here -->
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="map-wrapper">
+      <div id="map"></div>
+      <div class="overlay-info" id="etaBox" style="display: none">
+        <div>
+          <div class="stat-label">Destination ETA</div>
+          <div
+            id="etaTime"
+            style="font-size: 20px; font-weight: 600; color: var(--success)"
+          >
+            ---
+          </div>
+        </div>
+        <div
+          style="
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding-left: 24px;
+          "
+        >
+          <div class="stat-label">Driver Connectivity</div>
+          <div id="driverStatus" style="font-size: 16px; font-weight: 600">
+            Offline
+          </div>
+        </div>
+      </div>
+    </main>
 
     <script>
       let socket;
+      let map, driverMarker, pickupMarker, dropoffMarker, routePath;
+      let mapReady = false;
 
-      const connectBtn = document.getElementById('connectBtn');
-      const roomSection = document.getElementById('roomSection');
-      const dot = document.getElementById('dot');
+      // Map Initialization
+      document.getElementById('loadMapBtn').onclick = () => {
+        const key = document.getElementById('gmapsKey').value;
+        if (!key) return alert('API Key required');
 
-      connectBtn.onclick = () => {
-        if (socket && socket.connected) {
-          socket.disconnect();
-          return;
-        }
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=geometry`;
+        script.onload = () => {
+          initMap();
+          mapReady = true;
+          document.getElementById('loadMapBtn').style.display = 'none';
+          document.getElementById('gmapsKey').parentElement.style.display =
+            'none';
+        };
+        document.head.appendChild(script);
+      };
 
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: { lat: 40.7128, lng: -74.006 },
+          styles: [
+            { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+            {
+              elementType: 'labels.text.stroke',
+              stylers: [{ color: '#242f3e' }],
+            },
+            {
+              elementType: 'labels.text.fill',
+              stylers: [{ color: '#746855' }],
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry',
+              stylers: [{ color: '#38414e' }],
+            },
+            {
+              featureType: 'water',
+              elementType: 'geometry',
+              stylers: [{ color: '#17263c' }],
+            },
+          ],
+          disableDefaultUI: true,
+        });
+
+        routePath = new google.maps.Polyline({
+          strokeColor: '#6366F1',
+          strokeOpacity: 0.8,
+          strokeWeight: 5,
+          map: map,
+        });
+
+        const createIcon = (url) => ({
+          url,
+          scaledSize: new google.maps.Size(40, 40),
+        });
+
+        pickupMarker = new google.maps.Marker({
+          map,
+          label: 'P',
+          title: 'Pickup',
+        });
+        dropoffMarker = new google.maps.Marker({
+          map,
+          label: 'D',
+          title: 'Dropoff',
+        });
+        driverMarker = new google.maps.Marker({
+          map,
+          label: '🚗',
+          title: 'Driver',
+        });
+      }
+
+      // Socket Logic
+      document.getElementById('connectBtn').onclick = () => {
         const token = document.getElementById('token').value;
-        if (!token) return alert('Token missing');
+        if (!token) return alert('Token required');
 
         socket = io('http://localhost:3000/queue', {
           auth: { token: `Bearer ${token}` },
@@ -248,51 +381,89 @@
         });
 
         socket.on('connect', () => {
-          connectBtn.innerText = 'Go Offline';
-          connectBtn.style.background = '#EF4444';
-          dot.className = 'status-dot online';
-          roomSection.style.opacity = '1';
-          roomSection.style.pointerEvents = 'auto';
-        });
-
-        socket.on('disconnect', () => {
-          connectBtn.innerText = 'Establish Connection';
-          connectBtn.style.background = '#6366F1';
-          dot.className = 'status-dot';
-          roomSection.style.opacity = '0.5';
-          roomSection.style.pointerEvents = 'none';
+          document.getElementById('statusDot').className = 'dot online';
+          document.getElementById('connectBtn').style.display = 'none';
+          document.getElementById('trackingControls').style.opacity = '1';
+          document.getElementById('trackingControls').style.pointerEvents =
+            'auto';
         });
 
         socket.on('queue:transport_tracking_data', (res) => {
-          render(res.data);
+          console.log('Update:', res.data);
+          updateUI(res.data);
         });
       };
 
       document.getElementById('joinBtn').onclick = () => {
-        const transportId = document.getElementById('transportId').value;
-        if (!transportId) return alert('ID required');
-        socket.emit('queue:transport_join_tracking', { transportId });
+        const id = document.getElementById('transportId').value;
+        if (!id) return alert('Transport ID required');
+        socket.emit('queue:transport_join_tracking', { transportId: id });
+        document.getElementById('statsContainer').style.display = 'block';
+        document.getElementById('etaBox').style.display = 'flex';
       };
 
-      document.getElementById('refreshBtn').onclick = () => {
-        const transportId = document.getElementById('transportId').value;
-        socket.emit('queue:transport_get_live_data', { transportId }, (res) => {
-          if (res.data) render(res.data);
-        });
-      };
+      function updateUI(data) {
+        // Textual Data
+        document.getElementById('animalName').innerText = data.animalName;
+        document.getElementById('progressVal').innerText =
+          Math.round(data.progressPercentage) + '%';
+        document.getElementById('progressFill').style.width =
+          data.progressPercentage + '%';
+        document.getElementById('distRemaining').innerText =
+          data.distanceRemaining.toFixed(1) + ' miles left';
+        document.getElementById('etaTime').innerText = new Date(
+          data.estimatedDropOffTime,
+        ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-      function render(data) {
-        document.getElementById('stream').innerText = JSON.stringify(
-          data,
-          null,
-          4,
-        );
-        document.getElementById('tripSubject').innerText =
-          data.animalName || '---';
-        document.getElementById('tripProgress').innerText =
-          Math.round(data.progressPercentage || 0) + '%';
-        document.getElementById('tripStatus').innerText =
-          data.status || 'Active';
+        const driverStatus = document.getElementById('driverStatus');
+        driverStatus.innerText = data.driverConnected ? 'ONLINE' : 'OFFLINE';
+        driverStatus.style.color = data.driverConnected ? '#10B981' : '#F43F5E';
+
+        // Milestones
+        const milestonesList = document.getElementById('milestonesList');
+        milestonesList.innerHTML = data.milestones
+          .map(
+            (m) => `
+                <div class="milestone">
+                    <b>${m.name}</b><br/>
+                    <small>ETA: ${new Date(m.eta).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>
+                </div>
+            `,
+          )
+          .join('');
+
+        // Map Data
+        if (mapReady) {
+          const pos = {
+            lat: data.currentLatitude || data.pickUpLatitude,
+            lng: data.currentLongitude || data.pickUpLongitude,
+          };
+          const pickup = {
+            lat: data.pickUpLatitude,
+            lng: data.pickUpLongitude,
+          };
+          const dropoff = {
+            lat: data.dropOffLatitude,
+            lng: data.dropOffLongitude,
+          };
+
+          pickupMarker.setPosition(pickup);
+          dropoffMarker.setPosition(dropoff);
+          driverMarker.setPosition(pos);
+
+          // Decode Polyline
+          const path = google.maps.geometry.encoding.decodePath(
+            data.routePolyline,
+          );
+          routePath.setPath(path);
+
+          // Auto-zoom to fit pickup/dropoff/driver
+          const bounds = new google.maps.LatLngBounds();
+          bounds.extend(pickup);
+          bounds.extend(dropoff);
+          bounds.extend(pos);
+          map.fitBounds(bounds, 50);
+        }
       }
     </script>
   </body>
