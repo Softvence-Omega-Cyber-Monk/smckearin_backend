@@ -1,4 +1,5 @@
 import { QueueEventsEnum } from '@/common/enum/queue-events.enum';
+import { successResponse } from '@/common/utils/response.util';
 import { BaseGateway } from '@/core/socket/base.gateway';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -169,5 +170,41 @@ export class QueueGateway extends BaseGateway {
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_LOCATION_UPDATE)
   async handleUpdateLocation(client: Socket, dto: TransportLocationUpdateDto) {
     return this.transportTrackingService.updateLocation(client, dto);
+  }
+
+  @SubscribeMessage(QueueEventsEnum.TRANSPORT_JOIN_TRACKING)
+  async handleJoinTracking(client: Socket, data: { transportId: string }) {
+    this.joinTransportRoom(client, data.transportId);
+    this.logger.log(
+      `Client ${client.id} joined tracking for ${data.transportId}`,
+    );
+
+    // Automatically send initial data snapshot to the client who just joined
+    const liveData = await this.transportTrackingService.getLiveTrackingData(
+      data.transportId,
+    );
+    client.emit(
+      QueueEventsEnum.TRANSPORT_TRACKING_DATA,
+      successResponse(liveData, 'Initial tracking data'),
+    );
+
+    return successResponse(null, 'Joined transport tracking');
+  }
+
+  @SubscribeMessage(QueueEventsEnum.TRANSPORT_GET_LIVE_DATA)
+  async handleGetLiveData(client: Socket, data: { transportId: string }) {
+    const liveData = await this.transportTrackingService.getLiveTrackingData(
+      data.transportId,
+    );
+    return successResponse(liveData, 'Live tracking data fetched');
+  }
+
+  @SubscribeMessage(QueueEventsEnum.TRANSPORT_LEAVE_TRACKING)
+  async handleLeaveTracking(client: Socket, data: { transportId: string }) {
+    this.leaveTransportRoom(client, data.transportId);
+    this.logger.log(
+      `Client ${client.id} left tracking for ${data.transportId}`,
+    );
+    return successResponse(null, 'Left transport tracking');
   }
 }
