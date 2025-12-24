@@ -202,6 +202,18 @@
         color: var(--text);
       }
 
+      /* JSON Inspector */
+      #jsonInspector { 
+        background: rgba(0,0,0,0.8); border-radius: 12px; padding: 16px; font-family: 'JetBrains Mono', monospace; 
+        font-size: 11px; color: #10B981; overflow: auto; max-height: 400px; white-space: pre-wrap; margin-top: 20px;
+        border: 1px solid rgba(16, 185, 129, 0.2); display: block;
+        min-height: 100px;
+      }
+
+      /* Status Indicators */
+      .map-status { position: absolute; top: 10px; left: 10px; z-index: 100; background: rgba(0,0,0,0.7); padding: 4px 10px; border-radius: 4px; font-size: 10px; color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1); }
+      .map-status.ready { color: var(--success); border-color: var(--success); }
+
       /* Map Container */
       .map-section {
         flex: 1;
@@ -306,6 +318,11 @@
           Refresh Current Data
         </button>
       </div>
+      
+      <div class="card" id="jsonCard" style="display: none; border-color: var(--success);">
+        <div class="card-title">Live JSON Feed</div>
+        <div id="jsonInspector"></div>
+      </div>
 
       <!-- Active Stats -->
       <div id="dataDisplay">
@@ -339,9 +356,12 @@
           </div>
         </div>
       </div>
+
+      </div>
     </aside>
 
     <main class="map-section">
+      <div id="mapStatus" class="map-status">Map Not Initialized</div>
       <div id="map"></div>
       <div id="errorBox">Error: Something went wrong</div>
 
@@ -411,8 +431,11 @@
             map,
           });
           mapReady = true;
+          document.getElementById('mapStatus').innerText = 'Map Ready (Visuals Active)';
+          document.getElementById('mapStatus').classList.add('ready');
           document.getElementById('btnInitMap').parentElement.style.display =
             'none';
+          console.log('✅ Google Maps Visuals Initialized');
         };
         document.head.appendChild(script);
       };
@@ -441,6 +464,12 @@
 
         socket.on('queue:transport_tracking_data', (res) => {
           console.log('📡 Real-time Update Received:', res);
+          
+          // Show raw JSON
+          document.getElementById('jsonCard').style.display = 'block';
+          const inspector = document.getElementById('jsonInspector');
+          inspector.innerText = JSON.stringify(res, null, 2);
+
           if (res.status === 'success') renderUI(res.data);
           else showError(res.message);
         });
@@ -451,6 +480,11 @@
         if (!transportId) return alert('Transport ID required');
 
         socket.emit('queue:transport_join_tracking', { transportId }, (res) => {
+          // Show raw JSON for acknowledgment too
+          document.getElementById('jsonCard').style.display = 'block';
+          const inspector = document.getElementById('jsonInspector');
+          inspector.innerText = JSON.stringify(res, null, 2);
+
           if (res.status === 'success') {
             document.getElementById('dataDisplay').style.display = 'block';
             document.getElementById('uiOverlay').style.display = 'flex';
@@ -466,6 +500,12 @@
 
         socket.emit('queue:transport_get_live_data', { transportId }, (res) => {
           console.log('🔄 Data Refreshed manually:', res);
+          
+          // Show raw JSON
+          document.getElementById('jsonCard').style.display = 'block';
+          const inspector = document.getElementById('jsonInspector');
+          inspector.innerText = JSON.stringify(res, null, 2);
+
           if (res.status === 'success') renderUI(res.data);
           else showError(res.message);
         });
@@ -515,36 +555,48 @@
 
         // 4. Map Logic
         if (mapReady) {
-          const driverPos = {
-            lat: data.currentLatitude || data.pickUpLatitude,
-            lng: data.currentLongitude || data.pickUpLongitude,
-          };
-          const pickup = {
-            lat: data.pickUpLatitude,
-            lng: data.pickUpLongitude,
-          };
-          const dropoff = {
-            lat: data.dropOffLatitude,
-            lng: data.dropOffLongitude,
-          };
+          console.log('🗺️ Updating Map with new data...');
+          try {
+            const driverPos = {
+              lat: Number(data.currentLatitude || data.pickUpLatitude),
+              lng: Number(data.currentLongitude || data.pickUpLongitude),
+            };
+            const pickup = {
+              lat: Number(data.pickUpLatitude),
+              lng: Number(data.pickUpLongitude),
+            };
+            const dropoff = {
+              lat: Number(data.dropOffLatitude),
+              lng: Number(data.dropOffLongitude),
+            };
 
-          updateMarker('driver', driverPos, '🚗');
-          updateMarker('pickup', pickup, 'P');
-          updateMarker('dropoff', dropoff, 'D');
+            console.log('📍 Positions:', { driverPos, pickup, dropoff });
 
-          if (data.routePolyline) {
-            const path = google.maps.geometry.encoding.decodePath(
-              data.routePolyline,
-            );
-            routePolyline.setPath(path);
+            updateMarker('driver', driverPos, '🚗');
+            updateMarker('pickup', pickup, 'P');
+            updateMarker('dropoff', dropoff, 'D');
+
+            if (data.routePolyline) {
+              const path = google.maps.geometry.encoding.decodePath(
+                data.routePolyline,
+              );
+              routePolyline.setPath(path);
+              console.log('📈 Route Polyline Updated');
+            }
+
+            // Bounds adjustment
+            const bounds = new google.maps.LatLngBounds();
+            bounds.extend(pickup);
+            bounds.extend(dropoff);
+            bounds.extend(driverPos);
+            map.fitBounds(bounds, 80);
+            console.log('🔍 Map Bounds Flipped');
+          } catch (mapErr) {
+            console.error('❌ Map Update Error:', mapErr);
+            showError('Map logic error: ' + mapErr.message);
           }
-
-          // Bounds adjustment
-          const bounds = new google.maps.LatLngBounds();
-          bounds.extend(pickup);
-          bounds.extend(dropoff);
-          bounds.extend(driverPos);
-          map.fitBounds(bounds, 80);
+        } else {
+            console.warn('⚠️ Map not ready yet. Skipping visual update.');
         }
       }
 

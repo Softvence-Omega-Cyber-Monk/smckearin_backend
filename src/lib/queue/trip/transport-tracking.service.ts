@@ -247,11 +247,11 @@ export class TransportTrackingService {
         dropOffLongitude: transport.dropOffLongitude,
 
         driverId: driver?.id ?? undefined,
-        driverName: driver?.user?.name ?? undefined,
+        driverName: driver?.user?.name ?? 'Assigned Driver',
 
-        currentLocation: location ?? undefined,
-        currentLatitude: driver?.currentLatitude ?? undefined,
-        currentLongitude: driver?.currentLongitude ?? undefined,
+        currentLocation: location ?? 'Pending Update',
+        currentLatitude: driver?.currentLatitude ?? pickUpLatitude,
+        currentLongitude: driver?.currentLongitude ?? pickUpLongitude,
 
         driverConnected,
         lastLocationPing: driver?.lastLocationPing ?? undefined,
