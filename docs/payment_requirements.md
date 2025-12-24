@@ -53,3 +53,9 @@ The platform uses **Stripe Connect Express** for simplified compliance and payou
 - **`Driver`**: Stores `stripeAccountId` (Express) and payout status.
 - **`Shelter`**: Stores `stripeCustomerId` to handle automated billing for transports.
 - **`Transaction`**: Audit log capturing `StripePaymentIntentId` and `StripeTransferId` to track the movement of real money.
+
+## 6. Automatic System Seeding
+To ensure high availability and ease of administration, the system automatically initializes the following defaults on startup:
+- **Default Pricing**: $0.65/mile, 0.0% platform fee, $0.00 base fare.
+- **Complexity Defaults**: Standard ($0), Puppy ($10), Medical ($20), Special ($25).
+- **Safe Defaults**: All global payment toggles (`driverPaymentsEnabled`, etc.) are set to `false` by default.
