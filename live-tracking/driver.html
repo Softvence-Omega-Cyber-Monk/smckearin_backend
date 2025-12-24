@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Driver - Location Simulator</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #4f46e5;
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f8fafc;
+      }
+      body {
+        font-family: 'Outfit', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .box {
+        background: var(--card);
+        padding: 40px;
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        max-width: 480px;
+      }
+      .section {
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        color: #94a3b8;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+      }
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: #000;
+        color: white;
+        box-sizing: border-box;
+      }
+      .btn {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      #log {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #94a3b8;
+        max-height: 100px;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <h1>Driver Simulator</h1>
+      <div class="section">
+        <label>Communication Link</label>
+        <input type="password" id="token" placeholder="Bearer Token" />
+        <button id="btnConnect" class="btn btn-primary">Connect to App</button>
+      </div>
+      <div id="controls" style="opacity: 0.3; pointer-events: none">
+        <label>Real-time Update</label>
+        <input type="text" id="id" placeholder="Transport UUID" />
+        <div class="grid">
+          <div>
+            <label>Lat</label><input type="number" id="lat" value="40.7128" />
+          </div>
+          <div>
+            <label>Lng</label><input type="number" id="lng" value="-74.0060" />
+          </div>
+        </div>
+        <button id="btnSend" class="btn btn-primary">Publish Location</button>
+        <button
+          id="btnAuto"
+          class="btn btn-primary"
+          style="margin-top: 10px; background: #334155"
+        >
+          Start Auto-Movement
+        </button>
+      </div>
+      <div id="log">Waiting for connection...</div>
+    </div>
+    <script>
+      let socket, interval;
+      const log = (m) => {
+        const l = document.getElementById('log');
+        l.innerHTML =
+          `[${new Date().toLocaleTimeString()}] ${m}<br/>` + l.innerHTML;
+      };
+
+      document.getElementById('btnConnect').onclick = () => {
+        const token = document.getElementById('token').value;
+        socket = io('http://localhost:3000/queue', {
+          auth: { token: `Bearer ${token}` },
+          transports: ['websocket'],
+        });
+        socket.on('connect', () => {
+          log('Connection Established!');
+          document.getElementById('controls').style.opacity = '1';
+          document.getElementById('controls').style.pointerEvents = 'auto';
+          document.getElementById('btnConnect').style.display = 'none';
+        });
+      };
+
+      document.getElementById('btnSend').onclick = () => {
+        const payload = {
+          transportId: document.getElementById('id').value,
+          latitude: parseFloat(document.getElementById('lat').value),
+          longitude: parseFloat(document.getElementById('lng').value),
+        };
+        socket.emit('queue:transport_location_update', payload, (res) =>
+          log(res.message || 'Updated'),
+        );
+      };
+
+      document.getElementById('btnAuto').onclick = function () {
+        if (interval) {
+          clearInterval(interval);
+          interval = null;
+          this.innerText = 'Start Auto-Movement';
+          return;
+        }
+        this.innerText = 'Stop Simulation';
+        interval = setInterval(() => {
+          document.getElementById('lat').value = (
+            parseFloat(document.getElementById('lat').value) + 0.0005
+          ).toFixed(4);
+          document.getElementById('lng').value = (
+            parseFloat(document.getElementById('lng').value) + 0.0005
+          ).toFixed(4);
+          document.getElementById('btnSend').click();
+        }, 3000);
+      };
+    </script>
+  </body>
+</html>

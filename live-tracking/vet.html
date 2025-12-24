@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vet Monitor - Arrival Status</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Outfit', sans-serif;
+        background: #0f172a;
+        color: white;
+        margin: 0;
+        padding: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .card {
+        background: #1e293b;
+        padding: 40px;
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+      h1 {
+        color: #10b981;
+        font-size: 20px;
+        margin-bottom: 24px;
+      }
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: black;
+        color: white;
+        box-sizing: border-box;
+      }
+      button {
+        width: 100%;
+        padding: 14px;
+        background: #10b981;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .eta-view {
+        margin-top: 32px;
+        display: none;
+      }
+      .time {
+        font-size: 56px;
+        font-weight: 600;
+        color: #10b981;
+      }
+      .meta {
+        color: #94a3b8;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Intake Monitoring</h1>
+      <input type="password" id="t" placeholder="Token" />
+      <input type="text" id="i" placeholder="Transport UUID" />
+      <button id="b">Start Tracking</button>
+
+      <div class="eta-view" id="v">
+        <div id="n" style="font-weight: 600; font-size: 18px">Animal Name</div>
+        <div class="time" id="e">--:--</div>
+        <div class="meta" id="m">0 miles remaining</div>
+        <div id="s" style="margin-top: 12px; font-size: 12px; opacity: 0.6">
+          Driver Tracking ACTIVE
+        </div>
+        <button id="r" style="margin-top: 20px; background: #334155; display: none">
+          Refresh Data
+        </button>
+      </div>
+    </div>
+    <script>
+      let s;
+      document.getElementById('b').onclick = () => {
+        s = io('http://localhost:3000/queue', {
+          auth: { token: `Bearer ${document.getElementById('t').value}` },
+          transports: ['websocket'],
+        });
+        s.on('connect', () => {
+          s.emit('queue:transport_join_tracking', {
+            transportId: document.getElementById('i').value,
+          });
+          document.getElementById('v').style.display = 'block';
+          document.getElementById('r').style.display = 'block';
+        });
+
+        document.getElementById('r').onclick = () => {
+           s.emit('queue:transport_get_live_data', { transportId: document.getElementById('i').value }, (r) => {
+               if(r.status === 'success') updateVetUI(r.data);
+           });
+        };
+
+        const updateVetUI = (d) => {
+            document.getElementById('n').innerText = d.animalName;
+            document.getElementById('e').innerText = new Date(
+                d.estimatedDropOffTime,
+            ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('m').innerText =
+                d.distanceRemaining.toFixed(1) + ' miles remaining';
+            document.getElementById('s').innerText = d.driverConnected
+                ? 'DRIVER ONLINE'
+                : 'DRIVER OFFLINE';
+        };
+
+        s.on('queue:transport_tracking_data', (r) => {
+          updateVetUI(r.data);
+        });
+      };
+    </script>
+  </body>
+</html>

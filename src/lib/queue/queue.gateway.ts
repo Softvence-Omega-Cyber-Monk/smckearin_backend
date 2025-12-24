@@ -199,6 +199,10 @@ export class QueueGateway extends BaseGateway {
     const liveData = await this.transportTrackingService.getLiveTrackingData(
       data.transportId,
     );
+    this.logger.log(
+      `Client ${client.id} requested live tracking data for ${data.transportId}`,
+      JSON.stringify(liveData, null, 2),
+    );
     return successResponse(liveData, 'Live tracking data fetched');
   }
 
