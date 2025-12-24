@@ -46,6 +46,11 @@ model Driver {
   currentLongitude Float?
   lastLocationPing DateTime?
 
+  // Payout / Stripe Integration
+  stripeAccountId  String?          @unique
+  onboardingStatus OnboardingStatus @default(NOT_STARTED)
+  payoutEnabled    Boolean          @default(false)
+
   // Transports
   transports Transport[]
 

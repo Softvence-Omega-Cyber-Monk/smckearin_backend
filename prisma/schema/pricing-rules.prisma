@@ -1,0 +1,19 @@
+model PricingRule {
+  id String @id @default(uuid())
+
+  ratePerMile        Float @default(0.65)
+  ratePerMinute      Float @default(0.0)
+  baseFare           Float @default(0.0)
+  platformFeePercent Float @default(0.0)
+  minPayout          Float @default(0.0)
+
+  effectiveDate DateTime @default(now())
+
+  // To track different versions of pricing logic
+  calculationVersion Int @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("pricing_rules")
+}

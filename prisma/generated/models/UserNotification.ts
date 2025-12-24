@@ -389,10 +389,6 @@ export type UserNotificationUncheckedUpdateManyWithoutNotificationNestedInput = 
   deleteMany?: Prisma.UserNotificationScalarWhereInput | Prisma.UserNotificationScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type UserNotificationCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.UserNotificationCreateWithoutUserInput, Prisma.UserNotificationUncheckedCreateWithoutUserInput> | Prisma.UserNotificationCreateWithoutUserInput[] | Prisma.UserNotificationUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.UserNotificationCreateOrConnectWithoutUserInput | Prisma.UserNotificationCreateOrConnectWithoutUserInput[]

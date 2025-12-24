@@ -1,0 +1,15 @@
+model AnimalComplexityFee {
+  id String @id @default(uuid())
+
+  type ComplexityType @unique
+
+  amount Float @default(0.0)
+
+  // Additional fee for each animal after the first one
+  multiAnimalFlatFee Float @default(0.0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("animal_complexity_fees")
+}

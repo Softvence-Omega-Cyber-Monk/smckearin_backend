@@ -1,0 +1,13 @@
+model PaymentSettings {
+  id String @id @default(uuid())
+
+  // Global Feature Flags
+  driverPaymentsEnabled   Boolean @default(false)
+  platformFeesEnabled     Boolean @default(false)
+  timeBasedPricingEnabled Boolean @default(false)
+
+  // Meta
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("payment_settings")
+}

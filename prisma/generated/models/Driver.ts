@@ -65,6 +65,9 @@ export type DriverMinAggregateOutputType = {
   currentLatitude: number | null
   currentLongitude: number | null
   lastLocationPing: Date | null
+  stripeAccountId: string | null
+  onboardingStatus: $Enums.OnboardingStatus | null
+  payoutEnabled: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -94,6 +97,9 @@ export type DriverMaxAggregateOutputType = {
   currentLatitude: number | null
   currentLongitude: number | null
   lastLocationPing: Date | null
+  stripeAccountId: string | null
+  onboardingStatus: $Enums.OnboardingStatus | null
+  payoutEnabled: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -124,6 +130,9 @@ export type DriverCountAggregateOutputType = {
   currentLatitude: number
   currentLongitude: number
   lastLocationPing: number
+  stripeAccountId: number
+  onboardingStatus: number
+  payoutEnabled: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -169,6 +178,9 @@ export type DriverMinAggregateInputType = {
   currentLatitude?: true
   currentLongitude?: true
   lastLocationPing?: true
+  stripeAccountId?: true
+  onboardingStatus?: true
+  payoutEnabled?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -198,6 +210,9 @@ export type DriverMaxAggregateInputType = {
   currentLatitude?: true
   currentLongitude?: true
   lastLocationPing?: true
+  stripeAccountId?: true
+  onboardingStatus?: true
+  payoutEnabled?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -228,6 +243,9 @@ export type DriverCountAggregateInputType = {
   currentLatitude?: true
   currentLongitude?: true
   lastLocationPing?: true
+  stripeAccountId?: true
+  onboardingStatus?: true
+  payoutEnabled?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -345,6 +363,9 @@ export type DriverGroupByOutputType = {
   currentLatitude: number | null
   currentLongitude: number | null
   lastLocationPing: Date | null
+  stripeAccountId: string | null
+  onboardingStatus: $Enums.OnboardingStatus
+  payoutEnabled: boolean
   createdAt: Date
   updatedAt: Date
   _count: DriverCountAggregateOutputType | null
@@ -398,6 +419,9 @@ export type DriverWhereInput = {
   currentLatitude?: Prisma.FloatNullableFilter<"Driver"> | number | null
   currentLongitude?: Prisma.FloatNullableFilter<"Driver"> | number | null
   lastLocationPing?: Prisma.DateTimeNullableFilter<"Driver"> | Date | string | null
+  stripeAccountId?: Prisma.StringNullableFilter<"Driver"> | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFilter<"Driver"> | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFilter<"Driver"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -433,6 +457,9 @@ export type DriverOrderByWithRelationInput = {
   currentLatitude?: Prisma.SortOrderInput | Prisma.SortOrder
   currentLongitude?: Prisma.SortOrderInput | Prisma.SortOrder
   lastLocationPing?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  onboardingStatus?: Prisma.SortOrder
+  payoutEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -449,6 +476,7 @@ export type DriverWhereUniqueInput = Prisma.AtLeast<{
   driverLicenseId?: string
   vehicleRegistrationId?: string
   transportCertificateId?: string
+  stripeAccountId?: string
   AND?: Prisma.DriverWhereInput | Prisma.DriverWhereInput[]
   OR?: Prisma.DriverWhereInput[]
   NOT?: Prisma.DriverWhereInput | Prisma.DriverWhereInput[]
@@ -471,6 +499,8 @@ export type DriverWhereUniqueInput = Prisma.AtLeast<{
   currentLatitude?: Prisma.FloatNullableFilter<"Driver"> | number | null
   currentLongitude?: Prisma.FloatNullableFilter<"Driver"> | number | null
   lastLocationPing?: Prisma.DateTimeNullableFilter<"Driver"> | Date | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFilter<"Driver"> | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFilter<"Driver"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Driver"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -478,7 +508,7 @@ export type DriverWhereUniqueInput = Prisma.AtLeast<{
   vehicleRegistration?: Prisma.XOR<Prisma.FileInstanceNullableScalarRelationFilter, Prisma.FileInstanceWhereInput> | null
   transportCertificate?: Prisma.XOR<Prisma.FileInstanceNullableScalarRelationFilter, Prisma.FileInstanceWhereInput> | null
   transports?: Prisma.TransportListRelationFilter
-}, "id" | "userId" | "phone" | "driverLicenseId" | "vehicleRegistrationId" | "transportCertificateId">
+}, "id" | "userId" | "phone" | "driverLicenseId" | "vehicleRegistrationId" | "transportCertificateId" | "stripeAccountId">
 
 export type DriverOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -506,6 +536,9 @@ export type DriverOrderByWithAggregationInput = {
   currentLatitude?: Prisma.SortOrderInput | Prisma.SortOrder
   currentLongitude?: Prisma.SortOrderInput | Prisma.SortOrder
   lastLocationPing?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeAccountId?: Prisma.SortOrderInput | Prisma.SortOrder
+  onboardingStatus?: Prisma.SortOrder
+  payoutEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DriverCountOrderByAggregateInput
@@ -544,6 +577,9 @@ export type DriverScalarWhereWithAggregatesInput = {
   currentLatitude?: Prisma.FloatNullableWithAggregatesFilter<"Driver"> | number | null
   currentLongitude?: Prisma.FloatNullableWithAggregatesFilter<"Driver"> | number | null
   lastLocationPing?: Prisma.DateTimeNullableWithAggregatesFilter<"Driver"> | Date | string | null
+  stripeAccountId?: Prisma.StringNullableWithAggregatesFilter<"Driver"> | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusWithAggregatesFilter<"Driver"> | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolWithAggregatesFilter<"Driver"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Driver"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Driver"> | Date | string
 }
@@ -570,6 +606,9 @@ export type DriverCreateInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -605,6 +644,9 @@ export type DriverUncheckedCreateInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -632,6 +674,9 @@ export type DriverUpdateInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -667,6 +712,9 @@ export type DriverUncheckedUpdateInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -698,6 +746,9 @@ export type DriverCreateManyInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -724,6 +775,9 @@ export type DriverUpdateManyMutationInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -754,6 +808,9 @@ export type DriverUncheckedUpdateManyInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -792,6 +849,9 @@ export type DriverCountOrderByAggregateInput = {
   currentLatitude?: Prisma.SortOrder
   currentLongitude?: Prisma.SortOrder
   lastLocationPing?: Prisma.SortOrder
+  stripeAccountId?: Prisma.SortOrder
+  onboardingStatus?: Prisma.SortOrder
+  payoutEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -828,6 +888,9 @@ export type DriverMaxOrderByAggregateInput = {
   currentLatitude?: Prisma.SortOrder
   currentLongitude?: Prisma.SortOrder
   lastLocationPing?: Prisma.SortOrder
+  stripeAccountId?: Prisma.SortOrder
+  onboardingStatus?: Prisma.SortOrder
+  payoutEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -857,6 +920,9 @@ export type DriverMinOrderByAggregateInput = {
   currentLatitude?: Prisma.SortOrder
   currentLongitude?: Prisma.SortOrder
   lastLocationPing?: Prisma.SortOrder
+  stripeAccountId?: Prisma.SortOrder
+  onboardingStatus?: Prisma.SortOrder
+  payoutEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -896,6 +962,14 @@ export type NullableFloatFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type EnumOnboardingStatusFieldUpdateOperationsInput = {
+  set?: $Enums.OnboardingStatus
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type DriverCreateNestedOneWithoutDriverLicenseInput = {
@@ -1064,6 +1138,9 @@ export type DriverCreateWithoutDriverLicenseInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -1097,6 +1174,9 @@ export type DriverUncheckedCreateWithoutDriverLicenseInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -1129,6 +1209,9 @@ export type DriverCreateWithoutVehicleRegistrationInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -1162,6 +1245,9 @@ export type DriverUncheckedCreateWithoutVehicleRegistrationInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -1194,6 +1280,9 @@ export type DriverCreateWithoutTransportCertificateInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -1227,6 +1316,9 @@ export type DriverUncheckedCreateWithoutTransportCertificateInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -1270,6 +1362,9 @@ export type DriverUpdateWithoutDriverLicenseInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1303,6 +1398,9 @@ export type DriverUncheckedUpdateWithoutDriverLicenseInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1341,6 +1439,9 @@ export type DriverUpdateWithoutVehicleRegistrationInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1374,6 +1475,9 @@ export type DriverUncheckedUpdateWithoutVehicleRegistrationInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1412,6 +1516,9 @@ export type DriverUpdateWithoutTransportCertificateInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1445,6 +1552,9 @@ export type DriverUncheckedUpdateWithoutTransportCertificateInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1472,6 +1582,9 @@ export type DriverCreateWithoutTransportsInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutDriversInput
@@ -1506,6 +1619,9 @@ export type DriverUncheckedCreateWithoutTransportsInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1548,6 +1664,9 @@ export type DriverUpdateWithoutTransportsInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutDriversNestedInput
@@ -1582,6 +1701,9 @@ export type DriverUncheckedUpdateWithoutTransportsInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1608,6 +1730,9 @@ export type DriverCreateWithoutUserInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   driverLicense?: Prisma.FileInstanceCreateNestedOneWithoutDriverLicenseInput
@@ -1641,6 +1766,9 @@ export type DriverUncheckedCreateWithoutUserInput = {
   currentLatitude?: number | null
   currentLongitude?: number | null
   lastLocationPing?: Date | string | null
+  stripeAccountId?: string | null
+  onboardingStatus?: $Enums.OnboardingStatus
+  payoutEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutDriverInput
@@ -1684,6 +1812,9 @@ export type DriverUpdateWithoutUserInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   driverLicense?: Prisma.FileInstanceUpdateOneWithoutDriverLicenseNestedInput
@@ -1717,6 +1848,9 @@ export type DriverUncheckedUpdateWithoutUserInput = {
   currentLatitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentLongitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lastLocationPing?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  stripeAccountId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  onboardingStatus?: Prisma.EnumOnboardingStatusFieldUpdateOperationsInput | $Enums.OnboardingStatus
+  payoutEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutDriverNestedInput
@@ -1779,6 +1913,9 @@ export type DriverSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   currentLatitude?: boolean
   currentLongitude?: boolean
   lastLocationPing?: boolean
+  stripeAccountId?: boolean
+  onboardingStatus?: boolean
+  payoutEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1815,6 +1952,9 @@ export type DriverSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   currentLatitude?: boolean
   currentLongitude?: boolean
   lastLocationPing?: boolean
+  stripeAccountId?: boolean
+  onboardingStatus?: boolean
+  payoutEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1849,6 +1989,9 @@ export type DriverSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   currentLatitude?: boolean
   currentLongitude?: boolean
   lastLocationPing?: boolean
+  stripeAccountId?: boolean
+  onboardingStatus?: boolean
+  payoutEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1883,11 +2026,14 @@ export type DriverSelectScalar = {
   currentLatitude?: boolean
   currentLongitude?: boolean
   lastLocationPing?: boolean
+  stripeAccountId?: boolean
+  onboardingStatus?: boolean
+  payoutEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DriverOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "phone" | "state" | "address" | "vehicleType" | "vehicleCapacity" | "yearsOfExperience" | "previousExperience" | "startTime" | "endTime" | "workingDays" | "driverLicenseId" | "driverLicenseUrl" | "driverLicenseStatus" | "vehicleRegistrationId" | "vehicleRegistrationUrl" | "vehicleRegistrationStatus" | "transportCertificateId" | "transportCertificateUrl" | "transportCertificateStatus" | "status" | "currentLatitude" | "currentLongitude" | "lastLocationPing" | "createdAt" | "updatedAt", ExtArgs["result"]["driver"]>
+export type DriverOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "phone" | "state" | "address" | "vehicleType" | "vehicleCapacity" | "yearsOfExperience" | "previousExperience" | "startTime" | "endTime" | "workingDays" | "driverLicenseId" | "driverLicenseUrl" | "driverLicenseStatus" | "vehicleRegistrationId" | "vehicleRegistrationUrl" | "vehicleRegistrationStatus" | "transportCertificateId" | "transportCertificateUrl" | "transportCertificateStatus" | "status" | "currentLatitude" | "currentLongitude" | "lastLocationPing" | "stripeAccountId" | "onboardingStatus" | "payoutEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["driver"]>
 export type DriverInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   driverLicense?: boolean | Prisma.Driver$driverLicenseArgs<ExtArgs>
@@ -1944,6 +2090,9 @@ export type $DriverPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     currentLatitude: number | null
     currentLongitude: number | null
     lastLocationPing: Date | null
+    stripeAccountId: string | null
+    onboardingStatus: $Enums.OnboardingStatus
+    payoutEnabled: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["driver"]>
@@ -2399,6 +2548,9 @@ export interface DriverFieldRefs {
   readonly currentLatitude: Prisma.FieldRef<"Driver", 'Float'>
   readonly currentLongitude: Prisma.FieldRef<"Driver", 'Float'>
   readonly lastLocationPing: Prisma.FieldRef<"Driver", 'DateTime'>
+  readonly stripeAccountId: Prisma.FieldRef<"Driver", 'String'>
+  readonly onboardingStatus: Prisma.FieldRef<"Driver", 'OnboardingStatus'>
+  readonly payoutEnabled: Prisma.FieldRef<"Driver", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Driver", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Driver", 'DateTime'>
 }

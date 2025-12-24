@@ -27,8 +27,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Animals
- * const animals = await prisma.animal.findMany()
+ * // Fetch zero or more AnimalComplexityFees
+ * const animalComplexityFees = await prisma.animalComplexityFee.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -37,6 +37,11 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model AnimalComplexityFee
+ * 
+ */
+export type AnimalComplexityFee = Prisma.AnimalComplexityFeeModel
 /**
  * Model Animal
  * 
@@ -83,6 +88,21 @@ export type UserNotification = Prisma.UserNotificationModel
  */
 export type NotificationSettings = Prisma.NotificationSettingsModel
 /**
+ * Model PaymentSettings
+ * 
+ */
+export type PaymentSettings = Prisma.PaymentSettingsModel
+/**
+ * Model PricingRule
+ * 
+ */
+export type PricingRule = Prisma.PricingRuleModel
+/**
+ * Model PricingSnapshot
+ * 
+ */
+export type PricingSnapshot = Prisma.PricingSnapshotModel
+/**
  * Model PrivateConversation
  * 
  */
@@ -107,6 +127,11 @@ export type Shelter = Prisma.ShelterModel
  * 
  */
 export type ShelterDocument = Prisma.ShelterDocumentModel
+/**
+ * Model Transaction
+ * 
+ */
+export type Transaction = Prisma.TransactionModel
 /**
  * Model Transport
  * 

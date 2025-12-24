@@ -23,3 +23,29 @@ enum ApprovalStatus {
   APPROVED
   REJECTED
 }
+
+enum PaymentMode {
+  VOLUNTEER
+  PAID
+}
+
+enum OnboardingStatus {
+  NOT_STARTED
+  PENDING
+  COMPLETE
+}
+
+enum ComplexityType {
+  STANDARD
+  PUPPY_KITTEN
+  MEDICAL
+  SPECIAL_HANDLING
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  HOLD
+  REFUNDED
+}

@@ -64,6 +64,44 @@ export const ApprovalStatus = {
 export type ApprovalStatus = (typeof ApprovalStatus)[keyof typeof ApprovalStatus]
 
 
+export const PaymentMode = {
+  VOLUNTEER: 'VOLUNTEER',
+  PAID: 'PAID'
+} as const
+
+export type PaymentMode = (typeof PaymentMode)[keyof typeof PaymentMode]
+
+
+export const OnboardingStatus = {
+  NOT_STARTED: 'NOT_STARTED',
+  PENDING: 'PENDING',
+  COMPLETE: 'COMPLETE'
+} as const
+
+export type OnboardingStatus = (typeof OnboardingStatus)[keyof typeof OnboardingStatus]
+
+
+export const ComplexityType = {
+  STANDARD: 'STANDARD',
+  PUPPY_KITTEN: 'PUPPY_KITTEN',
+  MEDICAL: 'MEDICAL',
+  SPECIAL_HANDLING: 'SPECIAL_HANDLING'
+} as const
+
+export type ComplexityType = (typeof ComplexityType)[keyof typeof ComplexityType]
+
+
+export const TransactionStatus = {
+  PENDING: 'PENDING',
+  SUCCEEDED: 'SUCCEEDED',
+  FAILED: 'FAILED',
+  HOLD: 'HOLD',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type TransactionStatus = (typeof TransactionStatus)[keyof typeof TransactionStatus]
+
+
 export const FileType = {
   image: 'image',
   docs: 'docs',

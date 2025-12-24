@@ -1,0 +1,19 @@
+model Transaction {
+  id String @id @default(uuid())
+
+  transportId String    @unique
+  transport   Transport @relation(fields: [transportId], references: [id], onDelete: Cascade)
+
+  stripePaymentIntentId String? @unique
+  stripeTransferId      String? @unique
+
+  amount   Float
+  currency String @default("usd")
+
+  status TransactionStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("transactions")
+}

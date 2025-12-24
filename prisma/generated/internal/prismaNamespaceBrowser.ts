@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  AnimalComplexityFee: 'AnimalComplexityFee',
   Animal: 'Animal',
   UserOtp: 'UserOtp',
   RefreshToken: 'RefreshToken',
@@ -60,11 +61,15 @@ export const ModelName = {
   Notification: 'Notification',
   UserNotification: 'UserNotification',
   NotificationSettings: 'NotificationSettings',
+  PaymentSettings: 'PaymentSettings',
+  PricingRule: 'PricingRule',
+  PricingSnapshot: 'PricingSnapshot',
   PrivateConversation: 'PrivateConversation',
   PrivateMessage: 'PrivateMessage',
   PrivateMessageStatus: 'PrivateMessageStatus',
   Shelter: 'Shelter',
   ShelterDocument: 'ShelterDocument',
+  Transaction: 'Transaction',
   Transport: 'Transport',
   TransportTimeline: 'TransportTimeline',
   User: 'User',
@@ -88,6 +93,18 @@ export const TransactionIsolationLevel = {
 } as const
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const AnimalComplexityFeeScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  amount: 'amount',
+  multiAnimalFlatFee: 'multiAnimalFlatFee',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AnimalComplexityFeeScalarFieldEnum = (typeof AnimalComplexityFeeScalarFieldEnum)[keyof typeof AnimalComplexityFeeScalarFieldEnum]
 
 
 export const AnimalScalarFieldEnum = {
@@ -165,6 +182,9 @@ export const DriverScalarFieldEnum = {
   currentLatitude: 'currentLatitude',
   currentLongitude: 'currentLongitude',
   lastLocationPing: 'lastLocationPing',
+  stripeAccountId: 'stripeAccountId',
+  onboardingStatus: 'onboardingStatus',
+  payoutEnabled: 'payoutEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -245,6 +265,53 @@ export const NotificationSettingsScalarFieldEnum = {
 export type NotificationSettingsScalarFieldEnum = (typeof NotificationSettingsScalarFieldEnum)[keyof typeof NotificationSettingsScalarFieldEnum]
 
 
+export const PaymentSettingsScalarFieldEnum = {
+  id: 'id',
+  driverPaymentsEnabled: 'driverPaymentsEnabled',
+  platformFeesEnabled: 'platformFeesEnabled',
+  timeBasedPricingEnabled: 'timeBasedPricingEnabled',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PaymentSettingsScalarFieldEnum = (typeof PaymentSettingsScalarFieldEnum)[keyof typeof PaymentSettingsScalarFieldEnum]
+
+
+export const PricingRuleScalarFieldEnum = {
+  id: 'id',
+  ratePerMile: 'ratePerMile',
+  ratePerMinute: 'ratePerMinute',
+  baseFare: 'baseFare',
+  platformFeePercent: 'platformFeePercent',
+  minPayout: 'minPayout',
+  effectiveDate: 'effectiveDate',
+  calculationVersion: 'calculationVersion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PricingRuleScalarFieldEnum = (typeof PricingRuleScalarFieldEnum)[keyof typeof PricingRuleScalarFieldEnum]
+
+
+export const PricingSnapshotScalarFieldEnum = {
+  id: 'id',
+  transportId: 'transportId',
+  distanceMiles: 'distanceMiles',
+  durationMinutes: 'durationMinutes',
+  ratePerMile: 'ratePerMile',
+  ratePerMinute: 'ratePerMinute',
+  distanceCost: 'distanceCost',
+  timeCost: 'timeCost',
+  animalComplexityFee: 'animalComplexityFee',
+  multiAnimalFee: 'multiAnimalFee',
+  platformFeeAmount: 'platformFeeAmount',
+  driverGrossPayout: 'driverGrossPayout',
+  totalRideCost: 'totalRideCost',
+  createdAt: 'createdAt'
+} as const
+
+export type PricingSnapshotScalarFieldEnum = (typeof PricingSnapshotScalarFieldEnum)[keyof typeof PricingSnapshotScalarFieldEnum]
+
+
 export const PrivateConversationScalarFieldEnum = {
   id: 'id',
   initiatorId: 'initiatorId',
@@ -297,6 +364,7 @@ export const ShelterScalarFieldEnum = {
   endTime: 'endTime',
   workingDays: 'workingDays',
   status: 'status',
+  stripeCustomerId: 'stripeCustomerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -317,6 +385,21 @@ export const ShelterDocumentScalarFieldEnum = {
 } as const
 
 export type ShelterDocumentScalarFieldEnum = (typeof ShelterDocumentScalarFieldEnum)[keyof typeof ShelterDocumentScalarFieldEnum]
+
+
+export const TransactionScalarFieldEnum = {
+  id: 'id',
+  transportId: 'transportId',
+  stripePaymentIntentId: 'stripePaymentIntentId',
+  stripeTransferId: 'stripeTransferId',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
 
 
 export const TransportScalarFieldEnum = {
@@ -340,6 +423,8 @@ export const TransportScalarFieldEnum = {
   vetClearanceType: 'vetClearanceType',
   vetClearanceRequestId: 'vetClearanceRequestId',
   status: 'status',
+  paymentMode: 'paymentMode',
+  paymentEnabled: 'paymentEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   acceptedAt: 'acceptedAt'
