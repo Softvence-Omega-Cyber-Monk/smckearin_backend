@@ -1,38 +1,52 @@
+import {
+  successPaginatedResponse,
+  successResponse,
+} from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
+import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { StripeService } from '@/lib/stripe/stripe.service';
-import { HttpStatus, Injectable } from '@nestjs/common';
-import { InternalTransactionService } from './internal-transaction.service';
+import { UtilsService } from '@/lib/utils/services/utils.service';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { TransactionWhereInput } from 'prisma/generated/models';
+import { GetTransactionDto } from '../dto/get-transaction.dto';
 
 @Injectable()
 export class ShelterPaymentService {
+  private readonly logger = new Logger(ShelterPaymentService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly stripeService: StripeService,
-    private readonly transactionService: InternalTransactionService,
+    private readonly utils: UtilsService,
   ) {}
 
-  /**
-   * Creates a SetupIntent for the shelter to add a payment method (card).
-   */
+  @HandleError('Failed to create setup intent')
   async createSetupIntent(userId: string) {
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'User profile not found');
+    }
+
+    const shelterId = user.shelterAdminOfId ?? user.managerOfId;
+    if (!shelterId) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'User does not belong to any shelter',
+      );
+    }
+
     // Shelter doesn't have direct userId connection usually, it's via admins/managers
     const shelter = await this.prisma.client.shelter.findFirst({
-      where: {
-        OR: [
-          { shelterAdmins: { some: { id: userId } } },
-          { managers: { some: { id: userId } } },
-        ],
-      },
+      where: { id: shelterId },
     });
 
     if (!shelter) {
       throw new AppError(HttpStatus.NOT_FOUND, 'Shelter profile not found');
     }
-
-    const user = await this.prisma.client.user.findUniqueOrThrow({
-      where: { id: userId },
-    });
 
     // Creates setup intent, which creates customer if needed in StripeService
     const setupIntent = await this.stripeService.createSetupIntent({
@@ -50,86 +64,108 @@ export class ShelterPaymentService {
       });
     }
 
-    return {
+    const payload = {
       clientSecret: setupIntent.client_secret,
       customerId: setupIntent.customer,
     };
+
+    return successResponse(payload, 'Setup intent created successfully');
   }
 
-  /**
-   * Lists saved payment methods for the shelter.
-   */
+  @HandleError('Failed to list payment methods')
   async listPaymentMethods(userId: string) {
-    const shelter = await this.prisma.client.shelter.findFirst({
-      where: {
-        OR: [
-          { shelterAdmins: { some: { id: userId } } },
-          { managers: { some: { id: userId } } },
-        ],
-      },
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
     });
 
-    if (!shelter || !shelter.stripeCustomerId) {
-      return { hasPaymentMethod: false };
+    if (!user) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'User profile not found');
     }
 
-    const customer = (await this.stripeService.retrieveCustomer(
-      shelter.stripeCustomerId,
-    )) as any;
+    const shelterId = user.shelterAdminOfId ?? user.managerOfId;
+    if (!shelterId) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'User does not belong to any shelter',
+      );
+    }
 
-    // Check default source or invoice settings
-    const hasPaymentMethod =
-      !!customer.default_source ||
-      !!customer.invoice_settings?.default_payment_method;
+    const shelter = await this.prisma.client.shelter.findFirst({
+      where: { id: shelterId },
+    });
 
-    return {
-      hasPaymentMethod,
-    };
+    const hasPaymentMethod = false;
+
+    if (shelter && shelter.stripeCustomerId) {
+      const customer = await this.stripeService.retrieveCustomer(
+        shelter.stripeCustomerId,
+      );
+      this.logger.log(
+        `Retrieved Stripe customer ${customer.id}`,
+        JSON.stringify(customer, null, 2),
+      );
+      // TODO: Check if customer has payment method
+    }
+
+    return successResponse({ hasPaymentMethod }, 'Payment methods listed');
   }
 
-  /**
-   * Fetches transaction history for the shelter.
-   */
-  async getTransactionHistory(userId: string) {
+  @HandleError('Failed to get transaction history')
+  async getTransactionHistory(userId: string, dto: GetTransactionDto) {
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'User profile not found');
+    }
+
+    const shelterId = user.shelterAdminOfId ?? user.managerOfId;
+    if (!shelterId) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'User does not belong to any shelter',
+      );
+    }
+
     const shelter = await this.prisma.client.shelter.findFirst({
-      where: {
-        OR: [
-          { shelterAdmins: { some: { id: userId } } },
-          { managers: { some: { id: userId } } },
-        ],
-      },
+      where: { id: shelterId },
     });
 
     if (!shelter) {
       throw new AppError(HttpStatus.NOT_FOUND, 'Shelter not found');
     }
 
-    // Find all transports by this shelter
-    const transports = await this.prisma.client.transport.findMany({
-      where: { shelterId: shelter.id },
-      select: { id: true },
-    });
+    const { limit, page, skip } = this.utils.getPagination(dto);
 
-    const transportIds = transports.map((t) => t.id);
+    const where: TransactionWhereInput = {
+      ...(dto.status && { status: dto.status }),
+      transport: { shelterId },
+    };
 
-    if (transportIds.length === 0) {
-      return [];
-    }
-
-    const transactions = await this.prisma.client.transaction.findMany({
-      where: { transportId: { in: transportIds } },
-      include: {
-        transport: {
-          select: {
-            pickUpLocation: true,
-            dropOffLocation: true,
-            completedAt: true,
+    const [transactions, total] = await this.prisma.client.$transaction([
+      this.prisma.client.transaction.findMany({
+        where,
+        include: {
+          transport: {
+            select: {
+              pickUpLocation: true,
+              dropOffLocation: true,
+              completedAt: true,
+            },
           },
         },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.client.transaction.count({ where }),
+    ]);
 
-    return transactions;
+    return successPaginatedResponse(
+      transactions,
+      { page, limit, total },
+      'Transaction history fetched successfully',
+    );
   }
 }

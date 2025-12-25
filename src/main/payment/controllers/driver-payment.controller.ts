@@ -32,6 +32,6 @@ export class DriverPaymentController {
     @GetUser('sub') userId: string,
     @Query() dto: GetTransactionDto,
   ) {
-    return await this.driverPaymentService.getTransactionHistory(userId);
+    return await this.driverPaymentService.getTransactionHistory(userId, dto);
   }
 }

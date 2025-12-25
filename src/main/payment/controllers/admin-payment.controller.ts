@@ -7,6 +7,7 @@ import {
   UpdatePaymentSettingsDto,
   UpdatePricingRuleDto,
 } from '../dto/admin-payment.dto';
+import { GetTransactionDto } from '../dto/get-transaction.dto';
 import { AdminPaymentService } from '../services/admin-payment.service';
 
 @ApiTags('Admin Payment')
@@ -53,5 +54,11 @@ export class AdminPaymentController {
     @Body() dto: UpdateComplexityFeeDto,
   ) {
     return this.adminPaymentService.updateComplexityFee(query.type, dto);
+  }
+
+  @Get('transactions')
+  @ApiOperation({ summary: 'Get all transactions' })
+  async getTransactions(@Query() dto: GetTransactionDto) {
+    return this.adminPaymentService.getTransactions(dto);
   }
 }

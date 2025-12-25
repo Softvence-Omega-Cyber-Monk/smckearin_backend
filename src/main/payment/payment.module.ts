@@ -2,14 +2,17 @@ import { Module } from '@nestjs/common';
 import { AdminPaymentController } from './controllers/admin-payment.controller';
 import { DriverPaymentController } from './controllers/driver-payment.controller';
 import { ShelterPaymentController } from './controllers/shelter-payment.controller';
+import { SubscriptionController } from './controllers/webhook.controller';
 import { AdminPaymentService } from './services/admin-payment.service';
 import { DriverPaymentService } from './services/driver-payment.service';
+import { HandleWebhookService } from './services/handle-webhook.service';
 import { InternalTransactionService } from './services/internal-transaction.service';
 import { PricingService } from './services/pricing.service';
 import { ShelterPaymentService } from './services/shelter-payment.service';
 
 @Module({
   controllers: [
+    SubscriptionController,
     AdminPaymentController,
     ShelterPaymentController,
     DriverPaymentController,
@@ -20,6 +23,7 @@ import { ShelterPaymentService } from './services/shelter-payment.service';
     InternalTransactionService,
     DriverPaymentService,
     ShelterPaymentService,
+    HandleWebhookService,
   ],
   exports: [PricingService, InternalTransactionService],
 })

@@ -43,9 +43,12 @@ enum ComplexityType {
 }
 
 enum TransactionStatus {
-  PENDING
-  SUCCEEDED
-  FAILED
-  HOLD
-  REFUNDED
+  PENDING       // Transaction created but not yet processed
+  HOLD          // Manually held by admin; payment paused
+  PROCESSING    // Payment is in progress (payment intent pending confirmation)
+  CHARGED       // Shelter successfully charged
+  TRANSFERRED   // Driver payout completed
+  FAILED        // Payment or transfer failed
+  REFUNDED      // Payment refunded to shelter
+  CANCELLED     // Transaction cancelled
 }

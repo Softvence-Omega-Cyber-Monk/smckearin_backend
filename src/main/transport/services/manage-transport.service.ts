@@ -374,7 +374,7 @@ export class ManageTransportService {
       // Find or check if it's a paid trip (though we always initialize internally)
       await this.internalTransactionService.finalizeTransaction(
         transportId,
-        'SUCCEEDED', // Internal status mark
+        'PROCESSING', // Internal status mark
       );
     }
 

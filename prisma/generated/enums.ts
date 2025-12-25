@@ -93,10 +93,13 @@ export type ComplexityType = (typeof ComplexityType)[keyof typeof ComplexityType
 
 export const TransactionStatus = {
   PENDING: 'PENDING',
-  SUCCEEDED: 'SUCCEEDED',
-  FAILED: 'FAILED',
   HOLD: 'HOLD',
-  REFUNDED: 'REFUNDED'
+  PROCESSING: 'PROCESSING',
+  CHARGED: 'CHARGED',
+  TRANSFERRED: 'TRANSFERRED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED',
+  CANCELLED: 'CANCELLED'
 } as const
 
 export type TransactionStatus = (typeof TransactionStatus)[keyof typeof TransactionStatus]

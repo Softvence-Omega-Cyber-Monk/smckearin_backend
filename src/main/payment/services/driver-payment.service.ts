@@ -1,17 +1,24 @@
-import { successResponse } from '@/common/utils/response.util';
+import {
+  successPaginatedResponse,
+  successResponse,
+} from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { StripeService } from '@/lib/stripe/stripe.service';
+import { UtilsService } from '@/lib/utils/services/utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { OnboardingStatus } from '@prisma';
+import { TransactionWhereInput } from 'prisma/generated/models';
 import { CreateOnboardingLinkDto } from '../dto/driver-payment.dto';
+import { GetTransactionDto } from '../dto/get-transaction.dto';
 
 @Injectable()
 export class DriverPaymentService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly stripeService: StripeService,
+    private readonly utils: UtilsService,
   ) {}
 
   @HandleError('Failed to create onboarding link')
@@ -75,7 +82,7 @@ export class DriverPaymentService {
   }
 
   @HandleError('Failed to get transaction history')
-  async getTransactionHistory(userId: string) {
+  async getTransactionHistory(userId: string, dto: GetTransactionDto) {
     const driver = await this.prisma.client.driver.findUnique({
       where: { userId },
     });
@@ -84,32 +91,37 @@ export class DriverPaymentService {
       throw new AppError(HttpStatus.NOT_FOUND, 'Driver not found');
     }
 
-    // Find all transports by this driver
-    const transports = await this.prisma.client.transport.findMany({
-      where: { driverId: driver.id },
-      select: { id: true },
-    });
+    const { limit, page, skip } = this.utils.getPagination(dto);
 
-    const transportIds = transports.map((t) => t.id);
+    const where: TransactionWhereInput = {
+      ...(dto.status && { status: dto.status }),
+      transport: { driverId: driver.id },
+    };
 
-    if (transportIds.length === 0) {
-      return successResponse([], 'No transactions found');
-    }
-
-    const transactions = await this.prisma.client.transaction.findMany({
-      where: { transportId: { in: transportIds } },
-      include: {
-        transport: {
-          select: {
-            pickUpLocation: true,
-            dropOffLocation: true,
-            completedAt: true,
+    const [transactions, total] = await this.prisma.client.$transaction([
+      this.prisma.client.transaction.findMany({
+        where,
+        include: {
+          transport: {
+            include: {
+              pricingSnapshot: true,
+              animal: true,
+              driver: true,
+              shelter: true,
+            },
           },
         },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.client.transaction.count({ where }),
+    ]);
 
-    return successResponse(transactions, 'Transactions fetched');
+    return successPaginatedResponse(
+      transactions,
+      { page, limit, total },
+      'Transaction history fetched successfully',
+    );
   }
 }

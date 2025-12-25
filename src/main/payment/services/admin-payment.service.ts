@@ -1,18 +1,27 @@
-import { successResponse } from '@/common/utils/response.util';
+import {
+  successPaginatedResponse,
+  successResponse,
+} from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { UtilsService } from '@/lib/utils/services/utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ComplexityType } from '@prisma';
+import { TransactionWhereInput } from 'prisma/generated/models';
 import {
   UpdateComplexityFeeDto,
   UpdatePaymentSettingsDto,
   UpdatePricingRuleDto,
 } from '../dto/admin-payment.dto';
+import { GetTransactionDto } from '../dto/get-transaction.dto';
 
 @Injectable()
 export class AdminPaymentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly utils: UtilsService,
+  ) {}
 
   @HandleError('Error getting payment settings')
   async getSettings() {
@@ -102,30 +111,37 @@ export class AdminPaymentService {
   }
 
   @HandleError('Error fetching transactions')
-  async getTransactions() {
-    const transactions = await this.prisma.client.transaction.findMany({
-      include: {
-        transport: {
-          select: {
-            id: true,
-            status: true,
-            pickUpLocation: true,
-            dropOffLocation: true,
-            completedAt: true,
-            driver: {
-              select: {
-                user: { select: { name: true, email: true } },
-              },
-            },
-            shelter: {
-              select: { name: true },
+  async getTransactions(dto: GetTransactionDto) {
+    const { limit, page, skip } = this.utils.getPagination(dto);
+
+    const where: TransactionWhereInput = {
+      ...(dto.status && { status: dto.status }),
+    };
+
+    const [transactions, total] = await this.prisma.client.$transaction([
+      this.prisma.client.transaction.findMany({
+        where,
+        include: {
+          transport: {
+            include: {
+              pricingSnapshot: true,
+              animal: true,
+              driver: true,
+              shelter: true,
             },
           },
         },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.client.transaction.count({ where }),
+    ]);
 
-    return successResponse(transactions, 'Transactions fetched');
+    return successPaginatedResponse(
+      transactions,
+      { page, limit, total },
+      'Transaction history fetched successfully',
+    );
   }
 }

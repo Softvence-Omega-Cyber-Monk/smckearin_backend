@@ -29,6 +29,8 @@ export type PaymentSettingsMinAggregateOutputType = {
   driverPaymentsEnabled: boolean | null
   platformFeesEnabled: boolean | null
   timeBasedPricingEnabled: boolean | null
+  paymentMode: $Enums.PaymentMode | null
+  paymentEnabled: boolean | null
   updatedAt: Date | null
 }
 
@@ -37,6 +39,8 @@ export type PaymentSettingsMaxAggregateOutputType = {
   driverPaymentsEnabled: boolean | null
   platformFeesEnabled: boolean | null
   timeBasedPricingEnabled: boolean | null
+  paymentMode: $Enums.PaymentMode | null
+  paymentEnabled: boolean | null
   updatedAt: Date | null
 }
 
@@ -45,6 +49,8 @@ export type PaymentSettingsCountAggregateOutputType = {
   driverPaymentsEnabled: number
   platformFeesEnabled: number
   timeBasedPricingEnabled: number
+  paymentMode: number
+  paymentEnabled: number
   updatedAt: number
   _all: number
 }
@@ -55,6 +61,8 @@ export type PaymentSettingsMinAggregateInputType = {
   driverPaymentsEnabled?: true
   platformFeesEnabled?: true
   timeBasedPricingEnabled?: true
+  paymentMode?: true
+  paymentEnabled?: true
   updatedAt?: true
 }
 
@@ -63,6 +71,8 @@ export type PaymentSettingsMaxAggregateInputType = {
   driverPaymentsEnabled?: true
   platformFeesEnabled?: true
   timeBasedPricingEnabled?: true
+  paymentMode?: true
+  paymentEnabled?: true
   updatedAt?: true
 }
 
@@ -71,6 +81,8 @@ export type PaymentSettingsCountAggregateInputType = {
   driverPaymentsEnabled?: true
   platformFeesEnabled?: true
   timeBasedPricingEnabled?: true
+  paymentMode?: true
+  paymentEnabled?: true
   updatedAt?: true
   _all?: true
 }
@@ -152,6 +164,8 @@ export type PaymentSettingsGroupByOutputType = {
   driverPaymentsEnabled: boolean
   platformFeesEnabled: boolean
   timeBasedPricingEnabled: boolean
+  paymentMode: $Enums.PaymentMode
+  paymentEnabled: boolean
   updatedAt: Date
   _count: PaymentSettingsCountAggregateOutputType | null
   _min: PaymentSettingsMinAggregateOutputType | null
@@ -181,6 +195,8 @@ export type PaymentSettingsWhereInput = {
   driverPaymentsEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
   platformFeesEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
   timeBasedPricingEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
+  paymentMode?: Prisma.EnumPaymentModeFilter<"PaymentSettings"> | $Enums.PaymentMode
+  paymentEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"PaymentSettings"> | Date | string
 }
 
@@ -189,6 +205,8 @@ export type PaymentSettingsOrderByWithRelationInput = {
   driverPaymentsEnabled?: Prisma.SortOrder
   platformFeesEnabled?: Prisma.SortOrder
   timeBasedPricingEnabled?: Prisma.SortOrder
+  paymentMode?: Prisma.SortOrder
+  paymentEnabled?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -200,6 +218,8 @@ export type PaymentSettingsWhereUniqueInput = Prisma.AtLeast<{
   driverPaymentsEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
   platformFeesEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
   timeBasedPricingEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
+  paymentMode?: Prisma.EnumPaymentModeFilter<"PaymentSettings"> | $Enums.PaymentMode
+  paymentEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
   updatedAt?: Prisma.DateTimeFilter<"PaymentSettings"> | Date | string
 }, "id">
 
@@ -208,6 +228,8 @@ export type PaymentSettingsOrderByWithAggregationInput = {
   driverPaymentsEnabled?: Prisma.SortOrder
   platformFeesEnabled?: Prisma.SortOrder
   timeBasedPricingEnabled?: Prisma.SortOrder
+  paymentMode?: Prisma.SortOrder
+  paymentEnabled?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PaymentSettingsCountOrderByAggregateInput
   _max?: Prisma.PaymentSettingsMaxOrderByAggregateInput
@@ -222,6 +244,8 @@ export type PaymentSettingsScalarWhereWithAggregatesInput = {
   driverPaymentsEnabled?: Prisma.BoolWithAggregatesFilter<"PaymentSettings"> | boolean
   platformFeesEnabled?: Prisma.BoolWithAggregatesFilter<"PaymentSettings"> | boolean
   timeBasedPricingEnabled?: Prisma.BoolWithAggregatesFilter<"PaymentSettings"> | boolean
+  paymentMode?: Prisma.EnumPaymentModeWithAggregatesFilter<"PaymentSettings"> | $Enums.PaymentMode
+  paymentEnabled?: Prisma.BoolWithAggregatesFilter<"PaymentSettings"> | boolean
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PaymentSettings"> | Date | string
 }
 
@@ -230,6 +254,8 @@ export type PaymentSettingsCreateInput = {
   driverPaymentsEnabled?: boolean
   platformFeesEnabled?: boolean
   timeBasedPricingEnabled?: boolean
+  paymentMode?: $Enums.PaymentMode
+  paymentEnabled?: boolean
   updatedAt?: Date | string
 }
 
@@ -238,6 +264,8 @@ export type PaymentSettingsUncheckedCreateInput = {
   driverPaymentsEnabled?: boolean
   platformFeesEnabled?: boolean
   timeBasedPricingEnabled?: boolean
+  paymentMode?: $Enums.PaymentMode
+  paymentEnabled?: boolean
   updatedAt?: Date | string
 }
 
@@ -246,6 +274,8 @@ export type PaymentSettingsUpdateInput = {
   driverPaymentsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   platformFeesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeBasedPricingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -254,6 +284,8 @@ export type PaymentSettingsUncheckedUpdateInput = {
   driverPaymentsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   platformFeesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeBasedPricingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -262,6 +294,8 @@ export type PaymentSettingsCreateManyInput = {
   driverPaymentsEnabled?: boolean
   platformFeesEnabled?: boolean
   timeBasedPricingEnabled?: boolean
+  paymentMode?: $Enums.PaymentMode
+  paymentEnabled?: boolean
   updatedAt?: Date | string
 }
 
@@ -270,6 +304,8 @@ export type PaymentSettingsUpdateManyMutationInput = {
   driverPaymentsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   platformFeesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeBasedPricingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -278,6 +314,8 @@ export type PaymentSettingsUncheckedUpdateManyInput = {
   driverPaymentsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   platformFeesEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeBasedPricingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
+  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -286,6 +324,8 @@ export type PaymentSettingsCountOrderByAggregateInput = {
   driverPaymentsEnabled?: Prisma.SortOrder
   platformFeesEnabled?: Prisma.SortOrder
   timeBasedPricingEnabled?: Prisma.SortOrder
+  paymentMode?: Prisma.SortOrder
+  paymentEnabled?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -294,6 +334,8 @@ export type PaymentSettingsMaxOrderByAggregateInput = {
   driverPaymentsEnabled?: Prisma.SortOrder
   platformFeesEnabled?: Prisma.SortOrder
   timeBasedPricingEnabled?: Prisma.SortOrder
+  paymentMode?: Prisma.SortOrder
+  paymentEnabled?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -302,7 +344,13 @@ export type PaymentSettingsMinOrderByAggregateInput = {
   driverPaymentsEnabled?: Prisma.SortOrder
   platformFeesEnabled?: Prisma.SortOrder
   timeBasedPricingEnabled?: Prisma.SortOrder
+  paymentMode?: Prisma.SortOrder
+  paymentEnabled?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type EnumPaymentModeFieldUpdateOperationsInput = {
+  set?: $Enums.PaymentMode
 }
 
 
@@ -312,6 +360,8 @@ export type PaymentSettingsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   driverPaymentsEnabled?: boolean
   platformFeesEnabled?: boolean
   timeBasedPricingEnabled?: boolean
+  paymentMode?: boolean
+  paymentEnabled?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["paymentSettings"]>
 
@@ -320,6 +370,8 @@ export type PaymentSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   driverPaymentsEnabled?: boolean
   platformFeesEnabled?: boolean
   timeBasedPricingEnabled?: boolean
+  paymentMode?: boolean
+  paymentEnabled?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["paymentSettings"]>
 
@@ -328,6 +380,8 @@ export type PaymentSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   driverPaymentsEnabled?: boolean
   platformFeesEnabled?: boolean
   timeBasedPricingEnabled?: boolean
+  paymentMode?: boolean
+  paymentEnabled?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["paymentSettings"]>
 
@@ -336,10 +390,12 @@ export type PaymentSettingsSelectScalar = {
   driverPaymentsEnabled?: boolean
   platformFeesEnabled?: boolean
   timeBasedPricingEnabled?: boolean
+  paymentMode?: boolean
+  paymentEnabled?: boolean
   updatedAt?: boolean
 }
 
-export type PaymentSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "driverPaymentsEnabled" | "platformFeesEnabled" | "timeBasedPricingEnabled" | "updatedAt", ExtArgs["result"]["paymentSettings"]>
+export type PaymentSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "driverPaymentsEnabled" | "platformFeesEnabled" | "timeBasedPricingEnabled" | "paymentMode" | "paymentEnabled" | "updatedAt", ExtArgs["result"]["paymentSettings"]>
 
 export type $PaymentSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PaymentSettings"
@@ -349,6 +405,8 @@ export type $PaymentSettingsPayload<ExtArgs extends runtime.Types.Extensions.Int
     driverPaymentsEnabled: boolean
     platformFeesEnabled: boolean
     timeBasedPricingEnabled: boolean
+    paymentMode: $Enums.PaymentMode
+    paymentEnabled: boolean
     updatedAt: Date
   }, ExtArgs["result"]["paymentSettings"]>
   composites: {}
@@ -777,6 +835,8 @@ export interface PaymentSettingsFieldRefs {
   readonly driverPaymentsEnabled: Prisma.FieldRef<"PaymentSettings", 'Boolean'>
   readonly platformFeesEnabled: Prisma.FieldRef<"PaymentSettings", 'Boolean'>
   readonly timeBasedPricingEnabled: Prisma.FieldRef<"PaymentSettings", 'Boolean'>
+  readonly paymentMode: Prisma.FieldRef<"PaymentSettings", 'PaymentMode'>
+  readonly paymentEnabled: Prisma.FieldRef<"PaymentSettings", 'Boolean'>
   readonly updatedAt: Prisma.FieldRef<"PaymentSettings", 'DateTime'>
 }
     

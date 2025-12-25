@@ -61,8 +61,6 @@ export type TransportMinAggregateOutputType = {
   vetClearanceType: $Enums.RequiredVetClearanceType | null
   vetClearanceRequestId: string | null
   status: $Enums.TransportStatus | null
-  paymentMode: $Enums.PaymentMode | null
-  paymentEnabled: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   acceptedAt: Date | null
@@ -90,8 +88,6 @@ export type TransportMaxAggregateOutputType = {
   vetClearanceType: $Enums.RequiredVetClearanceType | null
   vetClearanceRequestId: string | null
   status: $Enums.TransportStatus | null
-  paymentMode: $Enums.PaymentMode | null
-  paymentEnabled: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   acceptedAt: Date | null
@@ -119,8 +115,6 @@ export type TransportCountAggregateOutputType = {
   vetClearanceType: number
   vetClearanceRequestId: number
   status: number
-  paymentMode: number
-  paymentEnabled: number
   createdAt: number
   updatedAt: number
   acceptedAt: number
@@ -164,8 +158,6 @@ export type TransportMinAggregateInputType = {
   vetClearanceType?: true
   vetClearanceRequestId?: true
   status?: true
-  paymentMode?: true
-  paymentEnabled?: true
   createdAt?: true
   updatedAt?: true
   acceptedAt?: true
@@ -193,8 +185,6 @@ export type TransportMaxAggregateInputType = {
   vetClearanceType?: true
   vetClearanceRequestId?: true
   status?: true
-  paymentMode?: true
-  paymentEnabled?: true
   createdAt?: true
   updatedAt?: true
   acceptedAt?: true
@@ -222,8 +212,6 @@ export type TransportCountAggregateInputType = {
   vetClearanceType?: true
   vetClearanceRequestId?: true
   status?: true
-  paymentMode?: true
-  paymentEnabled?: true
   createdAt?: true
   updatedAt?: true
   acceptedAt?: true
@@ -338,8 +326,6 @@ export type TransportGroupByOutputType = {
   vetClearanceType: $Enums.RequiredVetClearanceType
   vetClearanceRequestId: string | null
   status: $Enums.TransportStatus
-  paymentMode: $Enums.PaymentMode
-  paymentEnabled: boolean
   createdAt: Date
   updatedAt: Date
   acceptedAt: Date | null
@@ -390,8 +376,6 @@ export type TransportWhereInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFilter<"Transport"> | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.StringNullableFilter<"Transport"> | string | null
   status?: Prisma.EnumTransportStatusFilter<"Transport"> | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFilter<"Transport"> | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFilter<"Transport"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
@@ -428,8 +412,6 @@ export type TransportOrderByWithRelationInput = {
   vetClearanceType?: Prisma.SortOrder
   vetClearanceRequestId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  paymentMode?: Prisma.SortOrder
-  paymentEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -469,8 +451,6 @@ export type TransportWhereUniqueInput = Prisma.AtLeast<{
   isVetClearanceRequired?: Prisma.BoolFilter<"Transport"> | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFilter<"Transport"> | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFilter<"Transport"> | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFilter<"Transport"> | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFilter<"Transport"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
@@ -507,8 +487,6 @@ export type TransportOrderByWithAggregationInput = {
   vetClearanceType?: Prisma.SortOrder
   vetClearanceRequestId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
-  paymentMode?: Prisma.SortOrder
-  paymentEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -544,8 +522,6 @@ export type TransportScalarWhereWithAggregatesInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeWithAggregatesFilter<"Transport"> | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.StringNullableWithAggregatesFilter<"Transport"> | string | null
   status?: Prisma.EnumTransportStatusWithAggregatesFilter<"Transport"> | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeWithAggregatesFilter<"Transport"> | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolWithAggregatesFilter<"Transport"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Transport"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Transport"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Transport"> | Date | string | null
@@ -567,8 +543,6 @@ export type TransportCreateInput = {
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -605,8 +579,6 @@ export type TransportUncheckedCreateInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -631,8 +603,6 @@ export type TransportUpdateInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -669,8 +639,6 @@ export type TransportUncheckedUpdateInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -701,8 +669,6 @@ export type TransportCreateManyInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -724,8 +690,6 @@ export type TransportUpdateManyMutationInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -753,8 +717,6 @@ export type TransportUncheckedUpdateManyInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -797,8 +759,6 @@ export type TransportCountOrderByAggregateInput = {
   vetClearanceType?: Prisma.SortOrder
   vetClearanceRequestId?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  paymentMode?: Prisma.SortOrder
-  paymentEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
@@ -833,8 +793,6 @@ export type TransportMaxOrderByAggregateInput = {
   vetClearanceType?: Prisma.SortOrder
   vetClearanceRequestId?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  paymentMode?: Prisma.SortOrder
-  paymentEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
@@ -862,8 +820,6 @@ export type TransportMinOrderByAggregateInput = {
   vetClearanceType?: Prisma.SortOrder
   vetClearanceRequestId?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  paymentMode?: Prisma.SortOrder
-  paymentEnabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
@@ -1090,10 +1046,6 @@ export type EnumTransportStatusFieldUpdateOperationsInput = {
   set?: $Enums.TransportStatus
 }
 
-export type EnumPaymentModeFieldUpdateOperationsInput = {
-  set?: $Enums.PaymentMode
-}
-
 export type TransportCreateNestedOneWithoutTransportTimelinesInput = {
   create?: Prisma.XOR<Prisma.TransportCreateWithoutTransportTimelinesInput, Prisma.TransportUncheckedCreateWithoutTransportTimelinesInput>
   connectOrCreate?: Prisma.TransportCreateOrConnectWithoutTransportTimelinesInput
@@ -1197,8 +1149,6 @@ export type TransportCreateWithoutAnimalInput = {
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1233,8 +1183,6 @@ export type TransportUncheckedCreateWithoutAnimalInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1269,8 +1217,6 @@ export type TransportCreateWithoutBondedPairInput = {
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1305,8 +1251,6 @@ export type TransportUncheckedCreateWithoutBondedPairInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1366,8 +1310,6 @@ export type TransportScalarWhereInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFilter<"Transport"> | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.StringNullableFilter<"Transport"> | string | null
   status?: Prisma.EnumTransportStatusFilter<"Transport"> | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFilter<"Transport"> | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFilter<"Transport"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
@@ -1405,8 +1347,6 @@ export type TransportCreateWithoutDriverInput = {
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1441,8 +1381,6 @@ export type TransportUncheckedCreateWithoutDriverInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1493,8 +1431,6 @@ export type TransportCreateWithoutPricingSnapshotInput = {
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1530,8 +1466,6 @@ export type TransportUncheckedCreateWithoutPricingSnapshotInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1571,8 +1505,6 @@ export type TransportUpdateWithoutPricingSnapshotInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1608,8 +1540,6 @@ export type TransportUncheckedUpdateWithoutPricingSnapshotInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1633,8 +1563,6 @@ export type TransportCreateWithoutShelterInput = {
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1669,8 +1597,6 @@ export type TransportUncheckedCreateWithoutShelterInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1721,8 +1647,6 @@ export type TransportCreateWithoutTransactionInput = {
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1758,8 +1682,6 @@ export type TransportUncheckedCreateWithoutTransactionInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1799,8 +1721,6 @@ export type TransportUpdateWithoutTransactionInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1836,8 +1756,6 @@ export type TransportUncheckedUpdateWithoutTransactionInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1861,8 +1779,6 @@ export type TransportCreateWithoutTransportTimelinesInput = {
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1898,8 +1814,6 @@ export type TransportUncheckedCreateWithoutTransportTimelinesInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -1939,8 +1853,6 @@ export type TransportUpdateWithoutTransportTimelinesInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1976,8 +1888,6 @@ export type TransportUncheckedUpdateWithoutTransportTimelinesInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2001,8 +1911,6 @@ export type TransportCreateWithoutVetClearanceRequestInput = {
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -2037,8 +1945,6 @@ export type TransportUncheckedCreateWithoutVetClearanceRequestInput = {
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -2079,8 +1985,6 @@ export type TransportUpdateWithoutVetClearanceRequestInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2115,8 +2019,6 @@ export type TransportUncheckedUpdateWithoutVetClearanceRequestInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2141,8 +2043,6 @@ export type TransportCreateWithoutVetInput = {
   isVetClearanceRequired?: boolean
   vetClearanceType?: $Enums.RequiredVetClearanceType
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -2177,8 +2077,6 @@ export type TransportUncheckedCreateWithoutVetInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -2234,8 +2132,6 @@ export type TransportCreateManyAnimalInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -2262,8 +2158,6 @@ export type TransportCreateManyBondedPairInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -2285,8 +2179,6 @@ export type TransportUpdateWithoutAnimalInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2321,8 +2213,6 @@ export type TransportUncheckedUpdateWithoutAnimalInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2352,8 +2242,6 @@ export type TransportUncheckedUpdateManyWithoutAnimalInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2375,8 +2263,6 @@ export type TransportUpdateWithoutBondedPairInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2411,8 +2297,6 @@ export type TransportUncheckedUpdateWithoutBondedPairInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2442,8 +2326,6 @@ export type TransportUncheckedUpdateManyWithoutBondedPairInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2470,8 +2352,6 @@ export type TransportCreateManyDriverInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -2493,8 +2373,6 @@ export type TransportUpdateWithoutDriverInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2529,8 +2407,6 @@ export type TransportUncheckedUpdateWithoutDriverInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2560,8 +2436,6 @@ export type TransportUncheckedUpdateManyWithoutDriverInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2588,8 +2462,6 @@ export type TransportCreateManyShelterInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -2611,8 +2483,6 @@ export type TransportUpdateWithoutShelterInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2647,8 +2517,6 @@ export type TransportUncheckedUpdateWithoutShelterInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2678,8 +2546,6 @@ export type TransportUncheckedUpdateManyWithoutShelterInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2706,8 +2572,6 @@ export type TransportCreateManyVetInput = {
   vetClearanceType?: $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: string | null
   status?: $Enums.TransportStatus
-  paymentMode?: $Enums.PaymentMode
-  paymentEnabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
@@ -2729,8 +2593,6 @@ export type TransportUpdateWithoutVetInput = {
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2765,8 +2627,6 @@ export type TransportUncheckedUpdateWithoutVetInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2796,8 +2656,6 @@ export type TransportUncheckedUpdateManyWithoutVetInput = {
   vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
   vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
-  paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
-  paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2856,8 +2714,6 @@ export type TransportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   vetClearanceType?: boolean
   vetClearanceRequestId?: boolean
   status?: boolean
-  paymentMode?: boolean
-  paymentEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   acceptedAt?: boolean
@@ -2895,8 +2751,6 @@ export type TransportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   vetClearanceType?: boolean
   vetClearanceRequestId?: boolean
   status?: boolean
-  paymentMode?: boolean
-  paymentEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   acceptedAt?: boolean
@@ -2930,8 +2784,6 @@ export type TransportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   vetClearanceType?: boolean
   vetClearanceRequestId?: boolean
   status?: boolean
-  paymentMode?: boolean
-  paymentEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   acceptedAt?: boolean
@@ -2965,15 +2817,13 @@ export type TransportSelectScalar = {
   vetClearanceType?: boolean
   vetClearanceRequestId?: boolean
   status?: boolean
-  paymentMode?: boolean
-  paymentEnabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   acceptedAt?: boolean
   completedAt?: boolean
 }
 
-export type TransportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transportNote" | "priorityLevel" | "pickUpLocation" | "pickUpLatitude" | "pickUpLongitude" | "dropOffLocation" | "dropOffLatitude" | "dropOffLongitude" | "transPortDate" | "animalId" | "isBondedPair" | "bondedPairId" | "vetId" | "driverId" | "shelterId" | "isVetClearanceRequired" | "vetClearanceType" | "vetClearanceRequestId" | "status" | "paymentMode" | "paymentEnabled" | "createdAt" | "updatedAt" | "acceptedAt" | "completedAt", ExtArgs["result"]["transport"]>
+export type TransportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transportNote" | "priorityLevel" | "pickUpLocation" | "pickUpLatitude" | "pickUpLongitude" | "dropOffLocation" | "dropOffLatitude" | "dropOffLongitude" | "transPortDate" | "animalId" | "isBondedPair" | "bondedPairId" | "vetId" | "driverId" | "shelterId" | "isVetClearanceRequired" | "vetClearanceType" | "vetClearanceRequestId" | "status" | "createdAt" | "updatedAt" | "acceptedAt" | "completedAt", ExtArgs["result"]["transport"]>
 export type TransportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   animal?: boolean | Prisma.AnimalDefaultArgs<ExtArgs>
   bondedPair?: boolean | Prisma.Transport$bondedPairArgs<ExtArgs>
@@ -3037,8 +2887,6 @@ export type $TransportPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     vetClearanceType: $Enums.RequiredVetClearanceType
     vetClearanceRequestId: string | null
     status: $Enums.TransportStatus
-    paymentMode: $Enums.PaymentMode
-    paymentEnabled: boolean
     createdAt: Date
     updatedAt: Date
     acceptedAt: Date | null
@@ -3495,8 +3343,6 @@ export interface TransportFieldRefs {
   readonly vetClearanceType: Prisma.FieldRef<"Transport", 'RequiredVetClearanceType'>
   readonly vetClearanceRequestId: Prisma.FieldRef<"Transport", 'String'>
   readonly status: Prisma.FieldRef<"Transport", 'TransportStatus'>
-  readonly paymentMode: Prisma.FieldRef<"Transport", 'PaymentMode'>
-  readonly paymentEnabled: Prisma.FieldRef<"Transport", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Transport", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Transport", 'DateTime'>
   readonly acceptedAt: Prisma.FieldRef<"Transport", 'DateTime'>

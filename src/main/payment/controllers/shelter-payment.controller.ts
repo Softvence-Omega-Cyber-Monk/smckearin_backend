@@ -1,7 +1,7 @@
-import { successResponse } from '@/common/utils/response.util';
 import { GetUser, ValidateManager } from '@/core/jwt/jwt.decorator';
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { GetTransactionDto } from '../dto/get-transaction.dto';
 import { ShelterPaymentService } from '../services/shelter-payment.service';
 
 @ApiTags('Shelter Payment')
@@ -14,25 +14,21 @@ export class ShelterPaymentController {
   @ApiOperation({ summary: 'Create Stripe SetupIntent to add a card' })
   @Post('setup-intent')
   async createSetupIntent(@GetUser('sub') userId: string) {
-    const result = await this.shelterPaymentService.createSetupIntent(userId);
-    return successResponse(result, 'Setup intent created successfully');
+    return await this.shelterPaymentService.createSetupIntent(userId);
   }
 
   @ApiOperation({ summary: 'List saved payment methods' })
   @Get('payment-methods')
   async listPaymentMethods(@GetUser('sub') userId: string) {
-    const result = await this.shelterPaymentService.listPaymentMethods(userId);
-    return successResponse(result, 'Payment methods status retrieved');
+    return await this.shelterPaymentService.listPaymentMethods(userId);
   }
 
   @ApiOperation({ summary: 'Get shelter transaction history' })
   @Get('history')
-  async getHistory(@GetUser('sub') userId: string) {
-    const result =
-      await this.shelterPaymentService.getTransactionHistory(userId);
-    return successResponse(
-      result,
-      'Transaction history retrieved successfully',
-    );
+  async getHistory(
+    @GetUser('sub') userId: string,
+    @Query() dto: GetTransactionDto,
+  ) {
+    return await this.shelterPaymentService.getTransactionHistory(userId, dto);
   }
 }

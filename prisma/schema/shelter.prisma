@@ -18,7 +18,9 @@ model Shelter {
 
   status ApprovalStatus @default(PENDING)
 
+  // For billing of transports charges
   stripeCustomerId String? @unique
+  stripeDefaultPaymentMethodId String? @unique
 
   // Shelter-level admins and their team
   shelterAdmins User[] @relation("ShelterAdmins")

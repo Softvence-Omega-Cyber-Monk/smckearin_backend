@@ -6,6 +6,10 @@ model PaymentSettings {
   platformFeesEnabled     Boolean @default(false)
   timeBasedPricingEnabled Boolean @default(false)
 
+  // Payout
+  paymentMode    PaymentMode @default(VOLUNTEER)
+  paymentEnabled Boolean     @default(false)
+
   // Meta
   updatedAt DateTime @default(now()) @updatedAt
 

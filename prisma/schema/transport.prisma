@@ -41,9 +41,6 @@ model Transport {
 
   status TransportStatus @default(PENDING)
 
-  paymentMode    PaymentMode @default(VOLUNTEER)
-  paymentEnabled Boolean     @default(false)
-
   pricingSnapshot PricingSnapshot?
   transaction     Transaction?
 
