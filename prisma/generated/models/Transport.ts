@@ -66,6 +66,7 @@ export type TransportMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   acceptedAt: Date | null
+  completedAt: Date | null
 }
 
 export type TransportMaxAggregateOutputType = {
@@ -94,6 +95,7 @@ export type TransportMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   acceptedAt: Date | null
+  completedAt: Date | null
 }
 
 export type TransportCountAggregateOutputType = {
@@ -122,6 +124,7 @@ export type TransportCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   acceptedAt: number
+  completedAt: number
   _all: number
 }
 
@@ -166,6 +169,7 @@ export type TransportMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   acceptedAt?: true
+  completedAt?: true
 }
 
 export type TransportMaxAggregateInputType = {
@@ -194,6 +198,7 @@ export type TransportMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   acceptedAt?: true
+  completedAt?: true
 }
 
 export type TransportCountAggregateInputType = {
@@ -222,6 +227,7 @@ export type TransportCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   acceptedAt?: true
+  completedAt?: true
   _all?: true
 }
 
@@ -337,6 +343,7 @@ export type TransportGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   acceptedAt: Date | null
+  completedAt: Date | null
   _count: TransportCountAggregateOutputType | null
   _avg: TransportAvgAggregateOutputType | null
   _sum: TransportSumAggregateOutputType | null
@@ -388,6 +395,7 @@ export type TransportWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
+  completedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
   animal?: Prisma.XOR<Prisma.AnimalScalarRelationFilter, Prisma.AnimalWhereInput>
   bondedPair?: Prisma.XOR<Prisma.AnimalNullableScalarRelationFilter, Prisma.AnimalWhereInput> | null
   vet?: Prisma.XOR<Prisma.VeterinarianNullableScalarRelationFilter, Prisma.VeterinarianWhereInput> | null
@@ -425,6 +433,7 @@ export type TransportOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   animal?: Prisma.AnimalOrderByWithRelationInput
   bondedPair?: Prisma.AnimalOrderByWithRelationInput
   vet?: Prisma.VeterinarianOrderByWithRelationInput
@@ -465,6 +474,7 @@ export type TransportWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
+  completedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
   animal?: Prisma.XOR<Prisma.AnimalScalarRelationFilter, Prisma.AnimalWhereInput>
   bondedPair?: Prisma.XOR<Prisma.AnimalNullableScalarRelationFilter, Prisma.AnimalWhereInput> | null
   vet?: Prisma.XOR<Prisma.VeterinarianNullableScalarRelationFilter, Prisma.VeterinarianWhereInput> | null
@@ -502,6 +512,7 @@ export type TransportOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TransportCountOrderByAggregateInput
   _avg?: Prisma.TransportAvgOrderByAggregateInput
   _max?: Prisma.TransportMaxOrderByAggregateInput
@@ -538,6 +549,7 @@ export type TransportScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Transport"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Transport"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Transport"> | Date | string | null
+  completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Transport"> | Date | string | null
 }
 
 export type TransportCreateInput = {
@@ -560,6 +572,7 @@ export type TransportCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   animal: Prisma.AnimalCreateNestedOneWithoutTransportsInput
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
@@ -597,6 +610,7 @@ export type TransportUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
@@ -622,6 +636,7 @@ export type TransportUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   animal?: Prisma.AnimalUpdateOneRequiredWithoutTransportsNestedInput
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
@@ -659,6 +674,7 @@ export type TransportUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
@@ -690,6 +706,7 @@ export type TransportCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
 }
 
 export type TransportUpdateManyMutationInput = {
@@ -712,6 +729,7 @@ export type TransportUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TransportUncheckedUpdateManyInput = {
@@ -740,6 +758,7 @@ export type TransportUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TransportListRelationFilter = {
@@ -783,6 +802,7 @@ export type TransportCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
+  completedAt?: Prisma.SortOrder
 }
 
 export type TransportAvgOrderByAggregateInput = {
@@ -818,6 +838,7 @@ export type TransportMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
+  completedAt?: Prisma.SortOrder
 }
 
 export type TransportMinOrderByAggregateInput = {
@@ -846,6 +867,7 @@ export type TransportMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
+  completedAt?: Prisma.SortOrder
 }
 
 export type TransportSumOrderByAggregateInput = {
@@ -1180,6 +1202,7 @@ export type TransportCreateWithoutAnimalInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
   driver?: Prisma.DriverCreateNestedOneWithoutTransportsInput
@@ -1215,6 +1238,7 @@ export type TransportUncheckedCreateWithoutAnimalInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
@@ -1250,6 +1274,7 @@ export type TransportCreateWithoutBondedPairInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   animal: Prisma.AnimalCreateNestedOneWithoutTransportsInput
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
   driver?: Prisma.DriverCreateNestedOneWithoutTransportsInput
@@ -1285,6 +1310,7 @@ export type TransportUncheckedCreateWithoutBondedPairInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
@@ -1345,6 +1371,7 @@ export type TransportScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transport"> | Date | string
   acceptedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
+  completedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
 }
 
 export type TransportUpsertWithWhereUniqueWithoutBondedPairInput = {
@@ -1383,6 +1410,7 @@ export type TransportCreateWithoutDriverInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   animal: Prisma.AnimalCreateNestedOneWithoutTransportsInput
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
@@ -1418,6 +1446,7 @@ export type TransportUncheckedCreateWithoutDriverInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
@@ -1469,6 +1498,7 @@ export type TransportCreateWithoutPricingSnapshotInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   animal: Prisma.AnimalCreateNestedOneWithoutTransportsInput
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
@@ -1505,6 +1535,7 @@ export type TransportUncheckedCreateWithoutPricingSnapshotInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
 }
@@ -1545,6 +1576,7 @@ export type TransportUpdateWithoutPricingSnapshotInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   animal?: Prisma.AnimalUpdateOneRequiredWithoutTransportsNestedInput
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
@@ -1581,6 +1613,7 @@ export type TransportUncheckedUpdateWithoutPricingSnapshotInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
 }
@@ -1605,6 +1638,7 @@ export type TransportCreateWithoutShelterInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   animal: Prisma.AnimalCreateNestedOneWithoutTransportsInput
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
@@ -1640,6 +1674,7 @@ export type TransportUncheckedCreateWithoutShelterInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
@@ -1691,6 +1726,7 @@ export type TransportCreateWithoutTransactionInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   animal: Prisma.AnimalCreateNestedOneWithoutTransportsInput
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
@@ -1727,6 +1763,7 @@ export type TransportUncheckedCreateWithoutTransactionInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
 }
@@ -1767,6 +1804,7 @@ export type TransportUpdateWithoutTransactionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   animal?: Prisma.AnimalUpdateOneRequiredWithoutTransportsNestedInput
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
@@ -1803,6 +1841,7 @@ export type TransportUncheckedUpdateWithoutTransactionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
 }
@@ -1827,6 +1866,7 @@ export type TransportCreateWithoutTransportTimelinesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   animal: Prisma.AnimalCreateNestedOneWithoutTransportsInput
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
@@ -1863,6 +1903,7 @@ export type TransportUncheckedCreateWithoutTransportTimelinesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
 }
@@ -1903,6 +1944,7 @@ export type TransportUpdateWithoutTransportTimelinesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   animal?: Prisma.AnimalUpdateOneRequiredWithoutTransportsNestedInput
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
@@ -1939,6 +1981,7 @@ export type TransportUncheckedUpdateWithoutTransportTimelinesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
 }
@@ -1963,6 +2006,7 @@ export type TransportCreateWithoutVetClearanceRequestInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   animal: Prisma.AnimalCreateNestedOneWithoutTransportsInput
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
@@ -1998,6 +2042,7 @@ export type TransportUncheckedCreateWithoutVetClearanceRequestInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
@@ -2039,6 +2084,7 @@ export type TransportUpdateWithoutVetClearanceRequestInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   animal?: Prisma.AnimalUpdateOneRequiredWithoutTransportsNestedInput
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
@@ -2074,6 +2120,7 @@ export type TransportUncheckedUpdateWithoutVetClearanceRequestInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
@@ -2099,6 +2146,7 @@ export type TransportCreateWithoutVetInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   animal: Prisma.AnimalCreateNestedOneWithoutTransportsInput
   bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
   driver?: Prisma.DriverCreateNestedOneWithoutTransportsInput
@@ -2134,6 +2182,7 @@ export type TransportUncheckedCreateWithoutVetInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
@@ -2190,6 +2239,7 @@ export type TransportCreateManyAnimalInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
 }
 
 export type TransportCreateManyBondedPairInput = {
@@ -2217,6 +2267,7 @@ export type TransportCreateManyBondedPairInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
 }
 
 export type TransportUpdateWithoutAnimalInput = {
@@ -2239,6 +2290,7 @@ export type TransportUpdateWithoutAnimalInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
   driver?: Prisma.DriverUpdateOneWithoutTransportsNestedInput
@@ -2274,6 +2326,7 @@ export type TransportUncheckedUpdateWithoutAnimalInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
@@ -2304,6 +2357,7 @@ export type TransportUncheckedUpdateManyWithoutAnimalInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TransportUpdateWithoutBondedPairInput = {
@@ -2326,6 +2380,7 @@ export type TransportUpdateWithoutBondedPairInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   animal?: Prisma.AnimalUpdateOneRequiredWithoutTransportsNestedInput
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
   driver?: Prisma.DriverUpdateOneWithoutTransportsNestedInput
@@ -2361,6 +2416,7 @@ export type TransportUncheckedUpdateWithoutBondedPairInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
@@ -2391,6 +2447,7 @@ export type TransportUncheckedUpdateManyWithoutBondedPairInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TransportCreateManyDriverInput = {
@@ -2418,6 +2475,7 @@ export type TransportCreateManyDriverInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
 }
 
 export type TransportUpdateWithoutDriverInput = {
@@ -2440,6 +2498,7 @@ export type TransportUpdateWithoutDriverInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   animal?: Prisma.AnimalUpdateOneRequiredWithoutTransportsNestedInput
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
@@ -2475,6 +2534,7 @@ export type TransportUncheckedUpdateWithoutDriverInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
@@ -2505,6 +2565,7 @@ export type TransportUncheckedUpdateManyWithoutDriverInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TransportCreateManyShelterInput = {
@@ -2532,6 +2593,7 @@ export type TransportCreateManyShelterInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
 }
 
 export type TransportUpdateWithoutShelterInput = {
@@ -2554,6 +2616,7 @@ export type TransportUpdateWithoutShelterInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   animal?: Prisma.AnimalUpdateOneRequiredWithoutTransportsNestedInput
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
@@ -2589,6 +2652,7 @@ export type TransportUncheckedUpdateWithoutShelterInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
@@ -2619,6 +2683,7 @@ export type TransportUncheckedUpdateManyWithoutShelterInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TransportCreateManyVetInput = {
@@ -2646,6 +2711,7 @@ export type TransportCreateManyVetInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
 }
 
 export type TransportUpdateWithoutVetInput = {
@@ -2668,6 +2734,7 @@ export type TransportUpdateWithoutVetInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   animal?: Prisma.AnimalUpdateOneRequiredWithoutTransportsNestedInput
   bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
   driver?: Prisma.DriverUpdateOneWithoutTransportsNestedInput
@@ -2703,6 +2770,7 @@ export type TransportUncheckedUpdateWithoutVetInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
@@ -2733,6 +2801,7 @@ export type TransportUncheckedUpdateManyWithoutVetInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -2792,6 +2861,7 @@ export type TransportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   createdAt?: boolean
   updatedAt?: boolean
   acceptedAt?: boolean
+  completedAt?: boolean
   animal?: boolean | Prisma.AnimalDefaultArgs<ExtArgs>
   bondedPair?: boolean | Prisma.Transport$bondedPairArgs<ExtArgs>
   vet?: boolean | Prisma.Transport$vetArgs<ExtArgs>
@@ -2830,6 +2900,7 @@ export type TransportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   createdAt?: boolean
   updatedAt?: boolean
   acceptedAt?: boolean
+  completedAt?: boolean
   animal?: boolean | Prisma.AnimalDefaultArgs<ExtArgs>
   bondedPair?: boolean | Prisma.Transport$bondedPairArgs<ExtArgs>
   vet?: boolean | Prisma.Transport$vetArgs<ExtArgs>
@@ -2864,6 +2935,7 @@ export type TransportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   createdAt?: boolean
   updatedAt?: boolean
   acceptedAt?: boolean
+  completedAt?: boolean
   animal?: boolean | Prisma.AnimalDefaultArgs<ExtArgs>
   bondedPair?: boolean | Prisma.Transport$bondedPairArgs<ExtArgs>
   vet?: boolean | Prisma.Transport$vetArgs<ExtArgs>
@@ -2898,9 +2970,10 @@ export type TransportSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   acceptedAt?: boolean
+  completedAt?: boolean
 }
 
-export type TransportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transportNote" | "priorityLevel" | "pickUpLocation" | "pickUpLatitude" | "pickUpLongitude" | "dropOffLocation" | "dropOffLatitude" | "dropOffLongitude" | "transPortDate" | "animalId" | "isBondedPair" | "bondedPairId" | "vetId" | "driverId" | "shelterId" | "isVetClearanceRequired" | "vetClearanceType" | "vetClearanceRequestId" | "status" | "paymentMode" | "paymentEnabled" | "createdAt" | "updatedAt" | "acceptedAt", ExtArgs["result"]["transport"]>
+export type TransportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transportNote" | "priorityLevel" | "pickUpLocation" | "pickUpLatitude" | "pickUpLongitude" | "dropOffLocation" | "dropOffLatitude" | "dropOffLongitude" | "transPortDate" | "animalId" | "isBondedPair" | "bondedPairId" | "vetId" | "driverId" | "shelterId" | "isVetClearanceRequired" | "vetClearanceType" | "vetClearanceRequestId" | "status" | "paymentMode" | "paymentEnabled" | "createdAt" | "updatedAt" | "acceptedAt" | "completedAt", ExtArgs["result"]["transport"]>
 export type TransportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   animal?: boolean | Prisma.AnimalDefaultArgs<ExtArgs>
   bondedPair?: boolean | Prisma.Transport$bondedPairArgs<ExtArgs>
@@ -2969,6 +3042,7 @@ export type $TransportPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     createdAt: Date
     updatedAt: Date
     acceptedAt: Date | null
+    completedAt: Date | null
   }, ExtArgs["result"]["transport"]>
   composites: {}
 }
@@ -3426,6 +3500,7 @@ export interface TransportFieldRefs {
   readonly createdAt: Prisma.FieldRef<"Transport", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Transport", 'DateTime'>
   readonly acceptedAt: Prisma.FieldRef<"Transport", 'DateTime'>
+  readonly completedAt: Prisma.FieldRef<"Transport", 'DateTime'>
 }
     
 

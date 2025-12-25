@@ -151,6 +151,12 @@ export class StripeService {
     return link;
   }
 
+  async createLoginLink(stripeAccountId: string) {
+    const link = await this.stripe.accounts.createLoginLink(stripeAccountId);
+    this.logger.log(`Created login link for account ${stripeAccountId}`);
+    return link;
+  }
+
   async createDestinationCharge({
     amountCents,
     destinationAccountId,

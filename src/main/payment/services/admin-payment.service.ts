@@ -100,4 +100,32 @@ export class AdminPaymentService {
 
     return successResponse(updated, 'Complexity fee updated');
   }
+
+  @HandleError('Error fetching transactions')
+  async getTransactions() {
+    const transactions = await this.prisma.client.transaction.findMany({
+      include: {
+        transport: {
+          select: {
+            id: true,
+            status: true,
+            pickUpLocation: true,
+            dropOffLocation: true,
+            completedAt: true,
+            driver: {
+              select: {
+                user: { select: { name: true, email: true } },
+              },
+            },
+            shelter: {
+              select: { name: true },
+            },
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return successResponse(transactions, 'Transactions fetched');
+  }
 }

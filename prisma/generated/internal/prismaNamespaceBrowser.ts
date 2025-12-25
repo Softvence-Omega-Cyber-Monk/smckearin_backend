@@ -428,7 +428,8 @@ export const TransportScalarFieldEnum = {
   paymentEnabled: 'paymentEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  acceptedAt: 'acceptedAt'
+  acceptedAt: 'acceptedAt',
+  completedAt: 'completedAt'
 } as const
 
 export type TransportScalarFieldEnum = (typeof TransportScalarFieldEnum)[keyof typeof TransportScalarFieldEnum]
