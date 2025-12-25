@@ -16,6 +16,13 @@ export class StripeService {
     this.stripe = new Stripe(secretKey);
   }
 
+  // Account Management
+  async retrieveAccount(accountId: string) {
+    const account = await this.stripe.accounts.retrieve(accountId);
+    this.logger.log(`Retrieved Stripe account ${accountId}`);
+    return account;
+  }
+
   // Customer Management
   async createCustomer({
     email,

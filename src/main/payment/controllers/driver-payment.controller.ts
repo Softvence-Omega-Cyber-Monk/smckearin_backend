@@ -17,6 +17,11 @@ export class DriverPaymentController {
     private readonly getSingleTransactionService: GetSingleTransactionService,
   ) {}
 
+  @Get('payout-status')
+  async getPayoutStatus(@GetUser('sub') userId: string) {
+    return await this.driverPaymentService.getPayoutStatus(userId);
+  }
+
   @ApiOperation({ summary: 'Create Stripe onboarding link' })
   @Post('onboarding-link')
   async createOnboardingLink(

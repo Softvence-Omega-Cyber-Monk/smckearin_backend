@@ -7,7 +7,7 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { StripeService } from '@/lib/stripe/stripe.service';
 import { UtilsService } from '@/lib/utils/services/utils.service';
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { OnboardingStatus } from '@prisma';
 import { TransactionWhereInput } from 'prisma/generated/models';
 import { CreateOnboardingLinkDto } from '../dto/driver-payment.dto';
@@ -18,11 +18,57 @@ import {
 
 @Injectable()
 export class DriverPaymentService {
+  private readonly logger = new Logger(DriverPaymentService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly stripeService: StripeService,
     private readonly utils: UtilsService,
   ) {}
+
+  @HandleError('Failed to get driver payout status')
+  async getPayoutStatus(userId: string, expandStripe = false) {
+    const driver = await this.prisma.client.driver.findUnique({
+      where: { userId },
+    });
+
+    if (!driver) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Driver not found');
+    }
+
+    const payload: any = {
+      stripeAccountId: driver.stripeAccountId ?? null,
+      onboardingStatus: driver.onboardingStatus,
+      payoutEnabled: driver.payoutEnabled,
+    };
+
+    // Optionally include live Stripe account details for admin UI
+    if (expandStripe && driver.stripeAccountId) {
+      try {
+        const account = await this.stripeService.retrieveAccount(
+          driver.stripeAccountId,
+        );
+
+        payload.stripeAccount = {
+          id: account.id,
+          business_type: account.business_type,
+          country: account.country,
+          details_submitted: account.details_submitted,
+          charges_enabled: account.charges_enabled,
+          payouts_enabled: (account as any).payouts_enabled ?? false,
+          requirements: account.requirements,
+          capabilities: account.capabilities,
+        };
+      } catch (err) {
+        // Do not fail the whole request if Stripe is flaky
+        this.logger?.warn(
+          `Failed to fetch stripe account ${driver.stripeAccountId}: ${err}`,
+        );
+      }
+    }
+
+    return successResponse(payload, 'Driver payout status retrieved');
+  }
 
   @HandleError('Failed to create onboarding link')
   async createOnboardingLink(userId: string, dto: CreateOnboardingLinkDto) {

@@ -5,6 +5,7 @@ import { StripeService } from '@/lib/stripe/stripe.service';
 import { Metadata } from '@/lib/stripe/stripe.types';
 import { UtilsService } from '@/lib/utils/services/utils.service';
 import { Injectable, Logger } from '@nestjs/common';
+import { OnboardingStatus, Prisma } from '@prisma';
 import Stripe from 'stripe';
 
 @Injectable()
@@ -57,6 +58,14 @@ export class HandleWebhookService {
       case 'invoice.paid':
       case 'invoice.payment_succeeded':
         await this.handleInvoicePaid(event.data.object as Stripe.Invoice);
+        break;
+
+      case 'account.updated':
+        await this.handleAccountUpdated(event.data.object as Stripe.Account);
+        break;
+
+      case 'account.application.deauthorized':
+        await this.handleAccountDeAuthorized(event.data.object as any);
         break;
 
       default:
@@ -131,8 +140,6 @@ export class HandleWebhookService {
         JSON.stringify(error),
       );
     }
-
-    // Optional: Could notify user via notification service if implemented
   }
 
   private async handleInvoicePaid(invoice: Stripe.Invoice) {
@@ -140,6 +147,95 @@ export class HandleWebhookService {
 
     try {
     } catch (err) {
+      throw err;
+    }
+  }
+
+  private async handleAccountUpdated(account: Stripe.Account) {
+    const accountId = account.id;
+    this.logger.log(`account.updated for ${accountId}`, {
+      payouts_enabled: (account as any).payouts_enabled,
+      details_submitted: account.details_submitted,
+      charges_enabled: account.charges_enabled,
+    });
+
+    try {
+      // Find the driver by stripeAccountId
+      const driver = await this.prisma.client.driver.findFirst({
+        where: { stripeAccountId: accountId },
+      });
+
+      if (!driver) {
+        this.logger.log(`No driver found for Stripe account ${accountId}`);
+        return;
+      }
+
+      const payoutsEnabled = !!(account as any).payouts_enabled;
+      let newOnboardingStatus = driver.onboardingStatus;
+
+      if (payoutsEnabled) {
+        newOnboardingStatus = OnboardingStatus.COMPLETE;
+      } else if (account.details_submitted || account.charges_enabled) {
+        newOnboardingStatus = OnboardingStatus.PENDING;
+      } else {
+        newOnboardingStatus = OnboardingStatus.NOT_STARTED;
+      }
+
+      // Update DB only if changes
+      const updates: Prisma.DriverUpdateInput = {};
+      if (driver.payoutEnabled !== payoutsEnabled)
+        updates.payoutEnabled = payoutsEnabled;
+      if (driver.onboardingStatus !== newOnboardingStatus)
+        updates.onboardingStatus = newOnboardingStatus;
+
+      if (Object.keys(updates).length > 0) {
+        await this.prisma.client.driver.update({
+          where: { id: driver.id },
+          data: updates,
+        });
+
+        this.logger.log(
+          `Updated driver ${driver.id} with ${JSON.stringify(updates)}`,
+        );
+      } else {
+        this.logger.log(`No driver update required for ${driver.id}`);
+      }
+    } catch (err) {
+      this.logger.error(
+        `Failed to process account.updated for ${accountId}`,
+        err,
+      );
+      throw err;
+    }
+  }
+
+  private async handleAccountDeAuthorized(obj: any) {
+    const accountId = obj.account ?? obj.id;
+    this.logger.warn(`account.application.deauthorized for ${accountId}`);
+
+    try {
+      const driver = await this.prisma.client.driver.findFirst({
+        where: { stripeAccountId: accountId },
+      });
+
+      if (!driver) {
+        this.logger.log(`No driver found for Stripe account ${accountId}`);
+        return;
+      }
+
+      await this.prisma.client.driver.update({
+        where: { id: driver.id },
+        data: {
+          payoutEnabled: false,
+          onboardingStatus: OnboardingStatus.NOT_STARTED,
+        },
+      });
+
+      this.logger.log(
+        `Driver ${driver.id} updated: payoutEnabled=false, onboardingStatus=NOT_STARTED`,
+      );
+    } catch (err) {
+      this.logger.error('Error handling account.application.deauthorized', err);
       throw err;
     }
   }
