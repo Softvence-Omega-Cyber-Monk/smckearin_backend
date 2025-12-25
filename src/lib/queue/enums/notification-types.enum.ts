@@ -42,6 +42,7 @@ export enum NotificationType {
   TRANSPORT_ACCEPTED = 'transport_accepted',
   TRANSPORT_REJECTED = 'transport_rejected',
   DRIVER_ASSIGNED = 'driver_assigned',
+  TRANSPORT_STATUS_UPDATED = 'transport_status_updated',
 
   // === Vet Clearance ===
   VET_CLEARANCE_STATUS_CHANGED = 'vet_clearance_status_changed',

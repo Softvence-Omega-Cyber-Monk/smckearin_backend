@@ -7,12 +7,16 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { TransportNotificationService } from '@/lib/queue/services/transport-notification.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { TransportStatus, UserRole } from '@prisma';
+import { InternalTransactionService } from '../../payment/services/internal-transaction.service';
+import { PricingService } from '../../payment/services/pricing.service';
 
 @Injectable()
 export class ManageTransportService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly transportNotificationService: TransportNotificationService,
+    private readonly pricingService: PricingService,
+    private readonly internalTransactionService: InternalTransactionService,
   ) {}
 
   private async addTimeline(
@@ -211,8 +215,28 @@ export class ManageTransportService {
         status: dto.approved
           ? TransportStatus.ACCEPTED
           : TransportStatus.CANCELLED,
+        acceptedAt: dto.approved ? new Date() : null,
       },
     });
+
+    // If accepted, lock pricing and initialize transaction
+    if (dto.approved) {
+      try {
+        const snapshot = await this.pricingService.createSnapshot(transportId);
+        await this.internalTransactionService.initializeTransaction(
+          transportId,
+          snapshot.totalRideCost,
+        );
+      } catch (error) {
+        // Log error but don't fail acceptance?
+        // Or fail acceptance if pricing fails?
+        // Usually better to log and alert for internal parts.
+        console.error(
+          'Failed to create pricing snapshot or transaction:',
+          error,
+        );
+      }
+    }
 
     // Add timeline
     await this.addTimeline(
@@ -288,5 +312,79 @@ export class ManageTransportService {
     );
 
     return successResponse(updated, 'Driver assigned successfully');
+  }
+
+  @HandleError('Unable to update transport status')
+  async updateTransportStatus(
+    transportId: string,
+    status: TransportStatus,
+    authUser: JWTPayload,
+    latitude?: number,
+    longitude?: number,
+  ) {
+    const transport = await this.prisma.client.transport.findUniqueOrThrow({
+      where: { id: transportId },
+      select: { id: true, driverId: true, status: true },
+    });
+
+    await this.validateDriverOwnership(transport.driverId, authUser.sub);
+
+    // Validate Status Transition
+    const allowedTransitions: Record<TransportStatus, TransportStatus[]> = {
+      [TransportStatus.ACCEPTED]: [
+        TransportStatus.PICKED_UP,
+        TransportStatus.CANCELLED,
+      ],
+      [TransportStatus.PICKED_UP]: [
+        TransportStatus.IN_TRANSIT,
+        TransportStatus.COMPLETED,
+      ],
+      [TransportStatus.IN_TRANSIT]: [TransportStatus.COMPLETED],
+      [TransportStatus.PENDING]: [
+        TransportStatus.ACCEPTED,
+        TransportStatus.CANCELLED,
+      ],
+      [TransportStatus.CANCELLED]: [],
+      [TransportStatus.COMPLETED]: [],
+    };
+
+    if (!allowedTransitions[transport.status].includes(status)) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        `Cannot transition from ${transport.status} to ${status}`,
+      );
+    }
+
+    const updated = await this.prisma.client.transport.update({
+      where: { id: transportId },
+      data: { status },
+    });
+
+    // Add Timeline
+    await this.addTimeline(
+      transportId,
+      status,
+      `Transport moved to ${status}`,
+      latitude,
+      longitude,
+    );
+
+    // Transaction Finalization
+    if (status === TransportStatus.COMPLETED) {
+      // Find or check if it's a paid trip (though we always initialize internally)
+      await this.internalTransactionService.finalizeTransaction(
+        transportId,
+        'SUCCEEDED', // Internal status mark
+      );
+    }
+
+    // TODO: NOTIFICATION - Transport Status Update
+    await this.transportNotificationService.notifyTransportEvent(
+      'STATUS_UPDATE',
+      transportId,
+      { status },
+    );
+
+    return successResponse(updated, `Transport marked as ${status}`);
   }
 }

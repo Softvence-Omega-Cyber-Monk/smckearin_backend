@@ -14,7 +14,12 @@ export class TransportNotificationService extends BaseNotificationService {
   }
 
   async notifyTransportEvent(
-    eventType: 'CREATED' | 'DELETED' | 'DRIVER_DECISION' | 'DRIVER_ASSIGNED',
+    eventType:
+      | 'CREATED'
+      | 'DELETED'
+      | 'DRIVER_DECISION'
+      | 'DRIVER_ASSIGNED'
+      | 'STATUS_UPDATE',
     transportId: string,
     additionalData?: any,
   ) {
@@ -83,6 +88,13 @@ export class TransportNotificationService extends BaseNotificationService {
         });
         if (!driver) return;
         recipients = [driver.userId, ...shelterTeam];
+        break;
+
+      case 'STATUS_UPDATE':
+        notifType = NotificationType.TRANSPORT_STATUS_UPDATED;
+        title = 'Transport Status Updated';
+        message = `Transport for ${transport.animal.name} is now ${additionalData.status}.`;
+        recipients = [...shelterTeam, ...(await this.getAdmins())];
         break;
     }
 

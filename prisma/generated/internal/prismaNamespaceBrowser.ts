@@ -119,6 +119,7 @@ export const AnimalScalarFieldEnum = {
   specialNeeds: 'specialNeeds',
   medicalNotes: 'medicalNotes',
   behaviorNotes: 'behaviorNotes',
+  complexityType: 'complexityType',
   bondedWithId: 'bondedWithId',
   shelterId: 'shelterId',
   imageId: 'imageId',

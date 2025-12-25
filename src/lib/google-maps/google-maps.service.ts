@@ -41,4 +41,47 @@ export class GoogleMapsService {
       return false;
     }
   }
+
+  async getDistanceAndDuration(
+    origin: { lat: number; lng: number },
+    destination: { lat: number; lng: number },
+  ): Promise<{ distanceMiles: number; durationMinutes: number }> {
+    try {
+      const response = await this.client.distancematrix({
+        params: {
+          origins: [origin],
+          destinations: [destination],
+          key: this.apiKey,
+          units: 'imperial' as any, // For miles
+        },
+      });
+
+      if (response.data.status !== 'OK' || !response.data.rows[0].elements[0]) {
+        throw new Error('Google Maps Distance Matrix failed');
+      }
+
+      const element = response.data.rows[0].elements[0];
+
+      if (element.status !== 'OK') {
+        throw new Error(
+          `Google Maps Distance Matrix element error: ${element.status}`,
+        );
+      }
+
+      // Convert meters to miles (1 meter = 0.000621371 miles)
+      const distanceMiles = element.distance.value * 0.000621371;
+
+      // Convert seconds to minutes
+      const durationMinutes = element.duration.value / 60;
+
+      return {
+        distanceMiles: parseFloat(distanceMiles.toFixed(2)),
+        durationMinutes: Math.ceil(durationMinutes),
+      };
+    } catch (error) {
+      console.error('Google Maps Distance/Duration error:', error);
+      // Fallback to a very rough flat-earth calculation or zero if failed
+      return { distanceMiles: 0, durationMinutes: 0 };
+    }
+  }
 }
