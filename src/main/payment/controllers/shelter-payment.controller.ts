@@ -22,10 +22,16 @@ export class ShelterPaymentController {
     return await this.shelterPaymentService.createSetupIntent(userId);
   }
 
-  @ApiOperation({ summary: 'List saved payment methods' })
-  @Get('payment-methods')
+  @ApiOperation({ summary: 'List saved payment method' })
+  @Get('payment-method')
   async listPaymentMethods(@GetUser('sub') userId: string) {
     return await this.shelterPaymentService.listPaymentMethods(userId);
+  }
+
+  @ApiOperation({ summary: 'Remove saved payment method' })
+  @Get('payment-method/remove')
+  async removePaymentMethod(@GetUser('sub') userId: string) {
+    return await this.shelterPaymentService.removePaymentMethod(userId);
   }
 
   @ApiOperation({ summary: 'Get shelter transaction history' })

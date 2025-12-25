@@ -128,6 +128,24 @@ export class StripeService {
     return intent;
   }
 
+  // Payment Method Management
+  async detachPaymentMethod(paymentMethodId: string) {
+    const pm = await this.stripe.paymentMethods.detach(paymentMethodId);
+
+    this.logger.log(`Detached payment method ${paymentMethodId}`);
+
+    return pm;
+  }
+
+  async getPaymentMethodDetails(paymentMethodId: string) {
+    const paymentMethod =
+      await this.stripe.paymentMethods.retrieve(paymentMethodId);
+
+    this.logger.log(`Retrieved payment method ${paymentMethodId}`);
+
+    return paymentMethod;
+  }
+
   // Stripe Connect (Express) Methods
   async createExpressAccount(email: string) {
     const account = await this.stripe.accounts.create({

@@ -51,7 +51,16 @@ export class ShelterPaymentService {
       throw new AppError(HttpStatus.NOT_FOUND, 'Shelter profile not found');
     }
 
-    // Creates setup intent, which creates customer if needed in StripeService
+    if (shelter.stripeDefaultPaymentMethodId) {
+      return successResponse(
+        {
+          alreadyAdded: true,
+          message: 'Payment method already exists. Remove it first.',
+        },
+        'Payment method exists',
+      );
+    }
+
     const setupIntent = await this.stripeService.createSetupIntent({
       email: user.email,
       name: shelter.name,
@@ -67,12 +76,14 @@ export class ShelterPaymentService {
       });
     }
 
-    const payload = {
-      clientSecret: setupIntent.client_secret,
-      customerId: setupIntent.customer,
-    };
-
-    return successResponse(payload, 'Setup intent created successfully');
+    return successResponse(
+      {
+        alreadyAdded: false,
+        clientSecret: setupIntent.client_secret,
+        customerId: setupIntent.customer,
+      },
+      'Setup intent created successfully',
+    );
   }
 
   @HandleError('Failed to list payment methods')
@@ -97,30 +108,75 @@ export class ShelterPaymentService {
       where: { id: shelterId },
     });
 
-    let hasPaymentMethod = false;
-
-    if (shelter && shelter.stripeCustomerId) {
-      try {
-        const customer = await this.stripeService.retrieveCustomer(
-          shelter.stripeCustomerId,
-        );
-
-        if (
-          customer &&
-          !customer.deleted &&
-          customer.invoice_settings?.default_payment_method
-        ) {
-          hasPaymentMethod = true;
-        }
-      } catch (error) {
-        this.logger.error(
-          `Error checking payment method for shelter ${shelter.id}`,
-          error,
-        );
-      }
+    if (!shelter) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Shelter not found');
     }
 
-    return successResponse({ hasPaymentMethod }, 'Payment methods listed');
+    const hasPaymentMethod = !!shelter.stripeDefaultPaymentMethodId;
+
+    let pm: any;
+    if (shelter.stripeDefaultPaymentMethodId) {
+      pm = await this.stripeService.getPaymentMethodDetails(
+        shelter.stripeDefaultPaymentMethodId,
+      );
+    }
+
+    let paymentMethod: any;
+
+    if (pm) {
+      paymentMethod = {
+        id: pm.id,
+        type: pm.type,
+        card: pm.card,
+      };
+    }
+    const payload = {
+      hasPaymentMethod,
+      ...(hasPaymentMethod && { paymentMethod }),
+    };
+
+    return successResponse(payload, 'Payment method status retrieved');
+  }
+
+  @HandleError('Failed to remove payment method')
+  async removePaymentMethod(userId: string) {
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
+    });
+
+    const shelterId = user.shelterAdminOfId ?? user.managerOfId;
+
+    if (!shelterId) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'User does not belong to any shelter',
+      );
+    }
+
+    const shelter = await this.prisma.client.shelter.findFirst({
+      where: { id: shelterId },
+    });
+
+    if (!shelter) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Shelter not found');
+    }
+
+    if (!shelter.stripeDefaultPaymentMethodId) {
+      throw new AppError(HttpStatus.BAD_REQUEST, 'No payment method to remove');
+    }
+
+    // Detach in Stripe
+    await this.stripeService.detachPaymentMethod(
+      shelter.stripeDefaultPaymentMethodId,
+    );
+
+    // Delete from DB
+    await this.prisma.client.shelter.update({
+      where: { id: shelter.id },
+      data: { stripeDefaultPaymentMethodId: null },
+    });
+
+    return successResponse({}, 'Payment method removed successfully');
   }
 
   @HandleError('Failed to get transaction history')
