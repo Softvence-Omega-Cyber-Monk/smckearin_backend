@@ -11,7 +11,10 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { OnboardingStatus } from '@prisma';
 import { TransactionWhereInput } from 'prisma/generated/models';
 import { CreateOnboardingLinkDto } from '../dto/driver-payment.dto';
-import { GetTransactionDto } from '../dto/get-transaction.dto';
+import {
+  DetailedTransactionDto,
+  GetTransactionDto,
+} from '../dto/get-transaction.dto';
 
 @Injectable()
 export class DriverPaymentService {
@@ -121,43 +124,44 @@ export class DriverPaymentService {
     ]);
 
     // Map results to DetailedTransactionDto
-    const flattenedTransactions = transactions.map((t) => {
-      const snap = t.transport.pricingSnapshot;
-      return {
-        id: t.id,
-        status: t.status,
-        amount: t.amount,
-        currency: t.currency,
-        createdAt: t.createdAt,
-        completedAt: t.transport.completedAt,
+    const flattenedTransactions: DetailedTransactionDto[] = transactions.map(
+      (t) => {
+        const snap = t.transport.pricingSnapshot;
+        return {
+          id: t.id,
+          status: t.status,
+          amount: t.amount,
+          currency: t.currency,
+          createdAt: t.createdAt,
+          completedAt: t.transport.completedAt,
 
-        transportId: t.transportId,
-        transportDate: t.transport.transPortDate,
-        pickupLocation: t.transport.pickUpLocation,
-        dropOffLocation: t.transport.dropOffLocation,
-        distanceMiles: snap?.distanceMiles || 0,
-        durationMinutes: snap?.durationMinutes || 0,
+          transportId: t.transportId,
+          transportDate: t.transport.transPortDate,
+          pickupLocation: t.transport.pickUpLocation,
+          dropOffLocation: t.transport.dropOffLocation,
+          distanceMiles: snap?.distanceMiles || 0,
+          durationMinutes: snap?.durationMinutes || 0,
 
-        // For driver view, these are less critical or redundant (it's them)
-        driverId: t.transport.driverId,
-        driverName: t.transport.driver?.user?.name || 'Me',
+          driverId: t.transport.driverId,
+          driverName: t.transport.driver?.user?.name || 'Me',
 
-        shelterId: t.transport.shelterId,
-        shelterName: t.transport.shelter?.name || 'Unknown',
+          shelterId: t.transport.shelterId,
+          shelterName: t.transport.shelter?.name || 'Unknown',
 
-        animalName: t.transport.animal?.name || 'Unknown',
+          animalName: t.transport.animal?.name || 'Unknown',
 
-        ratePerMile: snap?.ratePerMile || 0,
-        ratePerMinute: snap?.ratePerMinute || 0,
-        distanceCost: snap?.distanceCost || 0,
-        timeCost: snap?.timeCost || 0,
-        complexityFee:
-          (snap?.animalComplexityFee || 0) + (snap?.multiAnimalFee || 0),
-        platformFee: snap?.platformFeeAmount || 0,
-        driverPayout: snap?.driverGrossPayout || 0,
-        totalCost: snap?.totalRideCost || 0,
-      };
-    });
+          ratePerMile: snap?.ratePerMile || 0,
+          ratePerMinute: snap?.ratePerMinute || 0,
+          distanceCost: snap?.distanceCost || 0,
+          timeCost: snap?.timeCost || 0,
+          complexityFee:
+            (snap?.animalComplexityFee || 0) + (snap?.multiAnimalFee || 0),
+          platformFee: snap?.platformFeeAmount || 0,
+          driverPayout: snap?.driverGrossPayout || 0,
+          totalCost: snap?.totalRideCost || 0,
+        };
+      },
+    );
 
     return successPaginatedResponse(
       flattenedTransactions,

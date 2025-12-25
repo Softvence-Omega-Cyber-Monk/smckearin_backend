@@ -1,16 +1,21 @@
 import { GetUser, ValidateDriver } from '@/core/jwt/jwt.decorator';
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateOnboardingLinkDto } from '../dto/driver-payment.dto';
 import { GetTransactionDto } from '../dto/get-transaction.dto';
 import { DriverPaymentService } from '../services/driver-payment.service';
+import { GetSingleTransactionService } from '../services/get-single-transaction.service';
 
 @ApiTags('Driver Payment')
 @ApiBearerAuth()
 @ValidateDriver()
 @Controller('driver-payment')
 export class DriverPaymentController {
-  constructor(private readonly driverPaymentService: DriverPaymentService) {}
+  constructor(
+    private readonly driverPaymentService: DriverPaymentService,
+    private readonly getSingleTransactionService: GetSingleTransactionService,
+  ) {}
 
   @ApiOperation({ summary: 'Create Stripe onboarding link' })
   @Post('onboarding-link')
@@ -33,5 +38,14 @@ export class DriverPaymentController {
     @Query() dto: GetTransactionDto,
   ) {
     return await this.driverPaymentService.getTransactionHistory(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get single transaction details' })
+  @Get('transactions/:transactionId')
+  async getTransaction(
+    @Param('transactionId') transactionId: string,
+    @GetUser() user: JWTPayload,
+  ) {
+    return this.getSingleTransactionService.getTransaction(transactionId, user);
   }
 }

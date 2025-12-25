@@ -1,4 +1,5 @@
-import { ValidateAdmin } from '@/core/jwt/jwt.decorator';
+import { GetUser, ValidateAdmin } from '@/core/jwt/jwt.decorator';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
 import {
   Body,
   Controller,
@@ -17,13 +18,17 @@ import {
 } from '../dto/admin-payment.dto';
 import { GetTransactionDto } from '../dto/get-transaction.dto';
 import { AdminPaymentService } from '../services/admin-payment.service';
+import { GetSingleTransactionService } from '../services/get-single-transaction.service';
 
 @ApiTags('Admin Payment')
 @ApiBearerAuth()
 @ValidateAdmin()
 @Controller('admin-payment')
 export class AdminPaymentController {
-  constructor(private readonly adminPaymentService: AdminPaymentService) {}
+  constructor(
+    private readonly adminPaymentService: AdminPaymentService,
+    private readonly getSingleTransactionService: GetSingleTransactionService,
+  ) {}
 
   @Get('settings')
   @ApiOperation({ summary: 'Get global payment feature flags' })
@@ -68,6 +73,15 @@ export class AdminPaymentController {
   @ApiOperation({ summary: 'Get all transactions' })
   async getTransactions(@Query() dto: GetTransactionDto) {
     return this.adminPaymentService.getTransactions(dto);
+  }
+
+  @Get('transactions/:transactionId')
+  @ApiOperation({ summary: 'Get a single transaction by ID' })
+  async getTransaction(
+    @Param('transactionId') transactionId: string,
+    @GetUser() user: JWTPayload,
+  ) {
+    return this.getSingleTransactionService.getTransaction(transactionId, user);
   }
 
   @Get('stats')

@@ -4,13 +4,17 @@ import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { UserRole } from '@prisma';
+import { DetailedTransactionDto } from '../dto/get-transaction.dto';
 
 @Injectable()
 export class GetSingleTransactionService {
   constructor(private readonly prisma: PrismaService) {}
 
   @HandleError("Couldn't get transaction")
-  async getTransaction(transactionId: string, user: JWTPayload): Promise<any> {
+  async getTransaction(
+    transactionId: string,
+    user: JWTPayload,
+  ): Promise<DetailedTransactionDto> {
     const transaction = await this.prisma.client.transaction.findUnique({
       where: { id: transactionId },
       include: {

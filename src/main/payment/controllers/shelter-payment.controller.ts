@@ -1,7 +1,9 @@
 import { GetUser, ValidateManager } from '@/core/jwt/jwt.decorator';
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
+import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GetTransactionDto } from '../dto/get-transaction.dto';
+import { GetSingleTransactionService } from '../services/get-single-transaction.service';
 import { ShelterPaymentService } from '../services/shelter-payment.service';
 
 @ApiTags('Shelter Payment')
@@ -9,7 +11,10 @@ import { ShelterPaymentService } from '../services/shelter-payment.service';
 @ValidateManager()
 @Controller('shelter-payment')
 export class ShelterPaymentController {
-  constructor(private readonly shelterPaymentService: ShelterPaymentService) {}
+  constructor(
+    private readonly shelterPaymentService: ShelterPaymentService,
+    private readonly getSingleTransactionService: GetSingleTransactionService,
+  ) {}
 
   @ApiOperation({ summary: 'Create Stripe SetupIntent to add a card' })
   @Post('setup-intent')
@@ -30,5 +35,14 @@ export class ShelterPaymentController {
     @Query() dto: GetTransactionDto,
   ) {
     return await this.shelterPaymentService.getTransactionHistory(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get single transaction details' })
+  @Get('transactions/:transactionId')
+  async getTransaction(
+    @Param('transactionId') transactionId: string,
+    @GetUser() user: JWTPayload,
+  ) {
+    return this.getSingleTransactionService.getTransaction(transactionId, user);
   }
 }
