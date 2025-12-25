@@ -1,6 +1,7 @@
+import { AppError } from '@/core/error/handle-error.app';
 import { GoogleMapsService } from '@/lib/google-maps/google-maps.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
 export class PricingService {
@@ -22,16 +23,20 @@ export class PricingService {
     animalId: string;
     bondedPairId?: string | null;
   }) {
-    const [rule, complexityFees, animal] = await Promise.all([
-      this.prisma.client.pricingRule.findFirst({
-        orderBy: { createdAt: 'desc' },
-      }),
-      this.prisma.client.animalComplexityFee.findMany(),
-      this.prisma.client.animal.findUnique({ where: { id: params.animalId } }),
-    ]);
+    const [rule, complexityFees, animal] =
+      await this.prisma.client.$transaction([
+        this.prisma.client.pricingRule.findFirst({
+          orderBy: { createdAt: 'desc' },
+        }),
+        this.prisma.client.animalComplexityFee.findMany(),
+        this.prisma.client.animal.findUnique({
+          where: { id: params.animalId },
+        }),
+      ]);
 
-    if (!rule) throw new Error('No pricing rules found');
-    if (!animal) throw new Error('Animal not found');
+    if (!rule)
+      throw new AppError(HttpStatus.NOT_FOUND, 'No pricing rules found');
+    if (!animal) throw new AppError(HttpStatus.NOT_FOUND, 'Animal not found');
 
     // Get distance/duration
     const { distanceMiles, durationMinutes } =
@@ -92,7 +97,8 @@ export class PricingService {
       include: { animal: true },
     });
 
-    if (!transport) throw new Error('Transport not found');
+    if (!transport)
+      throw new AppError(HttpStatus.NOT_FOUND, 'Transport not found');
 
     const estimate = await this.calculateEstimate({
       pickUpLatitude: transport.pickUpLatitude,

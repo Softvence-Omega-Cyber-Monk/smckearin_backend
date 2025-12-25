@@ -1,5 +1,6 @@
+import { AppError } from '@/core/error/handle-error.app';
 import { PrismaService } from '@/lib/prisma/prisma.service';
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { TransactionStatus } from '@prisma';
 
 @Injectable()
@@ -8,11 +9,19 @@ export class InternalTransactionService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  /**
-   * Initializes a transaction record for a transport.
-   * This is used for internal auditing and tracking of Stripe IDs.
-   */
   async initializeTransaction(transportId: string, amount: number) {
+    const transport = this.prisma.client.transport.findUnique({
+      where: { id: transportId },
+    });
+
+    if (!transport) {
+      this.logger.error(`Transport ${transportId} not found`);
+      throw new AppError(
+        HttpStatus.NOT_FOUND,
+        `Transport ${transportId} not found`,
+      );
+    }
+
     const existing = await this.prisma.client.transaction.findUnique({
       where: { transportId },
     });
@@ -31,15 +40,24 @@ export class InternalTransactionService {
     });
   }
 
-  /**
-   * Updates a transaction with Stripe IDs after successful processing.
-   */
   async updateStripeDetails(params: {
     transportId: string;
     stripePaymentIntentId?: string;
     stripeTransferId?: string;
     status?: TransactionStatus;
   }) {
+    const transport = await this.prisma.client.transport.findUnique({
+      where: { id: params.transportId },
+    });
+
+    if (!transport) {
+      this.logger.error(`Transport ${params.transportId} not found`);
+      throw new AppError(
+        HttpStatus.NOT_FOUND,
+        `Transport ${params.transportId} not found`,
+      );
+    }
+
     return this.prisma.client.transaction.update({
       where: { transportId: params.transportId },
       data: {
@@ -50,10 +68,19 @@ export class InternalTransactionService {
     });
   }
 
-  /**
-   * Finalizes the transaction status.
-   */
   async finalizeTransaction(transportId: string, status: TransactionStatus) {
+    const transport = await this.prisma.client.transport.findUnique({
+      where: { id: transportId },
+    });
+
+    if (!transport) {
+      this.logger.error(`Transport ${transportId} not found`);
+      throw new AppError(
+        HttpStatus.NOT_FOUND,
+        `Transport ${transportId} not found`,
+      );
+    }
+
     return this.prisma.client.transaction.update({
       where: { transportId },
       data: { status },
