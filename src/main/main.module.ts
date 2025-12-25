@@ -9,6 +9,7 @@ import { TransportModule } from './transport/transport.module';
 import { UploadModule } from './upload/upload.module';
 import { VetClearanceAppointmentModule } from './vet-clearance-appointment/vet-clearance-appointment.module';
 import { VetModule } from './vet/vet.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { VetModule } from './vet/vet.module';
     VetClearanceAppointmentModule,
     StatsModule,
     UploadModule,
+    PaymentModule,
   ],
 })
 export class MainModule {}
