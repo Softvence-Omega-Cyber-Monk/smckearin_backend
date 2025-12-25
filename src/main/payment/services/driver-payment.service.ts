@@ -27,7 +27,7 @@ export class DriverPaymentService {
   ) {}
 
   @HandleError('Failed to get driver payout status')
-  async getPayoutStatus(userId: string, expandStripe = false) {
+  async getPayoutStatus(userId: string) {
     const driver = await this.prisma.client.driver.findUnique({
       where: { userId },
     });
@@ -36,17 +36,22 @@ export class DriverPaymentService {
       throw new AppError(HttpStatus.NOT_FOUND, 'Driver not found');
     }
 
+    // Base payload from DB
     const payload: any = {
       stripeAccountId: driver.stripeAccountId ?? null,
       onboardingStatus: driver.onboardingStatus,
       payoutEnabled: driver.payoutEnabled,
     };
 
-    // Optionally include live Stripe account details for admin UI
-    if (expandStripe && driver.stripeAccountId) {
+    if (driver.stripeAccountId) {
       try {
         const account = await this.stripeService.retrieveAccount(
           driver.stripeAccountId,
+        );
+
+        this.logger.log(
+          `Retrieved Stripe account ${driver.stripeAccountId}`,
+          JSON.stringify(account, null, 2),
         );
 
         payload.stripeAccount = {
@@ -55,15 +60,37 @@ export class DriverPaymentService {
           country: account.country,
           details_submitted: account.details_submitted,
           charges_enabled: account.charges_enabled,
-          payouts_enabled: (account as any).payouts_enabled ?? false,
+          payouts_enabled: account.payouts_enabled ?? false,
           requirements: account.requirements,
           capabilities: account.capabilities,
         };
+
+        // Optional: sync DB if live Stripe info differs
+        const newOnboardingStatus = account.details_submitted
+          ? OnboardingStatus.COMPLETE
+          : OnboardingStatus.PENDING;
+
+        if (
+          driver.onboardingStatus !== newOnboardingStatus ||
+          driver.payoutEnabled !== account.payouts_enabled
+        ) {
+          await this.prisma.client.driver.update({
+            where: { id: driver.id },
+            data: {
+              onboardingStatus: newOnboardingStatus,
+              payoutEnabled: account.payouts_enabled,
+            },
+          });
+
+          // Update payload to reflect synced DB
+          payload.onboardingStatus = newOnboardingStatus;
+          payload.payoutEnabled = account.payouts_enabled;
+        }
       } catch (err) {
-        // Do not fail the whole request if Stripe is flaky
         this.logger?.warn(
-          `Failed to fetch stripe account ${driver.stripeAccountId}: ${err}`,
+          `Failed to fetch Stripe account ${driver.stripeAccountId}: ${err}`,
         );
+        // Keep payload from DB if Stripe is temporarily unavailable
       }
     }
 
