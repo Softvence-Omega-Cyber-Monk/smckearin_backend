@@ -41,9 +41,6 @@ model Transport {
 
   status TransportStatus @default(PENDING)
 
-  paymentMode    PaymentMode @default(VOLUNTEER)
-  paymentEnabled Boolean     @default(false)
-
   pricingSnapshot PricingSnapshot?
   transaction     Transaction?
 
@@ -52,6 +49,7 @@ model Transport {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @default(now()) @updatedAt
   acceptedAt DateTime?
+  completedAt DateTime?
 
   @@map("transports")
 }

@@ -3,6 +3,7 @@ import { AnimalModule } from './animal/animal.module';
 import { AuthModule } from './auth/auth.module';
 import { DriverModule } from './driver/driver.module';
 import { HealthReportsModule } from './health-reports/health-reports.module';
+import { PaymentModule } from './payment/payment.module';
 import { ShelterModule } from './shelter/shelter.module';
 import { StatsModule } from './stats/stats.module';
 import { TransportModule } from './transport/transport.module';
@@ -21,6 +22,7 @@ import { VetModule } from './vet/vet.module';
     HealthReportsModule,
     VetClearanceAppointmentModule,
     StatsModule,
+    PaymentModule,
     UploadModule,
   ],
 })

@@ -54,51 +54,47 @@ export class ManageShelterService {
 
   @HandleError('Failed to delete shelter')
   async deleteShelter(shelterId: string) {
-    // Fetch shelter details before deletion for notification
-    const shelter = await this.prisma.client.shelter.findUnique({
-      where: { id: shelterId },
-      select: { id: true, name: true },
-    });
-
-    if (!shelter) {
-      throw new AppError(HttpStatus.NOT_FOUND, 'Shelter not found');
-    }
-
-    // TODO: NOTIFICATION - Shelter Deletion
-    // What: Send notification about shelter deletion (send BEFORE deletion)
-    // Recipients:
-    //   1. All SHELTER_ADMIN users of this shelter
-    //   2. All MANAGER users of this shelter
-    // Settings: emailNotifications
-    // Meta: { shelterId, shelterName: (fetch shelter name before deletion) }
-    // Note: Fetch shelter and team member details BEFORE deletion to send notifications
-    // Note: Notification is sent in the transaction before deletion
-    const members = await this.prisma.client.user.findMany({
-      where: {
-        OR: [{ shelterAdminOfId: shelterId }, { managerOfId: shelterId }],
-      },
-      select: { id: true },
-    });
-    const teamMemberIds = members.map((m) => m.id);
-    await this.userNotificationService.notifyAccountDeletion('SHELTER', '', {
-      name: shelter.name,
-      email: '',
-      shelterId,
-      teamMemberIds,
-    });
-
     await this.prisma.client.$transaction(async (tx) => {
-      // delete associated members
+      // Fetch shelter inside transaction
+      const shelter = await tx.shelter.findUnique({
+        where: { id: shelterId },
+        select: { id: true, name: true },
+      });
+
+      if (!shelter) {
+        throw new AppError(HttpStatus.NOT_FOUND, 'Shelter not found');
+      }
+
+      // Fetch members inside transaction
+      const members = await tx.user.findMany({
+        where: {
+          OR: [{ shelterAdminOfId: shelterId }, { managerOfId: shelterId }],
+        },
+        select: { id: true },
+      });
+      const teamMemberIds = members.map((m) => m.id);
+
+      // Notify users outside of transaction if you want
+      await this.userNotificationService.notifyAccountDeletion('SHELTER', '', {
+        name: shelter.name,
+        email: '',
+        shelterId,
+        teamMemberIds,
+      });
+
+      // Delete members
       await tx.user.deleteMany({
         where: {
           OR: [{ shelterAdminOfId: shelterId }, { managerOfId: shelterId }],
         },
       });
 
-      // delete shelter
+      // Delete shelter
       await tx.shelter.delete({
         where: { id: shelterId },
       });
+
+      return shelter;
     });
 
     return successResponse(

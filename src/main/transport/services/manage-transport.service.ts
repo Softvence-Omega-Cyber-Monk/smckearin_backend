@@ -7,12 +7,17 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { TransportNotificationService } from '@/lib/queue/services/transport-notification.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { TransportStatus, UserRole } from '@prisma';
+import { InternalTransactionService } from '../../payment/services/internal-transaction.service';
+import { PricingService } from '../../payment/services/pricing.service';
+import { UpdateTransportStatusQueryDto } from '../dto/update-timeline.dto';
 
 @Injectable()
 export class ManageTransportService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly transportNotificationService: TransportNotificationService,
+    private readonly pricingService: PricingService,
+    private readonly internalTransactionService: InternalTransactionService,
   ) {}
 
   private async addTimeline(
@@ -132,15 +137,6 @@ export class ManageTransportService {
         await trx.transport.delete({ where: { id: transportId } });
       });
 
-      // TODO: NOTIFICATION - Transport Deleted by Admin
-      // What: Send notification about transport cancellation/deletion
-      // Recipients:
-      //   1. Assigned driver (if transport.driverId exists) - via driver.userId
-      //   2. Assigned veterinarian (if transport.vetId exists) - via vet.userId
-      //   3. All SHELTER_ADMIN and MANAGER users of the shelter (transport.shelterId)
-      // Settings: tripNotifications, emailNotifications
-      // Meta: { transportId, shelterId: transport.shelterId, deletedBy: 'admin' }
-      // Note: Fetch transport details including driver and vet BEFORE deletion
       await this.transportNotificationService.notifyTransportEvent(
         'DELETED',
         transportId,
@@ -172,14 +168,6 @@ export class ManageTransportService {
       await trx.transport.delete({ where: { id: transportId } });
     });
 
-    // TODO: NOTIFICATION - Transport Deleted by Shelter
-    // What: Send notification about transport cancellation/deletion
-    // Recipients:
-    //   1. Assigned driver (if transport.driverId exists) - via driver.userId
-    //   2. Assigned veterinarian (if transport.vetId exists) - via vet.userId
-    // Settings: tripNotifications, emailNotifications
-    // Meta: { transportId, shelterId: transport.shelterId, deletedBy: 'shelter' }
-    // Note: Fetch transport details including driver and vet BEFORE deletion
     await this.transportNotificationService.notifyTransportEvent(
       'DELETED',
       transportId,
@@ -211,8 +199,26 @@ export class ManageTransportService {
         status: dto.approved
           ? TransportStatus.ACCEPTED
           : TransportStatus.CANCELLED,
+        acceptedAt: dto.approved ? new Date() : null,
       },
     });
+
+    // If accepted, lock pricing and initialize transaction
+    if (dto.approved) {
+      try {
+        const snapshot = await this.pricingService.createSnapshot(transportId);
+
+        await this.internalTransactionService.initializeTransaction(
+          transportId,
+          snapshot.totalRideCost,
+        );
+      } catch (error) {
+        console.error(
+          'Failed to create pricing snapshot or transaction:',
+          error,
+        );
+      }
+    }
 
     // Add timeline
     await this.addTimeline(
@@ -221,13 +227,6 @@ export class ManageTransportService {
       dto.approved ? 'Transport accepted' : 'Transport rejected',
     );
 
-    // TODO: NOTIFICATION - Transport Accepted/Rejected by Driver
-    // What: Send notification about driver's decision on transport request
-    // Recipients:
-    //   1. All SHELTER_ADMIN and MANAGER users of the transport's shelter (fetch via transport.shelterId)
-    //   2. All users with role ADMIN or SUPER_ADMIN
-    // Settings: tripNotifications, emailNotifications
-    // Meta: { transportId, shelterId: (fetch from transport), driverId: transport.driverId, accepted: dto.approved, status: updated.status }
     await this.transportNotificationService.notifyTransportEvent(
       'DRIVER_DECISION',
       transportId,
@@ -274,13 +273,6 @@ export class ManageTransportService {
       `Driver assigned: ${driverId}`,
     );
 
-    // TODO: NOTIFICATION - Driver Assigned to Transport
-    // What: Send notification about driver assignment
-    // Recipients:
-    //   1. The assigned driver - via driver.userId
-    //   2. All SHELTER_ADMIN and MANAGER users of the transport's shelter (transport.shelterId)
-    // Settings: tripNotifications, emailNotifications
-    // Meta: { transportId, shelterId: transport.shelterId, driverId, assignedBy: authUser.sub }
     await this.transportNotificationService.notifyTransportEvent(
       'DRIVER_ASSIGNED',
       transportId,
@@ -288,5 +280,69 @@ export class ManageTransportService {
     );
 
     return successResponse(updated, 'Driver assigned successfully');
+  }
+
+  @HandleError('Unable to update transport status')
+  async updateTransportStatus(
+    transportId: string,
+    authUser: JWTPayload,
+    dto: UpdateTransportStatusQueryDto,
+  ) {
+    const transport = await this.prisma.client.transport.findUniqueOrThrow({
+      where: { id: transportId },
+      select: { id: true, driverId: true, status: true },
+    });
+
+    await this.validateDriverOwnership(transport.driverId, authUser.sub);
+
+    // Validate Status Transition
+    const allowedTransitions: Record<TransportStatus, TransportStatus[]> = {
+      [TransportStatus.ACCEPTED]: [
+        TransportStatus.PICKED_UP,
+        TransportStatus.CANCELLED,
+      ],
+      [TransportStatus.PICKED_UP]: [
+        TransportStatus.IN_TRANSIT,
+        TransportStatus.COMPLETED,
+      ],
+      [TransportStatus.IN_TRANSIT]: [TransportStatus.COMPLETED],
+      [TransportStatus.PENDING]: [
+        TransportStatus.ACCEPTED,
+        TransportStatus.CANCELLED,
+      ],
+      [TransportStatus.CANCELLED]: [],
+      [TransportStatus.COMPLETED]: [],
+    };
+
+    const { status, latitude, longitude } = dto;
+
+    if (!allowedTransitions[transport.status].includes(status)) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        `Cannot transition from ${transport.status} to ${status}`,
+      );
+    }
+
+    const updated = await this.prisma.client.transport.update({
+      where: { id: transportId },
+      data: { status },
+    });
+
+    // Add Timeline
+    await this.addTimeline(
+      transportId,
+      status,
+      `Transport moved to ${status}`,
+      latitude,
+      longitude,
+    );
+
+    await this.transportNotificationService.notifyTransportEvent(
+      'STATUS_UPDATE',
+      transportId,
+      { status },
+    );
+
+    return successResponse(updated, `Transport marked as ${status}`);
   }
 }

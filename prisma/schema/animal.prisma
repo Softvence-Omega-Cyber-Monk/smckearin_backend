@@ -15,6 +15,8 @@ model Animal {
   medicalNotes  String?
   behaviorNotes String?
 
+  complexityType ComplexityType @default(STANDARD)
+
   // Bonded Pair (Self Relation)
   bondedWithId String?
   bondedWith   Animal?  @relation("BondedPair", fields: [bondedWithId], references: [id], onDelete: SetNull)

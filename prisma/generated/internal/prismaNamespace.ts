@@ -2416,6 +2416,7 @@ export const AnimalScalarFieldEnum = {
   specialNeeds: 'specialNeeds',
   medicalNotes: 'medicalNotes',
   behaviorNotes: 'behaviorNotes',
+  complexityType: 'complexityType',
   bondedWithId: 'bondedWithId',
   shelterId: 'shelterId',
   imageId: 'imageId',
@@ -2567,6 +2568,10 @@ export const PaymentSettingsScalarFieldEnum = {
   driverPaymentsEnabled: 'driverPaymentsEnabled',
   platformFeesEnabled: 'platformFeesEnabled',
   timeBasedPricingEnabled: 'timeBasedPricingEnabled',
+  paymentMode: 'paymentMode',
+  paymentEnabled: 'paymentEnabled',
+  automaticPayoutsEnabled: 'automaticPayoutsEnabled',
+  payoutDayOfMonth: 'payoutDayOfMonth',
   updatedAt: 'updatedAt'
 } as const
 
@@ -2662,6 +2667,7 @@ export const ShelterScalarFieldEnum = {
   workingDays: 'workingDays',
   status: 'status',
   stripeCustomerId: 'stripeCustomerId',
+  stripeDefaultPaymentMethodId: 'stripeDefaultPaymentMethodId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2720,11 +2726,10 @@ export const TransportScalarFieldEnum = {
   vetClearanceType: 'vetClearanceType',
   vetClearanceRequestId: 'vetClearanceRequestId',
   status: 'status',
-  paymentMode: 'paymentMode',
-  paymentEnabled: 'paymentEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  acceptedAt: 'acceptedAt'
+  acceptedAt: 'acceptedAt',
+  completedAt: 'completedAt'
 } as const
 
 export type TransportScalarFieldEnum = (typeof TransportScalarFieldEnum)[keyof typeof TransportScalarFieldEnum]
@@ -3076,6 +3081,20 @@ export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 
 
 /**
+ * Reference to a field of type 'PaymentMode'
+ */
+export type EnumPaymentModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMode'>
+    
+
+
+/**
+ * Reference to a field of type 'PaymentMode[]'
+ */
+export type ListEnumPaymentModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMode[]'>
+    
+
+
+/**
  * Reference to a field of type 'ConversationStatus'
  */
 export type EnumConversationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConversationStatus'>
@@ -3170,20 +3189,6 @@ export type EnumTransportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'TransportStatus[]'
  */
 export type ListEnumTransportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransportStatus[]'>
-    
-
-
-/**
- * Reference to a field of type 'PaymentMode'
- */
-export type EnumPaymentModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMode'>
-    
-
-
-/**
- * Reference to a field of type 'PaymentMode[]'
- */
-export type ListEnumPaymentModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMode[]'>
     
 
 

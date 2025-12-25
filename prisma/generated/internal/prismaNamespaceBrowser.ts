@@ -119,6 +119,7 @@ export const AnimalScalarFieldEnum = {
   specialNeeds: 'specialNeeds',
   medicalNotes: 'medicalNotes',
   behaviorNotes: 'behaviorNotes',
+  complexityType: 'complexityType',
   bondedWithId: 'bondedWithId',
   shelterId: 'shelterId',
   imageId: 'imageId',
@@ -270,6 +271,10 @@ export const PaymentSettingsScalarFieldEnum = {
   driverPaymentsEnabled: 'driverPaymentsEnabled',
   platformFeesEnabled: 'platformFeesEnabled',
   timeBasedPricingEnabled: 'timeBasedPricingEnabled',
+  paymentMode: 'paymentMode',
+  paymentEnabled: 'paymentEnabled',
+  automaticPayoutsEnabled: 'automaticPayoutsEnabled',
+  payoutDayOfMonth: 'payoutDayOfMonth',
   updatedAt: 'updatedAt'
 } as const
 
@@ -365,6 +370,7 @@ export const ShelterScalarFieldEnum = {
   workingDays: 'workingDays',
   status: 'status',
   stripeCustomerId: 'stripeCustomerId',
+  stripeDefaultPaymentMethodId: 'stripeDefaultPaymentMethodId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -423,11 +429,10 @@ export const TransportScalarFieldEnum = {
   vetClearanceType: 'vetClearanceType',
   vetClearanceRequestId: 'vetClearanceRequestId',
   status: 'status',
-  paymentMode: 'paymentMode',
-  paymentEnabled: 'paymentEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  acceptedAt: 'acceptedAt'
+  acceptedAt: 'acceptedAt',
+  completedAt: 'completedAt'
 } as const
 
 export type TransportScalarFieldEnum = (typeof TransportScalarFieldEnum)[keyof typeof TransportScalarFieldEnum]

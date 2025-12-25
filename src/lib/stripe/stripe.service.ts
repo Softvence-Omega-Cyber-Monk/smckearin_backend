@@ -16,6 +16,13 @@ export class StripeService {
     this.stripe = new Stripe(secretKey);
   }
 
+  // Account Management
+  async retrieveAccount(accountId: string) {
+    const account = await this.stripe.accounts.retrieve(accountId);
+    this.logger.log(`Retrieved Stripe account ${accountId}`);
+    return account;
+  }
+
   // Customer Management
   async createCustomer({
     email,
@@ -68,6 +75,17 @@ export class StripeService {
     return customers.data[0];
   }
 
+  async setDefaultPaymentMethod(customerId: string, paymentMethodId: string) {
+    await this.stripe.customers.update(customerId, {
+      invoice_settings: {
+        default_payment_method: paymentMethodId,
+      },
+    });
+    this.logger.log(
+      `Set default payment method ${paymentMethodId} for customer ${customerId}`,
+    );
+  }
+
   // Payment Intent Management
   async retrievePaymentIntent(paymentIntentId: string) {
     const pi = await this.stripe.paymentIntents.retrieve(paymentIntentId);
@@ -117,6 +135,24 @@ export class StripeService {
     return intent;
   }
 
+  // Payment Method Management
+  async detachPaymentMethod(paymentMethodId: string) {
+    const pm = await this.stripe.paymentMethods.detach(paymentMethodId);
+
+    this.logger.log(`Detached payment method ${paymentMethodId}`);
+
+    return pm;
+  }
+
+  async getPaymentMethodDetails(paymentMethodId: string) {
+    const paymentMethod =
+      await this.stripe.paymentMethods.retrieve(paymentMethodId);
+
+    this.logger.log(`Retrieved payment method ${paymentMethodId}`);
+
+    return paymentMethod;
+  }
+
   // Stripe Connect (Express) Methods
   async createExpressAccount(email: string) {
     const account = await this.stripe.accounts.create({
@@ -151,6 +187,12 @@ export class StripeService {
     return link;
   }
 
+  async createLoginLink(stripeAccountId: string) {
+    const link = await this.stripe.accounts.createLoginLink(stripeAccountId);
+    this.logger.log(`Created login link for account ${stripeAccountId}`);
+    return link;
+  }
+
   async createDestinationCharge({
     amountCents,
     destinationAccountId,
@@ -176,6 +218,29 @@ export class StripeService {
       `Created destination charge ${paymentIntent.id} for account ${destinationAccountId}`,
     );
     return paymentIntent;
+  }
+
+  // Payouts & Transfers
+  async createTransfer({
+    amountCents,
+    destinationAccountId,
+    metadata,
+  }: {
+    amountCents: number;
+    destinationAccountId: string;
+    metadata: Metadata;
+  }) {
+    const transfer = await this.stripe.transfers.create({
+      amount: amountCents,
+      currency: 'usd',
+      destination: destinationAccountId,
+      metadata: metadata as any,
+    });
+
+    this.logger.log(
+      `Created transfer ${transfer.id} of ${amountCents} cents to account ${destinationAccountId}`,
+    );
+    return transfer;
   }
 
   // Setup Intent Management

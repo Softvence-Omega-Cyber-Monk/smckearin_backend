@@ -24,6 +24,7 @@ import {
   GetTransportByLocationDto,
   GetTransportDto,
 } from '../dto/get-transport.dto';
+import { UpdateTransportStatusQueryDto } from '../dto/update-timeline.dto';
 import { CreateTransportService } from '../services/create-transport.service';
 import { GetDriverTransportService } from '../services/get-driver-transport.service';
 import { GetLiveTrackingService } from '../services/get-live-tracking.service';
@@ -167,6 +168,20 @@ export class TransportController {
       dto,
     );
   }
+
+  @ApiOperation({
+    summary: 'Update transport status (picked up, completed, etc)',
+  })
+  @ValidateDriver()
+  @Patch(':id/status')
+  async updateTransportStatus(
+    @GetUser() authUser: JWTPayload,
+    @Param('id') id: string,
+    @Query() dto: UpdateTransportStatusQueryDto,
+  ) {
+    return this.manageTransportService.updateTransportStatus(id, authUser, dto);
+  }
+
   @ApiOperation({ summary: 'Get live tracking data for a transport' })
   @ValidateAuth()
   @Get(':id/live')

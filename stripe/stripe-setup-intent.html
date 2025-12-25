@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Stripe SetupIntent Test</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+      }
+      input,
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        font-size: 16px;
+      }
+      #card-element {
+        border: 1px solid #ccc;
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Stripe SetupIntent Test</h2>
+    <p>
+      Paste your <strong>Setup Intent client_secret</strong> below and test
+      adding a card.
+    </p>
+
+    <label>Client Secret:</label>
+    <input
+      type="text"
+      id="clientSecret"
+      placeholder="seti_12345_secret_67890"
+    />
+
+    <div id="card-element"></div>
+    <button id="setupBtn">Add Card</button>
+
+    <p id="result"></p>
+
+    <script>
+      const stripe = Stripe(
+        'pk_test_51RlFNRQNJ9V9C9o5Rz8lIUhKRJ7foy4WRfQR4z05Oy41puNBooAmZE0KuBy2K55iGVHrioX1CY3KotwYxwIyxHR800J4o3qINh',
+      );
+
+      const elements = stripe.elements();
+      const card = elements.create('card');
+      card.mount('#card-element');
+
+      document
+        .getElementById('setupBtn')
+        .addEventListener('click', async () => {
+          const clientSecret = document
+            .getElementById('clientSecret')
+            .value.trim();
+          if (!clientSecret) return alert('Please enter a client_secret first');
+
+          document.getElementById('result').innerText = 'Processing...';
+
+          const { setupIntent, error } = await stripe.confirmCardSetup(
+            clientSecret,
+            {
+              payment_method: {
+                card: card,
+              },
+            },
+          );
+
+          if (error) {
+            console.error(error);
+            document.getElementById('result').innerText =
+              `❌ Error: ${error.message}`;
+          } else if (setupIntent) {
+            document.getElementById('result').innerText =
+              `✅ Card attached successfully! SetupIntent ID: ${setupIntent.id}`;
+          }
+        });
+    </script>
+  </body>
+</html>

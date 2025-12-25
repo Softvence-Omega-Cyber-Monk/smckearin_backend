@@ -36,6 +36,7 @@ export type ShelterMinAggregateOutputType = {
   endTime: string | null
   status: $Enums.ApprovalStatus | null
   stripeCustomerId: string | null
+  stripeDefaultPaymentMethodId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,6 +53,7 @@ export type ShelterMaxAggregateOutputType = {
   endTime: string | null
   status: $Enums.ApprovalStatus | null
   stripeCustomerId: string | null
+  stripeDefaultPaymentMethodId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -69,6 +71,7 @@ export type ShelterCountAggregateOutputType = {
   workingDays: number
   status: number
   stripeCustomerId: number
+  stripeDefaultPaymentMethodId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -87,6 +90,7 @@ export type ShelterMinAggregateInputType = {
   endTime?: true
   status?: true
   stripeCustomerId?: true
+  stripeDefaultPaymentMethodId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -103,6 +107,7 @@ export type ShelterMaxAggregateInputType = {
   endTime?: true
   status?: true
   stripeCustomerId?: true
+  stripeDefaultPaymentMethodId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -120,6 +125,7 @@ export type ShelterCountAggregateInputType = {
   workingDays?: true
   status?: true
   stripeCustomerId?: true
+  stripeDefaultPaymentMethodId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -210,6 +216,7 @@ export type ShelterGroupByOutputType = {
   workingDays: $Enums.WorkingDay[]
   status: $Enums.ApprovalStatus
   stripeCustomerId: string | null
+  stripeDefaultPaymentMethodId: string | null
   createdAt: Date
   updatedAt: Date
   _count: ShelterCountAggregateOutputType | null
@@ -248,6 +255,7 @@ export type ShelterWhereInput = {
   workingDays?: Prisma.EnumWorkingDayNullableListFilter<"Shelter">
   status?: Prisma.EnumApprovalStatusFilter<"Shelter"> | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.StringNullableFilter<"Shelter"> | string | null
+  stripeDefaultPaymentMethodId?: Prisma.StringNullableFilter<"Shelter"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Shelter"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Shelter"> | Date | string
   logo?: Prisma.XOR<Prisma.FileInstanceNullableScalarRelationFilter, Prisma.FileInstanceWhereInput> | null
@@ -272,6 +280,7 @@ export type ShelterOrderByWithRelationInput = {
   workingDays?: Prisma.SortOrder
   status?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeDefaultPaymentMethodId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   logo?: Prisma.FileInstanceOrderByWithRelationInput
@@ -288,6 +297,7 @@ export type ShelterWhereUniqueInput = Prisma.AtLeast<{
   phone?: string
   logoId?: string
   stripeCustomerId?: string
+  stripeDefaultPaymentMethodId?: string
   AND?: Prisma.ShelterWhereInput | Prisma.ShelterWhereInput[]
   OR?: Prisma.ShelterWhereInput[]
   NOT?: Prisma.ShelterWhereInput | Prisma.ShelterWhereInput[]
@@ -308,7 +318,7 @@ export type ShelterWhereUniqueInput = Prisma.AtLeast<{
   shelterDocuments?: Prisma.ShelterDocumentListRelationFilter
   transports?: Prisma.TransportListRelationFilter
   conversations?: Prisma.PrivateConversationListRelationFilter
-}, "id" | "phone" | "logoId" | "stripeCustomerId">
+}, "id" | "phone" | "logoId" | "stripeCustomerId" | "stripeDefaultPaymentMethodId">
 
 export type ShelterOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -323,6 +333,7 @@ export type ShelterOrderByWithAggregationInput = {
   workingDays?: Prisma.SortOrder
   status?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeDefaultPaymentMethodId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ShelterCountOrderByAggregateInput
@@ -346,6 +357,7 @@ export type ShelterScalarWhereWithAggregatesInput = {
   workingDays?: Prisma.EnumWorkingDayNullableListFilter<"Shelter">
   status?: Prisma.EnumApprovalStatusWithAggregatesFilter<"Shelter"> | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"Shelter"> | string | null
+  stripeDefaultPaymentMethodId?: Prisma.StringNullableWithAggregatesFilter<"Shelter"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Shelter"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Shelter"> | Date | string
 }
@@ -362,6 +374,7 @@ export type ShelterCreateInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -386,6 +399,7 @@ export type ShelterUncheckedCreateInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
@@ -408,6 +422,7 @@ export type ShelterUpdateInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -432,6 +447,7 @@ export type ShelterUncheckedUpdateInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
@@ -455,6 +471,7 @@ export type ShelterCreateManyInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -471,6 +488,7 @@ export type ShelterUpdateManyMutationInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -488,6 +506,7 @@ export type ShelterUncheckedUpdateManyInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -510,6 +529,7 @@ export type ShelterCountOrderByAggregateInput = {
   workingDays?: Prisma.SortOrder
   status?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
+  stripeDefaultPaymentMethodId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -526,6 +546,7 @@ export type ShelterMaxOrderByAggregateInput = {
   endTime?: Prisma.SortOrder
   status?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
+  stripeDefaultPaymentMethodId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -542,6 +563,7 @@ export type ShelterMinOrderByAggregateInput = {
   endTime?: Prisma.SortOrder
   status?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
+  stripeDefaultPaymentMethodId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -698,6 +720,7 @@ export type ShelterCreateWithoutAnimalsInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -721,6 +744,7 @@ export type ShelterUncheckedCreateWithoutAnimalsInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
@@ -758,6 +782,7 @@ export type ShelterUpdateWithoutAnimalsInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -781,6 +806,7 @@ export type ShelterUncheckedUpdateWithoutAnimalsInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
@@ -802,6 +828,7 @@ export type ShelterCreateWithoutLogoInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
@@ -824,6 +851,7 @@ export type ShelterUncheckedCreateWithoutLogoInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
@@ -862,6 +890,7 @@ export type ShelterUpdateWithoutLogoInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
@@ -884,6 +913,7 @@ export type ShelterUncheckedUpdateWithoutLogoInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
@@ -906,6 +936,7 @@ export type ShelterCreateWithoutConversationsInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -929,6 +960,7 @@ export type ShelterUncheckedCreateWithoutConversationsInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
@@ -966,6 +998,7 @@ export type ShelterUpdateWithoutConversationsInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -989,6 +1022,7 @@ export type ShelterUncheckedUpdateWithoutConversationsInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
@@ -1010,6 +1044,7 @@ export type ShelterCreateWithoutShelterDocumentsInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -1033,6 +1068,7 @@ export type ShelterUncheckedCreateWithoutShelterDocumentsInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
@@ -1070,6 +1106,7 @@ export type ShelterUpdateWithoutShelterDocumentsInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -1093,6 +1130,7 @@ export type ShelterUncheckedUpdateWithoutShelterDocumentsInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
@@ -1114,6 +1152,7 @@ export type ShelterCreateWithoutTransportsInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -1137,6 +1176,7 @@ export type ShelterUncheckedCreateWithoutTransportsInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
@@ -1174,6 +1214,7 @@ export type ShelterUpdateWithoutTransportsInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -1197,6 +1238,7 @@ export type ShelterUncheckedUpdateWithoutTransportsInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
@@ -1218,6 +1260,7 @@ export type ShelterCreateWithoutShelterAdminsInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -1241,6 +1284,7 @@ export type ShelterUncheckedCreateWithoutShelterAdminsInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
@@ -1267,6 +1311,7 @@ export type ShelterCreateWithoutManagersInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -1290,6 +1335,7 @@ export type ShelterUncheckedCreateWithoutManagersInput = {
   workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
@@ -1327,6 +1373,7 @@ export type ShelterUpdateWithoutShelterAdminsInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -1350,6 +1397,7 @@ export type ShelterUncheckedUpdateWithoutShelterAdminsInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
@@ -1382,6 +1430,7 @@ export type ShelterUpdateWithoutManagersInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -1405,6 +1454,7 @@ export type ShelterUncheckedUpdateWithoutManagersInput = {
   workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
@@ -1503,6 +1553,7 @@ export type ShelterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   workingDays?: boolean
   status?: boolean
   stripeCustomerId?: boolean
+  stripeDefaultPaymentMethodId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   logo?: boolean | Prisma.Shelter$logoArgs<ExtArgs>
@@ -1528,6 +1579,7 @@ export type ShelterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   workingDays?: boolean
   status?: boolean
   stripeCustomerId?: boolean
+  stripeDefaultPaymentMethodId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   logo?: boolean | Prisma.Shelter$logoArgs<ExtArgs>
@@ -1546,6 +1598,7 @@ export type ShelterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   workingDays?: boolean
   status?: boolean
   stripeCustomerId?: boolean
+  stripeDefaultPaymentMethodId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   logo?: boolean | Prisma.Shelter$logoArgs<ExtArgs>
@@ -1564,11 +1617,12 @@ export type ShelterSelectScalar = {
   workingDays?: boolean
   status?: boolean
   stripeCustomerId?: boolean
+  stripeDefaultPaymentMethodId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ShelterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "phone" | "description" | "logoId" | "logoUrl" | "startTime" | "endTime" | "workingDays" | "status" | "stripeCustomerId" | "createdAt" | "updatedAt", ExtArgs["result"]["shelter"]>
+export type ShelterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "phone" | "description" | "logoId" | "logoUrl" | "startTime" | "endTime" | "workingDays" | "status" | "stripeCustomerId" | "stripeDefaultPaymentMethodId" | "createdAt" | "updatedAt", ExtArgs["result"]["shelter"]>
 export type ShelterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   logo?: boolean | Prisma.Shelter$logoArgs<ExtArgs>
   shelterAdmins?: boolean | Prisma.Shelter$shelterAdminsArgs<ExtArgs>
@@ -1610,6 +1664,7 @@ export type $ShelterPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     workingDays: $Enums.WorkingDay[]
     status: $Enums.ApprovalStatus
     stripeCustomerId: string | null
+    stripeDefaultPaymentMethodId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["shelter"]>
@@ -2054,6 +2109,7 @@ export interface ShelterFieldRefs {
   readonly workingDays: Prisma.FieldRef<"Shelter", 'WorkingDay[]'>
   readonly status: Prisma.FieldRef<"Shelter", 'ApprovalStatus'>
   readonly stripeCustomerId: Prisma.FieldRef<"Shelter", 'String'>
+  readonly stripeDefaultPaymentMethodId: Prisma.FieldRef<"Shelter", 'String'>
   readonly createdAt: Prisma.FieldRef<"Shelter", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Shelter", 'DateTime'>
 }
