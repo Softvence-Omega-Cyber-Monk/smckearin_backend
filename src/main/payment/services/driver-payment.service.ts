@@ -1,25 +1,20 @@
+import { successResponse } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
+import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { StripeService } from '@/lib/stripe/stripe.service';
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { OnboardingStatus } from '@prisma';
 import { CreateOnboardingLinkDto } from '../dto/driver-payment.dto';
-import { InternalTransactionService } from './internal-transaction.service';
 
 @Injectable()
 export class DriverPaymentService {
-  private readonly logger = new Logger(DriverPaymentService.name);
-
   constructor(
     private readonly prisma: PrismaService,
     private readonly stripeService: StripeService,
-    private readonly transactionService: InternalTransactionService,
   ) {}
 
-  /**
-   * Creates a Stripe Account Link for driver onboarding.
-   * If driver doesn't have a Stripe Connect account yet, one is created.
-   */
+  @HandleError('Failed to create onboarding link')
   async createOnboardingLink(userId: string, dto: CreateOnboardingLinkDto) {
     const driver = await this.prisma.client.driver.findUnique({
       where: { userId },
@@ -53,12 +48,12 @@ export class DriverPaymentService {
       dto.returnUrl,
     );
 
-    return { url: link.url };
+    const payload = { url: link.url };
+
+    return successResponse(payload, 'Onboarding link created successfully');
   }
 
-  /**
-   * Creates a login link for the driver's Stripe Express Dashboard.
-   */
+  @HandleError('Failed to get login link')
   async getLoginLink(userId: string) {
     const driver = await this.prisma.client.driver.findUnique({
       where: { userId },
@@ -71,18 +66,15 @@ export class DriverPaymentService {
       );
     }
 
-    // Verify if onboarding is complete? Stripe might handle this, but good to check status.
-    // For now we assume if they ask for login link, they want to see dashboard.
-
     const link = await this.stripeService.createLoginLink(
       driver.stripeAccountId,
     );
-    return { url: link.url };
+    const payload = { url: link.url };
+
+    return successResponse(payload, 'Login link created successfully');
   }
 
-  /**
-   * Fetches transaction history for the driver from internal records.
-   */
+  @HandleError('Failed to get transaction history')
   async getTransactionHistory(userId: string) {
     const driver = await this.prisma.client.driver.findUnique({
       where: { userId },
@@ -101,7 +93,7 @@ export class DriverPaymentService {
     const transportIds = transports.map((t) => t.id);
 
     if (transportIds.length === 0) {
-      return [];
+      return successResponse([], 'No transactions found');
     }
 
     const transactions = await this.prisma.client.transaction.findMany({
@@ -118,6 +110,6 @@ export class DriverPaymentService {
       orderBy: { createdAt: 'desc' },
     });
 
-    return transactions;
+    return successResponse(transactions, 'Transactions fetched');
   }
 }
