@@ -5,6 +5,7 @@ import { ShelterPaymentController } from './controllers/shelter-payment.controll
 import { SubscriptionController } from './controllers/webhook.controller';
 import { AdminPaymentService } from './services/admin-payment.service';
 import { DriverPaymentService } from './services/driver-payment.service';
+import { GetSingleTransactionService } from './services/get-single-transaction.service';
 import { HandleWebhookService } from './services/handle-webhook.service';
 import { InternalTransactionService } from './services/internal-transaction.service';
 import { PricingService } from './services/pricing.service';
@@ -24,6 +25,7 @@ import { ShelterPaymentService } from './services/shelter-payment.service';
     DriverPaymentService,
     ShelterPaymentService,
     HandleWebhookService,
+    GetSingleTransactionService,
   ],
   exports: [PricingService, InternalTransactionService],
 })

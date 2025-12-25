@@ -148,10 +148,13 @@ export class ShelterPaymentService {
         where,
         include: {
           transport: {
-            select: {
-              pickUpLocation: true,
-              dropOffLocation: true,
-              completedAt: true,
+            include: {
+              pricingSnapshot: true,
+              animal: true,
+              driver: {
+                include: { user: true },
+              },
+              shelter: true,
             },
           },
         },
@@ -162,8 +165,46 @@ export class ShelterPaymentService {
       this.prisma.client.transaction.count({ where }),
     ]);
 
+    // Map results to DetailedTransactionDto
+    const flattenedTransactions = transactions.map((t) => {
+      const snap = t.transport.pricingSnapshot;
+      return {
+        id: t.id,
+        status: t.status,
+        amount: t.amount,
+        currency: t.currency,
+        createdAt: t.createdAt,
+        completedAt: t.transport.completedAt,
+
+        transportId: t.transportId,
+        transportDate: t.transport.transPortDate,
+        pickupLocation: t.transport.pickUpLocation,
+        dropoffLocation: t.transport.dropOffLocation,
+        distanceMiles: snap?.distanceMiles || 0,
+        durationMinutes: snap?.durationMinutes || 0,
+
+        driverId: t.transport.driverId,
+        driverName: t.transport.driver?.user?.name || 'Unknown',
+
+        shelterId: t.transport.shelterId,
+        shelterName: t.transport.shelter?.name || 'Me',
+
+        animalName: t.transport.animal?.name || 'Unknown',
+
+        ratePerMile: snap?.ratePerMile || 0,
+        ratePerMinute: snap?.ratePerMinute || 0,
+        distanceCost: snap?.distanceCost || 0,
+        timeCost: snap?.timeCost || 0,
+        complexityFee:
+          (snap?.animalComplexityFee || 0) + (snap?.multiAnimalFee || 0),
+        platformFee: snap?.platformFeeAmount || 0,
+        driverPayout: snap?.driverGrossPayout || 0,
+        totalCost: snap?.totalRideCost || 0,
+      };
+    });
+
     return successPaginatedResponse(
-      transactions,
+      flattenedTransactions,
       { page, limit, total },
       'Transaction history fetched successfully',
     );

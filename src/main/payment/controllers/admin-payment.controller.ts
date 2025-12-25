@@ -11,7 +11,6 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ComplexityTypeDto,
-  HoldTransactionDto,
   UpdateComplexityFeeDto,
   UpdatePaymentSettingsDto,
   UpdatePricingRuleDto,
@@ -78,11 +77,8 @@ export class AdminPaymentController {
   }
 
   @Patch('transactions/:transactionId/hold')
-  @ApiOperation({ summary: 'Put a transaction on hold' })
-  async holdTransaction(
-    @Param('transactionId') transactionId: string,
-    @Body() dto: HoldTransactionDto,
-  ) {
-    return this.adminPaymentService.holdTransaction(transactionId, dto.reason);
+  @ApiOperation({ summary: 'Toggle a transaction on hold' })
+  async toggleHoldTransaction(@Param('transactionId') transactionId: string) {
+    return this.adminPaymentService.toggleHoldTransaction(transactionId);
   }
 }

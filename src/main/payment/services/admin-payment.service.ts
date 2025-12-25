@@ -7,7 +7,7 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { UtilsService } from '@/lib/utils/services/utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { ComplexityType } from '@prisma';
+import { ComplexityType, TransactionStatus } from '@prisma';
 import { TransactionWhereInput } from 'prisma/generated/models';
 import {
   UpdateComplexityFeeDto,
@@ -126,7 +126,9 @@ export class AdminPaymentService {
             include: {
               pricingSnapshot: true,
               animal: true,
-              driver: true,
+              driver: {
+                include: { user: true },
+              },
               shelter: true,
             },
           },
@@ -138,8 +140,46 @@ export class AdminPaymentService {
       this.prisma.client.transaction.count({ where }),
     ]);
 
+    // Map to DetailedTransactionDto
+    const flattenedTransactions = transactions.map((t) => {
+      const snap = t.transport.pricingSnapshot;
+      return {
+        id: t.id,
+        status: t.status,
+        amount: t.amount,
+        currency: t.currency,
+        createdAt: t.createdAt,
+        completedAt: t.transport.completedAt,
+
+        transportId: t.transportId,
+        transportDate: t.transport.transPortDate,
+        pickupLocation: t.transport.pickUpLocation,
+        dropOffLocation: t.transport.dropOffLocation,
+        distanceMiles: snap?.distanceMiles || 0,
+        durationMinutes: snap?.durationMinutes || 0,
+
+        driverId: t.transport.driverId,
+        driverName: t.transport.driver?.user?.name || 'Unknown',
+
+        shelterId: t.transport.shelterId,
+        shelterName: t.transport.shelter?.name || 'Unknown',
+
+        animalName: t.transport.animal?.name || 'Unknown',
+
+        ratePerMile: snap?.ratePerMile || 0,
+        ratePerMinute: snap?.ratePerMinute || 0,
+        distanceCost: snap?.distanceCost || 0,
+        timeCost: snap?.timeCost || 0,
+        complexityFee:
+          (snap?.animalComplexityFee || 0) + (snap?.multiAnimalFee || 0),
+        platformFee: snap?.platformFeeAmount || 0,
+        driverPayout: snap?.driverGrossPayout || 0,
+        totalCost: snap?.totalRideCost || 0,
+      };
+    });
+
     return successPaginatedResponse(
-      transactions,
+      flattenedTransactions,
       { page, limit, total },
       'Transaction history fetched successfully',
     );
@@ -147,14 +187,6 @@ export class AdminPaymentService {
 
   @HandleError('Error fetching payment stats')
   async getPaymentStats() {
-    // 1. Total Transports (Paid vs Volunteer tracking via PricingSnapshot existence? No, all have snapshots)
-    // We want stats on FINANCIALS.
-    // Total Revenue = Sum of totalRideCost (from PricingSnapshot) for COMPLETED/CHARGED transactions?
-    // Actually, "Revenue" usually means Platform Revenue or Total Volume?
-    // Let's assume "Total Revenue" = Total Volume processed (Transaction amount).
-    // Or Platform Fees?
-    // Let's provide a breakdown.
-
     // Aggregations
     const stats = await this.prisma.client.$transaction(async (tx) => {
       // Transaction Counts by Status
@@ -175,13 +207,6 @@ export class AdminPaymentService {
       const failedTransactions =
         transactions.find((t) => t.status === 'FAILED')?._count.id || 0;
 
-      // Financials
-      // We need to sum up Platform Fees and Driver Payouts.
-      // These are in PricingSnapshot. But strictly speaking, we should only count finalized ones.
-      // Linked to Transactions that are NOT failed/cancelled.
-      // Since aggregating via relation in Prisma is tricky, we might need a raw query or separate aggregation.
-
-      // Sum of amounts in Transactions (this is the Total Charged to Shelters)
       const totalRevenue = transactions
         .filter(
           (t) =>
@@ -191,8 +216,6 @@ export class AdminPaymentService {
         )
         .reduce((sum, t) => sum + (t._sum.amount || 0), 0);
 
-      // Driver Payouts (We can approximate from Transaction amount - PlatformFees, but platform fee is in snapshot)
-      // Let's fetch all COMPLETED transports with transactions
       const completedTransports = await tx.transport.findMany({
         where: {
           transaction: {
@@ -220,24 +243,38 @@ export class AdminPaymentService {
     return successResponse(stats, 'Payment stats fetched');
   }
 
-  @HandleError('Error holding transaction')
-  async holdTransaction(transactionId: string, reason?: string) {
-    // Verify exists
-    await this.prisma.client.transaction.findUniqueOrThrow({
+  @HandleError('Error toggling hold status for transaction')
+  async toggleHoldTransaction(transactionId: string) {
+    // Fetch existing transaction
+    const transaction = await this.prisma.client.transaction.findUniqueOrThrow({
       where: { id: transactionId },
     });
 
-    const updated = await this.prisma.client.transaction.update({
-      where: { id: transactionId },
-      data: { status: 'HOLD' },
-    });
+    const allowedStatuses = ['PENDING', 'HOLD'] as TransactionStatus[];
 
-    if (reason) {
-      // Currently no field for reason in Transaction schema.
-      // logging it for now.
-      // TODO: Add 'cancellationReason' or 'holdReason' to schema if needed.
+    // Reject if status is not toggle able
+    if (!allowedStatuses.includes(transaction.status)) {
+      return successResponse(
+        transaction,
+        `Transaction cannot be hold or un hold when status is '${transaction.status}'`,
+      );
     }
 
-    return successResponse(updated, 'Transaction put on hold');
+    // Determine next status
+    const isCurrentlyOnHold = transaction.status === 'HOLD';
+    const newStatus = isCurrentlyOnHold ? 'PENDING' : 'HOLD';
+
+    // Update
+    const updated = await this.prisma.client.transaction.update({
+      where: { id: transactionId },
+      data: { status: newStatus },
+    });
+
+    return successResponse(
+      updated,
+      isCurrentlyOnHold
+        ? 'Transaction removed from hold'
+        : 'Transaction put on hold',
+    );
   }
 }
