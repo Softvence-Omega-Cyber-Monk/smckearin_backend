@@ -2,6 +2,17 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ComplexityType } from '@prisma';
 import { IsBoolean, IsEnum, IsNumber, IsOptional, Min } from 'class-validator';
 
+import { PaymentMode } from '@prisma';
+
+export class AdminPaymentStatsDto {
+  totalRevenue: number;
+  totalDriverPayouts: number;
+  totalTransactions: number;
+  pendingTransactions: number;
+  completedTransactions: number;
+  failedTransactions: number;
+}
+
 export class UpdatePaymentSettingsDto {
   @ApiPropertyOptional()
   @IsBoolean()
@@ -17,6 +28,16 @@ export class UpdatePaymentSettingsDto {
   @IsBoolean()
   @IsOptional()
   timeBasedPricingEnabled?: boolean;
+
+  @ApiPropertyOptional({ enum: PaymentMode })
+  @IsEnum(PaymentMode)
+  @IsOptional()
+  paymentMode?: PaymentMode;
+
+  @ApiPropertyOptional()
+  @IsBoolean()
+  @IsOptional()
+  paymentEnabled?: boolean;
 }
 
 export class UpdatePricingRuleDto {
@@ -65,4 +86,13 @@ export class ComplexityTypeDto {
   @ApiProperty({ enum: ComplexityType, example: ComplexityType.STANDARD })
   @IsEnum(ComplexityType)
   type: ComplexityType;
+}
+
+export class HoldTransactionDto {
+  @ApiPropertyOptional({
+    description: 'Reason for holding the transaction',
+    example: 'Suspicious activity',
+  })
+  @IsOptional()
+  reason?: string;
 }

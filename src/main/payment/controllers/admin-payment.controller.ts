@@ -1,8 +1,17 @@
 import { ValidateAdmin } from '@/core/jwt/jwt.decorator';
-import { Body, Controller, Get, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   ComplexityTypeDto,
+  HoldTransactionDto,
   UpdateComplexityFeeDto,
   UpdatePaymentSettingsDto,
   UpdatePricingRuleDto,
@@ -60,5 +69,20 @@ export class AdminPaymentController {
   @ApiOperation({ summary: 'Get all transactions' })
   async getTransactions(@Query() dto: GetTransactionDto) {
     return this.adminPaymentService.getTransactions(dto);
+  }
+
+  @Get('stats')
+  @ApiOperation({ summary: 'Get payment statistics' })
+  async getPaymentStats() {
+    return this.adminPaymentService.getPaymentStats();
+  }
+
+  @Patch('transactions/:transactionId/hold')
+  @ApiOperation({ summary: 'Put a transaction on hold' })
+  async holdTransaction(
+    @Param('transactionId') transactionId: string,
+    @Body() dto: HoldTransactionDto,
+  ) {
+    return this.adminPaymentService.holdTransaction(transactionId, dto.reason);
   }
 }

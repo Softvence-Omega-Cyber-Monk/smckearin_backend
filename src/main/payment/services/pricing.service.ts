@@ -23,7 +23,7 @@ export class PricingService {
     animalId: string;
     bondedPairId?: string | null;
   }) {
-    const [rule, complexityFees, animal] =
+    const [rule, complexityFees, animal, paymentSettings] =
       await this.prisma.client.$transaction([
         this.prisma.client.pricingRule.findFirst({
           orderBy: { createdAt: 'desc' },
@@ -32,11 +32,18 @@ export class PricingService {
         this.prisma.client.animal.findUnique({
           where: { id: params.animalId },
         }),
+        this.prisma.client.paymentSettings.findFirst(),
       ]);
 
     if (!rule)
       throw new AppError(HttpStatus.NOT_FOUND, 'No pricing rules found');
     if (!animal) throw new AppError(HttpStatus.NOT_FOUND, 'Animal not found');
+
+    // Default settings if missing (should be seeded, but safety first)
+    const settings = paymentSettings || {
+      timeBasedPricingEnabled: false,
+      platformFeesEnabled: false,
+    };
 
     // Get distance/duration
     const { distanceMiles, durationMinutes } =
@@ -47,7 +54,12 @@ export class PricingService {
 
     // Calculate Costs
     const distanceCost = distanceMiles * rule.ratePerMile;
-    const timeCost = durationMinutes * rule.ratePerMinute;
+
+    // Respect time based pricing flag
+    const effectiveRatePerMinute = settings.timeBasedPricingEnabled
+      ? rule.ratePerMinute
+      : 0;
+    const timeCost = durationMinutes * effectiveRatePerMinute;
 
     // Find complexity fee
     const primaryFee = complexityFees.find(
@@ -68,7 +80,12 @@ export class PricingService {
       timeCost +
       animalComplexityFee +
       multiAnimalFee;
-    const platformFeeAmount = (subtotal * rule.platformFeePercent) / 100;
+
+    // Respect platform fee flag
+    const effectivePlatformFeePercent = settings.platformFeesEnabled
+      ? rule.platformFeePercent
+      : 0;
+    const platformFeeAmount = (subtotal * effectivePlatformFeePercent) / 100;
 
     const totalRideCost = subtotal + platformFeeAmount;
     const driverGrossPayout = subtotal; // Platform fee is taken from the total paid by shelter

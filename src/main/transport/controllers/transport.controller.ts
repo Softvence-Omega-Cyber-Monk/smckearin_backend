@@ -18,13 +18,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { TransportStatus } from '@prisma';
 import { CreateTransportDto } from '../dto/create-transport.dto';
 import {
   GetAllTransportHistory,
   GetTransportByLocationDto,
   GetTransportDto,
 } from '../dto/get-transport.dto';
+import { UpdateTransportStatusQueryDto } from '../dto/update-timeline.dto';
 import { CreateTransportService } from '../services/create-transport.service';
 import { GetDriverTransportService } from '../services/get-driver-transport.service';
 import { GetLiveTrackingService } from '../services/get-live-tracking.service';
@@ -177,18 +177,11 @@ export class TransportController {
   async updateTransportStatus(
     @GetUser() authUser: JWTPayload,
     @Param('id') id: string,
-    @Query('status') status: TransportStatus,
-    @Query('latitude') latitude?: number,
-    @Query('longitude') longitude?: number,
+    @Query() dto: UpdateTransportStatusQueryDto,
   ) {
-    return this.manageTransportService.updateTransportStatus(
-      id,
-      status,
-      authUser,
-      latitude ? Number(latitude) : undefined,
-      longitude ? Number(longitude) : undefined,
-    );
+    return this.manageTransportService.updateTransportStatus(id, authUser, dto);
   }
+
   @ApiOperation({ summary: 'Get live tracking data for a transport' })
   @ValidateAuth()
   @Get(':id/live')

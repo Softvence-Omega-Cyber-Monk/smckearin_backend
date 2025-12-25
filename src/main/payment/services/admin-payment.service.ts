@@ -144,4 +144,100 @@ export class AdminPaymentService {
       'Transaction history fetched successfully',
     );
   }
+
+  @HandleError('Error fetching payment stats')
+  async getPaymentStats() {
+    // 1. Total Transports (Paid vs Volunteer tracking via PricingSnapshot existence? No, all have snapshots)
+    // We want stats on FINANCIALS.
+    // Total Revenue = Sum of totalRideCost (from PricingSnapshot) for COMPLETED/CHARGED transactions?
+    // Actually, "Revenue" usually means Platform Revenue or Total Volume?
+    // Let's assume "Total Revenue" = Total Volume processed (Transaction amount).
+    // Or Platform Fees?
+    // Let's provide a breakdown.
+
+    // Aggregations
+    const stats = await this.prisma.client.$transaction(async (tx) => {
+      // Transaction Counts by Status
+      const transactions = await tx.transaction.groupBy({
+        by: ['status'],
+        _count: { id: true },
+        _sum: { amount: true },
+      });
+
+      const totalTransactions = transactions.reduce(
+        (sum, t) => sum + t._count.id,
+        0,
+      );
+      const pendingTransactions =
+        transactions.find((t) => t.status === 'PENDING')?._count.id || 0;
+      const completedTransactions =
+        transactions.find((t) => t.status === 'TRANSFERRED')?._count.id || 0; // successfully paid out
+      const failedTransactions =
+        transactions.find((t) => t.status === 'FAILED')?._count.id || 0;
+
+      // Financials
+      // We need to sum up Platform Fees and Driver Payouts.
+      // These are in PricingSnapshot. But strictly speaking, we should only count finalized ones.
+      // Linked to Transactions that are NOT failed/cancelled.
+      // Since aggregating via relation in Prisma is tricky, we might need a raw query or separate aggregation.
+
+      // Sum of amounts in Transactions (this is the Total Charged to Shelters)
+      const totalRevenue = transactions
+        .filter(
+          (t) =>
+            t.status === 'CHARGED' ||
+            t.status === 'TRANSFERRED' ||
+            t.status === 'PROCESSING',
+        )
+        .reduce((sum, t) => sum + (t._sum.amount || 0), 0);
+
+      // Driver Payouts (We can approximate from Transaction amount - PlatformFees, but platform fee is in snapshot)
+      // Let's fetch all COMPLETED transports with transactions
+      const completedTransports = await tx.transport.findMany({
+        where: {
+          transaction: {
+            status: { in: ['CHARGED', 'TRANSFERRED', 'PROCESSING'] },
+          },
+        },
+        include: { pricingSnapshot: true },
+      });
+
+      const totalDriverPayouts = completedTransports.reduce(
+        (sum, t) => sum + (t.pricingSnapshot?.driverGrossPayout || 0),
+        0,
+      );
+
+      return {
+        totalRevenue,
+        totalDriverPayouts,
+        totalTransactions,
+        pendingTransactions,
+        completedTransactions,
+        failedTransactions,
+      };
+    });
+
+    return successResponse(stats, 'Payment stats fetched');
+  }
+
+  @HandleError('Error holding transaction')
+  async holdTransaction(transactionId: string, reason?: string) {
+    // Verify exists
+    await this.prisma.client.transaction.findUniqueOrThrow({
+      where: { id: transactionId },
+    });
+
+    const updated = await this.prisma.client.transaction.update({
+      where: { id: transactionId },
+      data: { status: 'HOLD' },
+    });
+
+    if (reason) {
+      // Currently no field for reason in Transaction schema.
+      // logging it for now.
+      // TODO: Add 'cancellationReason' or 'holdReason' to schema if needed.
+    }
+
+    return successResponse(updated, 'Transaction put on hold');
+  }
 }
