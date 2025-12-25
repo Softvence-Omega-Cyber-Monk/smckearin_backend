@@ -35,6 +35,11 @@ export class HandleWebhookService {
   }
 
   private async handleEvent(event: Stripe.Event) {
+    this.logger.log(
+      `Received Stripe event: ${event.type}`,
+      JSON.stringify(event, null, 2),
+    );
+
     switch (event.type) {
       case 'setup_intent.succeeded':
         await this.handleSetupIntentSucceeded(
@@ -80,6 +85,27 @@ export class HandleWebhookService {
         this.logger.log(
           `Updated default payment method for customer ${customerId}`,
         );
+
+        const user = await this.prisma.client.user.findUnique({
+          where: { id: metadata.userId },
+        });
+
+        if (!user) {
+          throw new Error('User profile not found');
+        }
+
+        const shelterId = user.shelterAdminOfId ?? user.managerOfId;
+        if (!shelterId) {
+          throw new Error('User does not belong to any shelter');
+        }
+
+        await this.prisma.client.shelter.update({
+          where: { id: shelterId },
+          data: {
+            stripeCustomerId: customerId,
+            stripeDefaultPaymentMethodId: paymentMethodId,
+          },
+        });
       }
     } catch (err) {
       this.logger.error(

@@ -56,7 +56,7 @@ export class ShelterPaymentService {
       email: user.email,
       name: shelter.name,
       userId: user.id,
-      type: 'transport_payment', // Use a valid type from Metadata
+      type: 'shelter_connect',
     });
 
     // If shelter doesn't have stripeCustomerId, update it
