@@ -24,6 +24,8 @@ export class PaymentSeedService implements OnModuleInit {
           timeBasedPricingEnabled: false,
           paymentMode: 'VOLUNTEER',
           paymentEnabled: false,
+          automaticPayoutsEnabled: false,
+          payoutDayOfMonth: 1,
         },
       });
       this.logger.log('[CREATE] Default PaymentSettings seeded');

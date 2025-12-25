@@ -337,15 +337,6 @@ export class ManageTransportService {
       longitude,
     );
 
-    // Transaction Finalization
-    if (status === TransportStatus.COMPLETED) {
-      // Find or check if it's a paid trip (though we always initialize internally)
-      await this.internalTransactionService.finalizeTransaction(
-        transportId,
-        'PROCESSING', // Internal status mark
-      );
-    }
-
     await this.transportNotificationService.notifyTransportEvent(
       'STATUS_UPDATE',
       transportId,

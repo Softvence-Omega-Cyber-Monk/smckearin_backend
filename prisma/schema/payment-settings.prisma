@@ -10,6 +10,10 @@ model PaymentSettings {
   paymentMode    PaymentMode @default(VOLUNTEER)
   paymentEnabled Boolean     @default(false)
 
+  // Automatic Payout Configuration
+  automaticPayoutsEnabled Boolean @default(false)
+  payoutDayOfMonth        Int     @default(1)
+
   // Meta
   updatedAt DateTime @default(now()) @updatedAt
 

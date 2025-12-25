@@ -38,6 +38,19 @@ export class UpdatePaymentSettingsDto {
   @IsBoolean()
   @IsOptional()
   paymentEnabled?: boolean;
+
+  @ApiPropertyOptional()
+  @IsBoolean()
+  @IsOptional()
+  automaticPayoutsEnabled?: boolean;
+
+  @ApiPropertyOptional({
+    description: 'Day of the month to run payouts (1-28)',
+  })
+  @IsNumber()
+  @Min(1)
+  @IsOptional()
+  payoutDayOfMonth?: number;
 }
 
 export class UpdatePricingRuleDto {

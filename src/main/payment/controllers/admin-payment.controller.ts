@@ -19,6 +19,7 @@ import {
 import { GetTransactionDto } from '../dto/get-transaction.dto';
 import { AdminPaymentService } from '../services/admin-payment.service';
 import { GetSingleTransactionService } from '../services/get-single-transaction.service';
+import { PayoutService } from '../services/payout.service';
 
 @ApiTags('Admin Payment')
 @ApiBearerAuth()
@@ -28,6 +29,7 @@ export class AdminPaymentController {
   constructor(
     private readonly adminPaymentService: AdminPaymentService,
     private readonly getSingleTransactionService: GetSingleTransactionService,
+    private readonly payoutService: PayoutService,
   ) {}
 
   @Get('settings')
@@ -94,5 +96,11 @@ export class AdminPaymentController {
   @ApiOperation({ summary: 'Toggle a transaction on hold' })
   async toggleHoldTransaction(@Param('transactionId') transactionId: string) {
     return this.adminPaymentService.toggleHoldTransaction(transactionId);
+  }
+
+  @Post('settlement')
+  @ApiOperation({ summary: 'Trigger a settlement' })
+  async triggerSettlement() {
+    return this.payoutService.triggerSettlement();
   }
 }

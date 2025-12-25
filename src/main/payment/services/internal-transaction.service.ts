@@ -67,23 +67,4 @@ export class InternalTransactionService {
       },
     });
   }
-
-  async finalizeTransaction(transportId: string, status: TransactionStatus) {
-    const transport = await this.prisma.client.transport.findUnique({
-      where: { id: transportId },
-    });
-
-    if (!transport) {
-      this.logger.error(`Transport ${transportId} not found`);
-      throw new AppError(
-        HttpStatus.NOT_FOUND,
-        `Transport ${transportId} not found`,
-      );
-    }
-
-    return this.prisma.client.transaction.update({
-      where: { transportId },
-      data: { status },
-    });
-  }
 }

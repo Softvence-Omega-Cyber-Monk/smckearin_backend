@@ -20,8 +20,18 @@ export type PaymentSettingsModel = runtime.Types.Result.DefaultSelection<Prisma.
 
 export type AggregatePaymentSettings = {
   _count: PaymentSettingsCountAggregateOutputType | null
+  _avg: PaymentSettingsAvgAggregateOutputType | null
+  _sum: PaymentSettingsSumAggregateOutputType | null
   _min: PaymentSettingsMinAggregateOutputType | null
   _max: PaymentSettingsMaxAggregateOutputType | null
+}
+
+export type PaymentSettingsAvgAggregateOutputType = {
+  payoutDayOfMonth: number | null
+}
+
+export type PaymentSettingsSumAggregateOutputType = {
+  payoutDayOfMonth: number | null
 }
 
 export type PaymentSettingsMinAggregateOutputType = {
@@ -31,6 +41,8 @@ export type PaymentSettingsMinAggregateOutputType = {
   timeBasedPricingEnabled: boolean | null
   paymentMode: $Enums.PaymentMode | null
   paymentEnabled: boolean | null
+  automaticPayoutsEnabled: boolean | null
+  payoutDayOfMonth: number | null
   updatedAt: Date | null
 }
 
@@ -41,6 +53,8 @@ export type PaymentSettingsMaxAggregateOutputType = {
   timeBasedPricingEnabled: boolean | null
   paymentMode: $Enums.PaymentMode | null
   paymentEnabled: boolean | null
+  automaticPayoutsEnabled: boolean | null
+  payoutDayOfMonth: number | null
   updatedAt: Date | null
 }
 
@@ -51,10 +65,20 @@ export type PaymentSettingsCountAggregateOutputType = {
   timeBasedPricingEnabled: number
   paymentMode: number
   paymentEnabled: number
+  automaticPayoutsEnabled: number
+  payoutDayOfMonth: number
   updatedAt: number
   _all: number
 }
 
+
+export type PaymentSettingsAvgAggregateInputType = {
+  payoutDayOfMonth?: true
+}
+
+export type PaymentSettingsSumAggregateInputType = {
+  payoutDayOfMonth?: true
+}
 
 export type PaymentSettingsMinAggregateInputType = {
   id?: true
@@ -63,6 +87,8 @@ export type PaymentSettingsMinAggregateInputType = {
   timeBasedPricingEnabled?: true
   paymentMode?: true
   paymentEnabled?: true
+  automaticPayoutsEnabled?: true
+  payoutDayOfMonth?: true
   updatedAt?: true
 }
 
@@ -73,6 +99,8 @@ export type PaymentSettingsMaxAggregateInputType = {
   timeBasedPricingEnabled?: true
   paymentMode?: true
   paymentEnabled?: true
+  automaticPayoutsEnabled?: true
+  payoutDayOfMonth?: true
   updatedAt?: true
 }
 
@@ -83,6 +111,8 @@ export type PaymentSettingsCountAggregateInputType = {
   timeBasedPricingEnabled?: true
   paymentMode?: true
   paymentEnabled?: true
+  automaticPayoutsEnabled?: true
+  payoutDayOfMonth?: true
   updatedAt?: true
   _all?: true
 }
@@ -125,6 +155,18 @@ export type PaymentSettingsAggregateArgs<ExtArgs extends runtime.Types.Extension
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: PaymentSettingsAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: PaymentSettingsSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: PaymentSettingsMinAggregateInputType
@@ -155,6 +197,8 @@ export type PaymentSettingsGroupByArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   _count?: PaymentSettingsCountAggregateInputType | true
+  _avg?: PaymentSettingsAvgAggregateInputType
+  _sum?: PaymentSettingsSumAggregateInputType
   _min?: PaymentSettingsMinAggregateInputType
   _max?: PaymentSettingsMaxAggregateInputType
 }
@@ -166,8 +210,12 @@ export type PaymentSettingsGroupByOutputType = {
   timeBasedPricingEnabled: boolean
   paymentMode: $Enums.PaymentMode
   paymentEnabled: boolean
+  automaticPayoutsEnabled: boolean
+  payoutDayOfMonth: number
   updatedAt: Date
   _count: PaymentSettingsCountAggregateOutputType | null
+  _avg: PaymentSettingsAvgAggregateOutputType | null
+  _sum: PaymentSettingsSumAggregateOutputType | null
   _min: PaymentSettingsMinAggregateOutputType | null
   _max: PaymentSettingsMaxAggregateOutputType | null
 }
@@ -197,6 +245,8 @@ export type PaymentSettingsWhereInput = {
   timeBasedPricingEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
   paymentMode?: Prisma.EnumPaymentModeFilter<"PaymentSettings"> | $Enums.PaymentMode
   paymentEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
+  automaticPayoutsEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
+  payoutDayOfMonth?: Prisma.IntFilter<"PaymentSettings"> | number
   updatedAt?: Prisma.DateTimeFilter<"PaymentSettings"> | Date | string
 }
 
@@ -207,6 +257,8 @@ export type PaymentSettingsOrderByWithRelationInput = {
   timeBasedPricingEnabled?: Prisma.SortOrder
   paymentMode?: Prisma.SortOrder
   paymentEnabled?: Prisma.SortOrder
+  automaticPayoutsEnabled?: Prisma.SortOrder
+  payoutDayOfMonth?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -220,6 +272,8 @@ export type PaymentSettingsWhereUniqueInput = Prisma.AtLeast<{
   timeBasedPricingEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
   paymentMode?: Prisma.EnumPaymentModeFilter<"PaymentSettings"> | $Enums.PaymentMode
   paymentEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
+  automaticPayoutsEnabled?: Prisma.BoolFilter<"PaymentSettings"> | boolean
+  payoutDayOfMonth?: Prisma.IntFilter<"PaymentSettings"> | number
   updatedAt?: Prisma.DateTimeFilter<"PaymentSettings"> | Date | string
 }, "id">
 
@@ -230,10 +284,14 @@ export type PaymentSettingsOrderByWithAggregationInput = {
   timeBasedPricingEnabled?: Prisma.SortOrder
   paymentMode?: Prisma.SortOrder
   paymentEnabled?: Prisma.SortOrder
+  automaticPayoutsEnabled?: Prisma.SortOrder
+  payoutDayOfMonth?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PaymentSettingsCountOrderByAggregateInput
+  _avg?: Prisma.PaymentSettingsAvgOrderByAggregateInput
   _max?: Prisma.PaymentSettingsMaxOrderByAggregateInput
   _min?: Prisma.PaymentSettingsMinOrderByAggregateInput
+  _sum?: Prisma.PaymentSettingsSumOrderByAggregateInput
 }
 
 export type PaymentSettingsScalarWhereWithAggregatesInput = {
@@ -246,6 +304,8 @@ export type PaymentSettingsScalarWhereWithAggregatesInput = {
   timeBasedPricingEnabled?: Prisma.BoolWithAggregatesFilter<"PaymentSettings"> | boolean
   paymentMode?: Prisma.EnumPaymentModeWithAggregatesFilter<"PaymentSettings"> | $Enums.PaymentMode
   paymentEnabled?: Prisma.BoolWithAggregatesFilter<"PaymentSettings"> | boolean
+  automaticPayoutsEnabled?: Prisma.BoolWithAggregatesFilter<"PaymentSettings"> | boolean
+  payoutDayOfMonth?: Prisma.IntWithAggregatesFilter<"PaymentSettings"> | number
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PaymentSettings"> | Date | string
 }
 
@@ -256,6 +316,8 @@ export type PaymentSettingsCreateInput = {
   timeBasedPricingEnabled?: boolean
   paymentMode?: $Enums.PaymentMode
   paymentEnabled?: boolean
+  automaticPayoutsEnabled?: boolean
+  payoutDayOfMonth?: number
   updatedAt?: Date | string
 }
 
@@ -266,6 +328,8 @@ export type PaymentSettingsUncheckedCreateInput = {
   timeBasedPricingEnabled?: boolean
   paymentMode?: $Enums.PaymentMode
   paymentEnabled?: boolean
+  automaticPayoutsEnabled?: boolean
+  payoutDayOfMonth?: number
   updatedAt?: Date | string
 }
 
@@ -276,6 +340,8 @@ export type PaymentSettingsUpdateInput = {
   timeBasedPricingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
   paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  automaticPayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  payoutDayOfMonth?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -286,6 +352,8 @@ export type PaymentSettingsUncheckedUpdateInput = {
   timeBasedPricingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
   paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  automaticPayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  payoutDayOfMonth?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -296,6 +364,8 @@ export type PaymentSettingsCreateManyInput = {
   timeBasedPricingEnabled?: boolean
   paymentMode?: $Enums.PaymentMode
   paymentEnabled?: boolean
+  automaticPayoutsEnabled?: boolean
+  payoutDayOfMonth?: number
   updatedAt?: Date | string
 }
 
@@ -306,6 +376,8 @@ export type PaymentSettingsUpdateManyMutationInput = {
   timeBasedPricingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
   paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  automaticPayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  payoutDayOfMonth?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -316,6 +388,8 @@ export type PaymentSettingsUncheckedUpdateManyInput = {
   timeBasedPricingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   paymentMode?: Prisma.EnumPaymentModeFieldUpdateOperationsInput | $Enums.PaymentMode
   paymentEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  automaticPayoutsEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  payoutDayOfMonth?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -326,7 +400,13 @@ export type PaymentSettingsCountOrderByAggregateInput = {
   timeBasedPricingEnabled?: Prisma.SortOrder
   paymentMode?: Prisma.SortOrder
   paymentEnabled?: Prisma.SortOrder
+  automaticPayoutsEnabled?: Prisma.SortOrder
+  payoutDayOfMonth?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type PaymentSettingsAvgOrderByAggregateInput = {
+  payoutDayOfMonth?: Prisma.SortOrder
 }
 
 export type PaymentSettingsMaxOrderByAggregateInput = {
@@ -336,6 +416,8 @@ export type PaymentSettingsMaxOrderByAggregateInput = {
   timeBasedPricingEnabled?: Prisma.SortOrder
   paymentMode?: Prisma.SortOrder
   paymentEnabled?: Prisma.SortOrder
+  automaticPayoutsEnabled?: Prisma.SortOrder
+  payoutDayOfMonth?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -346,7 +428,13 @@ export type PaymentSettingsMinOrderByAggregateInput = {
   timeBasedPricingEnabled?: Prisma.SortOrder
   paymentMode?: Prisma.SortOrder
   paymentEnabled?: Prisma.SortOrder
+  automaticPayoutsEnabled?: Prisma.SortOrder
+  payoutDayOfMonth?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type PaymentSettingsSumOrderByAggregateInput = {
+  payoutDayOfMonth?: Prisma.SortOrder
 }
 
 export type EnumPaymentModeFieldUpdateOperationsInput = {
@@ -362,6 +450,8 @@ export type PaymentSettingsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   timeBasedPricingEnabled?: boolean
   paymentMode?: boolean
   paymentEnabled?: boolean
+  automaticPayoutsEnabled?: boolean
+  payoutDayOfMonth?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["paymentSettings"]>
 
@@ -372,6 +462,8 @@ export type PaymentSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   timeBasedPricingEnabled?: boolean
   paymentMode?: boolean
   paymentEnabled?: boolean
+  automaticPayoutsEnabled?: boolean
+  payoutDayOfMonth?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["paymentSettings"]>
 
@@ -382,6 +474,8 @@ export type PaymentSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   timeBasedPricingEnabled?: boolean
   paymentMode?: boolean
   paymentEnabled?: boolean
+  automaticPayoutsEnabled?: boolean
+  payoutDayOfMonth?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["paymentSettings"]>
 
@@ -392,10 +486,12 @@ export type PaymentSettingsSelectScalar = {
   timeBasedPricingEnabled?: boolean
   paymentMode?: boolean
   paymentEnabled?: boolean
+  automaticPayoutsEnabled?: boolean
+  payoutDayOfMonth?: boolean
   updatedAt?: boolean
 }
 
-export type PaymentSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "driverPaymentsEnabled" | "platformFeesEnabled" | "timeBasedPricingEnabled" | "paymentMode" | "paymentEnabled" | "updatedAt", ExtArgs["result"]["paymentSettings"]>
+export type PaymentSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "driverPaymentsEnabled" | "platformFeesEnabled" | "timeBasedPricingEnabled" | "paymentMode" | "paymentEnabled" | "automaticPayoutsEnabled" | "payoutDayOfMonth" | "updatedAt", ExtArgs["result"]["paymentSettings"]>
 
 export type $PaymentSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PaymentSettings"
@@ -407,6 +503,8 @@ export type $PaymentSettingsPayload<ExtArgs extends runtime.Types.Extensions.Int
     timeBasedPricingEnabled: boolean
     paymentMode: $Enums.PaymentMode
     paymentEnabled: boolean
+    automaticPayoutsEnabled: boolean
+    payoutDayOfMonth: number
     updatedAt: Date
   }, ExtArgs["result"]["paymentSettings"]>
   composites: {}
@@ -837,6 +935,8 @@ export interface PaymentSettingsFieldRefs {
   readonly timeBasedPricingEnabled: Prisma.FieldRef<"PaymentSettings", 'Boolean'>
   readonly paymentMode: Prisma.FieldRef<"PaymentSettings", 'PaymentMode'>
   readonly paymentEnabled: Prisma.FieldRef<"PaymentSettings", 'Boolean'>
+  readonly automaticPayoutsEnabled: Prisma.FieldRef<"PaymentSettings", 'Boolean'>
+  readonly payoutDayOfMonth: Prisma.FieldRef<"PaymentSettings", 'Int'>
   readonly updatedAt: Prisma.FieldRef<"PaymentSettings", 'DateTime'>
 }
     

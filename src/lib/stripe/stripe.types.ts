@@ -1,5 +1,9 @@
 export type Metadata = {
-  type: 'driver_connect' | 'shelter_connect' | 'transport_payment';
+  type:
+    | 'driver_connect'
+    | 'shelter_connect'
+    | 'transport_payment'
+    | 'driver_payout';
   userId?: string;
   email?: string;
   name?: string;

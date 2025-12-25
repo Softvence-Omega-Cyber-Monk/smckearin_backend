@@ -2570,6 +2570,8 @@ export const PaymentSettingsScalarFieldEnum = {
   timeBasedPricingEnabled: 'timeBasedPricingEnabled',
   paymentMode: 'paymentMode',
   paymentEnabled: 'paymentEnabled',
+  automaticPayoutsEnabled: 'automaticPayoutsEnabled',
+  payoutDayOfMonth: 'payoutDayOfMonth',
   updatedAt: 'updatedAt'
 } as const
 

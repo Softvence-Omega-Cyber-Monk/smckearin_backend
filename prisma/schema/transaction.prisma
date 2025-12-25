@@ -4,8 +4,8 @@ model Transaction {
   transportId String    @unique
   transport   Transport @relation(fields: [transportId], references: [id], onDelete: Cascade)
 
-  stripePaymentIntentId String? @unique
-  stripeTransferId      String? @unique
+  stripePaymentIntentId String? // One intent can cover multiple transactions
+  stripeTransferId      String?
 
   amount   Float
   currency String @default("usd")

@@ -8,6 +8,7 @@ import { DriverPaymentService } from './services/driver-payment.service';
 import { GetSingleTransactionService } from './services/get-single-transaction.service';
 import { HandleWebhookService } from './services/handle-webhook.service';
 import { InternalTransactionService } from './services/internal-transaction.service';
+import { PayoutService } from './services/payout.service';
 import { PricingService } from './services/pricing.service';
 import { ShelterPaymentService } from './services/shelter-payment.service';
 
@@ -26,7 +27,8 @@ import { ShelterPaymentService } from './services/shelter-payment.service';
     ShelterPaymentService,
     HandleWebhookService,
     GetSingleTransactionService,
+    PayoutService,
   ],
-  exports: [PricingService, InternalTransactionService],
+  exports: [PricingService, InternalTransactionService, PayoutService],
 })
 export class PaymentModule {}

@@ -267,18 +267,18 @@ export type TransactionOrderByWithRelationInput = {
 export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   transportId?: string
-  stripePaymentIntentId?: string
-  stripeTransferId?: string
   AND?: Prisma.TransactionWhereInput | Prisma.TransactionWhereInput[]
   OR?: Prisma.TransactionWhereInput[]
   NOT?: Prisma.TransactionWhereInput | Prisma.TransactionWhereInput[]
+  stripePaymentIntentId?: Prisma.StringNullableFilter<"Transaction"> | string | null
+  stripeTransferId?: Prisma.StringNullableFilter<"Transaction"> | string | null
   amount?: Prisma.FloatFilter<"Transaction"> | number
   currency?: Prisma.StringFilter<"Transaction"> | string
   status?: Prisma.EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
   createdAt?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Transaction"> | Date | string
   transport?: Prisma.XOR<Prisma.TransportScalarRelationFilter, Prisma.TransportWhereInput>
-}, "id" | "transportId" | "stripePaymentIntentId" | "stripeTransferId">
+}, "id" | "transportId">
 
 export type TransactionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

@@ -220,6 +220,29 @@ export class StripeService {
     return paymentIntent;
   }
 
+  // Payouts & Transfers
+  async createTransfer({
+    amountCents,
+    destinationAccountId,
+    metadata,
+  }: {
+    amountCents: number;
+    destinationAccountId: string;
+    metadata: Metadata;
+  }) {
+    const transfer = await this.stripe.transfers.create({
+      amount: amountCents,
+      currency: 'usd',
+      destination: destinationAccountId,
+      metadata: metadata as any,
+    });
+
+    this.logger.log(
+      `Created transfer ${transfer.id} of ${amountCents} cents to account ${destinationAccountId}`,
+    );
+    return transfer;
+  }
+
   // Setup Intent Management
   async retrieveSetupIntent(setupIntentId: string) {
     const setupIntent = await this.stripe.setupIntents.retrieve(setupIntentId);
