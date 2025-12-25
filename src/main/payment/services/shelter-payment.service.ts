@@ -97,17 +97,27 @@ export class ShelterPaymentService {
       where: { id: shelterId },
     });
 
-    const hasPaymentMethod = false;
+    let hasPaymentMethod = false;
 
     if (shelter && shelter.stripeCustomerId) {
-      const customer = await this.stripeService.retrieveCustomer(
-        shelter.stripeCustomerId,
-      );
-      this.logger.log(
-        `Retrieved Stripe customer ${customer.id}`,
-        JSON.stringify(customer, null, 2),
-      );
-      // TODO: Check if customer has payment method
+      try {
+        const customer = await this.stripeService.retrieveCustomer(
+          shelter.stripeCustomerId,
+        );
+
+        if (
+          customer &&
+          !customer.deleted &&
+          customer.invoice_settings?.default_payment_method
+        ) {
+          hasPaymentMethod = true;
+        }
+      } catch (error) {
+        this.logger.error(
+          `Error checking payment method for shelter ${shelter.id}`,
+          error,
+        );
+      }
     }
 
     return successResponse({ hasPaymentMethod }, 'Payment methods listed');

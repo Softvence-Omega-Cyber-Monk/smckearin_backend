@@ -68,6 +68,17 @@ export class StripeService {
     return customers.data[0];
   }
 
+  async setDefaultPaymentMethod(customerId: string, paymentMethodId: string) {
+    await this.stripe.customers.update(customerId, {
+      invoice_settings: {
+        default_payment_method: paymentMethodId,
+      },
+    });
+    this.logger.log(
+      `Set default payment method ${paymentMethodId} for customer ${customerId}`,
+    );
+  }
+
   // Payment Intent Management
   async retrievePaymentIntent(paymentIntentId: string) {
     const pi = await this.stripe.paymentIntents.retrieve(paymentIntentId);

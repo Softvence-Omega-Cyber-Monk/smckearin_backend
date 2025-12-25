@@ -63,27 +63,50 @@ export class HandleWebhookService {
     const transactionId = setupIntent.id;
     const metadata = setupIntent.metadata as unknown as Metadata;
     const customerId = setupIntent.customer as string;
+    const paymentMethodId = setupIntent.payment_method as string;
 
     this.logger.log(`setup_intent.${setupIntent.status}: ${transactionId}`, {
       metadata,
       customerId,
+      paymentMethodId,
     });
 
     try {
+      if (customerId && paymentMethodId) {
+        await this.stripeService.setDefaultPaymentMethod(
+          customerId,
+          paymentMethodId,
+        );
+        this.logger.log(
+          `Updated default payment method for customer ${customerId}`,
+        );
+      }
     } catch (err) {
+      this.logger.error(
+        `Failed to update default payment method for ${customerId}`,
+        err,
+      );
       throw err;
     }
   }
 
   private async handleSetupIntentFailed(setupIntent: Stripe.SetupIntent) {
     const transactionId = setupIntent.id;
+    const customerId = setupIntent.customer as string;
+    const error = setupIntent.last_setup_error;
 
-    this.logger.log(`setup_intent.${setupIntent.status}: ${transactionId}`);
+    this.logger.warn(
+      `setup_intent.${setupIntent.status}: ${transactionId} for customer ${customerId}`,
+    );
 
-    try {
-    } catch (err) {
-      throw err;
+    if (error) {
+      this.logger.error(
+        `Setup Intent Failed: ${error.code} - ${error.message}`,
+        JSON.stringify(error),
+      );
     }
+
+    // Optional: Could notify user via notification service if implemented
   }
 
   private async handleInvoicePaid(invoice: Stripe.Invoice) {
