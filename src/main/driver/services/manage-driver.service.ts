@@ -346,7 +346,7 @@ export class ManageDriverService {
       },
     };
 
-    const config = updateMap[dto.type];
+    const config = updateMap[type];
 
     if (!config) {
       throw new AppError(HttpStatus.BAD_REQUEST, 'Invalid document type');
@@ -365,10 +365,10 @@ export class ManageDriverService {
     await this.documentNotificationService.notifyDocumentEvent(
       'DRIVER_DOCUMENT_UPLOADED',
       driver.id,
-      { type: dto.type },
+      { type: type },
     );
 
-    return successResponse(uploadedFile, `${dto.type} uploaded successfully`);
+    return successResponse(uploadedFile, `${type} uploaded successfully`);
   }
 
   @HandleError('Failed to approve or reject driver document')
