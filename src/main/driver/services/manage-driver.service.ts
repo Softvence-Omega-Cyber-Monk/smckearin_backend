@@ -286,7 +286,11 @@ export class ManageDriverService {
   }
 
   @HandleError('Failed to upload driver document')
-  async uploadDriverDocument(userId: string, type: DriverDocumentDeleteDto['type'], dto: UploadDocumentDto) {
+  async uploadDriverDocument(
+    userId: string,
+    type: DriverDocumentDeleteDto['type'],
+    dto: UploadDocumentDto,
+  ) {
     const driver = await this.prisma.client.driver.findUnique({
       where: { userId },
       include: {
