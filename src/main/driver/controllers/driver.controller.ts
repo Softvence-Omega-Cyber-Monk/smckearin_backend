@@ -123,6 +123,7 @@ export class DriverController {
   @UseInterceptors(FileInterceptor('document'))
   async uploadMyDriverDocument(
     @GetUser('sub') userId: string,
+    @Param('type') type: DriverDocumentDeleteDto['type'],
     @Body() dto: UploadDocumentDto,
     @UploadedFile() file?: Express.Multer.File,
   ) {
@@ -132,7 +133,7 @@ export class DriverController {
 
     dto.document = file;
 
-    return this.manageDriverService.uploadDriverDocument(userId, dto);
+    return this.manageDriverService.uploadDriverDocument(userId, type, dto);
   }
 
   @ApiOperation({ summary: 'Approve or reject driver document (admin only)' })

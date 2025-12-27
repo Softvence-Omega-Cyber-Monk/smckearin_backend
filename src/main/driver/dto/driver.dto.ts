@@ -17,7 +17,7 @@ export class DriverDocumentDeleteDto {
   type: DriverDocumentType;
 }
 
-export class UploadDocumentDto extends DriverDocumentDeleteDto {
+export class UploadDocumentDto {
   @ApiProperty({
     type: 'string',
     format: 'binary',
