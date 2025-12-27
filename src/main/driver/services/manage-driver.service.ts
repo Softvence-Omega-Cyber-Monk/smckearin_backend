@@ -286,7 +286,11 @@ export class ManageDriverService {
   }
 
   @HandleError('Failed to upload driver document')
-  async uploadDriverDocument(userId: string, dto: UploadDocumentDto) {
+  async uploadDriverDocument(
+    userId: string,
+    type: DriverDocumentDeleteDto['type'],
+    dto: UploadDocumentDto,
+  ) {
     const driver = await this.prisma.client.driver.findUnique({
       where: { userId },
       include: {
@@ -301,15 +305,15 @@ export class ManageDriverService {
     }
 
     // Delete previous file
-    if (dto.type === DriverDocumentType.DRIVER_LICENSE) {
+    if (type === DriverDocumentType.DRIVER_LICENSE) {
       if (driver.driverLicenseId) {
         await this.s3.deleteFile(driver.driverLicenseId);
       }
-    } else if (dto.type === DriverDocumentType.VEHICLE_REGISTRATION) {
+    } else if (type === DriverDocumentType.VEHICLE_REGISTRATION) {
       if (driver.vehicleRegistrationId) {
         await this.s3.deleteFile(driver.vehicleRegistrationId);
       }
-    } else if (dto.type === DriverDocumentType.TRANSPORT_CERTIFICATE) {
+    } else if (type === DriverDocumentType.TRANSPORT_CERTIFICATE) {
       if (driver.transportCertificateId) {
         await this.s3.deleteFile(driver.transportCertificateId);
       }
@@ -342,7 +346,7 @@ export class ManageDriverService {
       },
     };
 
-    const config = updateMap[dto.type];
+    const config = updateMap[type];
 
     if (!config) {
       throw new AppError(HttpStatus.BAD_REQUEST, 'Invalid document type');
@@ -361,10 +365,10 @@ export class ManageDriverService {
     await this.documentNotificationService.notifyDocumentEvent(
       'DRIVER_DOCUMENT_UPLOADED',
       driver.id,
-      { type: dto.type },
+      { type: type },
     );
 
-    return successResponse(uploadedFile, `${dto.type} uploaded successfully`);
+    return successResponse(uploadedFile, `${type} uploaded successfully`);
   }
 
   @HandleError('Failed to approve or reject driver document')
