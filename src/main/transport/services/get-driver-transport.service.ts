@@ -148,6 +148,7 @@ export class GetDriverTransportService {
           TransportStatus.ACCEPTED,
           TransportStatus.PICKED_UP,
           TransportStatus.IN_TRANSIT,
+          TransportStatus.PENDING,
         ],
       },
     };
