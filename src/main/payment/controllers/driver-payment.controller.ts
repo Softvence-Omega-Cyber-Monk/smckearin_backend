@@ -45,6 +45,12 @@ export class DriverPaymentController {
     return await this.driverPaymentService.getTransactionHistory(userId, dto);
   }
 
+  @ApiOperation({ summary: 'Get driver payment statistics' })
+  @Get('stats')
+  async getStats(@GetUser('sub') userId: string) {
+    return await this.driverPaymentService.getDriverStats(userId);
+  }
+
   @ApiOperation({ summary: 'Get single transaction details' })
   @Get('transactions/:transactionId')
   async getTransaction(

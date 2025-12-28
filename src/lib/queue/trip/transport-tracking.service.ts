@@ -139,7 +139,7 @@ export class TransportTrackingService {
       });
 
       if (!transport) {
-        return errorResponse(null, 'Transport not found');
+        throw new Error('Transport not found');
       }
 
       const {
@@ -174,7 +174,7 @@ export class TransportTrackingService {
         directionsResponse.data.status !== 'OK' ||
         !directionsResponse.data.routes[0]
       ) {
-        return errorResponse(null, 'Unable to calculate route');
+        throw new Error('Unable to calculate route');
       }
 
       const route = directionsResponse.data.routes[0];
@@ -225,6 +225,25 @@ export class TransportTrackingService {
         location = locationResponse.data.results[0]?.formatted_address;
       }
 
+      // 6. Filter Timeline (Keep discrete status changes + first/last in-transit)
+      const rawTimeline = transport.transportTimelines || [];
+      const inTransitEntries = rawTimeline.filter(
+        (e) => e.status === 'IN_TRANSIT',
+      );
+      const otherEntries = rawTimeline.filter((e) => e.status !== 'IN_TRANSIT');
+
+      const filteredInTransit = [];
+      if (inTransitEntries.length > 0) {
+        filteredInTransit.push(inTransitEntries[0]);
+        if (inTransitEntries.length > 1) {
+          filteredInTransit.push(inTransitEntries[inTransitEntries.length - 1]);
+        }
+      }
+
+      const finalTimeline = [...otherEntries, ...filteredInTransit].sort(
+        (a, b) => a.createdAt.getTime() - b.createdAt.getTime(),
+      );
+
       const result = {
         transportId: transport.id,
 
@@ -266,7 +285,7 @@ export class TransportTrackingService {
 
         milestones,
 
-        timeLine: transport.transportTimelines,
+        timeLine: finalTimeline,
 
         shelterId: transport.shelterId,
         shelterName: transport?.shelter?.name ?? undefined,
@@ -274,14 +293,13 @@ export class TransportTrackingService {
         routePolyline: route.overview_polyline.points,
       };
 
-      return successResponse(result, 'Live tracking data fetched');
+      return result;
     } catch (error: any) {
-      this.logger.error('Failed to get live tracking data', error.stack);
-      try {
-        simplifyError(error, 'Failed to get tracking data', 'Transport');
-      } catch (simplifiedError: any) {
-        return errorResponse(null, simplifiedError.message);
-      }
+      this.logger.error(
+        'Failed to get live tracking data',
+        error.stack || error,
+      );
+      throw error;
     }
   }
 }

@@ -130,7 +130,7 @@
 
       document.getElementById('btnConnect').onclick = () => {
         const token = document.getElementById('token').value;
-        socket = io('http://localhost:3000/queue', {
+        socket = io('https://api.rescuetransit.ai/queue', {
           auth: { token: `Bearer ${token}` },
           transports: ['websocket'],
         });

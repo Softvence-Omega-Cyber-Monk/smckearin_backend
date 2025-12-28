@@ -43,6 +43,12 @@ export class ShelterPaymentController {
     return await this.shelterPaymentService.getTransactionHistory(userId, dto);
   }
 
+  @ApiOperation({ summary: 'Get shelter payment statistics' })
+  @Get('stats')
+  async getStats(@GetUser('sub') userId: string) {
+    return await this.shelterPaymentService.getShelterStats(userId);
+  }
+
   @ApiOperation({ summary: 'Get single transaction details' })
   @Get('transactions/:transactionId')
   async getTransaction(

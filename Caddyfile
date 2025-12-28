@@ -1,10 +1,20 @@
 api.rescuetransit.ai {
   # tls internal
 
+  handle /pgadmin* {
+    reverse_proxy pgadmin:80 {
+      header_up X-Real-IP {remote}
+      header_up X-Forwarded-For {remote}
+      header_up X-Forwarded-Proto {scheme}
+      header_up X-Script-Name /pgadmin
+    }
+  }
+
   reverse_proxy /socket.io* api:3000
 
   @api {
     not path /socket.io*
+    not path /pgadmin*
   }
 
   handle @api {
