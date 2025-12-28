@@ -33,4 +33,5 @@ export enum QueueEventsEnum {
   TRANSPORT_LEAVE_TRACKING = 'queue:transport_leave_tracking',
   TRANSPORT_GET_LIVE_DATA = 'queue:transport_get_live_data',
   TRANSPORT_TRACKING_DATA = 'queue:transport_tracking_data',
+  DRIVER_LOCATION_UPDATE = 'queue:driver_location_update',
 }
