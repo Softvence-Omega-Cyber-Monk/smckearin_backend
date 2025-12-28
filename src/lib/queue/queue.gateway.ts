@@ -177,7 +177,10 @@ export class QueueGateway extends BaseGateway {
   }
 
   @SubscribeMessage(QueueEventsEnum.DRIVER_LOCATION_UPDATE)
-  async handleDriverLocationUpdate(client: Socket, dto: DriverLocationUpdateDto) {
+  async handleDriverLocationUpdate(
+    client: Socket,
+    dto: DriverLocationUpdateDto,
+  ) {
     return this.transportTrackingService.updateDriverLocation(client, dto);
   }
 
