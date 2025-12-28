@@ -18,7 +18,7 @@ export class TransportTrackingService {
     private readonly googleMaps: GoogleMapsService,
     @Inject(forwardRef(() => QueueGateway))
     private readonly gateway: QueueGateway,
-  ) { }
+  ) {}
 
   async updateLocation(client: Socket, payload: TransportLocationUpdateDto) {
     try {
@@ -295,7 +295,10 @@ export class TransportTrackingService {
 
       return result;
     } catch (error: any) {
-      this.logger.error('Failed to get live tracking data', error.stack || error);
+      this.logger.error(
+        'Failed to get live tracking data',
+        error.stack || error,
+      );
       throw error;
     }
   }

@@ -14,7 +14,7 @@ export class ShelterPaymentController {
   constructor(
     private readonly shelterPaymentService: ShelterPaymentService,
     private readonly getSingleTransactionService: GetSingleTransactionService,
-  ) { }
+  ) {}
 
   @ApiOperation({ summary: 'Create Stripe SetupIntent to add a card' })
   @Post('setup-intent')

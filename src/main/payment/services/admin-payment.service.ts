@@ -25,7 +25,7 @@ export class AdminPaymentService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly utils: UtilsService,
-  ) { }
+  ) {}
 
   @HandleError('Error getting payment settings')
   async getSettings() {
@@ -287,7 +287,8 @@ export class AdminPaymentService {
           month: monthLabel,
           revenue: monthTransactions.reduce((sum, t) => sum + t.amount, 0),
           payouts: monthTransactions.reduce(
-            (sum, t) => sum + (t.transport.pricingSnapshot?.driverGrossPayout || 0),
+            (sum, t) =>
+              sum + (t.transport.pricingSnapshot?.driverGrossPayout || 0),
             0,
           ),
           count: monthTransactions.length,

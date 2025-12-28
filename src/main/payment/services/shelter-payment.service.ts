@@ -22,7 +22,7 @@ export class ShelterPaymentService {
     private readonly prisma: PrismaService,
     private readonly stripeService: StripeService,
     private readonly utils: UtilsService,
-  ) { }
+  ) {}
 
   @HandleError('Failed to create setup intent')
   async createSetupIntent(userId: string) {

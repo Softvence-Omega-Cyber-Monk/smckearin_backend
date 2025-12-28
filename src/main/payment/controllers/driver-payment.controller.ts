@@ -15,7 +15,7 @@ export class DriverPaymentController {
   constructor(
     private readonly driverPaymentService: DriverPaymentService,
     private readonly getSingleTransactionService: GetSingleTransactionService,
-  ) { }
+  ) {}
 
   @Get('payout-status')
   async getPayoutStatus(@GetUser('sub') userId: string) {

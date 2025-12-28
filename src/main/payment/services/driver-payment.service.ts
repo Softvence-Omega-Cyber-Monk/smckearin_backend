@@ -24,7 +24,7 @@ export class DriverPaymentService {
     private readonly prisma: PrismaService,
     private readonly stripeService: StripeService,
     private readonly utils: UtilsService,
-  ) { }
+  ) {}
 
   @HandleError('Failed to get driver payout status')
   async getPayoutStatus(userId: string) {
@@ -309,7 +309,8 @@ export class DriverPaymentService {
         return {
           month: monthLabel,
           earnings: monthTransactions.reduce(
-            (sum, t) => sum + (t.transport.pricingSnapshot?.driverGrossPayout || 0),
+            (sum, t) =>
+              sum + (t.transport.pricingSnapshot?.driverGrossPayout || 0),
             0,
           ),
           count: monthTransactions.length,
