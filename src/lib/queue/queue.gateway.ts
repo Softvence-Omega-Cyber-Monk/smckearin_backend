@@ -8,6 +8,7 @@ import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { PrismaService } from '../prisma/prisma.service';
 import {
+  DriverLocationUpdateDto,
   TransportIdDto,
   TransportLocationUpdateDto,
 } from './dto/transport-tracking.dto';
@@ -173,6 +174,11 @@ export class QueueGateway extends BaseGateway {
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_LOCATION_UPDATE)
   async handleUpdateLocation(client: Socket, dto: TransportLocationUpdateDto) {
     return this.transportTrackingService.updateLocation(client, dto);
+  }
+
+  @SubscribeMessage(QueueEventsEnum.DRIVER_LOCATION_UPDATE)
+  async handleDriverLocationUpdate(client: Socket, dto: DriverLocationUpdateDto) {
+    return this.transportTrackingService.updateDriverLocation(client, dto);
   }
 
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_JOIN_TRACKING)

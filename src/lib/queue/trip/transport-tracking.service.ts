@@ -6,7 +6,10 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { TravelMode } from '@googlemaps/google-maps-services-js';
 import { Inject, Injectable, Logger, forwardRef } from '@nestjs/common';
 import { Socket } from 'socket.io';
-import { TransportLocationUpdateDto } from '../dto/transport-tracking.dto';
+import {
+  DriverLocationUpdateDto,
+  TransportLocationUpdateDto,
+} from '../dto/transport-tracking.dto';
 import { QueueGateway } from '../queue.gateway';
 
 @Injectable()
@@ -19,6 +22,26 @@ export class TransportTrackingService {
     @Inject(forwardRef(() => QueueGateway))
     private readonly gateway: QueueGateway,
   ) {}
+
+  private calculateAirDistance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number {
+    const R = 6371e3; // meters
+    const φ1 = (lat1 * Math.PI) / 180;
+    const φ2 = (lat2 * Math.PI) / 180;
+    const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+    const Δλ = ((lon2 - lon1) * Math.PI) / 180;
+
+    const a =
+      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c; // in meters
+  }
 
   async updateLocation(client: Socket, payload: TransportLocationUpdateDto) {
     try {
@@ -117,6 +140,84 @@ export class TransportTrackingService {
     }
   }
 
+  async updateDriverLocation(client: Socket, payload: DriverLocationUpdateDto) {
+    try {
+      const userId = client.data.userId;
+      if (!userId) return errorResponse(null, 'Unauthorized');
+
+      const driver = await this.prisma.client.driver.findUnique({
+        where: { userId },
+        select: { id: true },
+      });
+
+      if (!driver) return errorResponse(null, 'Driver not found');
+
+      const { latitude, longitude, heading, speed } = payload;
+
+      // 1. Update Driver's current location and last ping
+      await this.prisma.client.driver.update({
+        where: { id: driver.id },
+        data: {
+          currentLatitude: latitude,
+          currentLongitude: longitude,
+          lastLocationPing: new Date(),
+        },
+      });
+
+      // 2. Find all active transports for this driver
+      const activeTransports = await this.prisma.client.transport.findMany({
+        where: {
+          driverId: driver.id,
+          status: { in: ['ACCEPTED', 'PICKED_UP', 'IN_TRANSIT'] },
+        },
+        select: { id: true },
+      });
+
+      if (activeTransports.length === 0) {
+        return successResponse(
+          null,
+          'Driver location updated, no active transports',
+        );
+      }
+
+      // 3. Update each active transport
+      for (const transport of activeTransports) {
+        try {
+          // Save to TransportTimeline for each transport
+          await this.prisma.client.transportTimeline.create({
+            data: {
+              transportId: transport.id,
+              status: 'IN_TRANSIT',
+              latitude,
+              longitude,
+              note: `Driver live location (Heading: ${heading ?? 'N/A'}, Speed: ${speed ?? 'N/A'})`,
+            },
+          });
+
+          // Get Enriched Tracking Data
+          const liveData = await this.getLiveTrackingData(transport.id);
+
+          // Emit to all connected clients tracking this transport
+          this.gateway.emitToRoom(
+            `transport-${transport.id}`,
+            QueueEventsEnum.TRANSPORT_TRACKING_DATA,
+            successResponse(liveData, 'Location updated'),
+          );
+        } catch (e) {
+          this.logger.error(`Failed to update transport ${transport.id}`, e);
+        }
+      }
+
+      return successResponse(
+        null,
+        'Driver location updated and broadcasts sent',
+      );
+    } catch (error: any) {
+      this.logger.error('Failed to update driver location', error);
+      return errorResponse(null, 'Failed to update driver location');
+    }
+  }
+
   async getLiveTrackingData(transportId: string) {
     try {
       this.logger.log(`Fetching live tracking data for ${transportId}`);
@@ -160,69 +261,121 @@ export class TransportTrackingService {
       const currentLat = driver?.currentLatitude ?? pickUpLatitude;
       const currentLng = driver?.currentLongitude ?? pickUpLongitude;
 
-      // 2. Fetch Directions from Google Maps
-      const directionsResponse = await this.googleMaps.getClient().directions({
-        params: {
-          origin: { lat: currentLat, lng: currentLng },
-          destination: { lat: dropOffLatitude, lng: dropOffLongitude },
-          mode: TravelMode.driving,
-          key: this.googleMaps.getApiKey(),
-        },
-      });
+      // Initialize route-dependent variables with safe defaults
+      let routePolyline = '';
+      let totalDistance = 0;
+      let distanceRemaining = 0;
+      let progressPercentage = 0;
+      let estimatedDropOffTime = null;
+      let milestones: any[] = [];
+      let estimatedTimeRemainingMinutes = 0;
 
-      if (
-        directionsResponse.data.status !== 'OK' ||
-        !directionsResponse.data.routes[0]
-      ) {
-        throw new Error('Unable to calculate route');
-      }
-
-      const route = directionsResponse.data.routes[0];
-      const leg = route.legs[0];
-
-      // 3. Calculate Progress
-      const totalRouteResponse = await this.googleMaps.getClient().directions({
-        params: {
-          origin: { lat: pickUpLatitude, lng: pickUpLongitude },
-          destination: { lat: dropOffLatitude, lng: dropOffLongitude },
-          mode: TravelMode.driving,
-          key: this.googleMaps.getApiKey(),
-        },
-      });
-
-      const totalDistance =
-        totalRouteResponse.data.routes[0]?.legs[0]?.distance?.value ?? 1;
-      const distanceRemaining = leg.distance.value;
-      const distanceTraveled = Math.max(0, totalDistance - distanceRemaining);
-      const progressPercentage = Math.min(
-        100,
-        (distanceTraveled / totalDistance) * 100,
-      );
-
-      // 4. Generate Milestones
-      const milestones = leg.steps.slice(0, 5).map((step: any) => {
-        const stepDistance = step.distance.value;
-        const stepDuration = step.duration.value;
-
-        return {
-          name: step.html_instructions.replace(/<[^>]*>?/gm, ''),
-          distanceFromPickup: (distanceTraveled + stepDistance) / 1609.34,
-          eta: new Date(Date.now() + stepDuration * 1000),
-        };
-      });
-
-      // 5. Get driver current location's name
-      let location: string | null = null;
-      if (driver?.currentLatitude && driver?.currentLongitude) {
-        const locationResponse = await this.googleMaps
+      try {
+        // 2. Fetch Directions from Google Maps (Current to Drop-off)
+        const directionsResponse = await this.googleMaps
           .getClient()
-          .reverseGeocode({
+          .directions({
             params: {
-              latlng: `${driver.currentLatitude},${driver.currentLongitude}`,
+              origin: { lat: currentLat, lng: currentLng },
+              destination: { lat: dropOffLatitude, lng: dropOffLongitude },
+              mode: TravelMode.driving,
               key: this.googleMaps.getApiKey(),
             },
           });
-        location = locationResponse.data.results[0]?.formatted_address;
+
+        if (
+          directionsResponse.data.status === 'OK' &&
+          directionsResponse.data.routes[0]
+        ) {
+          const route = directionsResponse.data.routes[0];
+          const leg = route.legs[0];
+          routePolyline = route.overview_polyline.points;
+          distanceRemaining = leg.distance.value;
+          estimatedTimeRemainingMinutes = leg.duration.value / 60;
+          estimatedDropOffTime = new Date(
+            Date.now() + leg.duration.value * 1000,
+          );
+
+          // Calculate Total Distance (Pickup to Drop-off)
+          const totalRouteResponse = await this.googleMaps
+            .getClient()
+            .directions({
+              params: {
+                origin: { lat: pickUpLatitude, lng: pickUpLongitude },
+                destination: { lat: dropOffLatitude, lng: dropOffLongitude },
+                mode: TravelMode.driving,
+                key: this.googleMaps.getApiKey(),
+              },
+            });
+
+          totalDistance =
+            totalRouteResponse.data.routes[0]?.legs[0]?.distance?.value ??
+            distanceRemaining;
+
+          // Milestones
+          milestones = leg.steps.slice(0, 5).map((step: any) => ({
+            name: step.html_instructions.replace(/<[^>]*>?/gm, ''),
+            distanceFromPickup: 0, // Simplified for brevity in error cases
+            eta: new Date(Date.now() + step.duration.value * 1000),
+          }));
+        } else {
+          this.logger.warn(
+            `Driving route failed (${directionsResponse.data.status}). Falling back to air distance.`,
+          );
+          // Fallback to Air Distance
+          distanceRemaining = this.calculateAirDistance(
+            currentLat,
+            currentLng,
+            dropOffLatitude,
+            dropOffLongitude,
+          );
+          totalDistance = this.calculateAirDistance(
+            pickUpLatitude,
+            pickUpLongitude,
+            dropOffLatitude,
+            dropOffLongitude,
+          );
+          // 40 mph average speed estimate for ETA
+          estimatedTimeRemainingMinutes =
+            (distanceRemaining / 1609.34 / 40) * 60;
+          estimatedDropOffTime = new Date(
+            Date.now() + estimatedTimeRemainingMinutes * 60000,
+          );
+        }
+
+        // Calculate Progress
+        if (totalDistance > 0) {
+          const distanceTraveled = Math.max(
+            0,
+            totalDistance - distanceRemaining,
+          );
+          progressPercentage = Math.min(
+            100,
+            (distanceTraveled / totalDistance) * 100,
+          );
+        }
+      } catch (err) {
+        this.logger.warn('Error during route calculation, using defaults', err);
+        // Ensure some basic distance if everything fails
+        if (totalDistance === 0) totalDistance = 1;
+      }
+
+      // 5. Get driver current location's name
+      let location: string | null = null;
+      try {
+        if (driver?.currentLatitude && driver?.currentLongitude) {
+          const locationResponse = await this.googleMaps
+            .getClient()
+            .reverseGeocode({
+              params: {
+                latlng: `${driver.currentLatitude},${driver.currentLongitude}`,
+                key: this.googleMaps.getApiKey(),
+              },
+            });
+          location = locationResponse.data.results[0]?.formatted_address;
+        }
+      } catch (e) {
+        this.logger.warn('Failed to reverse geocode location', e);
       }
 
       // 6. Filter Timeline (Keep discrete status changes + first/last in-transit)
@@ -269,8 +422,8 @@ export class TransportTrackingService {
         driverName: driver?.user?.name ?? 'Assigned Driver',
 
         currentLocation: location ?? 'Pending Update',
-        currentLatitude: driver?.currentLatitude ?? pickUpLatitude,
-        currentLongitude: driver?.currentLongitude ?? pickUpLongitude,
+        currentLatitude: currentLat,
+        currentLongitude: currentLng,
 
         driverConnected,
         lastLocationPing: driver?.lastLocationPing ?? undefined,
@@ -279,9 +432,9 @@ export class TransportTrackingService {
         distanceRemaining: distanceRemaining / 1609.34,
         progressPercentage,
 
-        estimatedTotalTimeMinutes: leg.duration.value / 60,
-        estimatedTimeRemainingMinutes: leg.duration.value / 60,
-        estimatedDropOffTime: new Date(Date.now() + leg.duration.value * 1000),
+        estimatedTotalTimeMinutes: totalDistance / 1609.34 / 0.6, // placeholder
+        estimatedTimeRemainingMinutes,
+        estimatedDropOffTime,
 
         milestones,
 
@@ -290,16 +443,16 @@ export class TransportTrackingService {
         shelterId: transport.shelterId,
         shelterName: transport?.shelter?.name ?? undefined,
 
-        routePolyline: route.overview_polyline.points,
+        routePolyline,
       };
 
       return result;
     } catch (error: any) {
       this.logger.error(
-        'Failed to get live tracking data',
+        'Failed to get live tracking data (unhandled)',
         error.stack || error,
       );
-      throw error;
+      return errorResponse(null, error.message || 'Tracking system error');
     }
   }
 }

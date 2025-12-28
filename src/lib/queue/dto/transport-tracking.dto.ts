@@ -34,3 +34,43 @@ export class TransportIdDto {
   @IsNotEmpty()
   transportId: string;
 }
+
+export class DriverLocationUpdateDto {
+  @ApiProperty({
+    description: 'Current latitude of the driver',
+    example: 23.8103,
+  })
+  @IsNumber()
+  latitude: number;
+
+  @ApiProperty({
+    description: 'Current longitude of the driver',
+    example: 90.4125,
+  })
+  @IsNumber()
+  longitude: number;
+
+  @ApiProperty({
+    description: 'Current heading of the driver in degrees',
+    example: 90,
+    required: false,
+  })
+  @IsNumber()
+  heading?: number;
+
+  @ApiProperty({
+    description: 'Current speed of the driver in m/s',
+    example: 15,
+    required: false,
+  })
+  @IsNumber()
+  speed?: number;
+
+  @ApiProperty({
+    description: 'Accuracy of the location in meters',
+    example: 5,
+    required: false,
+  })
+  @IsNumber()
+  accuracy?: number;
+}
