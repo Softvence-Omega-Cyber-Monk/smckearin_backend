@@ -14,7 +14,7 @@ export class ShelterPaymentController {
   constructor(
     private readonly shelterPaymentService: ShelterPaymentService,
     private readonly getSingleTransactionService: GetSingleTransactionService,
-  ) {}
+  ) { }
 
   @ApiOperation({ summary: 'Create Stripe SetupIntent to add a card' })
   @Post('setup-intent')
@@ -41,6 +41,12 @@ export class ShelterPaymentController {
     @Query() dto: GetTransactionDto,
   ) {
     return await this.shelterPaymentService.getTransactionHistory(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get shelter payment statistics' })
+  @Get('stats')
+  async getStats(@GetUser('sub') userId: string) {
+    return await this.shelterPaymentService.getShelterStats(userId);
   }
 
   @ApiOperation({ summary: 'Get single transaction details' })

@@ -22,7 +22,7 @@ export class ShelterPaymentService {
     private readonly prisma: PrismaService,
     private readonly stripeService: StripeService,
     private readonly utils: UtilsService,
-  ) {}
+  ) { }
 
   @HandleError('Failed to create setup intent')
   async createSetupIntent(userId: string) {
@@ -279,5 +279,85 @@ export class ShelterPaymentService {
       { page, limit, total },
       'Transaction history fetched successfully',
     );
+  }
+
+  @HandleError('Failed to get shelter stats')
+  async getShelterStats(userId: string) {
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
+    });
+
+    const shelterId = user.shelterAdminOfId ?? user.managerOfId;
+    if (!shelterId) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'User does not belong to any shelter',
+      );
+    }
+
+    const stats = await this.prisma.client.$transaction(async (tx) => {
+      const transactions = await tx.transaction.findMany({
+        where: {
+          transport: { shelterId },
+          status: { in: ['CHARGED', 'TRANSFERRED', 'PROCESSING'] },
+        },
+        include: {
+          transport: {
+            include: { pricingSnapshot: true },
+          },
+        },
+      });
+
+      const totalSpent = transactions.reduce((sum, t) => sum + t.amount, 0);
+      const totalRides = await tx.transport.count({ where: { shelterId } });
+      const completedRides = await tx.transport.count({
+        where: { shelterId, status: 'COMPLETED' },
+      });
+
+      const totalMiles = transactions.reduce(
+        (sum, t) => sum + (t.transport.pricingSnapshot?.distanceMiles || 0),
+        0,
+      );
+
+      // Monthly breakdown for last 6 months
+      const sixMonthsAgo = new Date();
+      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+      const monthlyBreakdown = Array.from({ length: 6 }).map((_, i) => {
+        const d = new Date();
+        d.setMonth(d.getMonth() - (5 - i));
+        const monthLabel = d.toLocaleString('default', {
+          month: 'short',
+          year: '2-digit',
+        });
+        const month = d.getMonth();
+        const year = d.getFullYear();
+
+        const monthTransactions = transactions.filter((t) => {
+          const tDate = new Date(t.createdAt);
+          return (
+            tDate.getMonth() === month &&
+            tDate.getFullYear() === year &&
+            tDate >= sixMonthsAgo
+          );
+        });
+
+        return {
+          month: monthLabel,
+          spent: monthTransactions.reduce((sum, t) => sum + t.amount, 0),
+          count: monthTransactions.length,
+        };
+      });
+
+      return {
+        totalSpent,
+        totalRides,
+        completedRides,
+        totalMiles,
+        monthlyBreakdown,
+      };
+    });
+
+    return successResponse(stats, 'Shelter payment stats fetched');
   }
 }

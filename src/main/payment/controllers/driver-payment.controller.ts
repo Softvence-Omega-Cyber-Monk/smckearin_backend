@@ -15,7 +15,7 @@ export class DriverPaymentController {
   constructor(
     private readonly driverPaymentService: DriverPaymentService,
     private readonly getSingleTransactionService: GetSingleTransactionService,
-  ) {}
+  ) { }
 
   @Get('payout-status')
   async getPayoutStatus(@GetUser('sub') userId: string) {
@@ -43,6 +43,12 @@ export class DriverPaymentController {
     @Query() dto: GetTransactionDto,
   ) {
     return await this.driverPaymentService.getTransactionHistory(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get driver payment statistics' })
+  @Get('stats')
+  async getStats(@GetUser('sub') userId: string) {
+    return await this.driverPaymentService.getDriverStats(userId);
   }
 
   @ApiOperation({ summary: 'Get single transaction details' })

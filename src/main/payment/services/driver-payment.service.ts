@@ -24,7 +24,7 @@ export class DriverPaymentService {
     private readonly prisma: PrismaService,
     private readonly stripeService: StripeService,
     private readonly utils: UtilsService,
-  ) {}
+  ) { }
 
   @HandleError('Failed to get driver payout status')
   async getPayoutStatus(userId: string) {
@@ -241,5 +241,90 @@ export class DriverPaymentService {
       { page, limit, total },
       'Transaction history fetched successfully',
     );
+  }
+
+  @HandleError('Failed to get driver stats')
+  async getDriverStats(userId: string) {
+    const driver = await this.prisma.client.driver.findUnique({
+      where: { userId },
+    });
+
+    if (!driver) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Driver not found');
+    }
+
+    const stats = await this.prisma.client.$transaction(async (tx) => {
+      const transactions = await tx.transaction.findMany({
+        where: {
+          transport: { driverId: driver.id },
+          status: { in: ['TRANSFERRED', 'CHARGED', 'PROCESSING'] },
+        },
+        include: {
+          transport: {
+            include: { pricingSnapshot: true },
+          },
+        },
+      });
+
+      const lifetimeEarnings = transactions.reduce(
+        (sum, t) => sum + (t.transport.pricingSnapshot?.driverGrossPayout || 0),
+        0,
+      );
+
+      const totalRides = await tx.transport.count({
+        where: { driverId: driver.id },
+      });
+      const completedRides = await tx.transport.count({
+        where: { driverId: driver.id, status: 'COMPLETED' },
+      });
+
+      const totalMiles = transactions.reduce(
+        (sum, t) => sum + (t.transport.pricingSnapshot?.distanceMiles || 0),
+        0,
+      );
+
+      // Monthly breakdown
+      const sixMonthsAgo = new Date();
+      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+      const monthlyBreakdown = Array.from({ length: 6 }).map((_, i) => {
+        const d = new Date();
+        d.setMonth(d.getMonth() - (5 - i));
+        const monthLabel = d.toLocaleString('default', {
+          month: 'short',
+          year: '2-digit',
+        });
+        const month = d.getMonth();
+        const year = d.getFullYear();
+
+        const monthTransactions = transactions.filter((t) => {
+          const tDate = new Date(t.createdAt);
+          return (
+            tDate.getMonth() === month &&
+            tDate.getFullYear() === year &&
+            tDate >= sixMonthsAgo
+          );
+        });
+
+        return {
+          month: monthLabel,
+          earnings: monthTransactions.reduce(
+            (sum, t) => sum + (t.transport.pricingSnapshot?.driverGrossPayout || 0),
+            0,
+          ),
+          count: monthTransactions.length,
+        };
+      });
+
+      return {
+        lifetimeEarnings,
+        totalRides,
+        completedRides,
+        totalMiles,
+        monthlyBreakdown,
+      };
+    });
+
+    return successResponse(stats, 'Driver payment stats fetched');
   }
 }

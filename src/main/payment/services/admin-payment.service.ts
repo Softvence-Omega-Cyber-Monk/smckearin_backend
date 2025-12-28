@@ -25,7 +25,7 @@ export class AdminPaymentService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly utils: UtilsService,
-  ) {}
+  ) { }
 
   @HandleError('Error getting payment settings')
   async getSettings() {
@@ -195,9 +195,8 @@ export class AdminPaymentService {
 
   @HandleError('Error fetching payment stats')
   async getPaymentStats() {
-    // Aggregations
     const stats = await this.prisma.client.$transaction(async (tx) => {
-      // Transaction Counts by Status
+      // Transaction Counts and Sums by Status
       const transactions = await tx.transaction.groupBy({
         by: ['status'],
         _count: { id: true },
@@ -208,22 +207,22 @@ export class AdminPaymentService {
         (sum, t) => sum + t._count.id,
         0,
       );
+
       const pendingTransactions =
         transactions.find((t) => t.status === 'PENDING')?._count.id || 0;
       const completedTransactions =
-        transactions.find((t) => t.status === 'TRANSFERRED')?._count.id || 0; // successfully paid out
+        transactions.find((t) => t.status === 'TRANSFERRED')?._count.id || 0;
       const failedTransactions =
         transactions.find((t) => t.status === 'FAILED')?._count.id || 0;
 
+      // Revenue: Total charged to shelters
       const totalRevenue = transactions
-        .filter(
-          (t) =>
-            t.status === 'CHARGED' ||
-            t.status === 'TRANSFERRED' ||
-            t.status === 'PROCESSING',
+        .filter((t) =>
+          ['CHARGED', 'TRANSFERRED', 'PROCESSING'].includes(t.status),
         )
         .reduce((sum, t) => sum + (t._sum.amount || 0), 0);
 
+      // Detailed Metrics from Pricing Snapshots
       const completedTransports = await tx.transport.findMany({
         where: {
           transaction: {
@@ -238,13 +237,75 @@ export class AdminPaymentService {
         0,
       );
 
+      const totalPlatformFees = completedTransports.reduce(
+        (sum, t) => sum + (t.pricingSnapshot?.platformFeeAmount || 0),
+        0,
+      );
+
+      const totalMiles = completedTransports.reduce(
+        (sum, t) => sum + (t.pricingSnapshot?.distanceMiles || 0),
+        0,
+      );
+
+      const totalRides = await tx.transport.count();
+      const activeRides = await tx.transport.count({
+        where: { status: { in: ['ACCEPTED', 'IN_TRANSIT', 'PICKED_UP'] } },
+      });
+
+      // Monthly breakdown for the last 6 months
+      const sixMonthsAgo = new Date();
+      sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+      const monthlyData = await tx.transaction.findMany({
+        where: {
+          createdAt: { gte: sixMonthsAgo },
+          status: { in: ['CHARGED', 'TRANSFERRED', 'PROCESSING'] },
+        },
+        include: {
+          transport: {
+            include: { pricingSnapshot: true },
+          },
+        },
+      });
+
+      const monthlyBreakdown = Array.from({ length: 6 }).map((_, i) => {
+        const d = new Date();
+        d.setMonth(d.getMonth() - (5 - i));
+        const monthLabel = d.toLocaleString('default', {
+          month: 'short',
+          year: '2-digit',
+        });
+        const month = d.getMonth();
+        const year = d.getFullYear();
+
+        const monthTransactions = monthlyData.filter((t) => {
+          const tDate = new Date(t.createdAt);
+          return tDate.getMonth() === month && tDate.getFullYear() === year;
+        });
+
+        return {
+          month: monthLabel,
+          revenue: monthTransactions.reduce((sum, t) => sum + t.amount, 0),
+          payouts: monthTransactions.reduce(
+            (sum, t) => sum + (t.transport.pricingSnapshot?.driverGrossPayout || 0),
+            0,
+          ),
+          count: monthTransactions.length,
+        };
+      });
+
       return {
         totalRevenue,
         totalDriverPayouts,
+        totalPlatformFees,
         totalTransactions,
         pendingTransactions,
         completedTransactions,
         failedTransactions,
+        totalMiles,
+        totalRides,
+        activeRides,
+        monthlyBreakdown,
       };
     });
 

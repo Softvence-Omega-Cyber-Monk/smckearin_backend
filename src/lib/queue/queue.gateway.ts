@@ -1,5 +1,5 @@
 import { QueueEventsEnum } from '@/common/enum/queue-events.enum';
-import { successResponse } from '@/common/utils/response.util';
+import { errorResponse, successResponse } from '@/common/utils/response.util';
 import { BaseGateway } from '@/core/socket/base.gateway';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -177,29 +177,39 @@ export class QueueGateway extends BaseGateway {
 
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_JOIN_TRACKING)
   async handleJoinTracking(client: Socket, data: TransportIdDto) {
-    this.joinTransportRoom(client, data.transportId);
-    this.logger.log(
-      `Client ${client.id} joined tracking for ${data.transportId}`,
-    );
+    try {
+      this.joinTransportRoom(client, data.transportId);
+      this.logger.log(
+        `Client ${client.id} joined tracking for ${data.transportId}`,
+      );
 
-    // Automatically send initial data snapshot to the client who just joined
-    const liveData = await this.transportTrackingService.getLiveTrackingData(
-      data.transportId,
-    );
-    client.emit(
-      QueueEventsEnum.TRANSPORT_TRACKING_DATA,
-      successResponse(liveData, 'Initial tracking data'),
-    );
+      // Automatically send initial data snapshot to the client who just joined
+      const liveData = await this.transportTrackingService.getLiveTrackingData(
+        data.transportId,
+      );
+      client.emit(
+        QueueEventsEnum.TRANSPORT_TRACKING_DATA,
+        successResponse(liveData, 'Initial tracking data'),
+      );
 
-    return successResponse(null, 'Joined transport tracking');
+      return successResponse(null, 'Joined transport tracking');
+    } catch (error: any) {
+      this.logger.error('Failed to join tracking', error.stack || error);
+      return errorResponse(null, error.message || 'Failed to join tracking');
+    }
   }
 
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_GET_LIVE_DATA)
   async handleGetLiveData(client: Socket, data: TransportIdDto) {
-    const liveData = await this.transportTrackingService.getLiveTrackingData(
-      data.transportId,
-    );
-    return successResponse(liveData, 'Live tracking data fetched');
+    try {
+      const liveData = await this.transportTrackingService.getLiveTrackingData(
+        data.transportId,
+      );
+      return successResponse(liveData, 'Live tracking data fetched');
+    } catch (error: any) {
+      this.logger.error('Failed to fetch live data', error.stack || error);
+      return errorResponse(null, error.message || 'Failed to fetch live data');
+    }
   }
 
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_LEAVE_TRACKING)

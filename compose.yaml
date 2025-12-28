@@ -21,7 +21,6 @@ services:
       timeout: 5s
       retries: 3
 
-
   api:
     profiles: ['prod']
     platform: linux/amd64
@@ -83,6 +82,21 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: ${PACKAGE_NAME}_pgadmin
+    restart: always
+    profiles: ['prod']
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${SUPER_ADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${SUPER_ADMIN_PASS}
+      - SCRIPT_NAME=/pgadmin
+    ports:
+      - '8123:80'
+    depends_on:
+      api:
+        condition: service_healthy
 
   redis-master:
     profiles: ['dev', 'prod']
