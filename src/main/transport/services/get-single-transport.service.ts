@@ -108,13 +108,41 @@ export class GetSingleTransportService {
       },
 
       // Transport timeline
-      timeline: transport.transportTimelines.map((t) => ({
-        status: t.status,
-        note: t.note ?? null,
-        latitude: t.latitude ?? null,
-        longitude: t.longitude ?? null,
-        changedAt: t.createdAt,
-      })),
+      timeline: [
+        ...transport.transportTimelines.filter(
+          (t) => t.status !== 'IN_TRANSIT',
+        ),
+        ...(transport.transportTimelines.filter(
+          (t) => t.status === 'IN_TRANSIT',
+        ).length > 0
+          ? [
+              transport.transportTimelines.filter(
+                (t) => t.status === 'IN_TRANSIT',
+              )[0],
+              ...(transport.transportTimelines.filter(
+                (t) => t.status === 'IN_TRANSIT',
+              ).length > 1
+                ? [
+                    transport.transportTimelines.filter(
+                      (t) => t.status === 'IN_TRANSIT',
+                    )[
+                      transport.transportTimelines.filter(
+                        (t) => t.status === 'IN_TRANSIT',
+                      ).length - 1
+                    ],
+                  ]
+                : []),
+            ]
+          : []),
+      ]
+        .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+        .map((t) => ({
+          status: t.status,
+          note: t.note ?? null,
+          latitude: t.latitude ?? null,
+          longitude: t.longitude ?? null,
+          changedAt: t.createdAt,
+        })),
 
       // Transport timing
       transportDate: transport.transPortDate,
