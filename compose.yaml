@@ -95,6 +95,8 @@ services:
     ports:
       - '8123:80'
     depends_on:
+      db:
+        condition: service_healthy
       api:
         condition: service_healthy
 
