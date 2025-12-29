@@ -75,7 +75,6 @@ export class ManageVetClearanceService {
       data: { status: 'NOT_FIT', notFitReasons: dto.notFitReasons },
     });
 
-    // TODO: NOTIFICATION - Animal Marked Not Fit for Transport
     // What: Send notification that animal cannot be transported
     // Recipients:
     //   1. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via request -> transport -> shelterId)
