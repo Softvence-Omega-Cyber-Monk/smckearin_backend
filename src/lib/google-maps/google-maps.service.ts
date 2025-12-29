@@ -2,6 +2,7 @@ import { ENVEnum } from '@/common/enum/env.enum';
 import { Client } from '@googlemaps/google-maps-services-js';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import axios from 'axios';
 
 @Injectable()
 export class GoogleMapsService {
@@ -21,6 +22,54 @@ export class GoogleMapsService {
 
   getApiKey(): string {
     return this.apiKey;
+  }
+
+  async computeRoutes(params: {
+    origin: { lat: number; lng: number };
+    destination: { lat: number; lng: number };
+    travelMode?: 'DRIVE' | 'BICYCLE' | 'WALK' | 'TWO_WHEELER' | string;
+    computeAlternativeRoutes?: boolean;
+  }) {
+    const body = {
+      origin: {
+        location: {
+          latLng: {
+            latitude: params.origin.lat,
+            longitude: params.origin.lng,
+          },
+        },
+      },
+      destination: {
+        location: {
+          latLng: {
+            latitude: params.destination.lat,
+            longitude: params.destination.lng,
+          },
+        },
+      },
+      travelMode: params.travelMode ?? 'DRIVE',
+      computeAlternativeRoutes: params.computeAlternativeRoutes ?? false,
+      // you can add routeModifiers, routingPreference, etc. if needed
+    };
+
+    try {
+      const resp = await axios.post(
+        'https://routes.googleapis.com/directions/v2:computeRoutes',
+        body,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Goog-Api-Key': this.apiKey,
+            'X-Goog-FieldMask': 'routes.distanceMeters,routes.duration,routes.polyline.encodedPolyline,routes.legs.distanceMeters,routes.legs.duration,routes.legs.steps',
+          },
+          timeout: 10000,
+        },
+      );
+      return resp;
+    } catch (error) {
+      // Re-throw so caller can catch and fallback
+      throw error;
+    }
   }
 
   async validateCoordinates(

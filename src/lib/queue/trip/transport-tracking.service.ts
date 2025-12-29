@@ -3,7 +3,7 @@ import { errorResponse, successResponse } from '@/common/utils/response.util';
 import { simplifyError } from '@/core/error/handle-error.simplify';
 import { GoogleMapsService } from '@/lib/google-maps/google-maps.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
-import { TravelMode } from '@googlemaps/google-maps-services-js';
+// import { TravelMode } from '@googlemaps/google-maps-services-js';
 import { Inject, Injectable, Logger, forwardRef } from '@nestjs/common';
 import { Socket } from 'socket.io';
 import {
@@ -41,6 +41,58 @@ export class TransportTrackingService {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     return R * c; // in meters
+  }
+
+  private createSimplePolyline(
+    startLat: number,
+    startLng: number,
+    endLat: number,
+    endLng: number,
+  ): string {
+    // Create a simple straight line polyline with a few intermediate points
+    const points = [];
+    const steps = 10; // Number of intermediate points
+
+    for (let i = 0; i <= steps; i++) {
+      const lat = startLat + (endLat - startLat) * (i / steps);
+      const lng = startLng + (endLng - startLng) * (i / steps);
+      points.push({ lat, lng });
+    }
+
+    // Encode the points using Google's polyline algorithm
+    return this.encodePolyline(points);
+  }
+
+  private encodePolyline(points: { lat: number; lng: number }[]): string {
+    // Simple polyline encoding implementation
+    let encoded = '';
+
+    for (const point of points) {
+      // Convert to integer coordinates
+      const lat = Math.round(point.lat * 1e5);
+      const lng = Math.round(point.lng * 1e5);
+
+      // Encode latitude
+      encoded += this.encodeNumber(lat);
+      // Encode longitude
+      encoded += this.encodeNumber(lng);
+    }
+
+    return encoded;
+  }
+
+  private encodeNumber(num: number): string {
+    // Simple polyline number encoding
+    let encoded = '';
+    let value = num < 0 ? ~(num << 1) : num << 1;
+
+    while (value >= 0x20) {
+      encoded += String.fromCharCode((0x20 | (value & 0x1f)) + 63);
+      value >>= 5;
+    }
+
+    encoded += String.fromCharCode(value + 63);
+    return encoded;
   }
 
   async updateLocation(client: Socket, payload: TransportLocationUpdateDto) {
@@ -218,6 +270,7 @@ export class TransportTrackingService {
     }
   }
 
+  // assume this method sits in your service where this.googleMaps is GoogleMapsService
   async getLiveTrackingData(transportId: string) {
     try {
       this.logger.log(`Fetching live tracking data for ${transportId}`);
@@ -263,104 +316,249 @@ export class TransportTrackingService {
 
       // Initialize route-dependent variables with safe defaults
       let routePolyline = '';
-      let totalDistance = 0;
-      let distanceRemaining = 0;
+      let totalDistance = 0; // meters
+      let distanceRemaining = 0; // meters
       let progressPercentage = 0;
-      let estimatedDropOffTime = null;
+      let estimatedDropOffTime: Date | null = null;
       let milestones: any[] = [];
       let estimatedTimeRemainingMinutes = 0;
 
       try {
-        // 2. Fetch Directions from Google Maps (Current to Drop-off)
-        const directionsResponse = await this.googleMaps
-          .getClient()
-          .directions({
-            params: {
-              origin: { lat: currentLat, lng: currentLng },
-              destination: { lat: dropOffLatitude, lng: dropOffLongitude },
-              mode: TravelMode.driving,
-              key: this.googleMaps.getApiKey(),
-            },
-          });
+        // 2. Compute route from current location to drop-off using Routes API helper
+        this.logger.log(
+          `Calculating route (Routes API) from current location (${currentLat}, ${currentLng}) to drop-off (${dropOffLatitude}, ${dropOffLongitude})`,
+        );
 
+        const routeResp = await this.googleMaps.computeRoutes({
+          origin: { lat: currentLat, lng: currentLng },
+          destination: { lat: dropOffLatitude, lng: dropOffLongitude },
+          travelMode: 'DRIVE',
+          computeAlternativeRoutes: false,
+        });
+
+        // routeResp is an axios response. Parse defensively to support older/newer shapes.
+        const routeData = routeResp?.data ?? {};
+        this.logger.log(`Routes API response status: ${routeResp?.status}, data keys: ${Object.keys(routeData || {})}`);
+        
+        let route: any = routeData.routes?.[0] ?? null;
+
+        // Fallback: sometimes libs return directions-style shape
         if (
-          directionsResponse.data.status === 'OK' &&
-          directionsResponse.data.routes[0]
+          !route &&
+          routeData.status === 'OK' &&
+          routeData.routes?.length > 0
         ) {
-          const route = directionsResponse.data.routes[0];
-          const leg = route.legs[0];
-          routePolyline = route.overview_polyline.points;
-          distanceRemaining = leg.distance.value;
-          estimatedTimeRemainingMinutes = leg.duration.value / 60;
-          estimatedDropOffTime = new Date(
-            Date.now() + leg.duration.value * 1000,
+          route = routeData.routes[0];
+        }
+
+        if (route) {
+          // legs array may be present (Routes API uses route.legs)
+          const leg = route.legs?.[0] ?? null;
+          this.logger.log(`Route calculated successfully: ${JSON.stringify(route, null, 2)}`);
+
+          // Polyline: Routes API uses route.polyline.encodedPolyline (or route.overview_polyline for old)
+          routePolyline =
+            route.polyline?.encodedPolyline ??
+            route.overview_polyline?.points ??
+            '';
+
+          // Distance: Routes API uses leg.distanceMeters, old uses leg.distance.value
+          distanceRemaining =
+            (leg?.distanceMeters as number) ??
+            (leg?.distance?.value as number) ??
+            0;
+
+          // Duration: Routes API uses leg.duration?.seconds, old uses leg.duration.value
+          const durationSeconds =
+            (leg?.duration?.seconds as number) ??
+            (leg?.duration?.value as number) ??
+            0;
+
+          estimatedTimeRemainingMinutes = durationSeconds / 60;
+          estimatedDropOffTime = durationSeconds
+            ? new Date(Date.now() + durationSeconds * 1000)
+            : null;
+
+          this.logger.log(
+            `Route calculated successfully: ${distanceRemaining}m remaining, polyline length: ${routePolyline.length}`,
           );
 
-          // Calculate Total Distance (Pickup to Drop-off)
-          const totalRouteResponse = await this.googleMaps
-            .getClient()
-            .directions({
-              params: {
-                origin: { lat: pickUpLatitude, lng: pickUpLongitude },
-                destination: { lat: dropOffLatitude, lng: dropOffLongitude },
-                mode: TravelMode.driving,
-                key: this.googleMaps.getApiKey(),
-              },
+          // Calculate Total Distance (Pickup to Drop-off) via another computeRoutes call
+          try {
+            const totalRouteResp = await this.googleMaps.computeRoutes({
+              origin: { lat: pickUpLatitude, lng: pickUpLongitude },
+              destination: { lat: dropOffLatitude, lng: dropOffLongitude },
+              travelMode: 'DRIVE',
+              computeAlternativeRoutes: false,
             });
 
-          totalDistance =
-            totalRouteResponse.data.routes[0]?.legs[0]?.distance?.value ??
-            distanceRemaining;
+            const totalData = totalRouteResp?.data ?? {};
+            const totalRoute = totalData.routes?.[0] ?? null;
 
-          // Milestones
-          milestones = leg.steps.slice(0, 5).map((step: any) => ({
-            name: step.html_instructions.replace(/<[^>]*>?/gm, ''),
-            distanceFromPickup: 0, // Simplified for brevity in error cases
-            eta: new Date(Date.now() + step.duration.value * 1000),
-          }));
+            if (totalRoute) {
+              const totalLeg = totalRoute.legs?.[0] ?? null;
+              totalDistance =
+                (totalLeg?.distanceMeters as number) ??
+                (totalLeg?.distance?.value as number) ??
+                distanceRemaining;
+              this.logger.log(
+                `Total route distance calculated: ${totalDistance}m`,
+              );
+            } else {
+              this.logger.warn(
+                `Total route calculation returned no route, using remaining distance as fallback`,
+              );
+              totalDistance = distanceRemaining;
+            }
+          } catch (totalRouteError) {
+            this.logger.error(
+              'Failed to calculate total route distance',
+              totalRouteError,
+            );
+            totalDistance = distanceRemaining;
+          }
+
+          // Milestones - prefer steps from leg; Routes API step structure
+          const steps = leg?.steps ?? route.legs?.[0]?.steps ?? [];
+          if (steps && steps.length > 0) {
+            // Keep max 5 approximate milestones
+            const maxMilestones = Math.min(10, steps.length);
+            let accumulatedDistance = 0;
+            
+            milestones = steps
+              .slice(0, maxMilestones)
+              .map((step: any, index: number) => {
+                // Routes API uses navigationInstruction.instructions
+                const htmlInstr = 
+                  step.navigationInstruction?.instructions ??
+                  step.htmlInstructions ??
+                  step.html_instructions ??
+                  `Step ${index + 1}`;
+                  
+                const cleaned = htmlInstr.replace(/<[^>]*>?/gm, '');
+                
+                // Routes API step duration is in staticDuration (string like "32s") or duration.seconds
+                let stepDurationSeconds = 0;
+                if (step.staticDuration) {
+                  // Parse duration string like "32s" or "1h 32m"
+                  const durationStr = step.staticDuration;
+                  const hourMatch = durationStr.match(/(\d+)h/);
+                  const minMatch = durationStr.match(/(\d+)m/);
+                  const secMatch = durationStr.match(/(\d+)s/);
+                  
+                  stepDurationSeconds = 
+                    (hourMatch ? parseInt(hourMatch[1]) * 3600 : 0) +
+                    (minMatch ? parseInt(minMatch[1]) * 60 : 0) +
+                    (secMatch ? parseInt(secMatch[1]) : 0);
+                } else {
+                  stepDurationSeconds =
+                    (step?.duration?.seconds as number) ??
+                    (step?.duration?.value as number) ??
+                    0;
+                }
+                
+                // Routes API step distance is in distanceMeters
+                const stepDistanceMeters =
+                  (step.distanceMeters as number) ??
+                  (step?.distance?.value as number) ??
+                  0;
+                
+                // Calculate cumulative distance from pickup
+                accumulatedDistance += stepDistanceMeters;
+                const distanceFromPickup = accumulatedDistance;
+                
+                return {
+                  name: cleaned,
+                  distanceFromPickup,
+                  eta: stepDurationSeconds
+                    ? new Date(Date.now() + stepDurationSeconds * 1000)
+                    : null,
+                };
+              });
+          } else {
+            // If no steps available, create simple milestones based on distance
+            const milestoneCount = Math.min(5, Math.ceil(totalDistance / 10000)); // One milestone per ~10km
+            milestones = Array.from({ length: milestoneCount }, (_, index) => ({
+              name: `Milestone ${index + 1}`,
+              distanceFromPickup: ((index + 1) * totalDistance) / milestoneCount,
+              eta: new Date(Date.now() + ((index + 1) * estimatedTimeRemainingMinutes * 60000) / milestoneCount),
+            }));
+          }
         } else {
+          // No route returned from computeRoutes
           this.logger.warn(
-            `Driving route failed (${directionsResponse.data.status}). Falling back to air distance.`,
+            `Routes API returned no route object. Falling back to air distance.`,
           );
-          // Fallback to Air Distance
-          distanceRemaining = this.calculateAirDistance(
-            currentLat,
-            currentLng,
-            dropOffLatitude,
-            dropOffLongitude,
-          );
-          totalDistance = this.calculateAirDistance(
-            pickUpLatitude,
-            pickUpLongitude,
-            dropOffLatitude,
-            dropOffLongitude,
-          );
-          // 40 mph average speed estimate for ETA
-          estimatedTimeRemainingMinutes =
-            (distanceRemaining / 1609.34 / 40) * 60;
-          estimatedDropOffTime = new Date(
-            Date.now() + estimatedTimeRemainingMinutes * 60000,
-          );
-        }
-
-        // Calculate Progress
-        if (totalDistance > 0) {
-          const distanceTraveled = Math.max(
-            0,
-            totalDistance - distanceRemaining,
-          );
-          progressPercentage = Math.min(
-            100,
-            (distanceTraveled / totalDistance) * 100,
-          );
+          this.logger.log(`Full Routes API response: ${JSON.stringify(routeData, null, 2)}`);
+          this.logger.log(`Available routes: ${routeData.routes?.length || 0}`);
+          if (routeData.routes && routeData.routes.length > 0) {
+            this.logger.log(`First route structure: ${JSON.stringify(routeData.routes[0], null, 2)}`);
+          }
         }
       } catch (err) {
-        this.logger.warn('Error during route calculation, using defaults', err);
-        // Ensure some basic distance if everything fails
-        if (totalDistance === 0) totalDistance = 1;
+        // If anything fails, fallback to air distance and simple polyline, as before
+        this.logger.warn(
+          'Route calculation failed, using air distance fallback',
+          err,
+        );
+
+        // Fallback to Air Distance (meters)
+        distanceRemaining = this.calculateAirDistance(
+          currentLat,
+          currentLng,
+          dropOffLatitude,
+          dropOffLongitude,
+        );
+        totalDistance = this.calculateAirDistance(
+          pickUpLatitude,
+          pickUpLongitude,
+          dropOffLatitude,
+          dropOffLongitude,
+        );
+
+        // 40 mph average speed estimate for ETA
+        estimatedTimeRemainingMinutes = (distanceRemaining / 1609.34 / 40) * 60;
+        estimatedDropOffTime = new Date(
+          Date.now() + estimatedTimeRemainingMinutes * 60000,
+        );
+
+        // Create a simple straight-line polyline for fallback
+        routePolyline = this.createSimplePolyline(
+          currentLat,
+          currentLng,
+          dropOffLatitude,
+          dropOffLongitude,
+        );
+
+        this.logger.log(
+          `Fallback values calculated: totalDistance=${totalDistance}m, distanceRemaining=${distanceRemaining}m, polyline created`,
+        );
+
+        // Generate fallback milestones when using air distance
+        const milestoneCount = Math.min(5, Math.ceil(totalDistance / 10000)); // One milestone per ~10km
+        milestones = Array.from({ length: milestoneCount }, (_, index) => ({
+          name: `Milestone ${index + 1}`,
+          distanceFromPickup: ((index + 1) * totalDistance) / milestoneCount,
+          eta: new Date(Date.now() + ((index + 1) * estimatedTimeRemainingMinutes * 60000) / milestoneCount),
+        }));
       }
 
-      // 5. Get driver current location's name
+      // Calculate Progress (outside try-catch to ensure it always runs)
+      if (totalDistance > 0) {
+        const distanceTraveled = Math.max(0, totalDistance - distanceRemaining);
+        progressPercentage = Math.min(
+          100,
+          (distanceTraveled / totalDistance) * 100,
+        );
+        this.logger.log(
+          `Progress calculated: ${progressPercentage.toFixed(2)}% (${distanceTraveled}m traveled of ${totalDistance}m total)`,
+        );
+      } else {
+        this.logger.warn('Total distance is 0, cannot calculate progress');
+        totalDistance = Math.max(1, distanceRemaining); // Ensure we have some distance
+      }
+
+      // 5. Get driver current location's name (reverse geocode)
       let location: string | null = null;
       try {
         if (driver?.currentLatitude && driver?.currentLongitude) {
@@ -372,20 +570,21 @@ export class TransportTrackingService {
                 key: this.googleMaps.getApiKey(),
               },
             });
-          location = locationResponse.data.results[0]?.formatted_address;
+          location =
+            locationResponse.data.results?.[0]?.formatted_address ?? null;
         }
       } catch (e) {
         this.logger.warn('Failed to reverse geocode location', e);
       }
 
       // 6. Filter Timeline (Keep discrete status changes + first/last in-transit)
-      const rawTimeline = transport.transportTimelines || [];
+      const rawTimeline = transport.transportTimelines ?? [];
       const inTransitEntries = rawTimeline.filter(
         (e) => e.status === 'IN_TRANSIT',
       );
       const otherEntries = rawTimeline.filter((e) => e.status !== 'IN_TRANSIT');
 
-      const filteredInTransit = [];
+      const filteredInTransit: any[] = [];
       if (inTransitEntries.length > 0) {
         filteredInTransit.push(inTransitEntries[0]);
         if (inTransitEntries.length > 1) {
@@ -401,8 +600,8 @@ export class TransportTrackingService {
         transportId: transport.id,
 
         animalId: transport.animalId,
-        animalName: transport.animal.name,
-        animalBreed: transport.animal.breed,
+        animalName: transport.animal?.name,
+        animalBreed: transport.animal?.breed,
 
         bondedAnimalId: transport.bondedPairId ?? undefined,
         bondedAnimalName: transport.bondedPair?.name ?? undefined,
@@ -428,11 +627,12 @@ export class TransportTrackingService {
         driverConnected,
         lastLocationPing: driver?.lastLocationPing ?? undefined,
 
+        // convert meters -> miles for front-end as before
         totalDistance: totalDistance / 1609.34,
         distanceRemaining: distanceRemaining / 1609.34,
         progressPercentage,
 
-        estimatedTotalTimeMinutes: totalDistance / 1609.34 / 0.6, // placeholder
+        estimatedTotalTimeMinutes: totalDistance / 1609.34 / 0.6, // placeholder (kept as before)
         estimatedTimeRemainingMinutes,
         estimatedDropOffTime,
 
