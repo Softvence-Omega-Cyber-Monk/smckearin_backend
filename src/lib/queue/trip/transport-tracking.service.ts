@@ -338,9 +338,9 @@ export class TransportTrackingService {
 
         // routeResp is an axios response. Parse defensively to support older/newer shapes.
         const routeData = routeResp?.data ?? {};
-        this.logger.log(
-          `Routes API response status: ${routeResp?.status}, data keys: ${Object.keys(routeData || {})}`,
-        );
+        // this.logger.log(
+        //   `Routes API response status: ${routeResp?.status}, data keys: ${Object.keys(routeData || {})}`,
+        // );
 
         let route: any = routeData.routes?.[0] ?? null;
 
@@ -372,11 +372,53 @@ export class TransportTrackingService {
             (leg?.distance?.value as number) ??
             0;
 
-          // Duration: Routes API uses leg.duration?.seconds, old uses leg.duration.value
-          const durationSeconds =
-            (leg?.duration?.seconds as number) ??
-            (leg?.duration?.value as number) ??
-            0;
+          // Duration: Routes API uses leg.duration?.seconds, leg.staticDuration (string), old uses leg.duration.value
+          this.logger.log(
+            `Leg duration data: ${JSON.stringify(leg?.duration, null, 2)}`,
+          );
+          this.logger.log(`Leg staticDuration: ${leg?.staticDuration}`);
+
+          let durationSeconds = 0;
+
+          // Try Routes API staticDuration first (string like "32s" or "1h 32m")
+          if (leg?.staticDuration) {
+            const durationStr = leg.staticDuration;
+            const hourMatch = durationStr.match(/(\d+)h/);
+            const minMatch = durationStr.match(/(\d+)m/);
+            const secMatch = durationStr.match(/(\d+)s/);
+
+            durationSeconds =
+              (hourMatch ? parseInt(hourMatch[1]) * 3600 : 0) +
+              (minMatch ? parseInt(minMatch[1]) * 60 : 0) +
+              (secMatch ? parseInt(secMatch[1]) : 0);
+
+            this.logger.log(
+              `Parsed staticDuration "${durationStr}" to ${durationSeconds}s`,
+            );
+          } else if (typeof leg?.duration === 'string') {
+            // Handle case where duration is a string like "19033s"
+            const durationStr = leg.duration;
+            const hourMatch = durationStr.match(/(\d+)h/);
+            const minMatch = durationStr.match(/(\d+)m/);
+            const secMatch = durationStr.match(/(\d+)s/);
+
+            durationSeconds =
+              (hourMatch ? parseInt(hourMatch[1]) * 3600 : 0) +
+              (minMatch ? parseInt(minMatch[1]) * 60 : 0) +
+              (secMatch ? parseInt(secMatch[1]) : 0);
+
+            this.logger.log(
+              `Parsed duration string "${durationStr}" to ${durationSeconds}s`,
+            );
+          } else {
+            // Fallback to duration.seconds or duration.value
+            durationSeconds =
+              (leg?.duration?.seconds as number) ??
+              (leg?.duration?.value as number) ??
+              0;
+          }
+
+          this.logger.log(`Final durationSeconds: ${durationSeconds}`);
 
           estimatedTimeRemainingMinutes = durationSeconds / 60;
           estimatedDropOffTime = durationSeconds
@@ -384,7 +426,7 @@ export class TransportTrackingService {
             : null;
 
           this.logger.log(
-            `Route calculated successfully: ${distanceRemaining}m remaining, polyline length: ${routePolyline.length}`,
+            `Route calculated successfully: ${distanceRemaining}m remaining, ${estimatedTimeRemainingMinutes} mins remaining, polyline length: ${routePolyline.length}`,
           );
 
           // Calculate Total Distance (Pickup to Drop-off) via another computeRoutes call
@@ -474,7 +516,7 @@ export class TransportTrackingService {
                 const distanceFromPickup = accumulatedDistance;
 
                 this.logger.log(
-                  `Step ${index + 1}: "${cleaned}" - Distance: ${stepDistanceMeters}m, Duration: ${stepDurationSeconds}s, Accumulated Time: ${accumulatedTime}s`
+                  `Step ${index + 1}: "${cleaned}" - Distance: ${stepDistanceMeters}m, Duration: ${stepDurationSeconds}s, Accumulated Time: ${accumulatedTime}s`,
                 );
 
                 return {
@@ -490,10 +532,10 @@ export class TransportTrackingService {
             // If no steps available, create simple milestones based on distance
             const milestoneCount = Math.min(
               5,
-              Math.ceil(totalDistance / 10000)
+              Math.ceil(totalDistance / 10000),
             ); // One milestone per ~10km
             this.logger.log(
-              `No steps available, generating ${milestoneCount} fallback milestones based on total distance: ${totalDistance}m`
+              `No steps available, generating ${milestoneCount} fallback milestones based on total distance: ${totalDistance}m`,
             );
             milestones = Array.from({ length: milestoneCount }, (_, index) => ({
               name: `Milestone ${index + 1}`,
