@@ -12,6 +12,7 @@ import {
 } from './dto/vet-appointment.dto';
 import {
   GetVetClearanceDto,
+  MakeNotFitDto,
   VetClearanceActionDto,
 } from './dto/vet-clearance.dto';
 import { ManageVetAppointmentService } from './services/manage-vet-appointment.service';
@@ -60,6 +61,23 @@ export class VetClearanceAppointmentController {
     @Query() dto: VetClearanceActionDto,
   ) {
     return this.manageVetClearanceService.approveRrRejectAVetClearanceRequest(
+      userId,
+      id,
+      dto,
+    );
+  }
+
+  @ApiOperation({
+    summary: 'Make vet clearance request not fit for transport (veterinarian)',
+  })
+  @Patch('vet/clearance-requests/:id/not-fit')
+  @ValidateVeterinarian()
+  async makeAVetClearanceRequestNotFitForTransport(
+    @GetUser('sub') userId: string,
+    @Param('id') id: string,
+    @Query() dto: MakeNotFitDto,
+  ) {
+    return this.manageVetClearanceService.makeAVetClearanceRequestNotFitForTransport(
       userId,
       id,
       dto,
