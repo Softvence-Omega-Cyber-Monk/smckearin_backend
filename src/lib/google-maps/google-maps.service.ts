@@ -60,7 +60,8 @@ export class GoogleMapsService {
           headers: {
             'Content-Type': 'application/json',
             'X-Goog-Api-Key': this.apiKey,
-            'X-Goog-FieldMask': 'routes.distanceMeters,routes.duration,routes.polyline.encodedPolyline,routes.legs.distanceMeters,routes.legs.duration,routes.legs.steps',
+            'X-Goog-FieldMask':
+              'routes.distanceMeters,routes.duration,routes.polyline.encodedPolyline,routes.legs.distanceMeters,routes.legs.duration,routes.legs.steps',
           },
           timeout: 10000,
         },

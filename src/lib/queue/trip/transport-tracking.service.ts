@@ -338,8 +338,10 @@ export class TransportTrackingService {
 
         // routeResp is an axios response. Parse defensively to support older/newer shapes.
         const routeData = routeResp?.data ?? {};
-        this.logger.log(`Routes API response status: ${routeResp?.status}, data keys: ${Object.keys(routeData || {})}`);
-        
+        this.logger.log(
+          `Routes API response status: ${routeResp?.status}, data keys: ${Object.keys(routeData || {})}`,
+        );
+
         let route: any = routeData.routes?.[0] ?? null;
 
         // Fallback: sometimes libs return directions-style shape
@@ -354,7 +356,9 @@ export class TransportTrackingService {
         if (route) {
           // legs array may be present (Routes API uses route.legs)
           const leg = route.legs?.[0] ?? null;
-          this.logger.log(`Route calculated successfully: ${JSON.stringify(route, null, 2)}`);
+          this.logger.log(
+            `Route calculated successfully: ${JSON.stringify(route, null, 2)}`,
+          );
 
           // Polyline: Routes API uses route.polyline.encodedPolyline (or route.overview_polyline for old)
           routePolyline =
@@ -421,22 +425,23 @@ export class TransportTrackingService {
           // Milestones - prefer steps from leg; Routes API step structure
           const steps = leg?.steps ?? route.legs?.[0]?.steps ?? [];
           if (steps && steps.length > 0) {
-            // Keep max 5 approximate milestones
+            // Keep max 10 approximate milestones
             const maxMilestones = Math.min(10, steps.length);
             let accumulatedDistance = 0;
-            
+            let accumulatedTime = 0;
+
             milestones = steps
               .slice(0, maxMilestones)
               .map((step: any, index: number) => {
                 // Routes API uses navigationInstruction.instructions
-                const htmlInstr = 
+                const htmlInstr =
                   step.navigationInstruction?.instructions ??
                   step.htmlInstructions ??
                   step.html_instructions ??
                   `Step ${index + 1}`;
-                  
+
                 const cleaned = htmlInstr.replace(/<[^>]*>?/gm, '');
-                
+
                 // Routes API step duration is in staticDuration (string like "32s") or duration.seconds
                 let stepDurationSeconds = 0;
                 if (step.staticDuration) {
@@ -445,8 +450,8 @@ export class TransportTrackingService {
                   const hourMatch = durationStr.match(/(\d+)h/);
                   const minMatch = durationStr.match(/(\d+)m/);
                   const secMatch = durationStr.match(/(\d+)s/);
-                  
-                  stepDurationSeconds = 
+
+                  stepDurationSeconds =
                     (hourMatch ? parseInt(hourMatch[1]) * 3600 : 0) +
                     (minMatch ? parseInt(minMatch[1]) * 60 : 0) +
                     (secMatch ? parseInt(secMatch[1]) : 0);
@@ -456,32 +461,49 @@ export class TransportTrackingService {
                     (step?.duration?.value as number) ??
                     0;
                 }
-                
+
                 // Routes API step distance is in distanceMeters
                 const stepDistanceMeters =
                   (step.distanceMeters as number) ??
                   (step?.distance?.value as number) ??
                   0;
-                
-                // Calculate cumulative distance from pickup
+
+                // Calculate cumulative distance and time from current position
                 accumulatedDistance += stepDistanceMeters;
+                accumulatedTime += stepDurationSeconds;
                 const distanceFromPickup = accumulatedDistance;
-                
+
+                this.logger.log(
+                  `Step ${index + 1}: "${cleaned}" - Distance: ${stepDistanceMeters}m, Duration: ${stepDurationSeconds}s, Accumulated Time: ${accumulatedTime}s`
+                );
+
                 return {
                   name: cleaned,
                   distanceFromPickup,
-                  eta: stepDurationSeconds
-                    ? new Date(Date.now() + stepDurationSeconds * 1000)
-                    : null,
+                  eta:
+                    accumulatedTime > 0
+                      ? new Date(Date.now() + accumulatedTime * 1000)
+                      : null,
                 };
               });
           } else {
             // If no steps available, create simple milestones based on distance
-            const milestoneCount = Math.min(5, Math.ceil(totalDistance / 10000)); // One milestone per ~10km
+            const milestoneCount = Math.min(
+              5,
+              Math.ceil(totalDistance / 10000)
+            ); // One milestone per ~10km
+            this.logger.log(
+              `No steps available, generating ${milestoneCount} fallback milestones based on total distance: ${totalDistance}m`
+            );
             milestones = Array.from({ length: milestoneCount }, (_, index) => ({
               name: `Milestone ${index + 1}`,
-              distanceFromPickup: ((index + 1) * totalDistance) / milestoneCount,
-              eta: new Date(Date.now() + ((index + 1) * estimatedTimeRemainingMinutes * 60000) / milestoneCount),
+              distanceFromPickup:
+                ((index + 1) * totalDistance) / milestoneCount,
+              eta: new Date(
+                Date.now() +
+                  ((index + 1) * estimatedTimeRemainingMinutes * 60000) /
+                    milestoneCount,
+              ),
             }));
           }
         } else {
@@ -489,10 +511,14 @@ export class TransportTrackingService {
           this.logger.warn(
             `Routes API returned no route object. Falling back to air distance.`,
           );
-          this.logger.log(`Full Routes API response: ${JSON.stringify(routeData, null, 2)}`);
+          this.logger.log(
+            `Full Routes API response: ${JSON.stringify(routeData, null, 2)}`,
+          );
           this.logger.log(`Available routes: ${routeData.routes?.length || 0}`);
           if (routeData.routes && routeData.routes.length > 0) {
-            this.logger.log(`First route structure: ${JSON.stringify(routeData.routes[0], null, 2)}`);
+            this.logger.log(
+              `First route structure: ${JSON.stringify(routeData.routes[0], null, 2)}`,
+            );
           }
         }
       } catch (err) {
@@ -539,7 +565,11 @@ export class TransportTrackingService {
         milestones = Array.from({ length: milestoneCount }, (_, index) => ({
           name: `Milestone ${index + 1}`,
           distanceFromPickup: ((index + 1) * totalDistance) / milestoneCount,
-          eta: new Date(Date.now() + ((index + 1) * estimatedTimeRemainingMinutes * 60000) / milestoneCount),
+          eta: new Date(
+            Date.now() +
+              ((index + 1) * estimatedTimeRemainingMinutes * 60000) /
+                milestoneCount,
+          ),
         }));
       }
 
