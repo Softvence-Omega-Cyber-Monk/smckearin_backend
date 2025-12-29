@@ -1,4 +1,4 @@
-import { ApproveOrRejectDto } from '@/common/dto/approve-reject.dto';
+import { ApproveOrRejectTransportDto } from '@/common/dto/approve-reject.dto';
 import {
   GetUser,
   ValidateAdmin,
@@ -160,7 +160,7 @@ export class TransportController {
   async acceptOrRejectTransport(
     @GetUser() authUser: JWTPayload,
     @Param('id') id: string,
-    @Body() dto: ApproveOrRejectDto,
+    @Body() dto: ApproveOrRejectTransportDto,
   ) {
     return this.manageTransportService.acceptOrRejectTransport(
       id,
