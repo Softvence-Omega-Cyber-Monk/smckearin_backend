@@ -12,6 +12,15 @@ export class ApproveOrRejectDto {
   approved: boolean;
 }
 
+export class ApproveOrRejectTransportDto {
+  @ApiProperty({
+    example: true,
+    description: 'Approval status',
+  })
+  @IsBoolean()
+  approved: boolean;
+}
+
 export class ApproveOrRejectWithReasonDto extends ApproveOrRejectDto {
   @ApiProperty({
     example: 'Reason for rejection',
