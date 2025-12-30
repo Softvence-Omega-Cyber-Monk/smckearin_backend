@@ -33,7 +33,7 @@ import {
   DriverDocumentDeleteDto,
   UploadDocumentDto,
 } from '../dto/driver.dto';
-import { GetApprovedDrivers } from '../dto/get-drivers.dto';
+import { GetApprovedDrivers, GetDriversDto } from '../dto/get-drivers.dto';
 import { GetDriverService } from '../services/get-driver.service';
 import { ManageDriverService } from '../services/manage-driver.service';
 
@@ -50,7 +50,7 @@ export class DriverController {
   @ApiOperation({ summary: 'Get all drivers (admin only)' })
   @ValidateAdmin()
   @Get('driver')
-  async getDriver(@Query() body: GetApprovedDrivers) {
+  async getDriver(@Query() body: GetDriversDto) {
     return this.driverService.getAllDrivers(body);
   }
 
