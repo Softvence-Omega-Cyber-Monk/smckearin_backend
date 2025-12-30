@@ -38,6 +38,7 @@ export class AuthLoginService {
         drivers: true,
         shelterAdminOf: true,
         managerOf: true,
+        profilePicture: true,
         veterinarians: true,
       },
     });
