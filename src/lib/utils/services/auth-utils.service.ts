@@ -175,8 +175,16 @@ export class AuthUtilsService {
             vetDocuments: true,
           },
         },
-        shelterAdminOf: true,
-        managerOf: true,
+        shelterAdminOf: {
+          include: {
+            logo: true,
+          },
+        },
+        managerOf: {
+          include: {
+            logo: true,
+          },
+        },
         profilePicture: true,
       },
     });
@@ -271,6 +279,7 @@ export class AuthUtilsService {
             endTime: shelterAdminOf.endTime,
             workingDays: shelterAdminOf.workingDays,
             status: shelterAdminOf.status,
+            logoUrl: shelterAdminOf.logoUrl,
           };
           isApproved = shelterAdminOf.status === 'APPROVED';
         } else {
@@ -290,6 +299,7 @@ export class AuthUtilsService {
             endTime: managerOf.endTime,
             workingDays: managerOf.workingDays,
             status: managerOf.status,
+            logoUrl: managerOf.logoUrl,
           };
           isApproved = managerOf.status === 'APPROVED';
         } else {
