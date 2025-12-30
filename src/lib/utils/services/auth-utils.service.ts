@@ -177,6 +177,7 @@ export class AuthUtilsService {
         },
         shelterAdminOf: true,
         managerOf: true,
+        profilePicture: true,
       },
     });
 
