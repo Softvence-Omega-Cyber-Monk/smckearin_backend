@@ -100,8 +100,10 @@ export class AuthUpdateProfileService {
     // Update user fields
     const updatedUserData: Prisma.UserUpdateInput = {};
     if (dto.name?.trim()) updatedUserData.name = dto.name.trim();
-    if (fileInstance)
+    if (fileInstance) {
+      updatedUserData.profilePictureUrl = fileInstance.url;
       updatedUserData.profilePicture = { connect: fileInstance };
+    }
 
     // Update driver fields
     const updatedDriverData: Prisma.DriverUpdateInput = {};
@@ -186,8 +188,10 @@ export class AuthUpdateProfileService {
     // Update user fields
     const updatedUserData: Prisma.UserUpdateInput = {};
     if (dto.name?.trim()) updatedUserData.name = dto.name.trim();
-    if (fileInstance)
+    if (fileInstance) {
       updatedUserData.profilePicture = { connect: fileInstance };
+      updatedUserData.profilePictureUrl = fileInstance.url;
+    }
 
     // Update veterinarian fields
     const updatedVetData: Prisma.VeterinarianUpdateInput = {};
@@ -266,7 +270,10 @@ export class AuthUpdateProfileService {
     if (dto.address) updateData.address = dto.address;
     if (dto.phone) updateData.phone = dto.phone;
     if (dto.description) updateData.description = dto.description;
-    if (fileInstance) updateData.logo = { connect: fileInstance };
+    if (fileInstance) {
+      updateData.logo = { connect: fileInstance };
+      updateData.logoUrl = fileInstance.url;
+    }
 
     const updatedShelter = await this.prisma.client.shelter.update({
       where: { id: shelter.id },
