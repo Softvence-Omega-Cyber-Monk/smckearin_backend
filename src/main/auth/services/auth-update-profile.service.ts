@@ -233,6 +233,7 @@ export class AuthUpdateProfileService {
         managerOf: {
           include: { logo: true },
         },
+        profilePictureId: true,
       },
     });
 
@@ -262,6 +263,9 @@ export class AuthUpdateProfileService {
       if (shelter.logoId) {
         await this.s3.deleteFile(shelter.logoId);
       }
+      if (user.profilePictureId) {
+        await this.s3.deleteFile(user.profilePictureId);
+      }
     }
 
     // Prepare update data
@@ -273,6 +277,17 @@ export class AuthUpdateProfileService {
     if (fileInstance) {
       updateData.logo = { connect: fileInstance };
       updateData.logoUrl = fileInstance.url;
+      await this.prisma.client.user.update({
+        where: { id: user.id },
+        data: {
+          profilePicture: {
+            connect: {
+              id: fileInstance.id,
+            },
+          },
+          profilePictureUrl: fileInstance.url,
+        },
+      });
     }
 
     const updatedShelter = await this.prisma.client.shelter.update({
