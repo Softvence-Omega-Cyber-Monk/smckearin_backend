@@ -140,7 +140,10 @@ export class AnimalService {
       updateData.medicalNotes = dto.medicalNotes.trim();
     if (dto.behaviorNotes?.trim())
       updateData.behaviorNotes = dto.behaviorNotes.trim();
-    if (fileInstance) updateData.image = { connect: { id: fileInstance.id } };
+    if (fileInstance) {
+      updateData.image = { connect: { id: fileInstance.id } };
+      updateData.imageUrl = fileInstance.url;
+    }
 
     // Update the animal
     const updatedAnimal = await this.prisma.client.animal.update({
