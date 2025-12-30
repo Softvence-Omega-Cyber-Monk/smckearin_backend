@@ -59,7 +59,11 @@ export class GetDriverService {
         take: limit,
         orderBy: { createdAt: 'desc' },
         include: {
-          user: true,
+          user: {
+            include: {
+              profilePicture: true,
+            },
+          },
           driverLicense: true,
           vehicleRegistration: true,
           transportCertificate: true,
@@ -88,7 +92,11 @@ export class GetDriverService {
       await this.prisma.client.driver.findUniqueOrThrow({
         where: { id: driverId },
         include: {
-          user: true,
+          user: {
+            include: {
+              profilePicture: true,
+            },
+          },
           driverLicense: true,
           vehicleRegistration: true,
           transportCertificate: true,
