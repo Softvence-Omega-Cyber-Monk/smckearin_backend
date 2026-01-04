@@ -328,6 +328,29 @@ export class ManageTransportService {
       data: { status },
     });
 
+    // If status is completed, mark animals as adopted
+    if (status === TransportStatus.COMPLETED) {
+      const transportDetails =
+        await this.prisma.client.transport.findUniqueOrThrow({
+          where: { id: transportId },
+          select: {
+            animalId: true,
+            isBondedPair: true,
+            bondedPairId: true,
+          },
+        });
+
+      const animalsToUpdate = [transportDetails.animalId];
+      if (transportDetails.isBondedPair && transportDetails.bondedPairId) {
+        animalsToUpdate.push(transportDetails.bondedPairId);
+      }
+
+      await this.prisma.client.animal.updateMany({
+        where: { id: { in: animalsToUpdate } },
+        data: { status: 'ADOPTED' },
+      });
+    }
+
     // Add Timeline
     await this.addTimeline(
       transportId,
