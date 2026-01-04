@@ -94,7 +94,7 @@ export class AdminStatsService {
           totalAnimalRescuedCount,
           lastMonthAnimalRescuedCount,
         ),
-        label: 'Total Animal Rescued',
+        label: 'Total Animals Rescued',
       },
       totalDriver: {
         total: totalDriverCount,
@@ -102,7 +102,7 @@ export class AdminStatsService {
           totalDriverCount,
           lastMonthDriverCount,
         ),
-        label: 'Total Driver',
+        label: 'Total Drivers',
       },
       totalShelter: {
         total: totalShelterCount,
@@ -110,7 +110,7 @@ export class AdminStatsService {
           totalShelterCount,
           lastMonthShelterCount,
         ),
-        label: 'Total Shelter',
+        label: 'Total Shelters',
       },
     };
 

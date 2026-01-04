@@ -139,7 +139,7 @@ export class ShelterStatsService {
           totalAnimalRescuedCount,
           lastMonthAnimalRescuedCount,
         ),
-        label: 'Total Animal Rescued',
+        label: 'Total Animals Rescued',
       },
       driverAvailable: {
         total: approvedDriverCount,
@@ -147,7 +147,7 @@ export class ShelterStatsService {
           approvedDriverCount,
           approvedDriverLastMonthCount,
         ),
-        label: 'Total Driver',
+        label: 'Total Drivers',
       },
     };
 
