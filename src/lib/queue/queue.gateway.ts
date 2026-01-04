@@ -13,7 +13,8 @@ import {
   TransportLocationUpdateDto,
 } from './dto/transport-tracking.dto';
 import { NotificationPayload } from './interface/queue.payload';
-import { TransportTrackingService } from './trip/transport-tracking.service';
+import { LocationUpdateService } from './trip/location-update.service';
+import { TrackingDataService } from './trip/tracking-data.service';
 
 @WebSocketGateway({
   cors: {
@@ -43,7 +44,8 @@ export class QueueGateway extends BaseGateway {
     protected readonly configService: ConfigService,
     protected readonly prisma: PrismaService,
     protected readonly jwtService: JwtService,
-    private readonly transportTrackingService: TransportTrackingService,
+    private readonly locationUpdateService: LocationUpdateService,
+    private readonly trackingDataService: TrackingDataService,
   ) {
     super(configService, prisma, jwtService, QueueGateway.name);
   }
@@ -173,7 +175,7 @@ export class QueueGateway extends BaseGateway {
   // Transport handlers
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_LOCATION_UPDATE)
   async handleUpdateLocation(client: Socket, dto: TransportLocationUpdateDto) {
-    return this.transportTrackingService.updateLocation(client, dto);
+    return this.locationUpdateService.updateLocation(client, dto);
   }
 
   @SubscribeMessage(QueueEventsEnum.DRIVER_LOCATION_UPDATE)
@@ -181,7 +183,7 @@ export class QueueGateway extends BaseGateway {
     client: Socket,
     dto: DriverLocationUpdateDto,
   ) {
-    return this.transportTrackingService.updateDriverLocation(client, dto);
+    return this.locationUpdateService.updateDriverLocation(client, dto);
   }
 
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_JOIN_TRACKING)
@@ -193,7 +195,7 @@ export class QueueGateway extends BaseGateway {
       );
 
       // Automatically send initial data snapshot to the client who just joined
-      const liveData = await this.transportTrackingService.getLiveTrackingData(
+      const liveData = await this.trackingDataService.getLiveTrackingData(
         data.transportId,
       );
       client.emit(
@@ -211,7 +213,7 @@ export class QueueGateway extends BaseGateway {
   @SubscribeMessage(QueueEventsEnum.TRANSPORT_GET_LIVE_DATA)
   async handleGetLiveData(client: Socket, data: TransportIdDto) {
     try {
-      const liveData = await this.transportTrackingService.getLiveTrackingData(
+      const liveData = await this.trackingDataService.getLiveTrackingData(
         data.transportId,
       );
       return successResponse(liveData, 'Live tracking data fetched');

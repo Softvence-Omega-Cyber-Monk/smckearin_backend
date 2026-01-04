@@ -64,8 +64,8 @@ export class ShelterController {
     return this.shelterService.getSingleShelter(shelterId);
   }
 
-  @ApiOperation({ summary: 'Approve or reject shelter (admin only)' })
-  @ValidateAdmin()
+  @ApiOperation({ summary: 'Approve or reject shelter (admin & shelter only)' })
+  @ValidateManager()
   @Get('shelter/:shelterId/approve')
   async approveOrRejectShelter(
     @Param('shelterId') shelterId: string,
