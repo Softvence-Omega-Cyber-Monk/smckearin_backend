@@ -43,6 +43,8 @@ export class DriverStatsService {
       lastMonthTripsCount,
       totalAnimalRescuedCount,
       lastMonthAnimalRescuedCount,
+      totalEarningAgg,
+      lastMonthEarningAgg,
     ] = await this.prisma.client.$transaction([
       this.prisma.client.transport.count({
         where: {
@@ -67,7 +69,30 @@ export class DriverStatsService {
           },
         },
       }),
+      // Earnings aggregations
+      this.prisma.client.pricingSnapshot.aggregate({
+        _sum: { driverGrossPayout: true },
+        where: {
+          transport: {
+            driverId: driver.id,
+            status: 'COMPLETED',
+          },
+        },
+      }),
+      this.prisma.client.pricingSnapshot.aggregate({
+        _sum: { driverGrossPayout: true },
+        where: {
+          transport: {
+            driverId: driver.id,
+            status: 'COMPLETED',
+            createdAt: { gte: lastMonth },
+          },
+        },
+      }),
     ]);
+
+    const totalEarning = totalEarningAgg._sum.driverGrossPayout || 0;
+    const lastMonthEarning = lastMonthEarningAgg._sum.driverGrossPayout || 0;
 
     const stats = {
       todaysTrips: {
@@ -99,8 +124,11 @@ export class DriverStatsService {
         label: 'Total Animals Rescued',
       },
       totalEarning: {
-        total: 20, // static for now
-        moreThanLastMonth: '10%', // static
+        total: totalEarning,
+        moreThanLastMonth: this.calcPercentageChange(
+          totalEarning,
+          lastMonthEarning,
+        ),
         label: 'Total Earning',
       },
     };
