@@ -77,6 +77,24 @@ export class DriverController {
     return this.manageDriverService.approveOrRejectDriver(driverId, dto);
   }
 
+  @ApiOperation({ summary: 'Ban driver (shelter only)' })
+  @ValidateManager()
+  @Post('driver/:driverId/ban')
+  async banDriver(@Param('driverId') driverId: string) {
+    return this.manageDriverService.approveOrRejectDriver(driverId, {
+      approved: false,
+    });
+  }
+
+  @ApiOperation({ summary: 'Unban driver (shelter only)' })
+  @ValidateManager()
+  @Post('driver/:driverId/unban')
+  async unbanDriver(@Param('driverId') driverId: string) {
+    return this.manageDriverService.approveOrRejectDriver(driverId, {
+      approved: true,
+    });
+  }
+
   @ApiOperation({ summary: 'Delete driver and user (admin only)' })
   @ValidateAdmin()
   @Delete('driver/:driverId/delete')
