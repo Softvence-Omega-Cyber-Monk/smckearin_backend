@@ -45,7 +45,7 @@ export class DriverController {
   constructor(
     private readonly driverService: GetDriverService,
     private readonly manageDriverService: ManageDriverService,
-  ) { }
+  ) {}
 
   @ApiOperation({ summary: 'Get all drivers (admin only)' })
   @ValidateAdmin()
@@ -83,6 +83,15 @@ export class DriverController {
   async banDriver(@Param('driverId') driverId: string) {
     return this.manageDriverService.approveOrRejectDriver(driverId, {
       approved: false,
+    });
+  }
+
+  @ApiOperation({ summary: 'Unban driver (shelter only)' })
+  @ValidateManager()
+  @Post('driver/:driverId/unban')
+  async unbanDriver(@Param('driverId') driverId: string) {
+    return this.manageDriverService.approveOrRejectDriver(driverId, {
+      approved: true,
     });
   }
 

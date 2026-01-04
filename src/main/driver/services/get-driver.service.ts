@@ -101,7 +101,7 @@ export class GetDriverService {
 
   @HandleError('Failed to get approved drivers')
   async getApprovedDrivers(dto: GetApprovedDrivers) {
-    return this.getAllDrivers({ ...dto, status: 'APPROVED' });
+    return this.getAllDrivers(dto);
   }
 
   @HandleError('Failed to get single driver')
