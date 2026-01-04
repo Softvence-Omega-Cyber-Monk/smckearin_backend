@@ -9,7 +9,10 @@ import { TransportNotificationService } from './services/transport-notification.
 import { UserNotificationService } from './services/user-notification.service';
 import { VetNotificationService } from './services/vet-notification.service';
 import { GenericTriggerService } from './trigger/generic-trigger.service';
-import { TransportTrackingService } from './trip/transport-tracking.service';
+import { LocationUpdateService } from './trip/location-update.service';
+import { RouteCalculationService } from './trip/route-calculation.service';
+import { TrackingDataService } from './trip/tracking-data.service';
+import { TrackingHelperService } from './trip/tracking-helper.service';
 import { GenericWorkerService } from './worker/generic-worker.service';
 
 @Global()
@@ -25,7 +28,12 @@ import { GenericWorkerService } from './worker/generic-worker.service';
     GenericTriggerService,
     GenericEventsService,
     GenericWorkerService,
-    TransportTrackingService,
+    // Transport tracking services
+    TrackingHelperService,
+    RouteCalculationService,
+    TrackingDataService,
+    LocationUpdateService,
+    // Notification services
     BaseNotificationService,
     UserNotificationService,
     DocumentNotificationService,
@@ -38,6 +46,8 @@ import { GenericWorkerService } from './worker/generic-worker.service';
     DocumentNotificationService,
     TransportNotificationService,
     VetNotificationService,
+    RouteCalculationService,
+    LocationUpdateService,
   ],
 })
 export class QueueModule {}

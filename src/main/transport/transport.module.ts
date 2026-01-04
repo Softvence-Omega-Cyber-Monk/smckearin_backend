@@ -1,5 +1,5 @@
 import { QueueGateway } from '@/lib/queue/queue.gateway';
-import { TransportTrackingService } from '@/lib/queue/trip/transport-tracking.service';
+import { TrackingDataService } from '@/lib/queue/trip/tracking-data.service';
 import { Module } from '@nestjs/common';
 import { PaymentModule } from '../payment/payment.module';
 import { TransportController } from './controllers/transport.controller';
@@ -20,7 +20,7 @@ import { ManageTransportService } from './services/manage-transport.service';
     GetDriverTransportService,
     ManageTransportService,
     GetLiveTrackingService,
-    TransportTrackingService,
+    TrackingDataService,
     QueueGateway,
   ],
 })
