@@ -72,7 +72,7 @@ export class DriverStatsService {
     const stats = {
       todaysTrips: {
         total: todaysTripsCount,
-        label: 'Today Trips',
+        label: "Today's Trips",
       },
       totalTrips: {
         total: totalTripsCount,
@@ -96,7 +96,7 @@ export class DriverStatsService {
           totalAnimalRescuedCount,
           lastMonthAnimalRescuedCount,
         ),
-        label: 'Total Animal Rescued',
+        label: 'Total Animals Rescued',
       },
       totalEarning: {
         total: 20, // static for now
