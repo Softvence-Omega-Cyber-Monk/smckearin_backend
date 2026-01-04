@@ -77,6 +77,8 @@ export class GetShelterService {
           },
           shelterAdmins: true,
           managers: true,
+          animals: true,
+          transports: true,
         },
       }),
       this.prisma.client.shelter.count({ where }),

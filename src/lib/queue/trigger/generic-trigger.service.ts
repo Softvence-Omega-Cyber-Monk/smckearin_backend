@@ -2,7 +2,6 @@ import { QueueEventsEnum } from '@/common/enum/queue-events.enum';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { Cron, CronExpression } from '@nestjs/schedule';
 import { GenericPayload } from '../interface/generic.payload';
 
 @Injectable()
@@ -40,11 +39,11 @@ export class GenericTriggerService {
     }
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_1AM, {
-    timeZone: 'America/New_York',
-  })
-  // @Cron(CronExpression.EVERY_10_SECONDS)
-  async handleAmericaMorningCron() {
-    await this.emitEventToTriggerWorker();
-  }
+  // @Cron(CronExpression.EVERY_DAY_AT_1AM, {
+  //   timeZone: 'America/New_York',
+  // })
+  // // @Cron(CronExpression.EVERY_10_SECONDS)
+  // async handleAmericaMorningCron() {
+  //   await this.emitEventToTriggerWorker();
+  // }
 }
