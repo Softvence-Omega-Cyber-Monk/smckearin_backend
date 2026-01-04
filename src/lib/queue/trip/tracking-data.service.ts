@@ -59,7 +59,7 @@ export class TrackingDataService {
     private readonly googleMaps: GoogleMapsService,
     private readonly routeCalculation: RouteCalculationService,
     private readonly weatherService: WeatherService,
-  ) { }
+  ) {}
 
   /**
    * Get enriched live tracking data for a transport
@@ -272,7 +272,10 @@ export class TrackingDataService {
         pointsToFetch.push({
           lat: milestone.latitude,
           lng: milestone.longitude,
-          name: shortName.length > 25 ? `En Route: ${shortName.substring(0, 22)}...` : `En Route: ${shortName}`,
+          name:
+            shortName.length > 25
+              ? `En Route: ${shortName.substring(0, 22)}...`
+              : `En Route: ${shortName}`,
           role: 'en-route',
         });
       }
@@ -303,7 +306,7 @@ export class TrackingDataService {
           };
         }
       } catch (e) {
-        // Ignore error
+        this.logger.warn(`Failed to fetch weather for ${point.name}`, e);
       }
 
       // Fallback for critical points (Always show Current and Dropoff)

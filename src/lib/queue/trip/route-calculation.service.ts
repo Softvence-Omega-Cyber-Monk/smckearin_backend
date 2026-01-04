@@ -25,7 +25,7 @@ export class RouteCalculationService {
   constructor(
     private readonly googleMaps: GoogleMapsService,
     private readonly trackingHelper: TrackingHelperService,
-  ) { }
+  ) {}
 
   /**
    * Calculate route from current location to drop-off
@@ -338,21 +338,14 @@ export class RouteCalculationService {
       );
       return Array.from({ length: milestoneCount }, (_, index) => {
         const ratio = (index + 1) / milestoneCount;
-        // Approximation for fallback
-        // We really can't guess coordinates easily without context, but strictly for
-        // interface compliance we can interpolate linearly or omit. Omit is safer unless we need them.
-        // But for weather we need them. Let's interpolate linearly from current to dropoff.
-        // Use "route" variable if available? No, this is "no steps" block.
-        // We don't have lat/lng passed into generateMilestones easily for interpolation here
-        // without adding arguments.
-        // Let's modify generateMilestones signature later if needed, but for now fallback can serve null.
+        this.logger.log(`Generating milestone ${index + 1} at ratio ${ratio}`);
         return {
           name: `Milestone ${index + 1}`,
           distanceFromPickup: ((index + 1) * totalDistance) / milestoneCount,
           eta: new Date(
             Date.now() +
-            ((index + 1) * estimatedTimeRemainingMinutes * 60000) /
-            milestoneCount,
+              ((index + 1) * estimatedTimeRemainingMinutes * 60000) /
+                milestoneCount,
           ),
         };
       });
@@ -415,8 +408,8 @@ export class RouteCalculationService {
         distanceFromPickup: ((index + 1) * totalDistance) / milestoneCount,
         eta: new Date(
           Date.now() +
-          ((index + 1) * estimatedTimeRemainingMinutes * 60000) /
-          milestoneCount,
+            ((index + 1) * estimatedTimeRemainingMinutes * 60000) /
+              milestoneCount,
         ),
         latitude: lat,
         longitude: lng,
