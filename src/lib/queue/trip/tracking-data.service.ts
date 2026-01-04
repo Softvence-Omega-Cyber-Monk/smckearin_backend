@@ -1,6 +1,7 @@
 import { errorResponse } from '@/common/utils/response.util';
 import { GoogleMapsService } from '@/lib/google-maps/google-maps.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { WeatherService } from '@/lib/weather/weather.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { RouteCalculationService } from './route-calculation.service';
 
@@ -37,6 +38,12 @@ export interface LiveTrackingData {
     distanceFromPickup: number;
     eta: Date | null;
   }>;
+  weatherUpdates: Array<{
+    location: string;
+    condition: string;
+    temperature: number;
+    timestamp: Date;
+  }>;
   timeLine: any[];
   shelterId: string;
   shelterName?: string;
@@ -51,6 +58,7 @@ export class TrackingDataService {
     private readonly prisma: PrismaService,
     private readonly googleMaps: GoogleMapsService,
     private readonly routeCalculation: RouteCalculationService,
+    private readonly weatherService: WeatherService,
   ) {}
 
   /**
@@ -117,7 +125,15 @@ export class TrackingDataService {
         driver?.currentLongitude ?? undefined,
       );
 
-      // 4. Filter Timeline (Keep discrete status changes + first/last in-transit)
+      // 4. Get Weather Updates
+      const weatherUpdates = await this.getWeatherUpdates(
+        currentLat,
+        currentLng,
+        dropOffLatitude,
+        dropOffLongitude,
+      );
+
+      // 5. Filter Timeline (Keep discrete status changes + first/last in-transit)
       const finalTimeline = this.filterTimeline(
         transport.transportTimelines ?? [],
       );
@@ -163,6 +179,7 @@ export class TrackingDataService {
         estimatedDropOffTime: routeData.estimatedDropOffTime,
 
         milestones: routeData.milestones,
+        weatherUpdates,
 
         timeLine: finalTimeline,
 
@@ -206,6 +223,55 @@ export class TrackingDataService {
       this.logger.warn('Failed to reverse geocode location', e);
       return null;
     }
+  }
+
+  /**
+   * Get weather updates using WeatherService
+   */
+  private async getWeatherUpdates(
+    currentLat: number,
+    currentLng: number,
+    dropOffLat: number,
+    dropOffLng: number,
+  ): Promise<
+    Array<{
+      location: string;
+      condition: string;
+      temperature: number;
+      timestamp: Date;
+    }>
+  > {
+    const updates = [];
+
+    // Current Location Weather
+    const currentInfo = await this.weatherService.getCurrentWeather(
+      currentLat,
+      currentLng,
+    );
+    if (currentInfo) {
+      updates.push({
+        location: 'Current Location',
+        condition: currentInfo.condition,
+        temperature: currentInfo.temperature,
+        timestamp: new Date(),
+      });
+    }
+
+    // Drop-off Location Weather
+    const destInfo = await this.weatherService.getCurrentWeather(
+      dropOffLat,
+      dropOffLng,
+    );
+    if (destInfo) {
+      updates.push({
+        location: 'Drop-off Location',
+        condition: destInfo.condition,
+        temperature: destInfo.temperature,
+        timestamp: new Date(),
+      });
+    }
+
+    return updates;
   }
 
   /**
