@@ -12,6 +12,8 @@ export interface RouteCalculationResult {
     name: string;
     distanceFromPickup: number;
     eta: Date | null;
+    latitude?: number;
+    longitude?: number;
   }>;
   estimatedTimeRemainingMinutes: number;
 }
@@ -23,7 +25,7 @@ export class RouteCalculationService {
   constructor(
     private readonly googleMaps: GoogleMapsService,
     private readonly trackingHelper: TrackingHelperService,
-  ) {}
+  ) { }
 
   /**
    * Calculate route from current location to drop-off
@@ -266,7 +268,13 @@ export class RouteCalculationService {
     route: any,
     totalDistance: number,
     estimatedTimeRemainingMinutes: number,
-  ): Array<{ name: string; distanceFromPickup: number; eta: Date | null }> {
+  ): Array<{
+    name: string;
+    distanceFromPickup: number;
+    eta: Date | null;
+    latitude?: number;
+    longitude?: number;
+  }> {
     const steps = leg?.steps ?? route.legs?.[0]?.steps ?? [];
 
     if (steps && steps.length > 0) {
@@ -318,6 +326,8 @@ export class RouteCalculationService {
             accumulatedTime > 0
               ? new Date(Date.now() + accumulatedTime * 1000)
               : null,
+          latitude: step.startLocation?.latLng?.latitude,
+          longitude: step.startLocation?.latLng?.longitude,
         };
       });
     } else {
@@ -326,15 +336,26 @@ export class RouteCalculationService {
       this.logger.log(
         `No steps available, generating ${milestoneCount} fallback milestones based on total distance: ${totalDistance}m`,
       );
-      return Array.from({ length: milestoneCount }, (_, index) => ({
-        name: `Milestone ${index + 1}`,
-        distanceFromPickup: ((index + 1) * totalDistance) / milestoneCount,
-        eta: new Date(
-          Date.now() +
+      return Array.from({ length: milestoneCount }, (_, index) => {
+        const ratio = (index + 1) / milestoneCount;
+        // Approximation for fallback
+        // We really can't guess coordinates easily without context, but strictly for
+        // interface compliance we can interpolate linearly or omit. Omit is safer unless we need them.
+        // But for weather we need them. Let's interpolate linearly from current to dropoff.
+        // Use "route" variable if available? No, this is "no steps" block.
+        // We don't have lat/lng passed into generateMilestones easily for interpolation here
+        // without adding arguments.
+        // Let's modify generateMilestones signature later if needed, but for now fallback can serve null.
+        return {
+          name: `Milestone ${index + 1}`,
+          distanceFromPickup: ((index + 1) * totalDistance) / milestoneCount,
+          eta: new Date(
+            Date.now() +
             ((index + 1) * estimatedTimeRemainingMinutes * 60000) /
-              milestoneCount,
-        ),
-      }));
+            milestoneCount,
+          ),
+        };
+      });
     }
   }
 
@@ -384,15 +405,23 @@ export class RouteCalculationService {
 
     // Generate fallback milestones when using air distance
     const milestoneCount = Math.min(5, Math.ceil(totalDistance / 10000)); // One milestone per ~10km
-    const milestones = Array.from({ length: milestoneCount }, (_, index) => ({
-      name: `Milestone ${index + 1}`,
-      distanceFromPickup: ((index + 1) * totalDistance) / milestoneCount,
-      eta: new Date(
-        Date.now() +
+    const milestones = Array.from({ length: milestoneCount }, (_, index) => {
+      const ratio = (index + 1) / milestoneCount;
+      const lat = currentLat + (dropOffLatitude - currentLat) * ratio;
+      const lng = currentLng + (dropOffLongitude - currentLng) * ratio;
+
+      return {
+        name: `Milestone ${index + 1}`,
+        distanceFromPickup: ((index + 1) * totalDistance) / milestoneCount,
+        eta: new Date(
+          Date.now() +
           ((index + 1) * estimatedTimeRemainingMinutes * 60000) /
-            milestoneCount,
-      ),
-    }));
+          milestoneCount,
+        ),
+        latitude: lat,
+        longitude: lng,
+      };
+    });
 
     // Calculate Progress
     const distanceTraveled = Math.max(0, totalDistance - distanceRemaining);

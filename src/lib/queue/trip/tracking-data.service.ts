@@ -41,7 +41,7 @@ export interface LiveTrackingData {
   weatherUpdates: Array<{
     location: string;
     condition: string;
-    temperature: number;
+    temperature: number | null;
     timestamp: Date;
   }>;
   timeLine: any[];
@@ -59,7 +59,7 @@ export class TrackingDataService {
     private readonly googleMaps: GoogleMapsService,
     private readonly routeCalculation: RouteCalculationService,
     private readonly weatherService: WeatherService,
-  ) {}
+  ) { }
 
   /**
    * Get enriched live tracking data for a transport
@@ -131,6 +131,9 @@ export class TrackingDataService {
         currentLng,
         dropOffLatitude,
         dropOffLongitude,
+        location, // driver location name
+        transport.dropOffLocation, // dropoff location name
+        routeData.milestones,
       );
 
       // 5. Filter Timeline (Keep discrete status changes + first/last in-transit)
@@ -141,7 +144,7 @@ export class TrackingDataService {
       const result: LiveTrackingData = {
         transportId: transport.id,
 
-        animalId: transport.animalId,
+        animalId: transport.animal?.id,
         animalName: transport.animal?.name,
         animalBreed: transport.animal?.breed,
 
@@ -227,51 +230,97 @@ export class TrackingDataService {
 
   /**
    * Get weather updates using WeatherService
+   * Fetches for Current, Dropoff, and up to 3 intermediate milestones
    */
   private async getWeatherUpdates(
     currentLat: number,
     currentLng: number,
     dropOffLat: number,
     dropOffLng: number,
-  ): Promise<
-    Array<{
-      location: string;
-      condition: string;
-      temperature: number;
-      timestamp: Date;
-    }>
-  > {
-    const updates = [];
+    currentLocationName: string | null = null,
+    dropOffLocationName: string | null = null,
+    milestones: any[] = [],
+  ) {
+    const pointsToFetch: Array<{
+      lat: number;
+      lng: number;
+      name: string;
+      role: 'current' | 'dropoff' | 'en-route';
+    }> = [];
 
-    // Current Location Weather
-    const currentInfo = await this.weatherService.getCurrentWeather(
-      currentLat,
-      currentLng,
-    );
-    if (currentInfo) {
-      updates.push({
-        location: 'Current Location',
-        condition: currentInfo.condition,
-        temperature: currentInfo.temperature,
-        timestamp: new Date(),
-      });
+    // 1. Current Location
+    pointsToFetch.push({
+      lat: currentLat,
+      lng: currentLng,
+      name: `Current - ${currentLocationName}` || 'Current Location',
+      role: 'current',
+    });
+
+    // 2. Intermediate Points (from milestones)
+    // Filter milestones that have lat/lng
+    const validMilestones = milestones.filter((m) => m.latitude && m.longitude);
+
+    if (validMilestones.length > 0) {
+      // Pick up to 3 points distributed evenly
+      // e.g. for length 10: indices 2, 5, 8
+      const count = Math.min(3, validMilestones.length);
+      for (let i = 1; i <= count; i++) {
+        const index = Math.floor((validMilestones.length * i) / (count + 1));
+        const milestone = validMilestones[index];
+        // Clean up name for display
+        const shortName = milestone.name.replace(/<[^>]*>?/gm, '');
+        pointsToFetch.push({
+          lat: milestone.latitude,
+          lng: milestone.longitude,
+          name: shortName.length > 25 ? `En Route: ${shortName.substring(0, 22)}...` : `En Route: ${shortName}`,
+          role: 'en-route',
+        });
+      }
     }
 
-    // Drop-off Location Weather
-    const destInfo = await this.weatherService.getCurrentWeather(
-      dropOffLat,
-      dropOffLng,
-    );
-    if (destInfo) {
-      updates.push({
-        location: 'Drop-off Location',
-        condition: destInfo.condition,
-        temperature: destInfo.temperature,
-        timestamp: new Date(),
-      });
-    }
+    // 3. Drop-off Location
+    pointsToFetch.push({
+      lat: dropOffLat,
+      lng: dropOffLng,
+      name: `Drop-off - ${dropOffLocationName}` || 'Drop-off Location',
+      role: 'dropoff',
+    });
 
-    return updates;
+    // Fetch all in parallel
+    const promises = pointsToFetch.map(async (point) => {
+      try {
+        const weather = await this.weatherService.getCurrentWeather(
+          point.lat,
+          point.lng,
+        );
+
+        if (weather) {
+          return {
+            location: point.name,
+            condition: weather.condition,
+            temperature: weather.temperature,
+            timestamp: new Date(),
+          };
+        }
+      } catch (e) {
+        // Ignore error
+      }
+
+      // Fallback for critical points (Always show Current and Dropoff)
+      if (point.role === 'current' || point.role === 'dropoff') {
+        return {
+          location: point.name,
+          condition: 'Unavailable',
+          temperature: null, // explicit null
+          timestamp: new Date(),
+        };
+      }
+
+      return null;
+    });
+
+    const results = await Promise.all(promises);
+    return results.filter((r) => r !== null);
   }
 
   /**
