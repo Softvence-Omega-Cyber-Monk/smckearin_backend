@@ -5,7 +5,15 @@ import {
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { ApprovalStatus, Driver, FileInstance, Prisma, User } from '@prisma';
+import {
+  Animal,
+  ApprovalStatus,
+  Driver,
+  FileInstance,
+  Prisma,
+  Transport,
+  User,
+} from '@prisma';
 import { GetApprovedDrivers, GetDriversDto } from '../dto/get-drivers.dto';
 
 type DriverWithFiles = Driver & {
@@ -13,6 +21,7 @@ type DriverWithFiles = Driver & {
   driverLicense: FileInstance | null;
   vehicleRegistration: FileInstance | null;
   transportCertificate: FileInstance | null;
+  transports?: (Transport & { animal: Animal })[];
 };
 
 @Injectable()
@@ -67,6 +76,15 @@ export class GetDriverService {
           driverLicense: true,
           vehicleRegistration: true,
           transportCertificate: true,
+          transports: {
+            include: {
+              animal: true,
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+            take: 5,
+          },
         },
       }),
       this.prisma.client.driver.count({ where }),
@@ -97,6 +115,14 @@ export class GetDriverService {
               profilePicture: true,
             },
           },
+          transports: {
+            include: {
+              animal: true,
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          },
           driverLicense: true,
           vehicleRegistration: true,
           transportCertificate: true,
@@ -113,6 +139,38 @@ export class GetDriverService {
     const vehicleRegistrationUrl = driver.vehicleRegistrationUrl ?? null;
     const transportCertificateUrl = driver.transportCertificateUrl ?? null;
 
+    // Calculate stats
+    const totalAssigned = driver.transports?.length || 0;
+    const completedTrips =
+      driver.transports?.filter((t) => t.status === 'COMPLETED') ?? [];
+    const totalTrips = completedTrips.length;
+
+    // Completion Rate = (Completed / Total Assigned) * 100
+    // If no trips assigned, rate is 0 (or 100? usually 0 if no history)
+    const completionRate =
+      totalAssigned > 0 ? Math.round((totalTrips / totalAssigned) * 100) : 0;
+
+    // On-Time Rate
+    // Based on completed trips where completedAt <= transPortDate (plus small buffer if needed, but strict for now)
+    const onTimeTrips = completedTrips.filter((t) => {
+      if (!t.completedAt) return false;
+      // Allow 15 mins buffer? or strict? strict for now as per user request for "real data"
+      return (
+        new Date(t.completedAt).getTime() <= new Date(t.transPortDate).getTime()
+      );
+    }).length;
+
+    const onTimeRate =
+      totalTrips > 0 ? Math.round((onTimeTrips / totalTrips) * 100) : 0;
+
+    const recentTrips =
+      driver.transports?.slice(0, 5).map((t) => ({
+        id: t.id,
+        pet: t.animal?.name || 'Unknown Pet',
+        date: t.transPortDate.toISOString().split('T')[0],
+        status: t.status,
+      })) || [];
+
     return {
       driverId: driver.id,
       userId: driver.user?.id,
@@ -123,6 +181,7 @@ export class GetDriverService {
       userPhone: driver.phone,
       state: driver.state,
       address: driver.address,
+      workingDays: driver.workingDays,
       vehicleType: driver.vehicleType,
       vehicleCapacity: driver.vehicleCapacity,
       yearsOfExperience: driver.yearsOfExperience,
@@ -132,6 +191,12 @@ export class GetDriverService {
       status: driver.status,
       createdAt: driver.createdAt,
       updatedAt: driver.updatedAt,
+      // Stats
+      trips: totalTrips,
+      completionRate,
+      onTimeRate,
+      recentTrips,
+      // Documents
       needsDriverLicense: !driverLicenseUrl,
       driverLicense: {
         type: 'Driver License',
