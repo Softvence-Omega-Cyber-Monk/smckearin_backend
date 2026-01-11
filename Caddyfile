@@ -1,6 +1,4 @@
 api.rescuetransit.ai {
-  # tls internal
-
   handle /pgadmin* {
     reverse_proxy pgadmin:80 {
       header_up X-Real-IP {remote}
@@ -32,9 +30,7 @@ api.rescuetransit.ai {
   }
 }
 
-rescuetransit.ai {
-  # tls internal
-
+rescuetransit.ai www.rescuetransit.ai {
   root * /var/www/html/dist
   try_files {path} /index.html
   file_server
