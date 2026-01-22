@@ -1,3 +1,4 @@
+# API Subdomain
 api.rescuetransit.ai {
   handle /pgadmin* {
     reverse_proxy pgadmin:80 {
@@ -30,6 +31,7 @@ api.rescuetransit.ai {
   }
 }
 
+# Primary website
 rescuetransit.ai www.rescuetransit.ai {
   root * /var/www/html/dist
   try_files {path} /index.html
@@ -38,4 +40,9 @@ rescuetransit.ai www.rescuetransit.ai {
     Cache-Control "public, max-age=31536000, immutable"
   }
   encode gzip
+}
+
+# Secondary domains → redirect to primary
+rescuetransit.com www.rescuetransit.com rescuetransit.org www.rescuetransit.org {
+  redir https://rescuetransit.ai{uri} 301
 }
