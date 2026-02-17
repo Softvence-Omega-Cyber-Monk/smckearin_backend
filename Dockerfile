@@ -21,6 +21,9 @@ RUN pnpm config set allowed-builds '*' -g
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
+# Generate Prisma Client
+RUN pnpm prisma generate
+
 # Copy rest of the project files
 COPY . .
 
