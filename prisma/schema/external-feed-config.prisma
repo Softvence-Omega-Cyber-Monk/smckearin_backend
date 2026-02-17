@@ -1,0 +1,25 @@
+model ExternalFeedConfig {
+  id String @id @default(uuid())
+
+  name     String // e.g., "24PetConnect Feed"
+  provider String // e.g., "24PETCONNECT", "ADOPT_A_PET"
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  apiUrl      String
+  apiKey      String?
+  credentials Json? // For auth if needed
+
+  pollInterval Int @default(3600) // Seconds between polls (default 1 hour)
+
+  lastSyncAt     DateTime?
+  lastSyncStatus String? // "SUCCESS", "FAILED", "PARTIAL"
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("external_feed_configs")
+}

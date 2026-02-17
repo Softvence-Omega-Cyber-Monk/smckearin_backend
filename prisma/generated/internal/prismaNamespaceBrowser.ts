@@ -56,8 +56,10 @@ export const ModelName = {
   UserOtp: 'UserOtp',
   RefreshToken: 'RefreshToken',
   Driver: 'Driver',
+  ExternalFeedConfig: 'ExternalFeedConfig',
   FileInstance: 'FileInstance',
   HealthReport: 'HealthReport',
+  ImportMapping: 'ImportMapping',
   Notification: 'Notification',
   UserNotification: 'UserNotification',
   NotificationSettings: 'NotificationSettings',
@@ -70,6 +72,7 @@ export const ModelName = {
   Shelter: 'Shelter',
   ShelterDocument: 'ShelterDocument',
   Transaction: 'Transaction',
+  TransportBatch: 'TransportBatch',
   Transport: 'Transport',
   TransportTimeline: 'TransportTimeline',
   User: 'User',
@@ -85,12 +88,12 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
  * Enums
  */
 
-export const TransactionIsolationLevel = {
+export const TransactionIsolationLevel = runtime.makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
-} as const
+} as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
@@ -125,6 +128,20 @@ export const AnimalScalarFieldEnum = {
   imageId: 'imageId',
   imageUrl: 'imageUrl',
   status: 'status',
+  externalAnimalId: 'externalAnimalId',
+  intakeType: 'intakeType',
+  intakeDate: 'intakeDate',
+  medicalHoldFlag: 'medicalHoldFlag',
+  quarantineStatus: 'quarantineStatus',
+  vaccinationsUpToDate: 'vaccinationsUpToDate',
+  rabiesExpiration: 'rabiesExpiration',
+  heartwormStatus: 'heartwormStatus',
+  specialNeedsFlag: 'specialNeedsFlag',
+  clearedForTransport: 'clearedForTransport',
+  priorityScore: 'priorityScore',
+  lengthOfStayDays: 'lengthOfStayDays',
+  lastScoreUpdate: 'lastScoreUpdate',
+  crateUnits: 'crateUnits',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -193,6 +210,25 @@ export const DriverScalarFieldEnum = {
 export type DriverScalarFieldEnum = (typeof DriverScalarFieldEnum)[keyof typeof DriverScalarFieldEnum]
 
 
+export const ExternalFeedConfigScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  provider: 'provider',
+  shelterId: 'shelterId',
+  apiUrl: 'apiUrl',
+  apiKey: 'apiKey',
+  credentials: 'credentials',
+  pollInterval: 'pollInterval',
+  lastSyncAt: 'lastSyncAt',
+  lastSyncStatus: 'lastSyncStatus',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExternalFeedConfigScalarFieldEnum = (typeof ExternalFeedConfigScalarFieldEnum)[keyof typeof ExternalFeedConfigScalarFieldEnum]
+
+
 export const FileInstanceScalarFieldEnum = {
   id: 'id',
   filename: 'filename',
@@ -223,6 +259,21 @@ export const HealthReportScalarFieldEnum = {
 } as const
 
 export type HealthReportScalarFieldEnum = (typeof HealthReportScalarFieldEnum)[keyof typeof HealthReportScalarFieldEnum]
+
+
+export const ImportMappingScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  shelterId: 'shelterId',
+  fieldMapping: 'fieldMapping',
+  transformations: 'transformations',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ImportMappingScalarFieldEnum = (typeof ImportMappingScalarFieldEnum)[keyof typeof ImportMappingScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
@@ -371,6 +422,13 @@ export const ShelterScalarFieldEnum = {
   status: 'status',
   stripeCustomerId: 'stripeCustomerId',
   stripeDefaultPaymentMethodId: 'stripeDefaultPaymentMethodId',
+  totalKennels: 'totalKennels',
+  openKennels: 'openKennels',
+  currentUtilization: 'currentUtilization',
+  acceptsSpecies: 'acceptsSpecies',
+  acceptsSizes: 'acceptsSizes',
+  acceptsBreeds: 'acceptsBreeds',
+  restrictedBreeds: 'restrictedBreeds',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -406,6 +464,26 @@ export const TransactionScalarFieldEnum = {
 } as const
 
 export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+export const TransportBatchScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  originShelterId: 'originShelterId',
+  destinationShelterId: 'destinationShelterId',
+  vehicleCapacity: 'vehicleCapacity',
+  selectedAnimalIds: 'selectedAnimalIds',
+  totalPriorityScore: 'totalPriorityScore',
+  totalCrateUnits: 'totalCrateUnits',
+  estimatedCost: 'estimatedCost',
+  optimizationLog: 'optimizationLog',
+  status: 'status',
+  executedAt: 'executedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TransportBatchScalarFieldEnum = (typeof TransportBatchScalarFieldEnum)[keyof typeof TransportBatchScalarFieldEnum]
 
 
 export const TransportScalarFieldEnum = {
@@ -542,8 +620,16 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const JsonNullValueInput = {
-  JsonNull: 'JsonNull'
+  JsonNull: JsonNull
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
@@ -566,9 +652,9 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const JsonNullValueFilter = {
-  DbNull: 'DbNull',
-  JsonNull: 'JsonNull',
-  AnyNull: 'AnyNull'
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
 } as const
 
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]

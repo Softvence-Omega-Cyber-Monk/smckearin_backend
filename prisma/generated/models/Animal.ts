@@ -29,11 +29,17 @@ export type AggregateAnimal = {
 export type AnimalAvgAggregateOutputType = {
   age: number | null
   weight: number | null
+  priorityScore: number | null
+  lengthOfStayDays: number | null
+  crateUnits: number | null
 }
 
 export type AnimalSumAggregateOutputType = {
   age: number | null
   weight: number | null
+  priorityScore: number | null
+  lengthOfStayDays: number | null
+  crateUnits: number | null
 }
 
 export type AnimalMinAggregateOutputType = {
@@ -54,6 +60,20 @@ export type AnimalMinAggregateOutputType = {
   imageId: string | null
   imageUrl: string | null
   status: $Enums.Status | null
+  externalAnimalId: string | null
+  intakeType: string | null
+  intakeDate: Date | null
+  medicalHoldFlag: boolean | null
+  quarantineStatus: $Enums.QuarantineStatus | null
+  vaccinationsUpToDate: boolean | null
+  rabiesExpiration: Date | null
+  heartwormStatus: $Enums.HeartwormStatus | null
+  specialNeedsFlag: boolean | null
+  clearedForTransport: boolean | null
+  priorityScore: number | null
+  lengthOfStayDays: number | null
+  lastScoreUpdate: Date | null
+  crateUnits: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -76,6 +96,20 @@ export type AnimalMaxAggregateOutputType = {
   imageId: string | null
   imageUrl: string | null
   status: $Enums.Status | null
+  externalAnimalId: string | null
+  intakeType: string | null
+  intakeDate: Date | null
+  medicalHoldFlag: boolean | null
+  quarantineStatus: $Enums.QuarantineStatus | null
+  vaccinationsUpToDate: boolean | null
+  rabiesExpiration: Date | null
+  heartwormStatus: $Enums.HeartwormStatus | null
+  specialNeedsFlag: boolean | null
+  clearedForTransport: boolean | null
+  priorityScore: number | null
+  lengthOfStayDays: number | null
+  lastScoreUpdate: Date | null
+  crateUnits: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -98,6 +132,20 @@ export type AnimalCountAggregateOutputType = {
   imageId: number
   imageUrl: number
   status: number
+  externalAnimalId: number
+  intakeType: number
+  intakeDate: number
+  medicalHoldFlag: number
+  quarantineStatus: number
+  vaccinationsUpToDate: number
+  rabiesExpiration: number
+  heartwormStatus: number
+  specialNeedsFlag: number
+  clearedForTransport: number
+  priorityScore: number
+  lengthOfStayDays: number
+  lastScoreUpdate: number
+  crateUnits: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -107,11 +155,17 @@ export type AnimalCountAggregateOutputType = {
 export type AnimalAvgAggregateInputType = {
   age?: true
   weight?: true
+  priorityScore?: true
+  lengthOfStayDays?: true
+  crateUnits?: true
 }
 
 export type AnimalSumAggregateInputType = {
   age?: true
   weight?: true
+  priorityScore?: true
+  lengthOfStayDays?: true
+  crateUnits?: true
 }
 
 export type AnimalMinAggregateInputType = {
@@ -132,6 +186,20 @@ export type AnimalMinAggregateInputType = {
   imageId?: true
   imageUrl?: true
   status?: true
+  externalAnimalId?: true
+  intakeType?: true
+  intakeDate?: true
+  medicalHoldFlag?: true
+  quarantineStatus?: true
+  vaccinationsUpToDate?: true
+  rabiesExpiration?: true
+  heartwormStatus?: true
+  specialNeedsFlag?: true
+  clearedForTransport?: true
+  priorityScore?: true
+  lengthOfStayDays?: true
+  lastScoreUpdate?: true
+  crateUnits?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -154,6 +222,20 @@ export type AnimalMaxAggregateInputType = {
   imageId?: true
   imageUrl?: true
   status?: true
+  externalAnimalId?: true
+  intakeType?: true
+  intakeDate?: true
+  medicalHoldFlag?: true
+  quarantineStatus?: true
+  vaccinationsUpToDate?: true
+  rabiesExpiration?: true
+  heartwormStatus?: true
+  specialNeedsFlag?: true
+  clearedForTransport?: true
+  priorityScore?: true
+  lengthOfStayDays?: true
+  lastScoreUpdate?: true
+  crateUnits?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -176,6 +258,20 @@ export type AnimalCountAggregateInputType = {
   imageId?: true
   imageUrl?: true
   status?: true
+  externalAnimalId?: true
+  intakeType?: true
+  intakeDate?: true
+  medicalHoldFlag?: true
+  quarantineStatus?: true
+  vaccinationsUpToDate?: true
+  rabiesExpiration?: true
+  heartwormStatus?: true
+  specialNeedsFlag?: true
+  clearedForTransport?: true
+  priorityScore?: true
+  lengthOfStayDays?: true
+  lastScoreUpdate?: true
+  crateUnits?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -285,6 +381,20 @@ export type AnimalGroupByOutputType = {
   imageId: string | null
   imageUrl: string | null
   status: $Enums.Status
+  externalAnimalId: string | null
+  intakeType: string | null
+  intakeDate: Date | null
+  medicalHoldFlag: boolean
+  quarantineStatus: $Enums.QuarantineStatus
+  vaccinationsUpToDate: boolean
+  rabiesExpiration: Date | null
+  heartwormStatus: $Enums.HeartwormStatus | null
+  specialNeedsFlag: boolean
+  clearedForTransport: boolean
+  priorityScore: number
+  lengthOfStayDays: number
+  lastScoreUpdate: Date | null
+  crateUnits: number
   createdAt: Date
   updatedAt: Date
   _count: AnimalCountAggregateOutputType | null
@@ -330,6 +440,20 @@ export type AnimalWhereInput = {
   imageId?: Prisma.StringNullableFilter<"Animal"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Animal"> | string | null
   status?: Prisma.EnumStatusFilter<"Animal"> | $Enums.Status
+  externalAnimalId?: Prisma.StringNullableFilter<"Animal"> | string | null
+  intakeType?: Prisma.StringNullableFilter<"Animal"> | string | null
+  intakeDate?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFilter<"Animal"> | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFilter<"Animal"> | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFilter<"Animal"> | boolean
+  rabiesExpiration?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
+  heartwormStatus?: Prisma.EnumHeartwormStatusNullableFilter<"Animal"> | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFilter<"Animal"> | boolean
+  clearedForTransport?: Prisma.BoolFilter<"Animal"> | boolean
+  priorityScore?: Prisma.FloatFilter<"Animal"> | number
+  lengthOfStayDays?: Prisma.IntFilter<"Animal"> | number
+  lastScoreUpdate?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
+  crateUnits?: Prisma.FloatFilter<"Animal"> | number
   createdAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
   bondedWith?: Prisma.XOR<Prisma.AnimalNullableScalarRelationFilter, Prisma.AnimalWhereInput> | null
@@ -359,6 +483,20 @@ export type AnimalOrderByWithRelationInput = {
   imageId?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  externalAnimalId?: Prisma.SortOrderInput | Prisma.SortOrder
+  intakeType?: Prisma.SortOrderInput | Prisma.SortOrder
+  intakeDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  medicalHoldFlag?: Prisma.SortOrder
+  quarantineStatus?: Prisma.SortOrder
+  vaccinationsUpToDate?: Prisma.SortOrder
+  rabiesExpiration?: Prisma.SortOrderInput | Prisma.SortOrder
+  heartwormStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  specialNeedsFlag?: Prisma.SortOrder
+  clearedForTransport?: Prisma.SortOrder
+  priorityScore?: Prisma.SortOrder
+  lengthOfStayDays?: Prisma.SortOrder
+  lastScoreUpdate?: Prisma.SortOrderInput | Prisma.SortOrder
+  crateUnits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   bondedWith?: Prisma.AnimalOrderByWithRelationInput
@@ -373,6 +511,7 @@ export type AnimalOrderByWithRelationInput = {
 export type AnimalWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   imageId?: string
+  externalAnimalId?: string
   AND?: Prisma.AnimalWhereInput | Prisma.AnimalWhereInput[]
   OR?: Prisma.AnimalWhereInput[]
   NOT?: Prisma.AnimalWhereInput | Prisma.AnimalWhereInput[]
@@ -391,6 +530,19 @@ export type AnimalWhereUniqueInput = Prisma.AtLeast<{
   shelterId?: Prisma.StringNullableFilter<"Animal"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Animal"> | string | null
   status?: Prisma.EnumStatusFilter<"Animal"> | $Enums.Status
+  intakeType?: Prisma.StringNullableFilter<"Animal"> | string | null
+  intakeDate?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFilter<"Animal"> | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFilter<"Animal"> | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFilter<"Animal"> | boolean
+  rabiesExpiration?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
+  heartwormStatus?: Prisma.EnumHeartwormStatusNullableFilter<"Animal"> | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFilter<"Animal"> | boolean
+  clearedForTransport?: Prisma.BoolFilter<"Animal"> | boolean
+  priorityScore?: Prisma.FloatFilter<"Animal"> | number
+  lengthOfStayDays?: Prisma.IntFilter<"Animal"> | number
+  lastScoreUpdate?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
+  crateUnits?: Prisma.FloatFilter<"Animal"> | number
   createdAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
   bondedWith?: Prisma.XOR<Prisma.AnimalNullableScalarRelationFilter, Prisma.AnimalWhereInput> | null
@@ -400,7 +552,7 @@ export type AnimalWhereUniqueInput = Prisma.AtLeast<{
   transports?: Prisma.TransportListRelationFilter
   transportsAsBondedPair?: Prisma.TransportListRelationFilter
   healthReports?: Prisma.HealthReportListRelationFilter
-}, "id" | "imageId">
+}, "id" | "imageId" | "externalAnimalId">
 
 export type AnimalOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -420,6 +572,20 @@ export type AnimalOrderByWithAggregationInput = {
   imageId?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  externalAnimalId?: Prisma.SortOrderInput | Prisma.SortOrder
+  intakeType?: Prisma.SortOrderInput | Prisma.SortOrder
+  intakeDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  medicalHoldFlag?: Prisma.SortOrder
+  quarantineStatus?: Prisma.SortOrder
+  vaccinationsUpToDate?: Prisma.SortOrder
+  rabiesExpiration?: Prisma.SortOrderInput | Prisma.SortOrder
+  heartwormStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  specialNeedsFlag?: Prisma.SortOrder
+  clearedForTransport?: Prisma.SortOrder
+  priorityScore?: Prisma.SortOrder
+  lengthOfStayDays?: Prisma.SortOrder
+  lastScoreUpdate?: Prisma.SortOrderInput | Prisma.SortOrder
+  crateUnits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.AnimalCountOrderByAggregateInput
@@ -450,6 +616,20 @@ export type AnimalScalarWhereWithAggregatesInput = {
   imageId?: Prisma.StringNullableWithAggregatesFilter<"Animal"> | string | null
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Animal"> | string | null
   status?: Prisma.EnumStatusWithAggregatesFilter<"Animal"> | $Enums.Status
+  externalAnimalId?: Prisma.StringNullableWithAggregatesFilter<"Animal"> | string | null
+  intakeType?: Prisma.StringNullableWithAggregatesFilter<"Animal"> | string | null
+  intakeDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Animal"> | Date | string | null
+  medicalHoldFlag?: Prisma.BoolWithAggregatesFilter<"Animal"> | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusWithAggregatesFilter<"Animal"> | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolWithAggregatesFilter<"Animal"> | boolean
+  rabiesExpiration?: Prisma.DateTimeNullableWithAggregatesFilter<"Animal"> | Date | string | null
+  heartwormStatus?: Prisma.EnumHeartwormStatusNullableWithAggregatesFilter<"Animal"> | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolWithAggregatesFilter<"Animal"> | boolean
+  clearedForTransport?: Prisma.BoolWithAggregatesFilter<"Animal"> | boolean
+  priorityScore?: Prisma.FloatWithAggregatesFilter<"Animal"> | number
+  lengthOfStayDays?: Prisma.IntWithAggregatesFilter<"Animal"> | number
+  lastScoreUpdate?: Prisma.DateTimeNullableWithAggregatesFilter<"Animal"> | Date | string | null
+  crateUnits?: Prisma.FloatWithAggregatesFilter<"Animal"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Animal"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Animal"> | Date | string
 }
@@ -469,6 +649,20 @@ export type AnimalCreateInput = {
   complexityType?: $Enums.ComplexityType
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
@@ -498,6 +692,20 @@ export type AnimalUncheckedCreateInput = {
   imageId?: string | null
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
@@ -521,6 +729,20 @@ export type AnimalUpdateInput = {
   complexityType?: Prisma.EnumComplexityTypeFieldUpdateOperationsInput | $Enums.ComplexityType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
@@ -550,6 +772,20 @@ export type AnimalUncheckedUpdateInput = {
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
@@ -576,6 +812,20 @@ export type AnimalCreateManyInput = {
   imageId?: string | null
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -595,6 +845,20 @@ export type AnimalUpdateManyMutationInput = {
   complexityType?: Prisma.EnumComplexityTypeFieldUpdateOperationsInput | $Enums.ComplexityType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -617,6 +881,20 @@ export type AnimalUncheckedUpdateManyInput = {
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -654,6 +932,20 @@ export type AnimalCountOrderByAggregateInput = {
   imageId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  externalAnimalId?: Prisma.SortOrder
+  intakeType?: Prisma.SortOrder
+  intakeDate?: Prisma.SortOrder
+  medicalHoldFlag?: Prisma.SortOrder
+  quarantineStatus?: Prisma.SortOrder
+  vaccinationsUpToDate?: Prisma.SortOrder
+  rabiesExpiration?: Prisma.SortOrder
+  heartwormStatus?: Prisma.SortOrder
+  specialNeedsFlag?: Prisma.SortOrder
+  clearedForTransport?: Prisma.SortOrder
+  priorityScore?: Prisma.SortOrder
+  lengthOfStayDays?: Prisma.SortOrder
+  lastScoreUpdate?: Prisma.SortOrder
+  crateUnits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -661,6 +953,9 @@ export type AnimalCountOrderByAggregateInput = {
 export type AnimalAvgOrderByAggregateInput = {
   age?: Prisma.SortOrder
   weight?: Prisma.SortOrder
+  priorityScore?: Prisma.SortOrder
+  lengthOfStayDays?: Prisma.SortOrder
+  crateUnits?: Prisma.SortOrder
 }
 
 export type AnimalMaxOrderByAggregateInput = {
@@ -681,6 +976,20 @@ export type AnimalMaxOrderByAggregateInput = {
   imageId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  externalAnimalId?: Prisma.SortOrder
+  intakeType?: Prisma.SortOrder
+  intakeDate?: Prisma.SortOrder
+  medicalHoldFlag?: Prisma.SortOrder
+  quarantineStatus?: Prisma.SortOrder
+  vaccinationsUpToDate?: Prisma.SortOrder
+  rabiesExpiration?: Prisma.SortOrder
+  heartwormStatus?: Prisma.SortOrder
+  specialNeedsFlag?: Prisma.SortOrder
+  clearedForTransport?: Prisma.SortOrder
+  priorityScore?: Prisma.SortOrder
+  lengthOfStayDays?: Prisma.SortOrder
+  lastScoreUpdate?: Prisma.SortOrder
+  crateUnits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -703,6 +1012,20 @@ export type AnimalMinOrderByAggregateInput = {
   imageId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  externalAnimalId?: Prisma.SortOrder
+  intakeType?: Prisma.SortOrder
+  intakeDate?: Prisma.SortOrder
+  medicalHoldFlag?: Prisma.SortOrder
+  quarantineStatus?: Prisma.SortOrder
+  vaccinationsUpToDate?: Prisma.SortOrder
+  rabiesExpiration?: Prisma.SortOrder
+  heartwormStatus?: Prisma.SortOrder
+  specialNeedsFlag?: Prisma.SortOrder
+  clearedForTransport?: Prisma.SortOrder
+  priorityScore?: Prisma.SortOrder
+  lengthOfStayDays?: Prisma.SortOrder
+  lastScoreUpdate?: Prisma.SortOrder
+  crateUnits?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -710,6 +1033,9 @@ export type AnimalMinOrderByAggregateInput = {
 export type AnimalSumOrderByAggregateInput = {
   age?: Prisma.SortOrder
   weight?: Prisma.SortOrder
+  priorityScore?: Prisma.SortOrder
+  lengthOfStayDays?: Prisma.SortOrder
+  crateUnits?: Prisma.SortOrder
 }
 
 export type AnimalScalarRelationFilter = {
@@ -759,6 +1085,22 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type EnumStatusFieldUpdateOperationsInput = {
   set?: $Enums.Status
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type EnumQuarantineStatusFieldUpdateOperationsInput = {
+  set?: $Enums.QuarantineStatus
+}
+
+export type NullableEnumHeartwormStatusFieldUpdateOperationsInput = {
+  set?: $Enums.HeartwormStatus | null
 }
 
 export type AnimalUpdateOneWithoutBondedByNestedInput = {
@@ -932,6 +1274,20 @@ export type AnimalCreateWithoutBondedByInput = {
   complexityType?: $Enums.ComplexityType
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
@@ -960,6 +1316,20 @@ export type AnimalUncheckedCreateWithoutBondedByInput = {
   imageId?: string | null
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutAnimalInput
@@ -987,6 +1357,20 @@ export type AnimalCreateWithoutBondedWithInput = {
   complexityType?: $Enums.ComplexityType
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalCreateNestedManyWithoutBondedWithInput
@@ -1014,6 +1398,20 @@ export type AnimalUncheckedCreateWithoutBondedWithInput = {
   imageId?: string | null
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
@@ -1058,6 +1456,20 @@ export type AnimalUpdateWithoutBondedByInput = {
   complexityType?: Prisma.EnumComplexityTypeFieldUpdateOperationsInput | $Enums.ComplexityType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
@@ -1086,6 +1498,20 @@ export type AnimalUncheckedUpdateWithoutBondedByInput = {
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   transports?: Prisma.TransportUncheckedUpdateManyWithoutAnimalNestedInput
@@ -1130,6 +1556,20 @@ export type AnimalScalarWhereInput = {
   imageId?: Prisma.StringNullableFilter<"Animal"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Animal"> | string | null
   status?: Prisma.EnumStatusFilter<"Animal"> | $Enums.Status
+  externalAnimalId?: Prisma.StringNullableFilter<"Animal"> | string | null
+  intakeType?: Prisma.StringNullableFilter<"Animal"> | string | null
+  intakeDate?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFilter<"Animal"> | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFilter<"Animal"> | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFilter<"Animal"> | boolean
+  rabiesExpiration?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
+  heartwormStatus?: Prisma.EnumHeartwormStatusNullableFilter<"Animal"> | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFilter<"Animal"> | boolean
+  clearedForTransport?: Prisma.BoolFilter<"Animal"> | boolean
+  priorityScore?: Prisma.FloatFilter<"Animal"> | number
+  lengthOfStayDays?: Prisma.IntFilter<"Animal"> | number
+  lastScoreUpdate?: Prisma.DateTimeNullableFilter<"Animal"> | Date | string | null
+  crateUnits?: Prisma.FloatFilter<"Animal"> | number
   createdAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Animal"> | Date | string
 }
@@ -1149,6 +1589,20 @@ export type AnimalCreateWithoutImageInput = {
   complexityType?: $Enums.ComplexityType
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
@@ -1176,6 +1630,20 @@ export type AnimalUncheckedCreateWithoutImageInput = {
   shelterId?: string | null
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
@@ -1215,6 +1683,20 @@ export type AnimalUpdateWithoutImageInput = {
   complexityType?: Prisma.EnumComplexityTypeFieldUpdateOperationsInput | $Enums.ComplexityType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
@@ -1242,6 +1724,20 @@ export type AnimalUncheckedUpdateWithoutImageInput = {
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
@@ -1265,6 +1761,20 @@ export type AnimalCreateWithoutHealthReportsInput = {
   complexityType?: $Enums.ComplexityType
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
@@ -1293,6 +1803,20 @@ export type AnimalUncheckedCreateWithoutHealthReportsInput = {
   imageId?: string | null
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
@@ -1331,6 +1855,20 @@ export type AnimalUpdateWithoutHealthReportsInput = {
   complexityType?: Prisma.EnumComplexityTypeFieldUpdateOperationsInput | $Enums.ComplexityType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
@@ -1359,6 +1897,20 @@ export type AnimalUncheckedUpdateWithoutHealthReportsInput = {
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
@@ -1381,6 +1933,20 @@ export type AnimalCreateWithoutShelterInput = {
   complexityType?: $Enums.ComplexityType
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
@@ -1408,6 +1974,20 @@ export type AnimalUncheckedCreateWithoutShelterInput = {
   imageId?: string | null
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
@@ -1457,6 +2037,20 @@ export type AnimalCreateWithoutTransportsInput = {
   complexityType?: $Enums.ComplexityType
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
@@ -1485,6 +2079,20 @@ export type AnimalUncheckedCreateWithoutTransportsInput = {
   imageId?: string | null
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
@@ -1512,6 +2120,20 @@ export type AnimalCreateWithoutTransportsAsBondedPairInput = {
   complexityType?: $Enums.ComplexityType
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedWith?: Prisma.AnimalCreateNestedOneWithoutBondedByInput
@@ -1540,6 +2162,20 @@ export type AnimalUncheckedCreateWithoutTransportsAsBondedPairInput = {
   imageId?: string | null
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   bondedBy?: Prisma.AnimalUncheckedCreateNestedManyWithoutBondedWithInput
@@ -1578,6 +2214,20 @@ export type AnimalUpdateWithoutTransportsInput = {
   complexityType?: Prisma.EnumComplexityTypeFieldUpdateOperationsInput | $Enums.ComplexityType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
@@ -1606,6 +2256,20 @@ export type AnimalUncheckedUpdateWithoutTransportsInput = {
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
@@ -1639,6 +2303,20 @@ export type AnimalUpdateWithoutTransportsAsBondedPairInput = {
   complexityType?: Prisma.EnumComplexityTypeFieldUpdateOperationsInput | $Enums.ComplexityType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
@@ -1667,6 +2345,20 @@ export type AnimalUncheckedUpdateWithoutTransportsAsBondedPairInput = {
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
@@ -1691,6 +2383,20 @@ export type AnimalCreateManyBondedWithInput = {
   imageId?: string | null
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1710,6 +2416,20 @@ export type AnimalUpdateWithoutBondedWithInput = {
   complexityType?: Prisma.EnumComplexityTypeFieldUpdateOperationsInput | $Enums.ComplexityType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUpdateManyWithoutBondedWithNestedInput
@@ -1737,6 +2457,20 @@ export type AnimalUncheckedUpdateWithoutBondedWithInput = {
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
@@ -1762,6 +2496,20 @@ export type AnimalUncheckedUpdateManyWithoutBondedWithInput = {
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1783,6 +2531,20 @@ export type AnimalCreateManyShelterInput = {
   imageId?: string | null
   imageUrl?: string | null
   status?: $Enums.Status
+  externalAnimalId?: string | null
+  intakeType?: string | null
+  intakeDate?: Date | string | null
+  medicalHoldFlag?: boolean
+  quarantineStatus?: $Enums.QuarantineStatus
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: Date | string | null
+  heartwormStatus?: $Enums.HeartwormStatus | null
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: number
+  lengthOfStayDays?: number
+  lastScoreUpdate?: Date | string | null
+  crateUnits?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1802,6 +2564,20 @@ export type AnimalUpdateWithoutShelterInput = {
   complexityType?: Prisma.EnumComplexityTypeFieldUpdateOperationsInput | $Enums.ComplexityType
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedWith?: Prisma.AnimalUpdateOneWithoutBondedByNestedInput
@@ -1829,6 +2605,20 @@ export type AnimalUncheckedUpdateWithoutShelterInput = {
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bondedBy?: Prisma.AnimalUncheckedUpdateManyWithoutBondedWithNestedInput
@@ -1854,6 +2644,20 @@ export type AnimalUncheckedUpdateManyWithoutShelterInput = {
   imageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  externalAnimalId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intakeDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  medicalHoldFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  quarantineStatus?: Prisma.EnumQuarantineStatusFieldUpdateOperationsInput | $Enums.QuarantineStatus
+  vaccinationsUpToDate?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rabiesExpiration?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  heartwormStatus?: Prisma.NullableEnumHeartwormStatusFieldUpdateOperationsInput | $Enums.HeartwormStatus | null
+  specialNeedsFlag?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  clearedForTransport?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  priorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lengthOfStayDays?: Prisma.IntFieldUpdateOperationsInput | number
+  lastScoreUpdate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  crateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1934,6 +2738,20 @@ export type AnimalSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   imageId?: boolean
   imageUrl?: boolean
   status?: boolean
+  externalAnimalId?: boolean
+  intakeType?: boolean
+  intakeDate?: boolean
+  medicalHoldFlag?: boolean
+  quarantineStatus?: boolean
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: boolean
+  heartwormStatus?: boolean
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: boolean
+  lengthOfStayDays?: boolean
+  lastScoreUpdate?: boolean
+  crateUnits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   bondedWith?: boolean | Prisma.Animal$bondedWithArgs<ExtArgs>
@@ -1964,6 +2782,20 @@ export type AnimalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   imageId?: boolean
   imageUrl?: boolean
   status?: boolean
+  externalAnimalId?: boolean
+  intakeType?: boolean
+  intakeDate?: boolean
+  medicalHoldFlag?: boolean
+  quarantineStatus?: boolean
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: boolean
+  heartwormStatus?: boolean
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: boolean
+  lengthOfStayDays?: boolean
+  lastScoreUpdate?: boolean
+  crateUnits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   bondedWith?: boolean | Prisma.Animal$bondedWithArgs<ExtArgs>
@@ -1989,6 +2821,20 @@ export type AnimalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   imageId?: boolean
   imageUrl?: boolean
   status?: boolean
+  externalAnimalId?: boolean
+  intakeType?: boolean
+  intakeDate?: boolean
+  medicalHoldFlag?: boolean
+  quarantineStatus?: boolean
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: boolean
+  heartwormStatus?: boolean
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: boolean
+  lengthOfStayDays?: boolean
+  lastScoreUpdate?: boolean
+  crateUnits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   bondedWith?: boolean | Prisma.Animal$bondedWithArgs<ExtArgs>
@@ -2014,11 +2860,25 @@ export type AnimalSelectScalar = {
   imageId?: boolean
   imageUrl?: boolean
   status?: boolean
+  externalAnimalId?: boolean
+  intakeType?: boolean
+  intakeDate?: boolean
+  medicalHoldFlag?: boolean
+  quarantineStatus?: boolean
+  vaccinationsUpToDate?: boolean
+  rabiesExpiration?: boolean
+  heartwormStatus?: boolean
+  specialNeedsFlag?: boolean
+  clearedForTransport?: boolean
+  priorityScore?: boolean
+  lengthOfStayDays?: boolean
+  lastScoreUpdate?: boolean
+  crateUnits?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AnimalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "breed" | "age" | "weight" | "species" | "gender" | "color" | "specialNeeds" | "medicalNotes" | "behaviorNotes" | "complexityType" | "bondedWithId" | "shelterId" | "imageId" | "imageUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["animal"]>
+export type AnimalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "breed" | "age" | "weight" | "species" | "gender" | "color" | "specialNeeds" | "medicalNotes" | "behaviorNotes" | "complexityType" | "bondedWithId" | "shelterId" | "imageId" | "imageUrl" | "status" | "externalAnimalId" | "intakeType" | "intakeDate" | "medicalHoldFlag" | "quarantineStatus" | "vaccinationsUpToDate" | "rabiesExpiration" | "heartwormStatus" | "specialNeedsFlag" | "clearedForTransport" | "priorityScore" | "lengthOfStayDays" | "lastScoreUpdate" | "crateUnits" | "createdAt" | "updatedAt", ExtArgs["result"]["animal"]>
 export type AnimalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bondedWith?: boolean | Prisma.Animal$bondedWithArgs<ExtArgs>
   bondedBy?: boolean | Prisma.Animal$bondedByArgs<ExtArgs>
@@ -2069,6 +2929,20 @@ export type $AnimalPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     imageId: string | null
     imageUrl: string | null
     status: $Enums.Status
+    externalAnimalId: string | null
+    intakeType: string | null
+    intakeDate: Date | null
+    medicalHoldFlag: boolean
+    quarantineStatus: $Enums.QuarantineStatus
+    vaccinationsUpToDate: boolean
+    rabiesExpiration: Date | null
+    heartwormStatus: $Enums.HeartwormStatus | null
+    specialNeedsFlag: boolean
+    clearedForTransport: boolean
+    priorityScore: number
+    lengthOfStayDays: number
+    lastScoreUpdate: Date | null
+    crateUnits: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["animal"]>
@@ -2518,6 +3392,20 @@ export interface AnimalFieldRefs {
   readonly imageId: Prisma.FieldRef<"Animal", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Animal", 'String'>
   readonly status: Prisma.FieldRef<"Animal", 'Status'>
+  readonly externalAnimalId: Prisma.FieldRef<"Animal", 'String'>
+  readonly intakeType: Prisma.FieldRef<"Animal", 'String'>
+  readonly intakeDate: Prisma.FieldRef<"Animal", 'DateTime'>
+  readonly medicalHoldFlag: Prisma.FieldRef<"Animal", 'Boolean'>
+  readonly quarantineStatus: Prisma.FieldRef<"Animal", 'QuarantineStatus'>
+  readonly vaccinationsUpToDate: Prisma.FieldRef<"Animal", 'Boolean'>
+  readonly rabiesExpiration: Prisma.FieldRef<"Animal", 'DateTime'>
+  readonly heartwormStatus: Prisma.FieldRef<"Animal", 'HeartwormStatus'>
+  readonly specialNeedsFlag: Prisma.FieldRef<"Animal", 'Boolean'>
+  readonly clearedForTransport: Prisma.FieldRef<"Animal", 'Boolean'>
+  readonly priorityScore: Prisma.FieldRef<"Animal", 'Float'>
+  readonly lengthOfStayDays: Prisma.FieldRef<"Animal", 'Int'>
+  readonly lastScoreUpdate: Prisma.FieldRef<"Animal", 'DateTime'>
+  readonly crateUnits: Prisma.FieldRef<"Animal", 'Float'>
   readonly createdAt: Prisma.FieldRef<"Animal", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Animal", 'DateTime'>
 }
