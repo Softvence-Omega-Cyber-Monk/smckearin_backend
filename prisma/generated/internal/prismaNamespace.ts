@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.2.0
- * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
+ * Prisma Client JS version: 7.4.0
+ * Query Engine version: ab56fe763f921d033a6c195e7ddeb3e255bdbb57
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.2.0",
-  engine: "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3"
+  client: "7.4.0",
+  engine: "ab56fe763f921d033a6c195e7ddeb3e255bdbb57"
 }
 
 /**
@@ -389,8 +389,10 @@ export const ModelName = {
   UserOtp: 'UserOtp',
   RefreshToken: 'RefreshToken',
   Driver: 'Driver',
+  ExternalFeedConfig: 'ExternalFeedConfig',
   FileInstance: 'FileInstance',
   HealthReport: 'HealthReport',
+  ImportMapping: 'ImportMapping',
   Notification: 'Notification',
   UserNotification: 'UserNotification',
   NotificationSettings: 'NotificationSettings',
@@ -403,6 +405,7 @@ export const ModelName = {
   Shelter: 'Shelter',
   ShelterDocument: 'ShelterDocument',
   Transaction: 'Transaction',
+  TransportBatch: 'TransportBatch',
   Transport: 'Transport',
   TransportTimeline: 'TransportTimeline',
   User: 'User',
@@ -425,7 +428,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "driver" | "fileInstance" | "healthReport" | "notification" | "userNotification" | "notificationSettings" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
+    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "driver" | "externalFeedConfig" | "fileInstance" | "healthReport" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -799,6 +802,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ExternalFeedConfig: {
+      payload: Prisma.$ExternalFeedConfigPayload<ExtArgs>
+      fields: Prisma.ExternalFeedConfigFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ExternalFeedConfigFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExternalFeedConfigPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ExternalFeedConfigFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExternalFeedConfigPayload>
+        }
+        findFirst: {
+          args: Prisma.ExternalFeedConfigFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExternalFeedConfigPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ExternalFeedConfigFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExternalFeedConfigPayload>
+        }
+        findMany: {
+          args: Prisma.ExternalFeedConfigFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExternalFeedConfigPayload>[]
+        }
+        create: {
+          args: Prisma.ExternalFeedConfigCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExternalFeedConfigPayload>
+        }
+        createMany: {
+          args: Prisma.ExternalFeedConfigCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ExternalFeedConfigCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExternalFeedConfigPayload>[]
+        }
+        delete: {
+          args: Prisma.ExternalFeedConfigDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExternalFeedConfigPayload>
+        }
+        update: {
+          args: Prisma.ExternalFeedConfigUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExternalFeedConfigPayload>
+        }
+        deleteMany: {
+          args: Prisma.ExternalFeedConfigDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ExternalFeedConfigUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ExternalFeedConfigUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExternalFeedConfigPayload>[]
+        }
+        upsert: {
+          args: Prisma.ExternalFeedConfigUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExternalFeedConfigPayload>
+        }
+        aggregate: {
+          args: Prisma.ExternalFeedConfigAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExternalFeedConfig>
+        }
+        groupBy: {
+          args: Prisma.ExternalFeedConfigGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExternalFeedConfigGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ExternalFeedConfigCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExternalFeedConfigCountAggregateOutputType> | number
+        }
+      }
+    }
     FileInstance: {
       payload: Prisma.$FileInstancePayload<ExtArgs>
       fields: Prisma.FileInstanceFieldRefs
@@ -944,6 +1021,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.HealthReportCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.HealthReportCountAggregateOutputType> | number
+        }
+      }
+    }
+    ImportMapping: {
+      payload: Prisma.$ImportMappingPayload<ExtArgs>
+      fields: Prisma.ImportMappingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ImportMappingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportMappingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ImportMappingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportMappingPayload>
+        }
+        findFirst: {
+          args: Prisma.ImportMappingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportMappingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ImportMappingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportMappingPayload>
+        }
+        findMany: {
+          args: Prisma.ImportMappingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportMappingPayload>[]
+        }
+        create: {
+          args: Prisma.ImportMappingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportMappingPayload>
+        }
+        createMany: {
+          args: Prisma.ImportMappingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ImportMappingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportMappingPayload>[]
+        }
+        delete: {
+          args: Prisma.ImportMappingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportMappingPayload>
+        }
+        update: {
+          args: Prisma.ImportMappingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportMappingPayload>
+        }
+        deleteMany: {
+          args: Prisma.ImportMappingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ImportMappingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ImportMappingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportMappingPayload>[]
+        }
+        upsert: {
+          args: Prisma.ImportMappingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImportMappingPayload>
+        }
+        aggregate: {
+          args: Prisma.ImportMappingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateImportMapping>
+        }
+        groupBy: {
+          args: Prisma.ImportMappingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImportMappingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ImportMappingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImportMappingCountAggregateOutputType> | number
         }
       }
     }
@@ -1835,6 +1986,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TransportBatch: {
+      payload: Prisma.$TransportBatchPayload<ExtArgs>
+      fields: Prisma.TransportBatchFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TransportBatchFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportBatchPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TransportBatchFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportBatchPayload>
+        }
+        findFirst: {
+          args: Prisma.TransportBatchFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportBatchPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TransportBatchFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportBatchPayload>
+        }
+        findMany: {
+          args: Prisma.TransportBatchFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportBatchPayload>[]
+        }
+        create: {
+          args: Prisma.TransportBatchCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportBatchPayload>
+        }
+        createMany: {
+          args: Prisma.TransportBatchCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TransportBatchCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportBatchPayload>[]
+        }
+        delete: {
+          args: Prisma.TransportBatchDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportBatchPayload>
+        }
+        update: {
+          args: Prisma.TransportBatchUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportBatchPayload>
+        }
+        deleteMany: {
+          args: Prisma.TransportBatchDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TransportBatchUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TransportBatchUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportBatchPayload>[]
+        }
+        upsert: {
+          args: Prisma.TransportBatchUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransportBatchPayload>
+        }
+        aggregate: {
+          args: Prisma.TransportBatchAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTransportBatch>
+        }
+        groupBy: {
+          args: Prisma.TransportBatchGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransportBatchGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TransportBatchCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransportBatchCountAggregateOutputType> | number
+        }
+      }
+    }
     Transport: {
       payload: Prisma.$TransportPayload<ExtArgs>
       fields: Prisma.TransportFieldRefs
@@ -2422,6 +2647,20 @@ export const AnimalScalarFieldEnum = {
   imageId: 'imageId',
   imageUrl: 'imageUrl',
   status: 'status',
+  externalAnimalId: 'externalAnimalId',
+  intakeType: 'intakeType',
+  intakeDate: 'intakeDate',
+  medicalHoldFlag: 'medicalHoldFlag',
+  quarantineStatus: 'quarantineStatus',
+  vaccinationsUpToDate: 'vaccinationsUpToDate',
+  rabiesExpiration: 'rabiesExpiration',
+  heartwormStatus: 'heartwormStatus',
+  specialNeedsFlag: 'specialNeedsFlag',
+  clearedForTransport: 'clearedForTransport',
+  priorityScore: 'priorityScore',
+  lengthOfStayDays: 'lengthOfStayDays',
+  lastScoreUpdate: 'lastScoreUpdate',
+  crateUnits: 'crateUnits',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2490,6 +2729,25 @@ export const DriverScalarFieldEnum = {
 export type DriverScalarFieldEnum = (typeof DriverScalarFieldEnum)[keyof typeof DriverScalarFieldEnum]
 
 
+export const ExternalFeedConfigScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  provider: 'provider',
+  shelterId: 'shelterId',
+  apiUrl: 'apiUrl',
+  apiKey: 'apiKey',
+  credentials: 'credentials',
+  pollInterval: 'pollInterval',
+  lastSyncAt: 'lastSyncAt',
+  lastSyncStatus: 'lastSyncStatus',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExternalFeedConfigScalarFieldEnum = (typeof ExternalFeedConfigScalarFieldEnum)[keyof typeof ExternalFeedConfigScalarFieldEnum]
+
+
 export const FileInstanceScalarFieldEnum = {
   id: 'id',
   filename: 'filename',
@@ -2520,6 +2778,21 @@ export const HealthReportScalarFieldEnum = {
 } as const
 
 export type HealthReportScalarFieldEnum = (typeof HealthReportScalarFieldEnum)[keyof typeof HealthReportScalarFieldEnum]
+
+
+export const ImportMappingScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  shelterId: 'shelterId',
+  fieldMapping: 'fieldMapping',
+  transformations: 'transformations',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ImportMappingScalarFieldEnum = (typeof ImportMappingScalarFieldEnum)[keyof typeof ImportMappingScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
@@ -2668,6 +2941,13 @@ export const ShelterScalarFieldEnum = {
   status: 'status',
   stripeCustomerId: 'stripeCustomerId',
   stripeDefaultPaymentMethodId: 'stripeDefaultPaymentMethodId',
+  totalKennels: 'totalKennels',
+  openKennels: 'openKennels',
+  currentUtilization: 'currentUtilization',
+  acceptsSpecies: 'acceptsSpecies',
+  acceptsSizes: 'acceptsSizes',
+  acceptsBreeds: 'acceptsBreeds',
+  restrictedBreeds: 'restrictedBreeds',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2703,6 +2983,26 @@ export const TransactionScalarFieldEnum = {
 } as const
 
 export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+export const TransportBatchScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  originShelterId: 'originShelterId',
+  destinationShelterId: 'destinationShelterId',
+  vehicleCapacity: 'vehicleCapacity',
+  selectedAnimalIds: 'selectedAnimalIds',
+  totalPriorityScore: 'totalPriorityScore',
+  totalCrateUnits: 'totalCrateUnits',
+  estimatedCost: 'estimatedCost',
+  optimizationLog: 'optimizationLog',
+  status: 'status',
+  executedAt: 'executedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TransportBatchScalarFieldEnum = (typeof TransportBatchScalarFieldEnum)[keyof typeof TransportBatchScalarFieldEnum]
 
 
 export const TransportScalarFieldEnum = {
@@ -2837,6 +3137,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const JsonNullValueInput = {
@@ -2990,6 +3298,41 @@ export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'QuarantineStatus'
+ */
+export type EnumQuarantineStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuarantineStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'QuarantineStatus[]'
+ */
+export type ListEnumQuarantineStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuarantineStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'HeartwormStatus'
+ */
+export type EnumHeartwormStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HeartwormStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'HeartwormStatus[]'
+ */
+export type ListEnumHeartwormStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'HeartwormStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'OtpType'
  */
 export type EnumOtpTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OtpType'>
@@ -3046,9 +3389,16 @@ export type ListEnumOnboardingStatusFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
- * Reference to a field of type 'Boolean'
+ * Reference to a field of type 'Json'
  */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -3063,20 +3413,6 @@ export type EnumFileTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  * Reference to a field of type 'FileType[]'
  */
 export type ListEnumFileTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FileType[]'>
-    
-
-
-/**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -3147,6 +3483,20 @@ export type EnumTransactionStatusFieldRefInput<$PrismaModel> = FieldRefInputType
  * Reference to a field of type 'TransactionStatus[]'
  */
 export type ListEnumTransactionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BatchStatus'
+ */
+export type EnumBatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BatchStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'BatchStatus[]'
+ */
+export type ListEnumBatchStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BatchStatus[]'>
     
 
 
@@ -3361,8 +3711,10 @@ export type GlobalOmitConfig = {
   userOtp?: Prisma.UserOtpOmit
   refreshToken?: Prisma.RefreshTokenOmit
   driver?: Prisma.DriverOmit
+  externalFeedConfig?: Prisma.ExternalFeedConfigOmit
   fileInstance?: Prisma.FileInstanceOmit
   healthReport?: Prisma.HealthReportOmit
+  importMapping?: Prisma.ImportMappingOmit
   notification?: Prisma.NotificationOmit
   userNotification?: Prisma.UserNotificationOmit
   notificationSettings?: Prisma.NotificationSettingsOmit
@@ -3375,6 +3727,7 @@ export type GlobalOmitConfig = {
   shelter?: Prisma.ShelterOmit
   shelterDocument?: Prisma.ShelterDocumentOmit
   transaction?: Prisma.TransactionOmit
+  transportBatch?: Prisma.TransportBatchOmit
   transport?: Prisma.TransportOmit
   transportTimeline?: Prisma.TransportTimelineOmit
   user?: Prisma.UserOmit

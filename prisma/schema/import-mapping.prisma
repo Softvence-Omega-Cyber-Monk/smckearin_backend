@@ -1,0 +1,23 @@
+model ImportMapping {
+  id String @id @default(uuid())
+
+  name        String  // e.g., "Chameleon Export Template"
+  description String?
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  // JSON mapping: { "source_column": "target_field" }
+  // Example: { "AnimalID": "externalAnimalId", "IntakeReason": "intakeType" }
+  fieldMapping Json
+
+  // Transformation rules (JSON)
+  transformations Json? // e.g., { "Species": { "Canine": "DOG", "Feline": "CAT" } }
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("import_mappings")
+}

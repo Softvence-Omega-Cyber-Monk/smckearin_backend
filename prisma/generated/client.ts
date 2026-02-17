@@ -63,6 +63,11 @@ export type RefreshToken = Prisma.RefreshTokenModel
  */
 export type Driver = Prisma.DriverModel
 /**
+ * Model ExternalFeedConfig
+ * 
+ */
+export type ExternalFeedConfig = Prisma.ExternalFeedConfigModel
+/**
  * Model FileInstance
  * 
  */
@@ -72,6 +77,11 @@ export type FileInstance = Prisma.FileInstanceModel
  * 
  */
 export type HealthReport = Prisma.HealthReportModel
+/**
+ * Model ImportMapping
+ * 
+ */
+export type ImportMapping = Prisma.ImportMappingModel
 /**
  * Model Notification
  * 
@@ -132,6 +142,11 @@ export type ShelterDocument = Prisma.ShelterDocumentModel
  * 
  */
 export type Transaction = Prisma.TransactionModel
+/**
+ * Model TransportBatch
+ * 
+ */
+export type TransportBatch = Prisma.TransportBatchModel
 /**
  * Model Transport
  * 

@@ -960,16 +960,8 @@ export type NullableFloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type EnumOnboardingStatusFieldUpdateOperationsInput = {
   set?: $Enums.OnboardingStatus
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
 }
 
 export type DriverCreateNestedOneWithoutDriverLicenseInput = {

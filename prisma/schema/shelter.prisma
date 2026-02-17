@@ -35,6 +35,27 @@ model Shelter {
   // Transports
   transports Transport[]
 
+  // Capacity Tracking
+  totalKennels       Int   @default(0)
+  openKennels        Int   @default(0)
+  currentUtilization Float @default(0) // Percentage (0-100)
+
+  // Intake Restrictions (JSON arrays)
+  acceptsSpecies   String[] @default([]) // e.g., ["DOG", "CAT"]
+  acceptsSizes     String[] @default([]) // e.g., ["SMALL", "MEDIUM", "LARGE"]
+  acceptsBreeds    String[] @default([]) // Empty = accepts all
+  restrictedBreeds String[] @default([]) // Breeds NOT accepted
+
+  // External Feed Configurations
+  externalFeedConfigs ExternalFeedConfig[]
+
+  // Import Mappings
+  importMappings ImportMapping[]
+
+  // Transport Batches
+  originBatches      TransportBatch[] @relation("OriginBatches")
+  destinationBatches TransportBatch[] @relation("DestinationBatches")
+
   // Conversations (Shelter as a participant)
   conversations PrivateConversation[] @relation("ShelterConversations")
 

@@ -1,0 +1,37 @@
+model TransportBatch {
+  id String @id @default(uuid())
+
+  name String // e.g., "Batch 2026-02-17 High Priority"
+
+  originShelterId String
+  originShelter   Shelter @relation("OriginBatches", fields: [originShelterId], references: [id], onDelete: Cascade)
+
+  destinationShelterId String
+  destinationShelter   Shelter @relation("DestinationBatches", fields: [destinationShelterId], references: [id], onDelete: Cascade)
+
+  vehicleCapacity Float // Total crate units available
+
+  // Optimization Results
+  selectedAnimalIds  String[] // Array of animal IDs
+  totalPriorityScore Float
+  totalCrateUnits    Float
+  estimatedCost      Float?
+
+  // Explainability
+  optimizationLog Json // Detailed rationale for each animal
+
+  status BatchStatus @default(PENDING)
+
+  executedAt DateTime? // When transports were created from this batch
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("transport_batches")
+}
+
+enum BatchStatus {
+  PENDING
+  EXECUTED
+  CANCELLED
+}

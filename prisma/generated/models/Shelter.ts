@@ -20,8 +20,22 @@ export type ShelterModel = runtime.Types.Result.DefaultSelection<Prisma.$Shelter
 
 export type AggregateShelter = {
   _count: ShelterCountAggregateOutputType | null
+  _avg: ShelterAvgAggregateOutputType | null
+  _sum: ShelterSumAggregateOutputType | null
   _min: ShelterMinAggregateOutputType | null
   _max: ShelterMaxAggregateOutputType | null
+}
+
+export type ShelterAvgAggregateOutputType = {
+  totalKennels: number | null
+  openKennels: number | null
+  currentUtilization: number | null
+}
+
+export type ShelterSumAggregateOutputType = {
+  totalKennels: number | null
+  openKennels: number | null
+  currentUtilization: number | null
 }
 
 export type ShelterMinAggregateOutputType = {
@@ -37,6 +51,9 @@ export type ShelterMinAggregateOutputType = {
   status: $Enums.ApprovalStatus | null
   stripeCustomerId: string | null
   stripeDefaultPaymentMethodId: string | null
+  totalKennels: number | null
+  openKennels: number | null
+  currentUtilization: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +71,9 @@ export type ShelterMaxAggregateOutputType = {
   status: $Enums.ApprovalStatus | null
   stripeCustomerId: string | null
   stripeDefaultPaymentMethodId: string | null
+  totalKennels: number | null
+  openKennels: number | null
+  currentUtilization: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,11 +92,30 @@ export type ShelterCountAggregateOutputType = {
   status: number
   stripeCustomerId: number
   stripeDefaultPaymentMethodId: number
+  totalKennels: number
+  openKennels: number
+  currentUtilization: number
+  acceptsSpecies: number
+  acceptsSizes: number
+  acceptsBreeds: number
+  restrictedBreeds: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
+
+export type ShelterAvgAggregateInputType = {
+  totalKennels?: true
+  openKennels?: true
+  currentUtilization?: true
+}
+
+export type ShelterSumAggregateInputType = {
+  totalKennels?: true
+  openKennels?: true
+  currentUtilization?: true
+}
 
 export type ShelterMinAggregateInputType = {
   id?: true
@@ -91,6 +130,9 @@ export type ShelterMinAggregateInputType = {
   status?: true
   stripeCustomerId?: true
   stripeDefaultPaymentMethodId?: true
+  totalKennels?: true
+  openKennels?: true
+  currentUtilization?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -108,6 +150,9 @@ export type ShelterMaxAggregateInputType = {
   status?: true
   stripeCustomerId?: true
   stripeDefaultPaymentMethodId?: true
+  totalKennels?: true
+  openKennels?: true
+  currentUtilization?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -126,6 +171,13 @@ export type ShelterCountAggregateInputType = {
   status?: true
   stripeCustomerId?: true
   stripeDefaultPaymentMethodId?: true
+  totalKennels?: true
+  openKennels?: true
+  currentUtilization?: true
+  acceptsSpecies?: true
+  acceptsSizes?: true
+  acceptsBreeds?: true
+  restrictedBreeds?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -169,6 +221,18 @@ export type ShelterAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ShelterAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ShelterSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ShelterMinAggregateInputType
@@ -199,6 +263,8 @@ export type ShelterGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: ShelterCountAggregateInputType | true
+  _avg?: ShelterAvgAggregateInputType
+  _sum?: ShelterSumAggregateInputType
   _min?: ShelterMinAggregateInputType
   _max?: ShelterMaxAggregateInputType
 }
@@ -217,9 +283,18 @@ export type ShelterGroupByOutputType = {
   status: $Enums.ApprovalStatus
   stripeCustomerId: string | null
   stripeDefaultPaymentMethodId: string | null
+  totalKennels: number
+  openKennels: number
+  currentUtilization: number
+  acceptsSpecies: string[]
+  acceptsSizes: string[]
+  acceptsBreeds: string[]
+  restrictedBreeds: string[]
   createdAt: Date
   updatedAt: Date
   _count: ShelterCountAggregateOutputType | null
+  _avg: ShelterAvgAggregateOutputType | null
+  _sum: ShelterSumAggregateOutputType | null
   _min: ShelterMinAggregateOutputType | null
   _max: ShelterMaxAggregateOutputType | null
 }
@@ -256,6 +331,13 @@ export type ShelterWhereInput = {
   status?: Prisma.EnumApprovalStatusFilter<"Shelter"> | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.StringNullableFilter<"Shelter"> | string | null
   stripeDefaultPaymentMethodId?: Prisma.StringNullableFilter<"Shelter"> | string | null
+  totalKennels?: Prisma.IntFilter<"Shelter"> | number
+  openKennels?: Prisma.IntFilter<"Shelter"> | number
+  currentUtilization?: Prisma.FloatFilter<"Shelter"> | number
+  acceptsSpecies?: Prisma.StringNullableListFilter<"Shelter">
+  acceptsSizes?: Prisma.StringNullableListFilter<"Shelter">
+  acceptsBreeds?: Prisma.StringNullableListFilter<"Shelter">
+  restrictedBreeds?: Prisma.StringNullableListFilter<"Shelter">
   createdAt?: Prisma.DateTimeFilter<"Shelter"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Shelter"> | Date | string
   logo?: Prisma.XOR<Prisma.FileInstanceNullableScalarRelationFilter, Prisma.FileInstanceWhereInput> | null
@@ -264,6 +346,10 @@ export type ShelterWhereInput = {
   animals?: Prisma.AnimalListRelationFilter
   shelterDocuments?: Prisma.ShelterDocumentListRelationFilter
   transports?: Prisma.TransportListRelationFilter
+  externalFeedConfigs?: Prisma.ExternalFeedConfigListRelationFilter
+  importMappings?: Prisma.ImportMappingListRelationFilter
+  originBatches?: Prisma.TransportBatchListRelationFilter
+  destinationBatches?: Prisma.TransportBatchListRelationFilter
   conversations?: Prisma.PrivateConversationListRelationFilter
 }
 
@@ -281,6 +367,13 @@ export type ShelterOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeDefaultPaymentMethodId?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalKennels?: Prisma.SortOrder
+  openKennels?: Prisma.SortOrder
+  currentUtilization?: Prisma.SortOrder
+  acceptsSpecies?: Prisma.SortOrder
+  acceptsSizes?: Prisma.SortOrder
+  acceptsBreeds?: Prisma.SortOrder
+  restrictedBreeds?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   logo?: Prisma.FileInstanceOrderByWithRelationInput
@@ -289,6 +382,10 @@ export type ShelterOrderByWithRelationInput = {
   animals?: Prisma.AnimalOrderByRelationAggregateInput
   shelterDocuments?: Prisma.ShelterDocumentOrderByRelationAggregateInput
   transports?: Prisma.TransportOrderByRelationAggregateInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigOrderByRelationAggregateInput
+  importMappings?: Prisma.ImportMappingOrderByRelationAggregateInput
+  originBatches?: Prisma.TransportBatchOrderByRelationAggregateInput
+  destinationBatches?: Prisma.TransportBatchOrderByRelationAggregateInput
   conversations?: Prisma.PrivateConversationOrderByRelationAggregateInput
 }
 
@@ -309,6 +406,13 @@ export type ShelterWhereUniqueInput = Prisma.AtLeast<{
   endTime?: Prisma.StringFilter<"Shelter"> | string
   workingDays?: Prisma.EnumWorkingDayNullableListFilter<"Shelter">
   status?: Prisma.EnumApprovalStatusFilter<"Shelter"> | $Enums.ApprovalStatus
+  totalKennels?: Prisma.IntFilter<"Shelter"> | number
+  openKennels?: Prisma.IntFilter<"Shelter"> | number
+  currentUtilization?: Prisma.FloatFilter<"Shelter"> | number
+  acceptsSpecies?: Prisma.StringNullableListFilter<"Shelter">
+  acceptsSizes?: Prisma.StringNullableListFilter<"Shelter">
+  acceptsBreeds?: Prisma.StringNullableListFilter<"Shelter">
+  restrictedBreeds?: Prisma.StringNullableListFilter<"Shelter">
   createdAt?: Prisma.DateTimeFilter<"Shelter"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Shelter"> | Date | string
   logo?: Prisma.XOR<Prisma.FileInstanceNullableScalarRelationFilter, Prisma.FileInstanceWhereInput> | null
@@ -317,6 +421,10 @@ export type ShelterWhereUniqueInput = Prisma.AtLeast<{
   animals?: Prisma.AnimalListRelationFilter
   shelterDocuments?: Prisma.ShelterDocumentListRelationFilter
   transports?: Prisma.TransportListRelationFilter
+  externalFeedConfigs?: Prisma.ExternalFeedConfigListRelationFilter
+  importMappings?: Prisma.ImportMappingListRelationFilter
+  originBatches?: Prisma.TransportBatchListRelationFilter
+  destinationBatches?: Prisma.TransportBatchListRelationFilter
   conversations?: Prisma.PrivateConversationListRelationFilter
 }, "id" | "phone" | "logoId" | "stripeCustomerId" | "stripeDefaultPaymentMethodId">
 
@@ -334,11 +442,20 @@ export type ShelterOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeDefaultPaymentMethodId?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalKennels?: Prisma.SortOrder
+  openKennels?: Prisma.SortOrder
+  currentUtilization?: Prisma.SortOrder
+  acceptsSpecies?: Prisma.SortOrder
+  acceptsSizes?: Prisma.SortOrder
+  acceptsBreeds?: Prisma.SortOrder
+  restrictedBreeds?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ShelterCountOrderByAggregateInput
+  _avg?: Prisma.ShelterAvgOrderByAggregateInput
   _max?: Prisma.ShelterMaxOrderByAggregateInput
   _min?: Prisma.ShelterMinOrderByAggregateInput
+  _sum?: Prisma.ShelterSumOrderByAggregateInput
 }
 
 export type ShelterScalarWhereWithAggregatesInput = {
@@ -358,6 +475,13 @@ export type ShelterScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumApprovalStatusWithAggregatesFilter<"Shelter"> | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"Shelter"> | string | null
   stripeDefaultPaymentMethodId?: Prisma.StringNullableWithAggregatesFilter<"Shelter"> | string | null
+  totalKennels?: Prisma.IntWithAggregatesFilter<"Shelter"> | number
+  openKennels?: Prisma.IntWithAggregatesFilter<"Shelter"> | number
+  currentUtilization?: Prisma.FloatWithAggregatesFilter<"Shelter"> | number
+  acceptsSpecies?: Prisma.StringNullableListFilter<"Shelter">
+  acceptsSizes?: Prisma.StringNullableListFilter<"Shelter">
+  acceptsBreeds?: Prisma.StringNullableListFilter<"Shelter">
+  restrictedBreeds?: Prisma.StringNullableListFilter<"Shelter">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Shelter"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Shelter"> | Date | string
 }
@@ -375,6 +499,13 @@ export type ShelterCreateInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -383,6 +514,10 @@ export type ShelterCreateInput = {
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
 }
 
@@ -400,6 +535,13 @@ export type ShelterUncheckedCreateInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
@@ -407,6 +549,10 @@ export type ShelterUncheckedCreateInput = {
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
 }
 
@@ -423,6 +569,13 @@ export type ShelterUpdateInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -431,6 +584,10 @@ export type ShelterUpdateInput = {
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
 }
 
@@ -448,6 +605,13 @@ export type ShelterUncheckedUpdateInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
@@ -455,6 +619,10 @@ export type ShelterUncheckedUpdateInput = {
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
 }
 
@@ -472,6 +640,13 @@ export type ShelterCreateManyInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -489,6 +664,13 @@ export type ShelterUpdateManyMutationInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -507,6 +689,13 @@ export type ShelterUncheckedUpdateManyInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -514,6 +703,19 @@ export type ShelterUncheckedUpdateManyInput = {
 export type ShelterNullableScalarRelationFilter = {
   is?: Prisma.ShelterWhereInput | null
   isNot?: Prisma.ShelterWhereInput | null
+}
+
+export type ShelterScalarRelationFilter = {
+  is?: Prisma.ShelterWhereInput
+  isNot?: Prisma.ShelterWhereInput
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type ShelterCountOrderByAggregateInput = {
@@ -530,8 +732,21 @@ export type ShelterCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   stripeDefaultPaymentMethodId?: Prisma.SortOrder
+  totalKennels?: Prisma.SortOrder
+  openKennels?: Prisma.SortOrder
+  currentUtilization?: Prisma.SortOrder
+  acceptsSpecies?: Prisma.SortOrder
+  acceptsSizes?: Prisma.SortOrder
+  acceptsBreeds?: Prisma.SortOrder
+  restrictedBreeds?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type ShelterAvgOrderByAggregateInput = {
+  totalKennels?: Prisma.SortOrder
+  openKennels?: Prisma.SortOrder
+  currentUtilization?: Prisma.SortOrder
 }
 
 export type ShelterMaxOrderByAggregateInput = {
@@ -547,6 +762,9 @@ export type ShelterMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   stripeDefaultPaymentMethodId?: Prisma.SortOrder
+  totalKennels?: Prisma.SortOrder
+  openKennels?: Prisma.SortOrder
+  currentUtilization?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -564,13 +782,17 @@ export type ShelterMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   stripeDefaultPaymentMethodId?: Prisma.SortOrder
+  totalKennels?: Prisma.SortOrder
+  openKennels?: Prisma.SortOrder
+  currentUtilization?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type ShelterScalarRelationFilter = {
-  is?: Prisma.ShelterWhereInput
-  isNot?: Prisma.ShelterWhereInput
+export type ShelterSumOrderByAggregateInput = {
+  totalKennels?: Prisma.SortOrder
+  openKennels?: Prisma.SortOrder
+  currentUtilization?: Prisma.SortOrder
 }
 
 export type ShelterCreateNestedOneWithoutAnimalsInput = {
@@ -587,6 +809,20 @@ export type ShelterUpdateOneWithoutAnimalsNestedInput = {
   delete?: Prisma.ShelterWhereInput | boolean
   connect?: Prisma.ShelterWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutAnimalsInput, Prisma.ShelterUpdateWithoutAnimalsInput>, Prisma.ShelterUncheckedUpdateWithoutAnimalsInput>
+}
+
+export type ShelterCreateNestedOneWithoutExternalFeedConfigsInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutExternalFeedConfigsInput, Prisma.ShelterUncheckedCreateWithoutExternalFeedConfigsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutExternalFeedConfigsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+}
+
+export type ShelterUpdateOneRequiredWithoutExternalFeedConfigsNestedInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutExternalFeedConfigsInput, Prisma.ShelterUncheckedCreateWithoutExternalFeedConfigsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutExternalFeedConfigsInput
+  upsert?: Prisma.ShelterUpsertWithoutExternalFeedConfigsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutExternalFeedConfigsInput, Prisma.ShelterUpdateWithoutExternalFeedConfigsInput>, Prisma.ShelterUncheckedUpdateWithoutExternalFeedConfigsInput>
 }
 
 export type ShelterCreateNestedOneWithoutLogoInput = {
@@ -621,6 +857,20 @@ export type ShelterUncheckedUpdateOneWithoutLogoNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutLogoInput, Prisma.ShelterUpdateWithoutLogoInput>, Prisma.ShelterUncheckedUpdateWithoutLogoInput>
 }
 
+export type ShelterCreateNestedOneWithoutImportMappingsInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutImportMappingsInput, Prisma.ShelterUncheckedCreateWithoutImportMappingsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutImportMappingsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+}
+
+export type ShelterUpdateOneRequiredWithoutImportMappingsNestedInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutImportMappingsInput, Prisma.ShelterUncheckedCreateWithoutImportMappingsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutImportMappingsInput
+  upsert?: Prisma.ShelterUpsertWithoutImportMappingsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutImportMappingsInput, Prisma.ShelterUpdateWithoutImportMappingsInput>, Prisma.ShelterUncheckedUpdateWithoutImportMappingsInput>
+}
+
 export type ShelterCreateNestedOneWithoutConversationsInput = {
   create?: Prisma.XOR<Prisma.ShelterCreateWithoutConversationsInput, Prisma.ShelterUncheckedCreateWithoutConversationsInput>
   connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutConversationsInput
@@ -641,9 +891,45 @@ export type ShelterCreateworkingDaysInput = {
   set: $Enums.WorkingDay[]
 }
 
+export type ShelterCreateacceptsSpeciesInput = {
+  set: string[]
+}
+
+export type ShelterCreateacceptsSizesInput = {
+  set: string[]
+}
+
+export type ShelterCreateacceptsBreedsInput = {
+  set: string[]
+}
+
+export type ShelterCreaterestrictedBreedsInput = {
+  set: string[]
+}
+
 export type ShelterUpdateworkingDaysInput = {
   set?: $Enums.WorkingDay[]
   push?: $Enums.WorkingDay | $Enums.WorkingDay[]
+}
+
+export type ShelterUpdateacceptsSpeciesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type ShelterUpdateacceptsSizesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type ShelterUpdateacceptsBreedsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type ShelterUpdaterestrictedBreedsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type ShelterCreateNestedOneWithoutShelterDocumentsInput = {
@@ -658,6 +944,34 @@ export type ShelterUpdateOneRequiredWithoutShelterDocumentsNestedInput = {
   upsert?: Prisma.ShelterUpsertWithoutShelterDocumentsInput
   connect?: Prisma.ShelterWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutShelterDocumentsInput, Prisma.ShelterUpdateWithoutShelterDocumentsInput>, Prisma.ShelterUncheckedUpdateWithoutShelterDocumentsInput>
+}
+
+export type ShelterCreateNestedOneWithoutOriginBatchesInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutOriginBatchesInput, Prisma.ShelterUncheckedCreateWithoutOriginBatchesInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutOriginBatchesInput
+  connect?: Prisma.ShelterWhereUniqueInput
+}
+
+export type ShelterCreateNestedOneWithoutDestinationBatchesInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutDestinationBatchesInput, Prisma.ShelterUncheckedCreateWithoutDestinationBatchesInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutDestinationBatchesInput
+  connect?: Prisma.ShelterWhereUniqueInput
+}
+
+export type ShelterUpdateOneRequiredWithoutOriginBatchesNestedInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutOriginBatchesInput, Prisma.ShelterUncheckedCreateWithoutOriginBatchesInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutOriginBatchesInput
+  upsert?: Prisma.ShelterUpsertWithoutOriginBatchesInput
+  connect?: Prisma.ShelterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutOriginBatchesInput, Prisma.ShelterUpdateWithoutOriginBatchesInput>, Prisma.ShelterUncheckedUpdateWithoutOriginBatchesInput>
+}
+
+export type ShelterUpdateOneRequiredWithoutDestinationBatchesNestedInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutDestinationBatchesInput, Prisma.ShelterUncheckedCreateWithoutDestinationBatchesInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutDestinationBatchesInput
+  upsert?: Prisma.ShelterUpsertWithoutDestinationBatchesInput
+  connect?: Prisma.ShelterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutDestinationBatchesInput, Prisma.ShelterUpdateWithoutDestinationBatchesInput>, Prisma.ShelterUncheckedUpdateWithoutDestinationBatchesInput>
 }
 
 export type ShelterCreateNestedOneWithoutTransportsInput = {
@@ -721,6 +1035,13 @@ export type ShelterCreateWithoutAnimalsInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -728,6 +1049,10 @@ export type ShelterCreateWithoutAnimalsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
 }
 
@@ -745,12 +1070,23 @@ export type ShelterUncheckedCreateWithoutAnimalsInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
 }
 
@@ -783,6 +1119,13 @@ export type ShelterUpdateWithoutAnimalsInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -790,6 +1133,10 @@ export type ShelterUpdateWithoutAnimalsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
 }
 
@@ -807,12 +1154,175 @@ export type ShelterUncheckedUpdateWithoutAnimalsInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterCreateWithoutExternalFeedConfigsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
+  shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterUncheckedCreateWithoutExternalFeedConfigsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoId?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterCreateOrConnectWithoutExternalFeedConfigsInput = {
+  where: Prisma.ShelterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutExternalFeedConfigsInput, Prisma.ShelterUncheckedCreateWithoutExternalFeedConfigsInput>
+}
+
+export type ShelterUpsertWithoutExternalFeedConfigsInput = {
+  update: Prisma.XOR<Prisma.ShelterUpdateWithoutExternalFeedConfigsInput, Prisma.ShelterUncheckedUpdateWithoutExternalFeedConfigsInput>
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutExternalFeedConfigsInput, Prisma.ShelterUncheckedCreateWithoutExternalFeedConfigsInput>
+  where?: Prisma.ShelterWhereInput
+}
+
+export type ShelterUpdateToOneWithWhereWithoutExternalFeedConfigsInput = {
+  where?: Prisma.ShelterWhereInput
+  data: Prisma.XOR<Prisma.ShelterUpdateWithoutExternalFeedConfigsInput, Prisma.ShelterUncheckedUpdateWithoutExternalFeedConfigsInput>
+}
+
+export type ShelterUpdateWithoutExternalFeedConfigsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
+  shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterUncheckedUpdateWithoutExternalFeedConfigsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
 }
 
@@ -829,6 +1339,13 @@ export type ShelterCreateWithoutLogoInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
@@ -836,6 +1353,10 @@ export type ShelterCreateWithoutLogoInput = {
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
 }
 
@@ -852,6 +1373,13 @@ export type ShelterUncheckedCreateWithoutLogoInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
@@ -859,6 +1387,10 @@ export type ShelterUncheckedCreateWithoutLogoInput = {
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
 }
 
@@ -891,6 +1423,13 @@ export type ShelterUpdateWithoutLogoInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
@@ -898,6 +1437,10 @@ export type ShelterUpdateWithoutLogoInput = {
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
 }
 
@@ -914,6 +1457,13 @@ export type ShelterUncheckedUpdateWithoutLogoInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
@@ -921,6 +1471,162 @@ export type ShelterUncheckedUpdateWithoutLogoInput = {
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterCreateWithoutImportMappingsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
+  shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterUncheckedCreateWithoutImportMappingsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoId?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterCreateOrConnectWithoutImportMappingsInput = {
+  where: Prisma.ShelterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutImportMappingsInput, Prisma.ShelterUncheckedCreateWithoutImportMappingsInput>
+}
+
+export type ShelterUpsertWithoutImportMappingsInput = {
+  update: Prisma.XOR<Prisma.ShelterUpdateWithoutImportMappingsInput, Prisma.ShelterUncheckedUpdateWithoutImportMappingsInput>
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutImportMappingsInput, Prisma.ShelterUncheckedCreateWithoutImportMappingsInput>
+  where?: Prisma.ShelterWhereInput
+}
+
+export type ShelterUpdateToOneWithWhereWithoutImportMappingsInput = {
+  where?: Prisma.ShelterWhereInput
+  data: Prisma.XOR<Prisma.ShelterUpdateWithoutImportMappingsInput, Prisma.ShelterUncheckedUpdateWithoutImportMappingsInput>
+}
+
+export type ShelterUpdateWithoutImportMappingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
+  shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterUncheckedUpdateWithoutImportMappingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
 }
 
@@ -937,6 +1643,13 @@ export type ShelterCreateWithoutConversationsInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -945,6 +1658,10 @@ export type ShelterCreateWithoutConversationsInput = {
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutConversationsInput = {
@@ -961,6 +1678,13 @@ export type ShelterUncheckedCreateWithoutConversationsInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
@@ -968,6 +1692,10 @@ export type ShelterUncheckedCreateWithoutConversationsInput = {
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutConversationsInput = {
@@ -999,6 +1727,13 @@ export type ShelterUpdateWithoutConversationsInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -1007,6 +1742,10 @@ export type ShelterUpdateWithoutConversationsInput = {
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutConversationsInput = {
@@ -1023,6 +1762,13 @@ export type ShelterUncheckedUpdateWithoutConversationsInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
@@ -1030,6 +1776,10 @@ export type ShelterUncheckedUpdateWithoutConversationsInput = {
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
 }
 
 export type ShelterCreateWithoutShelterDocumentsInput = {
@@ -1045,6 +1795,13 @@ export type ShelterCreateWithoutShelterDocumentsInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -1052,6 +1809,10 @@ export type ShelterCreateWithoutShelterDocumentsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
 }
 
@@ -1069,12 +1830,23 @@ export type ShelterUncheckedCreateWithoutShelterDocumentsInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
 }
 
@@ -1107,6 +1879,13 @@ export type ShelterUpdateWithoutShelterDocumentsInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -1114,6 +1893,10 @@ export type ShelterUpdateWithoutShelterDocumentsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
 }
 
@@ -1131,12 +1914,327 @@ export type ShelterUncheckedUpdateWithoutShelterDocumentsInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterCreateWithoutOriginBatchesInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
+  shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterUncheckedCreateWithoutOriginBatchesInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoId?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterCreateOrConnectWithoutOriginBatchesInput = {
+  where: Prisma.ShelterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutOriginBatchesInput, Prisma.ShelterUncheckedCreateWithoutOriginBatchesInput>
+}
+
+export type ShelterCreateWithoutDestinationBatchesInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
+  shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterUncheckedCreateWithoutDestinationBatchesInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoId?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterCreateOrConnectWithoutDestinationBatchesInput = {
+  where: Prisma.ShelterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutDestinationBatchesInput, Prisma.ShelterUncheckedCreateWithoutDestinationBatchesInput>
+}
+
+export type ShelterUpsertWithoutOriginBatchesInput = {
+  update: Prisma.XOR<Prisma.ShelterUpdateWithoutOriginBatchesInput, Prisma.ShelterUncheckedUpdateWithoutOriginBatchesInput>
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutOriginBatchesInput, Prisma.ShelterUncheckedCreateWithoutOriginBatchesInput>
+  where?: Prisma.ShelterWhereInput
+}
+
+export type ShelterUpdateToOneWithWhereWithoutOriginBatchesInput = {
+  where?: Prisma.ShelterWhereInput
+  data: Prisma.XOR<Prisma.ShelterUpdateWithoutOriginBatchesInput, Prisma.ShelterUncheckedUpdateWithoutOriginBatchesInput>
+}
+
+export type ShelterUpdateWithoutOriginBatchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
+  shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterUncheckedUpdateWithoutOriginBatchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterUpsertWithoutDestinationBatchesInput = {
+  update: Prisma.XOR<Prisma.ShelterUpdateWithoutDestinationBatchesInput, Prisma.ShelterUncheckedUpdateWithoutDestinationBatchesInput>
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutDestinationBatchesInput, Prisma.ShelterUncheckedCreateWithoutDestinationBatchesInput>
+  where?: Prisma.ShelterWhereInput
+}
+
+export type ShelterUpdateToOneWithWhereWithoutDestinationBatchesInput = {
+  where?: Prisma.ShelterWhereInput
+  data: Prisma.XOR<Prisma.ShelterUpdateWithoutDestinationBatchesInput, Prisma.ShelterUncheckedUpdateWithoutDestinationBatchesInput>
+}
+
+export type ShelterUpdateWithoutDestinationBatchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
+  shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterUncheckedUpdateWithoutDestinationBatchesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
 }
 
@@ -1153,6 +2251,13 @@ export type ShelterCreateWithoutTransportsInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -1160,6 +2265,10 @@ export type ShelterCreateWithoutTransportsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
 }
 
@@ -1177,12 +2286,23 @@ export type ShelterUncheckedCreateWithoutTransportsInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
 }
 
@@ -1215,6 +2335,13 @@ export type ShelterUpdateWithoutTransportsInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -1222,6 +2349,10 @@ export type ShelterUpdateWithoutTransportsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
 }
 
@@ -1239,12 +2370,23 @@ export type ShelterUncheckedUpdateWithoutTransportsInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
 }
 
@@ -1261,6 +2403,13 @@ export type ShelterCreateWithoutShelterAdminsInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -1268,6 +2417,10 @@ export type ShelterCreateWithoutShelterAdminsInput = {
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
 }
 
@@ -1285,12 +2438,23 @@ export type ShelterUncheckedCreateWithoutShelterAdminsInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
 }
 
@@ -1312,6 +2476,13 @@ export type ShelterCreateWithoutManagersInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
@@ -1319,6 +2490,10 @@ export type ShelterCreateWithoutManagersInput = {
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
 }
 
@@ -1336,12 +2511,23 @@ export type ShelterUncheckedCreateWithoutManagersInput = {
   status?: $Enums.ApprovalStatus
   stripeCustomerId?: string | null
   stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
 }
 
@@ -1374,6 +2560,13 @@ export type ShelterUpdateWithoutShelterAdminsInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -1381,6 +2574,10 @@ export type ShelterUpdateWithoutShelterAdminsInput = {
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
 }
 
@@ -1398,12 +2595,23 @@ export type ShelterUncheckedUpdateWithoutShelterAdminsInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
 }
 
@@ -1431,6 +2639,13 @@ export type ShelterUpdateWithoutManagersInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
@@ -1438,6 +2653,10 @@ export type ShelterUpdateWithoutManagersInput = {
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
 }
 
@@ -1455,12 +2674,23 @@ export type ShelterUncheckedUpdateWithoutManagersInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
 }
 
@@ -1475,6 +2705,10 @@ export type ShelterCountOutputType = {
   animals: number
   shelterDocuments: number
   transports: number
+  externalFeedConfigs: number
+  importMappings: number
+  originBatches: number
+  destinationBatches: number
   conversations: number
 }
 
@@ -1484,6 +2718,10 @@ export type ShelterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   animals?: boolean | ShelterCountOutputTypeCountAnimalsArgs
   shelterDocuments?: boolean | ShelterCountOutputTypeCountShelterDocumentsArgs
   transports?: boolean | ShelterCountOutputTypeCountTransportsArgs
+  externalFeedConfigs?: boolean | ShelterCountOutputTypeCountExternalFeedConfigsArgs
+  importMappings?: boolean | ShelterCountOutputTypeCountImportMappingsArgs
+  originBatches?: boolean | ShelterCountOutputTypeCountOriginBatchesArgs
+  destinationBatches?: boolean | ShelterCountOutputTypeCountDestinationBatchesArgs
   conversations?: boolean | ShelterCountOutputTypeCountConversationsArgs
 }
 
@@ -1535,6 +2773,34 @@ export type ShelterCountOutputTypeCountTransportsArgs<ExtArgs extends runtime.Ty
 /**
  * ShelterCountOutputType without action
  */
+export type ShelterCountOutputTypeCountExternalFeedConfigsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExternalFeedConfigWhereInput
+}
+
+/**
+ * ShelterCountOutputType without action
+ */
+export type ShelterCountOutputTypeCountImportMappingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ImportMappingWhereInput
+}
+
+/**
+ * ShelterCountOutputType without action
+ */
+export type ShelterCountOutputTypeCountOriginBatchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransportBatchWhereInput
+}
+
+/**
+ * ShelterCountOutputType without action
+ */
+export type ShelterCountOutputTypeCountDestinationBatchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransportBatchWhereInput
+}
+
+/**
+ * ShelterCountOutputType without action
+ */
 export type ShelterCountOutputTypeCountConversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.PrivateConversationWhereInput
 }
@@ -1554,6 +2820,13 @@ export type ShelterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   status?: boolean
   stripeCustomerId?: boolean
   stripeDefaultPaymentMethodId?: boolean
+  totalKennels?: boolean
+  openKennels?: boolean
+  currentUtilization?: boolean
+  acceptsSpecies?: boolean
+  acceptsSizes?: boolean
+  acceptsBreeds?: boolean
+  restrictedBreeds?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   logo?: boolean | Prisma.Shelter$logoArgs<ExtArgs>
@@ -1562,6 +2835,10 @@ export type ShelterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   animals?: boolean | Prisma.Shelter$animalsArgs<ExtArgs>
   shelterDocuments?: boolean | Prisma.Shelter$shelterDocumentsArgs<ExtArgs>
   transports?: boolean | Prisma.Shelter$transportsArgs<ExtArgs>
+  externalFeedConfigs?: boolean | Prisma.Shelter$externalFeedConfigsArgs<ExtArgs>
+  importMappings?: boolean | Prisma.Shelter$importMappingsArgs<ExtArgs>
+  originBatches?: boolean | Prisma.Shelter$originBatchesArgs<ExtArgs>
+  destinationBatches?: boolean | Prisma.Shelter$destinationBatchesArgs<ExtArgs>
   conversations?: boolean | Prisma.Shelter$conversationsArgs<ExtArgs>
   _count?: boolean | Prisma.ShelterCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["shelter"]>
@@ -1580,6 +2857,13 @@ export type ShelterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   stripeCustomerId?: boolean
   stripeDefaultPaymentMethodId?: boolean
+  totalKennels?: boolean
+  openKennels?: boolean
+  currentUtilization?: boolean
+  acceptsSpecies?: boolean
+  acceptsSizes?: boolean
+  acceptsBreeds?: boolean
+  restrictedBreeds?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   logo?: boolean | Prisma.Shelter$logoArgs<ExtArgs>
@@ -1599,6 +2883,13 @@ export type ShelterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   status?: boolean
   stripeCustomerId?: boolean
   stripeDefaultPaymentMethodId?: boolean
+  totalKennels?: boolean
+  openKennels?: boolean
+  currentUtilization?: boolean
+  acceptsSpecies?: boolean
+  acceptsSizes?: boolean
+  acceptsBreeds?: boolean
+  restrictedBreeds?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   logo?: boolean | Prisma.Shelter$logoArgs<ExtArgs>
@@ -1618,11 +2909,18 @@ export type ShelterSelectScalar = {
   status?: boolean
   stripeCustomerId?: boolean
   stripeDefaultPaymentMethodId?: boolean
+  totalKennels?: boolean
+  openKennels?: boolean
+  currentUtilization?: boolean
+  acceptsSpecies?: boolean
+  acceptsSizes?: boolean
+  acceptsBreeds?: boolean
+  restrictedBreeds?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ShelterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "phone" | "description" | "logoId" | "logoUrl" | "startTime" | "endTime" | "workingDays" | "status" | "stripeCustomerId" | "stripeDefaultPaymentMethodId" | "createdAt" | "updatedAt", ExtArgs["result"]["shelter"]>
+export type ShelterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "phone" | "description" | "logoId" | "logoUrl" | "startTime" | "endTime" | "workingDays" | "status" | "stripeCustomerId" | "stripeDefaultPaymentMethodId" | "totalKennels" | "openKennels" | "currentUtilization" | "acceptsSpecies" | "acceptsSizes" | "acceptsBreeds" | "restrictedBreeds" | "createdAt" | "updatedAt", ExtArgs["result"]["shelter"]>
 export type ShelterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   logo?: boolean | Prisma.Shelter$logoArgs<ExtArgs>
   shelterAdmins?: boolean | Prisma.Shelter$shelterAdminsArgs<ExtArgs>
@@ -1630,6 +2928,10 @@ export type ShelterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   animals?: boolean | Prisma.Shelter$animalsArgs<ExtArgs>
   shelterDocuments?: boolean | Prisma.Shelter$shelterDocumentsArgs<ExtArgs>
   transports?: boolean | Prisma.Shelter$transportsArgs<ExtArgs>
+  externalFeedConfigs?: boolean | Prisma.Shelter$externalFeedConfigsArgs<ExtArgs>
+  importMappings?: boolean | Prisma.Shelter$importMappingsArgs<ExtArgs>
+  originBatches?: boolean | Prisma.Shelter$originBatchesArgs<ExtArgs>
+  destinationBatches?: boolean | Prisma.Shelter$destinationBatchesArgs<ExtArgs>
   conversations?: boolean | Prisma.Shelter$conversationsArgs<ExtArgs>
   _count?: boolean | Prisma.ShelterCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1649,6 +2951,10 @@ export type $ShelterPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     animals: Prisma.$AnimalPayload<ExtArgs>[]
     shelterDocuments: Prisma.$ShelterDocumentPayload<ExtArgs>[]
     transports: Prisma.$TransportPayload<ExtArgs>[]
+    externalFeedConfigs: Prisma.$ExternalFeedConfigPayload<ExtArgs>[]
+    importMappings: Prisma.$ImportMappingPayload<ExtArgs>[]
+    originBatches: Prisma.$TransportBatchPayload<ExtArgs>[]
+    destinationBatches: Prisma.$TransportBatchPayload<ExtArgs>[]
     conversations: Prisma.$PrivateConversationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1665,6 +2971,13 @@ export type $ShelterPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     status: $Enums.ApprovalStatus
     stripeCustomerId: string | null
     stripeDefaultPaymentMethodId: string | null
+    totalKennels: number
+    openKennels: number
+    currentUtilization: number
+    acceptsSpecies: string[]
+    acceptsSizes: string[]
+    acceptsBreeds: string[]
+    restrictedBreeds: string[]
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["shelter"]>
@@ -2067,6 +3380,10 @@ export interface Prisma__ShelterClient<T, Null = never, ExtArgs extends runtime.
   animals<T extends Prisma.Shelter$animalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$animalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnimalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   shelterDocuments<T extends Prisma.Shelter$shelterDocumentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$shelterDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShelterDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transports<T extends Prisma.Shelter$transportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$transportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  externalFeedConfigs<T extends Prisma.Shelter$externalFeedConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$externalFeedConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExternalFeedConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  importMappings<T extends Prisma.Shelter$importMappingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$importMappingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImportMappingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  originBatches<T extends Prisma.Shelter$originBatchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$originBatchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  destinationBatches<T extends Prisma.Shelter$destinationBatchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$destinationBatchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversations<T extends Prisma.Shelter$conversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2110,6 +3427,13 @@ export interface ShelterFieldRefs {
   readonly status: Prisma.FieldRef<"Shelter", 'ApprovalStatus'>
   readonly stripeCustomerId: Prisma.FieldRef<"Shelter", 'String'>
   readonly stripeDefaultPaymentMethodId: Prisma.FieldRef<"Shelter", 'String'>
+  readonly totalKennels: Prisma.FieldRef<"Shelter", 'Int'>
+  readonly openKennels: Prisma.FieldRef<"Shelter", 'Int'>
+  readonly currentUtilization: Prisma.FieldRef<"Shelter", 'Float'>
+  readonly acceptsSpecies: Prisma.FieldRef<"Shelter", 'String[]'>
+  readonly acceptsSizes: Prisma.FieldRef<"Shelter", 'String[]'>
+  readonly acceptsBreeds: Prisma.FieldRef<"Shelter", 'String[]'>
+  readonly restrictedBreeds: Prisma.FieldRef<"Shelter", 'String[]'>
   readonly createdAt: Prisma.FieldRef<"Shelter", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Shelter", 'DateTime'>
 }
@@ -2644,6 +3968,102 @@ export type Shelter$transportsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.TransportScalarFieldEnum | Prisma.TransportScalarFieldEnum[]
+}
+
+/**
+ * Shelter.externalFeedConfigs
+ */
+export type Shelter$externalFeedConfigsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExternalFeedConfig
+   */
+  select?: Prisma.ExternalFeedConfigSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExternalFeedConfig
+   */
+  omit?: Prisma.ExternalFeedConfigOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExternalFeedConfigInclude<ExtArgs> | null
+  where?: Prisma.ExternalFeedConfigWhereInput
+  orderBy?: Prisma.ExternalFeedConfigOrderByWithRelationInput | Prisma.ExternalFeedConfigOrderByWithRelationInput[]
+  cursor?: Prisma.ExternalFeedConfigWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExternalFeedConfigScalarFieldEnum | Prisma.ExternalFeedConfigScalarFieldEnum[]
+}
+
+/**
+ * Shelter.importMappings
+ */
+export type Shelter$importMappingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ImportMapping
+   */
+  select?: Prisma.ImportMappingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ImportMapping
+   */
+  omit?: Prisma.ImportMappingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ImportMappingInclude<ExtArgs> | null
+  where?: Prisma.ImportMappingWhereInput
+  orderBy?: Prisma.ImportMappingOrderByWithRelationInput | Prisma.ImportMappingOrderByWithRelationInput[]
+  cursor?: Prisma.ImportMappingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ImportMappingScalarFieldEnum | Prisma.ImportMappingScalarFieldEnum[]
+}
+
+/**
+ * Shelter.originBatches
+ */
+export type Shelter$originBatchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransportBatch
+   */
+  select?: Prisma.TransportBatchSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransportBatch
+   */
+  omit?: Prisma.TransportBatchOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransportBatchInclude<ExtArgs> | null
+  where?: Prisma.TransportBatchWhereInput
+  orderBy?: Prisma.TransportBatchOrderByWithRelationInput | Prisma.TransportBatchOrderByWithRelationInput[]
+  cursor?: Prisma.TransportBatchWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransportBatchScalarFieldEnum | Prisma.TransportBatchScalarFieldEnum[]
+}
+
+/**
+ * Shelter.destinationBatches
+ */
+export type Shelter$destinationBatchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransportBatch
+   */
+  select?: Prisma.TransportBatchSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransportBatch
+   */
+  omit?: Prisma.TransportBatchOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransportBatchInclude<ExtArgs> | null
+  where?: Prisma.TransportBatchWhereInput
+  orderBy?: Prisma.TransportBatchOrderByWithRelationInput | Prisma.TransportBatchOrderByWithRelationInput[]
+  cursor?: Prisma.TransportBatchWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransportBatchScalarFieldEnum | Prisma.TransportBatchScalarFieldEnum[]
 }
 
 /**

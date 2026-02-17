@@ -18,6 +18,25 @@ export const Status = {
 export type Status = (typeof Status)[keyof typeof Status]
 
 
+export const QuarantineStatus = {
+  CLEARED: 'CLEARED',
+  QUARANTINE: 'QUARANTINE',
+  OBSERVATION: 'OBSERVATION'
+} as const
+
+export type QuarantineStatus = (typeof QuarantineStatus)[keyof typeof QuarantineStatus]
+
+
+export const HeartwormStatus = {
+  NEGATIVE: 'NEGATIVE',
+  POSITIVE: 'POSITIVE',
+  TREATMENT: 'TREATMENT',
+  UNKNOWN: 'UNKNOWN'
+} as const
+
+export type HeartwormStatus = (typeof HeartwormStatus)[keyof typeof HeartwormStatus]
+
+
 export const OtpType = {
   VERIFICATION: 'VERIFICATION',
   RESET: 'RESET'
@@ -146,6 +165,15 @@ export const MessageDeliveryStatus = {
 } as const
 
 export type MessageDeliveryStatus = (typeof MessageDeliveryStatus)[keyof typeof MessageDeliveryStatus]
+
+
+export const BatchStatus = {
+  PENDING: 'PENDING',
+  EXECUTED: 'EXECUTED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type BatchStatus = (typeof BatchStatus)[keyof typeof BatchStatus]
 
 
 export const PriorityLevel = {
