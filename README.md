@@ -217,6 +217,8 @@ pnpm db:format        # Format schema files
 GitHub Actions workflow (`.github/workflows/ci-cd.yml`):
 
 1. **CI Check** (on PR/push to main)
+   - Install dependencies
+   - Generate Prisma Client
    - Lint check
    - Format check
    - Build validation
@@ -226,10 +228,78 @@ GitHub Actions workflow (`.github/workflows/ci-cd.yml`):
    - Push to Docker Hub
    - Tag with `latest`, version, and commit SHA
 
-3. **Deploy** (commented out, ready to configure)
+3. **Deploy** (on merge to main)
    - Transfer files via SCP
    - SSH into VPS
    - Pull and restart containers
+
+### VPS Deployment Prerequisites
+
+> **⚠️ IMPORTANT**: Before the first deployment, you must manually set up your VPS server.
+
+#### Required Software
+
+1. **Docker Compose V2** - Verify installation:
+   ```bash
+   docker compose version
+   # Expected output: Docker Compose version v2.x.x or higher
+   ```
+   
+   If not installed, install Docker Compose V2:
+   ```bash
+   # Install Docker (if not already installed)
+   curl -fsSL https://get.docker.com -o get-docker.sh
+   sudo sh get-docker.sh
+   
+   # Docker Compose V2 comes with Docker by default
+   # Verify installation
+   docker compose version
+   ```
+
+2. **Git** (optional, for manual deployments)
+
+#### Environment Variables Setup
+
+**⚠️ CRITICAL**: The `.env` file is NOT transferred via CI/CD for security reasons. You must create it manually on your VPS.
+
+1. SSH into your VPS server
+2. Navigate to the deployment directory:
+   ```bash
+   cd /home/<VPS_USER>/server
+   ```
+3. Create `.env` file with all required variables:
+   ```bash
+   nano .env
+   ```
+4. Copy ALL variables from `.env.example` and set production values:
+   - `DATABASE_URL` - PostgreSQL connection string
+   - `JWT_SECRET` - Strong random secret
+   - `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` - S3 credentials
+   - `MAIL_USER` / `MAIL_PASS` - SMTP credentials
+   - `SUPER_ADMIN_EMAIL` / `SUPER_ADMIN_PASS` - Initial admin credentials
+   - All other required environment variables
+
+5. Save and secure the file:
+   ```bash
+   chmod 600 .env
+   ```
+
+#### GitHub Secrets Configuration
+
+Configure the following secrets in your GitHub repository (`Settings > Secrets and variables > Actions`):
+
+- `DOCKER_USERNAME` - Docker Hub username
+- `DOCKER_PASSWORD` - Docker Hub password/token
+- `PACKAGE_NAME` - Package name (e.g., `smckearin_backend`)
+- `PACKAGE_VERSION` - Version tag (e.g., `latest`)
+- `VPS_HOST` - VPS server IP or domain
+- `VPS_USER` - SSH user for deployment
+- `VPS_SSH_PRIVATE_KEY` - SSH private key for authentication
+
+3. **Deploy** (automated after VPS setup)
+   - Transfers configuration files to VPS
+   - Pulls latest Docker images
+   - Restarts containers with zero downtime
 
 4. **Release** (Automated)
    - Analyzes commits via Semantic Release
