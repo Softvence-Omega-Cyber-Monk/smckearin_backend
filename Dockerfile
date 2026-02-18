@@ -21,8 +21,8 @@ RUN pnpm config set allowed-builds '*' -g
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
-# Generate Prisma Client
-RUN pnpm prisma generate
+# Generate Prisma Client (dummy DATABASE_URL is sufficient for code generation)
+RUN DATABASE_URL="postgresql://user:password@localhost:5432/db" pnpm prisma generate
 
 # Copy rest of the project files
 COPY . .
@@ -50,11 +50,8 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma.config.ts ./
 COPY --from=builder /app/prisma ./prisma
 
-# Install dependencies
-RUN pnpm install --frozen-lockfile
-
-# Generate Prisma Client in production
-RUN pnpm prisma generate
+# Install production dependencies (includes pre-built Prisma client)
+RUN pnpm install --frozen-lockfile --prod
 
 # Expose the port
 EXPOSE 3000
