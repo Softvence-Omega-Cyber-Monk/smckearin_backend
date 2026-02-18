@@ -15,7 +15,7 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
-      "@prisma": ["prisma/generated/client"]
+      "@prisma": ["./node_modules/@prisma/client"]
     },
     "incremental": true,
     "skipLibCheck": true,
@@ -25,6 +25,6 @@
     "strictBindCallApply": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "prisma/generated/client"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist", "prisma"]
 }
