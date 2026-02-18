@@ -50,8 +50,8 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma.config.ts ./
 COPY --from=builder /app/prisma ./prisma
 
-# Install production dependencies (includes pre-built Prisma client)
-RUN pnpm install --frozen-lockfile --prod
+# Install production dependencies (HUSKY=0 skips the prepare/husky script)
+RUN HUSKY=0 pnpm install --frozen-lockfile --prod
 
 # Expose the port
 EXPOSE 3000
