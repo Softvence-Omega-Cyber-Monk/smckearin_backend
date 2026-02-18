@@ -45,14 +45,7 @@ services:
         condition: service_healthy
       redis-master:
         condition: service_healthy
-    command: >
-      sh -c "
-        echo '🏁 Waiting for DB...';
-        sleep 5;
-        npx prisma migrate deploy;
-        echo '🚀 Starting app...';
-        pnpm start
-      "
+
     volumes:
       - files-data:/app/uploads
       - temp-data:/app/tmp
