@@ -240,17 +240,19 @@ GitHub Actions workflow (`.github/workflows/ci-cd.yml`):
 #### Required Software
 
 1. **Docker Compose V2** - Verify installation:
+
    ```bash
    docker compose version
    # Expected output: Docker Compose version v2.x.x or higher
    ```
-   
+
    If not installed, install Docker Compose V2:
+
    ```bash
    # Install Docker (if not already installed)
    curl -fsSL https://get.docker.com -o get-docker.sh
    sudo sh get-docker.sh
-   
+
    # Docker Compose V2 comes with Docker by default
    # Verify installation
    docker compose version
