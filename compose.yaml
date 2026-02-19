@@ -133,7 +133,7 @@ services:
         'no',
       ]
     ports:
-      - '22377:6379'
+      - '22376:6379'
     depends_on:
       - redis-master
     restart: always
