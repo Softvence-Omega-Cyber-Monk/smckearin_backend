@@ -4,6 +4,7 @@ import { MailModule } from './mail/mail.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 import { ChatModule } from './chat/chat.module';
+import { FirebaseModule } from './firebase/firebase.module';
 import { GoogleMapsModule } from './google-maps/google-maps.module';
 import { QueueModule } from './queue/queue.module';
 import { SeedModule } from './seed/seed.module';
@@ -20,6 +21,7 @@ import { WeatherModule } from './weather/weather.module';
     UtilsModule,
     QueueModule,
     ChatModule,
+    FirebaseModule,
     GoogleMapsModule,
     StripeModule,
     WeatherModule,

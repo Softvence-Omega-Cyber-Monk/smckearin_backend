@@ -16,6 +16,10 @@ export class MapCsvDto {
   @IsString()
   shelterId: string;
 
+  @IsOptional()
+  @IsString()
+  idempotencyKey?: string;
+
   // File will be handled by multer middleware
 }
 

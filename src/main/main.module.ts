@@ -5,6 +5,7 @@ import { DriverModule } from './driver/driver.module';
 import { HealthReportsModule } from './health-reports/health-reports.module';
 import { ImportsModule } from './imports/imports.module';
 import { MedicalReadinessModule } from './medical-readiness/medical-readiness.module';
+import { OperationsModule } from './operations/operations.module';
 import { PaymentModule } from './payment/payment.module';
 import { PriorityScoringModule } from './priority-scoring/priority-scoring.module';
 import { ShelterModule } from './shelter/shelter.module';
@@ -31,6 +32,7 @@ import { VetModule } from './vet/vet.module';
     // Rescue Transit AI Modules
     ImportsModule,
     MedicalReadinessModule,
+    OperationsModule,
     PriorityScoringModule,
     TransportOptimizerModule,
   ],

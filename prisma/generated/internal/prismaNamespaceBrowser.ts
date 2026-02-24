@@ -55,17 +55,22 @@ export const ModelName = {
   Animal: 'Animal',
   UserOtp: 'UserOtp',
   RefreshToken: 'RefreshToken',
+  DailySchedule: 'DailySchedule',
   Driver: 'Driver',
   ExternalFeedConfig: 'ExternalFeedConfig',
   FileInstance: 'FileInstance',
   HealthReport: 'HealthReport',
+  ImportJob: 'ImportJob',
+  ImportRow: 'ImportRow',
   ImportMapping: 'ImportMapping',
   Notification: 'Notification',
   UserNotification: 'UserNotification',
   NotificationSettings: 'NotificationSettings',
+  OperationEvent: 'OperationEvent',
   PaymentSettings: 'PaymentSettings',
   PricingRule: 'PricingRule',
   PricingSnapshot: 'PricingSnapshot',
+  PriorityScoreLog: 'PriorityScoreLog',
   PrivateConversation: 'PrivateConversation',
   PrivateMessage: 'PrivateMessage',
   PrivateMessageStatus: 'PrivateMessageStatus',
@@ -139,6 +144,7 @@ export const AnimalScalarFieldEnum = {
   specialNeedsFlag: 'specialNeedsFlag',
   clearedForTransport: 'clearedForTransport',
   priorityScore: 'priorityScore',
+  priorityScoreFormulaVersion: 'priorityScoreFormulaVersion',
   lengthOfStayDays: 'lengthOfStayDays',
   lastScoreUpdate: 'lastScoreUpdate',
   crateUnits: 'crateUnits',
@@ -172,6 +178,21 @@ export const RefreshTokenScalarFieldEnum = {
 } as const
 
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
+
+
+export const DailyScheduleScalarFieldEnum = {
+  id: 'id',
+  day: 'day',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  driverId: 'driverId',
+  veterinarianId: 'veterinarianId',
+  shelterId: 'shelterId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DailyScheduleScalarFieldEnum = (typeof DailyScheduleScalarFieldEnum)[keyof typeof DailyScheduleScalarFieldEnum]
 
 
 export const DriverScalarFieldEnum = {
@@ -261,6 +282,49 @@ export const HealthReportScalarFieldEnum = {
 export type HealthReportScalarFieldEnum = (typeof HealthReportScalarFieldEnum)[keyof typeof HealthReportScalarFieldEnum]
 
 
+export const ImportJobScalarFieldEnum = {
+  id: 'id',
+  shelterId: 'shelterId',
+  mappingTemplateId: 'mappingTemplateId',
+  sourceType: 'sourceType',
+  sourceFileName: 'sourceFileName',
+  sourceChecksum: 'sourceChecksum',
+  fileSizeBytes: 'fileSizeBytes',
+  idempotencyKey: 'idempotencyKey',
+  requestedByUserId: 'requestedByUserId',
+  status: 'status',
+  totalRows: 'totalRows',
+  processedRows: 'processedRows',
+  createdCount: 'createdCount',
+  updatedCount: 'updatedCount',
+  skippedCount: 'skippedCount',
+  errorCount: 'errorCount',
+  auditLog: 'auditLog',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ImportJobScalarFieldEnum = (typeof ImportJobScalarFieldEnum)[keyof typeof ImportJobScalarFieldEnum]
+
+
+export const ImportRowScalarFieldEnum = {
+  id: 'id',
+  importJobId: 'importJobId',
+  rowNumber: 'rowNumber',
+  rawData: 'rawData',
+  mappedData: 'mappedData',
+  action: 'action',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  errorMessage: 'errorMessage',
+  createdAt: 'createdAt'
+} as const
+
+export type ImportRowScalarFieldEnum = (typeof ImportRowScalarFieldEnum)[keyof typeof ImportRowScalarFieldEnum]
+
+
 export const ImportMappingScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -317,6 +381,28 @@ export const NotificationSettingsScalarFieldEnum = {
 export type NotificationSettingsScalarFieldEnum = (typeof NotificationSettingsScalarFieldEnum)[keyof typeof NotificationSettingsScalarFieldEnum]
 
 
+export const OperationEventScalarFieldEnum = {
+  id: 'id',
+  domain: 'domain',
+  action: 'action',
+  status: 'status',
+  correlationId: 'correlationId',
+  idempotencyKey: 'idempotencyKey',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  payload: 'payload',
+  errorMessage: 'errorMessage',
+  shelterId: 'shelterId',
+  userId: 'userId',
+  animalId: 'animalId',
+  importJobId: 'importJobId',
+  transportBatchId: 'transportBatchId',
+  createdAt: 'createdAt'
+} as const
+
+export type OperationEventScalarFieldEnum = (typeof OperationEventScalarFieldEnum)[keyof typeof OperationEventScalarFieldEnum]
+
+
 export const PaymentSettingsScalarFieldEnum = {
   id: 'id',
   driverPaymentsEnabled: 'driverPaymentsEnabled',
@@ -368,11 +454,29 @@ export const PricingSnapshotScalarFieldEnum = {
 export type PricingSnapshotScalarFieldEnum = (typeof PricingSnapshotScalarFieldEnum)[keyof typeof PricingSnapshotScalarFieldEnum]
 
 
+export const PriorityScoreLogScalarFieldEnum = {
+  id: 'id',
+  animalId: 'animalId',
+  shelterId: 'shelterId',
+  formulaVersion: 'formulaVersion',
+  score: 'score',
+  breakdown: 'breakdown',
+  details: 'details',
+  inputSnapshot: 'inputSnapshot',
+  triggerType: 'triggerType',
+  createdAt: 'createdAt'
+} as const
+
+export type PriorityScoreLogScalarFieldEnum = (typeof PriorityScoreLogScalarFieldEnum)[keyof typeof PriorityScoreLogScalarFieldEnum]
+
+
 export const PrivateConversationScalarFieldEnum = {
   id: 'id',
   initiatorId: 'initiatorId',
   receiverId: 'receiverId',
   shelterId: 'shelterId',
+  chatScope: 'chatScope',
+  transportId: 'transportId',
   lastMessageId: 'lastMessageId',
   status: 'status',
   createdAt: 'createdAt',
@@ -477,6 +581,9 @@ export const TransportBatchScalarFieldEnum = {
   totalCrateUnits: 'totalCrateUnits',
   estimatedCost: 'estimatedCost',
   optimizationLog: 'optimizationLog',
+  optimizationInputSnapshot: 'optimizationInputSnapshot',
+  optimizationConstraintTrace: 'optimizationConstraintTrace',
+  optimizerVersion: 'optimizerVersion',
   status: 'status',
   executedAt: 'executedAt',
   createdAt: 'createdAt',

@@ -1,0 +1,820 @@
+// Generated for dbdiagram.io import
+// Source of truth: prisma/schema/*.prisma
+
+Enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  SHELTER_ADMIN
+  MANAGER
+  VETERINARIAN
+  DRIVER
+}
+
+Enum UserStatus {
+  ACTIVE
+  INACTIVE
+  DELETED
+}
+
+Enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+Enum WorkingDay {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+Enum SPECIES {
+  DOG
+  CAT
+}
+
+Enum Gender {
+  MALE
+  FEMALE
+}
+
+Enum Status {
+  ADOPTED
+  AT_SHELTER
+  IN_TRANSIT
+}
+
+Enum QuarantineStatus {
+  CLEARED
+  QUARANTINE
+  OBSERVATION
+}
+
+Enum HeartwormStatus {
+  NEGATIVE
+  POSITIVE
+  TREATMENT
+  UNKNOWN
+}
+
+Enum ComplexityType {
+  STANDARD
+  PUPPY_KITTEN
+  MEDICAL
+  SPECIAL_HANDLING
+}
+
+Enum OtpType {
+  VERIFICATION
+  RESET
+}
+
+Enum PaymentMode {
+  VOLUNTEER
+  PAID
+}
+
+Enum OnboardingStatus {
+  NOT_STARTED
+  PENDING
+  COMPLETE
+}
+
+Enum TransactionStatus {
+  PENDING
+  HOLD
+  PROCESSING
+  CHARGED
+  TRANSFERRED
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+Enum PriorityLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+Enum TransportStatus {
+  PENDING
+  ACCEPTED
+  CANCELLED
+  PICKED_UP
+  IN_TRANSIT
+  COMPLETED
+}
+
+Enum RequiredVetClearanceType {
+  Health
+  Vaccination
+  Both
+  No
+}
+
+Enum VetClearance {
+  Health
+  Vaccination
+  Both
+}
+
+Enum VetClearanceRequestStatus {
+  PENDING_REVIEW
+  PENDING_EVALUATION
+  REJECTED
+  CERTIFIED
+  NOT_FIT
+  NEEDS_VISIT
+}
+
+Enum VetAppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  MISSED
+}
+
+Enum BatchStatus {
+  PENDING
+  EXECUTED
+  CANCELLED
+}
+
+Enum FileType {
+  image
+  docs
+  link
+  document
+  any
+  video
+  audio
+}
+
+Enum ConversationStatus {
+  ACTIVE
+  ARCHIVED
+  BLOCKED
+}
+
+Enum ConversationScope {
+  MAIN
+  TRANSPORT
+}
+
+Enum MessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+  VOICE
+}
+
+Enum MessageDeliveryStatus {
+  SENT
+  DELIVERED
+  SEEN
+}
+
+Enum ImportSourceType {
+  CSV
+  EXTERNAL_FEED
+}
+
+Enum ImportJobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  DUPLICATE
+}
+
+Enum ImportRowAction {
+  CREATED
+  UPDATED
+  SKIPPED
+  ERROR
+}
+
+Enum PriorityScoreTriggerType {
+  MANUAL
+  CRON
+  SYSTEM
+}
+
+Enum OperationDomain {
+  IMPORT
+  PRIORITY_SCORING
+  OPTIMIZER
+}
+
+Enum OperationStatus {
+  STARTED
+  SUCCESS
+  FAILURE
+  DUPLICATE
+}
+
+Table users {
+  id text [pk]
+  name text
+  email text [unique]
+  password text
+  role UserRole
+  status UserStatus
+  isVerified bool
+  lastLoginAt timestamp
+  lastActiveAt timestamp
+  profilePictureId text [unique]
+  profilePictureUrl text
+  shelterAdminOfId text
+  managerOfId text
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table shelters {
+  id text [pk]
+  name text
+  address text
+  phone text [unique]
+  description text
+  logoId text [unique]
+  logoUrl text
+  startTime text
+  endTime text
+  workingDays text[]
+  status ApprovalStatus
+  stripeCustomerId text [unique]
+  stripeDefaultPaymentMethodId text [unique]
+  totalKennels int
+  openKennels int
+  currentUtilization float
+  acceptsSpecies text[]
+  acceptsSizes text[]
+  acceptsBreeds text[]
+  restrictedBreeds text[]
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table file_instances {
+  id text [pk]
+  filename text
+  originalFilename text
+  path text
+  url text
+  fileType FileType
+  mimeType text
+  size int
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table drivers {
+  id text [pk]
+  userId text [unique]
+  phone text [unique]
+  state text
+  address text
+  vehicleType text
+  vehicleCapacity int
+  yearsOfExperience int
+  previousExperience text
+  startTime text
+  endTime text
+  workingDays text[]
+  driverLicenseId text [unique]
+  driverLicenseUrl text
+  driverLicenseStatus ApprovalStatus
+  vehicleRegistrationId text [unique]
+  vehicleRegistrationUrl text
+  vehicleRegistrationStatus ApprovalStatus
+  transportCertificateId text [unique]
+  transportCertificateUrl text
+  transportCertificateStatus ApprovalStatus
+  status ApprovalStatus
+  currentLatitude float
+  currentLongitude float
+  lastLocationPing timestamp
+  stripeAccountId text [unique]
+  onboardingStatus OnboardingStatus
+  payoutEnabled bool
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table veterinarians {
+  id text [pk]
+  phone text [unique]
+  license text [unique]
+  description text
+  startTime text
+  endTime text
+  workingDays text[]
+  status ApprovalStatus
+  userId text [unique]
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table animals {
+  id text [pk]
+  name text
+  breed text
+  age int
+  weight float
+  species SPECIES
+  gender Gender
+  color text
+  specialNeeds text
+  medicalNotes text
+  behaviorNotes text
+  complexityType ComplexityType
+  bondedWithId text
+  shelterId text
+  imageId text [unique]
+  imageUrl text
+  status Status
+  externalAnimalId text [unique]
+  intakeType text
+  intakeDate timestamp
+  medicalHoldFlag bool
+  quarantineStatus QuarantineStatus
+  vaccinationsUpToDate bool
+  rabiesExpiration timestamp
+  heartwormStatus HeartwormStatus
+  specialNeedsFlag bool
+  clearedForTransport bool
+  priorityScore float
+  priorityScoreFormulaVersion text
+  lengthOfStayDays int
+  lastScoreUpdate timestamp
+  crateUnits float
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table transports {
+  id text [pk]
+  transportNote text
+  priorityLevel PriorityLevel
+  pickUpLocation text
+  pickUpLatitude float
+  pickUpLongitude float
+  dropOffLocation text
+  dropOffLatitude float
+  dropOffLongitude float
+  transPortDate timestamp
+  animalId text
+  isBondedPair bool
+  bondedPairId text
+  vetId text
+  driverId text
+  shelterId text
+  isVetClearanceRequired bool
+  vetClearanceType RequiredVetClearanceType
+  vetClearanceRequestId text [unique]
+  status TransportStatus
+  createdAt timestamp
+  updatedAt timestamp
+  acceptedAt timestamp
+  completedAt timestamp
+}
+
+Table transport_timelines {
+  id text [pk]
+  transportId text
+  status TransportStatus
+  note text
+  latitude float
+  longitude float
+  createdAt timestamp
+}
+
+Table vet_clearance_requests {
+  id text [pk]
+  vetClearance VetClearance
+  veterinarianId text
+  status VetClearanceRequestStatus
+  notFitReasons text[]
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table vet_appointments {
+  id text [pk]
+  requestId text [unique]
+  veterinarianId text
+  appointmentDate timestamp
+  location text
+  latitude float
+  longitude float
+  notes text
+  status VetAppointmentStatus
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table health_reports {
+  id text [pk]
+  veterinarianId text
+  animalId text
+  reportType text
+  note text
+  reportId text [unique]
+  reportIdUrl text
+  status ApprovalStatus
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table external_feed_configs {
+  id text [pk]
+  name text
+  provider text
+  shelterId text
+  apiUrl text
+  apiKey text
+  credentials json
+  pollInterval int
+  lastSyncAt timestamp
+  lastSyncStatus text
+  isActive bool
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table import_mappings {
+  id text [pk]
+  name text
+  description text
+  shelterId text
+  fieldMapping json
+  transformations json
+  isActive bool
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table import_jobs {
+  id text [pk]
+  shelterId text
+  mappingTemplateId text
+  sourceType ImportSourceType
+  sourceFileName text
+  sourceChecksum text
+  fileSizeBytes int
+  idempotencyKey text [unique]
+  requestedByUserId text
+  status ImportJobStatus
+  totalRows int
+  processedRows int
+  createdCount int
+  updatedCount int
+  skippedCount int
+  errorCount int
+  auditLog json
+  startedAt timestamp
+  finishedAt timestamp
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table import_rows {
+  id text [pk]
+  importJobId text
+  rowNumber int
+  rawData json
+  mappedData json
+  action ImportRowAction
+  entityType text
+  entityId text
+  errorMessage text
+  createdAt timestamp
+}
+
+Table priority_score_logs {
+  id text [pk]
+  animalId text
+  shelterId text
+  formulaVersion text
+  score float
+  breakdown json
+  details text[]
+  inputSnapshot json
+  triggerType PriorityScoreTriggerType
+  createdAt timestamp
+}
+
+Table operation_events {
+  id text [pk]
+  domain OperationDomain
+  action text
+  status OperationStatus
+  correlationId text
+  idempotencyKey text
+  entityType text
+  entityId text
+  payload json
+  errorMessage text
+  shelterId text
+  userId text
+  animalId text
+  importJobId text
+  transportBatchId text
+  createdAt timestamp
+}
+
+Table transport_batches {
+  id text [pk]
+  name text
+  originShelterId text
+  destinationShelterId text
+  vehicleCapacity float
+  selectedAnimalIds text[]
+  totalPriorityScore float
+  totalCrateUnits float
+  estimatedCost float
+  optimizationLog json
+  optimizationInputSnapshot json
+  optimizationConstraintTrace json
+  optimizerVersion text
+  status BatchStatus
+  executedAt timestamp
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table pricing_rules {
+  id text [pk]
+  ratePerMile float
+  ratePerMinute float
+  baseFare float
+  platformFeePercent float
+  minPayout float
+  effectiveDate timestamp
+  calculationVersion int
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table pricing_snapshots {
+  id text [pk]
+  transportId text [unique]
+  distanceMiles float
+  durationMinutes float
+  ratePerMile float
+  ratePerMinute float
+  distanceCost float
+  timeCost float
+  animalComplexityFee float
+  multiAnimalFee float
+  platformFeeAmount float
+  driverGrossPayout float
+  totalRideCost float
+  createdAt timestamp
+}
+
+Table transactions {
+  id text [pk]
+  transportId text [unique]
+  stripePaymentIntentId text [unique]
+  stripeTransferId text [unique]
+  amount float
+  currency text
+  status TransactionStatus
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table payment_settings {
+  id text [pk]
+  driverPaymentsEnabled bool
+  platformFeesEnabled bool
+  timeBasedPricingEnabled bool
+  paymentMode PaymentMode
+  paymentEnabled bool
+  automaticPayoutsEnabled bool
+  payoutDayOfMonth int
+  updatedAt timestamp
+}
+
+Table private_conversations {
+  id text [pk]
+  initiatorId text
+  receiverId text
+  shelterId text
+  chatScope ConversationScope
+  transportId text
+  lastMessageId text
+  status ConversationStatus
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table private_messages {
+  id text [pk]
+  content text
+  type MessageType
+  fileId text
+  conversationId text
+  senderId text
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table private_message_statuses {
+  id text [pk]
+  messageId text
+  userId text
+  status MessageDeliveryStatus
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table notifications {
+  id text [pk]
+  type text
+  title text
+  message text
+  meta json
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table user_notifications {
+  id text [pk]
+  userId text
+  notificationId text
+  read bool
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table notification_settings {
+  id text [pk]
+  userId text [unique]
+  emailNotifications bool
+  smsNotifications bool
+  certificateNotifications bool
+  appointmentNotifications bool
+  tripNotifications bool
+  paymentNotifications bool
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table user_otps {
+  id text [pk]
+  code text
+  type OtpType
+  userId text
+  expiresAt timestamp
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table refresh_tokens {
+  id text [pk]
+  token text [unique]
+  userId text
+  expiresAt timestamp
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table vet_documents {
+  id text [pk]
+  name text
+  type text
+  vetId text
+  documentId text [unique]
+  documentUrl text
+  status ApprovalStatus
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table shelter_documents {
+  id text [pk]
+  name text
+  type text
+  shelterId text
+  documentId text [unique]
+  documentUrl text
+  status ApprovalStatus
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table daily_schedules {
+  id text [pk]
+  day WorkingDay
+  startTime text
+  endTime text
+  driverId text
+  veterinarianId text
+  shelterId text
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Table animal_complexity_fees {
+  id text [pk]
+  type ComplexityType [unique]
+  amount float
+  multiAnimalFlatFee float
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+Ref: users.profilePictureId > file_instances.id
+Ref: users.shelterAdminOfId > shelters.id
+Ref: users.managerOfId > shelters.id
+
+Ref: shelters.logoId > file_instances.id
+
+Ref: drivers.userId > users.id
+Ref: drivers.driverLicenseId > file_instances.id
+Ref: drivers.vehicleRegistrationId > file_instances.id
+Ref: drivers.transportCertificateId > file_instances.id
+
+Ref: veterinarians.userId > users.id
+
+Ref: animals.bondedWithId > animals.id
+Ref: animals.shelterId > shelters.id
+Ref: animals.imageId > file_instances.id
+
+Ref: transports.animalId > animals.id
+Ref: transports.bondedPairId > animals.id
+Ref: transports.vetId > veterinarians.id
+Ref: transports.driverId > drivers.id
+Ref: transports.shelterId > shelters.id
+Ref: transports.vetClearanceRequestId > vet_clearance_requests.id
+
+Ref: transport_timelines.transportId > transports.id
+
+Ref: vet_clearance_requests.veterinarianId > veterinarians.id
+Ref: vet_appointments.requestId > vet_clearance_requests.id
+Ref: vet_appointments.veterinarianId > veterinarians.id
+
+Ref: health_reports.veterinarianId > veterinarians.id
+Ref: health_reports.animalId > animals.id
+Ref: health_reports.reportId > file_instances.id
+
+Ref: external_feed_configs.shelterId > shelters.id
+Ref: import_mappings.shelterId > shelters.id
+Ref: import_jobs.shelterId > shelters.id
+Ref: import_jobs.mappingTemplateId > import_mappings.id
+Ref: import_jobs.requestedByUserId > users.id
+Ref: import_rows.importJobId > import_jobs.id
+
+Ref: priority_score_logs.animalId > animals.id
+Ref: priority_score_logs.shelterId > shelters.id
+
+Ref: operation_events.shelterId > shelters.id
+Ref: operation_events.userId > users.id
+Ref: operation_events.animalId > animals.id
+Ref: operation_events.importJobId > import_jobs.id
+Ref: operation_events.transportBatchId > transport_batches.id
+
+Ref: transport_batches.originShelterId > shelters.id
+Ref: transport_batches.destinationShelterId > shelters.id
+
+Ref: pricing_snapshots.transportId > transports.id
+Ref: transactions.transportId > transports.id
+
+Ref: private_conversations.initiatorId > users.id
+Ref: private_conversations.receiverId > users.id
+Ref: private_conversations.shelterId > shelters.id
+Ref: private_conversations.transportId > transports.id
+Ref: private_conversations.lastMessageId > private_messages.id
+
+Ref: private_messages.fileId > file_instances.id
+Ref: private_messages.conversationId > private_conversations.id
+Ref: private_messages.senderId > users.id
+
+Ref: private_message_statuses.messageId > private_messages.id
+Ref: private_message_statuses.userId > users.id
+
+Ref: user_notifications.userId > users.id
+Ref: user_notifications.notificationId > notifications.id
+Ref: notification_settings.userId > users.id
+
+Ref: user_otps.userId > users.id
+Ref: refresh_tokens.userId > users.id
+
+Ref: vet_documents.vetId > veterinarians.id
+Ref: vet_documents.documentId > file_instances.id
+Ref: shelter_documents.shelterId > shelters.id
+Ref: shelter_documents.documentId > file_instances.id
+
+Ref: daily_schedules.driverId > drivers.id
+Ref: daily_schedules.veterinarianId > veterinarians.id
+Ref: daily_schedules.shelterId > shelters.id

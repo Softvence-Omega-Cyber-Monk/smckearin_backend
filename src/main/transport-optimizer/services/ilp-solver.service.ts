@@ -32,13 +32,33 @@ export class IlpSolverService {
     selectedAnimalIds: string[];
     totalScore: number;
     totalCrateUnits: number;
+    trace: {
+      algorithmVersion: string;
+      evaluatedAnimals: number;
+      eligibleAnimalIds: string[];
+      rejectedByConstraints: Array<{ animalId: string; reason: string }>;
+      skippedByCapacityOrKennel: Array<{ animalId: string; reason: string }>;
+      selectedOrder: string[];
+      inputCapacity: number;
+      destinationOpenKennels: number;
+    };
   }> {
     this.logger.log(`Solving optimization for ${animals.length} animals`);
 
     // Filter animals that match destination constraints
-    const eligibleAnimals = animals.filter((animal) =>
-      this.matchesDestinationConstraints(animal, destinationConstraints),
-    );
+    const rejectedByConstraints: Array<{ animalId: string; reason: string }> =
+      [];
+    const eligibleAnimals = animals.filter((animal) => {
+      const reason = this.getConstraintFailureReason(
+        animal,
+        destinationConstraints,
+      );
+      if (reason) {
+        rejectedByConstraints.push({ animalId: animal.id, reason });
+        return false;
+      }
+      return true;
+    });
 
     this.logger.log(
       `${eligibleAnimals.length} animals match destination constraints`,
@@ -52,6 +72,10 @@ export class IlpSolverService {
     // Greedy selection with constraint checking
     const selected: string[] = [];
     const bondedPairsSelected = new Set<string>();
+    const skippedByCapacityOrKennel: Array<{
+      animalId: string;
+      reason: string;
+    }> = [];
     let totalCrateUnits = 0;
     let totalScore = 0;
 
@@ -88,6 +112,12 @@ export class IlpSolverService {
         destinationConstraints.openKennels;
 
       if (wouldExceedCapacity || wouldExceedKennels) {
+        skippedByCapacityOrKennel.push({
+          animalId: animal.id,
+          reason: wouldExceedCapacity
+            ? 'Vehicle capacity exceeded'
+            : 'Destination open kennels exceeded',
+        });
         continue; // Skip this animal
       }
 
@@ -119,6 +149,16 @@ export class IlpSolverService {
       selectedAnimalIds: selected,
       totalScore,
       totalCrateUnits,
+      trace: {
+        algorithmVersion: 'heuristic-greedy-v1',
+        evaluatedAnimals: animals.length,
+        eligibleAnimalIds: eligibleAnimals.map((animal) => animal.id),
+        rejectedByConstraints,
+        skippedByCapacityOrKennel,
+        selectedOrder: selected,
+        inputCapacity: vehicleCapacity,
+        destinationOpenKennels: destinationConstraints.openKennels,
+      },
     };
   }
 
@@ -129,12 +169,19 @@ export class IlpSolverService {
     animal: any,
     constraints: any,
   ): boolean {
+    return !this.getConstraintFailureReason(animal, constraints);
+  }
+
+  private getConstraintFailureReason(
+    animal: any,
+    constraints: any,
+  ): string | null {
     // Species constraint
     if (
       constraints.acceptsSpecies.length > 0 &&
       !constraints.acceptsSpecies.includes(animal.species)
     ) {
-      return false;
+      return `Species ${animal.species} not accepted`;
     }
 
     // Breed restrictions
@@ -144,7 +191,7 @@ export class IlpSolverService {
         animal.breed.toLowerCase().includes(breed.toLowerCase()),
       )
     ) {
-      return false;
+      return `Breed ${animal.breed} is restricted`;
     }
 
     // Breed acceptance (if specified)
@@ -153,7 +200,7 @@ export class IlpSolverService {
         animal.breed.toLowerCase().includes(breed.toLowerCase()),
       );
       if (!breedMatches) {
-        return false;
+        return `Breed ${animal.breed} not in accepted list`;
       }
     }
 
@@ -161,11 +208,11 @@ export class IlpSolverService {
     if (constraints.acceptsSizes.length > 0) {
       const animalSize = this.categorizeSize(animal.weight);
       if (!constraints.acceptsSizes.includes(animalSize)) {
-        return false;
+        return `Size ${animalSize} not accepted`;
       }
     }
 
-    return true;
+    return null;
   }
 
   /**

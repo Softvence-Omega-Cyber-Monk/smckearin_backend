@@ -3,7 +3,7 @@ import { successPaginatedResponse } from '@/common/utils/response.util';
 import { SocketSafe } from '@/core/socket/socket-safe.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
-import { Prisma } from '@prisma';
+import { ConversationScope, Prisma } from '@prisma';
 import { Socket } from 'socket.io';
 import { ChatGateway } from '../chat.gateway';
 import {
@@ -206,6 +206,7 @@ export class ConversationQueryService {
 
     // Build conversation query based on whether user is from shelter or individual
     const conversationWhere: any = {
+      chatScope: ConversationScope.MAIN,
       OR: userShelterId
         ? [
             // Shelter-based conversations
@@ -311,6 +312,7 @@ export class ConversationQueryService {
 
     // Build conversation query based on whether user is from shelter or individual
     const conversationWhere: Prisma.PrivateConversationWhereInput = {
+      chatScope: ConversationScope.MAIN,
       OR: userShelterId
         ? [
             // Shelter-based conversations
@@ -414,6 +416,7 @@ export class ConversationQueryService {
     const conversations = await this.prisma.client.privateConversation.findMany(
       {
         where: {
+          chatScope: ConversationScope.MAIN,
           shelterId: { in: shelterIds },
           OR: [{ initiatorId: userId }, { receiverId: userId }],
         },

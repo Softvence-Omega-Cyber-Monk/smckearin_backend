@@ -19,7 +19,7 @@ model Shelter {
   status ApprovalStatus @default(PENDING)
 
   // For billing of transports charges
-  stripeCustomerId String? @unique
+  stripeCustomerId             String? @unique
   stripeDefaultPaymentMethodId String? @unique
 
   // Shelter-level admins and their team
@@ -51,6 +51,8 @@ model Shelter {
 
   // Import Mappings
   importMappings ImportMapping[]
+  importJobs     ImportJob[]
+  dailySchedules DailySchedule[]
 
   // Transport Batches
   originBatches      TransportBatch[] @relation("OriginBatches")
@@ -58,6 +60,8 @@ model Shelter {
 
   // Conversations (Shelter as a participant)
   conversations PrivateConversation[] @relation("ShelterConversations")
+  operationEvents OperationEvent[]
+  priorityScoreLogs PriorityScoreLog[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

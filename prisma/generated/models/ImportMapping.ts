@@ -207,6 +207,7 @@ export type ImportMappingWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"ImportMapping"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ImportMapping"> | Date | string
   shelter?: Prisma.XOR<Prisma.ShelterScalarRelationFilter, Prisma.ShelterWhereInput>
+  importJobs?: Prisma.ImportJobListRelationFilter
 }
 
 export type ImportMappingOrderByWithRelationInput = {
@@ -220,6 +221,7 @@ export type ImportMappingOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   shelter?: Prisma.ShelterOrderByWithRelationInput
+  importJobs?: Prisma.ImportJobOrderByRelationAggregateInput
 }
 
 export type ImportMappingWhereUniqueInput = Prisma.AtLeast<{
@@ -236,6 +238,7 @@ export type ImportMappingWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"ImportMapping"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ImportMapping"> | Date | string
   shelter?: Prisma.XOR<Prisma.ShelterScalarRelationFilter, Prisma.ShelterWhereInput>
+  importJobs?: Prisma.ImportJobListRelationFilter
 }, "id">
 
 export type ImportMappingOrderByWithAggregationInput = {
@@ -278,6 +281,7 @@ export type ImportMappingCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   shelter: Prisma.ShelterCreateNestedOneWithoutImportMappingsInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutMappingTemplateInput
 }
 
 export type ImportMappingUncheckedCreateInput = {
@@ -290,6 +294,7 @@ export type ImportMappingUncheckedCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutMappingTemplateInput
 }
 
 export type ImportMappingUpdateInput = {
@@ -302,6 +307,7 @@ export type ImportMappingUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shelter?: Prisma.ShelterUpdateOneRequiredWithoutImportMappingsNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutMappingTemplateNestedInput
 }
 
 export type ImportMappingUncheckedUpdateInput = {
@@ -314,6 +320,7 @@ export type ImportMappingUncheckedUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutMappingTemplateNestedInput
 }
 
 export type ImportMappingCreateManyInput = {
@@ -349,6 +356,11 @@ export type ImportMappingUncheckedUpdateManyInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ImportMappingNullableScalarRelationFilter = {
+  is?: Prisma.ImportMappingWhereInput | null
+  isNot?: Prisma.ImportMappingWhereInput | null
 }
 
 export type ImportMappingCountOrderByAggregateInput = {
@@ -393,6 +405,22 @@ export type ImportMappingOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type ImportMappingCreateNestedOneWithoutImportJobsInput = {
+  create?: Prisma.XOR<Prisma.ImportMappingCreateWithoutImportJobsInput, Prisma.ImportMappingUncheckedCreateWithoutImportJobsInput>
+  connectOrCreate?: Prisma.ImportMappingCreateOrConnectWithoutImportJobsInput
+  connect?: Prisma.ImportMappingWhereUniqueInput
+}
+
+export type ImportMappingUpdateOneWithoutImportJobsNestedInput = {
+  create?: Prisma.XOR<Prisma.ImportMappingCreateWithoutImportJobsInput, Prisma.ImportMappingUncheckedCreateWithoutImportJobsInput>
+  connectOrCreate?: Prisma.ImportMappingCreateOrConnectWithoutImportJobsInput
+  upsert?: Prisma.ImportMappingUpsertWithoutImportJobsInput
+  disconnect?: Prisma.ImportMappingWhereInput | boolean
+  delete?: Prisma.ImportMappingWhereInput | boolean
+  connect?: Prisma.ImportMappingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ImportMappingUpdateToOneWithWhereWithoutImportJobsInput, Prisma.ImportMappingUpdateWithoutImportJobsInput>, Prisma.ImportMappingUncheckedUpdateWithoutImportJobsInput>
+}
+
 export type ImportMappingCreateNestedManyWithoutShelterInput = {
   create?: Prisma.XOR<Prisma.ImportMappingCreateWithoutShelterInput, Prisma.ImportMappingUncheckedCreateWithoutShelterInput> | Prisma.ImportMappingCreateWithoutShelterInput[] | Prisma.ImportMappingUncheckedCreateWithoutShelterInput[]
   connectOrCreate?: Prisma.ImportMappingCreateOrConnectWithoutShelterInput | Prisma.ImportMappingCreateOrConnectWithoutShelterInput[]
@@ -435,6 +463,70 @@ export type ImportMappingUncheckedUpdateManyWithoutShelterNestedInput = {
   deleteMany?: Prisma.ImportMappingScalarWhereInput | Prisma.ImportMappingScalarWhereInput[]
 }
 
+export type ImportMappingCreateWithoutImportJobsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  fieldMapping: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  transformations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelter: Prisma.ShelterCreateNestedOneWithoutImportMappingsInput
+}
+
+export type ImportMappingUncheckedCreateWithoutImportJobsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  shelterId: string
+  fieldMapping: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  transformations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ImportMappingCreateOrConnectWithoutImportJobsInput = {
+  where: Prisma.ImportMappingWhereUniqueInput
+  create: Prisma.XOR<Prisma.ImportMappingCreateWithoutImportJobsInput, Prisma.ImportMappingUncheckedCreateWithoutImportJobsInput>
+}
+
+export type ImportMappingUpsertWithoutImportJobsInput = {
+  update: Prisma.XOR<Prisma.ImportMappingUpdateWithoutImportJobsInput, Prisma.ImportMappingUncheckedUpdateWithoutImportJobsInput>
+  create: Prisma.XOR<Prisma.ImportMappingCreateWithoutImportJobsInput, Prisma.ImportMappingUncheckedCreateWithoutImportJobsInput>
+  where?: Prisma.ImportMappingWhereInput
+}
+
+export type ImportMappingUpdateToOneWithWhereWithoutImportJobsInput = {
+  where?: Prisma.ImportMappingWhereInput
+  data: Prisma.XOR<Prisma.ImportMappingUpdateWithoutImportJobsInput, Prisma.ImportMappingUncheckedUpdateWithoutImportJobsInput>
+}
+
+export type ImportMappingUpdateWithoutImportJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fieldMapping?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  transformations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelter?: Prisma.ShelterUpdateOneRequiredWithoutImportMappingsNestedInput
+}
+
+export type ImportMappingUncheckedUpdateWithoutImportJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  fieldMapping?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  transformations?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ImportMappingCreateWithoutShelterInput = {
   id?: string
   name: string
@@ -444,6 +536,7 @@ export type ImportMappingCreateWithoutShelterInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutMappingTemplateInput
 }
 
 export type ImportMappingUncheckedCreateWithoutShelterInput = {
@@ -455,6 +548,7 @@ export type ImportMappingUncheckedCreateWithoutShelterInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutMappingTemplateInput
 }
 
 export type ImportMappingCreateOrConnectWithoutShelterInput = {
@@ -518,6 +612,7 @@ export type ImportMappingUpdateWithoutShelterInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  importJobs?: Prisma.ImportJobUpdateManyWithoutMappingTemplateNestedInput
 }
 
 export type ImportMappingUncheckedUpdateWithoutShelterInput = {
@@ -529,6 +624,7 @@ export type ImportMappingUncheckedUpdateWithoutShelterInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutMappingTemplateNestedInput
 }
 
 export type ImportMappingUncheckedUpdateManyWithoutShelterInput = {
@@ -543,6 +639,35 @@ export type ImportMappingUncheckedUpdateManyWithoutShelterInput = {
 }
 
 
+/**
+ * Count Type ImportMappingCountOutputType
+ */
+
+export type ImportMappingCountOutputType = {
+  importJobs: number
+}
+
+export type ImportMappingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  importJobs?: boolean | ImportMappingCountOutputTypeCountImportJobsArgs
+}
+
+/**
+ * ImportMappingCountOutputType without action
+ */
+export type ImportMappingCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ImportMappingCountOutputType
+   */
+  select?: Prisma.ImportMappingCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ImportMappingCountOutputType without action
+ */
+export type ImportMappingCountOutputTypeCountImportJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ImportJobWhereInput
+}
+
 
 export type ImportMappingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -555,6 +680,8 @@ export type ImportMappingSelect<ExtArgs extends runtime.Types.Extensions.Interna
   createdAt?: boolean
   updatedAt?: boolean
   shelter?: boolean | Prisma.ShelterDefaultArgs<ExtArgs>
+  importJobs?: boolean | Prisma.ImportMapping$importJobsArgs<ExtArgs>
+  _count?: boolean | Prisma.ImportMappingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["importMapping"]>
 
 export type ImportMappingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -598,6 +725,8 @@ export type ImportMappingSelectScalar = {
 export type ImportMappingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "shelterId" | "fieldMapping" | "transformations" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["importMapping"]>
 export type ImportMappingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   shelter?: boolean | Prisma.ShelterDefaultArgs<ExtArgs>
+  importJobs?: boolean | Prisma.ImportMapping$importJobsArgs<ExtArgs>
+  _count?: boolean | Prisma.ImportMappingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ImportMappingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   shelter?: boolean | Prisma.ShelterDefaultArgs<ExtArgs>
@@ -610,6 +739,7 @@ export type $ImportMappingPayload<ExtArgs extends runtime.Types.Extensions.Inter
   name: "ImportMapping"
   objects: {
     shelter: Prisma.$ShelterPayload<ExtArgs>
+    importJobs: Prisma.$ImportJobPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1016,6 +1146,7 @@ readonly fields: ImportMappingFieldRefs;
 export interface Prisma__ImportMappingClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   shelter<T extends Prisma.ShelterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ShelterDefaultArgs<ExtArgs>>): Prisma.Prisma__ShelterClient<runtime.Types.Result.GetResult<Prisma.$ShelterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  importJobs<T extends Prisma.ImportMapping$importJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ImportMapping$importJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImportJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1447,6 +1578,30 @@ export type ImportMappingDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many ImportMappings to delete.
    */
   limit?: number
+}
+
+/**
+ * ImportMapping.importJobs
+ */
+export type ImportMapping$importJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ImportJob
+   */
+  select?: Prisma.ImportJobSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ImportJob
+   */
+  omit?: Prisma.ImportJobOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ImportJobInclude<ExtArgs> | null
+  where?: Prisma.ImportJobWhereInput
+  orderBy?: Prisma.ImportJobOrderByWithRelationInput | Prisma.ImportJobOrderByWithRelationInput[]
+  cursor?: Prisma.ImportJobWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ImportJobScalarFieldEnum | Prisma.ImportJobScalarFieldEnum[]
 }
 
 /**

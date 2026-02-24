@@ -49,6 +49,7 @@ export type TransportBatchMinAggregateOutputType = {
   totalPriorityScore: number | null
   totalCrateUnits: number | null
   estimatedCost: number | null
+  optimizerVersion: string | null
   status: $Enums.BatchStatus | null
   executedAt: Date | null
   createdAt: Date | null
@@ -64,6 +65,7 @@ export type TransportBatchMaxAggregateOutputType = {
   totalPriorityScore: number | null
   totalCrateUnits: number | null
   estimatedCost: number | null
+  optimizerVersion: string | null
   status: $Enums.BatchStatus | null
   executedAt: Date | null
   createdAt: Date | null
@@ -81,6 +83,9 @@ export type TransportBatchCountAggregateOutputType = {
   totalCrateUnits: number
   estimatedCost: number
   optimizationLog: number
+  optimizationInputSnapshot: number
+  optimizationConstraintTrace: number
+  optimizerVersion: number
   status: number
   executedAt: number
   createdAt: number
@@ -112,6 +117,7 @@ export type TransportBatchMinAggregateInputType = {
   totalPriorityScore?: true
   totalCrateUnits?: true
   estimatedCost?: true
+  optimizerVersion?: true
   status?: true
   executedAt?: true
   createdAt?: true
@@ -127,6 +133,7 @@ export type TransportBatchMaxAggregateInputType = {
   totalPriorityScore?: true
   totalCrateUnits?: true
   estimatedCost?: true
+  optimizerVersion?: true
   status?: true
   executedAt?: true
   createdAt?: true
@@ -144,6 +151,9 @@ export type TransportBatchCountAggregateInputType = {
   totalCrateUnits?: true
   estimatedCost?: true
   optimizationLog?: true
+  optimizationInputSnapshot?: true
+  optimizationConstraintTrace?: true
+  optimizerVersion?: true
   status?: true
   executedAt?: true
   createdAt?: true
@@ -248,6 +258,9 @@ export type TransportBatchGroupByOutputType = {
   totalCrateUnits: number
   estimatedCost: number | null
   optimizationLog: runtime.JsonValue
+  optimizationInputSnapshot: runtime.JsonValue | null
+  optimizationConstraintTrace: runtime.JsonValue | null
+  optimizerVersion: string
   status: $Enums.BatchStatus
   executedAt: Date | null
   createdAt: Date
@@ -288,12 +301,16 @@ export type TransportBatchWhereInput = {
   totalCrateUnits?: Prisma.FloatFilter<"TransportBatch"> | number
   estimatedCost?: Prisma.FloatNullableFilter<"TransportBatch"> | number | null
   optimizationLog?: Prisma.JsonFilter<"TransportBatch">
+  optimizationInputSnapshot?: Prisma.JsonNullableFilter<"TransportBatch">
+  optimizationConstraintTrace?: Prisma.JsonNullableFilter<"TransportBatch">
+  optimizerVersion?: Prisma.StringFilter<"TransportBatch"> | string
   status?: Prisma.EnumBatchStatusFilter<"TransportBatch"> | $Enums.BatchStatus
   executedAt?: Prisma.DateTimeNullableFilter<"TransportBatch"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"TransportBatch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TransportBatch"> | Date | string
   originShelter?: Prisma.XOR<Prisma.ShelterScalarRelationFilter, Prisma.ShelterWhereInput>
   destinationShelter?: Prisma.XOR<Prisma.ShelterScalarRelationFilter, Prisma.ShelterWhereInput>
+  operationEvents?: Prisma.OperationEventListRelationFilter
 }
 
 export type TransportBatchOrderByWithRelationInput = {
@@ -307,12 +324,16 @@ export type TransportBatchOrderByWithRelationInput = {
   totalCrateUnits?: Prisma.SortOrder
   estimatedCost?: Prisma.SortOrderInput | Prisma.SortOrder
   optimizationLog?: Prisma.SortOrder
+  optimizationInputSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
+  optimizationConstraintTrace?: Prisma.SortOrderInput | Prisma.SortOrder
+  optimizerVersion?: Prisma.SortOrder
   status?: Prisma.SortOrder
   executedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   originShelter?: Prisma.ShelterOrderByWithRelationInput
   destinationShelter?: Prisma.ShelterOrderByWithRelationInput
+  operationEvents?: Prisma.OperationEventOrderByRelationAggregateInput
 }
 
 export type TransportBatchWhereUniqueInput = Prisma.AtLeast<{
@@ -329,12 +350,16 @@ export type TransportBatchWhereUniqueInput = Prisma.AtLeast<{
   totalCrateUnits?: Prisma.FloatFilter<"TransportBatch"> | number
   estimatedCost?: Prisma.FloatNullableFilter<"TransportBatch"> | number | null
   optimizationLog?: Prisma.JsonFilter<"TransportBatch">
+  optimizationInputSnapshot?: Prisma.JsonNullableFilter<"TransportBatch">
+  optimizationConstraintTrace?: Prisma.JsonNullableFilter<"TransportBatch">
+  optimizerVersion?: Prisma.StringFilter<"TransportBatch"> | string
   status?: Prisma.EnumBatchStatusFilter<"TransportBatch"> | $Enums.BatchStatus
   executedAt?: Prisma.DateTimeNullableFilter<"TransportBatch"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"TransportBatch"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TransportBatch"> | Date | string
   originShelter?: Prisma.XOR<Prisma.ShelterScalarRelationFilter, Prisma.ShelterWhereInput>
   destinationShelter?: Prisma.XOR<Prisma.ShelterScalarRelationFilter, Prisma.ShelterWhereInput>
+  operationEvents?: Prisma.OperationEventListRelationFilter
 }, "id">
 
 export type TransportBatchOrderByWithAggregationInput = {
@@ -348,6 +373,9 @@ export type TransportBatchOrderByWithAggregationInput = {
   totalCrateUnits?: Prisma.SortOrder
   estimatedCost?: Prisma.SortOrderInput | Prisma.SortOrder
   optimizationLog?: Prisma.SortOrder
+  optimizationInputSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
+  optimizationConstraintTrace?: Prisma.SortOrderInput | Prisma.SortOrder
+  optimizerVersion?: Prisma.SortOrder
   status?: Prisma.SortOrder
   executedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -373,6 +401,9 @@ export type TransportBatchScalarWhereWithAggregatesInput = {
   totalCrateUnits?: Prisma.FloatWithAggregatesFilter<"TransportBatch"> | number
   estimatedCost?: Prisma.FloatNullableWithAggregatesFilter<"TransportBatch"> | number | null
   optimizationLog?: Prisma.JsonWithAggregatesFilter<"TransportBatch">
+  optimizationInputSnapshot?: Prisma.JsonNullableWithAggregatesFilter<"TransportBatch">
+  optimizationConstraintTrace?: Prisma.JsonNullableWithAggregatesFilter<"TransportBatch">
+  optimizerVersion?: Prisma.StringWithAggregatesFilter<"TransportBatch"> | string
   status?: Prisma.EnumBatchStatusWithAggregatesFilter<"TransportBatch"> | $Enums.BatchStatus
   executedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"TransportBatch"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TransportBatch"> | Date | string
@@ -388,12 +419,16 @@ export type TransportBatchCreateInput = {
   totalCrateUnits: number
   estimatedCost?: number | null
   optimizationLog: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: string
   status?: $Enums.BatchStatus
   executedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   originShelter: Prisma.ShelterCreateNestedOneWithoutOriginBatchesInput
   destinationShelter: Prisma.ShelterCreateNestedOneWithoutDestinationBatchesInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutTransportBatchInput
 }
 
 export type TransportBatchUncheckedCreateInput = {
@@ -407,10 +442,14 @@ export type TransportBatchUncheckedCreateInput = {
   totalCrateUnits: number
   estimatedCost?: number | null
   optimizationLog: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: string
   status?: $Enums.BatchStatus
   executedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutTransportBatchInput
 }
 
 export type TransportBatchUpdateInput = {
@@ -422,12 +461,16 @@ export type TransportBatchUpdateInput = {
   totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   originShelter?: Prisma.ShelterUpdateOneRequiredWithoutOriginBatchesNestedInput
   destinationShelter?: Prisma.ShelterUpdateOneRequiredWithoutDestinationBatchesNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutTransportBatchNestedInput
 }
 
 export type TransportBatchUncheckedUpdateInput = {
@@ -441,10 +484,14 @@ export type TransportBatchUncheckedUpdateInput = {
   totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutTransportBatchNestedInput
 }
 
 export type TransportBatchCreateManyInput = {
@@ -458,6 +505,9 @@ export type TransportBatchCreateManyInput = {
   totalCrateUnits: number
   estimatedCost?: number | null
   optimizationLog: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: string
   status?: $Enums.BatchStatus
   executedAt?: Date | string | null
   createdAt?: Date | string
@@ -473,6 +523,9 @@ export type TransportBatchUpdateManyMutationInput = {
   totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -490,10 +543,18 @@ export type TransportBatchUncheckedUpdateManyInput = {
   totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TransportBatchNullableScalarRelationFilter = {
+  is?: Prisma.TransportBatchWhereInput | null
+  isNot?: Prisma.TransportBatchWhereInput | null
 }
 
 export type TransportBatchListRelationFilter = {
@@ -517,6 +578,9 @@ export type TransportBatchCountOrderByAggregateInput = {
   totalCrateUnits?: Prisma.SortOrder
   estimatedCost?: Prisma.SortOrder
   optimizationLog?: Prisma.SortOrder
+  optimizationInputSnapshot?: Prisma.SortOrder
+  optimizationConstraintTrace?: Prisma.SortOrder
+  optimizerVersion?: Prisma.SortOrder
   status?: Prisma.SortOrder
   executedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -539,6 +603,7 @@ export type TransportBatchMaxOrderByAggregateInput = {
   totalPriorityScore?: Prisma.SortOrder
   totalCrateUnits?: Prisma.SortOrder
   estimatedCost?: Prisma.SortOrder
+  optimizerVersion?: Prisma.SortOrder
   status?: Prisma.SortOrder
   executedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -554,6 +619,7 @@ export type TransportBatchMinOrderByAggregateInput = {
   totalPriorityScore?: Prisma.SortOrder
   totalCrateUnits?: Prisma.SortOrder
   estimatedCost?: Prisma.SortOrder
+  optimizerVersion?: Prisma.SortOrder
   status?: Prisma.SortOrder
   executedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -565,6 +631,22 @@ export type TransportBatchSumOrderByAggregateInput = {
   totalPriorityScore?: Prisma.SortOrder
   totalCrateUnits?: Prisma.SortOrder
   estimatedCost?: Prisma.SortOrder
+}
+
+export type TransportBatchCreateNestedOneWithoutOperationEventsInput = {
+  create?: Prisma.XOR<Prisma.TransportBatchCreateWithoutOperationEventsInput, Prisma.TransportBatchUncheckedCreateWithoutOperationEventsInput>
+  connectOrCreate?: Prisma.TransportBatchCreateOrConnectWithoutOperationEventsInput
+  connect?: Prisma.TransportBatchWhereUniqueInput
+}
+
+export type TransportBatchUpdateOneWithoutOperationEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.TransportBatchCreateWithoutOperationEventsInput, Prisma.TransportBatchUncheckedCreateWithoutOperationEventsInput>
+  connectOrCreate?: Prisma.TransportBatchCreateOrConnectWithoutOperationEventsInput
+  upsert?: Prisma.TransportBatchUpsertWithoutOperationEventsInput
+  disconnect?: Prisma.TransportBatchWhereInput | boolean
+  delete?: Prisma.TransportBatchWhereInput | boolean
+  connect?: Prisma.TransportBatchWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TransportBatchUpdateToOneWithWhereWithoutOperationEventsInput, Prisma.TransportBatchUpdateWithoutOperationEventsInput>, Prisma.TransportBatchUncheckedUpdateWithoutOperationEventsInput>
 }
 
 export type TransportBatchCreateNestedManyWithoutOriginShelterInput = {
@@ -664,6 +746,102 @@ export type EnumBatchStatusFieldUpdateOperationsInput = {
   set?: $Enums.BatchStatus
 }
 
+export type TransportBatchCreateWithoutOperationEventsInput = {
+  id?: string
+  name: string
+  vehicleCapacity: number
+  selectedAnimalIds?: Prisma.TransportBatchCreateselectedAnimalIdsInput | string[]
+  totalPriorityScore: number
+  totalCrateUnits: number
+  estimatedCost?: number | null
+  optimizationLog: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: string
+  status?: $Enums.BatchStatus
+  executedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  originShelter: Prisma.ShelterCreateNestedOneWithoutOriginBatchesInput
+  destinationShelter: Prisma.ShelterCreateNestedOneWithoutDestinationBatchesInput
+}
+
+export type TransportBatchUncheckedCreateWithoutOperationEventsInput = {
+  id?: string
+  name: string
+  originShelterId: string
+  destinationShelterId: string
+  vehicleCapacity: number
+  selectedAnimalIds?: Prisma.TransportBatchCreateselectedAnimalIdsInput | string[]
+  totalPriorityScore: number
+  totalCrateUnits: number
+  estimatedCost?: number | null
+  optimizationLog: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: string
+  status?: $Enums.BatchStatus
+  executedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type TransportBatchCreateOrConnectWithoutOperationEventsInput = {
+  where: Prisma.TransportBatchWhereUniqueInput
+  create: Prisma.XOR<Prisma.TransportBatchCreateWithoutOperationEventsInput, Prisma.TransportBatchUncheckedCreateWithoutOperationEventsInput>
+}
+
+export type TransportBatchUpsertWithoutOperationEventsInput = {
+  update: Prisma.XOR<Prisma.TransportBatchUpdateWithoutOperationEventsInput, Prisma.TransportBatchUncheckedUpdateWithoutOperationEventsInput>
+  create: Prisma.XOR<Prisma.TransportBatchCreateWithoutOperationEventsInput, Prisma.TransportBatchUncheckedCreateWithoutOperationEventsInput>
+  where?: Prisma.TransportBatchWhereInput
+}
+
+export type TransportBatchUpdateToOneWithWhereWithoutOperationEventsInput = {
+  where?: Prisma.TransportBatchWhereInput
+  data: Prisma.XOR<Prisma.TransportBatchUpdateWithoutOperationEventsInput, Prisma.TransportBatchUncheckedUpdateWithoutOperationEventsInput>
+}
+
+export type TransportBatchUpdateWithoutOperationEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleCapacity?: Prisma.FloatFieldUpdateOperationsInput | number
+  selectedAnimalIds?: Prisma.TransportBatchUpdateselectedAnimalIdsInput | string[]
+  totalPriorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
+  estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
+  executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  originShelter?: Prisma.ShelterUpdateOneRequiredWithoutOriginBatchesNestedInput
+  destinationShelter?: Prisma.ShelterUpdateOneRequiredWithoutDestinationBatchesNestedInput
+}
+
+export type TransportBatchUncheckedUpdateWithoutOperationEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  originShelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  destinationShelterId?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleCapacity?: Prisma.FloatFieldUpdateOperationsInput | number
+  selectedAnimalIds?: Prisma.TransportBatchUpdateselectedAnimalIdsInput | string[]
+  totalPriorityScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
+  estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
+  executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type TransportBatchCreateWithoutOriginShelterInput = {
   id?: string
   name: string
@@ -673,11 +851,15 @@ export type TransportBatchCreateWithoutOriginShelterInput = {
   totalCrateUnits: number
   estimatedCost?: number | null
   optimizationLog: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: string
   status?: $Enums.BatchStatus
   executedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   destinationShelter: Prisma.ShelterCreateNestedOneWithoutDestinationBatchesInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutTransportBatchInput
 }
 
 export type TransportBatchUncheckedCreateWithoutOriginShelterInput = {
@@ -690,10 +872,14 @@ export type TransportBatchUncheckedCreateWithoutOriginShelterInput = {
   totalCrateUnits: number
   estimatedCost?: number | null
   optimizationLog: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: string
   status?: $Enums.BatchStatus
   executedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutTransportBatchInput
 }
 
 export type TransportBatchCreateOrConnectWithoutOriginShelterInput = {
@@ -715,11 +901,15 @@ export type TransportBatchCreateWithoutDestinationShelterInput = {
   totalCrateUnits: number
   estimatedCost?: number | null
   optimizationLog: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: string
   status?: $Enums.BatchStatus
   executedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   originShelter: Prisma.ShelterCreateNestedOneWithoutOriginBatchesInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutTransportBatchInput
 }
 
 export type TransportBatchUncheckedCreateWithoutDestinationShelterInput = {
@@ -732,10 +922,14 @@ export type TransportBatchUncheckedCreateWithoutDestinationShelterInput = {
   totalCrateUnits: number
   estimatedCost?: number | null
   optimizationLog: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: string
   status?: $Enums.BatchStatus
   executedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutTransportBatchInput
 }
 
 export type TransportBatchCreateOrConnectWithoutDestinationShelterInput = {
@@ -778,6 +972,9 @@ export type TransportBatchScalarWhereInput = {
   totalCrateUnits?: Prisma.FloatFilter<"TransportBatch"> | number
   estimatedCost?: Prisma.FloatNullableFilter<"TransportBatch"> | number | null
   optimizationLog?: Prisma.JsonFilter<"TransportBatch">
+  optimizationInputSnapshot?: Prisma.JsonNullableFilter<"TransportBatch">
+  optimizationConstraintTrace?: Prisma.JsonNullableFilter<"TransportBatch">
+  optimizerVersion?: Prisma.StringFilter<"TransportBatch"> | string
   status?: Prisma.EnumBatchStatusFilter<"TransportBatch"> | $Enums.BatchStatus
   executedAt?: Prisma.DateTimeNullableFilter<"TransportBatch"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"TransportBatch"> | Date | string
@@ -810,6 +1007,9 @@ export type TransportBatchCreateManyOriginShelterInput = {
   totalCrateUnits: number
   estimatedCost?: number | null
   optimizationLog: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: string
   status?: $Enums.BatchStatus
   executedAt?: Date | string | null
   createdAt?: Date | string
@@ -826,6 +1026,9 @@ export type TransportBatchCreateManyDestinationShelterInput = {
   totalCrateUnits: number
   estimatedCost?: number | null
   optimizationLog: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: string
   status?: $Enums.BatchStatus
   executedAt?: Date | string | null
   createdAt?: Date | string
@@ -841,11 +1044,15 @@ export type TransportBatchUpdateWithoutOriginShelterInput = {
   totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   destinationShelter?: Prisma.ShelterUpdateOneRequiredWithoutDestinationBatchesNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutTransportBatchNestedInput
 }
 
 export type TransportBatchUncheckedUpdateWithoutOriginShelterInput = {
@@ -858,10 +1065,14 @@ export type TransportBatchUncheckedUpdateWithoutOriginShelterInput = {
   totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutTransportBatchNestedInput
 }
 
 export type TransportBatchUncheckedUpdateManyWithoutOriginShelterInput = {
@@ -874,6 +1085,9 @@ export type TransportBatchUncheckedUpdateManyWithoutOriginShelterInput = {
   totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -889,11 +1103,15 @@ export type TransportBatchUpdateWithoutDestinationShelterInput = {
   totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   originShelter?: Prisma.ShelterUpdateOneRequiredWithoutOriginBatchesNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutTransportBatchNestedInput
 }
 
 export type TransportBatchUncheckedUpdateWithoutDestinationShelterInput = {
@@ -906,10 +1124,14 @@ export type TransportBatchUncheckedUpdateWithoutDestinationShelterInput = {
   totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutTransportBatchNestedInput
 }
 
 export type TransportBatchUncheckedUpdateManyWithoutDestinationShelterInput = {
@@ -922,12 +1144,44 @@ export type TransportBatchUncheckedUpdateManyWithoutDestinationShelterInput = {
   totalCrateUnits?: Prisma.FloatFieldUpdateOperationsInput | number
   estimatedCost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   optimizationLog?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  optimizationInputSnapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizationConstraintTrace?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  optimizerVersion?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumBatchStatusFieldUpdateOperationsInput | $Enums.BatchStatus
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type TransportBatchCountOutputType
+ */
+
+export type TransportBatchCountOutputType = {
+  operationEvents: number
+}
+
+export type TransportBatchCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  operationEvents?: boolean | TransportBatchCountOutputTypeCountOperationEventsArgs
+}
+
+/**
+ * TransportBatchCountOutputType without action
+ */
+export type TransportBatchCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransportBatchCountOutputType
+   */
+  select?: Prisma.TransportBatchCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * TransportBatchCountOutputType without action
+ */
+export type TransportBatchCountOutputTypeCountOperationEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OperationEventWhereInput
+}
 
 
 export type TransportBatchSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -941,12 +1195,17 @@ export type TransportBatchSelect<ExtArgs extends runtime.Types.Extensions.Intern
   totalCrateUnits?: boolean
   estimatedCost?: boolean
   optimizationLog?: boolean
+  optimizationInputSnapshot?: boolean
+  optimizationConstraintTrace?: boolean
+  optimizerVersion?: boolean
   status?: boolean
   executedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   originShelter?: boolean | Prisma.ShelterDefaultArgs<ExtArgs>
   destinationShelter?: boolean | Prisma.ShelterDefaultArgs<ExtArgs>
+  operationEvents?: boolean | Prisma.TransportBatch$operationEventsArgs<ExtArgs>
+  _count?: boolean | Prisma.TransportBatchCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transportBatch"]>
 
 export type TransportBatchSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -960,6 +1219,9 @@ export type TransportBatchSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   totalCrateUnits?: boolean
   estimatedCost?: boolean
   optimizationLog?: boolean
+  optimizationInputSnapshot?: boolean
+  optimizationConstraintTrace?: boolean
+  optimizerVersion?: boolean
   status?: boolean
   executedAt?: boolean
   createdAt?: boolean
@@ -979,6 +1241,9 @@ export type TransportBatchSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   totalCrateUnits?: boolean
   estimatedCost?: boolean
   optimizationLog?: boolean
+  optimizationInputSnapshot?: boolean
+  optimizationConstraintTrace?: boolean
+  optimizerVersion?: boolean
   status?: boolean
   executedAt?: boolean
   createdAt?: boolean
@@ -998,16 +1263,21 @@ export type TransportBatchSelectScalar = {
   totalCrateUnits?: boolean
   estimatedCost?: boolean
   optimizationLog?: boolean
+  optimizationInputSnapshot?: boolean
+  optimizationConstraintTrace?: boolean
+  optimizerVersion?: boolean
   status?: boolean
   executedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TransportBatchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "originShelterId" | "destinationShelterId" | "vehicleCapacity" | "selectedAnimalIds" | "totalPriorityScore" | "totalCrateUnits" | "estimatedCost" | "optimizationLog" | "status" | "executedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["transportBatch"]>
+export type TransportBatchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "originShelterId" | "destinationShelterId" | "vehicleCapacity" | "selectedAnimalIds" | "totalPriorityScore" | "totalCrateUnits" | "estimatedCost" | "optimizationLog" | "optimizationInputSnapshot" | "optimizationConstraintTrace" | "optimizerVersion" | "status" | "executedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["transportBatch"]>
 export type TransportBatchInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   originShelter?: boolean | Prisma.ShelterDefaultArgs<ExtArgs>
   destinationShelter?: boolean | Prisma.ShelterDefaultArgs<ExtArgs>
+  operationEvents?: boolean | Prisma.TransportBatch$operationEventsArgs<ExtArgs>
+  _count?: boolean | Prisma.TransportBatchCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TransportBatchIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   originShelter?: boolean | Prisma.ShelterDefaultArgs<ExtArgs>
@@ -1023,6 +1293,7 @@ export type $TransportBatchPayload<ExtArgs extends runtime.Types.Extensions.Inte
   objects: {
     originShelter: Prisma.$ShelterPayload<ExtArgs>
     destinationShelter: Prisma.$ShelterPayload<ExtArgs>
+    operationEvents: Prisma.$OperationEventPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1035,6 +1306,9 @@ export type $TransportBatchPayload<ExtArgs extends runtime.Types.Extensions.Inte
     totalCrateUnits: number
     estimatedCost: number | null
     optimizationLog: runtime.JsonValue
+    optimizationInputSnapshot: runtime.JsonValue | null
+    optimizationConstraintTrace: runtime.JsonValue | null
+    optimizerVersion: string
     status: $Enums.BatchStatus
     executedAt: Date | null
     createdAt: Date
@@ -1435,6 +1709,7 @@ export interface Prisma__TransportBatchClient<T, Null = never, ExtArgs extends r
   readonly [Symbol.toStringTag]: "PrismaPromise"
   originShelter<T extends Prisma.ShelterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ShelterDefaultArgs<ExtArgs>>): Prisma.Prisma__ShelterClient<runtime.Types.Result.GetResult<Prisma.$ShelterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   destinationShelter<T extends Prisma.ShelterDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ShelterDefaultArgs<ExtArgs>>): Prisma.Prisma__ShelterClient<runtime.Types.Result.GetResult<Prisma.$ShelterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  operationEvents<T extends Prisma.TransportBatch$operationEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TransportBatch$operationEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OperationEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1474,6 +1749,9 @@ export interface TransportBatchFieldRefs {
   readonly totalCrateUnits: Prisma.FieldRef<"TransportBatch", 'Float'>
   readonly estimatedCost: Prisma.FieldRef<"TransportBatch", 'Float'>
   readonly optimizationLog: Prisma.FieldRef<"TransportBatch", 'Json'>
+  readonly optimizationInputSnapshot: Prisma.FieldRef<"TransportBatch", 'Json'>
+  readonly optimizationConstraintTrace: Prisma.FieldRef<"TransportBatch", 'Json'>
+  readonly optimizerVersion: Prisma.FieldRef<"TransportBatch", 'String'>
   readonly status: Prisma.FieldRef<"TransportBatch", 'BatchStatus'>
   readonly executedAt: Prisma.FieldRef<"TransportBatch", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"TransportBatch", 'DateTime'>
@@ -1871,6 +2149,30 @@ export type TransportBatchDeleteManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many TransportBatches to delete.
    */
   limit?: number
+}
+
+/**
+ * TransportBatch.operationEvents
+ */
+export type TransportBatch$operationEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OperationEvent
+   */
+  select?: Prisma.OperationEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OperationEvent
+   */
+  omit?: Prisma.OperationEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OperationEventInclude<ExtArgs> | null
+  where?: Prisma.OperationEventWhereInput
+  orderBy?: Prisma.OperationEventOrderByWithRelationInput | Prisma.OperationEventOrderByWithRelationInput[]
+  cursor?: Prisma.OperationEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OperationEventScalarFieldEnum | Prisma.OperationEventScalarFieldEnum[]
 }
 
 /**

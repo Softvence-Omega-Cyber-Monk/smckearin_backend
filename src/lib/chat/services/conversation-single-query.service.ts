@@ -7,7 +7,7 @@ import {
 import { SocketSafe } from '@/core/socket/socket-safe.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
-import { MessageDeliveryStatus, Prisma } from '@prisma';
+import { ConversationScope, MessageDeliveryStatus, Prisma } from '@prisma';
 import { Socket } from 'socket.io';
 import { ChatGateway } from '../chat.gateway';
 import {
@@ -190,6 +190,7 @@ export class ConversationSingleQueryService {
     // Find existing conversation
     let conversation = await this.prisma.client.privateConversation.findFirst({
       where: {
+        chatScope: ConversationScope.MAIN,
         shelterId: shelterId,
         OR: [{ initiatorId: userId }, { receiverId: userId }],
       },
@@ -203,6 +204,7 @@ export class ConversationSingleQueryService {
         data: {
           initiatorId: userId,
           shelterId: shelterId,
+          chatScope: ConversationScope.MAIN,
           // receiverId is null when chatting with a shelter
         },
         include: this.conversationInclude,
@@ -224,6 +226,7 @@ export class ConversationSingleQueryService {
       let conversation = await this.prisma.client.privateConversation.findFirst(
         {
           where: {
+            chatScope: ConversationScope.MAIN,
             shelterId: userShelterId,
             OR: [{ initiatorId: targetUserId }, { receiverId: targetUserId }],
           },
@@ -241,6 +244,7 @@ export class ConversationSingleQueryService {
             initiatorId: userId,
             receiverId: targetUserId,
             shelterId: userShelterId,
+            chatScope: ConversationScope.MAIN,
           },
           include: this.conversationInclude,
         });
@@ -252,6 +256,7 @@ export class ConversationSingleQueryService {
       let conversation = await this.prisma.client.privateConversation.findFirst(
         {
           where: {
+            chatScope: ConversationScope.MAIN,
             shelterId: null,
             OR: [
               { initiatorId: userId, receiverId: targetUserId },
@@ -270,6 +275,7 @@ export class ConversationSingleQueryService {
           data: {
             initiatorId: userId,
             receiverId: targetUserId,
+            chatScope: ConversationScope.MAIN,
           },
           include: this.conversationInclude,
         });

@@ -19,10 +19,14 @@ model TransportBatch {
 
   // Explainability
   optimizationLog Json // Detailed rationale for each animal
+  optimizationInputSnapshot Json?
+  optimizationConstraintTrace Json?
+  optimizerVersion String @default("heuristic-v1")
 
   status BatchStatus @default(PENDING)
 
   executedAt DateTime? // When transports were created from this batch
+  operationEvents OperationEvent[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

@@ -1,7 +1,7 @@
 model ImportMapping {
   id String @id @default(uuid())
 
-  name        String  // e.g., "Chameleon Export Template"
+  name        String // e.g., "Chameleon Export Template"
   description String?
 
   shelterId String
@@ -15,6 +15,8 @@ model ImportMapping {
   transformations Json? // e.g., { "Species": { "Canine": "DOG", "Feline": "CAT" } }
 
   isActive Boolean @default(true)
+
+  importJobs ImportJob[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

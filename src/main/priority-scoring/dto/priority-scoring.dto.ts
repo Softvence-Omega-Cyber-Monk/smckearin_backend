@@ -1,6 +1,7 @@
 import { IsNumber, IsOptional, Max, Min } from 'class-validator';
 
 export class PriorityScoreDto {
+  formulaVersion: string;
   score: number;
   breakdown: {
     lengthOfStay: number;

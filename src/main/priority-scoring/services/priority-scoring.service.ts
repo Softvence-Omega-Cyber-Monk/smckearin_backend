@@ -4,11 +4,19 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import {
+  OperationDomain,
+  OperationStatus,
+  Prisma,
+  PriorityScoreTriggerType,
+} from '@prisma';
+import { randomUUID } from 'crypto';
 import { PriorityScoreDto } from '../dto/priority-scoring.dto';
 
 @Injectable()
 export class PriorityScoringService {
   private readonly logger = new Logger(PriorityScoringService.name);
+  private readonly formulaVersion = 'v1.0.0';
 
   constructor(private readonly prisma: PrismaService) {}
 
@@ -18,7 +26,7 @@ export class PriorityScoringService {
   @Cron(CronExpression.EVERY_DAY_AT_2AM)
   async dailyScoreRecalculation() {
     this.logger.log('Starting daily priority score recalculation');
-    await this.recalculateAllScores();
+    await this.recalculateAllScores(undefined, PriorityScoreTriggerType.CRON);
     this.logger.log('Completed daily priority score recalculation');
   }
 
@@ -26,7 +34,11 @@ export class PriorityScoringService {
    * Calculate priority score for a single animal
    */
   @HandleError('Error calculating priority score')
-  async calculateScore(animalId: string): Promise<PriorityScoreDto> {
+  async calculateScore(
+    animalId: string,
+    triggerType: PriorityScoreTriggerType = PriorityScoreTriggerType.SYSTEM,
+  ): Promise<PriorityScoreDto> {
+    const correlationId = randomUUID();
     const animal = await this.prisma.client.animal.findUnique({
       where: { id: animalId },
       include: { shelter: true },
@@ -42,6 +54,18 @@ export class PriorityScoringService {
         'Animal must belong to a shelter',
       );
     }
+
+    await this.logScoringEvent({
+      action: 'CALCULATE_SCORE',
+      status: OperationStatus.STARTED,
+      correlationId,
+      animalId,
+      shelterId: animal.shelterId ?? undefined,
+      payload: {
+        triggerType,
+        formulaVersion: this.formulaVersion,
+      },
+    });
 
     // Update length of stay if intake date is set
     if (animal.intakeDate) {
@@ -163,11 +187,51 @@ export class PriorityScoringService {
       where: { id: animalId },
       data: {
         priorityScore: totalScore,
+        priorityScoreFormulaVersion: this.formulaVersion,
         lastScoreUpdate: new Date(),
       },
     });
 
+    await this.prisma.client.priorityScoreLog.create({
+      data: {
+        animalId,
+        shelterId: animal.shelterId ?? null,
+        formulaVersion: this.formulaVersion,
+        score: totalScore,
+        breakdown,
+        details,
+        inputSnapshot: {
+          intakeDate: animal.intakeDate,
+          lengthOfStayDays: animal.lengthOfStayDays,
+          shelterCurrentUtilization: animal.shelter.currentUtilization,
+          breed: animal.breed,
+          weight: animal.weight,
+          age: animal.age,
+          medicalNotes: animal.medicalNotes,
+          clearedForTransport: animal.clearedForTransport,
+          vaccinationsUpToDate: animal.vaccinationsUpToDate,
+          quarantineStatus: animal.quarantineStatus,
+        },
+        triggerType,
+      },
+    });
+
+    await this.logScoringEvent({
+      action: 'CALCULATE_SCORE',
+      status: OperationStatus.SUCCESS,
+      correlationId,
+      animalId,
+      shelterId: animal.shelterId ?? undefined,
+      payload: {
+        triggerType,
+        formulaVersion: this.formulaVersion,
+        score: totalScore,
+        breakdown,
+      },
+    });
+
     return {
+      formulaVersion: this.formulaVersion,
       score: totalScore,
       breakdown,
       details,
@@ -178,8 +242,23 @@ export class PriorityScoringService {
    * Recalculate scores for all animals (or all in a shelter)
    */
   @HandleError('Error recalculating scores')
-  async recalculateAllScores(shelterId?: string) {
+  async recalculateAllScores(
+    shelterId?: string,
+    triggerType: PriorityScoreTriggerType = PriorityScoreTriggerType.MANUAL,
+  ) {
     const where = shelterId ? { shelterId } : {};
+    const correlationId = randomUUID();
+
+    await this.logScoringEvent({
+      action: 'RECALCULATE_SCORES',
+      status: OperationStatus.STARTED,
+      correlationId,
+      shelterId,
+      payload: {
+        triggerType,
+        formulaVersion: this.formulaVersion,
+      },
+    });
 
     const animals = await this.prisma.client.animal.findMany({
       where,
@@ -189,7 +268,7 @@ export class PriorityScoringService {
     let updated = 0;
     for (const animal of animals) {
       try {
-        await this.calculateScore(animal.id);
+        await this.calculateScore(animal.id, triggerType);
         updated++;
       } catch (error) {
         this.logger.error(
@@ -197,6 +276,19 @@ export class PriorityScoringService {
         );
       }
     }
+
+    await this.logScoringEvent({
+      action: 'RECALCULATE_SCORES',
+      status: OperationStatus.SUCCESS,
+      correlationId,
+      shelterId,
+      payload: {
+        triggerType,
+        formulaVersion: this.formulaVersion,
+        totalAnimals: animals.length,
+        updated,
+      },
+    });
 
     return successResponse(
       { updated },
@@ -209,7 +301,10 @@ export class PriorityScoringService {
    */
   @HandleError('Error fetching priority score')
   async getScore(animalId: string) {
-    const score = await this.calculateScore(animalId);
+    const score = await this.calculateScore(
+      animalId,
+      PriorityScoreTriggerType.MANUAL,
+    );
     return successResponse(score, 'Priority score calculated successfully');
   }
 
@@ -245,5 +340,34 @@ export class PriorityScoringService {
       animals,
       `Found ${animals.length} high priority animals`,
     );
+  }
+
+  private async logScoringEvent(params: {
+    action: string;
+    status: OperationStatus;
+    correlationId: string;
+    animalId?: string;
+    shelterId?: string;
+    payload?: Record<string, unknown>;
+    errorMessage?: string;
+  }) {
+    await this.prisma.client.operationEvent.create({
+      data: {
+        domain: OperationDomain.PRIORITY_SCORING,
+        action: params.action,
+        status: params.status,
+        correlationId: params.correlationId,
+        animalId: params.animalId,
+        shelterId: params.shelterId,
+        entityType: params.animalId ? 'Animal' : undefined,
+        entityId: params.animalId,
+        payload: params.payload ? this.toJson(params.payload) : undefined,
+        errorMessage: params.errorMessage,
+      },
+    });
+  }
+
+  private toJson(value: unknown): Prisma.InputJsonValue {
+    return value as Prisma.InputJsonValue;
   }
 }
