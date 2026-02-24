@@ -41,23 +41,26 @@ model Animal {
   status Status @default(AT_SHELTER)
 
   // External Data Tracking (for CSV/API imports)
-  externalAnimalId String?   @unique  // ID from external systems
-  intakeType       String?            // e.g., "Stray", "Owner Surrender", "Transfer"
-  intakeDate       DateTime?          // When animal entered shelter
+  externalAnimalId String?   @unique // ID from external systems
+  intakeType       String? // e.g., "Stray", "Owner Surrender", "Transfer"
+  intakeDate       DateTime? // When animal entered shelter
 
   // Medical Readiness Fields
-  medicalHoldFlag         Boolean          @default(false)
-  quarantineStatus        QuarantineStatus @default(CLEARED)
-  vaccinationsUpToDate    Boolean          @default(false)
-  rabiesExpiration        DateTime?
-  heartwormStatus         HeartwormStatus?
-  specialNeedsFlag        Boolean          @default(false)
-  clearedForTransport     Boolean          @default(false) // Auto-calculated
+  medicalHoldFlag      Boolean          @default(false)
+  quarantineStatus     QuarantineStatus @default(CLEARED)
+  vaccinationsUpToDate Boolean          @default(false)
+  rabiesExpiration     DateTime?
+  heartwormStatus      HeartwormStatus?
+  specialNeedsFlag     Boolean          @default(false)
+  clearedForTransport  Boolean          @default(false) // Auto-calculated
 
   // Priority Scoring
-  priorityScore    Float    @default(0) // 0-100 scale
-  lengthOfStayDays Int      @default(0) // Auto-calculated from intakeDate
-  lastScoreUpdate  DateTime?
+  priorityScore               Float              @default(0) // 0-100 scale
+  priorityScoreFormulaVersion String             @default("v1.0.0")
+  lengthOfStayDays            Int                @default(0) // Auto-calculated from intakeDate
+  lastScoreUpdate             DateTime?
+  priorityScoreLogs           PriorityScoreLog[]
+  operationEvents             OperationEvent[]
 
   // Crate size for transport optimization
   crateUnits Float @default(1) // Standard crate = 1, Large = 2, etc.

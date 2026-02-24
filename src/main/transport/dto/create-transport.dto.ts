@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { PriorityLevel, RequiredVetClearanceType } from '@prisma';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEnum,
@@ -9,6 +9,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  ValidateIf,
 } from 'class-validator';
 
 export class CreateTransportDto {
@@ -88,18 +89,32 @@ export class CreateTransportDto {
   bondedPairId?: string;
 
   @ApiPropertyOptional({
-    description: 'Assigned veterinarian ID',
+    description: "Assigned veterinarian ID, or 'anyone' for auto-selection",
     example: 'uuid-vet-id',
   })
   @IsOptional()
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
+  @ValidateIf(
+    (_, value) =>
+      value !== undefined &&
+      value !== null &&
+      String(value).toLowerCase() !== 'anyone',
+  )
   @IsUUID()
   vetId?: string;
 
   @ApiPropertyOptional({
-    description: 'Assigned driver ID',
+    description: "Assigned driver ID, or 'anyone' for auto-selection",
     example: 'uuid-driver-id',
   })
   @IsOptional()
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
+  @ValidateIf(
+    (_, value) =>
+      value !== undefined &&
+      value !== null &&
+      String(value).toLowerCase() !== 'anyone',
+  )
   @IsUUID()
   driverId?: string;
 

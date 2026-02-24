@@ -22,7 +22,8 @@ model Veterinarian {
   vetDocuments VetDocument[]
 
   // Assigned Transports
-  transports Transport[]
+  transports     Transport[]
+  dailySchedules DailySchedule[]
 
   status ApprovalStatus @default(PENDING)
 

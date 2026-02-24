@@ -1,0 +1,52 @@
+model OperationEvent {
+  id String @id @default(uuid())
+
+  domain OperationDomain
+  action String
+  status OperationStatus
+
+  correlationId String?
+  idempotencyKey String?
+
+  entityType String?
+  entityId   String?
+
+  payload      Json?
+  errorMessage String?
+
+  shelterId String?
+  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: SetNull)
+
+  userId String?
+  user   User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  animalId String?
+  animal   Animal? @relation(fields: [animalId], references: [id], onDelete: SetNull)
+
+  importJobId String?
+  importJob   ImportJob? @relation(fields: [importJobId], references: [id], onDelete: SetNull)
+
+  transportBatchId String?
+  transportBatch   TransportBatch? @relation(fields: [transportBatchId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([domain, createdAt])
+  @@index([correlationId])
+  @@index([entityType, entityId])
+  @@map("operation_events")
+}
+
+enum OperationDomain {
+  IMPORT
+  PRIORITY_SCORING
+  OPTIMIZER
+}
+
+enum OperationStatus {
+  STARTED
+  SUCCESS
+  FAILURE
+  DUPLICATE
+}
+

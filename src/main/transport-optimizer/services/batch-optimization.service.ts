@@ -3,6 +3,8 @@ import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
+import { OperationDomain, OperationStatus, Prisma } from '@prisma';
+import { randomUUID } from 'crypto';
 import {
   OptimizationResultDto,
   OptimizeBatchDto,
@@ -19,124 +21,195 @@ export class BatchOptimizationService {
 
   @HandleError('Error optimizing transport batch')
   async optimizeBatch(dto: OptimizeBatchDto): Promise<OptimizationResultDto> {
-    // Fetch origin and destination shelters
-    const [originShelter, destinationShelter] = await Promise.all([
-      this.prisma.client.shelter.findUnique({
-        where: { id: dto.originShelterId },
-      }),
-      this.prisma.client.shelter.findUnique({
-        where: { id: dto.destinationShelterId },
-      }),
-    ]);
-
-    if (!originShelter || !destinationShelter) {
-      throw new AppError(HttpStatus.NOT_FOUND, 'Shelter not found');
-    }
-
-    // Fetch all eligible animals from origin shelter
-    const animals = await this.prisma.client.animal.findMany({
-      where: {
-        shelterId: dto.originShelterId,
-        status: 'AT_SHELTER',
-        clearedForTransport: true, // Only cleared animals
-      },
-      include: {
-        bondedWith: true,
-      },
+    const correlationId = randomUUID();
+    await this.logOptimizerEvent({
+      action: 'OPTIMIZE_BATCH',
+      status: OperationStatus.STARTED,
+      correlationId,
+      shelterId: dto.originShelterId,
+      payload: dto,
     });
+    try {
+      // Fetch origin and destination shelters
+      const [originShelter, destinationShelter] = await Promise.all([
+        this.prisma.client.shelter.findUnique({
+          where: { id: dto.originShelterId },
+        }),
+        this.prisma.client.shelter.findUnique({
+          where: { id: dto.destinationShelterId },
+        }),
+      ]);
 
-    if (animals.length === 0) {
-      throw new AppError(
-        HttpStatus.BAD_REQUEST,
-        'No eligible animals available for transport',
-      );
-    }
+      if (!originShelter || !destinationShelter) {
+        throw new AppError(HttpStatus.NOT_FOUND, 'Shelter not found');
+      }
 
-    // Build destination constraints
-    const destinationConstraints = {
-      openKennels: destinationShelter.openKennels,
-      acceptsSpecies: destinationShelter.acceptsSpecies,
-      acceptsSizes: destinationShelter.acceptsSizes,
-      acceptsBreeds: destinationShelter.acceptsBreeds,
-      restrictedBreeds: destinationShelter.restrictedBreeds,
-    };
+      // Fetch all eligible animals from origin shelter
+      const animals = await this.prisma.client.animal.findMany({
+        where: {
+          shelterId: dto.originShelterId,
+          status: 'AT_SHELTER',
+          clearedForTransport: true, // Only cleared animals
+        },
+        include: {
+          bondedWith: true,
+        },
+      });
 
-    // Run ILP solver
-    const solution = await this.ilpSolver.solve(
-      animals,
-      dto.vehicleCapacity,
-      destinationConstraints,
-    );
+      if (animals.length === 0) {
+        throw new AppError(
+          HttpStatus.BAD_REQUEST,
+          'No eligible animals available for transport',
+        );
+      }
 
-    // Generate explainability for each animal
-    const optimizationLog: Record<string, any> = {};
-    const selectedAnimalsData: SelectedAnimalDto[] = [];
-
-    for (const animal of animals) {
-      const isSelected = solution.selectedAnimalIds.includes(animal.id);
-      const rationale = this.generateRationale(
-        animal,
-        isSelected,
-        originShelter,
-        destinationShelter,
-        solution,
-      );
-
-      optimizationLog[animal.id] = {
-        selected: isSelected,
-        rationale,
-        priorityScore: animal.priorityScore,
-        crateUnits: animal.crateUnits,
+      // Build destination constraints
+      const destinationConstraints = {
+        openKennels: destinationShelter.openKennels,
+        acceptsSpecies: destinationShelter.acceptsSpecies,
+        acceptsSizes: destinationShelter.acceptsSizes,
+        acceptsBreeds: destinationShelter.acceptsBreeds,
+        restrictedBreeds: destinationShelter.restrictedBreeds,
       };
 
-      if (isSelected) {
-        selectedAnimalsData.push({
-          animalId: animal.id,
-          name: animal.name,
+      // Run ILP solver
+      const solution = await this.ilpSolver.solve(
+        animals,
+        dto.vehicleCapacity,
+        destinationConstraints,
+      );
+
+      const optimizationInputSnapshot = {
+        request: {
+          originShelterId: dto.originShelterId,
+          destinationShelterId: dto.destinationShelterId,
+          vehicleCapacity: dto.vehicleCapacity,
+          name: dto.name,
+          estimatedCost: dto.estimatedCost,
+        },
+        originShelter: {
+          id: originShelter.id,
+          name: originShelter.name,
+          openKennels: originShelter.openKennels,
+          currentUtilization: originShelter.currentUtilization,
+        },
+        destinationShelter: {
+          id: destinationShelter.id,
+          name: destinationShelter.name,
+          openKennels: destinationShelter.openKennels,
+        },
+        candidateAnimals: animals.map((animal) => ({
+          id: animal.id,
           priorityScore: animal.priorityScore,
           crateUnits: animal.crateUnits,
+          species: animal.species,
+          breed: animal.breed,
+          weight: animal.weight,
+          bondedWithId: animal.bondedWithId,
+          clearedForTransport: animal.clearedForTransport,
+        })),
+        destinationConstraints,
+      };
+
+      // Generate explainability for each animal
+      const optimizationLog: Record<string, any> = {};
+      const selectedAnimalsData: SelectedAnimalDto[] = [];
+
+      for (const animal of animals) {
+        const isSelected = solution.selectedAnimalIds.includes(animal.id);
+        const rationale = this.generateRationale(
+          animal,
+          isSelected,
+          originShelter,
+          destinationShelter,
+          solution,
+        );
+
+        optimizationLog[animal.id] = {
+          selected: isSelected,
           rationale,
-          isBondedPair: !!animal.bondedWithId,
-          bondedWithId: animal.bondedWithId!,
-        });
+          priorityScore: animal.priorityScore,
+          crateUnits: animal.crateUnits,
+        };
+
+        if (isSelected) {
+          selectedAnimalsData.push({
+            animalId: animal.id,
+            name: animal.name,
+            priorityScore: animal.priorityScore,
+            crateUnits: animal.crateUnits,
+            rationale,
+            isBondedPair: !!animal.bondedWithId,
+            bondedWithId: animal.bondedWithId!,
+          });
+        }
       }
-    }
 
-    // Count bonded pairs
-    const bondedPairCount =
-      selectedAnimalsData.filter((a) => a.isBondedPair).length / 2;
+      // Count bonded pairs
+      const bondedPairCount =
+        selectedAnimalsData.filter((a) => a.isBondedPair).length / 2;
 
-    // Create transport batch record
-    const batch = await this.prisma.client.transportBatch.create({
-      data: {
-        name: dto.name || `Batch ${new Date().toISOString().split('T')[0]}`,
-        originShelterId: dto.originShelterId,
-        destinationShelterId: dto.destinationShelterId,
-        vehicleCapacity: dto.vehicleCapacity,
-        selectedAnimalIds: solution.selectedAnimalIds,
+      // Create transport batch record
+      const batch = await this.prisma.client.transportBatch.create({
+        data: {
+          name: dto.name || `Batch ${new Date().toISOString().split('T')[0]}`,
+          originShelterId: dto.originShelterId,
+          destinationShelterId: dto.destinationShelterId,
+          vehicleCapacity: dto.vehicleCapacity,
+          selectedAnimalIds: solution.selectedAnimalIds,
+          totalPriorityScore: solution.totalScore,
+          totalCrateUnits: solution.totalCrateUnits,
+          estimatedCost: dto.estimatedCost,
+          optimizationLog,
+          optimizationInputSnapshot:
+            optimizationInputSnapshot as unknown as Prisma.InputJsonValue,
+          optimizationConstraintTrace: solution.trace as Prisma.InputJsonValue,
+          optimizerVersion: solution.trace.algorithmVersion,
+          status: 'PENDING',
+        },
+      });
+
+      await this.logOptimizerEvent({
+        action: 'OPTIMIZE_BATCH',
+        status: OperationStatus.SUCCESS,
+        correlationId,
+        shelterId: dto.originShelterId,
+        batchId: batch.id,
+        entityType: 'TransportBatch',
+        entityId: batch.id,
+        payload: {
+          selectedCount: solution.selectedAnimalIds.length,
+          totalScore: solution.totalScore,
+          totalCrateUnits: solution.totalCrateUnits,
+          optimizerVersion: solution.trace.algorithmVersion,
+        },
+      });
+
+      return {
+        batchId: batch.id,
+        selectedAnimals: selectedAnimalsData,
         totalPriorityScore: solution.totalScore,
         totalCrateUnits: solution.totalCrateUnits,
         estimatedCost: dto.estimatedCost,
-        optimizationLog,
-        status: 'PENDING',
-      },
-    });
-
-    return {
-      batchId: batch.id,
-      selectedAnimals: selectedAnimalsData,
-      totalPriorityScore: solution.totalScore,
-      totalCrateUnits: solution.totalCrateUnits,
-      estimatedCost: dto.estimatedCost,
-      summary: {
-        totalAnimals: solution.selectedAnimalIds.length,
-        totalBondedPairs: bondedPairCount,
-        averagePriority:
-          solution.selectedAnimalIds.length > 0
-            ? solution.totalScore / solution.selectedAnimalIds.length
-            : 0,
-      },
-    };
+        summary: {
+          totalAnimals: solution.selectedAnimalIds.length,
+          totalBondedPairs: bondedPairCount,
+          averagePriority:
+            solution.selectedAnimalIds.length > 0
+              ? solution.totalScore / solution.selectedAnimalIds.length
+              : 0,
+        },
+      };
+    } catch (error) {
+      await this.logOptimizerEvent({
+        action: 'OPTIMIZE_BATCH',
+        status: OperationStatus.FAILURE,
+        correlationId,
+        shelterId: dto.originShelterId,
+        errorMessage: error.message,
+      });
+      throw error;
+    }
   }
 
   /**
@@ -255,82 +328,148 @@ export class BatchOptimizationService {
 
   @HandleError('Error executing batch')
   async executeBatch(batchId: string) {
-    const batch = await this.prisma.client.transportBatch.findUnique({
-      where: { id: batchId },
-      include: {
-        originShelter: true,
-        destinationShelter: true,
-      },
+    const correlationId = randomUUID();
+    await this.logOptimizerEvent({
+      action: 'EXECUTE_BATCH',
+      status: OperationStatus.STARTED,
+      correlationId,
+      batchId,
+      entityType: 'TransportBatch',
+      entityId: batchId,
     });
-
-    if (!batch) {
-      throw new AppError(HttpStatus.NOT_FOUND, 'Batch not found');
-    }
-
-    if (batch.status === 'EXECUTED') {
-      throw new AppError(
-        HttpStatus.BAD_REQUEST,
-        'Batch has already been executed',
-      );
-    }
-
-    // Create transport records for each selected animal
-    const transports = [];
-    for (const animalId of batch.selectedAnimalIds) {
-      const animal = await this.prisma.client.animal.findUnique({
-        where: { id: animalId },
-      });
-
-      if (!animal) continue;
-
-      // Create transport record
-      const transport = await this.prisma.client.transport.create({
-        data: {
-          transportNote: `Optimized batch transport: ${batch.name}`,
-          priorityLevel:
-            animal.priorityScore >= 70
-              ? 'HIGH'
-              : animal.priorityScore >= 50
-                ? 'MEDIUM'
-                : 'LOW',
-          pickUpLocation:
-            batch.originShelter.address || batch.originShelter.name,
-          pickUpLatitude: 0, // TODO: Get from shelter geocoding
-          pickUpLongitude: 0,
-          dropOffLocation:
-            batch.destinationShelter.address || batch.destinationShelter.name,
-          dropOffLatitude: 0,
-          dropOffLongitude: 0,
-          transPortDate: new Date(),
-          animalId: animal.id,
-          isBondedPair: !!animal.bondedWithId,
-          bondedPairId: animal.bondedWithId,
-          shelterId: batch.originShelterId,
-          status: 'PENDING',
+    try {
+      const batch = await this.prisma.client.transportBatch.findUnique({
+        where: { id: batchId },
+        include: {
+          originShelter: true,
+          destinationShelter: true,
         },
       });
 
-      transports.push(transport);
+      if (!batch) {
+        throw new AppError(HttpStatus.NOT_FOUND, 'Batch not found');
+      }
 
-      // Update animal status
-      await this.prisma.client.animal.update({
-        where: { id: animalId },
-        data: { status: 'IN_TRANSIT' },
+      if (batch.status === 'EXECUTED') {
+        throw new AppError(
+          HttpStatus.BAD_REQUEST,
+          'Batch has already been executed',
+        );
+      }
+
+      // Create transport records for each selected animal
+      const transports = [];
+      for (const animalId of batch.selectedAnimalIds) {
+        const animal = await this.prisma.client.animal.findUnique({
+          where: { id: animalId },
+        });
+
+        if (!animal) continue;
+
+        // Create transport record
+        const transport = await this.prisma.client.transport.create({
+          data: {
+            transportNote: `Optimized batch transport: ${batch.name}`,
+            priorityLevel:
+              animal.priorityScore >= 70
+                ? 'HIGH'
+                : animal.priorityScore >= 50
+                  ? 'MEDIUM'
+                  : 'LOW',
+            pickUpLocation:
+              batch.originShelter.address || batch.originShelter.name,
+            pickUpLatitude: 0, // TODO: Get from shelter geocoding
+            pickUpLongitude: 0,
+            dropOffLocation:
+              batch.destinationShelter.address || batch.destinationShelter.name,
+            dropOffLatitude: 0,
+            dropOffLongitude: 0,
+            transPortDate: new Date(),
+            animalId: animal.id,
+            isBondedPair: !!animal.bondedWithId,
+            bondedPairId: animal.bondedWithId,
+            shelterId: batch.originShelterId,
+            status: 'PENDING',
+          },
+        });
+
+        transports.push(transport);
+
+        // Update animal status
+        await this.prisma.client.animal.update({
+          where: { id: animalId },
+          data: { status: 'IN_TRANSIT' },
+        });
+      }
+
+      // Mark batch as executed
+      await this.prisma.client.transportBatch.update({
+        where: { id: batchId },
+        data: {
+          status: 'EXECUTED',
+          executedAt: new Date(),
+        },
       });
-    }
 
-    // Mark batch as executed
-    await this.prisma.client.transportBatch.update({
-      where: { id: batchId },
+      await this.logOptimizerEvent({
+        action: 'EXECUTE_BATCH',
+        status: OperationStatus.SUCCESS,
+        correlationId,
+        batchId,
+        entityType: 'TransportBatch',
+        entityId: batchId,
+        shelterId: batch.originShelterId,
+        payload: {
+          createdTransports: transports.length,
+        },
+      });
+
+      return successResponse(
+        { transports, count: transports.length },
+        `Created ${transports.length} transport records`,
+      );
+    } catch (error) {
+      await this.logOptimizerEvent({
+        action: 'EXECUTE_BATCH',
+        status: OperationStatus.FAILURE,
+        correlationId,
+        batchId,
+        entityType: 'TransportBatch',
+        entityId: batchId,
+        errorMessage: error.message,
+      });
+      throw error;
+    }
+  }
+
+  private async logOptimizerEvent(params: {
+    action: string;
+    status: OperationStatus;
+    correlationId: string;
+    shelterId?: string;
+    batchId?: string;
+    entityType?: string;
+    entityId?: string;
+    payload?: unknown;
+    errorMessage?: string;
+  }) {
+    await this.prisma.client.operationEvent.create({
       data: {
-        status: 'EXECUTED',
-        executedAt: new Date(),
+        domain: OperationDomain.OPTIMIZER,
+        action: params.action,
+        status: params.status,
+        correlationId: params.correlationId,
+        shelterId: params.shelterId,
+        transportBatchId: params.batchId,
+        entityType: params.entityType,
+        entityId: params.entityId,
+        payload: params.payload ? this.toJson(params.payload) : undefined,
+        errorMessage: params.errorMessage,
       },
     });
+  }
 
-    return successResponse(
-      { transports, count: transports.length },
-      `Created ${transports.length} transport records`,
-    );
+  private toJson(value: unknown): Prisma.InputJsonValue {
+    return value as Prisma.InputJsonValue;
   }
 }

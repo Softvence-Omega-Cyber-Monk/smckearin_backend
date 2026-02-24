@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -43,6 +44,31 @@ export class ImportsController {
       file,
       dto.mappingTemplateId,
       dto.shelterId,
+      dto.idempotencyKey,
+    );
+  }
+
+  @Get('jobs/shelter/:shelterId')
+  async getImportJobs(
+    @Param('shelterId') shelterId: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return this.csvImportService.getImportJobs(shelterId, page, limit);
+  }
+
+  @Get('jobs/:jobId/shelter/:shelterId')
+  async getImportJobDetails(
+    @Param('jobId') jobId: string,
+    @Param('shelterId') shelterId: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return this.csvImportService.getImportJobDetails(
+      jobId,
+      shelterId,
+      page,
+      limit,
     );
   }
 

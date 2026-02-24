@@ -271,6 +271,8 @@ export type UserWhereInput = {
   conversationsReceived?: Prisma.PrivateConversationListRelationFilter
   messagesSent?: Prisma.PrivateMessageListRelationFilter
   messageStatuses?: Prisma.PrivateMessageStatusListRelationFilter
+  requestedImportJobs?: Prisma.ImportJobListRelationFilter
+  operationEvents?: Prisma.OperationEventListRelationFilter
   shelterAdminOf?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
   managerOf?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
   drivers?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
@@ -302,6 +304,8 @@ export type UserOrderByWithRelationInput = {
   conversationsReceived?: Prisma.PrivateConversationOrderByRelationAggregateInput
   messagesSent?: Prisma.PrivateMessageOrderByRelationAggregateInput
   messageStatuses?: Prisma.PrivateMessageStatusOrderByRelationAggregateInput
+  requestedImportJobs?: Prisma.ImportJobOrderByRelationAggregateInput
+  operationEvents?: Prisma.OperationEventOrderByRelationAggregateInput
   shelterAdminOf?: Prisma.ShelterOrderByWithRelationInput
   managerOf?: Prisma.ShelterOrderByWithRelationInput
   drivers?: Prisma.DriverOrderByWithRelationInput
@@ -336,6 +340,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   conversationsReceived?: Prisma.PrivateConversationListRelationFilter
   messagesSent?: Prisma.PrivateMessageListRelationFilter
   messageStatuses?: Prisma.PrivateMessageStatusListRelationFilter
+  requestedImportJobs?: Prisma.ImportJobListRelationFilter
+  operationEvents?: Prisma.OperationEventListRelationFilter
   shelterAdminOf?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
   managerOf?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
   drivers?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
@@ -406,6 +412,8 @@ export type UserCreateInput = {
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
@@ -436,6 +444,8 @@ export type UserUncheckedCreateInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -462,6 +472,8 @@ export type UserUpdateInput = {
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
@@ -492,6 +504,8 @@ export type UserUncheckedUpdateInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -695,6 +709,22 @@ export type UserUncheckedUpdateOneWithoutProfilePictureNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProfilePictureInput, Prisma.UserUpdateWithoutProfilePictureInput>, Prisma.UserUncheckedUpdateWithoutProfilePictureInput>
 }
 
+export type UserCreateNestedOneWithoutRequestedImportJobsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRequestedImportJobsInput, Prisma.UserUncheckedCreateWithoutRequestedImportJobsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRequestedImportJobsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutRequestedImportJobsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRequestedImportJobsInput, Prisma.UserUncheckedCreateWithoutRequestedImportJobsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRequestedImportJobsInput
+  upsert?: Prisma.UserUpsertWithoutRequestedImportJobsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRequestedImportJobsInput, Prisma.UserUpdateWithoutRequestedImportJobsInput>, Prisma.UserUncheckedUpdateWithoutRequestedImportJobsInput>
+}
+
 export type UserCreateNestedOneWithoutNotificationsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
@@ -721,6 +751,22 @@ export type UserUpdateOneRequiredWithoutNotificationSettingsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutNotificationSettingsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationSettingsInput, Prisma.UserUpdateWithoutNotificationSettingsInput>, Prisma.UserUncheckedUpdateWithoutNotificationSettingsInput>
+}
+
+export type UserCreateNestedOneWithoutOperationEventsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOperationEventsInput, Prisma.UserUncheckedCreateWithoutOperationEventsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOperationEventsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutOperationEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOperationEventsInput, Prisma.UserUncheckedCreateWithoutOperationEventsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOperationEventsInput
+  upsert?: Prisma.UserUpsertWithoutOperationEventsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOperationEventsInput, Prisma.UserUpdateWithoutOperationEventsInput>, Prisma.UserUncheckedUpdateWithoutOperationEventsInput>
 }
 
 export type UserCreateNestedOneWithoutConversationsInitiatedInput = {
@@ -908,6 +954,8 @@ export type UserCreateWithoutOtpsInput = {
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
@@ -937,6 +985,8 @@ export type UserUncheckedCreateWithoutOtpsInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -978,6 +1028,8 @@ export type UserUpdateWithoutOtpsInput = {
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
@@ -1007,6 +1059,8 @@ export type UserUncheckedUpdateWithoutOtpsInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -1032,6 +1086,8 @@ export type UserCreateWithoutRefreshTokensInput = {
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
@@ -1061,6 +1117,8 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -1102,6 +1160,8 @@ export type UserUpdateWithoutRefreshTokensInput = {
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
@@ -1131,6 +1191,8 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -1157,6 +1219,8 @@ export type UserCreateWithoutDriversInput = {
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
@@ -1186,6 +1250,8 @@ export type UserUncheckedCreateWithoutDriversInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1227,6 +1293,8 @@ export type UserUpdateWithoutDriversInput = {
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
@@ -1256,6 +1324,8 @@ export type UserUncheckedUpdateWithoutDriversInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -1280,6 +1350,8 @@ export type UserCreateWithoutProfilePictureInput = {
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
@@ -1309,6 +1381,8 @@ export type UserUncheckedCreateWithoutProfilePictureInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -1350,6 +1424,8 @@ export type UserUpdateWithoutProfilePictureInput = {
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
@@ -1379,6 +1455,140 @@ export type UserUncheckedUpdateWithoutProfilePictureInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
+  drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutRequestedImportJobsInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
+  notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
+  shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
+  managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
+  drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutRequestedImportJobsInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureId?: string | null
+  profilePictureUrl?: string | null
+  shelterAdminOfId?: string | null
+  managerOfId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
+  drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutRequestedImportJobsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRequestedImportJobsInput, Prisma.UserUncheckedCreateWithoutRequestedImportJobsInput>
+}
+
+export type UserUpsertWithoutRequestedImportJobsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRequestedImportJobsInput, Prisma.UserUncheckedUpdateWithoutRequestedImportJobsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRequestedImportJobsInput, Prisma.UserUncheckedCreateWithoutRequestedImportJobsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRequestedImportJobsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRequestedImportJobsInput, Prisma.UserUncheckedUpdateWithoutRequestedImportJobsInput>
+}
+
+export type UserUpdateWithoutRequestedImportJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
+  notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
+  shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
+  managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
+  drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRequestedImportJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -1404,6 +1614,8 @@ export type UserCreateWithoutNotificationsInput = {
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
@@ -1433,6 +1645,8 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -1474,6 +1688,8 @@ export type UserUpdateWithoutNotificationsInput = {
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
@@ -1503,6 +1719,8 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -1528,6 +1746,8 @@ export type UserCreateWithoutNotificationSettingsInput = {
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
@@ -1557,6 +1777,8 @@ export type UserUncheckedCreateWithoutNotificationSettingsInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -1598,6 +1820,8 @@ export type UserUpdateWithoutNotificationSettingsInput = {
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
@@ -1627,6 +1851,140 @@ export type UserUncheckedUpdateWithoutNotificationSettingsInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
+  drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutOperationEventsInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
+  notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
+  managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
+  drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutOperationEventsInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureId?: string | null
+  profilePictureUrl?: string | null
+  shelterAdminOfId?: string | null
+  managerOfId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutOperationEventsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutOperationEventsInput, Prisma.UserUncheckedCreateWithoutOperationEventsInput>
+}
+
+export type UserUpsertWithoutOperationEventsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutOperationEventsInput, Prisma.UserUncheckedUpdateWithoutOperationEventsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutOperationEventsInput, Prisma.UserUncheckedCreateWithoutOperationEventsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutOperationEventsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutOperationEventsInput, Prisma.UserUncheckedUpdateWithoutOperationEventsInput>
+}
+
+export type UserUpdateWithoutOperationEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
+  notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
+  managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
+  drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutOperationEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -1652,6 +2010,8 @@ export type UserCreateWithoutConversationsInitiatedInput = {
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
@@ -1681,6 +2041,8 @@ export type UserUncheckedCreateWithoutConversationsInitiatedInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -1711,6 +2073,8 @@ export type UserCreateWithoutConversationsReceivedInput = {
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
@@ -1740,6 +2104,8 @@ export type UserUncheckedCreateWithoutConversationsReceivedInput = {
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -1781,6 +2147,8 @@ export type UserUpdateWithoutConversationsInitiatedInput = {
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
@@ -1810,6 +2178,8 @@ export type UserUncheckedUpdateWithoutConversationsInitiatedInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -1846,6 +2216,8 @@ export type UserUpdateWithoutConversationsReceivedInput = {
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
@@ -1875,6 +2247,8 @@ export type UserUncheckedUpdateWithoutConversationsReceivedInput = {
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -1900,6 +2274,8 @@ export type UserCreateWithoutMessagesSentInput = {
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
@@ -1929,6 +2305,8 @@ export type UserUncheckedCreateWithoutMessagesSentInput = {
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -1970,6 +2348,8 @@ export type UserUpdateWithoutMessagesSentInput = {
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
@@ -1999,6 +2379,8 @@ export type UserUncheckedUpdateWithoutMessagesSentInput = {
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -2024,6 +2406,8 @@ export type UserCreateWithoutMessageStatusesInput = {
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
@@ -2053,6 +2437,8 @@ export type UserUncheckedCreateWithoutMessageStatusesInput = {
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -2094,6 +2480,8 @@ export type UserUpdateWithoutMessageStatusesInput = {
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
@@ -2123,6 +2511,8 @@ export type UserUncheckedUpdateWithoutMessageStatusesInput = {
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -2149,6 +2539,8 @@ export type UserCreateWithoutShelterAdminOfInput = {
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
@@ -2177,6 +2569,8 @@ export type UserUncheckedCreateWithoutShelterAdminOfInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -2213,6 +2607,8 @@ export type UserCreateWithoutManagerOfInput = {
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
@@ -2241,6 +2637,8 @@ export type UserUncheckedCreateWithoutManagerOfInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
@@ -2330,6 +2728,8 @@ export type UserCreateWithoutVeterinariansInput = {
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
@@ -2359,6 +2759,8 @@ export type UserUncheckedCreateWithoutVeterinariansInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2400,6 +2802,8 @@ export type UserUpdateWithoutVeterinariansInput = {
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
@@ -2429,6 +2833,8 @@ export type UserUncheckedUpdateWithoutVeterinariansInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2488,6 +2894,8 @@ export type UserUpdateWithoutShelterAdminOfInput = {
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
@@ -2516,6 +2924,8 @@ export type UserUncheckedUpdateWithoutShelterAdminOfInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -2559,6 +2969,8 @@ export type UserUpdateWithoutManagerOfInput = {
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
@@ -2587,6 +2999,8 @@ export type UserUncheckedUpdateWithoutManagerOfInput = {
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -2621,6 +3035,8 @@ export type UserCountOutputType = {
   conversationsReceived: number
   messagesSent: number
   messageStatuses: number
+  requestedImportJobs: number
+  operationEvents: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2631,6 +3047,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   conversationsReceived?: boolean | UserCountOutputTypeCountConversationsReceivedArgs
   messagesSent?: boolean | UserCountOutputTypeCountMessagesSentArgs
   messageStatuses?: boolean | UserCountOutputTypeCountMessageStatusesArgs
+  requestedImportJobs?: boolean | UserCountOutputTypeCountRequestedImportJobsArgs
+  operationEvents?: boolean | UserCountOutputTypeCountOperationEventsArgs
 }
 
 /**
@@ -2692,6 +3110,20 @@ export type UserCountOutputTypeCountMessageStatusesArgs<ExtArgs extends runtime.
   where?: Prisma.PrivateMessageStatusWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRequestedImportJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ImportJobWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountOperationEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OperationEventWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2718,6 +3150,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   conversationsReceived?: boolean | Prisma.User$conversationsReceivedArgs<ExtArgs>
   messagesSent?: boolean | Prisma.User$messagesSentArgs<ExtArgs>
   messageStatuses?: boolean | Prisma.User$messageStatusesArgs<ExtArgs>
+  requestedImportJobs?: boolean | Prisma.User$requestedImportJobsArgs<ExtArgs>
+  operationEvents?: boolean | Prisma.User$operationEventsArgs<ExtArgs>
   shelterAdminOf?: boolean | Prisma.User$shelterAdminOfArgs<ExtArgs>
   managerOf?: boolean | Prisma.User$managerOfArgs<ExtArgs>
   drivers?: boolean | Prisma.User$driversArgs<ExtArgs>
@@ -2796,6 +3230,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   conversationsReceived?: boolean | Prisma.User$conversationsReceivedArgs<ExtArgs>
   messagesSent?: boolean | Prisma.User$messagesSentArgs<ExtArgs>
   messageStatuses?: boolean | Prisma.User$messageStatusesArgs<ExtArgs>
+  requestedImportJobs?: boolean | Prisma.User$requestedImportJobsArgs<ExtArgs>
+  operationEvents?: boolean | Prisma.User$operationEventsArgs<ExtArgs>
   shelterAdminOf?: boolean | Prisma.User$shelterAdminOfArgs<ExtArgs>
   managerOf?: boolean | Prisma.User$managerOfArgs<ExtArgs>
   drivers?: boolean | Prisma.User$driversArgs<ExtArgs>
@@ -2825,6 +3261,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     conversationsReceived: Prisma.$PrivateConversationPayload<ExtArgs>[]
     messagesSent: Prisma.$PrivateMessagePayload<ExtArgs>[]
     messageStatuses: Prisma.$PrivateMessageStatusPayload<ExtArgs>[]
+    requestedImportJobs: Prisma.$ImportJobPayload<ExtArgs>[]
+    operationEvents: Prisma.$OperationEventPayload<ExtArgs>[]
     shelterAdminOf: Prisma.$ShelterPayload<ExtArgs> | null
     managerOf: Prisma.$ShelterPayload<ExtArgs> | null
     drivers: Prisma.$DriverPayload<ExtArgs> | null
@@ -3249,6 +3687,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   conversationsReceived<T extends Prisma.User$conversationsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   messagesSent<T extends Prisma.User$messagesSentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$messagesSentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   messageStatuses<T extends Prisma.User$messageStatusesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$messageStatusesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateMessageStatusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  requestedImportJobs<T extends Prisma.User$requestedImportJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$requestedImportJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImportJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  operationEvents<T extends Prisma.User$operationEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$operationEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OperationEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   shelterAdminOf<T extends Prisma.User$shelterAdminOfArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$shelterAdminOfArgs<ExtArgs>>): Prisma.Prisma__ShelterClient<runtime.Types.Result.GetResult<Prisma.$ShelterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   managerOf<T extends Prisma.User$managerOfArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managerOfArgs<ExtArgs>>): Prisma.Prisma__ShelterClient<runtime.Types.Result.GetResult<Prisma.$ShelterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   drivers<T extends Prisma.User$driversArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$driversArgs<ExtArgs>>): Prisma.Prisma__DriverClient<runtime.Types.Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -3896,6 +4336,54 @@ export type User$messageStatusesArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.PrivateMessageStatusScalarFieldEnum | Prisma.PrivateMessageStatusScalarFieldEnum[]
+}
+
+/**
+ * User.requestedImportJobs
+ */
+export type User$requestedImportJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ImportJob
+   */
+  select?: Prisma.ImportJobSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ImportJob
+   */
+  omit?: Prisma.ImportJobOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ImportJobInclude<ExtArgs> | null
+  where?: Prisma.ImportJobWhereInput
+  orderBy?: Prisma.ImportJobOrderByWithRelationInput | Prisma.ImportJobOrderByWithRelationInput[]
+  cursor?: Prisma.ImportJobWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ImportJobScalarFieldEnum | Prisma.ImportJobScalarFieldEnum[]
+}
+
+/**
+ * User.operationEvents
+ */
+export type User$operationEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OperationEvent
+   */
+  select?: Prisma.OperationEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OperationEvent
+   */
+  omit?: Prisma.OperationEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OperationEventInclude<ExtArgs> | null
+  where?: Prisma.OperationEventWhereInput
+  orderBy?: Prisma.OperationEventOrderByWithRelationInput | Prisma.OperationEventOrderByWithRelationInput[]
+  cursor?: Prisma.OperationEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OperationEventScalarFieldEnum | Prisma.OperationEventScalarFieldEnum[]
 }
 
 /**

@@ -1,0 +1,24 @@
+model DailySchedule {
+  id String @id @default(uuid())
+
+  day WorkingDay
+
+  // Operating hours for this specific day (HH:mm format)
+  startTime String
+  endTime   String
+
+  // Polymorphic ownership — exactly one of these will be set
+  driverId String?
+  driver   Driver? @relation(fields: [driverId], references: [id], onDelete: Cascade)
+
+  veterinarianId String?
+  veterinarian   Veterinarian? @relation(fields: [veterinarianId], references: [id], onDelete: Cascade)
+
+  shelterId String?
+  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("daily_schedules")
+}

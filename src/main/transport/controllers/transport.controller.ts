@@ -56,6 +56,16 @@ export class TransportController {
     return this.createTransportService.createTransport(userId, dto);
   }
 
+  @ApiOperation({ summary: 'Create transport (shelter)' })
+  @ValidateManager()
+  @Post('create')
+  async createTransportWithCreatePath(
+    @GetUser('sub') userId: string,
+    @Body() dto: CreateTransportDto,
+  ) {
+    return this.createTransportService.createTransport(userId, dto);
+  }
+
   @ApiOperation({ summary: 'Get own shelter transports (shelter)' })
   @ValidateManager()
   @Get('shelter/history')
@@ -119,6 +129,19 @@ export class TransportController {
     @Query() dto: GetTransportDto,
   ) {
     return this.getDriverTransportService.getActiveTransportOfDriver(
+      userId,
+      dto,
+    );
+  }
+
+  @ApiOperation({ summary: 'Get assigned transport of driver' })
+  @ValidateDriver()
+  @Get('driver/assigned')
+  async getAssignedTransportOfDriver(
+    @GetUser('sub') userId: string,
+    @Query() dto: GetTransportDto,
+  ) {
+    return this.getDriverTransportService.getAssignedTransportOfDriver(
       userId,
       dto,
     );

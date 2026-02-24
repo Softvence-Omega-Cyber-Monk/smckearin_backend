@@ -348,9 +348,13 @@ export type ShelterWhereInput = {
   transports?: Prisma.TransportListRelationFilter
   externalFeedConfigs?: Prisma.ExternalFeedConfigListRelationFilter
   importMappings?: Prisma.ImportMappingListRelationFilter
+  importJobs?: Prisma.ImportJobListRelationFilter
+  dailySchedules?: Prisma.DailyScheduleListRelationFilter
   originBatches?: Prisma.TransportBatchListRelationFilter
   destinationBatches?: Prisma.TransportBatchListRelationFilter
   conversations?: Prisma.PrivateConversationListRelationFilter
+  operationEvents?: Prisma.OperationEventListRelationFilter
+  priorityScoreLogs?: Prisma.PriorityScoreLogListRelationFilter
 }
 
 export type ShelterOrderByWithRelationInput = {
@@ -384,9 +388,13 @@ export type ShelterOrderByWithRelationInput = {
   transports?: Prisma.TransportOrderByRelationAggregateInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigOrderByRelationAggregateInput
   importMappings?: Prisma.ImportMappingOrderByRelationAggregateInput
+  importJobs?: Prisma.ImportJobOrderByRelationAggregateInput
+  dailySchedules?: Prisma.DailyScheduleOrderByRelationAggregateInput
   originBatches?: Prisma.TransportBatchOrderByRelationAggregateInput
   destinationBatches?: Prisma.TransportBatchOrderByRelationAggregateInput
   conversations?: Prisma.PrivateConversationOrderByRelationAggregateInput
+  operationEvents?: Prisma.OperationEventOrderByRelationAggregateInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogOrderByRelationAggregateInput
 }
 
 export type ShelterWhereUniqueInput = Prisma.AtLeast<{
@@ -423,9 +431,13 @@ export type ShelterWhereUniqueInput = Prisma.AtLeast<{
   transports?: Prisma.TransportListRelationFilter
   externalFeedConfigs?: Prisma.ExternalFeedConfigListRelationFilter
   importMappings?: Prisma.ImportMappingListRelationFilter
+  importJobs?: Prisma.ImportJobListRelationFilter
+  dailySchedules?: Prisma.DailyScheduleListRelationFilter
   originBatches?: Prisma.TransportBatchListRelationFilter
   destinationBatches?: Prisma.TransportBatchListRelationFilter
   conversations?: Prisma.PrivateConversationListRelationFilter
+  operationEvents?: Prisma.OperationEventListRelationFilter
+  priorityScoreLogs?: Prisma.PriorityScoreLogListRelationFilter
 }, "id" | "phone" | "logoId" | "stripeCustomerId" | "stripeDefaultPaymentMethodId">
 
 export type ShelterOrderByWithAggregationInput = {
@@ -516,9 +528,13 @@ export type ShelterCreateInput = {
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateInput = {
@@ -551,9 +567,13 @@ export type ShelterUncheckedCreateInput = {
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUpdateInput = {
@@ -586,9 +606,13 @@ export type ShelterUpdateInput = {
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateInput = {
@@ -621,9 +645,13 @@ export type ShelterUncheckedUpdateInput = {
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterCreateManyInput = {
@@ -708,14 +736,6 @@ export type ShelterNullableScalarRelationFilter = {
 export type ShelterScalarRelationFilter = {
   is?: Prisma.ShelterWhereInput
   isNot?: Prisma.ShelterWhereInput
-}
-
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
 }
 
 export type ShelterCountOrderByAggregateInput = {
@@ -811,6 +831,22 @@ export type ShelterUpdateOneWithoutAnimalsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutAnimalsInput, Prisma.ShelterUpdateWithoutAnimalsInput>, Prisma.ShelterUncheckedUpdateWithoutAnimalsInput>
 }
 
+export type ShelterCreateNestedOneWithoutDailySchedulesInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutDailySchedulesInput, Prisma.ShelterUncheckedCreateWithoutDailySchedulesInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutDailySchedulesInput
+  connect?: Prisma.ShelterWhereUniqueInput
+}
+
+export type ShelterUpdateOneWithoutDailySchedulesNestedInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutDailySchedulesInput, Prisma.ShelterUncheckedCreateWithoutDailySchedulesInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutDailySchedulesInput
+  upsert?: Prisma.ShelterUpsertWithoutDailySchedulesInput
+  disconnect?: Prisma.ShelterWhereInput | boolean
+  delete?: Prisma.ShelterWhereInput | boolean
+  connect?: Prisma.ShelterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutDailySchedulesInput, Prisma.ShelterUpdateWithoutDailySchedulesInput>, Prisma.ShelterUncheckedUpdateWithoutDailySchedulesInput>
+}
+
 export type ShelterCreateNestedOneWithoutExternalFeedConfigsInput = {
   create?: Prisma.XOR<Prisma.ShelterCreateWithoutExternalFeedConfigsInput, Prisma.ShelterUncheckedCreateWithoutExternalFeedConfigsInput>
   connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutExternalFeedConfigsInput
@@ -857,6 +893,20 @@ export type ShelterUncheckedUpdateOneWithoutLogoNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutLogoInput, Prisma.ShelterUpdateWithoutLogoInput>, Prisma.ShelterUncheckedUpdateWithoutLogoInput>
 }
 
+export type ShelterCreateNestedOneWithoutImportJobsInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutImportJobsInput, Prisma.ShelterUncheckedCreateWithoutImportJobsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutImportJobsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+}
+
+export type ShelterUpdateOneRequiredWithoutImportJobsNestedInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutImportJobsInput, Prisma.ShelterUncheckedCreateWithoutImportJobsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutImportJobsInput
+  upsert?: Prisma.ShelterUpsertWithoutImportJobsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutImportJobsInput, Prisma.ShelterUpdateWithoutImportJobsInput>, Prisma.ShelterUncheckedUpdateWithoutImportJobsInput>
+}
+
 export type ShelterCreateNestedOneWithoutImportMappingsInput = {
   create?: Prisma.XOR<Prisma.ShelterCreateWithoutImportMappingsInput, Prisma.ShelterUncheckedCreateWithoutImportMappingsInput>
   connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutImportMappingsInput
@@ -869,6 +919,38 @@ export type ShelterUpdateOneRequiredWithoutImportMappingsNestedInput = {
   upsert?: Prisma.ShelterUpsertWithoutImportMappingsInput
   connect?: Prisma.ShelterWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutImportMappingsInput, Prisma.ShelterUpdateWithoutImportMappingsInput>, Prisma.ShelterUncheckedUpdateWithoutImportMappingsInput>
+}
+
+export type ShelterCreateNestedOneWithoutOperationEventsInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutOperationEventsInput, Prisma.ShelterUncheckedCreateWithoutOperationEventsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutOperationEventsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+}
+
+export type ShelterUpdateOneWithoutOperationEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutOperationEventsInput, Prisma.ShelterUncheckedCreateWithoutOperationEventsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutOperationEventsInput
+  upsert?: Prisma.ShelterUpsertWithoutOperationEventsInput
+  disconnect?: Prisma.ShelterWhereInput | boolean
+  delete?: Prisma.ShelterWhereInput | boolean
+  connect?: Prisma.ShelterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutOperationEventsInput, Prisma.ShelterUpdateWithoutOperationEventsInput>, Prisma.ShelterUncheckedUpdateWithoutOperationEventsInput>
+}
+
+export type ShelterCreateNestedOneWithoutPriorityScoreLogsInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutPriorityScoreLogsInput, Prisma.ShelterUncheckedCreateWithoutPriorityScoreLogsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutPriorityScoreLogsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+}
+
+export type ShelterUpdateOneWithoutPriorityScoreLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutPriorityScoreLogsInput, Prisma.ShelterUncheckedCreateWithoutPriorityScoreLogsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutPriorityScoreLogsInput
+  upsert?: Prisma.ShelterUpsertWithoutPriorityScoreLogsInput
+  disconnect?: Prisma.ShelterWhereInput | boolean
+  delete?: Prisma.ShelterWhereInput | boolean
+  connect?: Prisma.ShelterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutPriorityScoreLogsInput, Prisma.ShelterUpdateWithoutPriorityScoreLogsInput>, Prisma.ShelterUncheckedUpdateWithoutPriorityScoreLogsInput>
 }
 
 export type ShelterCreateNestedOneWithoutConversationsInput = {
@@ -1051,9 +1133,13 @@ export type ShelterCreateWithoutAnimalsInput = {
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutAnimalsInput = {
@@ -1085,9 +1171,13 @@ export type ShelterUncheckedCreateWithoutAnimalsInput = {
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutAnimalsInput = {
@@ -1135,9 +1225,13 @@ export type ShelterUpdateWithoutAnimalsInput = {
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutAnimalsInput = {
@@ -1169,9 +1263,181 @@ export type ShelterUncheckedUpdateWithoutAnimalsInput = {
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterCreateWithoutDailySchedulesInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
+  shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterUncheckedCreateWithoutDailySchedulesInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoId?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterCreateOrConnectWithoutDailySchedulesInput = {
+  where: Prisma.ShelterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutDailySchedulesInput, Prisma.ShelterUncheckedCreateWithoutDailySchedulesInput>
+}
+
+export type ShelterUpsertWithoutDailySchedulesInput = {
+  update: Prisma.XOR<Prisma.ShelterUpdateWithoutDailySchedulesInput, Prisma.ShelterUncheckedUpdateWithoutDailySchedulesInput>
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutDailySchedulesInput, Prisma.ShelterUncheckedCreateWithoutDailySchedulesInput>
+  where?: Prisma.ShelterWhereInput
+}
+
+export type ShelterUpdateToOneWithWhereWithoutDailySchedulesInput = {
+  where?: Prisma.ShelterWhereInput
+  data: Prisma.XOR<Prisma.ShelterUpdateWithoutDailySchedulesInput, Prisma.ShelterUncheckedUpdateWithoutDailySchedulesInput>
+}
+
+export type ShelterUpdateWithoutDailySchedulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
+  shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterUncheckedUpdateWithoutDailySchedulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterCreateWithoutExternalFeedConfigsInput = {
@@ -1203,9 +1469,13 @@ export type ShelterCreateWithoutExternalFeedConfigsInput = {
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutExternalFeedConfigsInput = {
@@ -1237,9 +1507,13 @@ export type ShelterUncheckedCreateWithoutExternalFeedConfigsInput = {
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutExternalFeedConfigsInput = {
@@ -1287,9 +1561,13 @@ export type ShelterUpdateWithoutExternalFeedConfigsInput = {
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutExternalFeedConfigsInput = {
@@ -1321,9 +1599,13 @@ export type ShelterUncheckedUpdateWithoutExternalFeedConfigsInput = {
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterCreateWithoutLogoInput = {
@@ -1355,9 +1637,13 @@ export type ShelterCreateWithoutLogoInput = {
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutLogoInput = {
@@ -1389,9 +1675,13 @@ export type ShelterUncheckedCreateWithoutLogoInput = {
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutLogoInput = {
@@ -1439,9 +1729,13 @@ export type ShelterUpdateWithoutLogoInput = {
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutLogoInput = {
@@ -1473,9 +1767,181 @@ export type ShelterUncheckedUpdateWithoutLogoInput = {
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterCreateWithoutImportJobsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
+  shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterUncheckedCreateWithoutImportJobsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoId?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterCreateOrConnectWithoutImportJobsInput = {
+  where: Prisma.ShelterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutImportJobsInput, Prisma.ShelterUncheckedCreateWithoutImportJobsInput>
+}
+
+export type ShelterUpsertWithoutImportJobsInput = {
+  update: Prisma.XOR<Prisma.ShelterUpdateWithoutImportJobsInput, Prisma.ShelterUncheckedUpdateWithoutImportJobsInput>
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutImportJobsInput, Prisma.ShelterUncheckedCreateWithoutImportJobsInput>
+  where?: Prisma.ShelterWhereInput
+}
+
+export type ShelterUpdateToOneWithWhereWithoutImportJobsInput = {
+  where?: Prisma.ShelterWhereInput
+  data: Prisma.XOR<Prisma.ShelterUpdateWithoutImportJobsInput, Prisma.ShelterUncheckedUpdateWithoutImportJobsInput>
+}
+
+export type ShelterUpdateWithoutImportJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
+  shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterUncheckedUpdateWithoutImportJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterCreateWithoutImportMappingsInput = {
@@ -1507,9 +1973,13 @@ export type ShelterCreateWithoutImportMappingsInput = {
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutImportMappingsInput = {
@@ -1541,9 +2011,13 @@ export type ShelterUncheckedCreateWithoutImportMappingsInput = {
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutImportMappingsInput = {
@@ -1591,9 +2065,13 @@ export type ShelterUpdateWithoutImportMappingsInput = {
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutImportMappingsInput = {
@@ -1625,9 +2103,349 @@ export type ShelterUncheckedUpdateWithoutImportMappingsInput = {
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterCreateWithoutOperationEventsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
+  shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterUncheckedCreateWithoutOperationEventsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoId?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterCreateOrConnectWithoutOperationEventsInput = {
+  where: Prisma.ShelterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutOperationEventsInput, Prisma.ShelterUncheckedCreateWithoutOperationEventsInput>
+}
+
+export type ShelterUpsertWithoutOperationEventsInput = {
+  update: Prisma.XOR<Prisma.ShelterUpdateWithoutOperationEventsInput, Prisma.ShelterUncheckedUpdateWithoutOperationEventsInput>
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutOperationEventsInput, Prisma.ShelterUncheckedCreateWithoutOperationEventsInput>
+  where?: Prisma.ShelterWhereInput
+}
+
+export type ShelterUpdateToOneWithWhereWithoutOperationEventsInput = {
+  where?: Prisma.ShelterWhereInput
+  data: Prisma.XOR<Prisma.ShelterUpdateWithoutOperationEventsInput, Prisma.ShelterUncheckedUpdateWithoutOperationEventsInput>
+}
+
+export type ShelterUpdateWithoutOperationEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
+  shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterUncheckedUpdateWithoutOperationEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterCreateWithoutPriorityScoreLogsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
+  shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterUncheckedCreateWithoutPriorityScoreLogsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoId?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterCreateOrConnectWithoutPriorityScoreLogsInput = {
+  where: Prisma.ShelterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutPriorityScoreLogsInput, Prisma.ShelterUncheckedCreateWithoutPriorityScoreLogsInput>
+}
+
+export type ShelterUpsertWithoutPriorityScoreLogsInput = {
+  update: Prisma.XOR<Prisma.ShelterUpdateWithoutPriorityScoreLogsInput, Prisma.ShelterUncheckedUpdateWithoutPriorityScoreLogsInput>
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutPriorityScoreLogsInput, Prisma.ShelterUncheckedCreateWithoutPriorityScoreLogsInput>
+  where?: Prisma.ShelterWhereInput
+}
+
+export type ShelterUpdateToOneWithWhereWithoutPriorityScoreLogsInput = {
+  where?: Prisma.ShelterWhereInput
+  data: Prisma.XOR<Prisma.ShelterUpdateWithoutPriorityScoreLogsInput, Prisma.ShelterUncheckedUpdateWithoutPriorityScoreLogsInput>
+}
+
+export type ShelterUpdateWithoutPriorityScoreLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
+  shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterUncheckedUpdateWithoutPriorityScoreLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterCreateWithoutConversationsInput = {
@@ -1660,8 +2478,12 @@ export type ShelterCreateWithoutConversationsInput = {
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutConversationsInput = {
@@ -1694,8 +2516,12 @@ export type ShelterUncheckedCreateWithoutConversationsInput = {
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutConversationsInput = {
@@ -1744,8 +2570,12 @@ export type ShelterUpdateWithoutConversationsInput = {
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutConversationsInput = {
@@ -1778,8 +2608,12 @@ export type ShelterUncheckedUpdateWithoutConversationsInput = {
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterCreateWithoutShelterDocumentsInput = {
@@ -1811,9 +2645,13 @@ export type ShelterCreateWithoutShelterDocumentsInput = {
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutShelterDocumentsInput = {
@@ -1845,9 +2683,13 @@ export type ShelterUncheckedCreateWithoutShelterDocumentsInput = {
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutShelterDocumentsInput = {
@@ -1895,9 +2737,13 @@ export type ShelterUpdateWithoutShelterDocumentsInput = {
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutShelterDocumentsInput = {
@@ -1929,9 +2775,13 @@ export type ShelterUncheckedUpdateWithoutShelterDocumentsInput = {
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterCreateWithoutOriginBatchesInput = {
@@ -1964,8 +2814,12 @@ export type ShelterCreateWithoutOriginBatchesInput = {
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutOriginBatchesInput = {
@@ -1998,8 +2852,12 @@ export type ShelterUncheckedCreateWithoutOriginBatchesInput = {
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutOriginBatchesInput = {
@@ -2037,8 +2895,12 @@ export type ShelterCreateWithoutDestinationBatchesInput = {
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutDestinationBatchesInput = {
@@ -2071,8 +2933,12 @@ export type ShelterUncheckedCreateWithoutDestinationBatchesInput = {
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutDestinationBatchesInput = {
@@ -2121,8 +2987,12 @@ export type ShelterUpdateWithoutOriginBatchesInput = {
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutOriginBatchesInput = {
@@ -2155,8 +3025,12 @@ export type ShelterUncheckedUpdateWithoutOriginBatchesInput = {
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUpsertWithoutDestinationBatchesInput = {
@@ -2200,8 +3074,12 @@ export type ShelterUpdateWithoutDestinationBatchesInput = {
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutDestinationBatchesInput = {
@@ -2234,8 +3112,12 @@ export type ShelterUncheckedUpdateWithoutDestinationBatchesInput = {
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterCreateWithoutTransportsInput = {
@@ -2267,9 +3149,13 @@ export type ShelterCreateWithoutTransportsInput = {
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutTransportsInput = {
@@ -2301,9 +3187,13 @@ export type ShelterUncheckedCreateWithoutTransportsInput = {
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutTransportsInput = {
@@ -2351,9 +3241,13 @@ export type ShelterUpdateWithoutTransportsInput = {
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutTransportsInput = {
@@ -2385,9 +3279,13 @@ export type ShelterUncheckedUpdateWithoutTransportsInput = {
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterCreateWithoutShelterAdminsInput = {
@@ -2419,9 +3317,13 @@ export type ShelterCreateWithoutShelterAdminsInput = {
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutShelterAdminsInput = {
@@ -2453,9 +3355,13 @@ export type ShelterUncheckedCreateWithoutShelterAdminsInput = {
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutShelterAdminsInput = {
@@ -2492,9 +3398,13 @@ export type ShelterCreateWithoutManagersInput = {
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterUncheckedCreateWithoutManagersInput = {
@@ -2526,9 +3436,13 @@ export type ShelterUncheckedCreateWithoutManagersInput = {
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
   originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
   destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
   conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
 }
 
 export type ShelterCreateOrConnectWithoutManagersInput = {
@@ -2576,9 +3490,13 @@ export type ShelterUpdateWithoutShelterAdminsInput = {
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutShelterAdminsInput = {
@@ -2610,9 +3528,13 @@ export type ShelterUncheckedUpdateWithoutShelterAdminsInput = {
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUpsertWithoutManagersInput = {
@@ -2655,9 +3577,13 @@ export type ShelterUpdateWithoutManagersInput = {
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
 }
 
 export type ShelterUncheckedUpdateWithoutManagersInput = {
@@ -2689,9 +3615,13 @@ export type ShelterUncheckedUpdateWithoutManagersInput = {
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
   originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
   destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
   conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
 }
 
 
@@ -2707,9 +3637,13 @@ export type ShelterCountOutputType = {
   transports: number
   externalFeedConfigs: number
   importMappings: number
+  importJobs: number
+  dailySchedules: number
   originBatches: number
   destinationBatches: number
   conversations: number
+  operationEvents: number
+  priorityScoreLogs: number
 }
 
 export type ShelterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2720,9 +3654,13 @@ export type ShelterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   transports?: boolean | ShelterCountOutputTypeCountTransportsArgs
   externalFeedConfigs?: boolean | ShelterCountOutputTypeCountExternalFeedConfigsArgs
   importMappings?: boolean | ShelterCountOutputTypeCountImportMappingsArgs
+  importJobs?: boolean | ShelterCountOutputTypeCountImportJobsArgs
+  dailySchedules?: boolean | ShelterCountOutputTypeCountDailySchedulesArgs
   originBatches?: boolean | ShelterCountOutputTypeCountOriginBatchesArgs
   destinationBatches?: boolean | ShelterCountOutputTypeCountDestinationBatchesArgs
   conversations?: boolean | ShelterCountOutputTypeCountConversationsArgs
+  operationEvents?: boolean | ShelterCountOutputTypeCountOperationEventsArgs
+  priorityScoreLogs?: boolean | ShelterCountOutputTypeCountPriorityScoreLogsArgs
 }
 
 /**
@@ -2787,6 +3725,20 @@ export type ShelterCountOutputTypeCountImportMappingsArgs<ExtArgs extends runtim
 /**
  * ShelterCountOutputType without action
  */
+export type ShelterCountOutputTypeCountImportJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ImportJobWhereInput
+}
+
+/**
+ * ShelterCountOutputType without action
+ */
+export type ShelterCountOutputTypeCountDailySchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DailyScheduleWhereInput
+}
+
+/**
+ * ShelterCountOutputType without action
+ */
 export type ShelterCountOutputTypeCountOriginBatchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TransportBatchWhereInput
 }
@@ -2803,6 +3755,20 @@ export type ShelterCountOutputTypeCountDestinationBatchesArgs<ExtArgs extends ru
  */
 export type ShelterCountOutputTypeCountConversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.PrivateConversationWhereInput
+}
+
+/**
+ * ShelterCountOutputType without action
+ */
+export type ShelterCountOutputTypeCountOperationEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OperationEventWhereInput
+}
+
+/**
+ * ShelterCountOutputType without action
+ */
+export type ShelterCountOutputTypeCountPriorityScoreLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PriorityScoreLogWhereInput
 }
 
 
@@ -2837,9 +3803,13 @@ export type ShelterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   transports?: boolean | Prisma.Shelter$transportsArgs<ExtArgs>
   externalFeedConfigs?: boolean | Prisma.Shelter$externalFeedConfigsArgs<ExtArgs>
   importMappings?: boolean | Prisma.Shelter$importMappingsArgs<ExtArgs>
+  importJobs?: boolean | Prisma.Shelter$importJobsArgs<ExtArgs>
+  dailySchedules?: boolean | Prisma.Shelter$dailySchedulesArgs<ExtArgs>
   originBatches?: boolean | Prisma.Shelter$originBatchesArgs<ExtArgs>
   destinationBatches?: boolean | Prisma.Shelter$destinationBatchesArgs<ExtArgs>
   conversations?: boolean | Prisma.Shelter$conversationsArgs<ExtArgs>
+  operationEvents?: boolean | Prisma.Shelter$operationEventsArgs<ExtArgs>
+  priorityScoreLogs?: boolean | Prisma.Shelter$priorityScoreLogsArgs<ExtArgs>
   _count?: boolean | Prisma.ShelterCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["shelter"]>
 
@@ -2930,9 +3900,13 @@ export type ShelterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   transports?: boolean | Prisma.Shelter$transportsArgs<ExtArgs>
   externalFeedConfigs?: boolean | Prisma.Shelter$externalFeedConfigsArgs<ExtArgs>
   importMappings?: boolean | Prisma.Shelter$importMappingsArgs<ExtArgs>
+  importJobs?: boolean | Prisma.Shelter$importJobsArgs<ExtArgs>
+  dailySchedules?: boolean | Prisma.Shelter$dailySchedulesArgs<ExtArgs>
   originBatches?: boolean | Prisma.Shelter$originBatchesArgs<ExtArgs>
   destinationBatches?: boolean | Prisma.Shelter$destinationBatchesArgs<ExtArgs>
   conversations?: boolean | Prisma.Shelter$conversationsArgs<ExtArgs>
+  operationEvents?: boolean | Prisma.Shelter$operationEventsArgs<ExtArgs>
+  priorityScoreLogs?: boolean | Prisma.Shelter$priorityScoreLogsArgs<ExtArgs>
   _count?: boolean | Prisma.ShelterCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ShelterIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2953,9 +3927,13 @@ export type $ShelterPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     transports: Prisma.$TransportPayload<ExtArgs>[]
     externalFeedConfigs: Prisma.$ExternalFeedConfigPayload<ExtArgs>[]
     importMappings: Prisma.$ImportMappingPayload<ExtArgs>[]
+    importJobs: Prisma.$ImportJobPayload<ExtArgs>[]
+    dailySchedules: Prisma.$DailySchedulePayload<ExtArgs>[]
     originBatches: Prisma.$TransportBatchPayload<ExtArgs>[]
     destinationBatches: Prisma.$TransportBatchPayload<ExtArgs>[]
     conversations: Prisma.$PrivateConversationPayload<ExtArgs>[]
+    operationEvents: Prisma.$OperationEventPayload<ExtArgs>[]
+    priorityScoreLogs: Prisma.$PriorityScoreLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3382,9 +4360,13 @@ export interface Prisma__ShelterClient<T, Null = never, ExtArgs extends runtime.
   transports<T extends Prisma.Shelter$transportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$transportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   externalFeedConfigs<T extends Prisma.Shelter$externalFeedConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$externalFeedConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExternalFeedConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   importMappings<T extends Prisma.Shelter$importMappingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$importMappingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImportMappingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  importJobs<T extends Prisma.Shelter$importJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$importJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ImportJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dailySchedules<T extends Prisma.Shelter$dailySchedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$dailySchedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailySchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   originBatches<T extends Prisma.Shelter$originBatchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$originBatchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   destinationBatches<T extends Prisma.Shelter$destinationBatchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$destinationBatchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportBatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversations<T extends Prisma.Shelter$conversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  operationEvents<T extends Prisma.Shelter$operationEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$operationEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OperationEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  priorityScoreLogs<T extends Prisma.Shelter$priorityScoreLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$priorityScoreLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PriorityScoreLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4019,6 +5001,54 @@ export type Shelter$importMappingsArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * Shelter.importJobs
+ */
+export type Shelter$importJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ImportJob
+   */
+  select?: Prisma.ImportJobSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ImportJob
+   */
+  omit?: Prisma.ImportJobOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ImportJobInclude<ExtArgs> | null
+  where?: Prisma.ImportJobWhereInput
+  orderBy?: Prisma.ImportJobOrderByWithRelationInput | Prisma.ImportJobOrderByWithRelationInput[]
+  cursor?: Prisma.ImportJobWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ImportJobScalarFieldEnum | Prisma.ImportJobScalarFieldEnum[]
+}
+
+/**
+ * Shelter.dailySchedules
+ */
+export type Shelter$dailySchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailySchedule
+   */
+  select?: Prisma.DailyScheduleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DailySchedule
+   */
+  omit?: Prisma.DailyScheduleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DailyScheduleInclude<ExtArgs> | null
+  where?: Prisma.DailyScheduleWhereInput
+  orderBy?: Prisma.DailyScheduleOrderByWithRelationInput | Prisma.DailyScheduleOrderByWithRelationInput[]
+  cursor?: Prisma.DailyScheduleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DailyScheduleScalarFieldEnum | Prisma.DailyScheduleScalarFieldEnum[]
+}
+
+/**
  * Shelter.originBatches
  */
 export type Shelter$originBatchesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4088,6 +5118,54 @@ export type Shelter$conversationsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.PrivateConversationScalarFieldEnum | Prisma.PrivateConversationScalarFieldEnum[]
+}
+
+/**
+ * Shelter.operationEvents
+ */
+export type Shelter$operationEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OperationEvent
+   */
+  select?: Prisma.OperationEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OperationEvent
+   */
+  omit?: Prisma.OperationEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OperationEventInclude<ExtArgs> | null
+  where?: Prisma.OperationEventWhereInput
+  orderBy?: Prisma.OperationEventOrderByWithRelationInput | Prisma.OperationEventOrderByWithRelationInput[]
+  cursor?: Prisma.OperationEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OperationEventScalarFieldEnum | Prisma.OperationEventScalarFieldEnum[]
+}
+
+/**
+ * Shelter.priorityScoreLogs
+ */
+export type Shelter$priorityScoreLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PriorityScoreLog
+   */
+  select?: Prisma.PriorityScoreLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PriorityScoreLog
+   */
+  omit?: Prisma.PriorityScoreLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PriorityScoreLogInclude<ExtArgs> | null
+  where?: Prisma.PriorityScoreLogWhereInput
+  orderBy?: Prisma.PriorityScoreLogOrderByWithRelationInput | Prisma.PriorityScoreLogOrderByWithRelationInput[]
+  cursor?: Prisma.PriorityScoreLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PriorityScoreLogScalarFieldEnum | Prisma.PriorityScoreLogScalarFieldEnum[]
 }
 
 /**
