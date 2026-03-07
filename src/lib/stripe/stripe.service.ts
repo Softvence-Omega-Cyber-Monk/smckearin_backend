@@ -323,6 +323,18 @@ export class StripeService {
     );
   }
 
+  async deleteCustomer(customerId: string) {
+    const deleted = await this.stripe.customers.del(customerId);
+    this.logger.log(`Deleted Stripe customer ${customerId}`);
+    return deleted;
+  }
+
+  async deleteAccount(accountId: string) {
+    const deleted = await this.stripe.accounts.del(accountId);
+    this.logger.log(`Deleted Stripe account ${accountId}`);
+    return deleted;
+  }
+
   async createSubscription({
     customerId,
     priceId,

@@ -9,6 +9,7 @@ import { AuthRegistrationController } from './controllers/auth-registration.cont
 import { AuthSettingsController } from './controllers/auth-settings.controller';
 import { AuthShelterController } from './controllers/auth-shelter.controller';
 import { AuthAdminService } from './services/auth-admin.service';
+import { AuthDeleteAccountService } from './services/auth-delete-account.service';
 import { AuthGetProfileService } from './services/auth-get-profile.service';
 import { AuthLoginService } from './services/auth-login.service';
 import { AuthLogoutService } from './services/auth-logout.service';
@@ -38,6 +39,7 @@ import { AuthUpdateProfileService } from './services/auth-update-profile.service
     AuthLogoutService,
     AuthOtpService,
     AuthPasswordService,
+    AuthDeleteAccountService,
     AuthGetProfileService,
     AuthUpdateProfileService,
     AuthRegisterService,
