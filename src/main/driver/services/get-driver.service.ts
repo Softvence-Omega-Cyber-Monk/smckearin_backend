@@ -8,6 +8,7 @@ import { Injectable } from '@nestjs/common';
 import {
   Animal,
   ApprovalStatus,
+  DailySchedule,
   Driver,
   FileInstance,
   Prisma,
@@ -22,6 +23,7 @@ type DriverWithFiles = Driver & {
   vehicleRegistration: FileInstance | null;
   transportCertificate: FileInstance | null;
   transports?: (Transport & { animal: Animal })[];
+  dailySchedules?: DailySchedule[];
 };
 
 @Injectable()
@@ -126,6 +128,11 @@ export class GetDriverService {
           driverLicense: true,
           vehicleRegistration: true,
           transportCertificate: true,
+          dailySchedules: {
+            orderBy: {
+              day: 'asc',
+            },
+          },
         },
       });
 
@@ -188,6 +195,7 @@ export class GetDriverService {
       previousExperience: driver.previousExperience,
       startTime: driver.startTime,
       endTime: driver.endTime,
+      dailySchedule: driver.dailySchedules || [],
       status: driver.status,
       createdAt: driver.createdAt,
       updatedAt: driver.updatedAt,
