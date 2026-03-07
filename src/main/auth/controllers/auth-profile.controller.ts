@@ -10,6 +10,7 @@ import { JWTPayload } from '@/core/jwt/jwt.interface';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -29,6 +30,7 @@ import {
   UpdateShelterProfileDto,
   UpdateVetProfileDto,
 } from '../dto/update-profile.dto';
+import { AuthDeleteAccountService } from '../services/auth-delete-account.service';
 import { AuthGetProfileService } from '../services/auth-get-profile.service';
 import { AuthUpdateProfileService } from '../services/auth-update-profile.service';
 
@@ -38,6 +40,7 @@ export class AuthProfileController {
   constructor(
     private readonly authGetProfileService: AuthGetProfileService,
     private readonly authUpdateProfileService: AuthUpdateProfileService,
+    private readonly authDeleteAccountService: AuthDeleteAccountService,
   ) {}
 
   @ApiOperation({ summary: 'Get User Profile' })
@@ -116,5 +119,13 @@ export class AuthProfileController {
       dto,
       file,
     );
+  }
+
+  @ApiOperation({ summary: 'Hard Core Delete Account' })
+  @ApiBearerAuth()
+  @Delete('account')
+  @ValidateAuth()
+  async deleteAccount(@GetUser('sub') userId: string) {
+    return this.authDeleteAccountService.deleteAccount(userId);
   }
 }
