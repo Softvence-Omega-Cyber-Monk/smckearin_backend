@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import 'reflect-metadata';
 
 import { ValidationPipe } from '@nestjs/common';
@@ -59,6 +60,12 @@ async function bootstrap() {
   app.use('/webhook/stripe', bodyParser.raw({ type: 'application/json' }));
 
   // * set port
+  // * health check endpoint for Docker/load balancer
+  const httpAdapter = app.getHttpAdapter();
+  httpAdapter.get('/health', (_req: Request, res: Response) => {
+    res.status(200).json({ status: 'ok' });
+  });
+
   const port = parseInt(configService.get<string>(ENVEnum.PORT) ?? '3000', 10);
   await app.listen(port);
 }

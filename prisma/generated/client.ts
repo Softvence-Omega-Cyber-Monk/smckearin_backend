@@ -58,10 +58,20 @@ export type UserOtp = Prisma.UserOtpModel
  */
 export type RefreshToken = Prisma.RefreshTokenModel
 /**
+ * Model DailySchedule
+ * 
+ */
+export type DailySchedule = Prisma.DailyScheduleModel
+/**
  * Model Driver
  * 
  */
 export type Driver = Prisma.DriverModel
+/**
+ * Model ExternalFeedConfig
+ * 
+ */
+export type ExternalFeedConfig = Prisma.ExternalFeedConfigModel
 /**
  * Model FileInstance
  * 
@@ -72,6 +82,21 @@ export type FileInstance = Prisma.FileInstanceModel
  * 
  */
 export type HealthReport = Prisma.HealthReportModel
+/**
+ * Model ImportJob
+ * 
+ */
+export type ImportJob = Prisma.ImportJobModel
+/**
+ * Model ImportRow
+ * 
+ */
+export type ImportRow = Prisma.ImportRowModel
+/**
+ * Model ImportMapping
+ * 
+ */
+export type ImportMapping = Prisma.ImportMappingModel
 /**
  * Model Notification
  * 
@@ -88,6 +113,11 @@ export type UserNotification = Prisma.UserNotificationModel
  */
 export type NotificationSettings = Prisma.NotificationSettingsModel
 /**
+ * Model OperationEvent
+ * 
+ */
+export type OperationEvent = Prisma.OperationEventModel
+/**
  * Model PaymentSettings
  * 
  */
@@ -102,6 +132,11 @@ export type PricingRule = Prisma.PricingRuleModel
  * 
  */
 export type PricingSnapshot = Prisma.PricingSnapshotModel
+/**
+ * Model PriorityScoreLog
+ * 
+ */
+export type PriorityScoreLog = Prisma.PriorityScoreLogModel
 /**
  * Model PrivateConversation
  * 
@@ -132,6 +167,11 @@ export type ShelterDocument = Prisma.ShelterDocumentModel
  * 
  */
 export type Transaction = Prisma.TransactionModel
+/**
+ * Model TransportBatch
+ * 
+ */
+export type TransportBatch = Prisma.TransportBatchModel
 /**
  * Model Transport
  * 

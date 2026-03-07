@@ -45,10 +45,11 @@ model Transport {
   transaction     Transaction?
 
   transportTimelines TransportTimeline[]
+  chatConversations  PrivateConversation[] @relation("TransportConversation")
 
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @default(now()) @updatedAt
-  acceptedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  acceptedAt  DateTime?
   completedAt DateTime?
 
   @@map("transports")

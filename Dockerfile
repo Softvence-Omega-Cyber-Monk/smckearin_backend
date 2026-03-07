@@ -21,6 +21,9 @@ RUN pnpm config set allowed-builds '*' -g
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
+# Generate Prisma Client (dummy DATABASE_URL is sufficient for code generation)
+RUN DATABASE_URL="postgresql://user:password@localhost:5432/db" pnpm prisma generate
+
 # Copy rest of the project files
 COPY . .
 
@@ -42,12 +45,13 @@ RUN apt update && apt install -y openssl curl
 # Copy necessary files from builder stage
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=builder /app/.npmrc ./.npmrc
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma.config.ts ./
 COPY --from=builder /app/prisma ./prisma
 
-# Install dependencies
-RUN pnpm install --frozen-lockfile
+# Install production dependencies (--ignore-scripts skips prepare/husky)
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts
 
 # Expose the port
 EXPOSE 3000

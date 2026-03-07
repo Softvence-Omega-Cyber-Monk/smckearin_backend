@@ -3,7 +3,7 @@ import { successResponse } from '@/common/utils/response.util';
 import { SocketSafe } from '@/core/socket/socket-safe.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { MessageDeliveryStatus } from '@prisma';
+import { ConversationScope, MessageDeliveryStatus } from '@prisma';
 import { Socket } from 'socket.io';
 import { ChatGateway } from '../chat.gateway';
 import { MarkReadDto, SendMessageDto } from '../dto/message.dto';
@@ -39,6 +39,10 @@ export class MessageService {
           },
         },
       });
+
+    if (conversation.chatScope !== ConversationScope.MAIN) {
+      throw new Error('Conversation is not available in main chat');
+    }
 
     // 2. Determine recipients based on conversation type
     const recipientIds: string[] = [];

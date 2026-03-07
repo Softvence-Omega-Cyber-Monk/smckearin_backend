@@ -1,0 +1,87 @@
+model ImportJob {
+  id String @id @default(uuid())
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  mappingTemplateId String?
+  mappingTemplate   ImportMapping? @relation(fields: [mappingTemplateId], references: [id], onDelete: SetNull)
+
+  sourceType ImportSourceType @default(CSV)
+  sourceFileName String?
+  sourceChecksum String?
+  fileSizeBytes   Int?
+
+  idempotencyKey String @unique
+
+  requestedByUserId String?
+  requestedByUser   User? @relation("ImportJobRequestedBy", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+
+  status ImportJobStatus @default(PENDING)
+
+  totalRows     Int @default(0)
+  processedRows Int @default(0)
+  createdCount  Int @default(0)
+  updatedCount  Int @default(0)
+  skippedCount  Int @default(0)
+  errorCount    Int @default(0)
+
+  auditLog Json?
+
+  startedAt  DateTime?
+  finishedAt DateTime?
+
+  rows   ImportRow[]
+  events OperationEvent[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([shelterId, createdAt])
+  @@index([shelterId, sourceChecksum])
+  @@map("import_jobs")
+}
+
+model ImportRow {
+  id String @id @default(uuid())
+
+  importJobId String
+  importJob   ImportJob @relation(fields: [importJobId], references: [id], onDelete: Cascade)
+
+  rowNumber Int
+  rawData   Json
+  mappedData Json?
+
+  action ImportRowAction
+  entityType String?
+  entityId   String?
+
+  errorMessage String?
+
+  createdAt DateTime @default(now())
+
+  @@index([importJobId, rowNumber])
+  @@index([importJobId, action])
+  @@map("import_rows")
+}
+
+enum ImportSourceType {
+  CSV
+  EXTERNAL_FEED
+}
+
+enum ImportJobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  DUPLICATE
+}
+
+enum ImportRowAction {
+  CREATED
+  UPDATED
+  SKIPPED
+  ERROR
+}
+

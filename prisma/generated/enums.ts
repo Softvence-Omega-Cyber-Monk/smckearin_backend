@@ -18,6 +18,25 @@ export const Status = {
 export type Status = (typeof Status)[keyof typeof Status]
 
 
+export const QuarantineStatus = {
+  CLEARED: 'CLEARED',
+  QUARANTINE: 'QUARANTINE',
+  OBSERVATION: 'OBSERVATION'
+} as const
+
+export type QuarantineStatus = (typeof QuarantineStatus)[keyof typeof QuarantineStatus]
+
+
+export const HeartwormStatus = {
+  NEGATIVE: 'NEGATIVE',
+  POSITIVE: 'POSITIVE',
+  TREATMENT: 'TREATMENT',
+  UNKNOWN: 'UNKNOWN'
+} as const
+
+export type HeartwormStatus = (typeof HeartwormStatus)[keyof typeof HeartwormStatus]
+
+
 export const OtpType = {
   VERIFICATION: 'VERIFICATION',
   RESET: 'RESET'
@@ -118,6 +137,63 @@ export const FileType = {
 export type FileType = (typeof FileType)[keyof typeof FileType]
 
 
+export const ImportSourceType = {
+  CSV: 'CSV',
+  EXTERNAL_FEED: 'EXTERNAL_FEED'
+} as const
+
+export type ImportSourceType = (typeof ImportSourceType)[keyof typeof ImportSourceType]
+
+
+export const ImportJobStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  DUPLICATE: 'DUPLICATE'
+} as const
+
+export type ImportJobStatus = (typeof ImportJobStatus)[keyof typeof ImportJobStatus]
+
+
+export const ImportRowAction = {
+  CREATED: 'CREATED',
+  UPDATED: 'UPDATED',
+  SKIPPED: 'SKIPPED',
+  ERROR: 'ERROR'
+} as const
+
+export type ImportRowAction = (typeof ImportRowAction)[keyof typeof ImportRowAction]
+
+
+export const OperationDomain = {
+  IMPORT: 'IMPORT',
+  PRIORITY_SCORING: 'PRIORITY_SCORING',
+  OPTIMIZER: 'OPTIMIZER'
+} as const
+
+export type OperationDomain = (typeof OperationDomain)[keyof typeof OperationDomain]
+
+
+export const OperationStatus = {
+  STARTED: 'STARTED',
+  SUCCESS: 'SUCCESS',
+  FAILURE: 'FAILURE',
+  DUPLICATE: 'DUPLICATE'
+} as const
+
+export type OperationStatus = (typeof OperationStatus)[keyof typeof OperationStatus]
+
+
+export const PriorityScoreTriggerType = {
+  MANUAL: 'MANUAL',
+  CRON: 'CRON',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type PriorityScoreTriggerType = (typeof PriorityScoreTriggerType)[keyof typeof PriorityScoreTriggerType]
+
+
 export const ConversationStatus = {
   ACTIVE: 'ACTIVE',
   ARCHIVED: 'ARCHIVED',
@@ -125,6 +201,14 @@ export const ConversationStatus = {
 } as const
 
 export type ConversationStatus = (typeof ConversationStatus)[keyof typeof ConversationStatus]
+
+
+export const ConversationScope = {
+  MAIN: 'MAIN',
+  TRANSPORT: 'TRANSPORT'
+} as const
+
+export type ConversationScope = (typeof ConversationScope)[keyof typeof ConversationScope]
 
 
 export const MessageType = {
@@ -146,6 +230,15 @@ export const MessageDeliveryStatus = {
 } as const
 
 export type MessageDeliveryStatus = (typeof MessageDeliveryStatus)[keyof typeof MessageDeliveryStatus]
+
+
+export const BatchStatus = {
+  PENDING: 'PENDING',
+  EXECUTED: 'EXECUTED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type BatchStatus = (typeof BatchStatus)[keyof typeof BatchStatus]
 
 
 export const PriorityLevel = {

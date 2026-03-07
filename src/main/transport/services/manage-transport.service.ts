@@ -191,11 +191,36 @@ export class ManageTransportService {
       },
     });
 
-    await this.validateDriverOwnership(transport.driverId, authUser.sub);
+    const driver = await this.prisma.client.driver.findUniqueOrThrow({
+      where: { userId: authUser.sub },
+      select: { id: true },
+    });
+
+    if (transport.driverId && transport.driverId !== driver.id) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'You are not allowed to modify this transport',
+      );
+    }
+
+    if (!transport.driverId && !dto.approved) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Unassigned transport can only be accepted',
+      );
+    }
+
+    if (!transport.driverId && transport.status !== TransportStatus.PENDING) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Only pending unassigned transport can be accepted',
+      );
+    }
 
     const updated = await this.prisma.client.transport.update({
       where: { id: transportId },
       data: {
+        driverId: transport.driverId ?? driver.id,
         status: dto.approved
           ? TransportStatus.ACCEPTED
           : TransportStatus.CANCELLED,
@@ -224,13 +249,20 @@ export class ManageTransportService {
     await this.addTimeline(
       transportId,
       updated.status,
-      dto.approved ? 'Transport accepted' : 'Transport rejected',
+      dto.approved
+        ? transport.driverId
+          ? 'Transport accepted'
+          : `Transport accepted and assigned to driver: ${driver.id}`
+        : 'Transport rejected',
     );
 
     await this.transportNotificationService.notifyTransportEvent(
       'DRIVER_DECISION',
       transportId,
-      { accepted: dto.approved },
+      {
+        accepted: dto.approved,
+        driverId: updated.driverId ?? undefined,
+      },
     );
 
     return successResponse(

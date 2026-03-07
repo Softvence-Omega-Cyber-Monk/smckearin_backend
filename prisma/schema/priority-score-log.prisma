@@ -1,0 +1,31 @@
+model PriorityScoreLog {
+  id String @id @default(uuid())
+
+  animalId String
+  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  shelterId String?
+  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: SetNull)
+
+  formulaVersion String
+  score Float
+
+  breakdown Json
+  details   String[]
+  inputSnapshot Json
+
+  triggerType PriorityScoreTriggerType @default(SYSTEM)
+
+  createdAt DateTime @default(now())
+
+  @@index([animalId, createdAt])
+  @@index([shelterId, createdAt])
+  @@map("priority_score_logs")
+}
+
+enum PriorityScoreTriggerType {
+  MANUAL
+  CRON
+  SYSTEM
+}
+

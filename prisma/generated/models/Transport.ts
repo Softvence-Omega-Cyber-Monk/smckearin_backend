@@ -389,6 +389,7 @@ export type TransportWhereInput = {
   pricingSnapshot?: Prisma.XOR<Prisma.PricingSnapshotNullableScalarRelationFilter, Prisma.PricingSnapshotWhereInput> | null
   transaction?: Prisma.XOR<Prisma.TransactionNullableScalarRelationFilter, Prisma.TransactionWhereInput> | null
   transportTimelines?: Prisma.TransportTimelineListRelationFilter
+  chatConversations?: Prisma.PrivateConversationListRelationFilter
 }
 
 export type TransportOrderByWithRelationInput = {
@@ -425,6 +426,7 @@ export type TransportOrderByWithRelationInput = {
   pricingSnapshot?: Prisma.PricingSnapshotOrderByWithRelationInput
   transaction?: Prisma.TransactionOrderByWithRelationInput
   transportTimelines?: Prisma.TransportTimelineOrderByRelationAggregateInput
+  chatConversations?: Prisma.PrivateConversationOrderByRelationAggregateInput
 }
 
 export type TransportWhereUniqueInput = Prisma.AtLeast<{
@@ -464,6 +466,7 @@ export type TransportWhereUniqueInput = Prisma.AtLeast<{
   pricingSnapshot?: Prisma.XOR<Prisma.PricingSnapshotNullableScalarRelationFilter, Prisma.PricingSnapshotWhereInput> | null
   transaction?: Prisma.XOR<Prisma.TransactionNullableScalarRelationFilter, Prisma.TransactionWhereInput> | null
   transportTimelines?: Prisma.TransportTimelineListRelationFilter
+  chatConversations?: Prisma.PrivateConversationListRelationFilter
 }, "id" | "vetClearanceRequestId">
 
 export type TransportOrderByWithAggregationInput = {
@@ -556,6 +559,7 @@ export type TransportCreateInput = {
   pricingSnapshot?: Prisma.PricingSnapshotCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationCreateNestedManyWithoutTransportInput
 }
 
 export type TransportUncheckedCreateInput = {
@@ -586,6 +590,7 @@ export type TransportUncheckedCreateInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutTransportInput
 }
 
 export type TransportUpdateInput = {
@@ -616,6 +621,7 @@ export type TransportUpdateInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateInput = {
@@ -646,6 +652,7 @@ export type TransportUncheckedUpdateInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportCreateManyInput = {
@@ -736,6 +743,11 @@ export type TransportOrderByRelationAggregateInput = {
 export type TransportScalarRelationFilter = {
   is?: Prisma.TransportWhereInput
   isNot?: Prisma.TransportWhereInput
+}
+
+export type TransportNullableScalarRelationFilter = {
+  is?: Prisma.TransportWhereInput | null
+  isNot?: Prisma.TransportWhereInput | null
 }
 
 export type TransportCountOrderByAggregateInput = {
@@ -831,11 +843,6 @@ export type TransportSumOrderByAggregateInput = {
   pickUpLongitude?: Prisma.SortOrder
   dropOffLatitude?: Prisma.SortOrder
   dropOffLongitude?: Prisma.SortOrder
-}
-
-export type TransportNullableScalarRelationFilter = {
-  is?: Prisma.TransportWhereInput | null
-  isNot?: Prisma.TransportWhereInput | null
 }
 
 export type TransportCreateNestedManyWithoutAnimalInput = {
@@ -976,6 +983,22 @@ export type TransportUpdateOneRequiredWithoutPricingSnapshotNestedInput = {
   upsert?: Prisma.TransportUpsertWithoutPricingSnapshotInput
   connect?: Prisma.TransportWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TransportUpdateToOneWithWhereWithoutPricingSnapshotInput, Prisma.TransportUpdateWithoutPricingSnapshotInput>, Prisma.TransportUncheckedUpdateWithoutPricingSnapshotInput>
+}
+
+export type TransportCreateNestedOneWithoutChatConversationsInput = {
+  create?: Prisma.XOR<Prisma.TransportCreateWithoutChatConversationsInput, Prisma.TransportUncheckedCreateWithoutChatConversationsInput>
+  connectOrCreate?: Prisma.TransportCreateOrConnectWithoutChatConversationsInput
+  connect?: Prisma.TransportWhereUniqueInput
+}
+
+export type TransportUpdateOneWithoutChatConversationsNestedInput = {
+  create?: Prisma.XOR<Prisma.TransportCreateWithoutChatConversationsInput, Prisma.TransportUncheckedCreateWithoutChatConversationsInput>
+  connectOrCreate?: Prisma.TransportCreateOrConnectWithoutChatConversationsInput
+  upsert?: Prisma.TransportUpsertWithoutChatConversationsInput
+  disconnect?: Prisma.TransportWhereInput | boolean
+  delete?: Prisma.TransportWhereInput | boolean
+  connect?: Prisma.TransportWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TransportUpdateToOneWithWhereWithoutChatConversationsInput, Prisma.TransportUpdateWithoutChatConversationsInput>, Prisma.TransportUncheckedUpdateWithoutChatConversationsInput>
 }
 
 export type TransportCreateNestedManyWithoutShelterInput = {
@@ -1161,6 +1184,7 @@ export type TransportCreateWithoutAnimalInput = {
   pricingSnapshot?: Prisma.PricingSnapshotCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationCreateNestedManyWithoutTransportInput
 }
 
 export type TransportUncheckedCreateWithoutAnimalInput = {
@@ -1190,6 +1214,7 @@ export type TransportUncheckedCreateWithoutAnimalInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutTransportInput
 }
 
 export type TransportCreateOrConnectWithoutAnimalInput = {
@@ -1229,6 +1254,7 @@ export type TransportCreateWithoutBondedPairInput = {
   pricingSnapshot?: Prisma.PricingSnapshotCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationCreateNestedManyWithoutTransportInput
 }
 
 export type TransportUncheckedCreateWithoutBondedPairInput = {
@@ -1258,6 +1284,7 @@ export type TransportUncheckedCreateWithoutBondedPairInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutTransportInput
 }
 
 export type TransportCreateOrConnectWithoutBondedPairInput = {
@@ -1359,6 +1386,7 @@ export type TransportCreateWithoutDriverInput = {
   pricingSnapshot?: Prisma.PricingSnapshotCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationCreateNestedManyWithoutTransportInput
 }
 
 export type TransportUncheckedCreateWithoutDriverInput = {
@@ -1388,6 +1416,7 @@ export type TransportUncheckedCreateWithoutDriverInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutTransportInput
 }
 
 export type TransportCreateOrConnectWithoutDriverInput = {
@@ -1443,6 +1472,7 @@ export type TransportCreateWithoutPricingSnapshotInput = {
   vetClearanceRequest?: Prisma.VetClearanceRequestCreateNestedOneWithoutTransportsInput
   transaction?: Prisma.TransactionCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationCreateNestedManyWithoutTransportInput
 }
 
 export type TransportUncheckedCreateWithoutPricingSnapshotInput = {
@@ -1472,6 +1502,7 @@ export type TransportUncheckedCreateWithoutPricingSnapshotInput = {
   completedAt?: Date | string | null
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutTransportInput
 }
 
 export type TransportCreateOrConnectWithoutPricingSnapshotInput = {
@@ -1517,6 +1548,7 @@ export type TransportUpdateWithoutPricingSnapshotInput = {
   vetClearanceRequest?: Prisma.VetClearanceRequestUpdateOneWithoutTransportsNestedInput
   transaction?: Prisma.TransactionUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateWithoutPricingSnapshotInput = {
@@ -1544,6 +1576,143 @@ export type TransportUncheckedUpdateWithoutPricingSnapshotInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
+  transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutTransportNestedInput
+}
+
+export type TransportCreateWithoutChatConversationsInput = {
+  id?: string
+  transportNote: string
+  priorityLevel: $Enums.PriorityLevel
+  pickUpLocation: string
+  pickUpLatitude: number
+  pickUpLongitude: number
+  dropOffLocation: string
+  dropOffLatitude: number
+  dropOffLongitude: number
+  transPortDate: Date | string
+  isBondedPair?: boolean
+  isVetClearanceRequired?: boolean
+  vetClearanceType?: $Enums.RequiredVetClearanceType
+  status?: $Enums.TransportStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
+  animal: Prisma.AnimalCreateNestedOneWithoutTransportsInput
+  bondedPair?: Prisma.AnimalCreateNestedOneWithoutTransportsAsBondedPairInput
+  vet?: Prisma.VeterinarianCreateNestedOneWithoutTransportsInput
+  driver?: Prisma.DriverCreateNestedOneWithoutTransportsInput
+  shelter?: Prisma.ShelterCreateNestedOneWithoutTransportsInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestCreateNestedOneWithoutTransportsInput
+  pricingSnapshot?: Prisma.PricingSnapshotCreateNestedOneWithoutTransportInput
+  transaction?: Prisma.TransactionCreateNestedOneWithoutTransportInput
+  transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
+}
+
+export type TransportUncheckedCreateWithoutChatConversationsInput = {
+  id?: string
+  transportNote: string
+  priorityLevel: $Enums.PriorityLevel
+  pickUpLocation: string
+  pickUpLatitude: number
+  pickUpLongitude: number
+  dropOffLocation: string
+  dropOffLatitude: number
+  dropOffLongitude: number
+  transPortDate: Date | string
+  animalId: string
+  isBondedPair?: boolean
+  bondedPairId?: string | null
+  vetId?: string | null
+  driverId?: string | null
+  shelterId?: string | null
+  isVetClearanceRequired?: boolean
+  vetClearanceType?: $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: string | null
+  status?: $Enums.TransportStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  acceptedAt?: Date | string | null
+  completedAt?: Date | string | null
+  pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
+  transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
+  transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
+}
+
+export type TransportCreateOrConnectWithoutChatConversationsInput = {
+  where: Prisma.TransportWhereUniqueInput
+  create: Prisma.XOR<Prisma.TransportCreateWithoutChatConversationsInput, Prisma.TransportUncheckedCreateWithoutChatConversationsInput>
+}
+
+export type TransportUpsertWithoutChatConversationsInput = {
+  update: Prisma.XOR<Prisma.TransportUpdateWithoutChatConversationsInput, Prisma.TransportUncheckedUpdateWithoutChatConversationsInput>
+  create: Prisma.XOR<Prisma.TransportCreateWithoutChatConversationsInput, Prisma.TransportUncheckedCreateWithoutChatConversationsInput>
+  where?: Prisma.TransportWhereInput
+}
+
+export type TransportUpdateToOneWithWhereWithoutChatConversationsInput = {
+  where?: Prisma.TransportWhereInput
+  data: Prisma.XOR<Prisma.TransportUpdateWithoutChatConversationsInput, Prisma.TransportUncheckedUpdateWithoutChatConversationsInput>
+}
+
+export type TransportUpdateWithoutChatConversationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transportNote?: Prisma.StringFieldUpdateOperationsInput | string
+  priorityLevel?: Prisma.EnumPriorityLevelFieldUpdateOperationsInput | $Enums.PriorityLevel
+  pickUpLocation?: Prisma.StringFieldUpdateOperationsInput | string
+  pickUpLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  pickUpLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
+  dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  animal?: Prisma.AnimalUpdateOneRequiredWithoutTransportsNestedInput
+  bondedPair?: Prisma.AnimalUpdateOneWithoutTransportsAsBondedPairNestedInput
+  vet?: Prisma.VeterinarianUpdateOneWithoutTransportsNestedInput
+  driver?: Prisma.DriverUpdateOneWithoutTransportsNestedInput
+  shelter?: Prisma.ShelterUpdateOneWithoutTransportsNestedInput
+  vetClearanceRequest?: Prisma.VetClearanceRequestUpdateOneWithoutTransportsNestedInput
+  pricingSnapshot?: Prisma.PricingSnapshotUpdateOneWithoutTransportNestedInput
+  transaction?: Prisma.TransactionUpdateOneWithoutTransportNestedInput
+  transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
+}
+
+export type TransportUncheckedUpdateWithoutChatConversationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  transportNote?: Prisma.StringFieldUpdateOperationsInput | string
+  priorityLevel?: Prisma.EnumPriorityLevelFieldUpdateOperationsInput | $Enums.PriorityLevel
+  pickUpLocation?: Prisma.StringFieldUpdateOperationsInput | string
+  pickUpLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  pickUpLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
+  dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  animalId?: Prisma.StringFieldUpdateOperationsInput | string
+  isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bondedPairId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vetClearanceType?: Prisma.EnumRequiredVetClearanceTypeFieldUpdateOperationsInput | $Enums.RequiredVetClearanceType
+  vetClearanceRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTransportStatusFieldUpdateOperationsInput | $Enums.TransportStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
 }
@@ -1575,6 +1744,7 @@ export type TransportCreateWithoutShelterInput = {
   pricingSnapshot?: Prisma.PricingSnapshotCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationCreateNestedManyWithoutTransportInput
 }
 
 export type TransportUncheckedCreateWithoutShelterInput = {
@@ -1604,6 +1774,7 @@ export type TransportUncheckedCreateWithoutShelterInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutTransportInput
 }
 
 export type TransportCreateOrConnectWithoutShelterInput = {
@@ -1659,6 +1830,7 @@ export type TransportCreateWithoutTransactionInput = {
   vetClearanceRequest?: Prisma.VetClearanceRequestCreateNestedOneWithoutTransportsInput
   pricingSnapshot?: Prisma.PricingSnapshotCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationCreateNestedManyWithoutTransportInput
 }
 
 export type TransportUncheckedCreateWithoutTransactionInput = {
@@ -1688,6 +1860,7 @@ export type TransportUncheckedCreateWithoutTransactionInput = {
   completedAt?: Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutTransportInput
 }
 
 export type TransportCreateOrConnectWithoutTransactionInput = {
@@ -1733,6 +1906,7 @@ export type TransportUpdateWithoutTransactionInput = {
   vetClearanceRequest?: Prisma.VetClearanceRequestUpdateOneWithoutTransportsNestedInput
   pricingSnapshot?: Prisma.PricingSnapshotUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateWithoutTransactionInput = {
@@ -1762,6 +1936,7 @@ export type TransportUncheckedUpdateWithoutTransactionInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportCreateWithoutTransportTimelinesInput = {
@@ -1791,6 +1966,7 @@ export type TransportCreateWithoutTransportTimelinesInput = {
   vetClearanceRequest?: Prisma.VetClearanceRequestCreateNestedOneWithoutTransportsInput
   pricingSnapshot?: Prisma.PricingSnapshotCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionCreateNestedOneWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationCreateNestedManyWithoutTransportInput
 }
 
 export type TransportUncheckedCreateWithoutTransportTimelinesInput = {
@@ -1820,6 +1996,7 @@ export type TransportUncheckedCreateWithoutTransportTimelinesInput = {
   completedAt?: Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutTransportInput
 }
 
 export type TransportCreateOrConnectWithoutTransportTimelinesInput = {
@@ -1865,6 +2042,7 @@ export type TransportUpdateWithoutTransportTimelinesInput = {
   vetClearanceRequest?: Prisma.VetClearanceRequestUpdateOneWithoutTransportsNestedInput
   pricingSnapshot?: Prisma.PricingSnapshotUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUpdateOneWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateWithoutTransportTimelinesInput = {
@@ -1894,6 +2072,7 @@ export type TransportUncheckedUpdateWithoutTransportTimelinesInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportCreateWithoutVetClearanceRequestInput = {
@@ -1923,6 +2102,7 @@ export type TransportCreateWithoutVetClearanceRequestInput = {
   pricingSnapshot?: Prisma.PricingSnapshotCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationCreateNestedManyWithoutTransportInput
 }
 
 export type TransportUncheckedCreateWithoutVetClearanceRequestInput = {
@@ -1952,6 +2132,7 @@ export type TransportUncheckedCreateWithoutVetClearanceRequestInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutTransportInput
 }
 
 export type TransportCreateOrConnectWithoutVetClearanceRequestInput = {
@@ -1997,6 +2178,7 @@ export type TransportUpdateWithoutVetClearanceRequestInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateWithoutVetClearanceRequestInput = {
@@ -2026,6 +2208,7 @@ export type TransportUncheckedUpdateWithoutVetClearanceRequestInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportCreateWithoutVetInput = {
@@ -2055,6 +2238,7 @@ export type TransportCreateWithoutVetInput = {
   pricingSnapshot?: Prisma.PricingSnapshotCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationCreateNestedManyWithoutTransportInput
 }
 
 export type TransportUncheckedCreateWithoutVetInput = {
@@ -2084,6 +2268,7 @@ export type TransportUncheckedCreateWithoutVetInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedCreateNestedOneWithoutTransportInput
   transaction?: Prisma.TransactionUncheckedCreateNestedOneWithoutTransportInput
   transportTimelines?: Prisma.TransportTimelineUncheckedCreateNestedManyWithoutTransportInput
+  chatConversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutTransportInput
 }
 
 export type TransportCreateOrConnectWithoutVetInput = {
@@ -2191,6 +2376,7 @@ export type TransportUpdateWithoutAnimalInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateWithoutAnimalInput = {
@@ -2220,6 +2406,7 @@ export type TransportUncheckedUpdateWithoutAnimalInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateManyWithoutAnimalInput = {
@@ -2275,6 +2462,7 @@ export type TransportUpdateWithoutBondedPairInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateWithoutBondedPairInput = {
@@ -2304,6 +2492,7 @@ export type TransportUncheckedUpdateWithoutBondedPairInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateManyWithoutBondedPairInput = {
@@ -2385,6 +2574,7 @@ export type TransportUpdateWithoutDriverInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateWithoutDriverInput = {
@@ -2414,6 +2604,7 @@ export type TransportUncheckedUpdateWithoutDriverInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateManyWithoutDriverInput = {
@@ -2495,6 +2686,7 @@ export type TransportUpdateWithoutShelterInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateWithoutShelterInput = {
@@ -2524,6 +2716,7 @@ export type TransportUncheckedUpdateWithoutShelterInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateManyWithoutShelterInput = {
@@ -2605,6 +2798,7 @@ export type TransportUpdateWithoutVetInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateWithoutVetInput = {
@@ -2634,6 +2828,7 @@ export type TransportUncheckedUpdateWithoutVetInput = {
   pricingSnapshot?: Prisma.PricingSnapshotUncheckedUpdateOneWithoutTransportNestedInput
   transaction?: Prisma.TransactionUncheckedUpdateOneWithoutTransportNestedInput
   transportTimelines?: Prisma.TransportTimelineUncheckedUpdateManyWithoutTransportNestedInput
+  chatConversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutTransportNestedInput
 }
 
 export type TransportUncheckedUpdateManyWithoutVetInput = {
@@ -2669,10 +2864,12 @@ export type TransportUncheckedUpdateManyWithoutVetInput = {
 
 export type TransportCountOutputType = {
   transportTimelines: number
+  chatConversations: number
 }
 
 export type TransportCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   transportTimelines?: boolean | TransportCountOutputTypeCountTransportTimelinesArgs
+  chatConversations?: boolean | TransportCountOutputTypeCountChatConversationsArgs
 }
 
 /**
@@ -2690,6 +2887,13 @@ export type TransportCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ex
  */
 export type TransportCountOutputTypeCountTransportTimelinesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TransportTimelineWhereInput
+}
+
+/**
+ * TransportCountOutputType without action
+ */
+export type TransportCountOutputTypeCountChatConversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PrivateConversationWhereInput
 }
 
 
@@ -2727,6 +2931,7 @@ export type TransportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   pricingSnapshot?: boolean | Prisma.Transport$pricingSnapshotArgs<ExtArgs>
   transaction?: boolean | Prisma.Transport$transactionArgs<ExtArgs>
   transportTimelines?: boolean | Prisma.Transport$transportTimelinesArgs<ExtArgs>
+  chatConversations?: boolean | Prisma.Transport$chatConversationsArgs<ExtArgs>
   _count?: boolean | Prisma.TransportCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transport"]>
 
@@ -2834,6 +3039,7 @@ export type TransportInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   pricingSnapshot?: boolean | Prisma.Transport$pricingSnapshotArgs<ExtArgs>
   transaction?: boolean | Prisma.Transport$transactionArgs<ExtArgs>
   transportTimelines?: boolean | Prisma.Transport$transportTimelinesArgs<ExtArgs>
+  chatConversations?: boolean | Prisma.Transport$chatConversationsArgs<ExtArgs>
   _count?: boolean | Prisma.TransportCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TransportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2865,6 +3071,7 @@ export type $TransportPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     pricingSnapshot: Prisma.$PricingSnapshotPayload<ExtArgs> | null
     transaction: Prisma.$TransactionPayload<ExtArgs> | null
     transportTimelines: Prisma.$TransportTimelinePayload<ExtArgs>[]
+    chatConversations: Prisma.$PrivateConversationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3294,6 +3501,7 @@ export interface Prisma__TransportClient<T, Null = never, ExtArgs extends runtim
   pricingSnapshot<T extends Prisma.Transport$pricingSnapshotArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transport$pricingSnapshotArgs<ExtArgs>>): Prisma.Prisma__PricingSnapshotClient<runtime.Types.Result.GetResult<Prisma.$PricingSnapshotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   transaction<T extends Prisma.Transport$transactionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transport$transactionArgs<ExtArgs>>): Prisma.Prisma__TransactionClient<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   transportTimelines<T extends Prisma.Transport$transportTimelinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transport$transportTimelinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportTimelinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chatConversations<T extends Prisma.Transport$chatConversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transport$chatConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3897,6 +4105,30 @@ export type Transport$transportTimelinesArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.TransportTimelineScalarFieldEnum | Prisma.TransportTimelineScalarFieldEnum[]
+}
+
+/**
+ * Transport.chatConversations
+ */
+export type Transport$chatConversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PrivateConversation
+   */
+  select?: Prisma.PrivateConversationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PrivateConversation
+   */
+  omit?: Prisma.PrivateConversationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PrivateConversationInclude<ExtArgs> | null
+  where?: Prisma.PrivateConversationWhereInput
+  orderBy?: Prisma.PrivateConversationOrderByWithRelationInput | Prisma.PrivateConversationOrderByWithRelationInput[]
+  cursor?: Prisma.PrivateConversationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PrivateConversationScalarFieldEnum | Prisma.PrivateConversationScalarFieldEnum[]
 }
 
 /**

@@ -13,6 +13,13 @@ model PrivateConversation {
   shelterId String?
   shelter   Shelter? @relation("ShelterConversations", fields: [shelterId], references: [id], onDelete: Cascade)
 
+  /// Conversation scope: MAIN for existing chat, TRANSPORT for ride-specific chat
+  chatScope ConversationScope @default(MAIN)
+
+  /// Transport relation for ride-specific chat (null for MAIN chat)
+  transportId String?
+  transport   Transport? @relation("TransportConversation", fields: [transportId], references: [id], onDelete: Cascade)
+
   messages PrivateMessage[]
 
   lastMessageId String?
@@ -23,7 +30,9 @@ model PrivateConversation {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  @@unique([initiatorId, receiverId, shelterId])
+  @@unique([chatScope, transportId])
+  @@unique([initiatorId, receiverId, shelterId, chatScope, transportId])
+  @@index([chatScope, updatedAt])
   @@map("private_conversations")
 }
 
@@ -31,4 +40,9 @@ enum ConversationStatus {
   ACTIVE
   ARCHIVED
   BLOCKED
+}
+
+enum ConversationScope {
+  MAIN
+  TRANSPORT
 }

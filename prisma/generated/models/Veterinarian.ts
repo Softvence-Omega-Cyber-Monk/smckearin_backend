@@ -231,6 +231,7 @@ export type VeterinarianWhereInput = {
   healthReports?: Prisma.HealthReportListRelationFilter
   vetDocuments?: Prisma.VetDocumentListRelationFilter
   transports?: Prisma.TransportListRelationFilter
+  dailySchedules?: Prisma.DailyScheduleListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -251,6 +252,7 @@ export type VeterinarianOrderByWithRelationInput = {
   healthReports?: Prisma.HealthReportOrderByRelationAggregateInput
   vetDocuments?: Prisma.VetDocumentOrderByRelationAggregateInput
   transports?: Prisma.TransportOrderByRelationAggregateInput
+  dailySchedules?: Prisma.DailyScheduleOrderByRelationAggregateInput
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -274,6 +276,7 @@ export type VeterinarianWhereUniqueInput = Prisma.AtLeast<{
   healthReports?: Prisma.HealthReportListRelationFilter
   vetDocuments?: Prisma.VetDocumentListRelationFilter
   transports?: Prisma.TransportListRelationFilter
+  dailySchedules?: Prisma.DailyScheduleListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "phone" | "license" | "userId">
 
@@ -327,6 +330,7 @@ export type VeterinarianCreateInput = {
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentCreateNestedManyWithoutVetInput
   transports?: Prisma.TransportCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutVeterinarianInput
   user: Prisma.UserCreateNestedOneWithoutVeterinariansInput
 }
 
@@ -347,6 +351,7 @@ export type VeterinarianUncheckedCreateInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedManyWithoutVetInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutVeterinarianInput
 }
 
 export type VeterinarianUpdateInput = {
@@ -365,6 +370,7 @@ export type VeterinarianUpdateInput = {
   healthReports?: Prisma.HealthReportUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateManyWithoutVetNestedInput
   transports?: Prisma.TransportUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutVeterinarianNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutVeterinariansNestedInput
 }
 
@@ -385,6 +391,7 @@ export type VeterinarianUncheckedUpdateInput = {
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateManyWithoutVetNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutVeterinarianNestedInput
 }
 
 export type VeterinarianCreateManyInput = {
@@ -428,14 +435,14 @@ export type VeterinarianUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type VeterinarianScalarRelationFilter = {
-  is?: Prisma.VeterinarianWhereInput
-  isNot?: Prisma.VeterinarianWhereInput
-}
-
 export type VeterinarianNullableScalarRelationFilter = {
   is?: Prisma.VeterinarianWhereInput | null
   isNot?: Prisma.VeterinarianWhereInput | null
+}
+
+export type VeterinarianScalarRelationFilter = {
+  is?: Prisma.VeterinarianWhereInput
+  isNot?: Prisma.VeterinarianWhereInput
 }
 
 export type VeterinarianCountOrderByAggregateInput = {
@@ -476,6 +483,22 @@ export type VeterinarianMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type VeterinarianCreateNestedOneWithoutDailySchedulesInput = {
+  create?: Prisma.XOR<Prisma.VeterinarianCreateWithoutDailySchedulesInput, Prisma.VeterinarianUncheckedCreateWithoutDailySchedulesInput>
+  connectOrCreate?: Prisma.VeterinarianCreateOrConnectWithoutDailySchedulesInput
+  connect?: Prisma.VeterinarianWhereUniqueInput
+}
+
+export type VeterinarianUpdateOneWithoutDailySchedulesNestedInput = {
+  create?: Prisma.XOR<Prisma.VeterinarianCreateWithoutDailySchedulesInput, Prisma.VeterinarianUncheckedCreateWithoutDailySchedulesInput>
+  connectOrCreate?: Prisma.VeterinarianCreateOrConnectWithoutDailySchedulesInput
+  upsert?: Prisma.VeterinarianUpsertWithoutDailySchedulesInput
+  disconnect?: Prisma.VeterinarianWhereInput | boolean
+  delete?: Prisma.VeterinarianWhereInput | boolean
+  connect?: Prisma.VeterinarianWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VeterinarianUpdateToOneWithWhereWithoutDailySchedulesInput, Prisma.VeterinarianUpdateWithoutDailySchedulesInput>, Prisma.VeterinarianUncheckedUpdateWithoutDailySchedulesInput>
 }
 
 export type VeterinarianCreateNestedOneWithoutHealthReportsInput = {
@@ -595,6 +618,98 @@ export type VeterinarianUpdateOneRequiredWithoutVetDocumentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.VeterinarianUpdateToOneWithWhereWithoutVetDocumentsInput, Prisma.VeterinarianUpdateWithoutVetDocumentsInput>, Prisma.VeterinarianUncheckedUpdateWithoutVetDocumentsInput>
 }
 
+export type VeterinarianCreateWithoutDailySchedulesInput = {
+  id?: string
+  phone?: string | null
+  license?: string | null
+  description?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestCreateNestedManyWithoutVeterinarianInput
+  vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutVeterinarianInput
+  healthReports?: Prisma.HealthReportCreateNestedManyWithoutVeterinarianInput
+  vetDocuments?: Prisma.VetDocumentCreateNestedManyWithoutVetInput
+  transports?: Prisma.TransportCreateNestedManyWithoutVetInput
+  user: Prisma.UserCreateNestedOneWithoutVeterinariansInput
+}
+
+export type VeterinarianUncheckedCreateWithoutDailySchedulesInput = {
+  id?: string
+  phone?: string | null
+  license?: string | null
+  description?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.VeterinarianCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  userId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedCreateNestedManyWithoutVeterinarianInput
+  vetAppointments?: Prisma.VetAppointmentUncheckedCreateNestedManyWithoutVeterinarianInput
+  healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutVeterinarianInput
+  vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedManyWithoutVetInput
+  transports?: Prisma.TransportUncheckedCreateNestedManyWithoutVetInput
+}
+
+export type VeterinarianCreateOrConnectWithoutDailySchedulesInput = {
+  where: Prisma.VeterinarianWhereUniqueInput
+  create: Prisma.XOR<Prisma.VeterinarianCreateWithoutDailySchedulesInput, Prisma.VeterinarianUncheckedCreateWithoutDailySchedulesInput>
+}
+
+export type VeterinarianUpsertWithoutDailySchedulesInput = {
+  update: Prisma.XOR<Prisma.VeterinarianUpdateWithoutDailySchedulesInput, Prisma.VeterinarianUncheckedUpdateWithoutDailySchedulesInput>
+  create: Prisma.XOR<Prisma.VeterinarianCreateWithoutDailySchedulesInput, Prisma.VeterinarianUncheckedCreateWithoutDailySchedulesInput>
+  where?: Prisma.VeterinarianWhereInput
+}
+
+export type VeterinarianUpdateToOneWithWhereWithoutDailySchedulesInput = {
+  where?: Prisma.VeterinarianWhereInput
+  data: Prisma.XOR<Prisma.VeterinarianUpdateWithoutDailySchedulesInput, Prisma.VeterinarianUncheckedUpdateWithoutDailySchedulesInput>
+}
+
+export type VeterinarianUpdateWithoutDailySchedulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  license?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUpdateManyWithoutVeterinarianNestedInput
+  vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutVeterinarianNestedInput
+  healthReports?: Prisma.HealthReportUpdateManyWithoutVeterinarianNestedInput
+  vetDocuments?: Prisma.VetDocumentUpdateManyWithoutVetNestedInput
+  transports?: Prisma.TransportUpdateManyWithoutVetNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutVeterinariansNestedInput
+}
+
+export type VeterinarianUncheckedUpdateWithoutDailySchedulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  license?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.VeterinarianUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  vetClearanceRequests?: Prisma.VetClearanceRequestUncheckedUpdateManyWithoutVeterinarianNestedInput
+  vetAppointments?: Prisma.VetAppointmentUncheckedUpdateManyWithoutVeterinarianNestedInput
+  healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutVeterinarianNestedInput
+  vetDocuments?: Prisma.VetDocumentUncheckedUpdateManyWithoutVetNestedInput
+  transports?: Prisma.TransportUncheckedUpdateManyWithoutVetNestedInput
+}
+
 export type VeterinarianCreateWithoutHealthReportsInput = {
   id?: string
   phone?: string | null
@@ -610,6 +725,7 @@ export type VeterinarianCreateWithoutHealthReportsInput = {
   vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentCreateNestedManyWithoutVetInput
   transports?: Prisma.TransportCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutVeterinarianInput
   user: Prisma.UserCreateNestedOneWithoutVeterinariansInput
 }
 
@@ -629,6 +745,7 @@ export type VeterinarianUncheckedCreateWithoutHealthReportsInput = {
   vetAppointments?: Prisma.VetAppointmentUncheckedCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedManyWithoutVetInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutVeterinarianInput
 }
 
 export type VeterinarianCreateOrConnectWithoutHealthReportsInput = {
@@ -662,6 +779,7 @@ export type VeterinarianUpdateWithoutHealthReportsInput = {
   vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateManyWithoutVetNestedInput
   transports?: Prisma.TransportUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutVeterinarianNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutVeterinariansNestedInput
 }
 
@@ -681,6 +799,7 @@ export type VeterinarianUncheckedUpdateWithoutHealthReportsInput = {
   vetAppointments?: Prisma.VetAppointmentUncheckedUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateManyWithoutVetNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutVeterinarianNestedInput
 }
 
 export type VeterinarianCreateWithoutTransportsInput = {
@@ -698,6 +817,7 @@ export type VeterinarianCreateWithoutTransportsInput = {
   vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutVeterinarianInput
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutVeterinarianInput
   user: Prisma.UserCreateNestedOneWithoutVeterinariansInput
 }
 
@@ -717,6 +837,7 @@ export type VeterinarianUncheckedCreateWithoutTransportsInput = {
   vetAppointments?: Prisma.VetAppointmentUncheckedCreateNestedManyWithoutVeterinarianInput
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutVeterinarianInput
 }
 
 export type VeterinarianCreateOrConnectWithoutTransportsInput = {
@@ -750,6 +871,7 @@ export type VeterinarianUpdateWithoutTransportsInput = {
   vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutVeterinarianNestedInput
   healthReports?: Prisma.HealthReportUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutVeterinarianNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutVeterinariansNestedInput
 }
 
@@ -769,6 +891,7 @@ export type VeterinarianUncheckedUpdateWithoutTransportsInput = {
   vetAppointments?: Prisma.VetAppointmentUncheckedUpdateManyWithoutVeterinarianNestedInput
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutVeterinarianNestedInput
 }
 
 export type VeterinarianCreateWithoutUserInput = {
@@ -787,6 +910,7 @@ export type VeterinarianCreateWithoutUserInput = {
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentCreateNestedManyWithoutVetInput
   transports?: Prisma.TransportCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutVeterinarianInput
 }
 
 export type VeterinarianUncheckedCreateWithoutUserInput = {
@@ -805,6 +929,7 @@ export type VeterinarianUncheckedCreateWithoutUserInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedManyWithoutVetInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutVeterinarianInput
 }
 
 export type VeterinarianCreateOrConnectWithoutUserInput = {
@@ -839,6 +964,7 @@ export type VeterinarianUpdateWithoutUserInput = {
   healthReports?: Prisma.HealthReportUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateManyWithoutVetNestedInput
   transports?: Prisma.TransportUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutVeterinarianNestedInput
 }
 
 export type VeterinarianUncheckedUpdateWithoutUserInput = {
@@ -857,6 +983,7 @@ export type VeterinarianUncheckedUpdateWithoutUserInput = {
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateManyWithoutVetNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutVeterinarianNestedInput
 }
 
 export type VeterinarianCreateWithoutVetClearanceRequestsInput = {
@@ -874,6 +1001,7 @@ export type VeterinarianCreateWithoutVetClearanceRequestsInput = {
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentCreateNestedManyWithoutVetInput
   transports?: Prisma.TransportCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutVeterinarianInput
   user: Prisma.UserCreateNestedOneWithoutVeterinariansInput
 }
 
@@ -893,6 +1021,7 @@ export type VeterinarianUncheckedCreateWithoutVetClearanceRequestsInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedManyWithoutVetInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutVeterinarianInput
 }
 
 export type VeterinarianCreateOrConnectWithoutVetClearanceRequestsInput = {
@@ -926,6 +1055,7 @@ export type VeterinarianUpdateWithoutVetClearanceRequestsInput = {
   healthReports?: Prisma.HealthReportUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateManyWithoutVetNestedInput
   transports?: Prisma.TransportUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutVeterinarianNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutVeterinariansNestedInput
 }
 
@@ -945,6 +1075,7 @@ export type VeterinarianUncheckedUpdateWithoutVetClearanceRequestsInput = {
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateManyWithoutVetNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutVeterinarianNestedInput
 }
 
 export type VeterinarianCreateWithoutVetAppointmentsInput = {
@@ -962,6 +1093,7 @@ export type VeterinarianCreateWithoutVetAppointmentsInput = {
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentCreateNestedManyWithoutVetInput
   transports?: Prisma.TransportCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutVeterinarianInput
   user: Prisma.UserCreateNestedOneWithoutVeterinariansInput
 }
 
@@ -981,6 +1113,7 @@ export type VeterinarianUncheckedCreateWithoutVetAppointmentsInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutVeterinarianInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedManyWithoutVetInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutVeterinarianInput
 }
 
 export type VeterinarianCreateOrConnectWithoutVetAppointmentsInput = {
@@ -1014,6 +1147,7 @@ export type VeterinarianUpdateWithoutVetAppointmentsInput = {
   healthReports?: Prisma.HealthReportUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateManyWithoutVetNestedInput
   transports?: Prisma.TransportUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutVeterinarianNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutVeterinariansNestedInput
 }
 
@@ -1033,6 +1167,7 @@ export type VeterinarianUncheckedUpdateWithoutVetAppointmentsInput = {
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutVeterinarianNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateManyWithoutVetNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutVeterinarianNestedInput
 }
 
 export type VeterinarianCreateWithoutVetDocumentsInput = {
@@ -1050,6 +1185,7 @@ export type VeterinarianCreateWithoutVetDocumentsInput = {
   vetAppointments?: Prisma.VetAppointmentCreateNestedManyWithoutVeterinarianInput
   healthReports?: Prisma.HealthReportCreateNestedManyWithoutVeterinarianInput
   transports?: Prisma.TransportCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutVeterinarianInput
   user: Prisma.UserCreateNestedOneWithoutVeterinariansInput
 }
 
@@ -1069,6 +1205,7 @@ export type VeterinarianUncheckedCreateWithoutVetDocumentsInput = {
   vetAppointments?: Prisma.VetAppointmentUncheckedCreateNestedManyWithoutVeterinarianInput
   healthReports?: Prisma.HealthReportUncheckedCreateNestedManyWithoutVeterinarianInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutVetInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutVeterinarianInput
 }
 
 export type VeterinarianCreateOrConnectWithoutVetDocumentsInput = {
@@ -1102,6 +1239,7 @@ export type VeterinarianUpdateWithoutVetDocumentsInput = {
   vetAppointments?: Prisma.VetAppointmentUpdateManyWithoutVeterinarianNestedInput
   healthReports?: Prisma.HealthReportUpdateManyWithoutVeterinarianNestedInput
   transports?: Prisma.TransportUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutVeterinarianNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutVeterinariansNestedInput
 }
 
@@ -1121,6 +1259,7 @@ export type VeterinarianUncheckedUpdateWithoutVetDocumentsInput = {
   vetAppointments?: Prisma.VetAppointmentUncheckedUpdateManyWithoutVeterinarianNestedInput
   healthReports?: Prisma.HealthReportUncheckedUpdateManyWithoutVeterinarianNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutVetNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutVeterinarianNestedInput
 }
 
 
@@ -1134,6 +1273,7 @@ export type VeterinarianCountOutputType = {
   healthReports: number
   vetDocuments: number
   transports: number
+  dailySchedules: number
 }
 
 export type VeterinarianCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1142,6 +1282,7 @@ export type VeterinarianCountOutputTypeSelect<ExtArgs extends runtime.Types.Exte
   healthReports?: boolean | VeterinarianCountOutputTypeCountHealthReportsArgs
   vetDocuments?: boolean | VeterinarianCountOutputTypeCountVetDocumentsArgs
   transports?: boolean | VeterinarianCountOutputTypeCountTransportsArgs
+  dailySchedules?: boolean | VeterinarianCountOutputTypeCountDailySchedulesArgs
 }
 
 /**
@@ -1189,6 +1330,13 @@ export type VeterinarianCountOutputTypeCountTransportsArgs<ExtArgs extends runti
   where?: Prisma.TransportWhereInput
 }
 
+/**
+ * VeterinarianCountOutputType without action
+ */
+export type VeterinarianCountOutputTypeCountDailySchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DailyScheduleWhereInput
+}
+
 
 export type VeterinarianSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1207,6 +1355,7 @@ export type VeterinarianSelect<ExtArgs extends runtime.Types.Extensions.Internal
   healthReports?: boolean | Prisma.Veterinarian$healthReportsArgs<ExtArgs>
   vetDocuments?: boolean | Prisma.Veterinarian$vetDocumentsArgs<ExtArgs>
   transports?: boolean | Prisma.Veterinarian$transportsArgs<ExtArgs>
+  dailySchedules?: boolean | Prisma.Veterinarian$dailySchedulesArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.VeterinarianCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["veterinarian"]>
@@ -1262,6 +1411,7 @@ export type VeterinarianInclude<ExtArgs extends runtime.Types.Extensions.Interna
   healthReports?: boolean | Prisma.Veterinarian$healthReportsArgs<ExtArgs>
   vetDocuments?: boolean | Prisma.Veterinarian$vetDocumentsArgs<ExtArgs>
   transports?: boolean | Prisma.Veterinarian$transportsArgs<ExtArgs>
+  dailySchedules?: boolean | Prisma.Veterinarian$dailySchedulesArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.VeterinarianCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1280,6 +1430,7 @@ export type $VeterinarianPayload<ExtArgs extends runtime.Types.Extensions.Intern
     healthReports: Prisma.$HealthReportPayload<ExtArgs>[]
     vetDocuments: Prisma.$VetDocumentPayload<ExtArgs>[]
     transports: Prisma.$TransportPayload<ExtArgs>[]
+    dailySchedules: Prisma.$DailySchedulePayload<ExtArgs>[]
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1693,6 +1844,7 @@ export interface Prisma__VeterinarianClient<T, Null = never, ExtArgs extends run
   healthReports<T extends Prisma.Veterinarian$healthReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Veterinarian$healthReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   vetDocuments<T extends Prisma.Veterinarian$vetDocumentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Veterinarian$vetDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VetDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transports<T extends Prisma.Veterinarian$transportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Veterinarian$transportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  dailySchedules<T extends Prisma.Veterinarian$dailySchedulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Veterinarian$dailySchedulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailySchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2247,6 +2399,30 @@ export type Veterinarian$transportsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.TransportScalarFieldEnum | Prisma.TransportScalarFieldEnum[]
+}
+
+/**
+ * Veterinarian.dailySchedules
+ */
+export type Veterinarian$dailySchedulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailySchedule
+   */
+  select?: Prisma.DailyScheduleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DailySchedule
+   */
+  omit?: Prisma.DailyScheduleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DailyScheduleInclude<ExtArgs> | null
+  where?: Prisma.DailyScheduleWhereInput
+  orderBy?: Prisma.DailyScheduleOrderByWithRelationInput | Prisma.DailyScheduleOrderByWithRelationInput[]
+  cursor?: Prisma.DailyScheduleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DailyScheduleScalarFieldEnum | Prisma.DailyScheduleScalarFieldEnum[]
 }
 
 /**

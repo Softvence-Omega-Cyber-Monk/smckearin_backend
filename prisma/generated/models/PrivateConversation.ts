@@ -29,6 +29,8 @@ export type PrivateConversationMinAggregateOutputType = {
   initiatorId: string | null
   receiverId: string | null
   shelterId: string | null
+  chatScope: $Enums.ConversationScope | null
+  transportId: string | null
   lastMessageId: string | null
   status: $Enums.ConversationStatus | null
   createdAt: Date | null
@@ -40,6 +42,8 @@ export type PrivateConversationMaxAggregateOutputType = {
   initiatorId: string | null
   receiverId: string | null
   shelterId: string | null
+  chatScope: $Enums.ConversationScope | null
+  transportId: string | null
   lastMessageId: string | null
   status: $Enums.ConversationStatus | null
   createdAt: Date | null
@@ -51,6 +55,8 @@ export type PrivateConversationCountAggregateOutputType = {
   initiatorId: number
   receiverId: number
   shelterId: number
+  chatScope: number
+  transportId: number
   lastMessageId: number
   status: number
   createdAt: number
@@ -64,6 +70,8 @@ export type PrivateConversationMinAggregateInputType = {
   initiatorId?: true
   receiverId?: true
   shelterId?: true
+  chatScope?: true
+  transportId?: true
   lastMessageId?: true
   status?: true
   createdAt?: true
@@ -75,6 +83,8 @@ export type PrivateConversationMaxAggregateInputType = {
   initiatorId?: true
   receiverId?: true
   shelterId?: true
+  chatScope?: true
+  transportId?: true
   lastMessageId?: true
   status?: true
   createdAt?: true
@@ -86,6 +96,8 @@ export type PrivateConversationCountAggregateInputType = {
   initiatorId?: true
   receiverId?: true
   shelterId?: true
+  chatScope?: true
+  transportId?: true
   lastMessageId?: true
   status?: true
   createdAt?: true
@@ -170,6 +182,8 @@ export type PrivateConversationGroupByOutputType = {
   initiatorId: string
   receiverId: string | null
   shelterId: string | null
+  chatScope: $Enums.ConversationScope
+  transportId: string | null
   lastMessageId: string | null
   status: $Enums.ConversationStatus
   createdAt: Date
@@ -202,6 +216,8 @@ export type PrivateConversationWhereInput = {
   initiatorId?: Prisma.StringFilter<"PrivateConversation"> | string
   receiverId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
   shelterId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
+  chatScope?: Prisma.EnumConversationScopeFilter<"PrivateConversation"> | $Enums.ConversationScope
+  transportId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
   lastMessageId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
   status?: Prisma.EnumConversationStatusFilter<"PrivateConversation"> | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFilter<"PrivateConversation"> | Date | string
@@ -209,6 +225,7 @@ export type PrivateConversationWhereInput = {
   initiator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   receiver?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   shelter?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
+  transport?: Prisma.XOR<Prisma.TransportNullableScalarRelationFilter, Prisma.TransportWhereInput> | null
   messages?: Prisma.PrivateMessageListRelationFilter
   lastMessage?: Prisma.XOR<Prisma.PrivateMessageNullableScalarRelationFilter, Prisma.PrivateMessageWhereInput> | null
 }
@@ -218,6 +235,8 @@ export type PrivateConversationOrderByWithRelationInput = {
   initiatorId?: Prisma.SortOrder
   receiverId?: Prisma.SortOrderInput | Prisma.SortOrder
   shelterId?: Prisma.SortOrderInput | Prisma.SortOrder
+  chatScope?: Prisma.SortOrder
+  transportId?: Prisma.SortOrderInput | Prisma.SortOrder
   lastMessageId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -225,19 +244,23 @@ export type PrivateConversationOrderByWithRelationInput = {
   initiator?: Prisma.UserOrderByWithRelationInput
   receiver?: Prisma.UserOrderByWithRelationInput
   shelter?: Prisma.ShelterOrderByWithRelationInput
+  transport?: Prisma.TransportOrderByWithRelationInput
   messages?: Prisma.PrivateMessageOrderByRelationAggregateInput
   lastMessage?: Prisma.PrivateMessageOrderByWithRelationInput
 }
 
 export type PrivateConversationWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  initiatorId_receiverId_shelterId?: Prisma.PrivateConversationInitiatorIdReceiverIdShelterIdCompoundUniqueInput
+  chatScope_transportId?: Prisma.PrivateConversationChatScopeTransportIdCompoundUniqueInput
+  initiatorId_receiverId_shelterId_chatScope_transportId?: Prisma.PrivateConversationInitiatorIdReceiverIdShelterIdChatScopeTransportIdCompoundUniqueInput
   AND?: Prisma.PrivateConversationWhereInput | Prisma.PrivateConversationWhereInput[]
   OR?: Prisma.PrivateConversationWhereInput[]
   NOT?: Prisma.PrivateConversationWhereInput | Prisma.PrivateConversationWhereInput[]
   initiatorId?: Prisma.StringFilter<"PrivateConversation"> | string
   receiverId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
   shelterId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
+  chatScope?: Prisma.EnumConversationScopeFilter<"PrivateConversation"> | $Enums.ConversationScope
+  transportId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
   lastMessageId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
   status?: Prisma.EnumConversationStatusFilter<"PrivateConversation"> | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFilter<"PrivateConversation"> | Date | string
@@ -245,15 +268,18 @@ export type PrivateConversationWhereUniqueInput = Prisma.AtLeast<{
   initiator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   receiver?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   shelter?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
+  transport?: Prisma.XOR<Prisma.TransportNullableScalarRelationFilter, Prisma.TransportWhereInput> | null
   messages?: Prisma.PrivateMessageListRelationFilter
   lastMessage?: Prisma.XOR<Prisma.PrivateMessageNullableScalarRelationFilter, Prisma.PrivateMessageWhereInput> | null
-}, "id" | "initiatorId_receiverId_shelterId">
+}, "id" | "chatScope_transportId" | "initiatorId_receiverId_shelterId_chatScope_transportId">
 
 export type PrivateConversationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   initiatorId?: Prisma.SortOrder
   receiverId?: Prisma.SortOrderInput | Prisma.SortOrder
   shelterId?: Prisma.SortOrderInput | Prisma.SortOrder
+  chatScope?: Prisma.SortOrder
+  transportId?: Prisma.SortOrderInput | Prisma.SortOrder
   lastMessageId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -271,6 +297,8 @@ export type PrivateConversationScalarWhereWithAggregatesInput = {
   initiatorId?: Prisma.StringWithAggregatesFilter<"PrivateConversation"> | string
   receiverId?: Prisma.StringNullableWithAggregatesFilter<"PrivateConversation"> | string | null
   shelterId?: Prisma.StringNullableWithAggregatesFilter<"PrivateConversation"> | string | null
+  chatScope?: Prisma.EnumConversationScopeWithAggregatesFilter<"PrivateConversation"> | $Enums.ConversationScope
+  transportId?: Prisma.StringNullableWithAggregatesFilter<"PrivateConversation"> | string | null
   lastMessageId?: Prisma.StringNullableWithAggregatesFilter<"PrivateConversation"> | string | null
   status?: Prisma.EnumConversationStatusWithAggregatesFilter<"PrivateConversation"> | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PrivateConversation"> | Date | string
@@ -279,12 +307,14 @@ export type PrivateConversationScalarWhereWithAggregatesInput = {
 
 export type PrivateConversationCreateInput = {
   id?: string
+  chatScope?: $Enums.ConversationScope
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   initiator: Prisma.UserCreateNestedOneWithoutConversationsInitiatedInput
   receiver?: Prisma.UserCreateNestedOneWithoutConversationsReceivedInput
   shelter?: Prisma.ShelterCreateNestedOneWithoutConversationsInput
+  transport?: Prisma.TransportCreateNestedOneWithoutChatConversationsInput
   messages?: Prisma.PrivateMessageCreateNestedManyWithoutConversationInput
   lastMessage?: Prisma.PrivateMessageCreateNestedOneWithoutPrivateLastMessageInput
 }
@@ -294,6 +324,8 @@ export type PrivateConversationUncheckedCreateInput = {
   initiatorId: string
   receiverId?: string | null
   shelterId?: string | null
+  chatScope?: $Enums.ConversationScope
+  transportId?: string | null
   lastMessageId?: string | null
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
@@ -303,12 +335,14 @@ export type PrivateConversationUncheckedCreateInput = {
 
 export type PrivateConversationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiator?: Prisma.UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput
   receiver?: Prisma.UserUpdateOneWithoutConversationsReceivedNestedInput
   shelter?: Prisma.ShelterUpdateOneWithoutConversationsNestedInput
+  transport?: Prisma.TransportUpdateOneWithoutChatConversationsNestedInput
   messages?: Prisma.PrivateMessageUpdateManyWithoutConversationNestedInput
   lastMessage?: Prisma.PrivateMessageUpdateOneWithoutPrivateLastMessageNestedInput
 }
@@ -318,6 +352,8 @@ export type PrivateConversationUncheckedUpdateInput = {
   initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
   receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  transportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -330,6 +366,8 @@ export type PrivateConversationCreateManyInput = {
   initiatorId: string
   receiverId?: string | null
   shelterId?: string | null
+  chatScope?: $Enums.ConversationScope
+  transportId?: string | null
   lastMessageId?: string | null
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
@@ -338,6 +376,7 @@ export type PrivateConversationCreateManyInput = {
 
 export type PrivateConversationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -348,16 +387,25 @@ export type PrivateConversationUncheckedUpdateManyInput = {
   initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
   receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  transportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type PrivateConversationInitiatorIdReceiverIdShelterIdCompoundUniqueInput = {
+export type PrivateConversationChatScopeTransportIdCompoundUniqueInput = {
+  chatScope: $Enums.ConversationScope
+  transportId: string
+}
+
+export type PrivateConversationInitiatorIdReceiverIdShelterIdChatScopeTransportIdCompoundUniqueInput = {
   initiatorId: string
   receiverId: string
   shelterId: string
+  chatScope: $Enums.ConversationScope
+  transportId: string
 }
 
 export type PrivateConversationCountOrderByAggregateInput = {
@@ -365,6 +413,8 @@ export type PrivateConversationCountOrderByAggregateInput = {
   initiatorId?: Prisma.SortOrder
   receiverId?: Prisma.SortOrder
   shelterId?: Prisma.SortOrder
+  chatScope?: Prisma.SortOrder
+  transportId?: Prisma.SortOrder
   lastMessageId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -376,6 +426,8 @@ export type PrivateConversationMaxOrderByAggregateInput = {
   initiatorId?: Prisma.SortOrder
   receiverId?: Prisma.SortOrder
   shelterId?: Prisma.SortOrder
+  chatScope?: Prisma.SortOrder
+  transportId?: Prisma.SortOrder
   lastMessageId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -387,6 +439,8 @@ export type PrivateConversationMinOrderByAggregateInput = {
   initiatorId?: Prisma.SortOrder
   receiverId?: Prisma.SortOrder
   shelterId?: Prisma.SortOrder
+  chatScope?: Prisma.SortOrder
+  transportId?: Prisma.SortOrder
   lastMessageId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -406,6 +460,10 @@ export type PrivateConversationListRelationFilter = {
 
 export type PrivateConversationOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type EnumConversationScopeFieldUpdateOperationsInput = {
+  set?: $Enums.ConversationScope
 }
 
 export type EnumConversationStatusFieldUpdateOperationsInput = {
@@ -510,6 +568,48 @@ export type PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput = {
   deleteMany?: Prisma.PrivateConversationScalarWhereInput | Prisma.PrivateConversationScalarWhereInput[]
 }
 
+export type PrivateConversationCreateNestedManyWithoutTransportInput = {
+  create?: Prisma.XOR<Prisma.PrivateConversationCreateWithoutTransportInput, Prisma.PrivateConversationUncheckedCreateWithoutTransportInput> | Prisma.PrivateConversationCreateWithoutTransportInput[] | Prisma.PrivateConversationUncheckedCreateWithoutTransportInput[]
+  connectOrCreate?: Prisma.PrivateConversationCreateOrConnectWithoutTransportInput | Prisma.PrivateConversationCreateOrConnectWithoutTransportInput[]
+  createMany?: Prisma.PrivateConversationCreateManyTransportInputEnvelope
+  connect?: Prisma.PrivateConversationWhereUniqueInput | Prisma.PrivateConversationWhereUniqueInput[]
+}
+
+export type PrivateConversationUncheckedCreateNestedManyWithoutTransportInput = {
+  create?: Prisma.XOR<Prisma.PrivateConversationCreateWithoutTransportInput, Prisma.PrivateConversationUncheckedCreateWithoutTransportInput> | Prisma.PrivateConversationCreateWithoutTransportInput[] | Prisma.PrivateConversationUncheckedCreateWithoutTransportInput[]
+  connectOrCreate?: Prisma.PrivateConversationCreateOrConnectWithoutTransportInput | Prisma.PrivateConversationCreateOrConnectWithoutTransportInput[]
+  createMany?: Prisma.PrivateConversationCreateManyTransportInputEnvelope
+  connect?: Prisma.PrivateConversationWhereUniqueInput | Prisma.PrivateConversationWhereUniqueInput[]
+}
+
+export type PrivateConversationUpdateManyWithoutTransportNestedInput = {
+  create?: Prisma.XOR<Prisma.PrivateConversationCreateWithoutTransportInput, Prisma.PrivateConversationUncheckedCreateWithoutTransportInput> | Prisma.PrivateConversationCreateWithoutTransportInput[] | Prisma.PrivateConversationUncheckedCreateWithoutTransportInput[]
+  connectOrCreate?: Prisma.PrivateConversationCreateOrConnectWithoutTransportInput | Prisma.PrivateConversationCreateOrConnectWithoutTransportInput[]
+  upsert?: Prisma.PrivateConversationUpsertWithWhereUniqueWithoutTransportInput | Prisma.PrivateConversationUpsertWithWhereUniqueWithoutTransportInput[]
+  createMany?: Prisma.PrivateConversationCreateManyTransportInputEnvelope
+  set?: Prisma.PrivateConversationWhereUniqueInput | Prisma.PrivateConversationWhereUniqueInput[]
+  disconnect?: Prisma.PrivateConversationWhereUniqueInput | Prisma.PrivateConversationWhereUniqueInput[]
+  delete?: Prisma.PrivateConversationWhereUniqueInput | Prisma.PrivateConversationWhereUniqueInput[]
+  connect?: Prisma.PrivateConversationWhereUniqueInput | Prisma.PrivateConversationWhereUniqueInput[]
+  update?: Prisma.PrivateConversationUpdateWithWhereUniqueWithoutTransportInput | Prisma.PrivateConversationUpdateWithWhereUniqueWithoutTransportInput[]
+  updateMany?: Prisma.PrivateConversationUpdateManyWithWhereWithoutTransportInput | Prisma.PrivateConversationUpdateManyWithWhereWithoutTransportInput[]
+  deleteMany?: Prisma.PrivateConversationScalarWhereInput | Prisma.PrivateConversationScalarWhereInput[]
+}
+
+export type PrivateConversationUncheckedUpdateManyWithoutTransportNestedInput = {
+  create?: Prisma.XOR<Prisma.PrivateConversationCreateWithoutTransportInput, Prisma.PrivateConversationUncheckedCreateWithoutTransportInput> | Prisma.PrivateConversationCreateWithoutTransportInput[] | Prisma.PrivateConversationUncheckedCreateWithoutTransportInput[]
+  connectOrCreate?: Prisma.PrivateConversationCreateOrConnectWithoutTransportInput | Prisma.PrivateConversationCreateOrConnectWithoutTransportInput[]
+  upsert?: Prisma.PrivateConversationUpsertWithWhereUniqueWithoutTransportInput | Prisma.PrivateConversationUpsertWithWhereUniqueWithoutTransportInput[]
+  createMany?: Prisma.PrivateConversationCreateManyTransportInputEnvelope
+  set?: Prisma.PrivateConversationWhereUniqueInput | Prisma.PrivateConversationWhereUniqueInput[]
+  disconnect?: Prisma.PrivateConversationWhereUniqueInput | Prisma.PrivateConversationWhereUniqueInput[]
+  delete?: Prisma.PrivateConversationWhereUniqueInput | Prisma.PrivateConversationWhereUniqueInput[]
+  connect?: Prisma.PrivateConversationWhereUniqueInput | Prisma.PrivateConversationWhereUniqueInput[]
+  update?: Prisma.PrivateConversationUpdateWithWhereUniqueWithoutTransportInput | Prisma.PrivateConversationUpdateWithWhereUniqueWithoutTransportInput[]
+  updateMany?: Prisma.PrivateConversationUpdateManyWithWhereWithoutTransportInput | Prisma.PrivateConversationUpdateManyWithWhereWithoutTransportInput[]
+  deleteMany?: Prisma.PrivateConversationScalarWhereInput | Prisma.PrivateConversationScalarWhereInput[]
+}
+
 export type PrivateConversationCreateNestedManyWithoutInitiatorInput = {
   create?: Prisma.XOR<Prisma.PrivateConversationCreateWithoutInitiatorInput, Prisma.PrivateConversationUncheckedCreateWithoutInitiatorInput> | Prisma.PrivateConversationCreateWithoutInitiatorInput[] | Prisma.PrivateConversationUncheckedCreateWithoutInitiatorInput[]
   connectOrCreate?: Prisma.PrivateConversationCreateOrConnectWithoutInitiatorInput | Prisma.PrivateConversationCreateOrConnectWithoutInitiatorInput[]
@@ -596,12 +696,14 @@ export type PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput = {
 
 export type PrivateConversationCreateWithoutMessagesInput = {
   id?: string
+  chatScope?: $Enums.ConversationScope
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   initiator: Prisma.UserCreateNestedOneWithoutConversationsInitiatedInput
   receiver?: Prisma.UserCreateNestedOneWithoutConversationsReceivedInput
   shelter?: Prisma.ShelterCreateNestedOneWithoutConversationsInput
+  transport?: Prisma.TransportCreateNestedOneWithoutChatConversationsInput
   lastMessage?: Prisma.PrivateMessageCreateNestedOneWithoutPrivateLastMessageInput
 }
 
@@ -610,6 +712,8 @@ export type PrivateConversationUncheckedCreateWithoutMessagesInput = {
   initiatorId: string
   receiverId?: string | null
   shelterId?: string | null
+  chatScope?: $Enums.ConversationScope
+  transportId?: string | null
   lastMessageId?: string | null
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
@@ -623,12 +727,14 @@ export type PrivateConversationCreateOrConnectWithoutMessagesInput = {
 
 export type PrivateConversationCreateWithoutLastMessageInput = {
   id?: string
+  chatScope?: $Enums.ConversationScope
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   initiator: Prisma.UserCreateNestedOneWithoutConversationsInitiatedInput
   receiver?: Prisma.UserCreateNestedOneWithoutConversationsReceivedInput
   shelter?: Prisma.ShelterCreateNestedOneWithoutConversationsInput
+  transport?: Prisma.TransportCreateNestedOneWithoutChatConversationsInput
   messages?: Prisma.PrivateMessageCreateNestedManyWithoutConversationInput
 }
 
@@ -637,6 +743,8 @@ export type PrivateConversationUncheckedCreateWithoutLastMessageInput = {
   initiatorId: string
   receiverId?: string | null
   shelterId?: string | null
+  chatScope?: $Enums.ConversationScope
+  transportId?: string | null
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -666,12 +774,14 @@ export type PrivateConversationUpdateToOneWithWhereWithoutMessagesInput = {
 
 export type PrivateConversationUpdateWithoutMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiator?: Prisma.UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput
   receiver?: Prisma.UserUpdateOneWithoutConversationsReceivedNestedInput
   shelter?: Prisma.ShelterUpdateOneWithoutConversationsNestedInput
+  transport?: Prisma.TransportUpdateOneWithoutChatConversationsNestedInput
   lastMessage?: Prisma.PrivateMessageUpdateOneWithoutPrivateLastMessageNestedInput
 }
 
@@ -680,6 +790,8 @@ export type PrivateConversationUncheckedUpdateWithoutMessagesInput = {
   initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
   receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  transportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -710,6 +822,8 @@ export type PrivateConversationScalarWhereInput = {
   initiatorId?: Prisma.StringFilter<"PrivateConversation"> | string
   receiverId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
   shelterId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
+  chatScope?: Prisma.EnumConversationScopeFilter<"PrivateConversation"> | $Enums.ConversationScope
+  transportId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
   lastMessageId?: Prisma.StringNullableFilter<"PrivateConversation"> | string | null
   status?: Prisma.EnumConversationStatusFilter<"PrivateConversation"> | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFilter<"PrivateConversation"> | Date | string
@@ -718,11 +832,13 @@ export type PrivateConversationScalarWhereInput = {
 
 export type PrivateConversationCreateWithoutShelterInput = {
   id?: string
+  chatScope?: $Enums.ConversationScope
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   initiator: Prisma.UserCreateNestedOneWithoutConversationsInitiatedInput
   receiver?: Prisma.UserCreateNestedOneWithoutConversationsReceivedInput
+  transport?: Prisma.TransportCreateNestedOneWithoutChatConversationsInput
   messages?: Prisma.PrivateMessageCreateNestedManyWithoutConversationInput
   lastMessage?: Prisma.PrivateMessageCreateNestedOneWithoutPrivateLastMessageInput
 }
@@ -731,6 +847,8 @@ export type PrivateConversationUncheckedCreateWithoutShelterInput = {
   id?: string
   initiatorId: string
   receiverId?: string | null
+  chatScope?: $Enums.ConversationScope
+  transportId?: string | null
   lastMessageId?: string | null
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
@@ -764,13 +882,67 @@ export type PrivateConversationUpdateManyWithWhereWithoutShelterInput = {
   data: Prisma.XOR<Prisma.PrivateConversationUpdateManyMutationInput, Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterInput>
 }
 
+export type PrivateConversationCreateWithoutTransportInput = {
+  id?: string
+  chatScope?: $Enums.ConversationScope
+  status?: $Enums.ConversationStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  initiator: Prisma.UserCreateNestedOneWithoutConversationsInitiatedInput
+  receiver?: Prisma.UserCreateNestedOneWithoutConversationsReceivedInput
+  shelter?: Prisma.ShelterCreateNestedOneWithoutConversationsInput
+  messages?: Prisma.PrivateMessageCreateNestedManyWithoutConversationInput
+  lastMessage?: Prisma.PrivateMessageCreateNestedOneWithoutPrivateLastMessageInput
+}
+
+export type PrivateConversationUncheckedCreateWithoutTransportInput = {
+  id?: string
+  initiatorId: string
+  receiverId?: string | null
+  shelterId?: string | null
+  chatScope?: $Enums.ConversationScope
+  lastMessageId?: string | null
+  status?: $Enums.ConversationStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  messages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutConversationInput
+}
+
+export type PrivateConversationCreateOrConnectWithoutTransportInput = {
+  where: Prisma.PrivateConversationWhereUniqueInput
+  create: Prisma.XOR<Prisma.PrivateConversationCreateWithoutTransportInput, Prisma.PrivateConversationUncheckedCreateWithoutTransportInput>
+}
+
+export type PrivateConversationCreateManyTransportInputEnvelope = {
+  data: Prisma.PrivateConversationCreateManyTransportInput | Prisma.PrivateConversationCreateManyTransportInput[]
+  skipDuplicates?: boolean
+}
+
+export type PrivateConversationUpsertWithWhereUniqueWithoutTransportInput = {
+  where: Prisma.PrivateConversationWhereUniqueInput
+  update: Prisma.XOR<Prisma.PrivateConversationUpdateWithoutTransportInput, Prisma.PrivateConversationUncheckedUpdateWithoutTransportInput>
+  create: Prisma.XOR<Prisma.PrivateConversationCreateWithoutTransportInput, Prisma.PrivateConversationUncheckedCreateWithoutTransportInput>
+}
+
+export type PrivateConversationUpdateWithWhereUniqueWithoutTransportInput = {
+  where: Prisma.PrivateConversationWhereUniqueInput
+  data: Prisma.XOR<Prisma.PrivateConversationUpdateWithoutTransportInput, Prisma.PrivateConversationUncheckedUpdateWithoutTransportInput>
+}
+
+export type PrivateConversationUpdateManyWithWhereWithoutTransportInput = {
+  where: Prisma.PrivateConversationScalarWhereInput
+  data: Prisma.XOR<Prisma.PrivateConversationUpdateManyMutationInput, Prisma.PrivateConversationUncheckedUpdateManyWithoutTransportInput>
+}
+
 export type PrivateConversationCreateWithoutInitiatorInput = {
   id?: string
+  chatScope?: $Enums.ConversationScope
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   receiver?: Prisma.UserCreateNestedOneWithoutConversationsReceivedInput
   shelter?: Prisma.ShelterCreateNestedOneWithoutConversationsInput
+  transport?: Prisma.TransportCreateNestedOneWithoutChatConversationsInput
   messages?: Prisma.PrivateMessageCreateNestedManyWithoutConversationInput
   lastMessage?: Prisma.PrivateMessageCreateNestedOneWithoutPrivateLastMessageInput
 }
@@ -779,6 +951,8 @@ export type PrivateConversationUncheckedCreateWithoutInitiatorInput = {
   id?: string
   receiverId?: string | null
   shelterId?: string | null
+  chatScope?: $Enums.ConversationScope
+  transportId?: string | null
   lastMessageId?: string | null
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
@@ -798,11 +972,13 @@ export type PrivateConversationCreateManyInitiatorInputEnvelope = {
 
 export type PrivateConversationCreateWithoutReceiverInput = {
   id?: string
+  chatScope?: $Enums.ConversationScope
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   initiator: Prisma.UserCreateNestedOneWithoutConversationsInitiatedInput
   shelter?: Prisma.ShelterCreateNestedOneWithoutConversationsInput
+  transport?: Prisma.TransportCreateNestedOneWithoutChatConversationsInput
   messages?: Prisma.PrivateMessageCreateNestedManyWithoutConversationInput
   lastMessage?: Prisma.PrivateMessageCreateNestedOneWithoutPrivateLastMessageInput
 }
@@ -811,6 +987,8 @@ export type PrivateConversationUncheckedCreateWithoutReceiverInput = {
   id?: string
   initiatorId: string
   shelterId?: string | null
+  chatScope?: $Enums.ConversationScope
+  transportId?: string | null
   lastMessageId?: string | null
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
@@ -865,6 +1043,8 @@ export type PrivateConversationCreateManyLastMessageInput = {
   initiatorId: string
   receiverId?: string | null
   shelterId?: string | null
+  chatScope?: $Enums.ConversationScope
+  transportId?: string | null
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -872,12 +1052,14 @@ export type PrivateConversationCreateManyLastMessageInput = {
 
 export type PrivateConversationUpdateWithoutLastMessageInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiator?: Prisma.UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput
   receiver?: Prisma.UserUpdateOneWithoutConversationsReceivedNestedInput
   shelter?: Prisma.ShelterUpdateOneWithoutConversationsNestedInput
+  transport?: Prisma.TransportUpdateOneWithoutChatConversationsNestedInput
   messages?: Prisma.PrivateMessageUpdateManyWithoutConversationNestedInput
 }
 
@@ -886,6 +1068,8 @@ export type PrivateConversationUncheckedUpdateWithoutLastMessageInput = {
   initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
   receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  transportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -897,6 +1081,8 @@ export type PrivateConversationUncheckedUpdateManyWithoutLastMessageInput = {
   initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
   receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  transportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -906,6 +1092,8 @@ export type PrivateConversationCreateManyShelterInput = {
   id?: string
   initiatorId: string
   receiverId?: string | null
+  chatScope?: $Enums.ConversationScope
+  transportId?: string | null
   lastMessageId?: string | null
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
@@ -914,11 +1102,13 @@ export type PrivateConversationCreateManyShelterInput = {
 
 export type PrivateConversationUpdateWithoutShelterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiator?: Prisma.UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput
   receiver?: Prisma.UserUpdateOneWithoutConversationsReceivedNestedInput
+  transport?: Prisma.TransportUpdateOneWithoutChatConversationsNestedInput
   messages?: Prisma.PrivateMessageUpdateManyWithoutConversationNestedInput
   lastMessage?: Prisma.PrivateMessageUpdateOneWithoutPrivateLastMessageNestedInput
 }
@@ -927,6 +1117,8 @@ export type PrivateConversationUncheckedUpdateWithoutShelterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
   receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  transportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -938,6 +1130,58 @@ export type PrivateConversationUncheckedUpdateManyWithoutShelterInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
   receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  transportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PrivateConversationCreateManyTransportInput = {
+  id?: string
+  initiatorId: string
+  receiverId?: string | null
+  shelterId?: string | null
+  chatScope?: $Enums.ConversationScope
+  lastMessageId?: string | null
+  status?: $Enums.ConversationStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PrivateConversationUpdateWithoutTransportInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  initiator?: Prisma.UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput
+  receiver?: Prisma.UserUpdateOneWithoutConversationsReceivedNestedInput
+  shelter?: Prisma.ShelterUpdateOneWithoutConversationsNestedInput
+  messages?: Prisma.PrivateMessageUpdateManyWithoutConversationNestedInput
+  lastMessage?: Prisma.PrivateMessageUpdateOneWithoutPrivateLastMessageNestedInput
+}
+
+export type PrivateConversationUncheckedUpdateWithoutTransportInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
+  receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  messages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutConversationNestedInput
+}
+
+export type PrivateConversationUncheckedUpdateManyWithoutTransportInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
+  receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
   lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -948,6 +1192,8 @@ export type PrivateConversationCreateManyInitiatorInput = {
   id?: string
   receiverId?: string | null
   shelterId?: string | null
+  chatScope?: $Enums.ConversationScope
+  transportId?: string | null
   lastMessageId?: string | null
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
@@ -958,6 +1204,8 @@ export type PrivateConversationCreateManyReceiverInput = {
   id?: string
   initiatorId: string
   shelterId?: string | null
+  chatScope?: $Enums.ConversationScope
+  transportId?: string | null
   lastMessageId?: string | null
   status?: $Enums.ConversationStatus
   createdAt?: Date | string
@@ -966,11 +1214,13 @@ export type PrivateConversationCreateManyReceiverInput = {
 
 export type PrivateConversationUpdateWithoutInitiatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receiver?: Prisma.UserUpdateOneWithoutConversationsReceivedNestedInput
   shelter?: Prisma.ShelterUpdateOneWithoutConversationsNestedInput
+  transport?: Prisma.TransportUpdateOneWithoutChatConversationsNestedInput
   messages?: Prisma.PrivateMessageUpdateManyWithoutConversationNestedInput
   lastMessage?: Prisma.PrivateMessageUpdateOneWithoutPrivateLastMessageNestedInput
 }
@@ -979,6 +1229,8 @@ export type PrivateConversationUncheckedUpdateWithoutInitiatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  transportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -990,6 +1242,8 @@ export type PrivateConversationUncheckedUpdateManyWithoutInitiatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   receiverId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  transportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -998,11 +1252,13 @@ export type PrivateConversationUncheckedUpdateManyWithoutInitiatorInput = {
 
 export type PrivateConversationUpdateWithoutReceiverInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   initiator?: Prisma.UserUpdateOneRequiredWithoutConversationsInitiatedNestedInput
   shelter?: Prisma.ShelterUpdateOneWithoutConversationsNestedInput
+  transport?: Prisma.TransportUpdateOneWithoutChatConversationsNestedInput
   messages?: Prisma.PrivateMessageUpdateManyWithoutConversationNestedInput
   lastMessage?: Prisma.PrivateMessageUpdateOneWithoutPrivateLastMessageNestedInput
 }
@@ -1011,6 +1267,8 @@ export type PrivateConversationUncheckedUpdateWithoutReceiverInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  transportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1022,6 +1280,8 @@ export type PrivateConversationUncheckedUpdateManyWithoutReceiverInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   initiatorId?: Prisma.StringFieldUpdateOperationsInput | string
   shelterId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatScope?: Prisma.EnumConversationScopeFieldUpdateOperationsInput | $Enums.ConversationScope
+  transportId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastMessageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumConversationStatusFieldUpdateOperationsInput | $Enums.ConversationStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1064,6 +1324,8 @@ export type PrivateConversationSelect<ExtArgs extends runtime.Types.Extensions.I
   initiatorId?: boolean
   receiverId?: boolean
   shelterId?: boolean
+  chatScope?: boolean
+  transportId?: boolean
   lastMessageId?: boolean
   status?: boolean
   createdAt?: boolean
@@ -1071,6 +1333,7 @@ export type PrivateConversationSelect<ExtArgs extends runtime.Types.Extensions.I
   initiator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   receiver?: boolean | Prisma.PrivateConversation$receiverArgs<ExtArgs>
   shelter?: boolean | Prisma.PrivateConversation$shelterArgs<ExtArgs>
+  transport?: boolean | Prisma.PrivateConversation$transportArgs<ExtArgs>
   messages?: boolean | Prisma.PrivateConversation$messagesArgs<ExtArgs>
   lastMessage?: boolean | Prisma.PrivateConversation$lastMessageArgs<ExtArgs>
   _count?: boolean | Prisma.PrivateConversationCountOutputTypeDefaultArgs<ExtArgs>
@@ -1081,6 +1344,8 @@ export type PrivateConversationSelectCreateManyAndReturn<ExtArgs extends runtime
   initiatorId?: boolean
   receiverId?: boolean
   shelterId?: boolean
+  chatScope?: boolean
+  transportId?: boolean
   lastMessageId?: boolean
   status?: boolean
   createdAt?: boolean
@@ -1088,6 +1353,7 @@ export type PrivateConversationSelectCreateManyAndReturn<ExtArgs extends runtime
   initiator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   receiver?: boolean | Prisma.PrivateConversation$receiverArgs<ExtArgs>
   shelter?: boolean | Prisma.PrivateConversation$shelterArgs<ExtArgs>
+  transport?: boolean | Prisma.PrivateConversation$transportArgs<ExtArgs>
   lastMessage?: boolean | Prisma.PrivateConversation$lastMessageArgs<ExtArgs>
 }, ExtArgs["result"]["privateConversation"]>
 
@@ -1096,6 +1362,8 @@ export type PrivateConversationSelectUpdateManyAndReturn<ExtArgs extends runtime
   initiatorId?: boolean
   receiverId?: boolean
   shelterId?: boolean
+  chatScope?: boolean
+  transportId?: boolean
   lastMessageId?: boolean
   status?: boolean
   createdAt?: boolean
@@ -1103,6 +1371,7 @@ export type PrivateConversationSelectUpdateManyAndReturn<ExtArgs extends runtime
   initiator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   receiver?: boolean | Prisma.PrivateConversation$receiverArgs<ExtArgs>
   shelter?: boolean | Prisma.PrivateConversation$shelterArgs<ExtArgs>
+  transport?: boolean | Prisma.PrivateConversation$transportArgs<ExtArgs>
   lastMessage?: boolean | Prisma.PrivateConversation$lastMessageArgs<ExtArgs>
 }, ExtArgs["result"]["privateConversation"]>
 
@@ -1111,17 +1380,20 @@ export type PrivateConversationSelectScalar = {
   initiatorId?: boolean
   receiverId?: boolean
   shelterId?: boolean
+  chatScope?: boolean
+  transportId?: boolean
   lastMessageId?: boolean
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PrivateConversationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "initiatorId" | "receiverId" | "shelterId" | "lastMessageId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["privateConversation"]>
+export type PrivateConversationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "initiatorId" | "receiverId" | "shelterId" | "chatScope" | "transportId" | "lastMessageId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["privateConversation"]>
 export type PrivateConversationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   initiator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   receiver?: boolean | Prisma.PrivateConversation$receiverArgs<ExtArgs>
   shelter?: boolean | Prisma.PrivateConversation$shelterArgs<ExtArgs>
+  transport?: boolean | Prisma.PrivateConversation$transportArgs<ExtArgs>
   messages?: boolean | Prisma.PrivateConversation$messagesArgs<ExtArgs>
   lastMessage?: boolean | Prisma.PrivateConversation$lastMessageArgs<ExtArgs>
   _count?: boolean | Prisma.PrivateConversationCountOutputTypeDefaultArgs<ExtArgs>
@@ -1130,12 +1402,14 @@ export type PrivateConversationIncludeCreateManyAndReturn<ExtArgs extends runtim
   initiator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   receiver?: boolean | Prisma.PrivateConversation$receiverArgs<ExtArgs>
   shelter?: boolean | Prisma.PrivateConversation$shelterArgs<ExtArgs>
+  transport?: boolean | Prisma.PrivateConversation$transportArgs<ExtArgs>
   lastMessage?: boolean | Prisma.PrivateConversation$lastMessageArgs<ExtArgs>
 }
 export type PrivateConversationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   initiator?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   receiver?: boolean | Prisma.PrivateConversation$receiverArgs<ExtArgs>
   shelter?: boolean | Prisma.PrivateConversation$shelterArgs<ExtArgs>
+  transport?: boolean | Prisma.PrivateConversation$transportArgs<ExtArgs>
   lastMessage?: boolean | Prisma.PrivateConversation$lastMessageArgs<ExtArgs>
 }
 
@@ -1145,6 +1419,7 @@ export type $PrivateConversationPayload<ExtArgs extends runtime.Types.Extensions
     initiator: Prisma.$UserPayload<ExtArgs>
     receiver: Prisma.$UserPayload<ExtArgs> | null
     shelter: Prisma.$ShelterPayload<ExtArgs> | null
+    transport: Prisma.$TransportPayload<ExtArgs> | null
     messages: Prisma.$PrivateMessagePayload<ExtArgs>[]
     lastMessage: Prisma.$PrivateMessagePayload<ExtArgs> | null
   }
@@ -1162,6 +1437,14 @@ export type $PrivateConversationPayload<ExtArgs extends runtime.Types.Extensions
      * Shelter participating in the conversation (Optional if chatting with a user)
      */
     shelterId: string | null
+    /**
+     * Conversation scope: MAIN for existing chat, TRANSPORT for ride-specific chat
+     */
+    chatScope: $Enums.ConversationScope
+    /**
+     * Transport relation for ride-specific chat (null for MAIN chat)
+     */
+    transportId: string | null
     lastMessageId: string | null
     status: $Enums.ConversationStatus
     createdAt: Date
@@ -1563,6 +1846,7 @@ export interface Prisma__PrivateConversationClient<T, Null = never, ExtArgs exte
   initiator<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   receiver<T extends Prisma.PrivateConversation$receiverArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrivateConversation$receiverArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   shelter<T extends Prisma.PrivateConversation$shelterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrivateConversation$shelterArgs<ExtArgs>>): Prisma.Prisma__ShelterClient<runtime.Types.Result.GetResult<Prisma.$ShelterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  transport<T extends Prisma.PrivateConversation$transportArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrivateConversation$transportArgs<ExtArgs>>): Prisma.Prisma__TransportClient<runtime.Types.Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   messages<T extends Prisma.PrivateConversation$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrivateConversation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lastMessage<T extends Prisma.PrivateConversation$lastMessageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrivateConversation$lastMessageArgs<ExtArgs>>): Prisma.Prisma__PrivateMessageClient<runtime.Types.Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1598,6 +1882,8 @@ export interface PrivateConversationFieldRefs {
   readonly initiatorId: Prisma.FieldRef<"PrivateConversation", 'String'>
   readonly receiverId: Prisma.FieldRef<"PrivateConversation", 'String'>
   readonly shelterId: Prisma.FieldRef<"PrivateConversation", 'String'>
+  readonly chatScope: Prisma.FieldRef<"PrivateConversation", 'ConversationScope'>
+  readonly transportId: Prisma.FieldRef<"PrivateConversation", 'String'>
   readonly lastMessageId: Prisma.FieldRef<"PrivateConversation", 'String'>
   readonly status: Prisma.FieldRef<"PrivateConversation", 'ConversationStatus'>
   readonly createdAt: Prisma.FieldRef<"PrivateConversation", 'DateTime'>
@@ -2033,6 +2319,25 @@ export type PrivateConversation$shelterArgs<ExtArgs extends runtime.Types.Extens
    */
   include?: Prisma.ShelterInclude<ExtArgs> | null
   where?: Prisma.ShelterWhereInput
+}
+
+/**
+ * PrivateConversation.transport
+ */
+export type PrivateConversation$transportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transport
+   */
+  select?: Prisma.TransportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transport
+   */
+  omit?: Prisma.TransportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransportInclude<ExtArgs> | null
+  where?: Prisma.TransportWhereInput
 }
 
 /**

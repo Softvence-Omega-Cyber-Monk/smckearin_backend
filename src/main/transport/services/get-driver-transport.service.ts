@@ -174,6 +174,40 @@ export class GetDriverTransportService {
     );
   }
 
+  @HandleError("Can't get assigned transport")
+  async getAssignedTransportOfDriver(userId: string, dto: GetTransportDto) {
+    const driver = await this.prisma.client.driver.findUniqueOrThrow({
+      where: { userId },
+    });
+
+    const { page, limit, skip } = this.getPagination(dto);
+
+    const where: Prisma.TransportWhereInput = {
+      driverId: driver.id,
+      status: TransportStatus.PENDING,
+    };
+
+    this.applySearch(where, dto.search);
+    this.applyDateFilter(where, dto.dateFilter);
+
+    const [transports, total] = await this.prisma.client.$transaction([
+      this.prisma.client.transport.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+        include: { animal: true },
+      }),
+      this.prisma.client.transport.count({ where }),
+    ]);
+
+    return successPaginatedResponse(
+      transports.map(this.formatTransport),
+      { page, limit, total },
+      'Assigned transports fetched',
+    );
+  }
+
   @HandleError("Can't get driver transport history")
   async getAllDriverTransportHistory(
     userId: string,

@@ -45,14 +45,7 @@ services:
         condition: service_healthy
       redis-master:
         condition: service_healthy
-    command: >
-      sh -c "
-        echo '🏁 Waiting for DB...';
-        sleep 5;
-        npx prisma migrate deploy;
-        echo '🚀 Starting app...';
-        pnpm start
-      "
+
     volumes:
       - files-data:/app/uploads
       - temp-data:/app/tmp
@@ -62,6 +55,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+      start_period: 60s
 
   db:
     profiles: ['dev', 'prod']
@@ -76,7 +70,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
-      - '127.0.0.1:5434:5432'
+      - '127.0.0.1:5499:5432'
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 10s
@@ -115,7 +109,7 @@ services:
         'no',
       ]
     ports:
-      - '22376:6379'
+      - '22399:6379'
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
       interval: 5s
@@ -138,8 +132,6 @@ services:
         '--protected-mode',
         'no',
       ]
-    ports:
-      - '22377:6379'
     depends_on:
       - redis-master
     restart: always

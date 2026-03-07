@@ -1,14 +1,17 @@
 # Transport Tracking Service Refactoring
 
 ## Overview
+
 The `transport-tracking.service.ts` file (~731 lines) has been split into four smaller, focused services following the single responsibility principle.
 
 ## New Services
 
 ### 1. **TrackingHelperService** (`tracking-helper.service.ts`)
+
 **Purpose:** Utility methods for distance calculations and polyline encoding
 
 **Methods:**
+
 - `calculateAirDistance()` - Calculate distance between two coordinates using Haversine formula
 - `createSimplePolyline()` - Create a straight-line polyline with intermediate points
 - `encodePolyline()` - Encode coordinates into Google's polyline format
@@ -19,12 +22,15 @@ The `transport-tracking.service.ts` file (~731 lines) has been split into four s
 ---
 
 ### 2. **RouteCalculationService** (`route-calculation.service.ts`)
+
 **Purpose:** Handle all route calculation logic including Google Maps API integration
 
 **Main Method:**
+
 - `calculateRoute()` - Main route calculation method
 
 **Returns:**
+
 ```typescript
 {
   routePolyline: string;
@@ -32,12 +38,13 @@ The `transport-tracking.service.ts` file (~731 lines) has been split into four s
   distanceRemaining: number;
   progressPercentage: number;
   estimatedDropOffTime: Date | null;
-  milestones: Array<{name, distanceFromPickup, eta}>;
+  milestones: Array<{ name; distanceFromPickup; eta }>;
   estimatedTimeRemainingMinutes: number;
 }
 ```
 
 **Features:**
+
 - Google Maps Routes API integration
 - Duration parsing (handles multiple formats: "32s", "1h 32m", numeric values)
 - Automatic fallback to air distance calculation when API fails
@@ -49,12 +56,15 @@ The `transport-tracking.service.ts` file (~731 lines) has been split into four s
 ---
 
 ### 3. **TrackingDataService** (`tracking-data.service.ts`)
+
 **Purpose:** Fetch and format enriched live tracking data
 
 **Main Method:**
+
 - `getLiveTrackingData(transportId)` - Returns complete tracking data
 
 **Returns:** `LiveTrackingData` interface with:
+
 - Transport and animal information
 - Driver information and connectivity status
 - Location data (current, pickup, dropoff)
@@ -63,6 +73,7 @@ The `transport-tracking.service.ts` file (~731 lines) has been split into four s
 - Shelter information
 
 **Features:**
+
 - Driver connectivity detection (based on last ping < 1 minute)
 - Reverse geocoding for current location names
 - Timeline filtering (keeps status changes + first/last in-transit)
@@ -73,13 +84,16 @@ The `transport-tracking.service.ts` file (~731 lines) has been split into four s
 ---
 
 ### 4. **LocationUpdateService** (`location-update.service.ts`)
+
 **Purpose:** Handle location updates for both transports and drivers
 
 **Methods:**
+
 - `updateLocation()` - Update location for a specific transport
 - `updateDriverLocation()` - Update driver's location for all active transports
 
 **Features:**
+
 - User authentication and driver ownership validation
 - Coordinate validation via GoogleMapsService
 - Database updates (TransportTimeline and Driver tables)
@@ -91,13 +105,15 @@ The `transport-tracking.service.ts` file (~731 lines) has been split into four s
 ---
 
 ### 5. **TransportTrackingService** (Updated)
+
 **Purpose:** Main service that delegates to specialized services
 
 **Status:** Now acts as a facade/delegator (marked with @deprecated comments)
 
 **Methods:**
+
 - `updateLocation()` → delegates to LocationUpdateService
-- `updateDriverLocation()` → delegates to LocationUpdateService  
+- `updateDriverLocation()` → delegates to LocationUpdateService
 - `getLiveTrackingData()` → delegates to TrackingDataService
 
 ---
@@ -109,13 +125,13 @@ All services are registered in `queue.module.ts`:
 ```typescript
 providers: [
   // Transport tracking services
-  TrackingHelperService,        // Utilities
-  RouteCalculationService,      // Route calculations
-  TrackingDataService,          // Data fetching/formatting
-  LocationUpdateService,        // Location updates
-  TransportTrackingService,     // Main facade (for backward compatibility)
+  TrackingHelperService, // Utilities
+  RouteCalculationService, // Route calculations
+  TrackingDataService, // Data fetching/formatting
+  LocationUpdateService, // Location updates
+  TransportTrackingService, // Main facade (for backward compatibility)
   // ... other services
-]
+];
 ```
 
 ---

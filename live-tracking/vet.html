@@ -84,7 +84,10 @@
         <div id="s" style="margin-top: 12px; font-size: 12px; opacity: 0.6">
           Driver Tracking ACTIVE
         </div>
-        <button id="r" style="margin-top: 20px; background: #334155; display: none">
+        <button
+          id="r"
+          style="margin-top: 20px; background: #334155; display: none"
+        >
           Refresh Data
         </button>
       </div>
@@ -105,21 +108,25 @@
         });
 
         document.getElementById('r').onclick = () => {
-           s.emit('queue:transport_get_live_data', { transportId: document.getElementById('i').value }, (r) => {
-               if(r.status === 'success') updateVetUI(r.data);
-           });
+          s.emit(
+            'queue:transport_get_live_data',
+            { transportId: document.getElementById('i').value },
+            (r) => {
+              if (r.status === 'success') updateVetUI(r.data);
+            },
+          );
         };
 
         const updateVetUI = (d) => {
-            document.getElementById('n').innerText = d.animalName;
-            document.getElementById('e').innerText = new Date(
-                d.estimatedDropOffTime,
-            ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('m').innerText =
-                d.distanceRemaining.toFixed(1) + ' miles remaining';
-            document.getElementById('s').innerText = d.driverConnected
-                ? 'DRIVER ONLINE'
-                : 'DRIVER OFFLINE';
+          document.getElementById('n').innerText = d.animalName;
+          document.getElementById('e').innerText = new Date(
+            d.estimatedDropOffTime,
+          ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          document.getElementById('m').innerText =
+            d.distanceRemaining.toFixed(1) + ' miles remaining';
+          document.getElementById('s').innerText = d.driverConnected
+            ? 'DRIVER ONLINE'
+            : 'DRIVER OFFLINE';
         };
 
         s.on('queue:transport_tracking_data', (r) => {
