@@ -1,34 +1,34 @@
 import {
-    GetUser,
-    ValidateAdmin,
-    ValidateAuth,
-    ValidateDriver,
-    ValidateManager,
-    ValidateVeterinarian,
+  GetUser,
+  ValidateAdmin,
+  ValidateAuth,
+  ValidateDriver,
+  ValidateManager,
+  ValidateVeterinarian,
 } from '@/core/jwt/jwt.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Patch,
-    UploadedFile,
-    UseInterceptors,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
-    ApiBearerAuth,
-    ApiConsumes,
-    ApiOperation,
-    ApiTags,
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
 } from '@nestjs/swagger';
 import {
-    UpdateDriverProfileDto,
-    UpdateProfileDto,
-    UpdateShelterProfileDto,
-    UpdateVetProfileDto,
+  UpdateDriverProfileDto,
+  UpdateProfileDto,
+  UpdateShelterProfileDto,
+  UpdateVetProfileDto,
 } from '../dto/update-profile.dto';
 import { AuthDeleteAccountService } from '../services/auth-delete-account.service';
 import { AuthGetProfileService } from '../services/auth-get-profile.service';

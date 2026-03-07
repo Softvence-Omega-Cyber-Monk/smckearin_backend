@@ -28,7 +28,9 @@ export class AuthDeleteAccountService {
       throw new AppError(HttpStatus.NOT_FOUND, 'User not found');
     }
 
-    this.logger.log(`Performing Hard Core Delete for user ${userId} (${user.email})`);
+    this.logger.log(
+      `Performing Hard Core Delete for user ${userId} (${user.email})`,
+    );
 
     // 1. Cleanup Stripe Driver Account (Express)
     if (user.drivers?.stripeAccountId) {
@@ -54,16 +56,18 @@ export class AuthDeleteAccountService {
       });
 
       // If this is the last admin, we might want to delete the Stripe customer.
-      // However, for "Hard Core" delete of the USER account, we should at least 
+      // However, for "Hard Core" delete of the USER account, we should at least
       // ensure we don't leave orphaned Stripe data if the shelter itself were to be deleted.
-      // But Shelter deletion is a separate concern. 
+      // But Shelter deletion is a separate concern.
       // For now, we only delete the Stripe Customer if the user is a SHELTER_ADMIN
       // and we want to actually nuke the shelter too.
       // If the shelter remains (e.g. other admins exist), we don't delete the Stripe customer.
-      
+
       if (otherAdminsCount === 0) {
         try {
-          await this.stripe.deleteCustomer(user.shelterAdminOf.stripeCustomerId);
+          await this.stripe.deleteCustomer(
+            user.shelterAdminOf.stripeCustomerId,
+          );
         } catch (error) {
           this.logger.error(
             `Failed to delete Stripe customer ${user.shelterAdminOf.stripeCustomerId} for shelter ${user.shelterAdminOf.id}`,
