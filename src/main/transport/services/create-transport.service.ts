@@ -91,11 +91,26 @@ export class CreateTransportService {
       dto.vetClearanceType &&
       dto.vetClearanceType !== RequiredVetClearanceType.No;
 
-    const shouldAutoAssignDriver = this.isAnyoneSelection(dto.driverId);
+    const normalizedDriverId = this.normalizeSelectionValue(dto.driverId);
+    const normalizedVetId = this.normalizeSelectionValue(dto.vetId);
+
+    const shouldAutoAssignDriver =
+      normalizedDriverId === null || this.isAnyoneSelection(normalizedDriverId);
     const shouldAutoAssignVet = this.isAnyoneSelection(dto.vetId);
 
-    let selectedDriverId: string | null = dto.driverId ?? null;
-    let selectedVetId: string | null = dto.vetId ?? null;
+    let selectedDriverId: string | null = normalizedDriverId;
+    let selectedVetId: string | null = normalizedVetId;
+    const manualDistanceMiles = dto.distanceMiles ?? null;
+    const manualDurationMinutes = dto.etaMinutes ?? null;
+
+    if (
+      (manualDistanceMiles === null) !== (manualDurationMinutes === null)
+    ) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Distance and ETA must be provided together',
+      );
+    }
 
     if (shouldAutoAssignDriver) {
       const driver = await this.findBestDriver(
@@ -185,6 +200,9 @@ export class CreateTransportService {
         dropOffLatitude: dto.dropOffLatitude,
         dropOffLongitude: dto.dropOffLongitude,
 
+        manualDistanceMiles,
+        manualDurationMinutes,
+
         transPortDate: new Date(dto.transPortDate),
 
         animalId: dto.animalId,
@@ -265,6 +283,15 @@ export class CreateTransportService {
 
   private isAnyoneSelection(value?: string | null): boolean {
     return typeof value === 'string' && value.trim().toLowerCase() === 'anyone';
+  }
+
+  private normalizeSelectionValue(value?: string | null): string | null {
+    if (typeof value !== 'string') {
+      return value ?? null;
+    }
+
+    const normalizedValue = value.trim();
+    return normalizedValue.length ? normalizedValue : null;
   }
 
   private calculateDistanceMiles(

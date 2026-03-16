@@ -262,6 +262,15 @@ export const TransportStatus = {
 export type TransportStatus = (typeof TransportStatus)[keyof typeof TransportStatus]
 
 
+export const CancellationRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type CancellationRequestStatus = (typeof CancellationRequestStatus)[keyof typeof CancellationRequestStatus]
+
+
 export const RequiredVetClearanceType = {
   Health: 'Health',
   Vaccination: 'Vaccination',

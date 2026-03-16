@@ -1,5 +1,5 @@
 # Development Dockerfile with Live Reload Support
-FROM node:24-slim
+FROM node:22-slim
 
 # Enable corepack and pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate

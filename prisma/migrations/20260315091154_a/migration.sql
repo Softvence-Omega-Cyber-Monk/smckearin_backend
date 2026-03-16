@@ -1,0 +1,2 @@
+-- RenameIndex
+ALTER INDEX "private_conversations_initiatorId_receiverId_shelterId_chatScop" RENAME TO "private_conversations_initiatorId_receiverId_shelterId_chat_key";
