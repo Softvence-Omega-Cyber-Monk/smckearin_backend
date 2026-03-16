@@ -3492,6 +3492,13 @@ export const TransportScalarFieldEnum = {
   dropOffLocation: 'dropOffLocation',
   dropOffLatitude: 'dropOffLatitude',
   dropOffLongitude: 'dropOffLongitude',
+  manualDistanceMiles: 'manualDistanceMiles',
+  manualDurationMinutes: 'manualDurationMinutes',
+  cancellationRequestStatus: 'cancellationRequestStatus',
+  cancellationRequestReason: 'cancellationRequestReason',
+  cancellationRequestReviewNote: 'cancellationRequestReviewNote',
+  cancellationRequestedAt: 'cancellationRequestedAt',
+  cancellationRequestReviewedAt: 'cancellationRequestReviewedAt',
   transPortDate: 'transPortDate',
   animalId: 'animalId',
   isBondedPair: 'isBondedPair',
@@ -4086,6 +4093,20 @@ export type EnumPriorityLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'PriorityLevel[]'
  */
 export type ListEnumPriorityLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PriorityLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'CancellationRequestStatus'
+ */
+export type EnumCancellationRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CancellationRequestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'CancellationRequestStatus[]'
+ */
+export type ListEnumCancellationRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CancellationRequestStatus[]'>
     
 
 

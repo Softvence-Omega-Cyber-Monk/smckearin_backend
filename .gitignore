@@ -69,4 +69,5 @@ tmp
 *.log.json
 report.*.json
 coverage.json
+
 config.bat

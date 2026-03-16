@@ -145,6 +145,16 @@ export class GetSingleTransportService {
         })),
 
       // Transport timing
+      cancellationRequest: transport.cancellationRequestStatus
+        ? {
+            status: transport.cancellationRequestStatus,
+            reason: transport.cancellationRequestReason ?? null,
+            reviewNote: transport.cancellationRequestReviewNote ?? null,
+            requestedAt: transport.cancellationRequestedAt ?? null,
+            reviewedAt: transport.cancellationRequestReviewedAt ?? null,
+          }
+        : null,
+
       transportDate: transport.transPortDate,
       createdAt: transport.createdAt,
       updatedAt: transport.updatedAt,

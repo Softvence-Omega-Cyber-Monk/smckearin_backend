@@ -20,7 +20,22 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
       ENVEnum.DATABASE_URL,
     );
 
-    const adapter = new PrismaPg({ connectionString: this.connectionString });
+    const adapter = new PrismaPg(
+      {
+        connectionString: this.connectionString,
+        connectionTimeoutMillis: 30000,
+        idleTimeoutMillis: 30000,
+        max: 5,
+      },
+      {
+        onPoolError: (error) => {
+          this.logger.error(`[POOL] ${error.message}`, error.stack);
+        },
+        onConnectionError: (error) => {
+          this.logger.error(`[CONNECT] ${error.message}`, error.stack);
+        },
+      },
+    );
 
     this.prisma = new PrismaClient({
       adapter,

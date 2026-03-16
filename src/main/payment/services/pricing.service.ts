@@ -22,6 +22,8 @@ export class PricingService {
     dropOffLongitude: number;
     animalId: string;
     bondedPairId?: string | null;
+    distanceMiles?: number | null;
+    durationMinutes?: number | null;
   }) {
     const [rule, complexityFees, animal, paymentSettings] =
       await this.prisma.client.$transaction([
@@ -45,12 +47,18 @@ export class PricingService {
       platformFeesEnabled: false,
     };
 
-    // Get distance/duration
-    const { distanceMiles, durationMinutes } =
-      await this.googleMaps.getDistanceAndDuration(
-        { lat: params.pickUpLatitude, lng: params.pickUpLongitude },
-        { lat: params.dropOffLatitude, lng: params.dropOffLongitude },
-      );
+    const routeMetrics: { distanceMiles: number; durationMinutes: number } =
+      typeof params.distanceMiles === 'number' &&
+      typeof params.durationMinutes === 'number'
+        ? {
+            distanceMiles: params.distanceMiles,
+            durationMinutes: params.durationMinutes,
+          }
+        : await this.googleMaps.getDistanceAndDuration(
+          { lat: params.pickUpLatitude, lng: params.pickUpLongitude },
+          { lat: params.dropOffLatitude, lng: params.dropOffLongitude },
+        );
+    const { distanceMiles, durationMinutes } = routeMetrics;
 
     // Calculate Costs
     const distanceCost = distanceMiles * rule.ratePerMile;
@@ -124,6 +132,8 @@ export class PricingService {
       dropOffLongitude: transport.dropOffLongitude,
       animalId: transport.animalId,
       bondedPairId: transport.bondedPairId,
+      distanceMiles: transport.manualDistanceMiles,
+      durationMinutes: transport.manualDurationMinutes,
     });
 
     return this.prisma.client.pricingSnapshot.create({

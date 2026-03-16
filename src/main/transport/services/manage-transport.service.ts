@@ -9,6 +9,10 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { TransportStatus, UserRole } from '@prisma';
 import { InternalTransactionService } from '../../payment/services/internal-transaction.service';
 import { PricingService } from '../../payment/services/pricing.service';
+import {
+  RequestTransportCancellationDto,
+  ReviewTransportCancellationDto,
+} from '../dto/cancel-transport.dto';
 import { UpdateTransportStatusQueryDto } from '../dto/update-timeline.dto';
 
 @Injectable()
@@ -312,6 +316,122 @@ export class ManageTransportService {
     );
 
     return successResponse(updated, 'Driver assigned successfully');
+  }
+
+  @HandleError('Unable to request transport cancellation')
+  async requestTransportCancellation(
+    transportId: string,
+    authUser: JWTPayload,
+    dto: RequestTransportCancellationDto,
+  ) {
+    const transport = await this.prisma.client.transport.findUniqueOrThrow({
+      where: { id: transportId },
+      select: {
+        id: true,
+        driverId: true,
+        status: true,
+        cancellationRequestStatus: true,
+      },
+    });
+
+    await this.validateDriverOwnership(transport.driverId, authUser.sub);
+
+    const cancellableStatuses: TransportStatus[] = [
+      TransportStatus.ACCEPTED,
+      TransportStatus.PICKED_UP,
+      TransportStatus.IN_TRANSIT,
+    ];
+
+    if (!cancellableStatuses.includes(transport.status)) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Cancellation request is only allowed for active trips',
+      );
+    }
+
+    if (transport.cancellationRequestStatus === 'PENDING') {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'A cancellation request is already pending review',
+      );
+    }
+
+    const updated = await this.prisma.client.transport.update({
+      where: { id: transportId },
+      data: {
+        cancellationRequestStatus: 'PENDING',
+        cancellationRequestReason: dto.reason,
+        cancellationRequestReviewNote: null,
+        cancellationRequestedAt: new Date(),
+        cancellationRequestReviewedAt: null,
+      },
+    });
+
+    await this.addTimeline(
+      transportId,
+      transport.status,
+      `Driver requested cancellation: ${dto.reason}`,
+    );
+
+    return successResponse(
+      updated,
+      'Cancellation request sent to shelter successfully',
+    );
+  }
+
+  @HandleError('Unable to review transport cancellation request')
+  async reviewTransportCancellation(
+    transportId: string,
+    authUser: JWTPayload,
+    dto: ReviewTransportCancellationDto,
+  ) {
+    const transport = await this.prisma.client.transport.findUniqueOrThrow({
+      where: { id: transportId },
+      select: {
+        id: true,
+        shelterId: true,
+        status: true,
+        cancellationRequestStatus: true,
+        cancellationRequestReason: true,
+      },
+    });
+
+    if (!this.isAdmin(authUser.role)) {
+      await this.validateShelterAccess(transport.shelterId, authUser.sub);
+    }
+
+    if (transport.cancellationRequestStatus !== 'PENDING') {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'There is no pending cancellation request for this transport',
+      );
+    }
+
+    const nextStatus = dto.approved ? TransportStatus.CANCELLED : transport.status;
+    const requestStatus = dto.approved ? 'APPROVED' : 'REJECTED';
+
+    const updated = await this.prisma.client.transport.update({
+      where: { id: transportId },
+      data: {
+        status: nextStatus,
+        cancellationRequestStatus: requestStatus,
+        cancellationRequestReviewNote: dto.note ?? null,
+        cancellationRequestReviewedAt: new Date(),
+      },
+    });
+
+    await this.addTimeline(
+      transportId,
+      nextStatus,
+      dto.approved
+        ? `Shelter approved cancellation request${transport.cancellationRequestReason ? `: ${transport.cancellationRequestReason}` : ''}`
+        : `Shelter rejected cancellation request${dto.note ? `: ${dto.note}` : ''}`,
+    );
+
+    return successResponse(
+      updated,
+      `Cancellation request ${dto.approved ? 'approved' : 'rejected'} successfully`,
+    );
   }
 
   @HandleError('Unable to update transport status')
