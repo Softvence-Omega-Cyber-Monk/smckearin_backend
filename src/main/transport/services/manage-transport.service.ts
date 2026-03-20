@@ -407,7 +407,9 @@ export class ManageTransportService {
       );
     }
 
-    const nextStatus = dto.approved ? TransportStatus.CANCELLED : transport.status;
+    const nextStatus = dto.approved
+      ? TransportStatus.CANCELLED
+      : transport.status;
     const requestStatus = dto.approved ? 'APPROVED' : 'REJECTED';
 
     const updated = await this.prisma.client.transport.update({

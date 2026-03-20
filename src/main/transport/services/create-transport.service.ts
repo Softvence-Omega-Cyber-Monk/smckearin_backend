@@ -103,9 +103,7 @@ export class CreateTransportService {
     const manualDistanceMiles = dto.distanceMiles ?? null;
     const manualDurationMinutes = dto.etaMinutes ?? null;
 
-    if (
-      (manualDistanceMiles === null) !== (manualDurationMinutes === null)
-    ) {
+    if ((manualDistanceMiles === null) !== (manualDurationMinutes === null)) {
       throw new AppError(
         HttpStatus.BAD_REQUEST,
         'Distance and ETA must be provided together',
