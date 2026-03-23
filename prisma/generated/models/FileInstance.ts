@@ -6,7 +6,7 @@
 /*
  * This file exports the `FileInstance` model and its related types.
  *
- * ðŸŸ¢ You can import this file directly.
+ * ?? You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -143,7 +143,7 @@ export type FileInstanceAggregateArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` FileInstances from the position of the cursor.
+   * Take `±n` FileInstances from the position of the cursor.
    */
   take?: number
   /**
@@ -2401,7 +2401,7 @@ export type FileInstanceFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` FileInstances from the position of the cursor.
+   * Take `±n` FileInstances from the position of the cursor.
    */
   take?: number
   /**
@@ -2453,7 +2453,7 @@ export type FileInstanceFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` FileInstances from the position of the cursor.
+   * Take `±n` FileInstances from the position of the cursor.
    */
   take?: number
   /**
@@ -2505,7 +2505,7 @@ export type FileInstanceFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` FileInstances from the position of the cursor.
+   * Take `±n` FileInstances from the position of the cursor.
    */
   take?: number
   /**

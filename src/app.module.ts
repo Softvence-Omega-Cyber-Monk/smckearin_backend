@@ -13,7 +13,10 @@ import { ENVEnum } from './common/enum/env.enum';
 import { JwtStrategy } from './core/jwt/jwt.strategy';
 import { LoggerMiddleware } from './core/middleware/logger.middleware';
 import { LibModule } from './lib/lib.module';
+import { DocumentModule } from './main/documents/document.module';
+import { FosterSettingsModule } from './main/foster-settings/foster-settings.module';
 import { MainModule } from './main/main.module';
+import { ProfileModule } from './main/profile/profile.module';
 
 @Module({
   imports: [
@@ -81,6 +84,9 @@ import { MainModule } from './main/main.module';
     }),
 
     LibModule,
+    ProfileModule,
+    DocumentModule,
+    FosterSettingsModule,
 
     MainModule,
   ],

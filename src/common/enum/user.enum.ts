@@ -5,4 +5,6 @@ export enum UserEnum {
   MANAGER = 'MANAGER',
   ADMIN = 'ADMIN',
   SUPER_ADMIN = 'SUPER_ADMIN',
+  FOSTER = 'FOSTER',
+  FOSTER_ADMIN = 'FOSTER_ADMIN',
 }
