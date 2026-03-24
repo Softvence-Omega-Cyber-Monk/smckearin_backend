@@ -9,6 +9,7 @@ import {
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DriverRegisterDto } from '../dto/driver-register.dto';
+import { FosterRegisterDto } from '../dto/foster-register.dto';
 import { RegisterDto } from '../dto/register.dto';
 import { AuthRegisterService } from '../services/auth-register.service';
 
@@ -58,5 +59,11 @@ export class AuthRegistrationController {
     }
 
     return this.authRegisterService.driverRegister(body);
+  }
+
+  @ApiOperation({ summary: 'Register as foster' })
+  @Post('foster/register')
+  async fosterRegister(@Body() body: FosterRegisterDto) {
+    return this.authRegisterService.fosterRegister(body);
   }
 }

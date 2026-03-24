@@ -196,7 +196,9 @@ export class TransportController {
     );
   }
 
-  @ApiOperation({ summary: 'Driver requests transport cancellation with reason' })
+  @ApiOperation({
+    summary: 'Driver requests transport cancellation with reason',
+  })
   @ValidateDriver()
   @Patch(':id/cancel-request')
   async requestTransportCancellation(

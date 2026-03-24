@@ -55,9 +55,9 @@ export class PricingService {
             durationMinutes: params.durationMinutes,
           }
         : await this.googleMaps.getDistanceAndDuration(
-          { lat: params.pickUpLatitude, lng: params.pickUpLongitude },
-          { lat: params.dropOffLatitude, lng: params.dropOffLongitude },
-        );
+            { lat: params.pickUpLatitude, lng: params.pickUpLongitude },
+            { lat: params.dropOffLatitude, lng: params.dropOffLongitude },
+          );
     const { distanceMiles, durationMinutes } = routeMetrics;
 
     // Calculate Costs

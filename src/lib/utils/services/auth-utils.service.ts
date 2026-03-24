@@ -170,6 +170,7 @@ export class AuthUtilsService {
             transportCertificate: true,
           },
         },
+        fosters: true,
         veterinarians: {
           include: {
             vetDocuments: true,
@@ -189,8 +190,14 @@ export class AuthUtilsService {
       },
     });
 
-    const { drivers, veterinarians, shelterAdminOf, managerOf, ...mainUser } =
-      user;
+    const {
+      drivers,
+      fosters,
+      veterinarians,
+      shelterAdminOf,
+      managerOf,
+      ...mainUser
+    } = user;
     const sanitizedUser = await this.sanitizeUser(mainUser);
 
     let roleData: any = null;
@@ -262,6 +269,27 @@ export class AuthUtilsService {
             vetDocuments: veterinarians.vetDocuments,
           };
           isApproved = veterinarians.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
+      case 'FOSTER':
+        if (fosters) {
+          roleData = {
+            fosterId: fosters.id,
+            phone: fosters.phone,
+            city: fosters.city,
+            state: fosters.state,
+            address: fosters.address,
+            animalType: fosters.animalType,
+            sizePreference: fosters.sizePreference,
+            age: fosters.age,
+            preferredLocation: fosters.preferredLocation,
+            preferredMile: fosters.preferredMile,
+            status: fosters.status,
+          };
+          isApproved = fosters.status === 'APPROVED';
         } else {
           isApproved = false;
         }

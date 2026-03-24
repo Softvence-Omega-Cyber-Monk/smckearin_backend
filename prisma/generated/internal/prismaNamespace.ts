@@ -392,6 +392,7 @@ export const ModelName = {
   Driver: 'Driver',
   ExternalFeedConfig: 'ExternalFeedConfig',
   FileInstance: 'FileInstance',
+  Foster: 'Foster',
   HealthReport: 'HealthReport',
   ImportJob: 'ImportJob',
   ImportRow: 'ImportRow',
@@ -433,7 +434,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
+    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "foster" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1026,6 +1027,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.FileInstanceCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.FileInstanceCountAggregateOutputType> | number
+        }
+      }
+    }
+    Foster: {
+      payload: Prisma.$FosterPayload<ExtArgs>
+      fields: Prisma.FosterFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FosterFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FosterFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+        }
+        findFirst: {
+          args: Prisma.FosterFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FosterFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+        }
+        findMany: {
+          args: Prisma.FosterFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>[]
+        }
+        create: {
+          args: Prisma.FosterCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+        }
+        createMany: {
+          args: Prisma.FosterCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FosterCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>[]
+        }
+        delete: {
+          args: Prisma.FosterDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+        }
+        update: {
+          args: Prisma.FosterUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+        }
+        deleteMany: {
+          args: Prisma.FosterDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FosterUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FosterUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>[]
+        }
+        upsert: {
+          args: Prisma.FosterUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+        }
+        aggregate: {
+          args: Prisma.FosterAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFoster>
+        }
+        groupBy: {
+          args: Prisma.FosterGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FosterCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterCountAggregateOutputType> | number
         }
       }
     }
@@ -3155,6 +3230,26 @@ export const FileInstanceScalarFieldEnum = {
 export type FileInstanceScalarFieldEnum = (typeof FileInstanceScalarFieldEnum)[keyof typeof FileInstanceScalarFieldEnum]
 
 
+export const FosterScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  phone: 'phone',
+  city: 'city',
+  state: 'state',
+  address: 'address',
+  animalType: 'animalType',
+  sizePreference: 'sizePreference',
+  age: 'age',
+  preferredLocation: 'preferredLocation',
+  preferredMile: 'preferredMile',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FosterScalarFieldEnum = (typeof FosterScalarFieldEnum)[keyof typeof FosterScalarFieldEnum]
+
+
 export const HealthReportScalarFieldEnum = {
   id: 'id',
   veterinarianId: 'veterinarianId',
@@ -4310,6 +4405,7 @@ export type GlobalOmitConfig = {
   driver?: Prisma.DriverOmit
   externalFeedConfig?: Prisma.ExternalFeedConfigOmit
   fileInstance?: Prisma.FileInstanceOmit
+  foster?: Prisma.FosterOmit
   healthReport?: Prisma.HealthReportOmit
   importJob?: Prisma.ImportJobOmit
   importRow?: Prisma.ImportRowOmit

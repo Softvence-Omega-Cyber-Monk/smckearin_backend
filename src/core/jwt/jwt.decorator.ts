@@ -80,3 +80,7 @@ export function ValidateVeterinarian() {
 export function ValidateDriver() {
   return ValidateAuth(UserEnum.DRIVER, UserEnum.ADMIN, UserEnum.SUPER_ADMIN);
 }
+
+export function ValidateFoster() {
+  return ValidateAuth(UserEnum.FOSTER, UserEnum.ADMIN, UserEnum.SUPER_ADMIN);
+}

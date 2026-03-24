@@ -3,6 +3,7 @@ import {
   ValidateAdmin,
   ValidateAuth,
   ValidateDriver,
+  ValidateFoster,
   ValidateManager,
   ValidateVeterinarian,
 } from '@/core/jwt/jwt.decorator';
@@ -26,6 +27,7 @@ import {
 } from '@nestjs/swagger';
 import {
   UpdateDriverProfileDto,
+  UpdateFosterProfileDto,
   UpdateProfileDto,
   UpdateShelterProfileDto,
   UpdateVetProfileDto,
@@ -101,6 +103,20 @@ export class AuthProfileController {
     @UploadedFile() file?: Express.Multer.File,
   ) {
     return this.authUpdateProfileService.updateVetProfile(userId, dto, file);
+  }
+
+  @ApiOperation({ summary: 'Update Foster profile' })
+  @ApiBearerAuth()
+  @Patch('foster/profile')
+  @ValidateFoster()
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateFosterProfile(
+    @GetUser('sub') userId: string,
+    @Body() dto: UpdateFosterProfileDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    return this.authUpdateProfileService.updateFosterProfile(userId, dto, file);
   }
 
   @ApiOperation({ summary: 'Update Shelter profile' })

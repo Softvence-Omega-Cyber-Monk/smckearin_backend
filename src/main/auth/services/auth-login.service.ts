@@ -36,6 +36,7 @@ export class AuthLoginService {
       },
       include: {
         drivers: true,
+        fosters: true,
         shelterAdminOf: true,
         managerOf: true,
         profilePicture: true,
@@ -70,6 +71,14 @@ export class AuthLoginService {
         if (updatedUser.veterinarians) {
           // A vet is approved only if their overall status is APPROVED
           isApproved = updatedUser.veterinarians.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
+      case 'FOSTER':
+        if (updatedUser.fosters) {
+          isApproved = updatedUser.fosters.status === 'APPROVED';
         } else {
           isApproved = false;
         }
@@ -121,6 +130,8 @@ export class AuthLoginService {
         return 'VET';
       case 'DRIVER':
         return 'DRIVER';
+      case 'FOSTER':
+        return 'FOSTER';
       default:
         return 'UNKNOWN';
     }

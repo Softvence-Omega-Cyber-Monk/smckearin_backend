@@ -59,6 +59,7 @@ export const ModelName = {
   Driver: 'Driver',
   ExternalFeedConfig: 'ExternalFeedConfig',
   FileInstance: 'FileInstance',
+  Foster: 'Foster',
   HealthReport: 'HealthReport',
   ImportJob: 'ImportJob',
   ImportRow: 'ImportRow',
@@ -264,6 +265,26 @@ export const FileInstanceScalarFieldEnum = {
 } as const
 
 export type FileInstanceScalarFieldEnum = (typeof FileInstanceScalarFieldEnum)[keyof typeof FileInstanceScalarFieldEnum]
+
+
+export const FosterScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  phone: 'phone',
+  city: 'city',
+  state: 'state',
+  address: 'address',
+  animalType: 'animalType',
+  sizePreference: 'sizePreference',
+  age: 'age',
+  preferredLocation: 'preferredLocation',
+  preferredMile: 'preferredMile',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FosterScalarFieldEnum = (typeof FosterScalarFieldEnum)[keyof typeof FosterScalarFieldEnum]
 
 
 export const HealthReportScalarFieldEnum = {

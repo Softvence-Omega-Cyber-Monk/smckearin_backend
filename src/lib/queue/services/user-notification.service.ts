@@ -16,7 +16,7 @@ export class UserNotificationService extends BaseNotificationService {
   // ==================== USER REGISTRATION ====================
 
   async notifyUserRegistration(
-    type: 'SHELTER' | 'VET' | 'DRIVER',
+    type: 'SHELTER' | 'VET' | 'DRIVER' | 'FOSTER',
     entityId: string,
     user: { id: string; name: string; email: string },
   ) {
@@ -25,10 +25,12 @@ export class UserNotificationService extends BaseNotificationService {
         ? NotificationType.SHELTER_REGISTERED
         : type === 'VET'
           ? NotificationType.VET_REGISTERED
-          : NotificationType.DRIVER_REGISTERED;
+          : type === 'DRIVER'
+            ? NotificationType.DRIVER_REGISTERED
+            : NotificationType.FOSTER_REGISTERED;
 
-    const title = `New ${type === 'SHELTER' ? 'Shelter' : type === 'VET' ? 'Veterinarian' : 'Driver'} Registration`;
-    const message = `${user.name} (${user.email}) has registered as a ${type.toLowerCase()}${type === 'SHELTER' ? ' admin' : ''} and requires approval.`;
+    const title = `New ${type === 'SHELTER' ? 'Shelter' : type === 'VET' ? 'Veterinarian' : type === 'DRIVER' ? 'Driver' : 'Foster'} Registration`;
+    const message = `${user.name} (${user.email}) has registered as a ${type === 'SHELTER' ? 'shelter admin' : type.toLowerCase()} and requires approval.`;
 
     const admins = await this.getAdmins();
     await this.createAndEmitNotification(
@@ -43,7 +45,9 @@ export class UserNotificationService extends BaseNotificationService {
             ? 'Shelter'
             : type === 'VET'
               ? 'Veterinarian'
-              : 'Driver',
+              : type === 'DRIVER'
+                ? 'Driver'
+                : 'Foster',
         recordId: entityId,
         others: { userId: user.id, userName: user.name, userEmail: user.email },
       },
@@ -204,7 +208,7 @@ export class UserNotificationService extends BaseNotificationService {
   // ==================== APPROVAL STATUS ====================
 
   async notifyApprovalStatusChange(
-    entityType: 'SHELTER' | 'DRIVER' | 'VET',
+    entityType: 'SHELTER' | 'DRIVER' | 'VET' | 'FOSTER',
     entityId: string,
     approved: boolean,
   ) {
@@ -256,6 +260,17 @@ export class UserNotificationService extends BaseNotificationService {
         : NotificationType.DRIVER_REJECTED;
       title = `Driver Account ${approved ? 'Approved' : 'Rejected'}`;
       message = `Your driver account has been ${approved ? 'approved' : 'rejected'}.`;
+    } else if (entityType === 'FOSTER') {
+      entity = await this.prisma.client.foster.findUnique({
+        where: { id: entityId },
+        include: { user: true },
+      });
+      userId = entity.userId;
+      notifType = approved
+        ? NotificationType.FOSTER_APPROVED
+        : NotificationType.FOSTER_REJECTED;
+      title = `Foster Account ${approved ? 'Approved' : 'Rejected'}`;
+      message = `Your foster account has been ${approved ? 'approved' : 'rejected'}.`;
     } else {
       entity = await this.prisma.client.veterinarian.findUnique({
         where: { id: entityId },
@@ -276,7 +291,12 @@ export class UserNotificationService extends BaseNotificationService {
       [userId],
       {
         performedBy: 'ADMIN',
-        recordType: entityType === 'DRIVER' ? 'Driver' : 'Veterinarian',
+        recordType:
+          entityType === 'DRIVER'
+            ? 'Driver'
+            : entityType === 'FOSTER'
+              ? 'Foster'
+              : 'Veterinarian',
         recordId: entityId,
         others: { approved },
       },
@@ -287,7 +307,7 @@ export class UserNotificationService extends BaseNotificationService {
   // ==================== ACCOUNT DELETION ====================
 
   async notifyAccountDeletion(
-    type: 'SHELTER' | 'DRIVER' | 'VET',
+    type: 'SHELTER' | 'DRIVER' | 'VET' | 'FOSTER',
     userId: string,
     details: {
       name: string;
@@ -301,7 +321,9 @@ export class UserNotificationService extends BaseNotificationService {
         ? NotificationType.SHELTER_DELETED
         : type === 'DRIVER'
           ? NotificationType.DRIVER_DELETED
-          : NotificationType.VET_DELETED;
+          : type === 'VET'
+            ? NotificationType.VET_DELETED
+            : NotificationType.FOSTER_DELETED;
 
     const title = `${type.charAt(0) + type.slice(1).toLowerCase()} Account Deleted`;
     const message =
@@ -326,7 +348,9 @@ export class UserNotificationService extends BaseNotificationService {
             ? 'Shelter'
             : type === 'DRIVER'
               ? 'Driver'
-              : 'Veterinarian',
+              : type === 'VET'
+                ? 'Veterinarian'
+                : 'Foster',
         recordId: type === 'SHELTER' ? details.shelterId : userId,
         others: { name: details.name, email: details.email },
       },

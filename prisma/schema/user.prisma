@@ -46,6 +46,9 @@ model User {
   // Driver
   drivers Driver?
 
+  // Foster
+  fosters Foster?
+
   // Veterinarian
   veterinarians Veterinarian?
 
@@ -69,6 +72,9 @@ enum UserRole {
 
   // Driver
   DRIVER
+
+  // Foster
+  FOSTER
 }
 
 enum UserStatus {

@@ -105,6 +105,82 @@ export class UpdateVetProfileDto extends UpdateProfileDto {
   description?: string;
 }
 
+export class UpdateFosterProfileDto extends UpdateProfileDto {
+  @ApiPropertyOptional({
+    example: '1234567890',
+    description: 'Optional phone number',
+  })
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @ApiPropertyOptional({
+    example: 'Austin',
+    description: 'Optional city',
+  })
+  @IsOptional()
+  @IsString()
+  city?: string;
+
+  @ApiPropertyOptional({
+    example: 'Texas',
+    description: 'Optional state',
+  })
+  @IsOptional()
+  @IsString()
+  state?: string;
+
+  @ApiPropertyOptional({
+    example: '123 Main St, Austin, TX',
+    description: 'Optional address',
+  })
+  @IsOptional()
+  @IsString()
+  address?: string;
+
+  @ApiPropertyOptional({
+    example: 'DOG',
+    description: 'Optional animal type preference',
+  })
+  @IsOptional()
+  @IsString()
+  animalType?: string;
+
+  @ApiPropertyOptional({
+    example: 'MEDIUM',
+    description: 'Optional size preference',
+  })
+  @IsOptional()
+  @IsString()
+  sizePreference?: string;
+
+  @ApiPropertyOptional({
+    example: 'Adult',
+    description: 'Optional age preference',
+  })
+  @IsOptional()
+  @IsString()
+  age?: string;
+
+  @ApiPropertyOptional({
+    example: 'North Austin',
+    description: 'Optional preferred location',
+  })
+  @IsOptional()
+  @IsString()
+  preferredLocation?: string;
+
+  @ApiPropertyOptional({
+    example: 25,
+    description: 'Optional preferred mile radius',
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  preferredMile?: number;
+}
+
 export class UpdateShelterProfileDto {
   @ApiPropertyOptional({
     example: 'Happy Shelter',

@@ -203,16 +203,39 @@
       }
 
       /* JSON Inspector */
-      #jsonInspector { 
-        background: rgba(0,0,0,0.8); border-radius: 12px; padding: 16px; font-family: 'JetBrains Mono', monospace; 
-        font-size: 11px; color: #10B981; overflow: auto; max-height: 400px; white-space: pre-wrap; margin-top: 20px;
-        border: 1px solid rgba(16, 185, 129, 0.2); display: block;
+      #jsonInspector {
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 12px;
+        padding: 16px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #10b981;
+        overflow: auto;
+        max-height: 400px;
+        white-space: pre-wrap;
+        margin-top: 20px;
+        border: 1px solid rgba(16, 185, 129, 0.2);
+        display: block;
         min-height: 100px;
       }
 
       /* Status Indicators */
-      .map-status { position: absolute; top: 10px; left: 10px; z-index: 100; background: rgba(0,0,0,0.7); padding: 4px 10px; border-radius: 4px; font-size: 10px; color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1); }
-      .map-status.ready { color: var(--success); border-color: var(--success); }
+      .map-status {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 10px;
+        color: var(--text-dim);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .map-status.ready {
+        color: var(--success);
+        border-color: var(--success);
+      }
 
       /* Map Container */
       .map-section {
@@ -318,8 +341,12 @@
           Refresh Current Data
         </button>
       </div>
-      
-      <div class="card" id="jsonCard" style="display: none; border-color: var(--success);">
+
+      <div
+        class="card"
+        id="jsonCard"
+        style="display: none; border-color: var(--success)"
+      >
         <div class="card-title">Live JSON Feed</div>
         <div id="jsonInspector"></div>
       </div>
@@ -355,8 +382,6 @@
             <div class="milestone">Waiting for data updates...</div>
           </div>
         </div>
-      </div>
-
       </div>
     </aside>
 
@@ -431,7 +456,8 @@
             map,
           });
           mapReady = true;
-          document.getElementById('mapStatus').innerText = 'Map Ready (Visuals Active)';
+          document.getElementById('mapStatus').innerText =
+            'Map Ready (Visuals Active)';
           document.getElementById('mapStatus').classList.add('ready');
           document.getElementById('btnInitMap').parentElement.style.display =
             'none';
@@ -464,7 +490,7 @@
 
         socket.on('queue:transport_tracking_data', (res) => {
           console.log('📡 Real-time Update Received:', res);
-          
+
           // Show raw JSON
           document.getElementById('jsonCard').style.display = 'block';
           const inspector = document.getElementById('jsonInspector');
@@ -500,7 +526,7 @@
 
         socket.emit('queue:transport_get_live_data', { transportId }, (res) => {
           console.log('🔄 Data Refreshed manually:', res);
-          
+
           // Show raw JSON
           document.getElementById('jsonCard').style.display = 'block';
           const inspector = document.getElementById('jsonInspector');
@@ -596,7 +622,7 @@
             showError('Map logic error: ' + mapErr.message);
           }
         } else {
-            console.warn('⚠️ Map not ready yet. Skipping visual update.');
+          console.warn('⚠️ Map not ready yet. Skipping visual update.');
         }
       }
 

@@ -7,6 +7,10 @@ import { AuthUtilsService } from '@/lib/utils/services/auth-utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { FileInstance } from '@prisma';
 import { DriverRegisterDto } from '../dto/driver-register.dto';
+import {
+  FosterAccountType,
+  FosterRegisterDto,
+} from '../dto/foster-register.dto';
 import { RegisterDto, RegisterType } from '../dto/register.dto';
 import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 
@@ -228,6 +232,90 @@ export class AuthRegisterService {
     return successResponse(
       { driver: result.driver, user: sanitizedUser },
       'Driver registered successfully',
+    );
+  }
+
+  @HandleError('Failed to register foster')
+  async fosterRegister(dto: FosterRegisterDto) {
+    if (dto.accountType !== FosterAccountType.FOSTER) {
+      throw new AppError(HttpStatus.BAD_REQUEST, 'Invalid account type');
+    }
+
+    if (!dto.phone) {
+      throw new AppError(HttpStatus.BAD_REQUEST, 'Phone is required');
+    }
+
+    dto.phone = dto.phone.trim();
+    if (dto.phone.startsWith('+')) {
+      dto.phone = dto.phone.slice(1);
+    }
+
+    if (!/^\d{7,15}$/.test(dto.phone)) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Phone must be a valid number without + sign',
+      );
+    }
+
+    const existingUser = await this.prisma.client.user.findUnique({
+      where: { email: dto.email },
+    });
+    if (existingUser) {
+      throw new AppError(HttpStatus.CONFLICT, 'Email already in use');
+    }
+
+    const existingFoster = await this.prisma.client.foster.findUnique({
+      where: { phone: dto.phone },
+    });
+    if (existingFoster) {
+      throw new AppError(HttpStatus.CONFLICT, 'Phone number already in use');
+    }
+
+    const hashedPassword = await this.utils.hash(dto.password);
+
+    const result = await this.prisma.client.$transaction(async (tx) => {
+      const user = await tx.user.create({
+        data: {
+          email: dto.email,
+          password: hashedPassword,
+          name: dto.fullName,
+          role: 'FOSTER',
+          notificationSettings: {
+            create: {},
+          },
+        },
+      });
+
+      const foster = await tx.foster.create({
+        data: {
+          userId: user.id,
+          phone: dto.phone,
+          city: dto.city,
+          state: dto.state,
+          address: dto.address,
+          animalType: dto.animalType,
+          sizePreference: dto.sizePreference,
+          age: dto.age,
+          preferredLocation: dto.preferredLocation,
+          preferredMile: dto.preferredMile,
+          status: dto.status ?? 'PENDING',
+        },
+      });
+
+      return { user, foster };
+    });
+
+    await this.notificationService.notifyUserRegistration(
+      'FOSTER',
+      result.foster.id,
+      result.user,
+    );
+
+    const sanitizedUser = await this.utils.sanitizeUser(result.user);
+
+    return successResponse(
+      { foster: result.foster, user: sanitizedUser },
+      'Foster registered successfully',
     );
   }
 }

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AnimalModule } from './animal/animal.module';
 import { AuthModule } from './auth/auth.module';
 import { DriverModule } from './driver/driver.module';
+import { FosterModule } from './foster/foster.module';
 import { HealthReportsModule } from './health-reports/health-reports.module';
 import { ImportsModule } from './imports/imports.module';
 import { MedicalReadinessModule } from './medical-readiness/medical-readiness.module';
@@ -20,6 +21,7 @@ import { VetModule } from './vet/vet.module';
   imports: [
     AuthModule,
     DriverModule,
+    FosterModule,
     VetModule,
     ShelterModule,
     AnimalModule,

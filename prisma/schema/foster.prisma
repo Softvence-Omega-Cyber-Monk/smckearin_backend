@@ -1,0 +1,24 @@
+model Foster {
+  id String @id @default(uuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  phone   String @unique
+  city    String
+  state   String
+  address String
+
+  animalType        String
+  sizePreference    String
+  age               String
+  preferredLocation String
+  preferredMile     Float
+
+  status ApprovalStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("fosters")
+}

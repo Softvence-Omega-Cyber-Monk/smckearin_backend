@@ -9,6 +9,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { FileInstance, Prisma } from '@prisma';
 import {
   UpdateDriverProfileDto,
+  UpdateFosterProfileDto,
   UpdateProfileDto,
   UpdateShelterProfileDto,
   UpdateVetProfileDto,
@@ -32,10 +33,14 @@ export class AuthUpdateProfileService {
       where: { id: authUser.sub },
     });
 
-    if (user.role === 'VETERINARIAN' || user.role === 'DRIVER') {
+    if (
+      user.role === 'VETERINARIAN' ||
+      user.role === 'DRIVER' ||
+      user.role === 'FOSTER'
+    ) {
       throw new AppError(
         HttpStatus.BAD_REQUEST,
-        'Drivers and veterinarians cannot update this profile',
+        'Drivers, veterinarians, and fosters cannot update this profile',
       );
     }
 
@@ -214,6 +219,76 @@ export class AuthUpdateProfileService {
     return successResponse(
       await this.authUtils.sanitizeUser(updatedUser),
       'Veterinarian profile updated successfully',
+    );
+  }
+
+  @HandleError('Failed to update foster profile', 'Foster')
+  async updateFosterProfile(
+    userId: string,
+    dto: UpdateFosterProfileDto,
+    file?: Express.Multer.File,
+  ) {
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
+      include: { fosters: true },
+    });
+
+    if (!user.fosters) {
+      throw new AppError(HttpStatus.BAD_REQUEST, 'Foster profile not found');
+    }
+
+    if (dto.phone) {
+      const existingFoster = await this.prisma.client.foster.findFirst({
+        where: { phone: dto.phone },
+      });
+      if (existingFoster && existingFoster.id !== user.fosters.id) {
+        throw new AppError(HttpStatus.CONFLICT, 'Phone already in use');
+      }
+    }
+
+    let fileInstance: FileInstance | undefined;
+    if (file) {
+      fileInstance = await this.s3.uploadFile(file);
+      if (user.profilePictureId) {
+        await this.s3.deleteFile(user.profilePictureId);
+      }
+    }
+
+    const updatedUserData: Prisma.UserUpdateInput = {};
+    if (dto.name?.trim()) updatedUserData.name = dto.name.trim();
+    if (fileInstance) {
+      updatedUserData.profilePictureUrl = fileInstance.url;
+      updatedUserData.profilePicture = { connect: fileInstance };
+    }
+
+    const updatedFosterData: Prisma.FosterUpdateInput = {};
+    if (dto.phone) updatedFosterData.phone = dto.phone;
+    if (dto.city) updatedFosterData.city = dto.city;
+    if (dto.state) updatedFosterData.state = dto.state;
+    if (dto.address) updatedFosterData.address = dto.address;
+    if (dto.animalType) updatedFosterData.animalType = dto.animalType;
+    if (dto.sizePreference)
+      updatedFosterData.sizePreference = dto.sizePreference;
+    if (dto.age) updatedFosterData.age = dto.age;
+    if (dto.preferredLocation)
+      updatedFosterData.preferredLocation = dto.preferredLocation;
+    if (dto.preferredMile !== undefined)
+      updatedFosterData.preferredMile = dto.preferredMile;
+
+    const updatedUser = await this.prisma.client.user.update({
+      where: { id: user.id },
+      data: {
+        ...updatedUserData,
+        fosters: {
+          update: updatedFosterData,
+        },
+      },
+      include: { fosters: true, profilePicture: true },
+    });
+
+    return successResponse(
+      await this.authUtils.sanitizeUser(updatedUser),
+      'Foster profile updated successfully',
     );
   }
 

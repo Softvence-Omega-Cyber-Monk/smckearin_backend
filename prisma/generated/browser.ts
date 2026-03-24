@@ -58,6 +58,11 @@ export type ExternalFeedConfig = Prisma.ExternalFeedConfigModel
  */
 export type FileInstance = Prisma.FileInstanceModel
 /**
+ * Model Foster
+ * 
+ */
+export type Foster = Prisma.FosterModel
+/**
  * Model HealthReport
  * 
  */

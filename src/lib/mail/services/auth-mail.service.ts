@@ -6,6 +6,7 @@ import * as he from 'he';
 import * as nodemailer from 'nodemailer';
 import { MailService } from '../mail.service';
 import { invitationTemplate } from '../templates/invitation.template';
+import { accountApprovedTemplate } from '../templates/account-approved.template';
 import { otpTemplate } from '../templates/otp.template';
 import { passwordResetConfirmationTemplate } from '../templates/reset-password-confirm.template';
 import { resetPasswordLinkTemplate } from '../templates/reset-password-link.template';
@@ -152,6 +153,23 @@ export class AuthMailService {
         footer: 'Please do not share your credentials with anyone.',
       }),
       `You have been invited to join ${shelterName}.\nEmail: ${to}\nPassword: ${password}\nLogin here: ${loginLink}`,
+    );
+  }
+
+  async sendAccountApprovedEmail(
+    to: string,
+    name: string,
+    accountType: string,
+    options: EmailOptions = {},
+  ): Promise<nodemailer.SentMessageInfo> {
+    const subject = options.subject || `${accountType} Account Approved`;
+    const loginLink = `${this.frontendUrl}/login`;
+
+    return this.sendEmail(
+      to,
+      subject,
+      accountApprovedTemplate({ name, accountType, loginLink }),
+      `Hello ${name}, your ${accountType.toLowerCase()} account has been approved. Sign in here: ${loginLink}`,
     );
   }
 }
