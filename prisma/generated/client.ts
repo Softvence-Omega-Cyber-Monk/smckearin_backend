@@ -58,6 +58,11 @@ export type UserOtp = Prisma.UserOtpModel
  */
 export type RefreshToken = Prisma.RefreshTokenModel
 /**
+ * Model PasswordResetToken
+ * 
+ */
+export type PasswordResetToken = Prisma.PasswordResetTokenModel
+/**
  * Model DailySchedule
  * 
  */
@@ -78,15 +83,30 @@ export type ExternalFeedConfig = Prisma.ExternalFeedConfigModel
  */
 export type FileInstance = Prisma.FileInstanceModel
 /**
- * Model FosterAnimalInterest
+ * Model FosterProfile
  * 
  */
-export type FosterAnimalInterest = Prisma.FosterAnimalInterestModel
+export type FosterProfile = Prisma.FosterProfileModel
 /**
- * Model Foster
+ * Model FosterPreference
  * 
  */
-export type Foster = Prisma.FosterModel
+export type FosterPreference = Prisma.FosterPreferenceModel
+/**
+ * Model FosterDocument
+ * 
+ */
+export type FosterDocument = Prisma.FosterDocumentModel
+/**
+ * Model UserSettings
+ * 
+ */
+export type UserSettings = Prisma.UserSettingsModel
+/**
+ * Model OperatingSchedule
+ * 
+ */
+export type OperatingSchedule = Prisma.OperatingScheduleModel
 /**
  * Model HealthReport
  * 

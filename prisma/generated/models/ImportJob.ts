@@ -775,14 +775,6 @@ export type EnumImportSourceTypeFieldUpdateOperationsInput = {
   set?: $Enums.ImportSourceType
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type EnumImportJobStatusFieldUpdateOperationsInput = {
   set?: $Enums.ImportJobStatus
 }

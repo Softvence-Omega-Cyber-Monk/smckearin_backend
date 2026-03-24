@@ -29,13 +29,22 @@ export type UserMinAggregateOutputType = {
   name: string | null
   email: string | null
   password: string | null
+  phone: string | null
+  city: string | null
+  state: string | null
+  address: string | null
   role: $Enums.UserRole | null
   status: $Enums.UserStatus | null
   isVerified: boolean | null
+  isEmailVerified: boolean | null
+  emailVerificationToken: string | null
+  emailVerificationExpiry: Date | null
   lastLoginAt: Date | null
   lastActiveAt: Date | null
   profilePictureId: string | null
   profilePictureUrl: string | null
+  profilePhotoUrl: string | null
+  profilePhotoKey: string | null
   shelterAdminOfId: string | null
   managerOfId: string | null
   createdAt: Date | null
@@ -47,13 +56,22 @@ export type UserMaxAggregateOutputType = {
   name: string | null
   email: string | null
   password: string | null
+  phone: string | null
+  city: string | null
+  state: string | null
+  address: string | null
   role: $Enums.UserRole | null
   status: $Enums.UserStatus | null
   isVerified: boolean | null
+  isEmailVerified: boolean | null
+  emailVerificationToken: string | null
+  emailVerificationExpiry: Date | null
   lastLoginAt: Date | null
   lastActiveAt: Date | null
   profilePictureId: string | null
   profilePictureUrl: string | null
+  profilePhotoUrl: string | null
+  profilePhotoKey: string | null
   shelterAdminOfId: string | null
   managerOfId: string | null
   createdAt: Date | null
@@ -65,13 +83,22 @@ export type UserCountAggregateOutputType = {
   name: number
   email: number
   password: number
+  phone: number
+  city: number
+  state: number
+  address: number
   role: number
   status: number
   isVerified: number
+  isEmailVerified: number
+  emailVerificationToken: number
+  emailVerificationExpiry: number
   lastLoginAt: number
   lastActiveAt: number
   profilePictureId: number
   profilePictureUrl: number
+  profilePhotoUrl: number
+  profilePhotoKey: number
   shelterAdminOfId: number
   managerOfId: number
   createdAt: number
@@ -85,13 +112,22 @@ export type UserMinAggregateInputType = {
   name?: true
   email?: true
   password?: true
+  phone?: true
+  city?: true
+  state?: true
+  address?: true
   role?: true
   status?: true
   isVerified?: true
+  isEmailVerified?: true
+  emailVerificationToken?: true
+  emailVerificationExpiry?: true
   lastLoginAt?: true
   lastActiveAt?: true
   profilePictureId?: true
   profilePictureUrl?: true
+  profilePhotoUrl?: true
+  profilePhotoKey?: true
   shelterAdminOfId?: true
   managerOfId?: true
   createdAt?: true
@@ -103,13 +139,22 @@ export type UserMaxAggregateInputType = {
   name?: true
   email?: true
   password?: true
+  phone?: true
+  city?: true
+  state?: true
+  address?: true
   role?: true
   status?: true
   isVerified?: true
+  isEmailVerified?: true
+  emailVerificationToken?: true
+  emailVerificationExpiry?: true
   lastLoginAt?: true
   lastActiveAt?: true
   profilePictureId?: true
   profilePictureUrl?: true
+  profilePhotoUrl?: true
+  profilePhotoKey?: true
   shelterAdminOfId?: true
   managerOfId?: true
   createdAt?: true
@@ -121,13 +166,22 @@ export type UserCountAggregateInputType = {
   name?: true
   email?: true
   password?: true
+  phone?: true
+  city?: true
+  state?: true
+  address?: true
   role?: true
   status?: true
   isVerified?: true
+  isEmailVerified?: true
+  emailVerificationToken?: true
+  emailVerificationExpiry?: true
   lastLoginAt?: true
   lastActiveAt?: true
   profilePictureId?: true
   profilePictureUrl?: true
+  profilePhotoUrl?: true
+  profilePhotoKey?: true
   shelterAdminOfId?: true
   managerOfId?: true
   createdAt?: true
@@ -212,13 +266,22 @@ export type UserGroupByOutputType = {
   name: string
   email: string
   password: string
+  phone: string | null
+  city: string | null
+  state: string | null
+  address: string | null
   role: $Enums.UserRole
   status: $Enums.UserStatus
   isVerified: boolean
+  isEmailVerified: boolean
+  emailVerificationToken: string | null
+  emailVerificationExpiry: Date | null
   lastLoginAt: Date | null
   lastActiveAt: Date | null
   profilePictureId: string | null
   profilePictureUrl: string | null
+  profilePhotoUrl: string | null
+  profilePhotoKey: string | null
   shelterAdminOfId: string | null
   managerOfId: string | null
   createdAt: Date
@@ -251,13 +314,22 @@ export type UserWhereInput = {
   name?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  city?: Prisma.StringNullableFilter<"User"> | string | null
+  state?: Prisma.StringNullableFilter<"User"> | string | null
+  address?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   isVerified?: Prisma.BoolFilter<"User"> | boolean
+  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
+  emailVerificationToken?: Prisma.StringNullableFilter<"User"> | string | null
+  emailVerificationExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   lastActiveAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   profilePictureId?: Prisma.StringNullableFilter<"User"> | string | null
   profilePictureUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  profilePhotoUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  profilePhotoKey?: Prisma.StringNullableFilter<"User"> | string | null
   shelterAdminOfId?: Prisma.StringNullableFilter<"User"> | string | null
   managerOfId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -267,6 +339,12 @@ export type UserWhereInput = {
   notifications?: Prisma.UserNotificationListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
   otps?: Prisma.UserOtpListRelationFilter
+  passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
+  fosterProfile?: Prisma.XOR<Prisma.FosterProfileNullableScalarRelationFilter, Prisma.FosterProfileWhereInput> | null
+  fosterPreference?: Prisma.XOR<Prisma.FosterPreferenceNullableScalarRelationFilter, Prisma.FosterPreferenceWhereInput> | null
+  fosterDocuments?: Prisma.FosterDocumentListRelationFilter
+  settings?: Prisma.XOR<Prisma.UserSettingsNullableScalarRelationFilter, Prisma.UserSettingsWhereInput> | null
+  schedule?: Prisma.OperatingScheduleListRelationFilter
   conversationsInitiated?: Prisma.PrivateConversationListRelationFilter
   conversationsReceived?: Prisma.PrivateConversationListRelationFilter
   messagesSent?: Prisma.PrivateMessageListRelationFilter
@@ -276,7 +354,6 @@ export type UserWhereInput = {
   shelterAdminOf?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
   managerOf?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
   drivers?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
-  fosters?: Prisma.XOR<Prisma.FosterNullableScalarRelationFilter, Prisma.FosterWhereInput> | null
   veterinarians?: Prisma.XOR<Prisma.VeterinarianNullableScalarRelationFilter, Prisma.VeterinarianWhereInput> | null
 }
 
@@ -285,13 +362,22 @@ export type UserOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  state?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
+  emailVerificationToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerificationExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrderInput | Prisma.SortOrder
   profilePictureId?: Prisma.SortOrderInput | Prisma.SortOrder
   profilePictureUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  profilePhotoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  profilePhotoKey?: Prisma.SortOrderInput | Prisma.SortOrder
   shelterAdminOfId?: Prisma.SortOrderInput | Prisma.SortOrder
   managerOfId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -301,6 +387,12 @@ export type UserOrderByWithRelationInput = {
   notifications?: Prisma.UserNotificationOrderByRelationAggregateInput
   refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput
   otps?: Prisma.UserOtpOrderByRelationAggregateInput
+  passwordResetTokens?: Prisma.PasswordResetTokenOrderByRelationAggregateInput
+  fosterProfile?: Prisma.FosterProfileOrderByWithRelationInput
+  fosterPreference?: Prisma.FosterPreferenceOrderByWithRelationInput
+  fosterDocuments?: Prisma.FosterDocumentOrderByRelationAggregateInput
+  settings?: Prisma.UserSettingsOrderByWithRelationInput
+  schedule?: Prisma.OperatingScheduleOrderByRelationAggregateInput
   conversationsInitiated?: Prisma.PrivateConversationOrderByRelationAggregateInput
   conversationsReceived?: Prisma.PrivateConversationOrderByRelationAggregateInput
   messagesSent?: Prisma.PrivateMessageOrderByRelationAggregateInput
@@ -310,25 +402,33 @@ export type UserOrderByWithRelationInput = {
   shelterAdminOf?: Prisma.ShelterOrderByWithRelationInput
   managerOf?: Prisma.ShelterOrderByWithRelationInput
   drivers?: Prisma.DriverOrderByWithRelationInput
-  fosters?: Prisma.FosterOrderByWithRelationInput
   veterinarians?: Prisma.VeterinarianOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
+  emailVerificationToken?: string
   profilePictureId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  city?: Prisma.StringNullableFilter<"User"> | string | null
+  state?: Prisma.StringNullableFilter<"User"> | string | null
+  address?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   isVerified?: Prisma.BoolFilter<"User"> | boolean
+  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
+  emailVerificationExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   lastActiveAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   profilePictureUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  profilePhotoUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  profilePhotoKey?: Prisma.StringNullableFilter<"User"> | string | null
   shelterAdminOfId?: Prisma.StringNullableFilter<"User"> | string | null
   managerOfId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -338,6 +438,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   notifications?: Prisma.UserNotificationListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
   otps?: Prisma.UserOtpListRelationFilter
+  passwordResetTokens?: Prisma.PasswordResetTokenListRelationFilter
+  fosterProfile?: Prisma.XOR<Prisma.FosterProfileNullableScalarRelationFilter, Prisma.FosterProfileWhereInput> | null
+  fosterPreference?: Prisma.XOR<Prisma.FosterPreferenceNullableScalarRelationFilter, Prisma.FosterPreferenceWhereInput> | null
+  fosterDocuments?: Prisma.FosterDocumentListRelationFilter
+  settings?: Prisma.XOR<Prisma.UserSettingsNullableScalarRelationFilter, Prisma.UserSettingsWhereInput> | null
+  schedule?: Prisma.OperatingScheduleListRelationFilter
   conversationsInitiated?: Prisma.PrivateConversationListRelationFilter
   conversationsReceived?: Prisma.PrivateConversationListRelationFilter
   messagesSent?: Prisma.PrivateMessageListRelationFilter
@@ -347,22 +453,30 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   shelterAdminOf?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
   managerOf?: Prisma.XOR<Prisma.ShelterNullableScalarRelationFilter, Prisma.ShelterWhereInput> | null
   drivers?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
-  fosters?: Prisma.XOR<Prisma.FosterNullableScalarRelationFilter, Prisma.FosterWhereInput> | null
   veterinarians?: Prisma.XOR<Prisma.VeterinarianNullableScalarRelationFilter, Prisma.VeterinarianWhereInput> | null
-}, "id" | "email" | "profilePictureId">
+}, "id" | "email" | "emailVerificationToken" | "profilePictureId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  state?: Prisma.SortOrderInput | Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
+  emailVerificationToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailVerificationExpiry?: Prisma.SortOrderInput | Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrderInput | Prisma.SortOrder
   profilePictureId?: Prisma.SortOrderInput | Prisma.SortOrder
   profilePictureUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  profilePhotoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  profilePhotoKey?: Prisma.SortOrderInput | Prisma.SortOrder
   shelterAdminOfId?: Prisma.SortOrderInput | Prisma.SortOrder
   managerOfId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -380,13 +494,22 @@ export type UserScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
+  phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  city?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  state?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  address?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
   isVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  isEmailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  emailVerificationToken?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  emailVerificationExpiry?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   lastActiveAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   profilePictureId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   profilePictureUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  profilePhotoUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  profilePhotoKey?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   shelterAdminOfId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   managerOfId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -398,12 +521,21 @@ export type UserCreateInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -411,6 +543,12 @@ export type UserCreateInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -420,7 +558,6 @@ export type UserCreateInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -429,13 +566,22 @@ export type UserUncheckedCreateInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -444,6 +590,12 @@ export type UserUncheckedCreateInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -451,7 +603,6 @@ export type UserUncheckedCreateInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -460,12 +611,21 @@ export type UserUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -473,6 +633,12 @@ export type UserUpdateInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -482,7 +648,6 @@ export type UserUpdateInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -491,13 +656,22 @@ export type UserUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -506,6 +680,12 @@ export type UserUncheckedUpdateInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -513,7 +693,6 @@ export type UserUncheckedUpdateInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -522,13 +701,22 @@ export type UserCreateManyInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -540,12 +728,21 @@ export type UserUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -555,13 +752,22 @@ export type UserUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -593,13 +799,22 @@ export type UserCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  state?: Prisma.SortOrder
+  address?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
+  emailVerificationToken?: Prisma.SortOrder
+  emailVerificationExpiry?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrder
   profilePictureId?: Prisma.SortOrder
   profilePictureUrl?: Prisma.SortOrder
+  profilePhotoUrl?: Prisma.SortOrder
+  profilePhotoKey?: Prisma.SortOrder
   shelterAdminOfId?: Prisma.SortOrder
   managerOfId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -611,13 +826,22 @@ export type UserMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  state?: Prisma.SortOrder
+  address?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
+  emailVerificationToken?: Prisma.SortOrder
+  emailVerificationExpiry?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrder
   profilePictureId?: Prisma.SortOrder
   profilePictureUrl?: Prisma.SortOrder
+  profilePhotoUrl?: Prisma.SortOrder
+  profilePhotoKey?: Prisma.SortOrder
   shelterAdminOfId?: Prisma.SortOrder
   managerOfId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -629,13 +853,22 @@ export type UserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  state?: Prisma.SortOrder
+  address?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   isVerified?: Prisma.SortOrder
+  isEmailVerified?: Prisma.SortOrder
+  emailVerificationToken?: Prisma.SortOrder
+  emailVerificationExpiry?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrder
   profilePictureId?: Prisma.SortOrder
   profilePictureUrl?: Prisma.SortOrder
+  profilePhotoUrl?: Prisma.SortOrder
+  profilePhotoKey?: Prisma.SortOrder
   shelterAdminOfId?: Prisma.SortOrder
   managerOfId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -668,6 +901,20 @@ export type UserUpdateOneRequiredWithoutRefreshTokensNestedInput = {
   upsert?: Prisma.UserUpsertWithoutRefreshTokensInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRefreshTokensInput, Prisma.UserUpdateWithoutRefreshTokensInput>, Prisma.UserUncheckedUpdateWithoutRefreshTokensInput>
+}
+
+export type UserCreateNestedOneWithoutPasswordResetTokensInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPasswordResetTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPasswordResetTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPasswordResetTokensInput
+  upsert?: Prisma.UserUpsertWithoutPasswordResetTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPasswordResetTokensInput, Prisma.UserUpdateWithoutPasswordResetTokensInput>, Prisma.UserUncheckedUpdateWithoutPasswordResetTokensInput>
 }
 
 export type UserCreateNestedOneWithoutDriversInput = {
@@ -716,18 +963,74 @@ export type UserUncheckedUpdateOneWithoutProfilePictureNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProfilePictureInput, Prisma.UserUpdateWithoutProfilePictureInput>, Prisma.UserUncheckedUpdateWithoutProfilePictureInput>
 }
 
-export type UserCreateNestedOneWithoutFostersInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutFostersInput, Prisma.UserUncheckedCreateWithoutFostersInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFostersInput
+export type UserCreateNestedOneWithoutFosterProfileInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFosterProfileInput, Prisma.UserUncheckedCreateWithoutFosterProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFosterProfileInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutFostersNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutFostersInput, Prisma.UserUncheckedCreateWithoutFostersInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFostersInput
-  upsert?: Prisma.UserUpsertWithoutFostersInput
+export type UserUpdateOneRequiredWithoutFosterProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFosterProfileInput, Prisma.UserUncheckedCreateWithoutFosterProfileInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFosterProfileInput
+  upsert?: Prisma.UserUpsertWithoutFosterProfileInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFostersInput, Prisma.UserUpdateWithoutFostersInput>, Prisma.UserUncheckedUpdateWithoutFostersInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFosterProfileInput, Prisma.UserUpdateWithoutFosterProfileInput>, Prisma.UserUncheckedUpdateWithoutFosterProfileInput>
+}
+
+export type UserCreateNestedOneWithoutFosterPreferenceInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFosterPreferenceInput, Prisma.UserUncheckedCreateWithoutFosterPreferenceInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFosterPreferenceInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFosterPreferenceNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFosterPreferenceInput, Prisma.UserUncheckedCreateWithoutFosterPreferenceInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFosterPreferenceInput
+  upsert?: Prisma.UserUpsertWithoutFosterPreferenceInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFosterPreferenceInput, Prisma.UserUpdateWithoutFosterPreferenceInput>, Prisma.UserUncheckedUpdateWithoutFosterPreferenceInput>
+}
+
+export type UserCreateNestedOneWithoutFosterDocumentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFosterDocumentsInput, Prisma.UserUncheckedCreateWithoutFosterDocumentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFosterDocumentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFosterDocumentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFosterDocumentsInput, Prisma.UserUncheckedCreateWithoutFosterDocumentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFosterDocumentsInput
+  upsert?: Prisma.UserUpsertWithoutFosterDocumentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFosterDocumentsInput, Prisma.UserUpdateWithoutFosterDocumentsInput>, Prisma.UserUncheckedUpdateWithoutFosterDocumentsInput>
+}
+
+export type UserCreateNestedOneWithoutSettingsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSettingsInput, Prisma.UserUncheckedCreateWithoutSettingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSettingsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSettingsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSettingsInput, Prisma.UserUncheckedCreateWithoutSettingsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSettingsInput
+  upsert?: Prisma.UserUpsertWithoutSettingsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSettingsInput, Prisma.UserUpdateWithoutSettingsInput>, Prisma.UserUncheckedUpdateWithoutSettingsInput>
+}
+
+export type UserCreateNestedOneWithoutScheduleInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleInput, Prisma.UserUncheckedCreateWithoutScheduleInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutScheduleNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutScheduleInput, Prisma.UserUncheckedCreateWithoutScheduleInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutScheduleInput
+  upsert?: Prisma.UserUpsertWithoutScheduleInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutScheduleInput, Prisma.UserUpdateWithoutScheduleInput>, Prisma.UserUncheckedUpdateWithoutScheduleInput>
 }
 
 export type UserCreateNestedOneWithoutRequestedImportJobsInput = {
@@ -959,18 +1262,33 @@ export type UserCreateWithoutOtpsInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -980,7 +1298,6 @@ export type UserCreateWithoutOtpsInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -989,13 +1306,22 @@ export type UserUncheckedCreateWithoutOtpsInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -1003,6 +1329,12 @@ export type UserUncheckedCreateWithoutOtpsInput = {
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1010,7 +1342,6 @@ export type UserUncheckedCreateWithoutOtpsInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1035,18 +1366,33 @@ export type UserUpdateWithoutOtpsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -1056,7 +1402,6 @@ export type UserUpdateWithoutOtpsInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1065,13 +1410,22 @@ export type UserUncheckedUpdateWithoutOtpsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1079,6 +1433,12 @@ export type UserUncheckedUpdateWithoutOtpsInput = {
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -1086,7 +1446,6 @@ export type UserUncheckedUpdateWithoutOtpsInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -1095,18 +1454,33 @@ export type UserCreateWithoutRefreshTokensInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -1116,7 +1490,6 @@ export type UserCreateWithoutRefreshTokensInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1125,13 +1498,22 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -1139,6 +1521,12 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1146,7 +1534,6 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1171,18 +1558,33 @@ export type UserUpdateWithoutRefreshTokensInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -1192,7 +1594,6 @@ export type UserUpdateWithoutRefreshTokensInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1201,13 +1602,22 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1215,6 +1625,12 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -1222,21 +1638,29 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
-export type UserCreateWithoutDriversInput = {
+export type UserCreateWithoutPasswordResetTokensInput = {
   id?: string
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -1244,6 +1668,11 @@ export type UserCreateWithoutDriversInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -1252,22 +1681,31 @@ export type UserCreateWithoutDriversInput = {
   operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
+  drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutDriversInput = {
+export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   id?: string
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -1276,13 +1714,210 @@ export type UserUncheckedCreateWithoutDriversInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
+  drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPasswordResetTokensInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+}
+
+export type UserUpsertWithoutPasswordResetTokensInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPasswordResetTokensInput, Prisma.UserUncheckedUpdateWithoutPasswordResetTokensInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPasswordResetTokensInput, Prisma.UserUncheckedCreateWithoutPasswordResetTokensInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPasswordResetTokensInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPasswordResetTokensInput, Prisma.UserUncheckedUpdateWithoutPasswordResetTokensInput>
+}
+
+export type UserUpdateWithoutPasswordResetTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
+  notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
+  shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
+  managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
+  drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
+  drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutDriversInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
+  notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
+  shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
+  managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
+  veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutDriversInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureId?: string | null
+  profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
+  shelterAdminOfId?: string | null
+  managerOfId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1307,12 +1942,21 @@ export type UserUpdateWithoutDriversInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -1320,6 +1964,12 @@ export type UserUpdateWithoutDriversInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -1328,7 +1978,6 @@ export type UserUpdateWithoutDriversInput = {
   operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1337,13 +1986,22 @@ export type UserUncheckedUpdateWithoutDriversInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1352,13 +2010,18 @@ export type UserUncheckedUpdateWithoutDriversInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -1367,18 +2030,33 @@ export type UserCreateWithoutProfilePictureInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -1388,7 +2066,6 @@ export type UserCreateWithoutProfilePictureInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1397,12 +2074,21 @@ export type UserUncheckedCreateWithoutProfilePictureInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -1411,6 +2097,12 @@ export type UserUncheckedCreateWithoutProfilePictureInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1418,7 +2110,6 @@ export type UserUncheckedCreateWithoutProfilePictureInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1443,18 +2134,33 @@ export type UserUpdateWithoutProfilePictureInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -1464,7 +2170,6 @@ export type UserUpdateWithoutProfilePictureInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1473,12 +2178,21 @@ export type UserUncheckedUpdateWithoutProfilePictureInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1487,6 +2201,12 @@ export type UserUncheckedUpdateWithoutProfilePictureInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -1494,21 +2214,29 @@ export type UserUncheckedUpdateWithoutProfilePictureInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
-export type UserCreateWithoutFostersInput = {
+export type UserCreateWithoutFosterProfileInput = {
   id?: string
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -1516,6 +2244,11 @@ export type UserCreateWithoutFostersInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -1528,18 +2261,27 @@ export type UserCreateWithoutFostersInput = {
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutFostersInput = {
+export type UserUncheckedCreateWithoutFosterProfileInput = {
   id?: string
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -1548,6 +2290,11 @@ export type UserUncheckedCreateWithoutFostersInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1558,33 +2305,42 @@ export type UserUncheckedCreateWithoutFostersInput = {
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutFostersInput = {
+export type UserCreateOrConnectWithoutFosterProfileInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutFostersInput, Prisma.UserUncheckedCreateWithoutFostersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFosterProfileInput, Prisma.UserUncheckedCreateWithoutFosterProfileInput>
 }
 
-export type UserUpsertWithoutFostersInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutFostersInput, Prisma.UserUncheckedUpdateWithoutFostersInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutFostersInput, Prisma.UserUncheckedCreateWithoutFostersInput>
+export type UserUpsertWithoutFosterProfileInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFosterProfileInput, Prisma.UserUncheckedUpdateWithoutFosterProfileInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFosterProfileInput, Prisma.UserUncheckedCreateWithoutFosterProfileInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutFostersInput = {
+export type UserUpdateToOneWithWhereWithoutFosterProfileInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutFostersInput, Prisma.UserUncheckedUpdateWithoutFostersInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFosterProfileInput, Prisma.UserUncheckedUpdateWithoutFosterProfileInput>
 }
 
-export type UserUpdateWithoutFostersInput = {
+export type UserUpdateWithoutFosterProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -1592,6 +2348,11 @@ export type UserUpdateWithoutFostersInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -1604,18 +2365,27 @@ export type UserUpdateWithoutFostersInput = {
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutFostersInput = {
+export type UserUncheckedUpdateWithoutFosterProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1624,6 +2394,779 @@ export type UserUncheckedUpdateWithoutFostersInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
+  drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutFosterPreferenceInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
+  notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
+  shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
+  managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
+  drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutFosterPreferenceInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureId?: string | null
+  profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
+  shelterAdminOfId?: string | null
+  managerOfId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
+  drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutFosterPreferenceInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFosterPreferenceInput, Prisma.UserUncheckedCreateWithoutFosterPreferenceInput>
+}
+
+export type UserUpsertWithoutFosterPreferenceInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFosterPreferenceInput, Prisma.UserUncheckedUpdateWithoutFosterPreferenceInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFosterPreferenceInput, Prisma.UserUncheckedCreateWithoutFosterPreferenceInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFosterPreferenceInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFosterPreferenceInput, Prisma.UserUncheckedUpdateWithoutFosterPreferenceInput>
+}
+
+export type UserUpdateWithoutFosterPreferenceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
+  notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
+  shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
+  managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
+  drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFosterPreferenceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
+  drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutFosterDocumentsInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
+  notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
+  shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
+  managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
+  drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutFosterDocumentsInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureId?: string | null
+  profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
+  shelterAdminOfId?: string | null
+  managerOfId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
+  drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutFosterDocumentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFosterDocumentsInput, Prisma.UserUncheckedCreateWithoutFosterDocumentsInput>
+}
+
+export type UserUpsertWithoutFosterDocumentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFosterDocumentsInput, Prisma.UserUncheckedUpdateWithoutFosterDocumentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFosterDocumentsInput, Prisma.UserUncheckedCreateWithoutFosterDocumentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFosterDocumentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFosterDocumentsInput, Prisma.UserUncheckedUpdateWithoutFosterDocumentsInput>
+}
+
+export type UserUpdateWithoutFosterDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
+  notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
+  shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
+  managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
+  drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFosterDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
+  drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSettingsInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
+  notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
+  shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
+  managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
+  drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSettingsInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureId?: string | null
+  profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
+  shelterAdminOfId?: string | null
+  managerOfId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
+  drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSettingsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSettingsInput, Prisma.UserUncheckedCreateWithoutSettingsInput>
+}
+
+export type UserUpsertWithoutSettingsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSettingsInput, Prisma.UserUncheckedUpdateWithoutSettingsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSettingsInput, Prisma.UserUncheckedCreateWithoutSettingsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSettingsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSettingsInput, Prisma.UserUncheckedUpdateWithoutSettingsInput>
+}
+
+export type UserUpdateWithoutSettingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
+  notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
+  shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
+  managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
+  drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSettingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
+  drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutScheduleInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
+  notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
+  shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
+  managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
+  drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutScheduleInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureId?: string | null
+  profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
+  shelterAdminOfId?: string | null
+  managerOfId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
+  drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
+  veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutScheduleInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleInput, Prisma.UserUncheckedCreateWithoutScheduleInput>
+}
+
+export type UserUpsertWithoutScheduleInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutScheduleInput, Prisma.UserUncheckedUpdateWithoutScheduleInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutScheduleInput, Prisma.UserUncheckedCreateWithoutScheduleInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutScheduleInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutScheduleInput, Prisma.UserUncheckedUpdateWithoutScheduleInput>
+}
+
+export type UserUpdateWithoutScheduleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
+  notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
+  shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
+  managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
+  drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
+  veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutScheduleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -1639,12 +3182,21 @@ export type UserCreateWithoutRequestedImportJobsInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -1652,6 +3204,12 @@ export type UserCreateWithoutRequestedImportJobsInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -1660,7 +3218,6 @@ export type UserCreateWithoutRequestedImportJobsInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1669,13 +3226,22 @@ export type UserUncheckedCreateWithoutRequestedImportJobsInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -1684,13 +3250,18 @@ export type UserUncheckedCreateWithoutRequestedImportJobsInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1715,12 +3286,21 @@ export type UserUpdateWithoutRequestedImportJobsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -1728,6 +3308,12 @@ export type UserUpdateWithoutRequestedImportJobsInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -1736,7 +3322,6 @@ export type UserUpdateWithoutRequestedImportJobsInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1745,13 +3330,22 @@ export type UserUncheckedUpdateWithoutRequestedImportJobsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1760,13 +3354,18 @@ export type UserUncheckedUpdateWithoutRequestedImportJobsInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -1775,18 +3374,33 @@ export type UserCreateWithoutNotificationsInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -1796,7 +3410,6 @@ export type UserCreateWithoutNotificationsInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1805,13 +3418,22 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -1819,6 +3441,12 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1826,7 +3454,6 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1851,18 +3478,33 @@ export type UserUpdateWithoutNotificationsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -1872,7 +3514,6 @@ export type UserUpdateWithoutNotificationsInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1881,13 +3522,22 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1895,6 +3545,12 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -1902,7 +3558,6 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -1911,18 +3566,33 @@ export type UserCreateWithoutNotificationSettingsInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -1932,7 +3602,6 @@ export type UserCreateWithoutNotificationSettingsInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1941,13 +3610,22 @@ export type UserUncheckedCreateWithoutNotificationSettingsInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -1955,6 +3633,12 @@ export type UserUncheckedCreateWithoutNotificationSettingsInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -1962,7 +3646,6 @@ export type UserUncheckedCreateWithoutNotificationSettingsInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1987,18 +3670,33 @@ export type UserUpdateWithoutNotificationSettingsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -2008,7 +3706,6 @@ export type UserUpdateWithoutNotificationSettingsInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2017,13 +3714,22 @@ export type UserUncheckedUpdateWithoutNotificationSettingsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2031,6 +3737,12 @@ export type UserUncheckedUpdateWithoutNotificationSettingsInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -2038,7 +3750,6 @@ export type UserUncheckedUpdateWithoutNotificationSettingsInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2047,12 +3758,21 @@ export type UserCreateWithoutOperationEventsInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -2060,6 +3780,12 @@ export type UserCreateWithoutOperationEventsInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -2068,7 +3794,6 @@ export type UserCreateWithoutOperationEventsInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2077,13 +3802,22 @@ export type UserUncheckedCreateWithoutOperationEventsInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -2092,13 +3826,18 @@ export type UserUncheckedCreateWithoutOperationEventsInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2123,12 +3862,21 @@ export type UserUpdateWithoutOperationEventsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -2136,6 +3884,12 @@ export type UserUpdateWithoutOperationEventsInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -2144,7 +3898,6 @@ export type UserUpdateWithoutOperationEventsInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2153,13 +3906,22 @@ export type UserUncheckedUpdateWithoutOperationEventsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2168,13 +3930,18 @@ export type UserUncheckedUpdateWithoutOperationEventsInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2183,12 +3950,21 @@ export type UserCreateWithoutConversationsInitiatedInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -2196,6 +3972,12 @@ export type UserCreateWithoutConversationsInitiatedInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
@@ -2204,7 +3986,6 @@ export type UserCreateWithoutConversationsInitiatedInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2213,13 +3994,22 @@ export type UserUncheckedCreateWithoutConversationsInitiatedInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -2228,13 +4018,18 @@ export type UserUncheckedCreateWithoutConversationsInitiatedInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2248,12 +4043,21 @@ export type UserCreateWithoutConversationsReceivedInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -2261,6 +4065,12 @@ export type UserCreateWithoutConversationsReceivedInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
@@ -2269,7 +4079,6 @@ export type UserCreateWithoutConversationsReceivedInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2278,13 +4087,22 @@ export type UserUncheckedCreateWithoutConversationsReceivedInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -2293,13 +4111,18 @@ export type UserUncheckedCreateWithoutConversationsReceivedInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2324,12 +4147,21 @@ export type UserUpdateWithoutConversationsInitiatedInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -2337,6 +4169,12 @@ export type UserUpdateWithoutConversationsInitiatedInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
@@ -2345,7 +4183,6 @@ export type UserUpdateWithoutConversationsInitiatedInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2354,13 +4191,22 @@ export type UserUncheckedUpdateWithoutConversationsInitiatedInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2369,13 +4215,18 @@ export type UserUncheckedUpdateWithoutConversationsInitiatedInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2395,12 +4246,21 @@ export type UserUpdateWithoutConversationsReceivedInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -2408,6 +4268,12 @@ export type UserUpdateWithoutConversationsReceivedInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
@@ -2416,7 +4282,6 @@ export type UserUpdateWithoutConversationsReceivedInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2425,13 +4290,22 @@ export type UserUncheckedUpdateWithoutConversationsReceivedInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2440,13 +4314,18 @@ export type UserUncheckedUpdateWithoutConversationsReceivedInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2455,12 +4334,21 @@ export type UserCreateWithoutMessagesSentInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -2468,6 +4356,12 @@ export type UserCreateWithoutMessagesSentInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
@@ -2476,7 +4370,6 @@ export type UserCreateWithoutMessagesSentInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2485,13 +4378,22 @@ export type UserUncheckedCreateWithoutMessagesSentInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -2500,13 +4402,18 @@ export type UserUncheckedCreateWithoutMessagesSentInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2531,12 +4438,21 @@ export type UserUpdateWithoutMessagesSentInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -2544,6 +4460,12 @@ export type UserUpdateWithoutMessagesSentInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
@@ -2552,7 +4474,6 @@ export type UserUpdateWithoutMessagesSentInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2561,13 +4482,22 @@ export type UserUncheckedUpdateWithoutMessagesSentInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2576,13 +4506,18 @@ export type UserUncheckedUpdateWithoutMessagesSentInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2591,12 +4526,21 @@ export type UserCreateWithoutMessageStatusesInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -2604,6 +4548,12 @@ export type UserCreateWithoutMessageStatusesInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -2612,7 +4562,6 @@ export type UserCreateWithoutMessageStatusesInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2621,13 +4570,22 @@ export type UserUncheckedCreateWithoutMessageStatusesInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -2636,13 +4594,18 @@ export type UserUncheckedCreateWithoutMessageStatusesInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2667,12 +4630,21 @@ export type UserUpdateWithoutMessageStatusesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -2680,6 +4652,12 @@ export type UserUpdateWithoutMessageStatusesInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -2688,7 +4666,6 @@ export type UserUpdateWithoutMessageStatusesInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2697,13 +4674,22 @@ export type UserUncheckedUpdateWithoutMessageStatusesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2712,13 +4698,18 @@ export type UserUncheckedUpdateWithoutMessageStatusesInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2727,12 +4718,21 @@ export type UserCreateWithoutShelterAdminOfInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -2740,6 +4740,12 @@ export type UserCreateWithoutShelterAdminOfInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -2748,7 +4754,6 @@ export type UserCreateWithoutShelterAdminOfInput = {
   operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2757,13 +4762,22 @@ export type UserUncheckedCreateWithoutShelterAdminOfInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2771,6 +4785,12 @@ export type UserUncheckedCreateWithoutShelterAdminOfInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -2778,7 +4798,6 @@ export type UserUncheckedCreateWithoutShelterAdminOfInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2797,12 +4816,21 @@ export type UserCreateWithoutManagerOfInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -2810,6 +4838,12 @@ export type UserCreateWithoutManagerOfInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -2818,7 +4852,6 @@ export type UserCreateWithoutManagerOfInput = {
   operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2827,13 +4860,22 @@ export type UserUncheckedCreateWithoutManagerOfInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2841,6 +4883,12 @@ export type UserUncheckedCreateWithoutManagerOfInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -2848,7 +4896,6 @@ export type UserUncheckedCreateWithoutManagerOfInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2886,13 +4933,22 @@ export type UserScalarWhereInput = {
   name?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  city?: Prisma.StringNullableFilter<"User"> | string | null
+  state?: Prisma.StringNullableFilter<"User"> | string | null
+  address?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   isVerified?: Prisma.BoolFilter<"User"> | boolean
+  isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
+  emailVerificationToken?: Prisma.StringNullableFilter<"User"> | string | null
+  emailVerificationExpiry?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   lastActiveAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   profilePictureId?: Prisma.StringNullableFilter<"User"> | string | null
   profilePictureUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  profilePhotoUrl?: Prisma.StringNullableFilter<"User"> | string | null
+  profilePhotoKey?: Prisma.StringNullableFilter<"User"> | string | null
   shelterAdminOfId?: Prisma.StringNullableFilter<"User"> | string | null
   managerOfId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -2920,12 +4976,21 @@ export type UserCreateWithoutVeterinariansInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
@@ -2933,6 +4998,12 @@ export type UserCreateWithoutVeterinariansInput = {
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
@@ -2942,7 +5013,6 @@ export type UserCreateWithoutVeterinariansInput = {
   shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutVeterinariansInput = {
@@ -2950,13 +5020,22 @@ export type UserUncheckedCreateWithoutVeterinariansInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
@@ -2965,6 +5044,12 @@ export type UserUncheckedCreateWithoutVeterinariansInput = {
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  fosterProfile?: Prisma.FosterProfileUncheckedCreateNestedOneWithoutUserInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedCreateNestedOneWithoutUserInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutUserInput
+  settings?: Prisma.UserSettingsUncheckedCreateNestedOneWithoutUserInput
+  schedule?: Prisma.OperatingScheduleUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
   messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -2972,7 +5057,6 @@ export type UserUncheckedCreateWithoutVeterinariansInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
-  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutVeterinariansInput = {
@@ -2996,12 +5080,21 @@ export type UserUpdateWithoutVeterinariansInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -3009,6 +5102,12 @@ export type UserUpdateWithoutVeterinariansInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -3018,7 +5117,6 @@ export type UserUpdateWithoutVeterinariansInput = {
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVeterinariansInput = {
@@ -3026,13 +5124,22 @@ export type UserUncheckedUpdateWithoutVeterinariansInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3041,6 +5148,12 @@ export type UserUncheckedUpdateWithoutVeterinariansInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -3048,7 +5161,6 @@ export type UserUncheckedUpdateWithoutVeterinariansInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyShelterAdminOfInput = {
@@ -3056,13 +5168,22 @@ export type UserCreateManyShelterAdminOfInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   managerOfId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3073,13 +5194,22 @@ export type UserCreateManyManagerOfInput = {
   name?: string
   email: string
   password: string
+  phone?: string | null
+  city?: string | null
+  state?: string | null
+  address?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: string | null
+  emailVerificationExpiry?: Date | string | null
   lastLoginAt?: Date | string | null
   lastActiveAt?: Date | string | null
   profilePictureId?: string | null
   profilePictureUrl?: string | null
+  profilePhotoUrl?: string | null
+  profilePhotoKey?: string | null
   shelterAdminOfId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3090,12 +5220,21 @@ export type UserUpdateWithoutShelterAdminOfInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -3103,6 +5242,12 @@ export type UserUpdateWithoutShelterAdminOfInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -3111,7 +5256,6 @@ export type UserUpdateWithoutShelterAdminOfInput = {
   operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -3120,13 +5264,22 @@ export type UserUncheckedUpdateWithoutShelterAdminOfInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3134,6 +5287,12 @@ export type UserUncheckedUpdateWithoutShelterAdminOfInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -3141,7 +5300,6 @@ export type UserUncheckedUpdateWithoutShelterAdminOfInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -3150,13 +5308,22 @@ export type UserUncheckedUpdateManyWithoutShelterAdminOfInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3167,12 +5334,21 @@ export type UserUpdateWithoutManagerOfInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
@@ -3180,6 +5356,12 @@ export type UserUpdateWithoutManagerOfInput = {
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
@@ -3188,7 +5370,6 @@ export type UserUpdateWithoutManagerOfInput = {
   operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
   shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -3197,13 +5378,22 @@ export type UserUncheckedUpdateWithoutManagerOfInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3211,6 +5401,12 @@ export type UserUncheckedUpdateWithoutManagerOfInput = {
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  fosterProfile?: Prisma.FosterProfileUncheckedUpdateOneWithoutUserNestedInput
+  fosterPreference?: Prisma.FosterPreferenceUncheckedUpdateOneWithoutUserNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutUserNestedInput
+  settings?: Prisma.UserSettingsUncheckedUpdateOneWithoutUserNestedInput
+  schedule?: Prisma.OperatingScheduleUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
   messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -3218,7 +5414,6 @@ export type UserUncheckedUpdateWithoutManagerOfInput = {
   requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
-  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -3227,13 +5422,22 @@ export type UserUncheckedUpdateManyWithoutManagerOfInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  emailVerificationExpiry?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePhotoKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3248,6 +5452,9 @@ export type UserCountOutputType = {
   notifications: number
   refreshTokens: number
   otps: number
+  passwordResetTokens: number
+  fosterDocuments: number
+  schedule: number
   conversationsInitiated: number
   conversationsReceived: number
   messagesSent: number
@@ -3260,6 +5467,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
   otps?: boolean | UserCountOutputTypeCountOtpsArgs
+  passwordResetTokens?: boolean | UserCountOutputTypeCountPasswordResetTokensArgs
+  fosterDocuments?: boolean | UserCountOutputTypeCountFosterDocumentsArgs
+  schedule?: boolean | UserCountOutputTypeCountScheduleArgs
   conversationsInitiated?: boolean | UserCountOutputTypeCountConversationsInitiatedArgs
   conversationsReceived?: boolean | UserCountOutputTypeCountConversationsReceivedArgs
   messagesSent?: boolean | UserCountOutputTypeCountMessagesSentArgs
@@ -3297,6 +5507,27 @@ export type UserCountOutputTypeCountRefreshTokensArgs<ExtArgs extends runtime.Ty
  */
 export type UserCountOutputTypeCountOtpsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UserOtpWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPasswordResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PasswordResetTokenWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountFosterDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FosterDocumentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountScheduleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OperatingScheduleWhereInput
 }
 
 /**
@@ -3347,13 +5578,22 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   email?: boolean
   password?: boolean
+  phone?: boolean
+  city?: boolean
+  state?: boolean
+  address?: boolean
   role?: boolean
   status?: boolean
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: boolean
+  emailVerificationExpiry?: boolean
   lastLoginAt?: boolean
   lastActiveAt?: boolean
   profilePictureId?: boolean
   profilePictureUrl?: boolean
+  profilePhotoUrl?: boolean
+  profilePhotoKey?: boolean
   shelterAdminOfId?: boolean
   managerOfId?: boolean
   createdAt?: boolean
@@ -3363,6 +5603,12 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
   otps?: boolean | Prisma.User$otpsArgs<ExtArgs>
+  passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
+  fosterProfile?: boolean | Prisma.User$fosterProfileArgs<ExtArgs>
+  fosterPreference?: boolean | Prisma.User$fosterPreferenceArgs<ExtArgs>
+  fosterDocuments?: boolean | Prisma.User$fosterDocumentsArgs<ExtArgs>
+  settings?: boolean | Prisma.User$settingsArgs<ExtArgs>
+  schedule?: boolean | Prisma.User$scheduleArgs<ExtArgs>
   conversationsInitiated?: boolean | Prisma.User$conversationsInitiatedArgs<ExtArgs>
   conversationsReceived?: boolean | Prisma.User$conversationsReceivedArgs<ExtArgs>
   messagesSent?: boolean | Prisma.User$messagesSentArgs<ExtArgs>
@@ -3372,7 +5618,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   shelterAdminOf?: boolean | Prisma.User$shelterAdminOfArgs<ExtArgs>
   managerOf?: boolean | Prisma.User$managerOfArgs<ExtArgs>
   drivers?: boolean | Prisma.User$driversArgs<ExtArgs>
-  fosters?: boolean | Prisma.User$fostersArgs<ExtArgs>
   veterinarians?: boolean | Prisma.User$veterinariansArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -3382,13 +5627,22 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   email?: boolean
   password?: boolean
+  phone?: boolean
+  city?: boolean
+  state?: boolean
+  address?: boolean
   role?: boolean
   status?: boolean
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: boolean
+  emailVerificationExpiry?: boolean
   lastLoginAt?: boolean
   lastActiveAt?: boolean
   profilePictureId?: boolean
   profilePictureUrl?: boolean
+  profilePhotoUrl?: boolean
+  profilePhotoKey?: boolean
   shelterAdminOfId?: boolean
   managerOfId?: boolean
   createdAt?: boolean
@@ -3403,13 +5657,22 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   email?: boolean
   password?: boolean
+  phone?: boolean
+  city?: boolean
+  state?: boolean
+  address?: boolean
   role?: boolean
   status?: boolean
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: boolean
+  emailVerificationExpiry?: boolean
   lastLoginAt?: boolean
   lastActiveAt?: boolean
   profilePictureId?: boolean
   profilePictureUrl?: boolean
+  profilePhotoUrl?: boolean
+  profilePhotoKey?: boolean
   shelterAdminOfId?: boolean
   managerOfId?: boolean
   createdAt?: boolean
@@ -3424,26 +5687,41 @@ export type UserSelectScalar = {
   name?: boolean
   email?: boolean
   password?: boolean
+  phone?: boolean
+  city?: boolean
+  state?: boolean
+  address?: boolean
   role?: boolean
   status?: boolean
   isVerified?: boolean
+  isEmailVerified?: boolean
+  emailVerificationToken?: boolean
+  emailVerificationExpiry?: boolean
   lastLoginAt?: boolean
   lastActiveAt?: boolean
   profilePictureId?: boolean
   profilePictureUrl?: boolean
+  profilePhotoUrl?: boolean
+  profilePhotoKey?: boolean
   shelterAdminOfId?: boolean
   managerOfId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "status" | "isVerified" | "lastLoginAt" | "lastActiveAt" | "profilePictureId" | "profilePictureUrl" | "shelterAdminOfId" | "managerOfId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "phone" | "city" | "state" | "address" | "role" | "status" | "isVerified" | "isEmailVerified" | "emailVerificationToken" | "emailVerificationExpiry" | "lastLoginAt" | "lastActiveAt" | "profilePictureId" | "profilePictureUrl" | "profilePhotoUrl" | "profilePhotoKey" | "shelterAdminOfId" | "managerOfId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   profilePicture?: boolean | Prisma.User$profilePictureArgs<ExtArgs>
   notificationSettings?: boolean | Prisma.User$notificationSettingsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
   otps?: boolean | Prisma.User$otpsArgs<ExtArgs>
+  passwordResetTokens?: boolean | Prisma.User$passwordResetTokensArgs<ExtArgs>
+  fosterProfile?: boolean | Prisma.User$fosterProfileArgs<ExtArgs>
+  fosterPreference?: boolean | Prisma.User$fosterPreferenceArgs<ExtArgs>
+  fosterDocuments?: boolean | Prisma.User$fosterDocumentsArgs<ExtArgs>
+  settings?: boolean | Prisma.User$settingsArgs<ExtArgs>
+  schedule?: boolean | Prisma.User$scheduleArgs<ExtArgs>
   conversationsInitiated?: boolean | Prisma.User$conversationsInitiatedArgs<ExtArgs>
   conversationsReceived?: boolean | Prisma.User$conversationsReceivedArgs<ExtArgs>
   messagesSent?: boolean | Prisma.User$messagesSentArgs<ExtArgs>
@@ -3453,7 +5731,6 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   shelterAdminOf?: boolean | Prisma.User$shelterAdminOfArgs<ExtArgs>
   managerOf?: boolean | Prisma.User$managerOfArgs<ExtArgs>
   drivers?: boolean | Prisma.User$driversArgs<ExtArgs>
-  fosters?: boolean | Prisma.User$fostersArgs<ExtArgs>
   veterinarians?: boolean | Prisma.User$veterinariansArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -3476,6 +5753,12 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     notifications: Prisma.$UserNotificationPayload<ExtArgs>[]
     refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
     otps: Prisma.$UserOtpPayload<ExtArgs>[]
+    passwordResetTokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
+    fosterProfile: Prisma.$FosterProfilePayload<ExtArgs> | null
+    fosterPreference: Prisma.$FosterPreferencePayload<ExtArgs> | null
+    fosterDocuments: Prisma.$FosterDocumentPayload<ExtArgs>[]
+    settings: Prisma.$UserSettingsPayload<ExtArgs> | null
+    schedule: Prisma.$OperatingSchedulePayload<ExtArgs>[]
     conversationsInitiated: Prisma.$PrivateConversationPayload<ExtArgs>[]
     conversationsReceived: Prisma.$PrivateConversationPayload<ExtArgs>[]
     messagesSent: Prisma.$PrivateMessagePayload<ExtArgs>[]
@@ -3485,7 +5768,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     shelterAdminOf: Prisma.$ShelterPayload<ExtArgs> | null
     managerOf: Prisma.$ShelterPayload<ExtArgs> | null
     drivers: Prisma.$DriverPayload<ExtArgs> | null
-    fosters: Prisma.$FosterPayload<ExtArgs> | null
     veterinarians: Prisma.$VeterinarianPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -3493,13 +5775,22 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: string
     email: string
     password: string
+    phone: string | null
+    city: string | null
+    state: string | null
+    address: string | null
     role: $Enums.UserRole
     status: $Enums.UserStatus
     isVerified: boolean
+    isEmailVerified: boolean
+    emailVerificationToken: string | null
+    emailVerificationExpiry: Date | null
     lastLoginAt: Date | null
     lastActiveAt: Date | null
     profilePictureId: string | null
     profilePictureUrl: string | null
+    profilePhotoUrl: string | null
+    profilePhotoKey: string | null
     shelterAdminOfId: string | null
     managerOfId: string | null
     createdAt: Date
@@ -3903,6 +6194,12 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   refreshTokens<T extends Prisma.User$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   otps<T extends Prisma.User$otpsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$otpsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserOtpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  passwordResetTokens<T extends Prisma.User$passwordResetTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$passwordResetTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  fosterProfile<T extends Prisma.User$fosterProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fosterProfileArgs<ExtArgs>>): Prisma.Prisma__FosterProfileClient<runtime.Types.Result.GetResult<Prisma.$FosterProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  fosterPreference<T extends Prisma.User$fosterPreferenceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fosterPreferenceArgs<ExtArgs>>): Prisma.Prisma__FosterPreferenceClient<runtime.Types.Result.GetResult<Prisma.$FosterPreferencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  fosterDocuments<T extends Prisma.User$fosterDocumentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fosterDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FosterDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  settings<T extends Prisma.User$settingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$settingsArgs<ExtArgs>>): Prisma.Prisma__UserSettingsClient<runtime.Types.Result.GetResult<Prisma.$UserSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  schedule<T extends Prisma.User$scheduleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$scheduleArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OperatingSchedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversationsInitiated<T extends Prisma.User$conversationsInitiatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationsInitiatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversationsReceived<T extends Prisma.User$conversationsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   messagesSent<T extends Prisma.User$messagesSentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$messagesSentArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3912,7 +6209,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   shelterAdminOf<T extends Prisma.User$shelterAdminOfArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$shelterAdminOfArgs<ExtArgs>>): Prisma.Prisma__ShelterClient<runtime.Types.Result.GetResult<Prisma.$ShelterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   managerOf<T extends Prisma.User$managerOfArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managerOfArgs<ExtArgs>>): Prisma.Prisma__ShelterClient<runtime.Types.Result.GetResult<Prisma.$ShelterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   drivers<T extends Prisma.User$driversArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$driversArgs<ExtArgs>>): Prisma.Prisma__DriverClient<runtime.Types.Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  fosters<T extends Prisma.User$fostersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fostersArgs<ExtArgs>>): Prisma.Prisma__FosterClient<runtime.Types.Result.GetResult<Prisma.$FosterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   veterinarians<T extends Prisma.User$veterinariansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$veterinariansArgs<ExtArgs>>): Prisma.Prisma__VeterinarianClient<runtime.Types.Result.GetResult<Prisma.$VeterinarianPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3947,13 +6243,22 @@ export interface UserFieldRefs {
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
+  readonly phone: Prisma.FieldRef<"User", 'String'>
+  readonly city: Prisma.FieldRef<"User", 'String'>
+  readonly state: Prisma.FieldRef<"User", 'String'>
+  readonly address: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'UserRole'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
   readonly isVerified: Prisma.FieldRef<"User", 'Boolean'>
+  readonly isEmailVerified: Prisma.FieldRef<"User", 'Boolean'>
+  readonly emailVerificationToken: Prisma.FieldRef<"User", 'String'>
+  readonly emailVerificationExpiry: Prisma.FieldRef<"User", 'DateTime'>
   readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly lastActiveAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly profilePictureId: Prisma.FieldRef<"User", 'String'>
   readonly profilePictureUrl: Prisma.FieldRef<"User", 'String'>
+  readonly profilePhotoUrl: Prisma.FieldRef<"User", 'String'>
+  readonly profilePhotoKey: Prisma.FieldRef<"User", 'String'>
   readonly shelterAdminOfId: Prisma.FieldRef<"User", 'String'>
   readonly managerOfId: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
@@ -4464,6 +6769,135 @@ export type User$otpsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 }
 
 /**
+ * User.passwordResetTokens
+ */
+export type User$passwordResetTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PasswordResetToken
+   */
+  select?: Prisma.PasswordResetTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PasswordResetToken
+   */
+  omit?: Prisma.PasswordResetTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PasswordResetTokenInclude<ExtArgs> | null
+  where?: Prisma.PasswordResetTokenWhereInput
+  orderBy?: Prisma.PasswordResetTokenOrderByWithRelationInput | Prisma.PasswordResetTokenOrderByWithRelationInput[]
+  cursor?: Prisma.PasswordResetTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PasswordResetTokenScalarFieldEnum | Prisma.PasswordResetTokenScalarFieldEnum[]
+}
+
+/**
+ * User.fosterProfile
+ */
+export type User$fosterProfileArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FosterProfile
+   */
+  select?: Prisma.FosterProfileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FosterProfile
+   */
+  omit?: Prisma.FosterProfileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FosterProfileInclude<ExtArgs> | null
+  where?: Prisma.FosterProfileWhereInput
+}
+
+/**
+ * User.fosterPreference
+ */
+export type User$fosterPreferenceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FosterPreference
+   */
+  select?: Prisma.FosterPreferenceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FosterPreference
+   */
+  omit?: Prisma.FosterPreferenceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FosterPreferenceInclude<ExtArgs> | null
+  where?: Prisma.FosterPreferenceWhereInput
+}
+
+/**
+ * User.fosterDocuments
+ */
+export type User$fosterDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FosterDocument
+   */
+  select?: Prisma.FosterDocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FosterDocument
+   */
+  omit?: Prisma.FosterDocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FosterDocumentInclude<ExtArgs> | null
+  where?: Prisma.FosterDocumentWhereInput
+  orderBy?: Prisma.FosterDocumentOrderByWithRelationInput | Prisma.FosterDocumentOrderByWithRelationInput[]
+  cursor?: Prisma.FosterDocumentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FosterDocumentScalarFieldEnum | Prisma.FosterDocumentScalarFieldEnum[]
+}
+
+/**
+ * User.settings
+ */
+export type User$settingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserSettings
+   */
+  select?: Prisma.UserSettingsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserSettings
+   */
+  omit?: Prisma.UserSettingsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserSettingsInclude<ExtArgs> | null
+  where?: Prisma.UserSettingsWhereInput
+}
+
+/**
+ * User.schedule
+ */
+export type User$scheduleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OperatingSchedule
+   */
+  select?: Prisma.OperatingScheduleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OperatingSchedule
+   */
+  omit?: Prisma.OperatingScheduleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OperatingScheduleInclude<ExtArgs> | null
+  where?: Prisma.OperatingScheduleWhereInput
+  orderBy?: Prisma.OperatingScheduleOrderByWithRelationInput | Prisma.OperatingScheduleOrderByWithRelationInput[]
+  cursor?: Prisma.OperatingScheduleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OperatingScheduleScalarFieldEnum | Prisma.OperatingScheduleScalarFieldEnum[]
+}
+
+/**
  * User.conversationsInitiated
  */
 export type User$conversationsInitiatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4662,25 +7096,6 @@ export type User$driversArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   include?: Prisma.DriverInclude<ExtArgs> | null
   where?: Prisma.DriverWhereInput
-}
-
-/**
- * User.fosters
- */
-export type User$fostersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Foster
-   */
-  select?: Prisma.FosterSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Foster
-   */
-  omit?: Prisma.FosterOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FosterInclude<ExtArgs> | null
-  where?: Prisma.FosterWhereInput
 }
 
 /**

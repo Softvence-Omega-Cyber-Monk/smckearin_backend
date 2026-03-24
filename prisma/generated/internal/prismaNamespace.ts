@@ -388,12 +388,16 @@ export const ModelName = {
   Animal: 'Animal',
   UserOtp: 'UserOtp',
   RefreshToken: 'RefreshToken',
+  PasswordResetToken: 'PasswordResetToken',
   DailySchedule: 'DailySchedule',
   Driver: 'Driver',
   ExternalFeedConfig: 'ExternalFeedConfig',
   FileInstance: 'FileInstance',
-  FosterAnimalInterest: 'FosterAnimalInterest',
-  Foster: 'Foster',
+  FosterProfile: 'FosterProfile',
+  FosterPreference: 'FosterPreference',
+  FosterDocument: 'FosterDocument',
+  UserSettings: 'UserSettings',
+  OperatingSchedule: 'OperatingSchedule',
   HealthReport: 'HealthReport',
   ImportJob: 'ImportJob',
   ImportRow: 'ImportRow',
@@ -435,7 +439,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "fosterAnimalInterest" | "foster" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
+    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "passwordResetToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "fosterProfile" | "fosterPreference" | "fosterDocument" | "userSettings" | "operatingSchedule" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -735,6 +739,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PasswordResetToken: {
+      payload: Prisma.$PasswordResetTokenPayload<ExtArgs>
+      fields: Prisma.PasswordResetTokenFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PasswordResetTokenFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PasswordResetTokenFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+        }
+        findFirst: {
+          args: Prisma.PasswordResetTokenFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PasswordResetTokenFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+        }
+        findMany: {
+          args: Prisma.PasswordResetTokenFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>[]
+        }
+        create: {
+          args: Prisma.PasswordResetTokenCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+        }
+        createMany: {
+          args: Prisma.PasswordResetTokenCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PasswordResetTokenCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>[]
+        }
+        delete: {
+          args: Prisma.PasswordResetTokenDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+        }
+        update: {
+          args: Prisma.PasswordResetTokenUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+        }
+        deleteMany: {
+          args: Prisma.PasswordResetTokenDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PasswordResetTokenUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PasswordResetTokenUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>[]
+        }
+        upsert: {
+          args: Prisma.PasswordResetTokenUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+        }
+        aggregate: {
+          args: Prisma.PasswordResetTokenAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePasswordResetToken>
+        }
+        groupBy: {
+          args: Prisma.PasswordResetTokenGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PasswordResetTokenGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PasswordResetTokenCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PasswordResetTokenCountAggregateOutputType> | number
+        }
+      }
+    }
     DailySchedule: {
       payload: Prisma.$DailySchedulePayload<ExtArgs>
       fields: Prisma.DailyScheduleFieldRefs
@@ -1031,151 +1109,373 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    FosterAnimalInterest: {
-      payload: Prisma.$FosterAnimalInterestPayload<ExtArgs>
-      fields: Prisma.FosterAnimalInterestFieldRefs
+    FosterProfile: {
+      payload: Prisma.$FosterProfilePayload<ExtArgs>
+      fields: Prisma.FosterProfileFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.FosterAnimalInterestFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload> | null
+          args: Prisma.FosterProfileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterProfilePayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.FosterAnimalInterestFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+          args: Prisma.FosterProfileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterProfilePayload>
         }
         findFirst: {
-          args: Prisma.FosterAnimalInterestFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload> | null
+          args: Prisma.FosterProfileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterProfilePayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.FosterAnimalInterestFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+          args: Prisma.FosterProfileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterProfilePayload>
         }
         findMany: {
-          args: Prisma.FosterAnimalInterestFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>[]
+          args: Prisma.FosterProfileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterProfilePayload>[]
         }
         create: {
-          args: Prisma.FosterAnimalInterestCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+          args: Prisma.FosterProfileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterProfilePayload>
         }
         createMany: {
-          args: Prisma.FosterAnimalInterestCreateManyArgs<ExtArgs>
+          args: Prisma.FosterProfileCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.FosterAnimalInterestCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>[]
+          args: Prisma.FosterProfileCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterProfilePayload>[]
         }
         delete: {
-          args: Prisma.FosterAnimalInterestDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+          args: Prisma.FosterProfileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterProfilePayload>
         }
         update: {
-          args: Prisma.FosterAnimalInterestUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+          args: Prisma.FosterProfileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterProfilePayload>
         }
         deleteMany: {
-          args: Prisma.FosterAnimalInterestDeleteManyArgs<ExtArgs>
+          args: Prisma.FosterProfileDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.FosterAnimalInterestUpdateManyArgs<ExtArgs>
+          args: Prisma.FosterProfileUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.FosterAnimalInterestUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>[]
+          args: Prisma.FosterProfileUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterProfilePayload>[]
         }
         upsert: {
-          args: Prisma.FosterAnimalInterestUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+          args: Prisma.FosterProfileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterProfilePayload>
         }
         aggregate: {
-          args: Prisma.FosterAnimalInterestAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateFosterAnimalInterest>
+          args: Prisma.FosterProfileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFosterProfile>
         }
         groupBy: {
-          args: Prisma.FosterAnimalInterestGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FosterAnimalInterestGroupByOutputType>[]
+          args: Prisma.FosterProfileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterProfileGroupByOutputType>[]
         }
         count: {
-          args: Prisma.FosterAnimalInterestCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FosterAnimalInterestCountAggregateOutputType> | number
+          args: Prisma.FosterProfileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterProfileCountAggregateOutputType> | number
         }
       }
     }
-    Foster: {
-      payload: Prisma.$FosterPayload<ExtArgs>
-      fields: Prisma.FosterFieldRefs
+    FosterPreference: {
+      payload: Prisma.$FosterPreferencePayload<ExtArgs>
+      fields: Prisma.FosterPreferenceFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.FosterFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload> | null
+          args: Prisma.FosterPreferenceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPreferencePayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.FosterFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+          args: Prisma.FosterPreferenceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPreferencePayload>
         }
         findFirst: {
-          args: Prisma.FosterFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload> | null
+          args: Prisma.FosterPreferenceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPreferencePayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.FosterFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+          args: Prisma.FosterPreferenceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPreferencePayload>
         }
         findMany: {
-          args: Prisma.FosterFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>[]
+          args: Prisma.FosterPreferenceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPreferencePayload>[]
         }
         create: {
-          args: Prisma.FosterCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+          args: Prisma.FosterPreferenceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPreferencePayload>
         }
         createMany: {
-          args: Prisma.FosterCreateManyArgs<ExtArgs>
+          args: Prisma.FosterPreferenceCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.FosterCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>[]
+          args: Prisma.FosterPreferenceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPreferencePayload>[]
         }
         delete: {
-          args: Prisma.FosterDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+          args: Prisma.FosterPreferenceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPreferencePayload>
         }
         update: {
-          args: Prisma.FosterUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+          args: Prisma.FosterPreferenceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPreferencePayload>
         }
         deleteMany: {
-          args: Prisma.FosterDeleteManyArgs<ExtArgs>
+          args: Prisma.FosterPreferenceDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.FosterUpdateManyArgs<ExtArgs>
+          args: Prisma.FosterPreferenceUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.FosterUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>[]
+          args: Prisma.FosterPreferenceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPreferencePayload>[]
         }
         upsert: {
-          args: Prisma.FosterUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPayload>
+          args: Prisma.FosterPreferenceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterPreferencePayload>
         }
         aggregate: {
-          args: Prisma.FosterAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateFoster>
+          args: Prisma.FosterPreferenceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFosterPreference>
         }
         groupBy: {
-          args: Prisma.FosterGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FosterGroupByOutputType>[]
+          args: Prisma.FosterPreferenceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterPreferenceGroupByOutputType>[]
         }
         count: {
-          args: Prisma.FosterCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.FosterCountAggregateOutputType> | number
+          args: Prisma.FosterPreferenceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterPreferenceCountAggregateOutputType> | number
+        }
+      }
+    }
+    FosterDocument: {
+      payload: Prisma.$FosterDocumentPayload<ExtArgs>
+      fields: Prisma.FosterDocumentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FosterDocumentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FosterDocumentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        findFirst: {
+          args: Prisma.FosterDocumentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FosterDocumentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        findMany: {
+          args: Prisma.FosterDocumentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>[]
+        }
+        create: {
+          args: Prisma.FosterDocumentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        createMany: {
+          args: Prisma.FosterDocumentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FosterDocumentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>[]
+        }
+        delete: {
+          args: Prisma.FosterDocumentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        update: {
+          args: Prisma.FosterDocumentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        deleteMany: {
+          args: Prisma.FosterDocumentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FosterDocumentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FosterDocumentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>[]
+        }
+        upsert: {
+          args: Prisma.FosterDocumentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        aggregate: {
+          args: Prisma.FosterDocumentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFosterDocument>
+        }
+        groupBy: {
+          args: Prisma.FosterDocumentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterDocumentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FosterDocumentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterDocumentCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserSettings: {
+      payload: Prisma.$UserSettingsPayload<ExtArgs>
+      fields: Prisma.UserSettingsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserSettingsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserSettingsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+        }
+        findFirst: {
+          args: Prisma.UserSettingsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserSettingsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+        }
+        findMany: {
+          args: Prisma.UserSettingsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>[]
+        }
+        create: {
+          args: Prisma.UserSettingsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+        }
+        createMany: {
+          args: Prisma.UserSettingsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserSettingsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>[]
+        }
+        delete: {
+          args: Prisma.UserSettingsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+        }
+        update: {
+          args: Prisma.UserSettingsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserSettingsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserSettingsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserSettingsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserSettingsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSettingsPayload>
+        }
+        aggregate: {
+          args: Prisma.UserSettingsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserSettings>
+        }
+        groupBy: {
+          args: Prisma.UserSettingsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserSettingsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserSettingsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserSettingsCountAggregateOutputType> | number
+        }
+      }
+    }
+    OperatingSchedule: {
+      payload: Prisma.$OperatingSchedulePayload<ExtArgs>
+      fields: Prisma.OperatingScheduleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OperatingScheduleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatingSchedulePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OperatingScheduleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatingSchedulePayload>
+        }
+        findFirst: {
+          args: Prisma.OperatingScheduleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatingSchedulePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OperatingScheduleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatingSchedulePayload>
+        }
+        findMany: {
+          args: Prisma.OperatingScheduleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatingSchedulePayload>[]
+        }
+        create: {
+          args: Prisma.OperatingScheduleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatingSchedulePayload>
+        }
+        createMany: {
+          args: Prisma.OperatingScheduleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OperatingScheduleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatingSchedulePayload>[]
+        }
+        delete: {
+          args: Prisma.OperatingScheduleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatingSchedulePayload>
+        }
+        update: {
+          args: Prisma.OperatingScheduleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatingSchedulePayload>
+        }
+        deleteMany: {
+          args: Prisma.OperatingScheduleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OperatingScheduleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OperatingScheduleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatingSchedulePayload>[]
+        }
+        upsert: {
+          args: Prisma.OperatingScheduleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OperatingSchedulePayload>
+        }
+        aggregate: {
+          args: Prisma.OperatingScheduleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOperatingSchedule>
+        }
+        groupBy: {
+          args: Prisma.OperatingScheduleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OperatingScheduleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OperatingScheduleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OperatingScheduleCountAggregateOutputType> | number
         }
       }
     }
@@ -3219,6 +3519,18 @@ export const RefreshTokenScalarFieldEnum = {
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
 
 
+export const PasswordResetTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  used: 'used',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
+
+
 export const DailyScheduleScalarFieldEnum = {
   id: 'id',
   day: 'day',
@@ -3305,43 +3617,88 @@ export const FileInstanceScalarFieldEnum = {
 export type FileInstanceScalarFieldEnum = (typeof FileInstanceScalarFieldEnum)[keyof typeof FileInstanceScalarFieldEnum]
 
 
-export const FosterAnimalInterestScalarFieldEnum = {
-  id: 'id',
-  fosterId: 'fosterId',
-  animalId: 'animalId',
-  shelterId: 'shelterId',
-  preferredArrivalDate: 'preferredArrivalDate',
-  availableFromTime: 'availableFromTime',
-  availableUntilTime: 'availableUntilTime',
-  receivingAddress: 'receivingAddress',
-  receivingPhone: 'receivingPhone',
-  status: 'status',
-  reviewedAt: 'reviewedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type FosterAnimalInterestScalarFieldEnum = (typeof FosterAnimalInterestScalarFieldEnum)[keyof typeof FosterAnimalInterestScalarFieldEnum]
-
-
-export const FosterScalarFieldEnum = {
+export const FosterProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  phone: 'phone',
-  city: 'city',
-  state: 'state',
-  address: 'address',
-  animalType: 'animalType',
-  sizePreference: 'sizePreference',
-  age: 'age',
-  preferredLocation: 'preferredLocation',
-  preferredMile: 'preferredMile',
-  status: 'status',
+  agreementAccepted: 'agreementAccepted',
+  agreementAcceptedAt: 'agreementAcceptedAt',
+  agreementVersion: 'agreementVersion',
+  applicationSubmittedAt: 'applicationSubmittedAt',
+  maxAnimalsAtOnce: 'maxAnimalsAtOnce',
+  availabilityNotes: 'availabilityNotes',
+  weeklyHoursOpen: 'weeklyHoursOpen',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type FosterScalarFieldEnum = (typeof FosterScalarFieldEnum)[keyof typeof FosterScalarFieldEnum]
+export type FosterProfileScalarFieldEnum = (typeof FosterProfileScalarFieldEnum)[keyof typeof FosterProfileScalarFieldEnum]
+
+
+export const FosterPreferenceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  animalTypes: 'animalTypes',
+  sizePreference: 'sizePreference',
+  maxAnimalsAtOnce: 'maxAnimalsAtOnce',
+  availabilityNotes: 'availabilityNotes',
+  locationAddress: 'locationAddress',
+  locationLat: 'locationLat',
+  locationLng: 'locationLng',
+  radiusType: 'radiusType',
+  customRadiusMiles: 'customRadiusMiles',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FosterPreferenceScalarFieldEnum = (typeof FosterPreferenceScalarFieldEnum)[keyof typeof FosterPreferenceScalarFieldEnum]
+
+
+export const FosterDocumentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  documentType: 'documentType',
+  fileName: 'fileName',
+  fileUrl: 'fileUrl',
+  fileKey: 'fileKey',
+  fileSizeMb: 'fileSizeMb',
+  mimeType: 'mimeType',
+  status: 'status',
+  uploadedAt: 'uploadedAt',
+  reviewedAt: 'reviewedAt',
+  reviewNote: 'reviewNote',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FosterDocumentScalarFieldEnum = (typeof FosterDocumentScalarFieldEnum)[keyof typeof FosterDocumentScalarFieldEnum]
+
+
+export const UserSettingsScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  pushNotifications: 'pushNotifications',
+  statusUpdates: 'statusUpdates',
+  messageNotifications: 'messageNotifications',
+  emailNotifications: 'emailNotifications',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserSettingsScalarFieldEnum = (typeof UserSettingsScalarFieldEnum)[keyof typeof UserSettingsScalarFieldEnum]
+
+
+export const OperatingScheduleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  dayOfWeek: 'dayOfWeek',
+  isOpen: 'isOpen',
+  openTime: 'openTime',
+  closeTime: 'closeTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OperatingScheduleScalarFieldEnum = (typeof OperatingScheduleScalarFieldEnum)[keyof typeof OperatingScheduleScalarFieldEnum]
 
 
 export const HealthReportScalarFieldEnum = {
@@ -3726,13 +4083,22 @@ export const UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   password: 'password',
+  phone: 'phone',
+  city: 'city',
+  state: 'state',
+  address: 'address',
   role: 'role',
   status: 'status',
   isVerified: 'isVerified',
+  isEmailVerified: 'isEmailVerified',
+  emailVerificationToken: 'emailVerificationToken',
+  emailVerificationExpiry: 'emailVerificationExpiry',
   lastLoginAt: 'lastLoginAt',
   lastActiveAt: 'lastActiveAt',
   profilePictureId: 'profilePictureId',
   profilePictureUrl: 'profilePictureUrl',
+  profilePhotoUrl: 'profilePhotoUrl',
+  profilePhotoKey: 'profilePhotoKey',
   shelterAdminOfId: 'shelterAdminOfId',
   managerOfId: 'managerOfId',
   createdAt: 'createdAt',
@@ -4090,16 +4456,30 @@ export type ListEnumFileTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 
 
 /**
- * Reference to a field of type 'FosterInterestStatus'
+ * Reference to a field of type 'DocumentType'
  */
-export type EnumFosterInterestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FosterInterestStatus'>
+export type EnumDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentType'>
     
 
 
 /**
- * Reference to a field of type 'FosterInterestStatus[]'
+ * Reference to a field of type 'DocumentType[]'
  */
-export type ListEnumFosterInterestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FosterInterestStatus[]'>
+export type ListEnumDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DocumentStatus'
+ */
+export type EnumDocumentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'DocumentStatus[]'
+ */
+export type ListEnumDocumentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentStatus[]'>
     
 
 
@@ -4509,12 +4889,16 @@ export type GlobalOmitConfig = {
   animal?: Prisma.AnimalOmit
   userOtp?: Prisma.UserOtpOmit
   refreshToken?: Prisma.RefreshTokenOmit
+  passwordResetToken?: Prisma.PasswordResetTokenOmit
   dailySchedule?: Prisma.DailyScheduleOmit
   driver?: Prisma.DriverOmit
   externalFeedConfig?: Prisma.ExternalFeedConfigOmit
   fileInstance?: Prisma.FileInstanceOmit
-  fosterAnimalInterest?: Prisma.FosterAnimalInterestOmit
-  foster?: Prisma.FosterOmit
+  fosterProfile?: Prisma.FosterProfileOmit
+  fosterPreference?: Prisma.FosterPreferenceOmit
+  fosterDocument?: Prisma.FosterDocumentOmit
+  userSettings?: Prisma.UserSettingsOmit
+  operatingSchedule?: Prisma.OperatingScheduleOmit
   healthReport?: Prisma.HealthReportOmit
   importJob?: Prisma.ImportJobOmit
   importRow?: Prisma.ImportRowOmit
