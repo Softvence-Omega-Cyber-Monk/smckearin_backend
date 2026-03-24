@@ -1,0 +1,98 @@
+model FosterProfile {
+  id                     String   @id @default(cuid())
+  userId                 String   @unique
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agreementAccepted      Boolean  @default(false)
+  agreementAcceptedAt    DateTime?
+  agreementVersion       String   @default("1.0")
+  applicationSubmittedAt DateTime?
+  maxAnimalsAtOnce       Int      @default(1)
+  availabilityNotes      String?
+  weeklyHoursOpen        Int?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@map("foster_profiles")
+}
+
+model FosterPreference {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  animalTypes       String[]
+  sizePreference    String?
+  maxAnimalsAtOnce  Int      @default(1)
+  availabilityNotes String?
+  locationAddress   String?
+  locationLat       Float?
+  locationLng       Float?
+  radiusType        String?
+  customRadiusMiles Float?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("foster_preferences")
+}
+
+model FosterDocument {
+  id           String         @id @default(cuid())
+  userId       String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  documentType DocumentType
+  fileName     String
+  fileUrl      String
+  fileKey      String
+  fileSizeMb   Float
+  mimeType     String
+  status       DocumentStatus @default(PENDING)
+  uploadedAt   DateTime       @default(now())
+  reviewedAt   DateTime?
+  reviewNote   String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@map("foster_documents")
+}
+
+enum DocumentType {
+  FOSTER_AGREEMENT
+  ID_CARD
+  HOME_AUTHENTICATION
+  TRANSPORT_CERTIFICATE
+  OTHER
+}
+
+enum DocumentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model UserSettings {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pushNotifications    Boolean  @default(true)
+  statusUpdates        Boolean  @default(true)
+  messageNotifications Boolean  @default(true)
+  emailNotifications   Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@map("user_settings")
+}
+
+model OperatingSchedule {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dayOfWeek Int
+  isOpen    Boolean  @default(false)
+  openTime  String?
+  closeTime String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, dayOfWeek])
+  @@map("operating_schedules")
+}

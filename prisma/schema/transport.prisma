@@ -13,6 +13,15 @@ model Transport {
   dropOffLatitude  Float
   dropOffLongitude Float
 
+  manualDistanceMiles   Float?
+  manualDurationMinutes Float?
+
+  cancellationRequestStatus         CancellationRequestStatus?
+  cancellationRequestReason         String?
+  cancellationRequestReviewNote     String?
+  cancellationRequestedAt           DateTime?
+  cancellationRequestReviewedAt     DateTime?
+
   transPortDate DateTime
 
   animalId String
@@ -68,6 +77,12 @@ enum TransportStatus {
   PICKED_UP
   IN_TRANSIT
   COMPLETED
+}
+
+enum CancellationRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 enum RequiredVetClearanceType {

@@ -5,11 +5,18 @@ model User {
   name     String @default("Unnamed User")
   email    String @unique
   password String // hashed password
+  phone    String?
+  city     String?
+  state    String?
+  address  String?
 
   // Role & status
   role       UserRole
   status     UserStatus @default(ACTIVE)
   isVerified Boolean    @default(false)
+  isEmailVerified Boolean @default(false)
+  emailVerificationToken String? @unique
+  emailVerificationExpiry DateTime?
 
   // Activity tracking
   lastLoginAt  DateTime?
@@ -18,6 +25,8 @@ model User {
   // Avatar
   profilePictureId  String?       @unique
   profilePictureUrl String?
+  profilePhotoUrl   String?
+  profilePhotoKey   String?
   profilePicture    FileInstance? @relation(fields: [profilePictureId], references: [id], onDelete: SetNull)
 
   // Notifications
@@ -25,8 +34,14 @@ model User {
   notifications        UserNotification[]
 
   // Authentication
-  refreshTokens RefreshToken[]
-  otps          UserOtp[]
+  refreshTokens       RefreshToken[]
+  otps                UserOtp[]
+  passwordResetTokens PasswordResetToken[]
+  fosterProfile       FosterProfile?
+  fosterPreference    FosterPreference?
+  fosterDocuments     FosterDocument[]
+  settings            UserSettings?
+  schedule            OperatingSchedule[]
 
   // CHAT & CALL RELATIONS
   conversationsInitiated PrivateConversation[]  @relation("ConversationInitiator")
@@ -69,10 +84,19 @@ enum UserRole {
 
   // Driver
   DRIVER
+
+  // Foster
+  FOSTER
+  FOSTER_ADMIN
 }
 
 enum UserStatus {
   ACTIVE
   INACTIVE
   DELETED
+  PENDING_VERIFICATION
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  SUSPENDED
 }

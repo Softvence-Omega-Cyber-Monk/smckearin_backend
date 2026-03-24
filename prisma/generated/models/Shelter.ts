@@ -6,7 +6,7 @@
 /*
  * This file exports the `Shelter` model and its related types.
  *
- * ðŸŸ¢ You can import this file directly.
+ * ?? You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -203,7 +203,7 @@ export type ShelterAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Shelters from the position of the cursor.
+   * Take `±n` Shelters from the position of the cursor.
    */
   take?: number
   /**
@@ -4501,7 +4501,7 @@ export type ShelterFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Shelters from the position of the cursor.
+   * Take `±n` Shelters from the position of the cursor.
    */
   take?: number
   /**
@@ -4553,7 +4553,7 @@ export type ShelterFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Shelters from the position of the cursor.
+   * Take `±n` Shelters from the position of the cursor.
    */
   take?: number
   /**
@@ -4605,7 +4605,7 @@ export type ShelterFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Shelters from the position of the cursor.
+   * Take `±n` Shelters from the position of the cursor.
    */
   take?: number
   /**

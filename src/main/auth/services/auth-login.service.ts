@@ -3,6 +3,7 @@ import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { AuthUtilsService } from '@/lib/utils/services/auth-utils.service';
+import { UserEnum } from '@/common/enum/user.enum';
 import { Injectable } from '@nestjs/common';
 import { LoginDto } from '../dto/login.dto';
 
@@ -26,6 +27,8 @@ export class AuthLoginService {
     if (!isPasswordCorrect) {
       throw new AppError(400, 'Invalid password');
     }
+
+    this.ensureFosterCanLogin(user as any);
 
     // Update login activity
     const updatedUser = await this.prisma.client.user.update({
@@ -121,8 +124,40 @@ export class AuthLoginService {
         return 'VET';
       case 'DRIVER':
         return 'DRIVER';
+      case 'FOSTER':
+      case 'FOSTER_ADMIN':
+        return 'FOSTER';
       default:
         return 'UNKNOWN';
+    }
+  }
+
+  private ensureFosterCanLogin(user: any) {
+    if (![UserEnum.FOSTER, UserEnum.FOSTER_ADMIN].includes(user.role as UserEnum)) {
+      return;
+    }
+
+    if (!user.isEmailVerified) {
+      throw new AppError(403, 'Please verify your email before logging in');
+    }
+
+    if (user.status === 'PENDING_APPROVAL') {
+      throw new AppError(
+        403,
+        'Your account is pending admin approval. You will be notified by email.',
+      );
+    }
+
+    if (user.status === 'REJECTED') {
+      throw new AppError(403, 'Your account application has been rejected');
+    }
+
+    if (user.status === 'SUSPENDED') {
+      throw new AppError(403, 'Your account has been suspended');
+    }
+
+    if (!['APPROVED', 'ACTIVE'].includes(user.status)) {
+      throw new AppError(403, 'Account is not active');
     }
   }
 }

@@ -6,7 +6,7 @@
 /*
  * This file exports the `VetAppointment` model and its related types.
  *
- * ðŸŸ¢ You can import this file directly.
+ * ?? You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -153,7 +153,7 @@ export type VetAppointmentAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` VetAppointments from the position of the cursor.
+   * Take `±n` VetAppointments from the position of the cursor.
    */
   take?: number
   /**
@@ -1429,7 +1429,7 @@ export type VetAppointmentFindFirstArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` VetAppointments from the position of the cursor.
+   * Take `±n` VetAppointments from the position of the cursor.
    */
   take?: number
   /**
@@ -1481,7 +1481,7 @@ export type VetAppointmentFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` VetAppointments from the position of the cursor.
+   * Take `±n` VetAppointments from the position of the cursor.
    */
   take?: number
   /**
@@ -1533,7 +1533,7 @@ export type VetAppointmentFindManyArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` VetAppointments from the position of the cursor.
+   * Take `±n` VetAppointments from the position of the cursor.
    */
   take?: number
   /**

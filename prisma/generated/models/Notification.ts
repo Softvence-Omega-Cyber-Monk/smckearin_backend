@@ -6,7 +6,7 @@
 /*
  * This file exports the `Notification` model and its related types.
  *
- * ðŸŸ¢ You can import this file directly.
+ * ?? You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -103,7 +103,7 @@ export type NotificationAggregateArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Notifications from the position of the cursor.
+   * Take `±n` Notifications from the position of the cursor.
    */
   take?: number
   /**
@@ -1033,7 +1033,7 @@ export type NotificationFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Notifications from the position of the cursor.
+   * Take `±n` Notifications from the position of the cursor.
    */
   take?: number
   /**
@@ -1085,7 +1085,7 @@ export type NotificationFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Notifications from the position of the cursor.
+   * Take `±n` Notifications from the position of the cursor.
    */
   take?: number
   /**
@@ -1137,7 +1137,7 @@ export type NotificationFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Notifications from the position of the cursor.
+   * Take `±n` Notifications from the position of the cursor.
    */
   take?: number
   /**

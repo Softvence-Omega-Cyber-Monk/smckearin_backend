@@ -6,7 +6,7 @@
 /*
  * This file exports the `Veterinarian` model and its related types.
  *
- * ðŸŸ¢ You can import this file directly.
+ * ?? You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -127,7 +127,7 @@ export type VeterinarianAggregateArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Veterinarians from the position of the cursor.
+   * Take `±n` Veterinarians from the position of the cursor.
    */
   take?: number
   /**
@@ -1969,7 +1969,7 @@ export type VeterinarianFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Veterinarians from the position of the cursor.
+   * Take `±n` Veterinarians from the position of the cursor.
    */
   take?: number
   /**
@@ -2021,7 +2021,7 @@ export type VeterinarianFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Veterinarians from the position of the cursor.
+   * Take `±n` Veterinarians from the position of the cursor.
    */
   take?: number
   /**
@@ -2073,7 +2073,7 @@ export type VeterinarianFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Veterinarians from the position of the cursor.
+   * Take `±n` Veterinarians from the position of the cursor.
    */
   take?: number
   /**

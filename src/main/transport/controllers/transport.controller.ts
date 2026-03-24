@@ -18,6 +18,10 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  RequestTransportCancellationDto,
+  ReviewTransportCancellationDto,
+} from '../dto/cancel-transport.dto';
 import { CreateTransportDto } from '../dto/create-transport.dto';
 import {
   GetAllTransportHistory,
@@ -186,6 +190,40 @@ export class TransportController {
     @Body() dto: ApproveOrRejectTransportDto,
   ) {
     return this.manageTransportService.acceptOrRejectTransport(
+      id,
+      authUser,
+      dto,
+    );
+  }
+
+  @ApiOperation({
+    summary: 'Driver requests transport cancellation with reason',
+  })
+  @ValidateDriver()
+  @Patch(':id/cancel-request')
+  async requestTransportCancellation(
+    @GetUser() authUser: JWTPayload,
+    @Param('id') id: string,
+    @Body() dto: RequestTransportCancellationDto,
+  ) {
+    return this.manageTransportService.requestTransportCancellation(
+      id,
+      authUser,
+      dto,
+    );
+  }
+
+  @ApiOperation({
+    summary: 'Shelter approves or rejects a driver cancellation request',
+  })
+  @ValidateManager()
+  @Patch('shelter/:id/cancel-request/review')
+  async reviewTransportCancellation(
+    @GetUser() authUser: JWTPayload,
+    @Param('id') id: string,
+    @Body() dto: ReviewTransportCancellationDto,
+  ) {
+    return this.manageTransportService.reviewTransportCancellation(
       id,
       authUser,
       dto,

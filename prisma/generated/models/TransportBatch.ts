@@ -6,7 +6,7 @@
 /*
  * This file exports the `TransportBatch` model and its related types.
  *
- * ðŸŸ¢ You can import this file directly.
+ * ?? You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -181,7 +181,7 @@ export type TransportBatchAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` TransportBatches from the position of the cursor.
+   * Take `±n` TransportBatches from the position of the cursor.
    */
   take?: number
   /**
@@ -1839,7 +1839,7 @@ export type TransportBatchFindFirstArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` TransportBatches from the position of the cursor.
+   * Take `±n` TransportBatches from the position of the cursor.
    */
   take?: number
   /**
@@ -1891,7 +1891,7 @@ export type TransportBatchFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` TransportBatches from the position of the cursor.
+   * Take `±n` TransportBatches from the position of the cursor.
    */
   take?: number
   /**
@@ -1943,7 +1943,7 @@ export type TransportBatchFindManyArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` TransportBatches from the position of the cursor.
+   * Take `±n` TransportBatches from the position of the cursor.
    */
   take?: number
   /**

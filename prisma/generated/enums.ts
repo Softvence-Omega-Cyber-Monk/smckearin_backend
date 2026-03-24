@@ -6,7 +6,7 @@
 /*
 * This file exports all enum related types from the schema.
 *
-* 🟢 You can import this file directly.
+* ?? You can import this file directly.
 */
 
 export const Status = {
@@ -260,6 +260,15 @@ export const TransportStatus = {
 } as const
 
 export type TransportStatus = (typeof TransportStatus)[keyof typeof TransportStatus]
+
+
+export const CancellationRequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type CancellationRequestStatus = (typeof CancellationRequestStatus)[keyof typeof CancellationRequestStatus]
 
 
 export const RequiredVetClearanceType = {

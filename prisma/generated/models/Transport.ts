@@ -6,7 +6,7 @@
 /*
  * This file exports the `Transport` model and its related types.
  *
- * ðŸŸ¢ You can import this file directly.
+ * ?? You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -31,6 +31,8 @@ export type TransportAvgAggregateOutputType = {
   pickUpLongitude: number | null
   dropOffLatitude: number | null
   dropOffLongitude: number | null
+  manualDistanceMiles: number | null
+  manualDurationMinutes: number | null
 }
 
 export type TransportSumAggregateOutputType = {
@@ -38,6 +40,8 @@ export type TransportSumAggregateOutputType = {
   pickUpLongitude: number | null
   dropOffLatitude: number | null
   dropOffLongitude: number | null
+  manualDistanceMiles: number | null
+  manualDurationMinutes: number | null
 }
 
 export type TransportMinAggregateOutputType = {
@@ -50,6 +54,13 @@ export type TransportMinAggregateOutputType = {
   dropOffLocation: string | null
   dropOffLatitude: number | null
   dropOffLongitude: number | null
+  manualDistanceMiles: number | null
+  manualDurationMinutes: number | null
+  cancellationRequestStatus: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason: string | null
+  cancellationRequestReviewNote: string | null
+  cancellationRequestedAt: Date | null
+  cancellationRequestReviewedAt: Date | null
   transPortDate: Date | null
   animalId: string | null
   isBondedPair: boolean | null
@@ -77,6 +88,13 @@ export type TransportMaxAggregateOutputType = {
   dropOffLocation: string | null
   dropOffLatitude: number | null
   dropOffLongitude: number | null
+  manualDistanceMiles: number | null
+  manualDurationMinutes: number | null
+  cancellationRequestStatus: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason: string | null
+  cancellationRequestReviewNote: string | null
+  cancellationRequestedAt: Date | null
+  cancellationRequestReviewedAt: Date | null
   transPortDate: Date | null
   animalId: string | null
   isBondedPair: boolean | null
@@ -104,6 +122,13 @@ export type TransportCountAggregateOutputType = {
   dropOffLocation: number
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles: number
+  manualDurationMinutes: number
+  cancellationRequestStatus: number
+  cancellationRequestReason: number
+  cancellationRequestReviewNote: number
+  cancellationRequestedAt: number
+  cancellationRequestReviewedAt: number
   transPortDate: number
   animalId: number
   isBondedPair: number
@@ -128,6 +153,8 @@ export type TransportAvgAggregateInputType = {
   pickUpLongitude?: true
   dropOffLatitude?: true
   dropOffLongitude?: true
+  manualDistanceMiles?: true
+  manualDurationMinutes?: true
 }
 
 export type TransportSumAggregateInputType = {
@@ -135,6 +162,8 @@ export type TransportSumAggregateInputType = {
   pickUpLongitude?: true
   dropOffLatitude?: true
   dropOffLongitude?: true
+  manualDistanceMiles?: true
+  manualDurationMinutes?: true
 }
 
 export type TransportMinAggregateInputType = {
@@ -147,6 +176,13 @@ export type TransportMinAggregateInputType = {
   dropOffLocation?: true
   dropOffLatitude?: true
   dropOffLongitude?: true
+  manualDistanceMiles?: true
+  manualDurationMinutes?: true
+  cancellationRequestStatus?: true
+  cancellationRequestReason?: true
+  cancellationRequestReviewNote?: true
+  cancellationRequestedAt?: true
+  cancellationRequestReviewedAt?: true
   transPortDate?: true
   animalId?: true
   isBondedPair?: true
@@ -174,6 +210,13 @@ export type TransportMaxAggregateInputType = {
   dropOffLocation?: true
   dropOffLatitude?: true
   dropOffLongitude?: true
+  manualDistanceMiles?: true
+  manualDurationMinutes?: true
+  cancellationRequestStatus?: true
+  cancellationRequestReason?: true
+  cancellationRequestReviewNote?: true
+  cancellationRequestedAt?: true
+  cancellationRequestReviewedAt?: true
   transPortDate?: true
   animalId?: true
   isBondedPair?: true
@@ -201,6 +244,13 @@ export type TransportCountAggregateInputType = {
   dropOffLocation?: true
   dropOffLatitude?: true
   dropOffLongitude?: true
+  manualDistanceMiles?: true
+  manualDurationMinutes?: true
+  cancellationRequestStatus?: true
+  cancellationRequestReason?: true
+  cancellationRequestReviewNote?: true
+  cancellationRequestedAt?: true
+  cancellationRequestReviewedAt?: true
   transPortDate?: true
   animalId?: true
   isBondedPair?: true
@@ -239,7 +289,7 @@ export type TransportAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Transports from the position of the cursor.
+   * Take `±n` Transports from the position of the cursor.
    */
   take?: number
   /**
@@ -315,6 +365,13 @@ export type TransportGroupByOutputType = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles: number | null
+  manualDurationMinutes: number | null
+  cancellationRequestStatus: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason: string | null
+  cancellationRequestReviewNote: string | null
+  cancellationRequestedAt: Date | null
+  cancellationRequestReviewedAt: Date | null
   transPortDate: Date
   animalId: string
   isBondedPair: boolean
@@ -365,6 +422,13 @@ export type TransportWhereInput = {
   dropOffLocation?: Prisma.StringFilter<"Transport"> | string
   dropOffLatitude?: Prisma.FloatFilter<"Transport"> | number
   dropOffLongitude?: Prisma.FloatFilter<"Transport"> | number
+  manualDistanceMiles?: Prisma.FloatNullableFilter<"Transport"> | number | null
+  manualDurationMinutes?: Prisma.FloatNullableFilter<"Transport"> | number | null
+  cancellationRequestStatus?: Prisma.EnumCancellationRequestStatusNullableFilter<"Transport"> | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.StringNullableFilter<"Transport"> | string | null
+  cancellationRequestReviewNote?: Prisma.StringNullableFilter<"Transport"> | string | null
+  cancellationRequestedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
   transPortDate?: Prisma.DateTimeFilter<"Transport"> | Date | string
   animalId?: Prisma.StringFilter<"Transport"> | string
   isBondedPair?: Prisma.BoolFilter<"Transport"> | boolean
@@ -402,6 +466,13 @@ export type TransportOrderByWithRelationInput = {
   dropOffLocation?: Prisma.SortOrder
   dropOffLatitude?: Prisma.SortOrder
   dropOffLongitude?: Prisma.SortOrder
+  manualDistanceMiles?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualDurationMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationRequestStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationRequestReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationRequestReviewNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationRequestReviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   transPortDate?: Prisma.SortOrder
   animalId?: Prisma.SortOrder
   isBondedPair?: Prisma.SortOrder
@@ -443,6 +514,13 @@ export type TransportWhereUniqueInput = Prisma.AtLeast<{
   dropOffLocation?: Prisma.StringFilter<"Transport"> | string
   dropOffLatitude?: Prisma.FloatFilter<"Transport"> | number
   dropOffLongitude?: Prisma.FloatFilter<"Transport"> | number
+  manualDistanceMiles?: Prisma.FloatNullableFilter<"Transport"> | number | null
+  manualDurationMinutes?: Prisma.FloatNullableFilter<"Transport"> | number | null
+  cancellationRequestStatus?: Prisma.EnumCancellationRequestStatusNullableFilter<"Transport"> | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.StringNullableFilter<"Transport"> | string | null
+  cancellationRequestReviewNote?: Prisma.StringNullableFilter<"Transport"> | string | null
+  cancellationRequestedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
   transPortDate?: Prisma.DateTimeFilter<"Transport"> | Date | string
   animalId?: Prisma.StringFilter<"Transport"> | string
   isBondedPair?: Prisma.BoolFilter<"Transport"> | boolean
@@ -479,6 +557,13 @@ export type TransportOrderByWithAggregationInput = {
   dropOffLocation?: Prisma.SortOrder
   dropOffLatitude?: Prisma.SortOrder
   dropOffLongitude?: Prisma.SortOrder
+  manualDistanceMiles?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualDurationMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationRequestStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationRequestReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationRequestReviewNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationRequestedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancellationRequestReviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   transPortDate?: Prisma.SortOrder
   animalId?: Prisma.SortOrder
   isBondedPair?: Prisma.SortOrder
@@ -514,6 +599,13 @@ export type TransportScalarWhereWithAggregatesInput = {
   dropOffLocation?: Prisma.StringWithAggregatesFilter<"Transport"> | string
   dropOffLatitude?: Prisma.FloatWithAggregatesFilter<"Transport"> | number
   dropOffLongitude?: Prisma.FloatWithAggregatesFilter<"Transport"> | number
+  manualDistanceMiles?: Prisma.FloatNullableWithAggregatesFilter<"Transport"> | number | null
+  manualDurationMinutes?: Prisma.FloatNullableWithAggregatesFilter<"Transport"> | number | null
+  cancellationRequestStatus?: Prisma.EnumCancellationRequestStatusNullableWithAggregatesFilter<"Transport"> | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.StringNullableWithAggregatesFilter<"Transport"> | string | null
+  cancellationRequestReviewNote?: Prisma.StringNullableWithAggregatesFilter<"Transport"> | string | null
+  cancellationRequestedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Transport"> | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Transport"> | Date | string | null
   transPortDate?: Prisma.DateTimeWithAggregatesFilter<"Transport"> | Date | string
   animalId?: Prisma.StringWithAggregatesFilter<"Transport"> | string
   isBondedPair?: Prisma.BoolWithAggregatesFilter<"Transport"> | boolean
@@ -541,6 +633,13 @@ export type TransportCreateInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   isVetClearanceRequired?: boolean
@@ -572,6 +671,13 @@ export type TransportUncheckedCreateInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -603,6 +709,13 @@ export type TransportUpdateInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -634,6 +747,13 @@ export type TransportUncheckedUpdateInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -665,6 +785,13 @@ export type TransportCreateManyInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -692,6 +819,13 @@ export type TransportUpdateManyMutationInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -713,6 +847,13 @@ export type TransportUncheckedUpdateManyInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -760,6 +901,13 @@ export type TransportCountOrderByAggregateInput = {
   dropOffLocation?: Prisma.SortOrder
   dropOffLatitude?: Prisma.SortOrder
   dropOffLongitude?: Prisma.SortOrder
+  manualDistanceMiles?: Prisma.SortOrder
+  manualDurationMinutes?: Prisma.SortOrder
+  cancellationRequestStatus?: Prisma.SortOrder
+  cancellationRequestReason?: Prisma.SortOrder
+  cancellationRequestReviewNote?: Prisma.SortOrder
+  cancellationRequestedAt?: Prisma.SortOrder
+  cancellationRequestReviewedAt?: Prisma.SortOrder
   transPortDate?: Prisma.SortOrder
   animalId?: Prisma.SortOrder
   isBondedPair?: Prisma.SortOrder
@@ -782,6 +930,8 @@ export type TransportAvgOrderByAggregateInput = {
   pickUpLongitude?: Prisma.SortOrder
   dropOffLatitude?: Prisma.SortOrder
   dropOffLongitude?: Prisma.SortOrder
+  manualDistanceMiles?: Prisma.SortOrder
+  manualDurationMinutes?: Prisma.SortOrder
 }
 
 export type TransportMaxOrderByAggregateInput = {
@@ -794,6 +944,13 @@ export type TransportMaxOrderByAggregateInput = {
   dropOffLocation?: Prisma.SortOrder
   dropOffLatitude?: Prisma.SortOrder
   dropOffLongitude?: Prisma.SortOrder
+  manualDistanceMiles?: Prisma.SortOrder
+  manualDurationMinutes?: Prisma.SortOrder
+  cancellationRequestStatus?: Prisma.SortOrder
+  cancellationRequestReason?: Prisma.SortOrder
+  cancellationRequestReviewNote?: Prisma.SortOrder
+  cancellationRequestedAt?: Prisma.SortOrder
+  cancellationRequestReviewedAt?: Prisma.SortOrder
   transPortDate?: Prisma.SortOrder
   animalId?: Prisma.SortOrder
   isBondedPair?: Prisma.SortOrder
@@ -821,6 +978,13 @@ export type TransportMinOrderByAggregateInput = {
   dropOffLocation?: Prisma.SortOrder
   dropOffLatitude?: Prisma.SortOrder
   dropOffLongitude?: Prisma.SortOrder
+  manualDistanceMiles?: Prisma.SortOrder
+  manualDurationMinutes?: Prisma.SortOrder
+  cancellationRequestStatus?: Prisma.SortOrder
+  cancellationRequestReason?: Prisma.SortOrder
+  cancellationRequestReviewNote?: Prisma.SortOrder
+  cancellationRequestedAt?: Prisma.SortOrder
+  cancellationRequestReviewedAt?: Prisma.SortOrder
   transPortDate?: Prisma.SortOrder
   animalId?: Prisma.SortOrder
   isBondedPair?: Prisma.SortOrder
@@ -843,6 +1007,8 @@ export type TransportSumOrderByAggregateInput = {
   pickUpLongitude?: Prisma.SortOrder
   dropOffLatitude?: Prisma.SortOrder
   dropOffLongitude?: Prisma.SortOrder
+  manualDistanceMiles?: Prisma.SortOrder
+  manualDurationMinutes?: Prisma.SortOrder
 }
 
 export type TransportCreateNestedManyWithoutAnimalInput = {
@@ -1061,6 +1227,10 @@ export type EnumPriorityLevelFieldUpdateOperationsInput = {
   set?: $Enums.PriorityLevel
 }
 
+export type NullableEnumCancellationRequestStatusFieldUpdateOperationsInput = {
+  set?: $Enums.CancellationRequestStatus | null
+}
+
 export type EnumRequiredVetClearanceTypeFieldUpdateOperationsInput = {
   set?: $Enums.RequiredVetClearanceType
 }
@@ -1167,6 +1337,13 @@ export type TransportCreateWithoutAnimalInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   isVetClearanceRequired?: boolean
@@ -1197,6 +1374,13 @@ export type TransportUncheckedCreateWithoutAnimalInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   bondedPairId?: string | null
@@ -1237,6 +1421,13 @@ export type TransportCreateWithoutBondedPairInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   isVetClearanceRequired?: boolean
@@ -1267,6 +1458,13 @@ export type TransportUncheckedCreateWithoutBondedPairInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -1326,6 +1524,13 @@ export type TransportScalarWhereInput = {
   dropOffLocation?: Prisma.StringFilter<"Transport"> | string
   dropOffLatitude?: Prisma.FloatFilter<"Transport"> | number
   dropOffLongitude?: Prisma.FloatFilter<"Transport"> | number
+  manualDistanceMiles?: Prisma.FloatNullableFilter<"Transport"> | number | null
+  manualDurationMinutes?: Prisma.FloatNullableFilter<"Transport"> | number | null
+  cancellationRequestStatus?: Prisma.EnumCancellationRequestStatusNullableFilter<"Transport"> | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.StringNullableFilter<"Transport"> | string | null
+  cancellationRequestReviewNote?: Prisma.StringNullableFilter<"Transport"> | string | null
+  cancellationRequestedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.DateTimeNullableFilter<"Transport"> | Date | string | null
   transPortDate?: Prisma.DateTimeFilter<"Transport"> | Date | string
   animalId?: Prisma.StringFilter<"Transport"> | string
   isBondedPair?: Prisma.BoolFilter<"Transport"> | boolean
@@ -1369,6 +1574,13 @@ export type TransportCreateWithoutDriverInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   isVetClearanceRequired?: boolean
@@ -1399,6 +1611,13 @@ export type TransportUncheckedCreateWithoutDriverInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -1455,6 +1674,13 @@ export type TransportCreateWithoutPricingSnapshotInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   isVetClearanceRequired?: boolean
@@ -1485,6 +1711,13 @@ export type TransportUncheckedCreateWithoutPricingSnapshotInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -1531,6 +1764,13 @@ export type TransportUpdateWithoutPricingSnapshotInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1561,6 +1801,13 @@ export type TransportUncheckedUpdateWithoutPricingSnapshotInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1591,6 +1838,13 @@ export type TransportCreateWithoutChatConversationsInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   isVetClearanceRequired?: boolean
@@ -1621,6 +1875,13 @@ export type TransportUncheckedCreateWithoutChatConversationsInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -1667,6 +1928,13 @@ export type TransportUpdateWithoutChatConversationsInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1697,6 +1965,13 @@ export type TransportUncheckedUpdateWithoutChatConversationsInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1727,6 +2002,13 @@ export type TransportCreateWithoutShelterInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   isVetClearanceRequired?: boolean
@@ -1757,6 +2039,13 @@ export type TransportUncheckedCreateWithoutShelterInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -1813,6 +2102,13 @@ export type TransportCreateWithoutTransactionInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   isVetClearanceRequired?: boolean
@@ -1843,6 +2139,13 @@ export type TransportUncheckedCreateWithoutTransactionInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -1889,6 +2192,13 @@ export type TransportUpdateWithoutTransactionInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1919,6 +2229,13 @@ export type TransportUncheckedUpdateWithoutTransactionInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1949,6 +2266,13 @@ export type TransportCreateWithoutTransportTimelinesInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   isVetClearanceRequired?: boolean
@@ -1979,6 +2303,13 @@ export type TransportUncheckedCreateWithoutTransportTimelinesInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -2025,6 +2356,13 @@ export type TransportUpdateWithoutTransportTimelinesInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2055,6 +2393,13 @@ export type TransportUncheckedUpdateWithoutTransportTimelinesInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2085,6 +2430,13 @@ export type TransportCreateWithoutVetClearanceRequestInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   isVetClearanceRequired?: boolean
@@ -2115,6 +2467,13 @@ export type TransportUncheckedCreateWithoutVetClearanceRequestInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -2161,6 +2520,13 @@ export type TransportUpdateWithoutVetClearanceRequestInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2191,6 +2557,13 @@ export type TransportUncheckedUpdateWithoutVetClearanceRequestInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2221,6 +2594,13 @@ export type TransportCreateWithoutVetInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   isVetClearanceRequired?: boolean
@@ -2251,6 +2631,13 @@ export type TransportUncheckedCreateWithoutVetInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -2307,6 +2694,13 @@ export type TransportCreateManyAnimalInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   isBondedPair?: boolean
   bondedPairId?: string | null
@@ -2333,6 +2727,13 @@ export type TransportCreateManyBondedPairInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -2359,6 +2760,13 @@ export type TransportUpdateWithoutAnimalInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2389,6 +2797,13 @@ export type TransportUncheckedUpdateWithoutAnimalInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bondedPairId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2419,6 +2834,13 @@ export type TransportUncheckedUpdateManyWithoutAnimalInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bondedPairId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2445,6 +2867,13 @@ export type TransportUpdateWithoutBondedPairInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2475,6 +2904,13 @@ export type TransportUncheckedUpdateWithoutBondedPairInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2505,6 +2941,13 @@ export type TransportUncheckedUpdateManyWithoutBondedPairInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2531,6 +2974,13 @@ export type TransportCreateManyDriverInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -2557,6 +3007,13 @@ export type TransportUpdateWithoutDriverInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2587,6 +3044,13 @@ export type TransportUncheckedUpdateWithoutDriverInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2617,6 +3081,13 @@ export type TransportUncheckedUpdateManyWithoutDriverInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2643,6 +3114,13 @@ export type TransportCreateManyShelterInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -2669,6 +3147,13 @@ export type TransportUpdateWithoutShelterInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2699,6 +3184,13 @@ export type TransportUncheckedUpdateWithoutShelterInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2729,6 +3221,13 @@ export type TransportUncheckedUpdateManyWithoutShelterInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2755,6 +3254,13 @@ export type TransportCreateManyVetInput = {
   dropOffLocation: string
   dropOffLatitude: number
   dropOffLongitude: number
+  manualDistanceMiles?: number | null
+  manualDurationMinutes?: number | null
+  cancellationRequestStatus?: $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: string | null
+  cancellationRequestReviewNote?: string | null
+  cancellationRequestedAt?: Date | string | null
+  cancellationRequestReviewedAt?: Date | string | null
   transPortDate: Date | string
   animalId: string
   isBondedPair?: boolean
@@ -2781,6 +3287,13 @@ export type TransportUpdateWithoutVetInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isVetClearanceRequired?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2811,6 +3324,13 @@ export type TransportUncheckedUpdateWithoutVetInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2841,6 +3361,13 @@ export type TransportUncheckedUpdateManyWithoutVetInput = {
   dropOffLocation?: Prisma.StringFieldUpdateOperationsInput | string
   dropOffLatitude?: Prisma.FloatFieldUpdateOperationsInput | number
   dropOffLongitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  manualDistanceMiles?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  manualDurationMinutes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cancellationRequestStatus?: Prisma.NullableEnumCancellationRequestStatusFieldUpdateOperationsInput | $Enums.CancellationRequestStatus | null
+  cancellationRequestReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestReviewNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancellationRequestedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancellationRequestReviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   transPortDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animalId?: Prisma.StringFieldUpdateOperationsInput | string
   isBondedPair?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2907,6 +3434,13 @@ export type TransportSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   dropOffLocation?: boolean
   dropOffLatitude?: boolean
   dropOffLongitude?: boolean
+  manualDistanceMiles?: boolean
+  manualDurationMinutes?: boolean
+  cancellationRequestStatus?: boolean
+  cancellationRequestReason?: boolean
+  cancellationRequestReviewNote?: boolean
+  cancellationRequestedAt?: boolean
+  cancellationRequestReviewedAt?: boolean
   transPortDate?: boolean
   animalId?: boolean
   isBondedPair?: boolean
@@ -2945,6 +3479,13 @@ export type TransportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   dropOffLocation?: boolean
   dropOffLatitude?: boolean
   dropOffLongitude?: boolean
+  manualDistanceMiles?: boolean
+  manualDurationMinutes?: boolean
+  cancellationRequestStatus?: boolean
+  cancellationRequestReason?: boolean
+  cancellationRequestReviewNote?: boolean
+  cancellationRequestedAt?: boolean
+  cancellationRequestReviewedAt?: boolean
   transPortDate?: boolean
   animalId?: boolean
   isBondedPair?: boolean
@@ -2978,6 +3519,13 @@ export type TransportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   dropOffLocation?: boolean
   dropOffLatitude?: boolean
   dropOffLongitude?: boolean
+  manualDistanceMiles?: boolean
+  manualDurationMinutes?: boolean
+  cancellationRequestStatus?: boolean
+  cancellationRequestReason?: boolean
+  cancellationRequestReviewNote?: boolean
+  cancellationRequestedAt?: boolean
+  cancellationRequestReviewedAt?: boolean
   transPortDate?: boolean
   animalId?: boolean
   isBondedPair?: boolean
@@ -3011,6 +3559,13 @@ export type TransportSelectScalar = {
   dropOffLocation?: boolean
   dropOffLatitude?: boolean
   dropOffLongitude?: boolean
+  manualDistanceMiles?: boolean
+  manualDurationMinutes?: boolean
+  cancellationRequestStatus?: boolean
+  cancellationRequestReason?: boolean
+  cancellationRequestReviewNote?: boolean
+  cancellationRequestedAt?: boolean
+  cancellationRequestReviewedAt?: boolean
   transPortDate?: boolean
   animalId?: boolean
   isBondedPair?: boolean
@@ -3028,7 +3583,7 @@ export type TransportSelectScalar = {
   completedAt?: boolean
 }
 
-export type TransportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transportNote" | "priorityLevel" | "pickUpLocation" | "pickUpLatitude" | "pickUpLongitude" | "dropOffLocation" | "dropOffLatitude" | "dropOffLongitude" | "transPortDate" | "animalId" | "isBondedPair" | "bondedPairId" | "vetId" | "driverId" | "shelterId" | "isVetClearanceRequired" | "vetClearanceType" | "vetClearanceRequestId" | "status" | "createdAt" | "updatedAt" | "acceptedAt" | "completedAt", ExtArgs["result"]["transport"]>
+export type TransportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "transportNote" | "priorityLevel" | "pickUpLocation" | "pickUpLatitude" | "pickUpLongitude" | "dropOffLocation" | "dropOffLatitude" | "dropOffLongitude" | "manualDistanceMiles" | "manualDurationMinutes" | "cancellationRequestStatus" | "cancellationRequestReason" | "cancellationRequestReviewNote" | "cancellationRequestedAt" | "cancellationRequestReviewedAt" | "transPortDate" | "animalId" | "isBondedPair" | "bondedPairId" | "vetId" | "driverId" | "shelterId" | "isVetClearanceRequired" | "vetClearanceType" | "vetClearanceRequestId" | "status" | "createdAt" | "updatedAt" | "acceptedAt" | "completedAt", ExtArgs["result"]["transport"]>
 export type TransportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   animal?: boolean | Prisma.AnimalDefaultArgs<ExtArgs>
   bondedPair?: boolean | Prisma.Transport$bondedPairArgs<ExtArgs>
@@ -3083,6 +3638,13 @@ export type $TransportPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     dropOffLocation: string
     dropOffLatitude: number
     dropOffLongitude: number
+    manualDistanceMiles: number | null
+    manualDurationMinutes: number | null
+    cancellationRequestStatus: $Enums.CancellationRequestStatus | null
+    cancellationRequestReason: string | null
+    cancellationRequestReviewNote: string | null
+    cancellationRequestedAt: Date | null
+    cancellationRequestReviewedAt: Date | null
     transPortDate: Date
     animalId: string
     isBondedPair: boolean
@@ -3540,6 +4102,13 @@ export interface TransportFieldRefs {
   readonly dropOffLocation: Prisma.FieldRef<"Transport", 'String'>
   readonly dropOffLatitude: Prisma.FieldRef<"Transport", 'Float'>
   readonly dropOffLongitude: Prisma.FieldRef<"Transport", 'Float'>
+  readonly manualDistanceMiles: Prisma.FieldRef<"Transport", 'Float'>
+  readonly manualDurationMinutes: Prisma.FieldRef<"Transport", 'Float'>
+  readonly cancellationRequestStatus: Prisma.FieldRef<"Transport", 'CancellationRequestStatus'>
+  readonly cancellationRequestReason: Prisma.FieldRef<"Transport", 'String'>
+  readonly cancellationRequestReviewNote: Prisma.FieldRef<"Transport", 'String'>
+  readonly cancellationRequestedAt: Prisma.FieldRef<"Transport", 'DateTime'>
+  readonly cancellationRequestReviewedAt: Prisma.FieldRef<"Transport", 'DateTime'>
   readonly transPortDate: Prisma.FieldRef<"Transport", 'DateTime'>
   readonly animalId: Prisma.FieldRef<"Transport", 'String'>
   readonly isBondedPair: Prisma.FieldRef<"Transport", 'Boolean'>
@@ -3638,7 +4207,7 @@ export type TransportFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Transports from the position of the cursor.
+   * Take `±n` Transports from the position of the cursor.
    */
   take?: number
   /**
@@ -3690,7 +4259,7 @@ export type TransportFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensio
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Transports from the position of the cursor.
+   * Take `±n` Transports from the position of the cursor.
    */
   take?: number
   /**
@@ -3742,7 +4311,7 @@ export type TransportFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Transports from the position of the cursor.
+   * Take `±n` Transports from the position of the cursor.
    */
   take?: number
   /**

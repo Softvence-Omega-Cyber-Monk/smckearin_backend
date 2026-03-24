@@ -6,7 +6,7 @@
 /*
  * This file exports the `Transaction` model and its related types.
  *
- * ðŸŸ¢ You can import this file directly.
+ * ?? You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -137,7 +137,7 @@ export type TransactionAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Transactions from the position of the cursor.
+   * Take `±n` Transactions from the position of the cursor.
    */
   take?: number
   /**
@@ -1135,7 +1135,7 @@ export type TransactionFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Transactions from the position of the cursor.
+   * Take `±n` Transactions from the position of the cursor.
    */
   take?: number
   /**
@@ -1187,7 +1187,7 @@ export type TransactionFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Transactions from the position of the cursor.
+   * Take `±n` Transactions from the position of the cursor.
    */
   take?: number
   /**
@@ -1239,7 +1239,7 @@ export type TransactionFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` Transactions from the position of the cursor.
+   * Take `±n` Transactions from the position of the cursor.
    */
   take?: number
   /**

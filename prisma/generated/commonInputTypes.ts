@@ -6,7 +6,7 @@
 /*
  * This file exports various common sort, input & filter types that are not directly linked to a particular model.
  *
- * 🟢 You can import this file directly.
+ * ?? You can import this file directly.
  */
 
 import type * as runtime from "@prisma/client/runtime/client"
@@ -773,6 +773,13 @@ export type EnumPriorityLevelFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel> | $Enums.PriorityLevel
 }
 
+export type EnumCancellationRequestStatusNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.CancellationRequestStatus | Prisma.EnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CancellationRequestStatus[] | Prisma.ListEnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CancellationRequestStatus[] | Prisma.ListEnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCancellationRequestStatusNullableFilter<$PrismaModel> | $Enums.CancellationRequestStatus | null
+}
+
 export type EnumRequiredVetClearanceTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.RequiredVetClearanceType | Prisma.EnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
   in?: $Enums.RequiredVetClearanceType[] | Prisma.ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
@@ -795,6 +802,16 @@ export type EnumPriorityLevelWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel>
   _max?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel>
+}
+
+export type EnumCancellationRequestStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CancellationRequestStatus | Prisma.EnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CancellationRequestStatus[] | Prisma.ListEnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CancellationRequestStatus[] | Prisma.ListEnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCancellationRequestStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.CancellationRequestStatus | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCancellationRequestStatusNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCancellationRequestStatusNullableFilter<$PrismaModel>
 }
 
 export type EnumRequiredVetClearanceTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -1598,6 +1615,13 @@ export type NestedEnumPriorityLevelFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel> | $Enums.PriorityLevel
 }
 
+export type NestedEnumCancellationRequestStatusNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.CancellationRequestStatus | Prisma.EnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CancellationRequestStatus[] | Prisma.ListEnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CancellationRequestStatus[] | Prisma.ListEnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCancellationRequestStatusNullableFilter<$PrismaModel> | $Enums.CancellationRequestStatus | null
+}
+
 export type NestedEnumRequiredVetClearanceTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.RequiredVetClearanceType | Prisma.EnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
   in?: $Enums.RequiredVetClearanceType[] | Prisma.ListEnumRequiredVetClearanceTypeFieldRefInput<$PrismaModel>
@@ -1620,6 +1644,16 @@ export type NestedEnumPriorityLevelWithAggregatesFilter<$PrismaModel = never> = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel>
   _max?: Prisma.NestedEnumPriorityLevelFilter<$PrismaModel>
+}
+
+export type NestedEnumCancellationRequestStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CancellationRequestStatus | Prisma.EnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CancellationRequestStatus[] | Prisma.ListEnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CancellationRequestStatus[] | Prisma.ListEnumCancellationRequestStatusFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCancellationRequestStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.CancellationRequestStatus | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCancellationRequestStatusNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCancellationRequestStatusNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumRequiredVetClearanceTypeWithAggregatesFilter<$PrismaModel = never> = {

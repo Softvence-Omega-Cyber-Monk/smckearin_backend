@@ -6,7 +6,7 @@
 /*
  * This file exports the `HealthReport` model and its related types.
  *
- * ðŸŸ¢ You can import this file directly.
+ * ?? You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -125,7 +125,7 @@ export type HealthReportAggregateArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` HealthReports from the position of the cursor.
+   * Take `±n` HealthReports from the position of the cursor.
    */
   take?: number
   /**
@@ -1445,7 +1445,7 @@ export type HealthReportFindFirstArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` HealthReports from the position of the cursor.
+   * Take `±n` HealthReports from the position of the cursor.
    */
   take?: number
   /**
@@ -1497,7 +1497,7 @@ export type HealthReportFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exten
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` HealthReports from the position of the cursor.
+   * Take `±n` HealthReports from the position of the cursor.
    */
   take?: number
   /**
@@ -1549,7 +1549,7 @@ export type HealthReportFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `Â±n` HealthReports from the position of the cursor.
+   * Take `±n` HealthReports from the position of the cursor.
    */
   take?: number
   /**

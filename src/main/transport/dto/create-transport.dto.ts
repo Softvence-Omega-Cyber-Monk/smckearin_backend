@@ -59,6 +59,26 @@ export class CreateTransportDto {
   @IsNumber()
   dropOffLongitude: number;
 
+  @ApiPropertyOptional({
+    description:
+      'Optional manual route distance in miles. If omitted, distance is calculated automatically.',
+    example: 12.5,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  distanceMiles?: number;
+
+  @ApiPropertyOptional({
+    description:
+      'Optional manual ETA in minutes. If omitted, ETA is calculated automatically.',
+    example: 35,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  etaMinutes?: number;
+
   @ApiProperty({
     description: 'Transport date (ISO format)',
     example: '2025-12-20T10:30:00.000Z',
@@ -104,7 +124,8 @@ export class CreateTransportDto {
   vetId?: string;
 
   @ApiPropertyOptional({
-    description: "Assigned driver ID, or 'anyone' for auto-selection",
+    description:
+      "Assigned driver ID. Omit it or send 'anyone' for auto-selection",
     example: 'uuid-driver-id',
   })
   @IsOptional()
