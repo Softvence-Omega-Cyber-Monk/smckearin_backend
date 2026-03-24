@@ -33,7 +33,7 @@ export const documentUploadConfig = {
     const allowed = ['application/pdf', 'image/jpeg', 'image/png'];
     if (!allowed.includes(file.mimetype)) {
       return cb(
-        new BadRequestException('Only PDF, JPG, and PNG files are allowed'),
+        new BadRequestException('Only PDF, JPG, and PNG files are allowed') as any,
         false,
       );
     }

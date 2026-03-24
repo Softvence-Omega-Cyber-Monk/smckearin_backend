@@ -6,7 +6,7 @@
 /*
  * This file exports the `PricingRule` model and its related types.
  *
- * ?? You can import this file directly.
+ * ðŸŸ¢ You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -163,7 +163,7 @@ export type PricingRuleAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PricingRules from the position of the cursor.
+   * Take `Â±n` PricingRules from the position of the cursor.
    */
   take?: number
   /**
@@ -1063,7 +1063,7 @@ export type PricingRuleFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PricingRules from the position of the cursor.
+   * Take `Â±n` PricingRules from the position of the cursor.
    */
   take?: number
   /**
@@ -1111,7 +1111,7 @@ export type PricingRuleFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PricingRules from the position of the cursor.
+   * Take `Â±n` PricingRules from the position of the cursor.
    */
   take?: number
   /**
@@ -1159,7 +1159,7 @@ export type PricingRuleFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PricingRules from the position of the cursor.
+   * Take `Â±n` PricingRules from the position of the cursor.
    */
   take?: number
   /**

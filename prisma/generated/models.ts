@@ -6,16 +6,22 @@
 /*
  * This is a barrel export file for all models and their related types.
  *
- * ?? You can import this file directly.
+ * 🟢 You can import this file directly.
  */
 export type * from './models/AnimalComplexityFee'
 export type * from './models/Animal'
 export type * from './models/UserOtp'
 export type * from './models/RefreshToken'
+export type * from './models/PasswordResetToken'
 export type * from './models/DailySchedule'
 export type * from './models/Driver'
 export type * from './models/ExternalFeedConfig'
 export type * from './models/FileInstance'
+export type * from './models/FosterProfile'
+export type * from './models/FosterPreference'
+export type * from './models/FosterDocument'
+export type * from './models/UserSettings'
+export type * from './models/OperatingSchedule'
 export type * from './models/HealthReport'
 export type * from './models/ImportJob'
 export type * from './models/ImportRow'

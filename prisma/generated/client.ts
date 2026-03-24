@@ -7,7 +7,7 @@
  * This file should be your main import to use Prisma. Through it you get access to all the models, enums, and input types.
  * If you're looking for something you can import in the client-side of your application, please refer to the `browser.ts` file instead.
  *
- * ?? You can import this file directly.
+ * 🟢 You can import this file directly.
  */
 
 import * as process from 'node:process'
@@ -58,6 +58,11 @@ export type UserOtp = Prisma.UserOtpModel
  */
 export type RefreshToken = Prisma.RefreshTokenModel
 /**
+ * Model PasswordResetToken
+ * 
+ */
+export type PasswordResetToken = Prisma.PasswordResetTokenModel
+/**
  * Model DailySchedule
  * 
  */
@@ -77,6 +82,31 @@ export type ExternalFeedConfig = Prisma.ExternalFeedConfigModel
  * 
  */
 export type FileInstance = Prisma.FileInstanceModel
+/**
+ * Model FosterProfile
+ * 
+ */
+export type FosterProfile = Prisma.FosterProfileModel
+/**
+ * Model FosterPreference
+ * 
+ */
+export type FosterPreference = Prisma.FosterPreferenceModel
+/**
+ * Model FosterDocument
+ * 
+ */
+export type FosterDocument = Prisma.FosterDocumentModel
+/**
+ * Model UserSettings
+ * 
+ */
+export type UserSettings = Prisma.UserSettingsModel
+/**
+ * Model OperatingSchedule
+ * 
+ */
+export type OperatingSchedule = Prisma.OperatingScheduleModel
 /**
  * Model HealthReport
  * 

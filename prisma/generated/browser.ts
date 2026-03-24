@@ -10,7 +10,7 @@
  * This file does not contain a `PrismaClient` class, nor several other helpers that are intended as server-side only.
  * See `client.ts` for the standard, server-side entry point.
  *
- * ?? You can import this file directly.
+ * 🟢 You can import this file directly.
  */
 
 import * as Prisma from './internal/prismaNamespaceBrowser'
@@ -38,6 +38,11 @@ export type UserOtp = Prisma.UserOtpModel
  */
 export type RefreshToken = Prisma.RefreshTokenModel
 /**
+ * Model PasswordResetToken
+ * 
+ */
+export type PasswordResetToken = Prisma.PasswordResetTokenModel
+/**
  * Model DailySchedule
  * 
  */
@@ -57,6 +62,31 @@ export type ExternalFeedConfig = Prisma.ExternalFeedConfigModel
  * 
  */
 export type FileInstance = Prisma.FileInstanceModel
+/**
+ * Model FosterProfile
+ * 
+ */
+export type FosterProfile = Prisma.FosterProfileModel
+/**
+ * Model FosterPreference
+ * 
+ */
+export type FosterPreference = Prisma.FosterPreferenceModel
+/**
+ * Model FosterDocument
+ * 
+ */
+export type FosterDocument = Prisma.FosterDocumentModel
+/**
+ * Model UserSettings
+ * 
+ */
+export type UserSettings = Prisma.UserSettingsModel
+/**
+ * Model OperatingSchedule
+ * 
+ */
+export type OperatingSchedule = Prisma.OperatingScheduleModel
 /**
  * Model HealthReport
  * 

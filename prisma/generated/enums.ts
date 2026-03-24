@@ -6,7 +6,7 @@
 /*
 * This file exports all enum related types from the schema.
 *
-* ?? You can import this file directly.
+* 🟢 You can import this file directly.
 */
 
 export const Status = {
@@ -135,6 +135,26 @@ export const FileType = {
 } as const
 
 export type FileType = (typeof FileType)[keyof typeof FileType]
+
+
+export const DocumentType = {
+  FOSTER_AGREEMENT: 'FOSTER_AGREEMENT',
+  ID_CARD: 'ID_CARD',
+  HOME_AUTHENTICATION: 'HOME_AUTHENTICATION',
+  TRANSPORT_CERTIFICATE: 'TRANSPORT_CERTIFICATE',
+  OTHER: 'OTHER'
+} as const
+
+export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
+
+
+export const DocumentStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type DocumentStatus = (typeof DocumentStatus)[keyof typeof DocumentStatus]
 
 
 export const ImportSourceType = {
@@ -287,7 +307,9 @@ export const UserRole = {
   SHELTER_ADMIN: 'SHELTER_ADMIN',
   MANAGER: 'MANAGER',
   VETERINARIAN: 'VETERINARIAN',
-  DRIVER: 'DRIVER'
+  DRIVER: 'DRIVER',
+  FOSTER: 'FOSTER',
+  FOSTER_ADMIN: 'FOSTER_ADMIN'
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
@@ -296,7 +318,12 @@ export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 export const UserStatus = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
-  DELETED: 'DELETED'
+  DELETED: 'DELETED',
+  PENDING_VERIFICATION: 'PENDING_VERIFICATION',
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  SUSPENDED: 'SUSPENDED'
 } as const
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]

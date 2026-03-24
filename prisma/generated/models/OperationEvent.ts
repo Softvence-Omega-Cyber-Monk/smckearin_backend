@@ -6,7 +6,7 @@
 /*
  * This file exports the `OperationEvent` model and its related types.
  *
- * ?? You can import this file directly.
+ * ðŸŸ¢ You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -157,7 +157,7 @@ export type OperationEventAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` OperationEvents from the position of the cursor.
+   * Take `Â±n` OperationEvents from the position of the cursor.
    */
   take?: number
   /**
@@ -2140,7 +2140,7 @@ export type OperationEventFindFirstArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` OperationEvents from the position of the cursor.
+   * Take `Â±n` OperationEvents from the position of the cursor.
    */
   take?: number
   /**
@@ -2192,7 +2192,7 @@ export type OperationEventFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` OperationEvents from the position of the cursor.
+   * Take `Â±n` OperationEvents from the position of the cursor.
    */
   take?: number
   /**
@@ -2244,7 +2244,7 @@ export type OperationEventFindManyArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` OperationEvents from the position of the cursor.
+   * Take `Â±n` OperationEvents from the position of the cursor.
    */
   take?: number
   /**

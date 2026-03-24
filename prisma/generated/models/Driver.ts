@@ -6,7 +6,7 @@
 /*
  * This file exports the `Driver` model and its related types.
  *
- * ?? You can import this file directly.
+ * ðŸŸ¢ You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -271,7 +271,7 @@ export type DriverAggregateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` Drivers from the position of the cursor.
+   * Take `Â±n` Drivers from the position of the cursor.
    */
   take?: number
   /**
@@ -2836,7 +2836,7 @@ export type DriverFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` Drivers from the position of the cursor.
+   * Take `Â±n` Drivers from the position of the cursor.
    */
   take?: number
   /**
@@ -2888,7 +2888,7 @@ export type DriverFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` Drivers from the position of the cursor.
+   * Take `Â±n` Drivers from the position of the cursor.
    */
   take?: number
   /**
@@ -2940,7 +2940,7 @@ export type DriverFindManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` Drivers from the position of the cursor.
+   * Take `Â±n` Drivers from the position of the cursor.
    */
   take?: number
   /**

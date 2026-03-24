@@ -6,7 +6,7 @@
 /*
  * This file exports the `PrivateMessage` model and its related types.
  *
- * ?? You can import this file directly.
+ * ðŸŸ¢ You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -113,7 +113,7 @@ export type PrivateMessageAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PrivateMessages from the position of the cursor.
+   * Take `Â±n` PrivateMessages from the position of the cursor.
    */
   take?: number
   /**
@@ -1648,7 +1648,7 @@ export type PrivateMessageFindFirstArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PrivateMessages from the position of the cursor.
+   * Take `Â±n` PrivateMessages from the position of the cursor.
    */
   take?: number
   /**
@@ -1700,7 +1700,7 @@ export type PrivateMessageFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PrivateMessages from the position of the cursor.
+   * Take `Â±n` PrivateMessages from the position of the cursor.
    */
   take?: number
   /**
@@ -1752,7 +1752,7 @@ export type PrivateMessageFindManyArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` PrivateMessages from the position of the cursor.
+   * Take `Â±n` PrivateMessages from the position of the cursor.
    */
   take?: number
   /**

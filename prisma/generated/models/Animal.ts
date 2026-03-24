@@ -6,7 +6,7 @@
 /*
  * This file exports the `Animal` model and its related types.
  *
- * ?? You can import this file directly.
+ * ðŸŸ¢ You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -303,7 +303,7 @@ export type AnimalAggregateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` Animals from the position of the cursor.
+   * Take `Â±n` Animals from the position of the cursor.
    */
   take?: number
   /**
@@ -4046,7 +4046,7 @@ export type AnimalFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` Animals from the position of the cursor.
+   * Take `Â±n` Animals from the position of the cursor.
    */
   take?: number
   /**
@@ -4098,7 +4098,7 @@ export type AnimalFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` Animals from the position of the cursor.
+   * Take `Â±n` Animals from the position of the cursor.
    */
   take?: number
   /**
@@ -4150,7 +4150,7 @@ export type AnimalFindManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` Animals from the position of the cursor.
+   * Take `Â±n` Animals from the position of the cursor.
    */
   take?: number
   /**

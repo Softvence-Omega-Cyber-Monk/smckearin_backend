@@ -6,7 +6,7 @@
 /*
  * This file exports the `ImportRow` model and its related types.
  *
- * ?? You can import this file directly.
+ * ðŸŸ¢ You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -135,7 +135,7 @@ export type ImportRowAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` ImportRows from the position of the cursor.
+   * Take `Â±n` ImportRows from the position of the cursor.
    */
   take?: number
   /**
@@ -1220,7 +1220,7 @@ export type ImportRowFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` ImportRows from the position of the cursor.
+   * Take `Â±n` ImportRows from the position of the cursor.
    */
   take?: number
   /**
@@ -1272,7 +1272,7 @@ export type ImportRowFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensio
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` ImportRows from the position of the cursor.
+   * Take `Â±n` ImportRows from the position of the cursor.
    */
   take?: number
   /**
@@ -1324,7 +1324,7 @@ export type ImportRowFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` ImportRows from the position of the cursor.
+   * Take `Â±n` ImportRows from the position of the cursor.
    */
   take?: number
   /**

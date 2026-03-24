@@ -6,7 +6,7 @@
 /*
  * This file exports the `DailySchedule` model and its related types.
  *
- * ?? You can import this file directly.
+ * ðŸŸ¢ You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -119,7 +119,7 @@ export type DailyScheduleAggregateArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` DailySchedules from the position of the cursor.
+   * Take `Â±n` DailySchedules from the position of the cursor.
    */
   take?: number
   /**
@@ -1441,7 +1441,7 @@ export type DailyScheduleFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` DailySchedules from the position of the cursor.
+   * Take `Â±n` DailySchedules from the position of the cursor.
    */
   take?: number
   /**
@@ -1493,7 +1493,7 @@ export type DailyScheduleFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` DailySchedules from the position of the cursor.
+   * Take `Â±n` DailySchedules from the position of the cursor.
    */
   take?: number
   /**
@@ -1545,7 +1545,7 @@ export type DailyScheduleFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` DailySchedules from the position of the cursor.
+   * Take `Â±n` DailySchedules from the position of the cursor.
    */
   take?: number
   /**

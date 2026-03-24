@@ -6,7 +6,7 @@
 /*
  * This file exports the `VetDocument` model and its related types.
  *
- * ?? You can import this file directly.
+ * ðŸŸ¢ You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
 import type * as $Enums from "../enums"
@@ -119,7 +119,7 @@ export type VetDocumentAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` VetDocuments from the position of the cursor.
+   * Take `Â±n` VetDocuments from the position of the cursor.
    */
   take?: number
   /**
@@ -1256,7 +1256,7 @@ export type VetDocumentFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` VetDocuments from the position of the cursor.
+   * Take `Â±n` VetDocuments from the position of the cursor.
    */
   take?: number
   /**
@@ -1308,7 +1308,7 @@ export type VetDocumentFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` VetDocuments from the position of the cursor.
+   * Take `Â±n` VetDocuments from the position of the cursor.
    */
   take?: number
   /**
@@ -1360,7 +1360,7 @@ export type VetDocumentFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
    * 
-   * Take `±n` VetDocuments from the position of the cursor.
+   * Take `Â±n` VetDocuments from the position of the cursor.
    */
   take?: number
   /**
