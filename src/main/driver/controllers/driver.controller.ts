@@ -69,10 +69,10 @@ export class DriverController {
 
   @ApiOperation({ summary: 'Approve or reject driver (admin only)' })
   @ValidateAdmin()
-  @Get('driver/:driverId/approve')
+  @Patch('driver/:driverId/approve')
   async approveOrRejectDriver(
     @Param('driverId') driverId: string,
-    @Query() dto: ApproveOrRejectDto,
+    @Body() dto: ApproveOrRejectDto,
   ) {
     return this.manageDriverService.approveOrRejectDriver(driverId, dto);
   }

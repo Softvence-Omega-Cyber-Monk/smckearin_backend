@@ -66,10 +66,10 @@ export class ShelterController {
 
   @ApiOperation({ summary: 'Approve or reject shelter (admin & shelter only)' })
   @ValidateManager()
-  @Get('shelter/:shelterId/approve')
+  @Patch('shelter/:shelterId/approve')
   async approveOrRejectShelter(
     @Param('shelterId') shelterId: string,
-    @Query() dto: ApproveOrRejectDto,
+    @Body() dto: ApproveOrRejectDto,
   ) {
     return this.manageShelterService.approveOrRejectShelter(shelterId, dto);
   }

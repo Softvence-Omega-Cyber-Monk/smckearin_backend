@@ -1,6 +1,6 @@
 import { GetUser, ValidateManager } from '@/core/jwt/jwt.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
-import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { GetTransactionDto } from '../dto/get-transaction.dto';
 import { GetSingleTransactionService } from '../services/get-single-transaction.service';
@@ -29,7 +29,7 @@ export class ShelterPaymentController {
   }
 
   @ApiOperation({ summary: 'Remove saved payment method' })
-  @Get('payment-method/remove')
+  @Delete('payment-method')
   async removePaymentMethod(@GetUser('sub') userId: string) {
     return await this.shelterPaymentService.removePaymentMethod(userId);
   }

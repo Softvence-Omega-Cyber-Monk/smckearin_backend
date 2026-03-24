@@ -17,7 +17,7 @@ export class AuthNotificationController {
   @Get('notification-setting')
   @ValidateAuth()
   async getNotificationSetting(@GetUser('sub') userId: string) {
-    return this.authNotificationService.createOrGetNotificationSetting(userId);
+    return this.authNotificationService.getNotificationSettings(userId);
   }
 
   @ApiOperation({ summary: 'Update Notification Setting' })

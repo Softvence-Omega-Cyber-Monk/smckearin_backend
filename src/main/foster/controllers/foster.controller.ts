@@ -62,10 +62,10 @@ export class FosterController {
 
   @ApiOperation({ summary: 'Approve or reject foster (admin only)' })
   @ValidateAdmin()
-  @Get('foster/:fosterId/approve')
+  @Patch('foster/:fosterId/approve')
   async approveOrRejectFoster(
     @Param('fosterId') fosterId: string,
-    @Query() dto: ApproveOrRejectDto,
+    @Body() dto: ApproveOrRejectDto,
   ) {
     return this.manageFosterService.approveOrRejectFoster(fosterId, dto);
   }

@@ -10,28 +10,48 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { NotificationSettings, UserRole } from '@prisma';
 
+type NotificationSettingsView = {
+  id: string | null;
+  userId: string;
+  emailNotifications: boolean;
+  smsNotifications: boolean;
+  certificateNotifications: boolean;
+  appointmentNotifications: boolean;
+  tripNotifications: boolean;
+  paymentNotifications: boolean;
+  createdAt: Date | null;
+  updatedAt: Date | null;
+};
+
 @Injectable()
 export class AuthNotificationService {
   constructor(private readonly prisma: PrismaService) {}
 
   @HandleError('Failed to get notification settings')
-  async createOrGetNotificationSetting(
-    userId: string,
-  ): Promise<TResponse<any>> {
+  async getNotificationSettings(userId: string): Promise<TResponse<any>> {
     const user = await this.prisma.client.user.findUniqueOrThrow({
       where: { id: userId },
       include: { notificationSettings: true },
     });
 
-    const settings = await this.prisma.client.notificationSettings.upsert({
-      where: { userId },
-      create: { userId },
-      update: {},
-    });
+    const settings: NotificationSettingsView = user.notificationSettings
+      ? user.notificationSettings
+      : {
+          id: null,
+          userId,
+          emailNotifications: false,
+          smsNotifications: false,
+          certificateNotifications: false,
+          appointmentNotifications: false,
+          tripNotifications: false,
+          paymentNotifications: false,
+          createdAt: null,
+          updatedAt: null,
+        };
 
     return successResponse(
       this.filterSettingsByRole(user.role, settings),
-      'Notification settings created or fetched',
+      'Notification settings fetched',
     );
   }
 
@@ -124,7 +144,10 @@ export class AuthNotificationService {
     return successResponse(null, 'All notifications marked as read');
   }
 
-  private filterSettingsByRole(role: UserRole, settings: NotificationSettings) {
+  private filterSettingsByRole(
+    role: UserRole,
+    settings: NotificationSettingsView,
+  ) {
     const common = {
       id: settings.id,
       userId: settings.userId,
