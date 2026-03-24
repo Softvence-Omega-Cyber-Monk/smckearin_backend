@@ -137,6 +137,16 @@ export const FileType = {
 export type FileType = (typeof FileType)[keyof typeof FileType]
 
 
+export const FosterInterestStatus = {
+  INTERESTED: 'INTERESTED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  WITHDRAWN: 'WITHDRAWN'
+} as const
+
+export type FosterInterestStatus = (typeof FosterInterestStatus)[keyof typeof FosterInterestStatus]
+
+
 export const ImportSourceType = {
   CSV: 'CSV',
   EXTERNAL_FEED: 'EXTERNAL_FEED'

@@ -58,6 +58,11 @@ export type ExternalFeedConfig = Prisma.ExternalFeedConfigModel
  */
 export type FileInstance = Prisma.FileInstanceModel
 /**
+ * Model FosterAnimalInterest
+ * 
+ */
+export type FosterAnimalInterest = Prisma.FosterAnimalInterestModel
+/**
  * Model Foster
  * 
  */

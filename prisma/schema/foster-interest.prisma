@@ -1,0 +1,37 @@
+model FosterAnimalInterest {
+  id String @id @default(uuid())
+
+  fosterId String
+  foster   Foster @relation(fields: [fosterId], references: [id], onDelete: Cascade)
+
+  animalId String
+  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  preferredArrivalDate DateTime?
+  availableFromTime    String
+  availableUntilTime   String
+
+  receivingAddress String
+  receivingPhone   String
+
+  status FosterInterestStatus @default(INTERESTED)
+  reviewedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([fosterId, status])
+  @@index([animalId, status])
+  @@index([shelterId, status])
+  @@map("foster_animal_interests")
+}
+
+enum FosterInterestStatus {
+  INTERESTED
+  APPROVED
+  REJECTED
+  WITHDRAWN
+}

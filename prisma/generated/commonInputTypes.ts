@@ -467,6 +467,23 @@ export type EnumFileTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumFileTypeFilter<$PrismaModel>
 }
 
+export type EnumFosterInterestStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.FosterInterestStatus | Prisma.EnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FosterInterestStatus[] | Prisma.ListEnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FosterInterestStatus[] | Prisma.ListEnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFosterInterestStatusFilter<$PrismaModel> | $Enums.FosterInterestStatus
+}
+
+export type EnumFosterInterestStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FosterInterestStatus | Prisma.EnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FosterInterestStatus[] | Prisma.ListEnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FosterInterestStatus[] | Prisma.ListEnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFosterInterestStatusWithAggregatesFilter<$PrismaModel> | $Enums.FosterInterestStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFosterInterestStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFosterInterestStatusFilter<$PrismaModel>
+}
+
 export type EnumImportSourceTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.ImportSourceType | Prisma.EnumImportSourceTypeFieldRefInput<$PrismaModel>
   in?: $Enums.ImportSourceType[] | Prisma.ListEnumImportSourceTypeFieldRefInput<$PrismaModel>
@@ -1345,6 +1362,23 @@ export type NestedEnumFileTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumFileTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumFileTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumFosterInterestStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.FosterInterestStatus | Prisma.EnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FosterInterestStatus[] | Prisma.ListEnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FosterInterestStatus[] | Prisma.ListEnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFosterInterestStatusFilter<$PrismaModel> | $Enums.FosterInterestStatus
+}
+
+export type NestedEnumFosterInterestStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FosterInterestStatus | Prisma.EnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FosterInterestStatus[] | Prisma.ListEnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FosterInterestStatus[] | Prisma.ListEnumFosterInterestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFosterInterestStatusWithAggregatesFilter<$PrismaModel> | $Enums.FosterInterestStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFosterInterestStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFosterInterestStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumImportSourceTypeFilter<$PrismaModel = never> = {

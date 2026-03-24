@@ -28,6 +28,7 @@ model Shelter {
 
   // Animals in the shelter
   animals Animal[]
+  fosterAnimalInterests FosterAnimalInterest[]
 
   // Shelter Documents
   shelterDocuments ShelterDocument[]

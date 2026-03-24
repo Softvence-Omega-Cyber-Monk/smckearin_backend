@@ -34,6 +34,7 @@ model Animal {
   // Transports
   transports             Transport[]
   transportsAsBondedPair Transport[] @relation("BondedPair")
+  fosterAnimalInterests  FosterAnimalInterest[]
 
   // Health Reports
   healthReports HealthReport[]

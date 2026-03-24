@@ -392,6 +392,7 @@ export const ModelName = {
   Driver: 'Driver',
   ExternalFeedConfig: 'ExternalFeedConfig',
   FileInstance: 'FileInstance',
+  FosterAnimalInterest: 'FosterAnimalInterest',
   Foster: 'Foster',
   HealthReport: 'HealthReport',
   ImportJob: 'ImportJob',
@@ -434,7 +435,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "foster" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
+    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "fosterAnimalInterest" | "foster" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1027,6 +1028,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.FileInstanceCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.FileInstanceCountAggregateOutputType> | number
+        }
+      }
+    }
+    FosterAnimalInterest: {
+      payload: Prisma.$FosterAnimalInterestPayload<ExtArgs>
+      fields: Prisma.FosterAnimalInterestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FosterAnimalInterestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FosterAnimalInterestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+        }
+        findFirst: {
+          args: Prisma.FosterAnimalInterestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FosterAnimalInterestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+        }
+        findMany: {
+          args: Prisma.FosterAnimalInterestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>[]
+        }
+        create: {
+          args: Prisma.FosterAnimalInterestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+        }
+        createMany: {
+          args: Prisma.FosterAnimalInterestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FosterAnimalInterestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>[]
+        }
+        delete: {
+          args: Prisma.FosterAnimalInterestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+        }
+        update: {
+          args: Prisma.FosterAnimalInterestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+        }
+        deleteMany: {
+          args: Prisma.FosterAnimalInterestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FosterAnimalInterestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FosterAnimalInterestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>[]
+        }
+        upsert: {
+          args: Prisma.FosterAnimalInterestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterAnimalInterestPayload>
+        }
+        aggregate: {
+          args: Prisma.FosterAnimalInterestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFosterAnimalInterest>
+        }
+        groupBy: {
+          args: Prisma.FosterAnimalInterestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterAnimalInterestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FosterAnimalInterestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterAnimalInterestCountAggregateOutputType> | number
         }
       }
     }
@@ -3230,6 +3305,25 @@ export const FileInstanceScalarFieldEnum = {
 export type FileInstanceScalarFieldEnum = (typeof FileInstanceScalarFieldEnum)[keyof typeof FileInstanceScalarFieldEnum]
 
 
+export const FosterAnimalInterestScalarFieldEnum = {
+  id: 'id',
+  fosterId: 'fosterId',
+  animalId: 'animalId',
+  shelterId: 'shelterId',
+  preferredArrivalDate: 'preferredArrivalDate',
+  availableFromTime: 'availableFromTime',
+  availableUntilTime: 'availableUntilTime',
+  receivingAddress: 'receivingAddress',
+  receivingPhone: 'receivingPhone',
+  status: 'status',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FosterAnimalInterestScalarFieldEnum = (typeof FosterAnimalInterestScalarFieldEnum)[keyof typeof FosterAnimalInterestScalarFieldEnum]
+
+
 export const FosterScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -3996,6 +4090,20 @@ export type ListEnumFileTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
 
 
 /**
+ * Reference to a field of type 'FosterInterestStatus'
+ */
+export type EnumFosterInterestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FosterInterestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'FosterInterestStatus[]'
+ */
+export type ListEnumFosterInterestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FosterInterestStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'ImportSourceType'
  */
 export type EnumImportSourceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ImportSourceType'>
@@ -4405,6 +4513,7 @@ export type GlobalOmitConfig = {
   driver?: Prisma.DriverOmit
   externalFeedConfig?: Prisma.ExternalFeedConfigOmit
   fileInstance?: Prisma.FileInstanceOmit
+  fosterAnimalInterest?: Prisma.FosterAnimalInterestOmit
   foster?: Prisma.FosterOmit
   healthReport?: Prisma.HealthReportOmit
   importJob?: Prisma.ImportJobOmit

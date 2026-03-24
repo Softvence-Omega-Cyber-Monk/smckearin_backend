@@ -15,6 +15,8 @@ model Foster {
   preferredLocation String
   preferredMile     Float
 
+  fosterAnimalInterests FosterAnimalInterest[]
+
   status ApprovalStatus @default(PENDING)
 
   createdAt DateTime @default(now())
