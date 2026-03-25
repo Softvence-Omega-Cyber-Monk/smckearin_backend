@@ -137,24 +137,14 @@ export const FileType = {
 export type FileType = (typeof FileType)[keyof typeof FileType]
 
 
-export const DocumentType = {
-  FOSTER_AGREEMENT: 'FOSTER_AGREEMENT',
-  ID_CARD: 'ID_CARD',
-  HOME_AUTHENTICATION: 'HOME_AUTHENTICATION',
-  TRANSPORT_CERTIFICATE: 'TRANSPORT_CERTIFICATE',
-  OTHER: 'OTHER'
-} as const
-
-export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
-
-
-export const DocumentStatus = {
-  PENDING: 'PENDING',
+export const FosterInterestStatus = {
+  INTERESTED: 'INTERESTED',
   APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
+  REJECTED: 'REJECTED',
+  WITHDRAWN: 'WITHDRAWN'
 } as const
 
-export type DocumentStatus = (typeof DocumentStatus)[keyof typeof DocumentStatus]
+export type FosterInterestStatus = (typeof FosterInterestStatus)[keyof typeof FosterInterestStatus]
 
 
 export const ImportSourceType = {
@@ -308,8 +298,7 @@ export const UserRole = {
   MANAGER: 'MANAGER',
   VETERINARIAN: 'VETERINARIAN',
   DRIVER: 'DRIVER',
-  FOSTER: 'FOSTER',
-  FOSTER_ADMIN: 'FOSTER_ADMIN'
+  FOSTER: 'FOSTER'
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
@@ -318,12 +307,7 @@ export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 export const UserStatus = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
-  DELETED: 'DELETED',
-  PENDING_VERIFICATION: 'PENDING_VERIFICATION',
-  PENDING_APPROVAL: 'PENDING_APPROVAL',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED',
-  SUSPENDED: 'SUSPENDED'
+  DELETED: 'DELETED'
 } as const
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]

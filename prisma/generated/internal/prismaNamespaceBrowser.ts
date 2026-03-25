@@ -55,16 +55,12 @@ export const ModelName = {
   Animal: 'Animal',
   UserOtp: 'UserOtp',
   RefreshToken: 'RefreshToken',
-  PasswordResetToken: 'PasswordResetToken',
   DailySchedule: 'DailySchedule',
   Driver: 'Driver',
   ExternalFeedConfig: 'ExternalFeedConfig',
   FileInstance: 'FileInstance',
-  FosterProfile: 'FosterProfile',
-  FosterPreference: 'FosterPreference',
-  FosterDocument: 'FosterDocument',
-  UserSettings: 'UserSettings',
-  OperatingSchedule: 'OperatingSchedule',
+  FosterAnimalInterest: 'FosterAnimalInterest',
+  Foster: 'Foster',
   HealthReport: 'HealthReport',
   ImportJob: 'ImportJob',
   ImportRow: 'ImportRow',
@@ -186,18 +182,6 @@ export const RefreshTokenScalarFieldEnum = {
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
 
 
-export const PasswordResetTokenScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  token: 'token',
-  expiresAt: 'expiresAt',
-  used: 'used',
-  createdAt: 'createdAt'
-} as const
-
-export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
-
-
 export const DailyScheduleScalarFieldEnum = {
   id: 'id',
   day: 'day',
@@ -284,88 +268,43 @@ export const FileInstanceScalarFieldEnum = {
 export type FileInstanceScalarFieldEnum = (typeof FileInstanceScalarFieldEnum)[keyof typeof FileInstanceScalarFieldEnum]
 
 
-export const FosterProfileScalarFieldEnum = {
+export const FosterAnimalInterestScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  agreementAccepted: 'agreementAccepted',
-  agreementAcceptedAt: 'agreementAcceptedAt',
-  agreementVersion: 'agreementVersion',
-  applicationSubmittedAt: 'applicationSubmittedAt',
-  maxAnimalsAtOnce: 'maxAnimalsAtOnce',
-  availabilityNotes: 'availabilityNotes',
-  weeklyHoursOpen: 'weeklyHoursOpen',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type FosterProfileScalarFieldEnum = (typeof FosterProfileScalarFieldEnum)[keyof typeof FosterProfileScalarFieldEnum]
-
-
-export const FosterPreferenceScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  animalTypes: 'animalTypes',
-  sizePreference: 'sizePreference',
-  maxAnimalsAtOnce: 'maxAnimalsAtOnce',
-  availabilityNotes: 'availabilityNotes',
-  locationAddress: 'locationAddress',
-  locationLat: 'locationLat',
-  locationLng: 'locationLng',
-  radiusType: 'radiusType',
-  customRadiusMiles: 'customRadiusMiles',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type FosterPreferenceScalarFieldEnum = (typeof FosterPreferenceScalarFieldEnum)[keyof typeof FosterPreferenceScalarFieldEnum]
-
-
-export const FosterDocumentScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  documentType: 'documentType',
-  fileName: 'fileName',
-  fileUrl: 'fileUrl',
-  fileKey: 'fileKey',
-  fileSizeMb: 'fileSizeMb',
-  mimeType: 'mimeType',
+  fosterId: 'fosterId',
+  animalId: 'animalId',
+  shelterId: 'shelterId',
+  preferredArrivalDate: 'preferredArrivalDate',
+  availableFromTime: 'availableFromTime',
+  availableUntilTime: 'availableUntilTime',
+  receivingAddress: 'receivingAddress',
+  receivingPhone: 'receivingPhone',
   status: 'status',
-  uploadedAt: 'uploadedAt',
   reviewedAt: 'reviewedAt',
-  reviewNote: 'reviewNote',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type FosterDocumentScalarFieldEnum = (typeof FosterDocumentScalarFieldEnum)[keyof typeof FosterDocumentScalarFieldEnum]
+export type FosterAnimalInterestScalarFieldEnum = (typeof FosterAnimalInterestScalarFieldEnum)[keyof typeof FosterAnimalInterestScalarFieldEnum]
 
 
-export const UserSettingsScalarFieldEnum = {
+export const FosterScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  pushNotifications: 'pushNotifications',
-  statusUpdates: 'statusUpdates',
-  messageNotifications: 'messageNotifications',
-  emailNotifications: 'emailNotifications',
+  phone: 'phone',
+  city: 'city',
+  state: 'state',
+  address: 'address',
+  animalType: 'animalType',
+  sizePreference: 'sizePreference',
+  age: 'age',
+  preferredLocation: 'preferredLocation',
+  preferredMile: 'preferredMile',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type UserSettingsScalarFieldEnum = (typeof UserSettingsScalarFieldEnum)[keyof typeof UserSettingsScalarFieldEnum]
-
-
-export const OperatingScheduleScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  dayOfWeek: 'dayOfWeek',
-  isOpen: 'isOpen',
-  openTime: 'openTime',
-  closeTime: 'closeTime',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type OperatingScheduleScalarFieldEnum = (typeof OperatingScheduleScalarFieldEnum)[keyof typeof OperatingScheduleScalarFieldEnum]
+export type FosterScalarFieldEnum = (typeof FosterScalarFieldEnum)[keyof typeof FosterScalarFieldEnum]
 
 
 export const HealthReportScalarFieldEnum = {
@@ -750,22 +689,13 @@ export const UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   password: 'password',
-  phone: 'phone',
-  city: 'city',
-  state: 'state',
-  address: 'address',
   role: 'role',
   status: 'status',
   isVerified: 'isVerified',
-  isEmailVerified: 'isEmailVerified',
-  emailVerificationToken: 'emailVerificationToken',
-  emailVerificationExpiry: 'emailVerificationExpiry',
   lastLoginAt: 'lastLoginAt',
   lastActiveAt: 'lastActiveAt',
   profilePictureId: 'profilePictureId',
   profilePictureUrl: 'profilePictureUrl',
-  profilePhotoUrl: 'profilePhotoUrl',
-  profilePhotoKey: 'profilePhotoKey',
   shelterAdminOfId: 'shelterAdminOfId',
   managerOfId: 'managerOfId',
   createdAt: 'createdAt',

@@ -13,6 +13,7 @@ export enum ContactType {
   VET = 'VET',
   DRIVER = 'DRIVER',
   SHELTER = 'SHELTER',
+  FOSTER = 'FOSTER',
   USER = 'USER',
 }
 
@@ -35,4 +36,8 @@ export function isShelterContact(contact: Contact): contact is Contact {
 
 export function isUserContact(contact: Contact): contact is Contact {
   return contact.type === ContactType.USER;
+}
+
+export function isFosterContact(contact: Contact): contact is Contact {
+  return contact.type === ContactType.FOSTER;
 }
