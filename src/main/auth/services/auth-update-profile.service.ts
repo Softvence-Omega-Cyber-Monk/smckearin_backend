@@ -270,6 +270,8 @@ export class AuthUpdateProfileService {
     if (dto.sizePreference)
       updatedFosterData.sizePreference = dto.sizePreference;
     if (dto.age) updatedFosterData.age = dto.age;
+    if (dto.experienceLevel !== undefined)
+      updatedFosterData.experienceLevel = dto.experienceLevel;
     if (dto.preferredLocation)
       updatedFosterData.preferredLocation = dto.preferredLocation;
     if (dto.preferredMile !== undefined)

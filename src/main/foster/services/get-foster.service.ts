@@ -106,6 +106,7 @@ export class GetFosterService {
     animalType: foster.animalType,
     sizePreference: foster.sizePreference,
     age: foster.age,
+    experienceLevel: foster.experienceLevel,
     preferredLocation: foster.preferredLocation,
     preferredMile: foster.preferredMile,
     status: foster.status,

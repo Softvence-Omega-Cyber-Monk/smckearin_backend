@@ -163,6 +163,14 @@ export class UpdateFosterProfileDto extends UpdateProfileDto {
   age?: string;
 
   @ApiPropertyOptional({
+    example: 'Beginner',
+    description: 'Optional foster experience level',
+  })
+  @IsOptional()
+  @IsString()
+  experienceLevel?: string;
+
+  @ApiPropertyOptional({
     example: 'North Austin',
     description: 'Optional preferred location',
   })

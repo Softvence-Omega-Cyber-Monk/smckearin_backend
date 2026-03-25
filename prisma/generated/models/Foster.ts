@@ -43,6 +43,7 @@ export type FosterMinAggregateOutputType = {
   address: string | null
   animalType: string | null
   sizePreference: string | null
+  experienceLevel: string | null
   age: string | null
   preferredLocation: string | null
   preferredMile: number | null
@@ -60,6 +61,7 @@ export type FosterMaxAggregateOutputType = {
   address: string | null
   animalType: string | null
   sizePreference: string | null
+  experienceLevel: string | null
   age: string | null
   preferredLocation: string | null
   preferredMile: number | null
@@ -77,6 +79,7 @@ export type FosterCountAggregateOutputType = {
   address: number
   animalType: number
   sizePreference: number
+  experienceLevel: number
   age: number
   preferredLocation: number
   preferredMile: number
@@ -104,6 +107,7 @@ export type FosterMinAggregateInputType = {
   address?: true
   animalType?: true
   sizePreference?: true
+  experienceLevel?: true
   age?: true
   preferredLocation?: true
   preferredMile?: true
@@ -121,6 +125,7 @@ export type FosterMaxAggregateInputType = {
   address?: true
   animalType?: true
   sizePreference?: true
+  experienceLevel?: true
   age?: true
   preferredLocation?: true
   preferredMile?: true
@@ -138,6 +143,7 @@ export type FosterCountAggregateInputType = {
   address?: true
   animalType?: true
   sizePreference?: true
+  experienceLevel?: true
   age?: true
   preferredLocation?: true
   preferredMile?: true
@@ -242,6 +248,7 @@ export type FosterGroupByOutputType = {
   address: string
   animalType: string
   sizePreference: string
+  experienceLevel: string | null
   age: string
   preferredLocation: string
   preferredMile: number
@@ -282,6 +289,7 @@ export type FosterWhereInput = {
   address?: Prisma.StringFilter<"Foster"> | string
   animalType?: Prisma.StringFilter<"Foster"> | string
   sizePreference?: Prisma.StringFilter<"Foster"> | string
+  experienceLevel?: Prisma.StringNullableFilter<"Foster"> | string | null
   age?: Prisma.StringFilter<"Foster"> | string
   preferredLocation?: Prisma.StringFilter<"Foster"> | string
   preferredMile?: Prisma.FloatFilter<"Foster"> | number
@@ -301,6 +309,7 @@ export type FosterOrderByWithRelationInput = {
   address?: Prisma.SortOrder
   animalType?: Prisma.SortOrder
   sizePreference?: Prisma.SortOrder
+  experienceLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   age?: Prisma.SortOrder
   preferredLocation?: Prisma.SortOrder
   preferredMile?: Prisma.SortOrder
@@ -323,6 +332,7 @@ export type FosterWhereUniqueInput = Prisma.AtLeast<{
   address?: Prisma.StringFilter<"Foster"> | string
   animalType?: Prisma.StringFilter<"Foster"> | string
   sizePreference?: Prisma.StringFilter<"Foster"> | string
+  experienceLevel?: Prisma.StringNullableFilter<"Foster"> | string | null
   age?: Prisma.StringFilter<"Foster"> | string
   preferredLocation?: Prisma.StringFilter<"Foster"> | string
   preferredMile?: Prisma.FloatFilter<"Foster"> | number
@@ -342,6 +352,7 @@ export type FosterOrderByWithAggregationInput = {
   address?: Prisma.SortOrder
   animalType?: Prisma.SortOrder
   sizePreference?: Prisma.SortOrder
+  experienceLevel?: Prisma.SortOrderInput | Prisma.SortOrder
   age?: Prisma.SortOrder
   preferredLocation?: Prisma.SortOrder
   preferredMile?: Prisma.SortOrder
@@ -367,6 +378,7 @@ export type FosterScalarWhereWithAggregatesInput = {
   address?: Prisma.StringWithAggregatesFilter<"Foster"> | string
   animalType?: Prisma.StringWithAggregatesFilter<"Foster"> | string
   sizePreference?: Prisma.StringWithAggregatesFilter<"Foster"> | string
+  experienceLevel?: Prisma.StringNullableWithAggregatesFilter<"Foster"> | string | null
   age?: Prisma.StringWithAggregatesFilter<"Foster"> | string
   preferredLocation?: Prisma.StringWithAggregatesFilter<"Foster"> | string
   preferredMile?: Prisma.FloatWithAggregatesFilter<"Foster"> | number
@@ -383,6 +395,7 @@ export type FosterCreateInput = {
   address: string
   animalType: string
   sizePreference: string
+  experienceLevel?: string | null
   age: string
   preferredLocation: string
   preferredMile: number
@@ -402,6 +415,7 @@ export type FosterUncheckedCreateInput = {
   address: string
   animalType: string
   sizePreference: string
+  experienceLevel?: string | null
   age: string
   preferredLocation: string
   preferredMile: number
@@ -419,6 +433,7 @@ export type FosterUpdateInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   animalType?: Prisma.StringFieldUpdateOperationsInput | string
   sizePreference?: Prisma.StringFieldUpdateOperationsInput | string
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.StringFieldUpdateOperationsInput | string
   preferredLocation?: Prisma.StringFieldUpdateOperationsInput | string
   preferredMile?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -438,6 +453,7 @@ export type FosterUncheckedUpdateInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   animalType?: Prisma.StringFieldUpdateOperationsInput | string
   sizePreference?: Prisma.StringFieldUpdateOperationsInput | string
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.StringFieldUpdateOperationsInput | string
   preferredLocation?: Prisma.StringFieldUpdateOperationsInput | string
   preferredMile?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -456,6 +472,7 @@ export type FosterCreateManyInput = {
   address: string
   animalType: string
   sizePreference: string
+  experienceLevel?: string | null
   age: string
   preferredLocation: string
   preferredMile: number
@@ -472,6 +489,7 @@ export type FosterUpdateManyMutationInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   animalType?: Prisma.StringFieldUpdateOperationsInput | string
   sizePreference?: Prisma.StringFieldUpdateOperationsInput | string
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.StringFieldUpdateOperationsInput | string
   preferredLocation?: Prisma.StringFieldUpdateOperationsInput | string
   preferredMile?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -489,6 +507,7 @@ export type FosterUncheckedUpdateManyInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   animalType?: Prisma.StringFieldUpdateOperationsInput | string
   sizePreference?: Prisma.StringFieldUpdateOperationsInput | string
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.StringFieldUpdateOperationsInput | string
   preferredLocation?: Prisma.StringFieldUpdateOperationsInput | string
   preferredMile?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -511,6 +530,7 @@ export type FosterCountOrderByAggregateInput = {
   address?: Prisma.SortOrder
   animalType?: Prisma.SortOrder
   sizePreference?: Prisma.SortOrder
+  experienceLevel?: Prisma.SortOrder
   age?: Prisma.SortOrder
   preferredLocation?: Prisma.SortOrder
   preferredMile?: Prisma.SortOrder
@@ -532,6 +552,7 @@ export type FosterMaxOrderByAggregateInput = {
   address?: Prisma.SortOrder
   animalType?: Prisma.SortOrder
   sizePreference?: Prisma.SortOrder
+  experienceLevel?: Prisma.SortOrder
   age?: Prisma.SortOrder
   preferredLocation?: Prisma.SortOrder
   preferredMile?: Prisma.SortOrder
@@ -549,6 +570,7 @@ export type FosterMinOrderByAggregateInput = {
   address?: Prisma.SortOrder
   animalType?: Prisma.SortOrder
   sizePreference?: Prisma.SortOrder
+  experienceLevel?: Prisma.SortOrder
   age?: Prisma.SortOrder
   preferredLocation?: Prisma.SortOrder
   preferredMile?: Prisma.SortOrder
@@ -620,6 +642,7 @@ export type FosterCreateWithoutFosterAnimalInterestsInput = {
   address: string
   animalType: string
   sizePreference: string
+  experienceLevel?: string | null
   age: string
   preferredLocation: string
   preferredMile: number
@@ -638,6 +661,7 @@ export type FosterUncheckedCreateWithoutFosterAnimalInterestsInput = {
   address: string
   animalType: string
   sizePreference: string
+  experienceLevel?: string | null
   age: string
   preferredLocation: string
   preferredMile: number
@@ -670,6 +694,7 @@ export type FosterUpdateWithoutFosterAnimalInterestsInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   animalType?: Prisma.StringFieldUpdateOperationsInput | string
   sizePreference?: Prisma.StringFieldUpdateOperationsInput | string
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.StringFieldUpdateOperationsInput | string
   preferredLocation?: Prisma.StringFieldUpdateOperationsInput | string
   preferredMile?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -688,6 +713,7 @@ export type FosterUncheckedUpdateWithoutFosterAnimalInterestsInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   animalType?: Prisma.StringFieldUpdateOperationsInput | string
   sizePreference?: Prisma.StringFieldUpdateOperationsInput | string
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.StringFieldUpdateOperationsInput | string
   preferredLocation?: Prisma.StringFieldUpdateOperationsInput | string
   preferredMile?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -704,6 +730,7 @@ export type FosterCreateWithoutUserInput = {
   address: string
   animalType: string
   sizePreference: string
+  experienceLevel?: string | null
   age: string
   preferredLocation: string
   preferredMile: number
@@ -721,6 +748,7 @@ export type FosterUncheckedCreateWithoutUserInput = {
   address: string
   animalType: string
   sizePreference: string
+  experienceLevel?: string | null
   age: string
   preferredLocation: string
   preferredMile: number
@@ -754,6 +782,7 @@ export type FosterUpdateWithoutUserInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   animalType?: Prisma.StringFieldUpdateOperationsInput | string
   sizePreference?: Prisma.StringFieldUpdateOperationsInput | string
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.StringFieldUpdateOperationsInput | string
   preferredLocation?: Prisma.StringFieldUpdateOperationsInput | string
   preferredMile?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -771,6 +800,7 @@ export type FosterUncheckedUpdateWithoutUserInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   animalType?: Prisma.StringFieldUpdateOperationsInput | string
   sizePreference?: Prisma.StringFieldUpdateOperationsInput | string
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   age?: Prisma.StringFieldUpdateOperationsInput | string
   preferredLocation?: Prisma.StringFieldUpdateOperationsInput | string
   preferredMile?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -820,6 +850,7 @@ export type FosterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   address?: boolean
   animalType?: boolean
   sizePreference?: boolean
+  experienceLevel?: boolean
   age?: boolean
   preferredLocation?: boolean
   preferredMile?: boolean
@@ -840,6 +871,7 @@ export type FosterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   address?: boolean
   animalType?: boolean
   sizePreference?: boolean
+  experienceLevel?: boolean
   age?: boolean
   preferredLocation?: boolean
   preferredMile?: boolean
@@ -858,6 +890,7 @@ export type FosterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   address?: boolean
   animalType?: boolean
   sizePreference?: boolean
+  experienceLevel?: boolean
   age?: boolean
   preferredLocation?: boolean
   preferredMile?: boolean
@@ -876,6 +909,7 @@ export type FosterSelectScalar = {
   address?: boolean
   animalType?: boolean
   sizePreference?: boolean
+  experienceLevel?: boolean
   age?: boolean
   preferredLocation?: boolean
   preferredMile?: boolean
@@ -884,7 +918,7 @@ export type FosterSelectScalar = {
   updatedAt?: boolean
 }
 
-export type FosterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "phone" | "city" | "state" | "address" | "animalType" | "sizePreference" | "age" | "preferredLocation" | "preferredMile" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["foster"]>
+export type FosterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "phone" | "city" | "state" | "address" | "animalType" | "sizePreference" | "experienceLevel" | "age" | "preferredLocation" | "preferredMile" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["foster"]>
 export type FosterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   fosterAnimalInterests?: boolean | Prisma.Foster$fosterAnimalInterestsArgs<ExtArgs>
@@ -912,6 +946,7 @@ export type $FosterPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     address: string
     animalType: string
     sizePreference: string
+    experienceLevel: string | null
     age: string
     preferredLocation: string
     preferredMile: number
@@ -1351,6 +1386,7 @@ export interface FosterFieldRefs {
   readonly address: Prisma.FieldRef<"Foster", 'String'>
   readonly animalType: Prisma.FieldRef<"Foster", 'String'>
   readonly sizePreference: Prisma.FieldRef<"Foster", 'String'>
+  readonly experienceLevel: Prisma.FieldRef<"Foster", 'String'>
   readonly age: Prisma.FieldRef<"Foster", 'String'>
   readonly preferredLocation: Prisma.FieldRef<"Foster", 'String'>
   readonly preferredMile: Prisma.FieldRef<"Foster", 'Float'>

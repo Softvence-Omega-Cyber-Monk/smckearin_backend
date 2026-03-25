@@ -4,10 +4,14 @@ import { IsBoolean, IsString } from 'class-validator';
 
 export class ApproveOrRejectDto {
   @ApiProperty({
-    example: 'true',
+    example: true,
     description: 'Approval status',
   })
-  @Transform(({ value }) => value === 'true')
+  @Transform(({ value }) => {
+    if (typeof value === 'boolean') return value;
+    if (typeof value === 'string') return value.toLowerCase() === 'true';
+    return value;
+  })
   @IsBoolean()
   approved: boolean;
 }

@@ -285,6 +285,7 @@ export class AuthUtilsService {
             animalType: fosters.animalType,
             sizePreference: fosters.sizePreference,
             age: fosters.age,
+            experienceLevel: fosters.experienceLevel,
             preferredLocation: fosters.preferredLocation,
             preferredMile: fosters.preferredMile,
             status: fosters.status,

@@ -93,6 +93,14 @@ export class FosterRegisterDto {
   @IsNotEmpty()
   age: string;
 
+  @ApiPropertyOptional({
+    example: 'Beginner',
+    description: 'Optional foster experience level',
+  })
+  @IsOptional()
+  @IsString()
+  experienceLevel?: string;
+
   @ApiProperty({
     example: 'North Austin',
     description: 'Preferred location',

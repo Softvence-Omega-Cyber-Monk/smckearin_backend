@@ -11,6 +11,7 @@ model Foster {
 
   animalType        String
   sizePreference    String
+  experienceLevel   String?
   age               String
   preferredLocation String
   preferredMile     Float

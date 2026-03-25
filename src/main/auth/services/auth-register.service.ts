@@ -295,6 +295,7 @@ export class AuthRegisterService {
           address: dto.address,
           animalType: dto.animalType,
           sizePreference: dto.sizePreference,
+          experienceLevel: dto.experienceLevel,
           age: dto.age,
           preferredLocation: dto.preferredLocation,
           preferredMile: dto.preferredMile,

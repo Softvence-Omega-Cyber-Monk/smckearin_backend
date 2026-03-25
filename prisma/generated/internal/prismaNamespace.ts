@@ -3333,6 +3333,7 @@ export const FosterScalarFieldEnum = {
   address: 'address',
   animalType: 'animalType',
   sizePreference: 'sizePreference',
+  experienceLevel: 'experienceLevel',
   age: 'age',
   preferredLocation: 'preferredLocation',
   preferredMile: 'preferredMile',
