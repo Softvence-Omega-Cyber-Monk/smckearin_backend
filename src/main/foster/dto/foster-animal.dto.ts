@@ -1,6 +1,6 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { FosterInterestStatus, SPECIES } from '@prisma';
+import { SPECIES } from '@prisma';
 import { Transform, Type } from 'class-transformer';
 import {
   IsBoolean,
