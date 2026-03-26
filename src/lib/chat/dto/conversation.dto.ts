@@ -6,6 +6,7 @@ export enum ConversationType {
   VET = 'VET',
   DRIVER = 'DRIVER',
   SHELTER = 'SHELTER',
+  FOSTER = 'FOSTER',
 }
 
 /** ---------------- Load multiple conversations (with pagination + search) ---------------- */

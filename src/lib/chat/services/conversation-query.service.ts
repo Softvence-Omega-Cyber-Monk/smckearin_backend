@@ -93,6 +93,9 @@ export class ConversationQueryService {
             userShelterId,
           );
         }
+      } else if (user.role === 'FOSTER') {
+        // Fosters can only contact Shelters
+        result = await this.loadAllShelters(userId, skip, limit, search);
       } else {
         // fallback: load all available contacts
         result = await this.loadAllAvailableContacts(
@@ -147,12 +150,17 @@ export class ConversationQueryService {
       ]);
       contacts.push(...shelters.list, ...vets.list);
     } else if (userRole === 'SHELTER_ADMIN' || userRole === 'MANAGER') {
-      // Shelters can contact: Vets + Drivers
-      const [vets, drivers] = await Promise.all([
+      // Shelters can contact: Vets + Drivers + Fosters
+      const [vets, drivers, fosters] = await Promise.all([
         this.loadAllVets(userId, 0, 999, search, userShelterId),
         this.loadAllDrivers(userId, 0, 999, search, userShelterId),
+        this.loadAllFosters(userId, 0, 999, search, userShelterId),
       ]);
-      contacts.push(...vets.list, ...drivers.list);
+      contacts.push(...vets.list, ...drivers.list, ...fosters.list);
+    } else if (userRole === 'FOSTER') {
+      // Fosters can contact: Shelters
+      const shelters = await this.loadAllShelters(userId, 0, 999, search);
+      contacts.push(...shelters.list);
     }
 
     // Sort all contacts: Online first, then by createdAt desc (or default order)
@@ -459,6 +467,111 @@ export class ConversationQueryService {
     });
 
     return { list, total: totalShelters };
+  }
+
+  /** ---------------- Helper: load ALL Fosters (not just existing conversations) ---------------- */
+  private async loadAllFosters(
+    userId: string,
+    skip = 0,
+    limit = 20,
+    search = '',
+    userShelterId: string | null = null,
+  ): Promise<LoadContactsResult> {
+    // Get ALL fosters from the system
+    const fosterWhere: Prisma.UserWhereInput = {
+      role: 'FOSTER',
+      status: 'ACTIVE',
+      fosters: {
+        status: 'APPROVED',
+      },
+      ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
+    };
+
+    const [fosters, totalFosters] = await this.prisma.client.$transaction([
+      this.prisma.client.user.findMany({
+        where: fosterWhere,
+        select: {
+          id: true,
+          name: true,
+          role: true,
+          profilePictureId: true,
+          profilePictureUrl: true,
+        },
+        orderBy: { name: 'asc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.client.user.count({ where: fosterWhere }),
+    ]);
+
+    // Now fetch existing conversations for these fosters
+    const fosterIds = fosters.map((f) => f.id);
+
+    // Build conversation query
+    const conversationWhere: Prisma.PrivateConversationWhereInput = {
+      chatScope: ConversationScope.MAIN,
+      OR: userShelterId
+        ? [
+            { shelterId: userShelterId, initiatorId: { in: fosterIds } },
+            { shelterId: userShelterId, receiverId: { in: fosterIds } },
+          ]
+        : [
+            {
+              initiatorId: userId,
+              receiverId: { in: fosterIds },
+              shelterId: null,
+            },
+            {
+              receiverId: userId,
+              initiatorId: { in: fosterIds },
+              shelterId: null,
+            },
+          ],
+    };
+
+    const conversations = await this.prisma.client.privateConversation.findMany(
+      {
+        where: conversationWhere,
+        include: {
+          lastMessage: { include: { sender: { select: { name: true } } } },
+        },
+      },
+    );
+
+    // Create a map of foster conversations
+    const convMap = new Map(
+      conversations.map((c) => {
+        const fosterId =
+          c.initiatorId !== userId && c.initiatorId !== userShelterId
+            ? c.initiatorId
+            : c.receiverId;
+        return [fosterId!, c];
+      }),
+    );
+
+    // Format the results
+    const list: Contact[] = fosters.map((foster) => {
+      const conv = convMap.get(foster.id);
+      return {
+        id: foster.id,
+        name: foster.name,
+        type: ContactType.FOSTER,
+        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        lastMessageAt: conv?.updatedAt || null,
+        isActive: this.chatGateway.isOnline(foster.id),
+        conversationId: conv?.id || null,
+        avatarUrl:
+          foster.profilePictureUrl || this.getDefaultAvatar(foster.name),
+      };
+    });
+
+    // Sort: Online first
+    list.sort((a, b) => {
+      if (a.isActive === b.isActive) return 0;
+      return a.isActive ? -1 : 1;
+    });
+
+    return { list, total: totalFosters };
   }
 
   /** ---------------- Helper: Generate default avatar URL based on name ---------------- */

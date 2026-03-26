@@ -158,6 +158,12 @@ export class ConversationSingleQueryService {
         targetId,
         userShelterId,
       );
+    } else if (type === ConversationType.FOSTER) {
+      conversation = await this.findOrCreateUserConversation(
+        userId,
+        targetId,
+        userShelterId,
+      );
     } else {
       throw new Error(`Invalid conversation type: ${type}`);
     }
@@ -351,7 +357,9 @@ export class ConversationSingleQueryService {
         ? ConversationType.SHELTER
         : participant?.role === 'VETERINARIAN'
           ? ConversationType.VET
-          : ConversationType.DRIVER,
+          : participant?.role === 'DRIVER'
+            ? ConversationType.DRIVER
+            : ConversationType.FOSTER,
       participant,
       messages: formattedMessages,
       createdAt: conversation.createdAt,
@@ -392,7 +400,9 @@ export class ConversationSingleQueryService {
             type:
               otherUser.role === 'VETERINARIAN'
                 ? ChatParticipantType.VET
-                : ChatParticipantType.DRIVER,
+                : otherUser.role === 'DRIVER'
+                  ? ChatParticipantType.DRIVER
+                  : ChatParticipantType.FOSTER,
           };
         }
       } else {
@@ -440,7 +450,9 @@ export class ConversationSingleQueryService {
               ? ChatParticipantType.VET
               : otherUser.role === 'DRIVER'
                 ? ChatParticipantType.DRIVER
-                : ChatParticipantType.USER,
+                : otherUser.role === 'FOSTER'
+                  ? ChatParticipantType.FOSTER
+                  : ChatParticipantType.USER,
         };
       }
     }
@@ -528,6 +540,7 @@ export class ConversationSingleQueryService {
       isFromShelter,
       isFromDriver,
       isFromVet,
+      isFromFoster: msg.sender?.role === 'FOSTER',
       isRead: readBy.length > 0 && readBy.some((r) => r.id !== msg.senderId),
       readBy: readBy,
       createdAt: msg.createdAt,

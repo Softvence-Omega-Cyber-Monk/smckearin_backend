@@ -149,6 +149,7 @@ export class MessageService {
       isFromShelter,
       isFromDriver: message.sender.role === 'DRIVER',
       isFromVet: message.sender.role === 'VETERINARIAN',
+      isFromFoster: message.sender.role === 'FOSTER',
       isRead: false,
       readBy: [], // Newly created
       createdAt: message.createdAt,
@@ -243,9 +244,11 @@ export class MessageService {
           ? ChatParticipantType.VET
           : readerUser.role === 'DRIVER'
             ? ChatParticipantType.DRIVER
-            : readerUser.shelterAdminOfId || readerUser.managerOfId
-              ? ChatParticipantType.SHELTER
-              : ChatParticipantType.USER,
+            : readerUser.role === 'FOSTER'
+              ? ChatParticipantType.FOSTER
+              : readerUser.shelterAdminOfId || readerUser.managerOfId
+                ? ChatParticipantType.SHELTER
+                : ChatParticipantType.USER,
     };
 
     // 3. Emit updates

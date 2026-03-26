@@ -14,6 +14,7 @@ export enum ChatParticipantType {
   VET = 'VET',
   DRIVER = 'DRIVER',
   SHELTER = 'SHELTER',
+  FOSTER = 'FOSTER',
   USER = 'USER',
 }
 
@@ -51,6 +52,7 @@ export interface FormattedMessage {
   isFromShelter: boolean;
   isFromDriver: boolean;
   isFromVet: boolean;
+  isFromFoster: boolean;
   isRead: boolean;
   readBy: ReadByParticipant[];
   createdAt: Date;
