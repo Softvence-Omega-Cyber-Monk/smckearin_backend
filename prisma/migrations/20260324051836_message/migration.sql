@@ -11,29 +11,6 @@ CREATE TYPE "DocumentType" AS ENUM ('FOSTER_AGREEMENT', 'ID_CARD', 'HOME_AUTHENT
 CREATE TYPE "DocumentStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
 
 -- AlterEnum
--- This migration adds more than one value to an enum.
--- With PostgreSQL versions 11 and earlier, this is not possible
--- in a single migration. This can be worked around by creating
--- multiple migrations, each migration adding only one value to
--- the enum.
-
-
-ALTER TYPE "UserRole" ADD VALUE 'FOSTER';
-ALTER TYPE "UserRole" ADD VALUE 'FOSTER_ADMIN';
-
--- AlterEnum
--- This migration adds more than one value to an enum.
--- With PostgreSQL versions 11 and earlier, this is not possible
--- in a single migration. This can be worked around by creating
--- multiple migrations, each migration adding only one value to
--- the enum.
-
-
-ALTER TYPE "UserStatus" ADD VALUE 'PENDING_VERIFICATION';
-ALTER TYPE "UserStatus" ADD VALUE 'PENDING_APPROVAL';
-ALTER TYPE "UserStatus" ADD VALUE 'APPROVED';
-ALTER TYPE "UserStatus" ADD VALUE 'REJECTED';
-ALTER TYPE "UserStatus" ADD VALUE 'SUSPENDED';
 
 -- AlterTable
 ALTER TABLE "users" ADD COLUMN     "address" TEXT,

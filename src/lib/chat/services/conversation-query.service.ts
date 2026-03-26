@@ -529,12 +529,14 @@ export class ConversationQueryService {
           ],
     };
 
-    const conversations = await this.prisma.client.privateConversation.findMany({
-      where: conversationWhere,
-      include: {
-        lastMessage: { include: { sender: { select: { name: true } } } },
+    const conversations = await this.prisma.client.privateConversation.findMany(
+      {
+        where: conversationWhere,
+        include: {
+          lastMessage: { include: { sender: { select: { name: true } } } },
+        },
       },
-    });
+    );
 
     // Create a map of foster conversations
     const convMap = new Map(
@@ -558,7 +560,8 @@ export class ConversationQueryService {
         lastMessageAt: conv?.updatedAt || null,
         isActive: this.chatGateway.isOnline(foster.id),
         conversationId: conv?.id || null,
-        avatarUrl: foster.profilePictureUrl || this.getDefaultAvatar(foster.name),
+        avatarUrl:
+          foster.profilePictureUrl || this.getDefaultAvatar(foster.name),
       };
     });
 
