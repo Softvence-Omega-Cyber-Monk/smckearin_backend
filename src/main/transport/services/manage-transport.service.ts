@@ -5,6 +5,7 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { TransportNotificationService } from '@/lib/queue/services/transport-notification.service';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { TransportStatus, UserRole } from '@prisma';
 import { InternalTransactionService } from '../../payment/services/internal-transaction.service';
@@ -20,6 +21,7 @@ export class ManageTransportService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly transportNotificationService: TransportNotificationService,
+    private readonly userNotificationService: UserNotificationService,
     private readonly pricingService: PricingService,
     private readonly internalTransactionService: InternalTransactionService,
   ) {}
@@ -519,6 +521,20 @@ export class ManageTransportService {
       transportId,
       { status },
     );
+
+    if (status === TransportStatus.COMPLETED) {
+      const fosterRequest = await this.prisma.client.fosterRequest.findFirst({
+        where: { transportId },
+        select: { id: true },
+      });
+
+      if (fosterRequest) {
+        await this.userNotificationService.notifyFosterRequestEvent(
+          'ARRIVED',
+          fosterRequest.id,
+        );
+      }
+    }
 
     return successResponse(updated, `Transport marked as ${status}`);
   }

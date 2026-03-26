@@ -484,6 +484,23 @@ export type EnumFosterInterestStatusWithAggregatesFilter<$PrismaModel = never> =
   _max?: Prisma.NestedEnumFosterInterestStatusFilter<$PrismaModel>
 }
 
+export type EnumFosterRequestStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.FosterRequestStatus | Prisma.EnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FosterRequestStatus[] | Prisma.ListEnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FosterRequestStatus[] | Prisma.ListEnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFosterRequestStatusFilter<$PrismaModel> | $Enums.FosterRequestStatus
+}
+
+export type EnumFosterRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FosterRequestStatus | Prisma.EnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FosterRequestStatus[] | Prisma.ListEnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FosterRequestStatus[] | Prisma.ListEnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFosterRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.FosterRequestStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFosterRequestStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFosterRequestStatusFilter<$PrismaModel>
+}
+
 export type EnumImportSourceTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.ImportSourceType | Prisma.EnumImportSourceTypeFieldRefInput<$PrismaModel>
   in?: $Enums.ImportSourceType[] | Prisma.ListEnumImportSourceTypeFieldRefInput<$PrismaModel>
@@ -1379,6 +1396,23 @@ export type NestedEnumFosterInterestStatusWithAggregatesFilter<$PrismaModel = ne
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumFosterInterestStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumFosterInterestStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumFosterRequestStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.FosterRequestStatus | Prisma.EnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FosterRequestStatus[] | Prisma.ListEnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FosterRequestStatus[] | Prisma.ListEnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFosterRequestStatusFilter<$PrismaModel> | $Enums.FosterRequestStatus
+}
+
+export type NestedEnumFosterRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FosterRequestStatus | Prisma.EnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.FosterRequestStatus[] | Prisma.ListEnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FosterRequestStatus[] | Prisma.ListEnumFosterRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFosterRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.FosterRequestStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFosterRequestStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFosterRequestStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumImportSourceTypeFilter<$PrismaModel = never> = {

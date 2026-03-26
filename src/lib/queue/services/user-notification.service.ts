@@ -357,4 +357,139 @@ export class UserNotificationService extends BaseNotificationService {
       ['emailNotifications'],
     );
   }
+
+  async notifyFosterRequestEvent(
+    action:
+      | 'CREATED'
+      | 'APPROVED'
+      | 'DECLINED'
+      | 'SCHEDULED'
+      | 'ARRIVED'
+      | 'DELIVERED'
+      | 'CANCELLED',
+    fosterRequestId: string,
+  ) {
+    const fosterRequest = await this.prisma.client.fosterRequest.findUnique({
+      where: { id: fosterRequestId },
+      include: {
+        animal: true,
+        fosterUser: true,
+        shelter: {
+          include: {
+            shelterAdmins: true,
+            managers: true,
+          },
+        },
+        transport: {
+          include: {
+            driver: {
+              include: {
+                user: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!fosterRequest) return;
+
+    let notifType: NotificationType;
+    let title: string;
+    let message: string;
+    let recipients: string[] = [];
+    const settingKeys = ['tripNotifications', 'emailNotifications'];
+
+    switch (action) {
+      case 'CREATED':
+        notifType = NotificationType.FOSTER_REQUEST_CREATED;
+        title = 'Foster Request Created';
+        message = `A foster request for ${fosterRequest.animal.name} has been created.`;
+        recipients = [
+          ...fosterRequest.shelter.shelterAdmins.map((user) => user.id),
+          ...fosterRequest.shelter.managers.map((user) => user.id),
+        ];
+        break;
+      case 'APPROVED':
+        notifType = NotificationType.FOSTER_REQUEST_APPROVED;
+        title = 'Foster Request Approved';
+        message = `Your foster request for ${fosterRequest.animal.name} has been approved.`;
+        if (fosterRequest.fosterUserId) {
+          recipients = [fosterRequest.fosterUserId];
+        }
+        break;
+      case 'DECLINED':
+        notifType = NotificationType.FOSTER_REQUEST_DECLINED;
+        title = 'Foster Request Declined';
+        message = `Your foster request for ${fosterRequest.animal.name} has been declined.`;
+        if (fosterRequest.fosterUserId) {
+          recipients = [fosterRequest.fosterUserId];
+        }
+        break;
+      case 'SCHEDULED':
+        notifType = NotificationType.FOSTER_REQUEST_SCHEDULED;
+        title = 'Foster Transport Scheduled';
+        message = `Transport for ${fosterRequest.animal.name} has been scheduled.`;
+        recipients = [
+          ...(fosterRequest.fosterUserId ? [fosterRequest.fosterUserId] : []),
+          ...(fosterRequest.transport?.driver?.userId
+            ? [fosterRequest.transport.driver.userId]
+            : []),
+        ];
+        break;
+      case 'ARRIVED':
+        notifType = NotificationType.FOSTER_REQUEST_ARRIVED;
+        title = 'Foster Transport Arrived';
+        message = `${fosterRequest.animal.name} has arrived for handoff.`;
+        recipients = [
+          ...fosterRequest.shelter.shelterAdmins.map((user) => user.id),
+          ...fosterRequest.shelter.managers.map((user) => user.id),
+        ];
+        break;
+      case 'DELIVERED':
+        notifType = NotificationType.FOSTER_REQUEST_DELIVERED;
+        title = 'Foster Delivery Confirmed';
+        message = `${fosterRequest.animal.name} has been marked as delivered.`;
+        recipients = [
+          ...fosterRequest.shelter.shelterAdmins.map((user) => user.id),
+          ...fosterRequest.shelter.managers.map((user) => user.id),
+        ];
+        break;
+      case 'CANCELLED':
+        notifType = NotificationType.FOSTER_REQUEST_CANCELLED;
+        title = 'Foster Request Cancelled';
+        message = `The foster request for ${fosterRequest.animal.name} has been cancelled.`;
+        recipients = [
+          ...(fosterRequest.fosterUserId ? [fosterRequest.fosterUserId] : []),
+          ...(fosterRequest.transport?.driver?.userId
+            ? [fosterRequest.transport.driver.userId]
+            : []),
+        ];
+        break;
+    }
+
+    recipients = [...new Set(recipients.filter(Boolean))];
+    if (!recipients.length) return;
+
+    await this.createAndEmitNotification(
+      notifType,
+      title,
+      message,
+      recipients,
+      {
+        performedBy: 'SYSTEM',
+        recordType: 'FosterRequest',
+        recordId: fosterRequest.id,
+        others: {
+          animalId: fosterRequest.animalId,
+          animalName: fosterRequest.animal.name,
+          shelterId: fosterRequest.shelterId,
+          fosterUserId: fosterRequest.fosterUserId,
+          transportId: fosterRequest.transportId,
+          action,
+        },
+      },
+      settingKeys,
+    );
+  }
 }

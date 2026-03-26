@@ -83,6 +83,16 @@ export type FileInstance = Prisma.FileInstanceModel
  */
 export type FosterAnimalInterest = Prisma.FosterAnimalInterestModel
 /**
+ * Model FosterRequest
+ * 
+ */
+export type FosterRequest = Prisma.FosterRequestModel
+/**
+ * Model ArrivalProof
+ * 
+ */
+export type ArrivalProof = Prisma.ArrivalProofModel
+/**
  * Model Foster
  * 
  */

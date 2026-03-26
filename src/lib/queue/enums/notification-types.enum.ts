@@ -41,6 +41,13 @@ export enum NotificationType {
   FOSTER_APPROVED = 'foster_approved',
   FOSTER_REJECTED = 'foster_rejected',
   FOSTER_DELETED = 'foster_deleted',
+  FOSTER_REQUEST_CREATED = 'foster_request_created',
+  FOSTER_REQUEST_APPROVED = 'foster_request_approved',
+  FOSTER_REQUEST_DECLINED = 'foster_request_declined',
+  FOSTER_REQUEST_SCHEDULED = 'foster_request_scheduled',
+  FOSTER_REQUEST_ARRIVED = 'foster_request_arrived',
+  FOSTER_REQUEST_DELIVERED = 'foster_request_delivered',
+  FOSTER_REQUEST_CANCELLED = 'foster_request_cancelled',
 
   // === Transport Management ===
   TRANSPORT_CREATED = 'transport_created',

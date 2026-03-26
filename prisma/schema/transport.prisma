@@ -15,6 +15,7 @@ model Transport {
 
   manualDistanceMiles   Float?
   manualDurationMinutes Float?
+  vehicleName           String?
 
   cancellationRequestStatus         CancellationRequestStatus?
   cancellationRequestReason         String?
@@ -52,6 +53,7 @@ model Transport {
 
   pricingSnapshot PricingSnapshot?
   transaction     Transaction?
+  fosterRequest   FosterRequest?
 
   transportTimelines TransportTimeline[]
   chatConversations  PrivateConversation[] @relation("TransportConversation")

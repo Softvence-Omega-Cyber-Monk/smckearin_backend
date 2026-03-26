@@ -48,6 +48,7 @@ import { GenericWorkerService } from './worker/generic-worker.service';
     DocumentNotificationService,
     TransportNotificationService,
     VetNotificationService,
+    TrackingDataService,
     RouteCalculationService,
     LocationUpdateService,
   ],

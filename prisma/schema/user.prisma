@@ -48,6 +48,7 @@ model User {
 
   // Foster
   fosters Foster?
+  fosterRequests FosterRequest[] @relation("UserFosterRequests")
 
   // Veterinarian
   veterinarians Veterinarian?

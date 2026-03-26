@@ -147,6 +147,18 @@ export const FosterInterestStatus = {
 export type FosterInterestStatus = (typeof FosterInterestStatus)[keyof typeof FosterInterestStatus]
 
 
+export const FosterRequestStatus = {
+  REQUESTED: 'REQUESTED',
+  INTERESTED: 'INTERESTED',
+  APPROVED: 'APPROVED',
+  SCHEDULED: 'SCHEDULED',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type FosterRequestStatus = (typeof FosterRequestStatus)[keyof typeof FosterRequestStatus]
+
+
 export const ImportSourceType = {
   CSV: 'CSV',
   EXTERNAL_FEED: 'EXTERNAL_FEED'

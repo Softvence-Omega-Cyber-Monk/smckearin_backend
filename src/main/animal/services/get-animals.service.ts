@@ -119,6 +119,73 @@ export class GetAnimalsService {
     return successResponse(animals, 'Pending animals fetched');
   }
 
+  @HandleError("Can't get animals available for foster")
+  async getAnimalsAvailableForFoster(userId: string, dto: GetPendingAnimalDto) {
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
+      select: { shelterAdminOfId: true, managerOfId: true },
+    });
+
+    const shelterId = user.shelterAdminOfId ?? user.managerOfId;
+    if (!shelterId) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'User does not belong to any shelter',
+      );
+    }
+
+    const where: Prisma.AnimalWhereInput = {
+      shelterId,
+      status: 'AT_SHELTER',
+      fosterRequests: {
+        none: {
+          status: {
+            in: ['REQUESTED', 'INTERESTED', 'APPROVED', 'SCHEDULED'],
+          },
+        },
+      },
+    };
+
+    if (dto.search) {
+      where.OR = [
+        { name: { contains: dto.search, mode: 'insensitive' } },
+        { breed: { contains: dto.search, mode: 'insensitive' } },
+      ];
+    }
+
+    const animals = await this.prisma.client.animal.findMany({
+      where,
+      take: dto.limit && +dto.limit > 0 ? +dto.limit : 20,
+      orderBy: { name: 'asc' },
+      select: {
+        id: true,
+        name: true,
+        breed: true,
+        species: true,
+        gender: true,
+        age: true,
+        imageUrl: true,
+        shelterId: true,
+      },
+    });
+
+    return successResponse(
+      {
+        total: animals.length,
+        data: animals.map((animal) => ({
+          id: animal.id,
+          name: animal.name,
+          photo: animal.imageUrl,
+          breed: animal.breed,
+          type: animal.species,
+          gender: animal.gender,
+          age: animal.age,
+        })),
+      },
+      'Animals available for foster fetched successfully',
+    );
+  }
+
   @HandleError("Can't get single animal")
   async getSingleAnimal(animalId: string) {
     const animal = await this.prisma.client.animal.findUniqueOrThrow({

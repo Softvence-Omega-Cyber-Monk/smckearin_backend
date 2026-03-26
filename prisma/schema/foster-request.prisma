@@ -1,0 +1,71 @@
+model FosterRequest {
+  id String @id @default(uuid())
+
+  animalId String
+  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  fosterUserId String?
+  fosterUser   User? @relation("UserFosterRequests", fields: [fosterUserId], references: [id], onDelete: SetNull)
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  status FosterRequestStatus @default(REQUESTED)
+
+  requestedAt DateTime @default(now())
+  cancelledAt DateTime?
+  deliveryTime DateTime?
+
+  estimateTransportDate      DateTime?
+  estimateTransportTimeStart String?
+  estimateTransportTimeEnd   String?
+  spayNeuterAvailable        Boolean  @default(false)
+  spayNeuterDate             DateTime?
+  lastCheckupDate            DateTime?
+  vaccinationsDate           DateTime?
+
+  shelterNote    String
+  petPersonality String
+  cancelReason   String?
+
+  transportId String?    @unique
+  transport   Transport? @relation(fields: [transportId], references: [id], onDelete: SetNull)
+
+  arrivalProof ArrivalProof?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([animalId, status])
+  @@index([fosterUserId, status])
+  @@index([shelterId, status])
+  @@map("foster_requests")
+}
+
+model ArrivalProof {
+  id String @id @default(uuid())
+
+  fosterRequestId String        @unique
+  fosterRequest   FosterRequest @relation(fields: [fosterRequestId], references: [id], onDelete: Cascade)
+
+  photoId  String?       @unique
+  photoUrl String
+  photo    FileInstance? @relation(fields: [photoId], references: [id], onDelete: SetNull)
+
+  notes String?
+
+  confirmedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  @@map("arrival_proofs")
+}
+
+enum FosterRequestStatus {
+  REQUESTED
+  INTERESTED
+  APPROVED
+  SCHEDULED
+  DELIVERED
+  CANCELLED
+}

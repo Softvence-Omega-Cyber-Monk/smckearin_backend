@@ -88,6 +88,13 @@ export class StatsController {
     return this.shelterStatsService.getShelterStats(userId);
   }
 
+  @ApiOperation({ summary: 'Get shelter dashboard summary (shelter)' })
+  @Get('shelter/dashboard')
+  @ValidateManager()
+  async getShelterDashboard(@GetUser('sub') userId: string) {
+    return this.shelterStatsService.getShelterDashboard(userId);
+  }
+
   @ApiOperation({ summary: 'Get shelter trips overview stats (shelter)' })
   @Get('shelter/stats/chart')
   @ValidateManager()

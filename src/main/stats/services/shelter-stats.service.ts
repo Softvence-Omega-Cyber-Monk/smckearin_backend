@@ -153,4 +153,121 @@ export class ShelterStatsService {
 
     return successResponse(stats, 'Shelter stats fetched successfully');
   }
+
+  @HandleError('Error getting shelter dashboard')
+  async getShelterDashboard(userId: string) {
+    const user = await this.prisma.client.user.findUnique({
+      where: { id: userId },
+      select: {
+        role: true,
+        shelterAdminOfId: true,
+        managerOfId: true,
+      },
+    });
+
+    if (!user || !['SHELTER_ADMIN', 'MANAGER'].includes(user.role)) {
+      throw new AppError(HttpStatus.FORBIDDEN, 'User is not a shelter user');
+    }
+
+    const shelterId = user.shelterAdminOfId || user.managerOfId;
+    if (!shelterId) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'User is not associated with any shelter',
+      );
+    }
+
+    const [activeTripsCount, pendingTripsCount, activeTrips, availableAnimalsCount, pendingRequestsCount, recentlyCompleted] =
+      await this.prisma.client.$transaction([
+        this.prisma.client.transport.count({
+          where: {
+            shelterId,
+            status: { in: ['ACCEPTED', 'PICKED_UP', 'IN_TRANSIT'] },
+          },
+        }),
+        this.prisma.client.transport.count({
+          where: {
+            shelterId,
+            status: 'PENDING',
+          },
+        }),
+        this.prisma.client.transport.findMany({
+          where: {
+            shelterId,
+            status: { in: ['ACCEPTED', 'PICKED_UP', 'IN_TRANSIT'] },
+          },
+          include: {
+            animal: true,
+          },
+          orderBy: { transPortDate: 'asc' },
+          take: 5,
+        }),
+        this.prisma.client.animal.count({
+          where: {
+            shelterId,
+            status: 'AT_SHELTER',
+            fosterRequests: {
+              none: {
+                status: {
+                  in: ['REQUESTED', 'INTERESTED', 'APPROVED', 'SCHEDULED'],
+                },
+              },
+            },
+          },
+        }),
+        this.prisma.client.fosterRequest.count({
+          where: {
+            shelterId,
+            status: 'REQUESTED',
+          },
+        }),
+        this.prisma.client.fosterRequest.findMany({
+          where: {
+            shelterId,
+            status: 'DELIVERED',
+          },
+          include: {
+            animal: true,
+            transport: true,
+          },
+          orderBy: { deliveryTime: 'desc' },
+          take: 5,
+        }),
+      ]);
+
+    return successResponse(
+      {
+        activeTripsCount,
+        pendingTripsCount,
+        activeTrips: activeTrips.map((trip, index) => ({
+          transportId: trip.id,
+          tripId: `Tr-${String(index + 1).padStart(3, '0')}`,
+          animalName: trip.animal?.name ?? null,
+          animalBreed: trip.animal?.breed ?? null,
+          animalPhoto: trip.animal?.imageUrl ?? null,
+          status: trip.status.toLowerCase(),
+          pickupLocation: trip.pickUpLocation,
+          dropoffLocation: trip.dropOffLocation,
+          distanceMi: trip.manualDistanceMiles ?? 0,
+          etaMinutes: trip.manualDurationMinutes ?? 0,
+        })),
+        fosterPlacements: {
+          availableAnimalsCount,
+          pendingRequestsCount,
+        },
+        recentlyCompleted: recentlyCompleted.map((item, index) => ({
+          transportId: item.transportId,
+          tripId: `Tr-${String(index + 1).padStart(3, '0')}`,
+          animalName: item.animal?.name ?? null,
+          animalBreed: item.animal?.breed ?? null,
+          animalPhoto: item.animal?.imageUrl ?? null,
+          status: 'delivered',
+          pickupLocation: item.transport?.pickUpLocation ?? null,
+          dropoffLocation: item.transport?.dropOffLocation ?? null,
+          estimateTransportDate: item.estimateTransportDate,
+        })),
+      },
+      'Shelter dashboard fetched successfully',
+    );
+  }
 }

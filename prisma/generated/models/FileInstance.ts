@@ -265,6 +265,7 @@ export type FileInstanceWhereInput = {
   healthReports?: Prisma.XOR<Prisma.HealthReportNullableScalarRelationFilter, Prisma.HealthReportWhereInput> | null
   vetDocuments?: Prisma.XOR<Prisma.VetDocumentNullableScalarRelationFilter, Prisma.VetDocumentWhereInput> | null
   shelterDocuments?: Prisma.XOR<Prisma.ShelterDocumentNullableScalarRelationFilter, Prisma.ShelterDocumentWhereInput> | null
+  arrivalProof?: Prisma.XOR<Prisma.ArrivalProofNullableScalarRelationFilter, Prisma.ArrivalProofWhereInput> | null
   privateMessages?: Prisma.PrivateMessageListRelationFilter
 }
 
@@ -288,6 +289,7 @@ export type FileInstanceOrderByWithRelationInput = {
   healthReports?: Prisma.HealthReportOrderByWithRelationInput
   vetDocuments?: Prisma.VetDocumentOrderByWithRelationInput
   shelterDocuments?: Prisma.ShelterDocumentOrderByWithRelationInput
+  arrivalProof?: Prisma.ArrivalProofOrderByWithRelationInput
   privateMessages?: Prisma.PrivateMessageOrderByRelationAggregateInput
 }
 
@@ -314,6 +316,7 @@ export type FileInstanceWhereUniqueInput = Prisma.AtLeast<{
   healthReports?: Prisma.XOR<Prisma.HealthReportNullableScalarRelationFilter, Prisma.HealthReportWhereInput> | null
   vetDocuments?: Prisma.XOR<Prisma.VetDocumentNullableScalarRelationFilter, Prisma.VetDocumentWhereInput> | null
   shelterDocuments?: Prisma.XOR<Prisma.ShelterDocumentNullableScalarRelationFilter, Prisma.ShelterDocumentWhereInput> | null
+  arrivalProof?: Prisma.XOR<Prisma.ArrivalProofNullableScalarRelationFilter, Prisma.ArrivalProofWhereInput> | null
   privateMessages?: Prisma.PrivateMessageListRelationFilter
 }, "id">
 
@@ -371,6 +374,7 @@ export type FileInstanceCreateInput = {
   healthReports?: Prisma.HealthReportCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
@@ -394,6 +398,7 @@ export type FileInstanceUncheckedCreateInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
@@ -417,6 +422,7 @@ export type FileInstanceUpdateInput = {
   healthReports?: Prisma.HealthReportUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
@@ -440,6 +446,7 @@ export type FileInstanceUncheckedUpdateInput = {
   healthReports?: Prisma.HealthReportUncheckedUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
@@ -607,6 +614,22 @@ export type EnumFileTypeFieldUpdateOperationsInput = {
   set?: $Enums.FileType
 }
 
+export type FileInstanceCreateNestedOneWithoutArrivalProofInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutArrivalProofInput, Prisma.FileInstanceUncheckedCreateWithoutArrivalProofInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutArrivalProofInput
+  connect?: Prisma.FileInstanceWhereUniqueInput
+}
+
+export type FileInstanceUpdateOneWithoutArrivalProofNestedInput = {
+  create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutArrivalProofInput, Prisma.FileInstanceUncheckedCreateWithoutArrivalProofInput>
+  connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutArrivalProofInput
+  upsert?: Prisma.FileInstanceUpsertWithoutArrivalProofInput
+  disconnect?: Prisma.FileInstanceWhereInput | boolean
+  delete?: Prisma.FileInstanceWhereInput | boolean
+  connect?: Prisma.FileInstanceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FileInstanceUpdateToOneWithWhereWithoutArrivalProofInput, Prisma.FileInstanceUpdateWithoutArrivalProofInput>, Prisma.FileInstanceUncheckedUpdateWithoutArrivalProofInput>
+}
+
 export type FileInstanceCreateNestedOneWithoutHealthReportsInput = {
   create?: Prisma.XOR<Prisma.FileInstanceCreateWithoutHealthReportsInput, Prisma.FileInstanceUncheckedCreateWithoutHealthReportsInput>
   connectOrCreate?: Prisma.FileInstanceCreateOrConnectWithoutHealthReportsInput
@@ -718,6 +741,7 @@ export type FileInstanceCreateWithoutTripAnimalInput = {
   healthReports?: Prisma.HealthReportCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
@@ -740,6 +764,7 @@ export type FileInstanceUncheckedCreateWithoutTripAnimalInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
@@ -778,6 +803,7 @@ export type FileInstanceUpdateWithoutTripAnimalInput = {
   healthReports?: Prisma.HealthReportUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
@@ -800,6 +826,7 @@ export type FileInstanceUncheckedUpdateWithoutTripAnimalInput = {
   healthReports?: Prisma.HealthReportUncheckedUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
@@ -822,6 +849,7 @@ export type FileInstanceCreateWithoutDriverLicenseInput = {
   healthReports?: Prisma.HealthReportCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
@@ -844,6 +872,7 @@ export type FileInstanceUncheckedCreateWithoutDriverLicenseInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
@@ -871,6 +900,7 @@ export type FileInstanceCreateWithoutVehicleRegistrationInput = {
   healthReports?: Prisma.HealthReportCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
@@ -893,6 +923,7 @@ export type FileInstanceUncheckedCreateWithoutVehicleRegistrationInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
@@ -920,6 +951,7 @@ export type FileInstanceCreateWithoutTransportCertificateInput = {
   healthReports?: Prisma.HealthReportCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
@@ -942,6 +974,7 @@ export type FileInstanceUncheckedCreateWithoutTransportCertificateInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
@@ -980,6 +1013,7 @@ export type FileInstanceUpdateWithoutDriverLicenseInput = {
   healthReports?: Prisma.HealthReportUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
@@ -1002,6 +1036,7 @@ export type FileInstanceUncheckedUpdateWithoutDriverLicenseInput = {
   healthReports?: Prisma.HealthReportUncheckedUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
@@ -1035,6 +1070,7 @@ export type FileInstanceUpdateWithoutVehicleRegistrationInput = {
   healthReports?: Prisma.HealthReportUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
@@ -1057,6 +1093,7 @@ export type FileInstanceUncheckedUpdateWithoutVehicleRegistrationInput = {
   healthReports?: Prisma.HealthReportUncheckedUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
@@ -1090,6 +1127,7 @@ export type FileInstanceUpdateWithoutTransportCertificateInput = {
   healthReports?: Prisma.HealthReportUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
@@ -1108,6 +1146,115 @@ export type FileInstanceUncheckedUpdateWithoutTransportCertificateInput = {
   shelter?: Prisma.ShelterUncheckedUpdateOneWithoutLogoNestedInput
   driverLicense?: Prisma.DriverUncheckedUpdateOneWithoutDriverLicenseNestedInput
   vehicleRegistration?: Prisma.DriverUncheckedUpdateOneWithoutVehicleRegistrationNestedInput
+  tripAnimal?: Prisma.AnimalUncheckedUpdateOneWithoutImageNestedInput
+  healthReports?: Prisma.HealthReportUncheckedUpdateOneWithoutReportNestedInput
+  vetDocuments?: Prisma.VetDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput
+  privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
+}
+
+export type FileInstanceCreateWithoutArrivalProofInput = {
+  id?: string
+  filename: string
+  originalFilename: string
+  path: string
+  url: string
+  fileType?: $Enums.FileType
+  mimeType: string
+  size: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverCreateNestedOneWithoutTransportCertificateInput
+  tripAnimal?: Prisma.AnimalCreateNestedOneWithoutImageInput
+  healthReports?: Prisma.HealthReportCreateNestedOneWithoutReportInput
+  vetDocuments?: Prisma.VetDocumentCreateNestedOneWithoutDocumentInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedOneWithoutDocumentInput
+  privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
+}
+
+export type FileInstanceUncheckedCreateWithoutArrivalProofInput = {
+  id?: string
+  filename: string
+  originalFilename: string
+  path: string
+  url: string
+  fileType?: $Enums.FileType
+  mimeType: string
+  size: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserUncheckedCreateNestedOneWithoutProfilePictureInput
+  shelter?: Prisma.ShelterUncheckedCreateNestedOneWithoutLogoInput
+  driverLicense?: Prisma.DriverUncheckedCreateNestedOneWithoutDriverLicenseInput
+  vehicleRegistration?: Prisma.DriverUncheckedCreateNestedOneWithoutVehicleRegistrationInput
+  transportCertificate?: Prisma.DriverUncheckedCreateNestedOneWithoutTransportCertificateInput
+  tripAnimal?: Prisma.AnimalUncheckedCreateNestedOneWithoutImageInput
+  healthReports?: Prisma.HealthReportUncheckedCreateNestedOneWithoutReportInput
+  vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
+}
+
+export type FileInstanceCreateOrConnectWithoutArrivalProofInput = {
+  where: Prisma.FileInstanceWhereUniqueInput
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutArrivalProofInput, Prisma.FileInstanceUncheckedCreateWithoutArrivalProofInput>
+}
+
+export type FileInstanceUpsertWithoutArrivalProofInput = {
+  update: Prisma.XOR<Prisma.FileInstanceUpdateWithoutArrivalProofInput, Prisma.FileInstanceUncheckedUpdateWithoutArrivalProofInput>
+  create: Prisma.XOR<Prisma.FileInstanceCreateWithoutArrivalProofInput, Prisma.FileInstanceUncheckedCreateWithoutArrivalProofInput>
+  where?: Prisma.FileInstanceWhereInput
+}
+
+export type FileInstanceUpdateToOneWithWhereWithoutArrivalProofInput = {
+  where?: Prisma.FileInstanceWhereInput
+  data: Prisma.XOR<Prisma.FileInstanceUpdateWithoutArrivalProofInput, Prisma.FileInstanceUncheckedUpdateWithoutArrivalProofInput>
+}
+
+export type FileInstanceUpdateWithoutArrivalProofInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  path?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUpdateOneWithoutTransportCertificateNestedInput
+  tripAnimal?: Prisma.AnimalUpdateOneWithoutImageNestedInput
+  healthReports?: Prisma.HealthReportUpdateOneWithoutReportNestedInput
+  vetDocuments?: Prisma.VetDocumentUpdateOneWithoutDocumentNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateOneWithoutDocumentNestedInput
+  privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
+}
+
+export type FileInstanceUncheckedUpdateWithoutArrivalProofInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  path?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  fileType?: Prisma.EnumFileTypeFieldUpdateOperationsInput | $Enums.FileType
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  size?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUncheckedUpdateOneWithoutProfilePictureNestedInput
+  shelter?: Prisma.ShelterUncheckedUpdateOneWithoutLogoNestedInput
+  driverLicense?: Prisma.DriverUncheckedUpdateOneWithoutDriverLicenseNestedInput
+  vehicleRegistration?: Prisma.DriverUncheckedUpdateOneWithoutVehicleRegistrationNestedInput
+  transportCertificate?: Prisma.DriverUncheckedUpdateOneWithoutTransportCertificateNestedInput
   tripAnimal?: Prisma.AnimalUncheckedUpdateOneWithoutImageNestedInput
   healthReports?: Prisma.HealthReportUncheckedUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateOneWithoutDocumentNestedInput
@@ -1134,6 +1281,7 @@ export type FileInstanceCreateWithoutHealthReportsInput = {
   tripAnimal?: Prisma.AnimalCreateNestedOneWithoutImageInput
   vetDocuments?: Prisma.VetDocumentCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
@@ -1156,6 +1304,7 @@ export type FileInstanceUncheckedCreateWithoutHealthReportsInput = {
   tripAnimal?: Prisma.AnimalUncheckedCreateNestedOneWithoutImageInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
@@ -1194,6 +1343,7 @@ export type FileInstanceUpdateWithoutHealthReportsInput = {
   tripAnimal?: Prisma.AnimalUpdateOneWithoutImageNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
@@ -1216,6 +1366,7 @@ export type FileInstanceUncheckedUpdateWithoutHealthReportsInput = {
   tripAnimal?: Prisma.AnimalUncheckedUpdateOneWithoutImageNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
@@ -1239,6 +1390,7 @@ export type FileInstanceCreateWithoutPrivateMessagesInput = {
   healthReports?: Prisma.HealthReportCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofCreateNestedOneWithoutPhotoInput
 }
 
 export type FileInstanceUncheckedCreateWithoutPrivateMessagesInput = {
@@ -1261,6 +1413,7 @@ export type FileInstanceUncheckedCreateWithoutPrivateMessagesInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutPhotoInput
 }
 
 export type FileInstanceCreateOrConnectWithoutPrivateMessagesInput = {
@@ -1299,6 +1452,7 @@ export type FileInstanceUpdateWithoutPrivateMessagesInput = {
   healthReports?: Prisma.HealthReportUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUpdateOneWithoutPhotoNestedInput
 }
 
 export type FileInstanceUncheckedUpdateWithoutPrivateMessagesInput = {
@@ -1321,6 +1475,7 @@ export type FileInstanceUncheckedUpdateWithoutPrivateMessagesInput = {
   healthReports?: Prisma.HealthReportUncheckedUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput
 }
 
 export type FileInstanceCreateWithoutShelterInput = {
@@ -1342,6 +1497,7 @@ export type FileInstanceCreateWithoutShelterInput = {
   healthReports?: Prisma.HealthReportCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
@@ -1364,6 +1520,7 @@ export type FileInstanceUncheckedCreateWithoutShelterInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
@@ -1402,6 +1559,7 @@ export type FileInstanceUpdateWithoutShelterInput = {
   healthReports?: Prisma.HealthReportUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
@@ -1424,6 +1582,7 @@ export type FileInstanceUncheckedUpdateWithoutShelterInput = {
   healthReports?: Prisma.HealthReportUncheckedUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
@@ -1446,6 +1605,7 @@ export type FileInstanceCreateWithoutShelterDocumentsInput = {
   tripAnimal?: Prisma.AnimalCreateNestedOneWithoutImageInput
   healthReports?: Prisma.HealthReportCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
@@ -1468,6 +1628,7 @@ export type FileInstanceUncheckedCreateWithoutShelterDocumentsInput = {
   tripAnimal?: Prisma.AnimalUncheckedCreateNestedOneWithoutImageInput
   healthReports?: Prisma.HealthReportUncheckedCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
@@ -1506,6 +1667,7 @@ export type FileInstanceUpdateWithoutShelterDocumentsInput = {
   tripAnimal?: Prisma.AnimalUpdateOneWithoutImageNestedInput
   healthReports?: Prisma.HealthReportUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
@@ -1528,6 +1690,7 @@ export type FileInstanceUncheckedUpdateWithoutShelterDocumentsInput = {
   tripAnimal?: Prisma.AnimalUncheckedUpdateOneWithoutImageNestedInput
   healthReports?: Prisma.HealthReportUncheckedUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
@@ -1550,6 +1713,7 @@ export type FileInstanceCreateWithoutUserInput = {
   healthReports?: Prisma.HealthReportCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
@@ -1572,6 +1736,7 @@ export type FileInstanceUncheckedCreateWithoutUserInput = {
   healthReports?: Prisma.HealthReportUncheckedCreateNestedOneWithoutReportInput
   vetDocuments?: Prisma.VetDocumentUncheckedCreateNestedOneWithoutDocumentInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
@@ -1610,6 +1775,7 @@ export type FileInstanceUpdateWithoutUserInput = {
   healthReports?: Prisma.HealthReportUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
@@ -1632,6 +1798,7 @@ export type FileInstanceUncheckedUpdateWithoutUserInput = {
   healthReports?: Prisma.HealthReportUncheckedUpdateOneWithoutReportNestedInput
   vetDocuments?: Prisma.VetDocumentUncheckedUpdateOneWithoutDocumentNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
@@ -1654,6 +1821,7 @@ export type FileInstanceCreateWithoutVetDocumentsInput = {
   tripAnimal?: Prisma.AnimalCreateNestedOneWithoutImageInput
   healthReports?: Prisma.HealthReportCreateNestedOneWithoutReportInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageCreateNestedManyWithoutFileInput
 }
 
@@ -1676,6 +1844,7 @@ export type FileInstanceUncheckedCreateWithoutVetDocumentsInput = {
   tripAnimal?: Prisma.AnimalUncheckedCreateNestedOneWithoutImageInput
   healthReports?: Prisma.HealthReportUncheckedCreateNestedOneWithoutReportInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedOneWithoutDocumentInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutPhotoInput
   privateMessages?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutFileInput
 }
 
@@ -1714,6 +1883,7 @@ export type FileInstanceUpdateWithoutVetDocumentsInput = {
   tripAnimal?: Prisma.AnimalUpdateOneWithoutImageNestedInput
   healthReports?: Prisma.HealthReportUpdateOneWithoutReportNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUpdateManyWithoutFileNestedInput
 }
 
@@ -1736,6 +1906,7 @@ export type FileInstanceUncheckedUpdateWithoutVetDocumentsInput = {
   tripAnimal?: Prisma.AnimalUncheckedUpdateOneWithoutImageNestedInput
   healthReports?: Prisma.HealthReportUncheckedUpdateOneWithoutReportNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateOneWithoutDocumentNestedInput
+  arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput
   privateMessages?: Prisma.PrivateMessageUncheckedUpdateManyWithoutFileNestedInput
 }
 
@@ -1790,6 +1961,7 @@ export type FileInstanceSelect<ExtArgs extends runtime.Types.Extensions.Internal
   healthReports?: boolean | Prisma.FileInstance$healthReportsArgs<ExtArgs>
   vetDocuments?: boolean | Prisma.FileInstance$vetDocumentsArgs<ExtArgs>
   shelterDocuments?: boolean | Prisma.FileInstance$shelterDocumentsArgs<ExtArgs>
+  arrivalProof?: boolean | Prisma.FileInstance$arrivalProofArgs<ExtArgs>
   privateMessages?: boolean | Prisma.FileInstance$privateMessagesArgs<ExtArgs>
   _count?: boolean | Prisma.FileInstanceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["fileInstance"]>
@@ -1844,6 +2016,7 @@ export type FileInstanceInclude<ExtArgs extends runtime.Types.Extensions.Interna
   healthReports?: boolean | Prisma.FileInstance$healthReportsArgs<ExtArgs>
   vetDocuments?: boolean | Prisma.FileInstance$vetDocumentsArgs<ExtArgs>
   shelterDocuments?: boolean | Prisma.FileInstance$shelterDocumentsArgs<ExtArgs>
+  arrivalProof?: boolean | Prisma.FileInstance$arrivalProofArgs<ExtArgs>
   privateMessages?: boolean | Prisma.FileInstance$privateMessagesArgs<ExtArgs>
   _count?: boolean | Prisma.FileInstanceCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1862,6 +2035,7 @@ export type $FileInstancePayload<ExtArgs extends runtime.Types.Extensions.Intern
     healthReports: Prisma.$HealthReportPayload<ExtArgs> | null
     vetDocuments: Prisma.$VetDocumentPayload<ExtArgs> | null
     shelterDocuments: Prisma.$ShelterDocumentPayload<ExtArgs> | null
+    arrivalProof: Prisma.$ArrivalProofPayload<ExtArgs> | null
     privateMessages: Prisma.$PrivateMessagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -2278,6 +2452,7 @@ export interface Prisma__FileInstanceClient<T, Null = never, ExtArgs extends run
   healthReports<T extends Prisma.FileInstance$healthReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$healthReportsArgs<ExtArgs>>): Prisma.Prisma__HealthReportClient<runtime.Types.Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   vetDocuments<T extends Prisma.FileInstance$vetDocumentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$vetDocumentsArgs<ExtArgs>>): Prisma.Prisma__VetDocumentClient<runtime.Types.Result.GetResult<Prisma.$VetDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   shelterDocuments<T extends Prisma.FileInstance$shelterDocumentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$shelterDocumentsArgs<ExtArgs>>): Prisma.Prisma__ShelterDocumentClient<runtime.Types.Result.GetResult<Prisma.$ShelterDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  arrivalProof<T extends Prisma.FileInstance$arrivalProofArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$arrivalProofArgs<ExtArgs>>): Prisma.Prisma__ArrivalProofClient<runtime.Types.Result.GetResult<Prisma.$ArrivalProofPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   privateMessages<T extends Prisma.FileInstance$privateMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FileInstance$privateMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2874,6 +3049,25 @@ export type FileInstance$shelterDocumentsArgs<ExtArgs extends runtime.Types.Exte
    */
   include?: Prisma.ShelterDocumentInclude<ExtArgs> | null
   where?: Prisma.ShelterDocumentWhereInput
+}
+
+/**
+ * FileInstance.arrivalProof
+ */
+export type FileInstance$arrivalProofArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ArrivalProof
+   */
+  select?: Prisma.ArrivalProofSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ArrivalProof
+   */
+  omit?: Prisma.ArrivalProofOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ArrivalProofInclude<ExtArgs> | null
+  where?: Prisma.ArrivalProofWhereInput
 }
 
 /**

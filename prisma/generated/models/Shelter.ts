@@ -345,6 +345,7 @@ export type ShelterWhereInput = {
   managers?: Prisma.UserListRelationFilter
   animals?: Prisma.AnimalListRelationFilter
   fosterAnimalInterests?: Prisma.FosterAnimalInterestListRelationFilter
+  fosterRequests?: Prisma.FosterRequestListRelationFilter
   shelterDocuments?: Prisma.ShelterDocumentListRelationFilter
   transports?: Prisma.TransportListRelationFilter
   externalFeedConfigs?: Prisma.ExternalFeedConfigListRelationFilter
@@ -386,6 +387,7 @@ export type ShelterOrderByWithRelationInput = {
   managers?: Prisma.UserOrderByRelationAggregateInput
   animals?: Prisma.AnimalOrderByRelationAggregateInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestOrderByRelationAggregateInput
+  fosterRequests?: Prisma.FosterRequestOrderByRelationAggregateInput
   shelterDocuments?: Prisma.ShelterDocumentOrderByRelationAggregateInput
   transports?: Prisma.TransportOrderByRelationAggregateInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigOrderByRelationAggregateInput
@@ -430,6 +432,7 @@ export type ShelterWhereUniqueInput = Prisma.AtLeast<{
   managers?: Prisma.UserListRelationFilter
   animals?: Prisma.AnimalListRelationFilter
   fosterAnimalInterests?: Prisma.FosterAnimalInterestListRelationFilter
+  fosterRequests?: Prisma.FosterRequestListRelationFilter
   shelterDocuments?: Prisma.ShelterDocumentListRelationFilter
   transports?: Prisma.TransportListRelationFilter
   externalFeedConfigs?: Prisma.ExternalFeedConfigListRelationFilter
@@ -528,6 +531,7 @@ export type ShelterCreateInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -568,6 +572,7 @@ export type ShelterUncheckedCreateInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -608,6 +613,7 @@ export type ShelterUpdateInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -648,6 +654,7 @@ export type ShelterUncheckedUpdateInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -914,6 +921,20 @@ export type ShelterUpdateOneRequiredWithoutFosterAnimalInterestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutFosterAnimalInterestsInput, Prisma.ShelterUpdateWithoutFosterAnimalInterestsInput>, Prisma.ShelterUncheckedUpdateWithoutFosterAnimalInterestsInput>
 }
 
+export type ShelterCreateNestedOneWithoutFosterRequestsInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutFosterRequestsInput, Prisma.ShelterUncheckedCreateWithoutFosterRequestsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutFosterRequestsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+}
+
+export type ShelterUpdateOneRequiredWithoutFosterRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.ShelterCreateWithoutFosterRequestsInput, Prisma.ShelterUncheckedCreateWithoutFosterRequestsInput>
+  connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutFosterRequestsInput
+  upsert?: Prisma.ShelterUpsertWithoutFosterRequestsInput
+  connect?: Prisma.ShelterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ShelterUpdateToOneWithWhereWithoutFosterRequestsInput, Prisma.ShelterUpdateWithoutFosterRequestsInput>, Prisma.ShelterUncheckedUpdateWithoutFosterRequestsInput>
+}
+
 export type ShelterCreateNestedOneWithoutImportJobsInput = {
   create?: Prisma.XOR<Prisma.ShelterCreateWithoutImportJobsInput, Prisma.ShelterUncheckedCreateWithoutImportJobsInput>
   connectOrCreate?: Prisma.ShelterCreateOrConnectWithoutImportJobsInput
@@ -1151,6 +1172,7 @@ export type ShelterCreateWithoutAnimalsInput = {
   shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -1190,6 +1212,7 @@ export type ShelterUncheckedCreateWithoutAnimalsInput = {
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -1245,6 +1268,7 @@ export type ShelterUpdateWithoutAnimalsInput = {
   shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -1284,6 +1308,7 @@ export type ShelterUncheckedUpdateWithoutAnimalsInput = {
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -1324,6 +1349,7 @@ export type ShelterCreateWithoutDailySchedulesInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -1363,6 +1389,7 @@ export type ShelterUncheckedCreateWithoutDailySchedulesInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -1418,6 +1445,7 @@ export type ShelterUpdateWithoutDailySchedulesInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -1457,6 +1485,7 @@ export type ShelterUncheckedUpdateWithoutDailySchedulesInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -1496,6 +1525,7 @@ export type ShelterCreateWithoutExternalFeedConfigsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
@@ -1535,6 +1565,7 @@ export type ShelterUncheckedCreateWithoutExternalFeedConfigsInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
@@ -1590,6 +1621,7 @@ export type ShelterUpdateWithoutExternalFeedConfigsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
@@ -1629,6 +1661,7 @@ export type ShelterUncheckedUpdateWithoutExternalFeedConfigsInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
@@ -1667,6 +1700,7 @@ export type ShelterCreateWithoutLogoInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -1706,6 +1740,7 @@ export type ShelterUncheckedCreateWithoutLogoInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -1761,6 +1796,7 @@ export type ShelterUpdateWithoutLogoInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -1800,6 +1836,7 @@ export type ShelterUncheckedUpdateWithoutLogoInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -1839,6 +1876,7 @@ export type ShelterCreateWithoutFosterAnimalInterestsInput = {
   shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -1878,6 +1916,7 @@ export type ShelterUncheckedCreateWithoutFosterAnimalInterestsInput = {
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -1933,6 +1972,7 @@ export type ShelterUpdateWithoutFosterAnimalInterestsInput = {
   shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -1972,6 +2012,183 @@ export type ShelterUncheckedUpdateWithoutFosterAnimalInterestsInput = {
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUncheckedUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUncheckedUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterCreateWithoutFosterRequestsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logo?: Prisma.FileInstanceCreateNestedOneWithoutShelterInput
+  shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
+  fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterUncheckedCreateWithoutFosterRequestsInput = {
+  id?: string
+  name: string
+  address?: string | null
+  phone?: string | null
+  description?: string | null
+  logoId?: string | null
+  logoUrl?: string | null
+  startTime?: string
+  endTime?: string
+  workingDays?: Prisma.ShelterCreateworkingDaysInput | $Enums.WorkingDay[]
+  status?: $Enums.ApprovalStatus
+  stripeCustomerId?: string | null
+  stripeDefaultPaymentMethodId?: string | null
+  totalKennels?: number
+  openKennels?: number
+  currentUtilization?: number
+  acceptsSpecies?: Prisma.ShelterCreateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterCreateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterCreateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterCreaterestrictedBreedsInput | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
+  managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
+  animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
+  fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
+  transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
+  importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutShelterInput
+  dailySchedules?: Prisma.DailyScheduleUncheckedCreateNestedManyWithoutShelterInput
+  originBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutOriginShelterInput
+  destinationBatches?: Prisma.TransportBatchUncheckedCreateNestedManyWithoutDestinationShelterInput
+  conversations?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutShelterInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutShelterInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUncheckedCreateNestedManyWithoutShelterInput
+}
+
+export type ShelterCreateOrConnectWithoutFosterRequestsInput = {
+  where: Prisma.ShelterWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutFosterRequestsInput, Prisma.ShelterUncheckedCreateWithoutFosterRequestsInput>
+}
+
+export type ShelterUpsertWithoutFosterRequestsInput = {
+  update: Prisma.XOR<Prisma.ShelterUpdateWithoutFosterRequestsInput, Prisma.ShelterUncheckedUpdateWithoutFosterRequestsInput>
+  create: Prisma.XOR<Prisma.ShelterCreateWithoutFosterRequestsInput, Prisma.ShelterUncheckedCreateWithoutFosterRequestsInput>
+  where?: Prisma.ShelterWhereInput
+}
+
+export type ShelterUpdateToOneWithWhereWithoutFosterRequestsInput = {
+  where?: Prisma.ShelterWhereInput
+  data: Prisma.XOR<Prisma.ShelterUpdateWithoutFosterRequestsInput, Prisma.ShelterUncheckedUpdateWithoutFosterRequestsInput>
+}
+
+export type ShelterUpdateWithoutFosterRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logo?: Prisma.FileInstanceUpdateOneWithoutShelterNestedInput
+  shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
+  fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
+  transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
+  externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
+  importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutShelterNestedInput
+  dailySchedules?: Prisma.DailyScheduleUpdateManyWithoutShelterNestedInput
+  originBatches?: Prisma.TransportBatchUpdateManyWithoutOriginShelterNestedInput
+  destinationBatches?: Prisma.TransportBatchUpdateManyWithoutDestinationShelterNestedInput
+  conversations?: Prisma.PrivateConversationUpdateManyWithoutShelterNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutShelterNestedInput
+  priorityScoreLogs?: Prisma.PriorityScoreLogUpdateManyWithoutShelterNestedInput
+}
+
+export type ShelterUncheckedUpdateWithoutFosterRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  startTime?: Prisma.StringFieldUpdateOperationsInput | string
+  endTime?: Prisma.StringFieldUpdateOperationsInput | string
+  workingDays?: Prisma.ShelterUpdateworkingDaysInput | $Enums.WorkingDay[]
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeDefaultPaymentMethodId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  openKennels?: Prisma.IntFieldUpdateOperationsInput | number
+  currentUtilization?: Prisma.FloatFieldUpdateOperationsInput | number
+  acceptsSpecies?: Prisma.ShelterUpdateacceptsSpeciesInput | string[]
+  acceptsSizes?: Prisma.ShelterUpdateacceptsSizesInput | string[]
+  acceptsBreeds?: Prisma.ShelterUpdateacceptsBreedsInput | string[]
+  restrictedBreeds?: Prisma.ShelterUpdaterestrictedBreedsInput | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
+  managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
+  animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
+  fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -2012,6 +2229,7 @@ export type ShelterCreateWithoutImportJobsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -2051,6 +2269,7 @@ export type ShelterUncheckedCreateWithoutImportJobsInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -2106,6 +2325,7 @@ export type ShelterUpdateWithoutImportJobsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -2145,6 +2365,7 @@ export type ShelterUncheckedUpdateWithoutImportJobsInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -2184,6 +2405,7 @@ export type ShelterCreateWithoutImportMappingsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -2223,6 +2445,7 @@ export type ShelterUncheckedCreateWithoutImportMappingsInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -2278,6 +2501,7 @@ export type ShelterUpdateWithoutImportMappingsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -2317,6 +2541,7 @@ export type ShelterUncheckedUpdateWithoutImportMappingsInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -2356,6 +2581,7 @@ export type ShelterCreateWithoutOperationEventsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -2395,6 +2621,7 @@ export type ShelterUncheckedCreateWithoutOperationEventsInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -2450,6 +2677,7 @@ export type ShelterUpdateWithoutOperationEventsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -2489,6 +2717,7 @@ export type ShelterUncheckedUpdateWithoutOperationEventsInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -2528,6 +2757,7 @@ export type ShelterCreateWithoutPriorityScoreLogsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -2567,6 +2797,7 @@ export type ShelterUncheckedCreateWithoutPriorityScoreLogsInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -2622,6 +2853,7 @@ export type ShelterUpdateWithoutPriorityScoreLogsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -2661,6 +2893,7 @@ export type ShelterUncheckedUpdateWithoutPriorityScoreLogsInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -2700,6 +2933,7 @@ export type ShelterCreateWithoutConversationsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -2739,6 +2973,7 @@ export type ShelterUncheckedCreateWithoutConversationsInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -2794,6 +3029,7 @@ export type ShelterUpdateWithoutConversationsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -2833,6 +3069,7 @@ export type ShelterUncheckedUpdateWithoutConversationsInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -2872,6 +3109,7 @@ export type ShelterCreateWithoutShelterDocumentsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
@@ -2911,6 +3149,7 @@ export type ShelterUncheckedCreateWithoutShelterDocumentsInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
@@ -2966,6 +3205,7 @@ export type ShelterUpdateWithoutShelterDocumentsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
@@ -3005,6 +3245,7 @@ export type ShelterUncheckedUpdateWithoutShelterDocumentsInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
@@ -3044,6 +3285,7 @@ export type ShelterCreateWithoutOriginBatchesInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -3083,6 +3325,7 @@ export type ShelterUncheckedCreateWithoutOriginBatchesInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -3127,6 +3370,7 @@ export type ShelterCreateWithoutDestinationBatchesInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -3166,6 +3410,7 @@ export type ShelterUncheckedCreateWithoutDestinationBatchesInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -3221,6 +3466,7 @@ export type ShelterUpdateWithoutOriginBatchesInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -3260,6 +3506,7 @@ export type ShelterUncheckedUpdateWithoutOriginBatchesInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -3310,6 +3557,7 @@ export type ShelterUpdateWithoutDestinationBatchesInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -3349,6 +3597,7 @@ export type ShelterUncheckedUpdateWithoutDestinationBatchesInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -3388,6 +3637,7 @@ export type ShelterCreateWithoutTransportsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingCreateNestedManyWithoutShelterInput
@@ -3427,6 +3677,7 @@ export type ShelterUncheckedCreateWithoutTransportsInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
   importMappings?: Prisma.ImportMappingUncheckedCreateNestedManyWithoutShelterInput
@@ -3482,6 +3733,7 @@ export type ShelterUpdateWithoutTransportsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUpdateManyWithoutShelterNestedInput
@@ -3521,6 +3773,7 @@ export type ShelterUncheckedUpdateWithoutTransportsInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
   importMappings?: Prisma.ImportMappingUncheckedUpdateManyWithoutShelterNestedInput
@@ -3559,6 +3812,7 @@ export type ShelterCreateWithoutShelterAdminsInput = {
   managers?: Prisma.UserCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -3598,6 +3852,7 @@ export type ShelterUncheckedCreateWithoutShelterAdminsInput = {
   managers?: Prisma.UserUncheckedCreateNestedManyWithoutManagerOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -3642,6 +3897,7 @@ export type ShelterCreateWithoutManagersInput = {
   shelterAdmins?: Prisma.UserCreateNestedManyWithoutShelterAdminOfInput
   animals?: Prisma.AnimalCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigCreateNestedManyWithoutShelterInput
@@ -3681,6 +3937,7 @@ export type ShelterUncheckedCreateWithoutManagersInput = {
   shelterAdmins?: Prisma.UserUncheckedCreateNestedManyWithoutShelterAdminOfInput
   animals?: Prisma.AnimalUncheckedCreateNestedManyWithoutShelterInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutShelterInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutShelterInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedCreateNestedManyWithoutShelterInput
   transports?: Prisma.TransportUncheckedCreateNestedManyWithoutShelterInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedCreateNestedManyWithoutShelterInput
@@ -3736,6 +3993,7 @@ export type ShelterUpdateWithoutShelterAdminsInput = {
   managers?: Prisma.UserUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -3775,6 +4033,7 @@ export type ShelterUncheckedUpdateWithoutShelterAdminsInput = {
   managers?: Prisma.UserUncheckedUpdateManyWithoutManagerOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -3825,6 +4084,7 @@ export type ShelterUpdateWithoutManagersInput = {
   shelterAdmins?: Prisma.UserUpdateManyWithoutShelterAdminOfNestedInput
   animals?: Prisma.AnimalUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUpdateManyWithoutShelterNestedInput
@@ -3864,6 +4124,7 @@ export type ShelterUncheckedUpdateWithoutManagersInput = {
   shelterAdmins?: Prisma.UserUncheckedUpdateManyWithoutShelterAdminOfNestedInput
   animals?: Prisma.AnimalUncheckedUpdateManyWithoutShelterNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutShelterNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutShelterNestedInput
   shelterDocuments?: Prisma.ShelterDocumentUncheckedUpdateManyWithoutShelterNestedInput
   transports?: Prisma.TransportUncheckedUpdateManyWithoutShelterNestedInput
   externalFeedConfigs?: Prisma.ExternalFeedConfigUncheckedUpdateManyWithoutShelterNestedInput
@@ -3887,6 +4148,7 @@ export type ShelterCountOutputType = {
   managers: number
   animals: number
   fosterAnimalInterests: number
+  fosterRequests: number
   shelterDocuments: number
   transports: number
   externalFeedConfigs: number
@@ -3905,6 +4167,7 @@ export type ShelterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   managers?: boolean | ShelterCountOutputTypeCountManagersArgs
   animals?: boolean | ShelterCountOutputTypeCountAnimalsArgs
   fosterAnimalInterests?: boolean | ShelterCountOutputTypeCountFosterAnimalInterestsArgs
+  fosterRequests?: boolean | ShelterCountOutputTypeCountFosterRequestsArgs
   shelterDocuments?: boolean | ShelterCountOutputTypeCountShelterDocumentsArgs
   transports?: boolean | ShelterCountOutputTypeCountTransportsArgs
   externalFeedConfigs?: boolean | ShelterCountOutputTypeCountExternalFeedConfigsArgs
@@ -3954,6 +4217,13 @@ export type ShelterCountOutputTypeCountAnimalsArgs<ExtArgs extends runtime.Types
  */
 export type ShelterCountOutputTypeCountFosterAnimalInterestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FosterAnimalInterestWhereInput
+}
+
+/**
+ * ShelterCountOutputType without action
+ */
+export type ShelterCountOutputTypeCountFosterRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FosterRequestWhereInput
 }
 
 /**
@@ -4062,6 +4332,7 @@ export type ShelterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   managers?: boolean | Prisma.Shelter$managersArgs<ExtArgs>
   animals?: boolean | Prisma.Shelter$animalsArgs<ExtArgs>
   fosterAnimalInterests?: boolean | Prisma.Shelter$fosterAnimalInterestsArgs<ExtArgs>
+  fosterRequests?: boolean | Prisma.Shelter$fosterRequestsArgs<ExtArgs>
   shelterDocuments?: boolean | Prisma.Shelter$shelterDocumentsArgs<ExtArgs>
   transports?: boolean | Prisma.Shelter$transportsArgs<ExtArgs>
   externalFeedConfigs?: boolean | Prisma.Shelter$externalFeedConfigsArgs<ExtArgs>
@@ -4160,6 +4431,7 @@ export type ShelterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   managers?: boolean | Prisma.Shelter$managersArgs<ExtArgs>
   animals?: boolean | Prisma.Shelter$animalsArgs<ExtArgs>
   fosterAnimalInterests?: boolean | Prisma.Shelter$fosterAnimalInterestsArgs<ExtArgs>
+  fosterRequests?: boolean | Prisma.Shelter$fosterRequestsArgs<ExtArgs>
   shelterDocuments?: boolean | Prisma.Shelter$shelterDocumentsArgs<ExtArgs>
   transports?: boolean | Prisma.Shelter$transportsArgs<ExtArgs>
   externalFeedConfigs?: boolean | Prisma.Shelter$externalFeedConfigsArgs<ExtArgs>
@@ -4188,6 +4460,7 @@ export type $ShelterPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     managers: Prisma.$UserPayload<ExtArgs>[]
     animals: Prisma.$AnimalPayload<ExtArgs>[]
     fosterAnimalInterests: Prisma.$FosterAnimalInterestPayload<ExtArgs>[]
+    fosterRequests: Prisma.$FosterRequestPayload<ExtArgs>[]
     shelterDocuments: Prisma.$ShelterDocumentPayload<ExtArgs>[]
     transports: Prisma.$TransportPayload<ExtArgs>[]
     externalFeedConfigs: Prisma.$ExternalFeedConfigPayload<ExtArgs>[]
@@ -4622,6 +4895,7 @@ export interface Prisma__ShelterClient<T, Null = never, ExtArgs extends runtime.
   managers<T extends Prisma.Shelter$managersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$managersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   animals<T extends Prisma.Shelter$animalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$animalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnimalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   fosterAnimalInterests<T extends Prisma.Shelter$fosterAnimalInterestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$fosterAnimalInterestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FosterAnimalInterestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  fosterRequests<T extends Prisma.Shelter$fosterRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$fosterRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FosterRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   shelterDocuments<T extends Prisma.Shelter$shelterDocumentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$shelterDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShelterDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transports<T extends Prisma.Shelter$transportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$transportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   externalFeedConfigs<T extends Prisma.Shelter$externalFeedConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Shelter$externalFeedConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExternalFeedConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5192,6 +5466,30 @@ export type Shelter$fosterAnimalInterestsArgs<ExtArgs extends runtime.Types.Exte
   take?: number
   skip?: number
   distinct?: Prisma.FosterAnimalInterestScalarFieldEnum | Prisma.FosterAnimalInterestScalarFieldEnum[]
+}
+
+/**
+ * Shelter.fosterRequests
+ */
+export type Shelter$fosterRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FosterRequest
+   */
+  select?: Prisma.FosterRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FosterRequest
+   */
+  omit?: Prisma.FosterRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FosterRequestInclude<ExtArgs> | null
+  where?: Prisma.FosterRequestWhereInput
+  orderBy?: Prisma.FosterRequestOrderByWithRelationInput | Prisma.FosterRequestOrderByWithRelationInput[]
+  cursor?: Prisma.FosterRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FosterRequestScalarFieldEnum | Prisma.FosterRequestScalarFieldEnum[]
 }
 
 /**

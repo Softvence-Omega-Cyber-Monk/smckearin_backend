@@ -60,6 +60,8 @@ export const ModelName = {
   ExternalFeedConfig: 'ExternalFeedConfig',
   FileInstance: 'FileInstance',
   FosterAnimalInterest: 'FosterAnimalInterest',
+  FosterRequest: 'FosterRequest',
+  ArrivalProof: 'ArrivalProof',
   Foster: 'Foster',
   HealthReport: 'HealthReport',
   ImportJob: 'ImportJob',
@@ -285,6 +287,47 @@ export const FosterAnimalInterestScalarFieldEnum = {
 } as const
 
 export type FosterAnimalInterestScalarFieldEnum = (typeof FosterAnimalInterestScalarFieldEnum)[keyof typeof FosterAnimalInterestScalarFieldEnum]
+
+
+export const FosterRequestScalarFieldEnum = {
+  id: 'id',
+  animalId: 'animalId',
+  fosterUserId: 'fosterUserId',
+  shelterId: 'shelterId',
+  status: 'status',
+  requestedAt: 'requestedAt',
+  cancelledAt: 'cancelledAt',
+  deliveryTime: 'deliveryTime',
+  estimateTransportDate: 'estimateTransportDate',
+  estimateTransportTimeStart: 'estimateTransportTimeStart',
+  estimateTransportTimeEnd: 'estimateTransportTimeEnd',
+  spayNeuterAvailable: 'spayNeuterAvailable',
+  spayNeuterDate: 'spayNeuterDate',
+  lastCheckupDate: 'lastCheckupDate',
+  vaccinationsDate: 'vaccinationsDate',
+  shelterNote: 'shelterNote',
+  petPersonality: 'petPersonality',
+  cancelReason: 'cancelReason',
+  transportId: 'transportId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FosterRequestScalarFieldEnum = (typeof FosterRequestScalarFieldEnum)[keyof typeof FosterRequestScalarFieldEnum]
+
+
+export const ArrivalProofScalarFieldEnum = {
+  id: 'id',
+  fosterRequestId: 'fosterRequestId',
+  photoId: 'photoId',
+  photoUrl: 'photoUrl',
+  notes: 'notes',
+  confirmedAt: 'confirmedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ArrivalProofScalarFieldEnum = (typeof ArrivalProofScalarFieldEnum)[keyof typeof ArrivalProofScalarFieldEnum]
 
 
 export const FosterScalarFieldEnum = {
@@ -647,6 +690,7 @@ export const TransportScalarFieldEnum = {
   dropOffLongitude: 'dropOffLongitude',
   manualDistanceMiles: 'manualDistanceMiles',
   manualDurationMinutes: 'manualDurationMinutes',
+  vehicleName: 'vehicleName',
   cancellationRequestStatus: 'cancellationRequestStatus',
   cancellationRequestReason: 'cancellationRequestReason',
   cancellationRequestReviewNote: 'cancellationRequestReviewNote',

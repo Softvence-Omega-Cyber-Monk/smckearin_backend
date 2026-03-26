@@ -92,6 +92,18 @@ export class AnimalController {
     return this.getAnimalsService.getPendingAnimals(userId, dto);
   }
 
+  @ApiOperation({
+    summary: 'Get animals that are available for foster (shelter only)',
+  })
+  @Get('available-for-foster')
+  @ValidateManager()
+  async getAnimalsAvailableForFoster(
+    @GetUser('sub') userId: string,
+    @Query() dto: GetPendingAnimalDto,
+  ) {
+    return this.getAnimalsService.getAnimalsAvailableForFoster(userId, dto);
+  }
+
   @ApiOperation({ summary: 'Get all animals (any authenticated user)' })
   @Get('system-wide/all')
   async getAllAnimalsSystemWide(@Query() dto: GetAnimalDto) {

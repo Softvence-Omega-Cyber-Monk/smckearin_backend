@@ -393,6 +393,8 @@ export const ModelName = {
   ExternalFeedConfig: 'ExternalFeedConfig',
   FileInstance: 'FileInstance',
   FosterAnimalInterest: 'FosterAnimalInterest',
+  FosterRequest: 'FosterRequest',
+  ArrivalProof: 'ArrivalProof',
   Foster: 'Foster',
   HealthReport: 'HealthReport',
   ImportJob: 'ImportJob',
@@ -435,7 +437,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "fosterAnimalInterest" | "foster" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
+    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "fosterAnimalInterest" | "fosterRequest" | "arrivalProof" | "foster" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1102,6 +1104,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.FosterAnimalInterestCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.FosterAnimalInterestCountAggregateOutputType> | number
+        }
+      }
+    }
+    FosterRequest: {
+      payload: Prisma.$FosterRequestPayload<ExtArgs>
+      fields: Prisma.FosterRequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FosterRequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterRequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FosterRequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterRequestPayload>
+        }
+        findFirst: {
+          args: Prisma.FosterRequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterRequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FosterRequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterRequestPayload>
+        }
+        findMany: {
+          args: Prisma.FosterRequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterRequestPayload>[]
+        }
+        create: {
+          args: Prisma.FosterRequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterRequestPayload>
+        }
+        createMany: {
+          args: Prisma.FosterRequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FosterRequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterRequestPayload>[]
+        }
+        delete: {
+          args: Prisma.FosterRequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterRequestPayload>
+        }
+        update: {
+          args: Prisma.FosterRequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterRequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.FosterRequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FosterRequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FosterRequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterRequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.FosterRequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterRequestPayload>
+        }
+        aggregate: {
+          args: Prisma.FosterRequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFosterRequest>
+        }
+        groupBy: {
+          args: Prisma.FosterRequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterRequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FosterRequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterRequestCountAggregateOutputType> | number
+        }
+      }
+    }
+    ArrivalProof: {
+      payload: Prisma.$ArrivalProofPayload<ExtArgs>
+      fields: Prisma.ArrivalProofFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ArrivalProofFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalProofPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ArrivalProofFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalProofPayload>
+        }
+        findFirst: {
+          args: Prisma.ArrivalProofFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalProofPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ArrivalProofFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalProofPayload>
+        }
+        findMany: {
+          args: Prisma.ArrivalProofFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalProofPayload>[]
+        }
+        create: {
+          args: Prisma.ArrivalProofCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalProofPayload>
+        }
+        createMany: {
+          args: Prisma.ArrivalProofCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ArrivalProofCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalProofPayload>[]
+        }
+        delete: {
+          args: Prisma.ArrivalProofDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalProofPayload>
+        }
+        update: {
+          args: Prisma.ArrivalProofUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalProofPayload>
+        }
+        deleteMany: {
+          args: Prisma.ArrivalProofDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ArrivalProofUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ArrivalProofUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalProofPayload>[]
+        }
+        upsert: {
+          args: Prisma.ArrivalProofUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArrivalProofPayload>
+        }
+        aggregate: {
+          args: Prisma.ArrivalProofAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateArrivalProof>
+        }
+        groupBy: {
+          args: Prisma.ArrivalProofGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArrivalProofGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ArrivalProofCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArrivalProofCountAggregateOutputType> | number
         }
       }
     }
@@ -3324,6 +3474,47 @@ export const FosterAnimalInterestScalarFieldEnum = {
 export type FosterAnimalInterestScalarFieldEnum = (typeof FosterAnimalInterestScalarFieldEnum)[keyof typeof FosterAnimalInterestScalarFieldEnum]
 
 
+export const FosterRequestScalarFieldEnum = {
+  id: 'id',
+  animalId: 'animalId',
+  fosterUserId: 'fosterUserId',
+  shelterId: 'shelterId',
+  status: 'status',
+  requestedAt: 'requestedAt',
+  cancelledAt: 'cancelledAt',
+  deliveryTime: 'deliveryTime',
+  estimateTransportDate: 'estimateTransportDate',
+  estimateTransportTimeStart: 'estimateTransportTimeStart',
+  estimateTransportTimeEnd: 'estimateTransportTimeEnd',
+  spayNeuterAvailable: 'spayNeuterAvailable',
+  spayNeuterDate: 'spayNeuterDate',
+  lastCheckupDate: 'lastCheckupDate',
+  vaccinationsDate: 'vaccinationsDate',
+  shelterNote: 'shelterNote',
+  petPersonality: 'petPersonality',
+  cancelReason: 'cancelReason',
+  transportId: 'transportId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FosterRequestScalarFieldEnum = (typeof FosterRequestScalarFieldEnum)[keyof typeof FosterRequestScalarFieldEnum]
+
+
+export const ArrivalProofScalarFieldEnum = {
+  id: 'id',
+  fosterRequestId: 'fosterRequestId',
+  photoId: 'photoId',
+  photoUrl: 'photoUrl',
+  notes: 'notes',
+  confirmedAt: 'confirmedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ArrivalProofScalarFieldEnum = (typeof ArrivalProofScalarFieldEnum)[keyof typeof ArrivalProofScalarFieldEnum]
+
+
 export const FosterScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -3684,6 +3875,7 @@ export const TransportScalarFieldEnum = {
   dropOffLongitude: 'dropOffLongitude',
   manualDistanceMiles: 'manualDistanceMiles',
   manualDurationMinutes: 'manualDurationMinutes',
+  vehicleName: 'vehicleName',
   cancellationRequestStatus: 'cancellationRequestStatus',
   cancellationRequestReason: 'cancellationRequestReason',
   cancellationRequestReviewNote: 'cancellationRequestReviewNote',
@@ -4105,6 +4297,20 @@ export type ListEnumFosterInterestStatusFieldRefInput<$PrismaModel> = FieldRefIn
 
 
 /**
+ * Reference to a field of type 'FosterRequestStatus'
+ */
+export type EnumFosterRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FosterRequestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'FosterRequestStatus[]'
+ */
+export type ListEnumFosterRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FosterRequestStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'ImportSourceType'
  */
 export type EnumImportSourceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ImportSourceType'>
@@ -4515,6 +4721,8 @@ export type GlobalOmitConfig = {
   externalFeedConfig?: Prisma.ExternalFeedConfigOmit
   fileInstance?: Prisma.FileInstanceOmit
   fosterAnimalInterest?: Prisma.FosterAnimalInterestOmit
+  fosterRequest?: Prisma.FosterRequestOmit
+  arrivalProof?: Prisma.ArrivalProofOmit
   foster?: Prisma.FosterOmit
   healthReport?: Prisma.HealthReportOmit
   importJob?: Prisma.ImportJobOmit
