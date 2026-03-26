@@ -22,8 +22,8 @@ const normalizeArrayValue = (value: unknown): string[] | undefined => {
   const values = Array.isArray(value)
     ? value
     : String(value)
-      .split(',')
-      .map((item) => item.trim());
+        .split(',')
+        .map((item) => item.trim());
 
   const sanitized = values.filter(Boolean);
   return sanitized.length ? sanitized : undefined;
@@ -157,4 +157,3 @@ export class ReviewFosterInterestDto {
   @IsBoolean()
   approved: boolean;
 }
-
