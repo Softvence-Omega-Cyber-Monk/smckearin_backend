@@ -18,6 +18,7 @@ import {
   FosterAnimalSizeFilter,
   GetFosterAnimalsDto,
   GetFosterRequestsDto,
+  FosterRequestViewStatus,
 } from '../dto/foster-animal.dto';
 
 type FosterContext = {
@@ -184,29 +185,38 @@ export class FosterAnimalService {
     const foster = await this.getFosterContext(userId);
     const page = dto.page && +dto.page > 0 ? +dto.page : 1;
     const limit = dto.limit && +dto.limit > 0 ? +dto.limit : 10;
-    const skip = (page - 1) * limit;
-
     const where: Prisma.FosterAnimalInterestWhereInput = {
       fosterId: foster.id,
-    };
-
-    if (dto.status) {
-      where.status = dto.status;
+      status: {
+        in: [
+          FosterInterestStatus.INTERESTED,
+          FosterInterestStatus.APPROVED,
+          FosterInterestStatus.REJECTED,
+          FosterInterestStatus.WITHDRAWN,
+        ],
+      },
     }
 
-    const [requests, total] = await this.prisma.client.$transaction([
-      this.prisma.client.fosterAnimalInterest.findMany({
-        where,
-        skip,
-        take: limit,
-        orderBy: { createdAt: 'desc' },
-        include: this.requestInclude,
-      }),
-      this.prisma.client.fosterAnimalInterest.count({ where }),
-    ]);
+    const interests = await this.prisma.client.fosterAnimalInterest.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+      include: this.requestInclude,
+    });
+
+    const mappedRequests = interests.map((interest) =>
+      this.formatRequestItem(interest),
+    );
+
+    const filteredRequests = dto.status
+      ? mappedRequests.filter((request) => request.status === dto.status)
+      : mappedRequests;
+
+    const total = filteredRequests.length;
+    const skip = (page - 1) * limit;
+    const paginatedRequests = filteredRequests.slice(skip, skip + limit);
 
     return successPaginatedResponse(
-      requests.map((interest) => this.formatRequestItem(interest)),
+      paginatedRequests,
       { page, limit, total },
       'Foster requests fetched successfully',
     );
@@ -578,10 +588,12 @@ export class FosterAnimalService {
 
   private formatRequestItem(interest: any) {
     const transport = this.getMostRelevantTransport(interest.animal.transports);
+    const status = this.getFosterRequestStatus(interest, transport);
 
     return {
       id: interest.id,
-      status: interest.status,
+      status,
+      interestStatus: interest.status,
       reviewedAt: interest.reviewedAt ?? null,
       createdAt: interest.createdAt,
       preferredArrivalDate: interest.preferredArrivalDate ?? null,
@@ -607,6 +619,44 @@ export class FosterAnimalService {
           }
         : null,
     };
+  }
+
+  private getFosterRequestStatus(
+    interest: { status: FosterInterestStatus },
+    transport: { status: TransportStatus } | null,
+  ): FosterRequestViewStatus {
+    if (transport?.status === TransportStatus.CANCELLED) {
+      return FosterRequestViewStatus.CANCELLED;
+    }
+
+    if (transport?.status === TransportStatus.COMPLETED) {
+      return FosterRequestViewStatus.COMPLETED;
+    }
+
+    if (
+      transport &&
+      [
+        TransportStatus.PENDING,
+        TransportStatus.ACCEPTED,
+        TransportStatus.PICKED_UP,
+        TransportStatus.IN_TRANSIT,
+      ].includes(transport.status)
+    ) {
+      return FosterRequestViewStatus.SCHEDULED;
+    }
+
+    if (
+      interest.status === FosterInterestStatus.REJECTED ||
+      interest.status === FosterInterestStatus.WITHDRAWN
+    ) {
+      return FosterRequestViewStatus.CANCELLED;
+    }
+
+    if (interest.status === FosterInterestStatus.APPROVED) {
+      return FosterRequestViewStatus.APPROVED;
+    }
+
+    return FosterRequestViewStatus.INTERESTED;
   }
 
   private formatUpcomingArrival(interest: any, transport: any) {

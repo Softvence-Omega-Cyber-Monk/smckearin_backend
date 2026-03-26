@@ -130,14 +130,23 @@ export class CreateFosterAnimalInterestDto {
   availableUntilTime: string;
 }
 
+export enum FosterRequestViewStatus {
+  INTERESTED = 'INTERESTED',
+  APPROVED = 'APPROVED',
+  SCHEDULED = 'SCHEDULED',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
 export class GetFosterRequestsDto extends PaginationDto {
   @ApiPropertyOptional({
-    enum: FosterInterestStatus,
-    description: 'Filter by interest status',
+    enum: FosterRequestViewStatus,
+    description:
+      'Filter by request status as shown to foster users, including scheduled, completed, and cancelled',
   })
   @IsOptional()
-  @IsEnum(FosterInterestStatus)
-  status?: FosterInterestStatus;
+  @IsEnum(FosterRequestViewStatus)
+  status?: FosterRequestViewStatus;
 }
 
 export class ReviewFosterInterestDto {
