@@ -3,8 +3,8 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { SPECIES } from '@prisma';
 import { Transform, Type } from 'class-transformer';
 import {
-  IsBoolean,
   IsArray,
+  IsBoolean,
   IsDateString,
   IsEnum,
   IsNumber,
@@ -22,8 +22,8 @@ const normalizeArrayValue = (value: unknown): string[] | undefined => {
   const values = Array.isArray(value)
     ? value
     : String(value)
-        .split(',')
-        .map((item) => item.trim());
+      .split(',')
+      .map((item) => item.trim());
 
   const sanitized = values.filter(Boolean);
   return sanitized.length ? sanitized : undefined;
@@ -157,3 +157,4 @@ export class ReviewFosterInterestDto {
   @IsBoolean()
   approved: boolean;
 }
+
