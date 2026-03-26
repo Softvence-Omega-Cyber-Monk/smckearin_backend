@@ -111,7 +111,10 @@ export class ShelterFosterRequestService {
       counts[this.toClientStatus(row.status)] = row._count.status;
     }
 
-    return successResponse(counts, 'Foster request counts fetched successfully');
+    return successResponse(
+      counts,
+      'Foster request counts fetched successfully',
+    );
   }
 
   @HandleError('Failed to create foster request')
@@ -122,7 +125,9 @@ export class ShelterFosterRequestService {
     const shelterId = await this.getShelterId(userId);
     this.validateCreatePayload(dto);
 
-    const animalIds = [...new Set([dto.animalId, ...(dto.additionalAnimalIds ?? [])])];
+    const animalIds = [
+      ...new Set([dto.animalId, ...(dto.additionalAnimalIds ?? [])]),
+    ];
 
     const created = await this.prisma.client.$transaction(async (tx) => {
       const records = [];
@@ -210,7 +215,11 @@ export class ShelterFosterRequestService {
 
       if (dto.animalId && dto.animalId !== existing.animalId) {
         await this.validateShelterAnimal(tx, shelterId, dto.animalId);
-        await this.ensureAnimalHasNoActiveRequest(tx, dto.animalId, existing.id);
+        await this.ensureAnimalHasNoActiveRequest(
+          tx,
+          dto.animalId,
+          existing.id,
+        );
         animalId = dto.animalId;
       }
 
@@ -223,7 +232,8 @@ export class ShelterFosterRequestService {
               ? existing.estimateTransportDate
               : new Date(dto.estimateTransportDate),
           estimateTransportTimeStart:
-            dto.estimateTransportTimeStart ?? existing.estimateTransportTimeStart,
+            dto.estimateTransportTimeStart ??
+            existing.estimateTransportTimeStart,
           estimateTransportTimeEnd:
             dto.estimateTransportTimeEnd ?? existing.estimateTransportTimeEnd,
           spayNeuterAvailable:
@@ -437,7 +447,8 @@ export class ShelterFosterRequestService {
       const transport = await tx.transport.create({
         data: {
           transportNote:
-            dto.transportNote || 'Foster transport scheduled from foster module',
+            dto.transportNote ||
+            'Foster transport scheduled from foster module',
           priorityLevel: PriorityLevel.MEDIUM,
           pickUpLocation: dto.pickupLocation,
           pickUpLatitude: pickup.lat,
@@ -494,7 +505,10 @@ export class ShelterFosterRequestService {
   async getFosterTracking(userId: string, fosterRequestId: string) {
     const request = await this.getOwnedRequest(userId, fosterRequestId);
 
-    if (request.status !== FosterRequestStatus.SCHEDULED || !request.transportId) {
+    if (
+      request.status !== FosterRequestStatus.SCHEDULED ||
+      !request.transportId
+    ) {
       throw new AppError(
         HttpStatus.BAD_REQUEST,
         'Tracking is only available for scheduled foster requests',
@@ -720,7 +734,10 @@ export class ShelterFosterRequestService {
     };
 
     if (!map[normalized]) {
-      throw new AppError(HttpStatus.BAD_REQUEST, 'Invalid foster status filter');
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Invalid foster status filter',
+      );
     }
 
     return map[normalized];

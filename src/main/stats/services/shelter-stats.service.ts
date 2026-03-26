@@ -177,63 +177,69 @@ export class ShelterStatsService {
       );
     }
 
-    const [activeTripsCount, pendingTripsCount, activeTrips, availableAnimalsCount, pendingRequestsCount, recentlyCompleted] =
-      await this.prisma.client.$transaction([
-        this.prisma.client.transport.count({
-          where: {
-            shelterId,
-            status: { in: ['ACCEPTED', 'PICKED_UP', 'IN_TRANSIT'] },
-          },
-        }),
-        this.prisma.client.transport.count({
-          where: {
-            shelterId,
-            status: 'PENDING',
-          },
-        }),
-        this.prisma.client.transport.findMany({
-          where: {
-            shelterId,
-            status: { in: ['ACCEPTED', 'PICKED_UP', 'IN_TRANSIT'] },
-          },
-          include: {
-            animal: true,
-          },
-          orderBy: { transPortDate: 'asc' },
-          take: 5,
-        }),
-        this.prisma.client.animal.count({
-          where: {
-            shelterId,
-            status: 'AT_SHELTER',
-            fosterRequests: {
-              none: {
-                status: {
-                  in: ['REQUESTED', 'INTERESTED', 'APPROVED', 'SCHEDULED'],
-                },
+    const [
+      activeTripsCount,
+      pendingTripsCount,
+      activeTrips,
+      availableAnimalsCount,
+      pendingRequestsCount,
+      recentlyCompleted,
+    ] = await this.prisma.client.$transaction([
+      this.prisma.client.transport.count({
+        where: {
+          shelterId,
+          status: { in: ['ACCEPTED', 'PICKED_UP', 'IN_TRANSIT'] },
+        },
+      }),
+      this.prisma.client.transport.count({
+        where: {
+          shelterId,
+          status: 'PENDING',
+        },
+      }),
+      this.prisma.client.transport.findMany({
+        where: {
+          shelterId,
+          status: { in: ['ACCEPTED', 'PICKED_UP', 'IN_TRANSIT'] },
+        },
+        include: {
+          animal: true,
+        },
+        orderBy: { transPortDate: 'asc' },
+        take: 5,
+      }),
+      this.prisma.client.animal.count({
+        where: {
+          shelterId,
+          status: 'AT_SHELTER',
+          fosterRequests: {
+            none: {
+              status: {
+                in: ['REQUESTED', 'INTERESTED', 'APPROVED', 'SCHEDULED'],
               },
             },
           },
-        }),
-        this.prisma.client.fosterRequest.count({
-          where: {
-            shelterId,
-            status: 'REQUESTED',
-          },
-        }),
-        this.prisma.client.fosterRequest.findMany({
-          where: {
-            shelterId,
-            status: 'DELIVERED',
-          },
-          include: {
-            animal: true,
-            transport: true,
-          },
-          orderBy: { deliveryTime: 'desc' },
-          take: 5,
-        }),
-      ]);
+        },
+      }),
+      this.prisma.client.fosterRequest.count({
+        where: {
+          shelterId,
+          status: 'REQUESTED',
+        },
+      }),
+      this.prisma.client.fosterRequest.findMany({
+        where: {
+          shelterId,
+          status: 'DELIVERED',
+        },
+        include: {
+          animal: true,
+          transport: true,
+        },
+        orderBy: { deliveryTime: 'desc' },
+        take: 5,
+      }),
+    ]);
 
     return successResponse(
       {
