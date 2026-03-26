@@ -195,7 +195,7 @@ export class FosterAnimalService {
           FosterInterestStatus.WITHDRAWN,
         ],
       },
-    }
+    };
 
     const interests = await this.prisma.client.fosterAnimalInterest.findMany({
       where,
