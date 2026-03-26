@@ -69,6 +69,8 @@ export class ConversationQueryService {
       } else if (user.role === 'DRIVER') {
         if (type === ConversationType.SHELTER) {
           result = await this.loadAllShelters(userId, skip, limit, search);
+        } else if (type === ConversationType.FOSTER) {
+          result = await this.loadAllFosters(userId, skip, limit, search);
         } else {
           // Show all vets
           result = await this.loadAllVets(userId, skip, limit, search);
@@ -94,8 +96,12 @@ export class ConversationQueryService {
           );
         }
       } else if (user.role === 'FOSTER') {
-        // Fosters can only contact Shelters
-        result = await this.loadAllShelters(userId, skip, limit, search);
+        if (type === ConversationType.DRIVER) {
+          result = await this.loadAllDrivers(userId, skip, limit, search);
+        } else {
+          // Fosters can only contact Shelters
+          result = await this.loadAllShelters(userId, skip, limit, search);
+        }
       } else {
         // fallback: load all available contacts
         result = await this.loadAllAvailableContacts(
@@ -143,12 +149,13 @@ export class ConversationQueryService {
       ]);
       contacts.push(...shelters.list, ...drivers.list);
     } else if (userRole === 'DRIVER') {
-      // Drivers can contact: Shelters + Vets
-      const [shelters, vets] = await Promise.all([
+      // Drivers can contact: Shelters + Vets + Fosters
+      const [shelters, vets, fosters] = await Promise.all([
         this.loadAllShelters(userId, 0, 999, search),
         this.loadAllVets(userId, 0, 999, search),
+        this.loadAllFosters(userId, 0, 999, search),
       ]);
-      contacts.push(...shelters.list, ...vets.list);
+      contacts.push(...shelters.list, ...vets.list, ...fosters.list);
     } else if (userRole === 'SHELTER_ADMIN' || userRole === 'MANAGER') {
       // Shelters can contact: Vets + Drivers + Fosters
       const [vets, drivers, fosters] = await Promise.all([
@@ -158,9 +165,12 @@ export class ConversationQueryService {
       ]);
       contacts.push(...vets.list, ...drivers.list, ...fosters.list);
     } else if (userRole === 'FOSTER') {
-      // Fosters can contact: Shelters
-      const shelters = await this.loadAllShelters(userId, 0, 999, search);
-      contacts.push(...shelters.list);
+      // Fosters can contact: Shelters + Drivers
+      const [shelters, drivers] = await Promise.all([
+        this.loadAllShelters(userId, 0, 999, search),
+        this.loadAllDrivers(userId, 0, 999, search),
+      ]);
+      contacts.push(...shelters.list, ...drivers.list);
     }
 
     // Sort all contacts: Online first, then by createdAt desc (or default order)
