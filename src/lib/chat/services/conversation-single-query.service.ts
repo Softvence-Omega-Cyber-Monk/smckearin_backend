@@ -473,6 +473,7 @@ export class ConversationSingleQueryService {
     const isFromShelter = !!senderShelterId;
     const isFromVet = msg.sender?.role === 'VETERINARIAN';
     const isFromDriver = msg.sender?.role === 'DRIVER';
+    const isFromFoster = msg.sender?.role === 'FOSTER';
 
     // Format readBy
     const readBy: ReadByParticipant[] = msg.statuses
@@ -498,6 +499,14 @@ export class ConversationSingleQueryService {
             id: reader.id,
             name: reader.name,
             type: ChatParticipantType.DRIVER,
+          };
+        }
+        // Case 2.1: Reader is a Foster
+        if (reader.role === 'FOSTER') {
+          return {
+            id: reader.id,
+            name: reader.name,
+            type: ChatParticipantType.FOSTER,
           };
         }
 
@@ -540,7 +549,7 @@ export class ConversationSingleQueryService {
       isFromShelter,
       isFromDriver,
       isFromVet,
-      isFromFoster: msg.sender?.role === 'FOSTER',
+      isFromFoster,
       isRead: readBy.length > 0 && readBy.some((r) => r.id !== msg.senderId),
       readBy: readBy,
       createdAt: msg.createdAt,
