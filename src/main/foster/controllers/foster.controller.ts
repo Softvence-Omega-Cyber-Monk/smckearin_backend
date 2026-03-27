@@ -1,4 +1,3 @@
-import { ApproveOrRejectDto } from '@/common/dto/approve-reject.dto';
 import {
   GetUser,
   ValidateAdmin,
@@ -242,7 +241,7 @@ export class FosterController {
   @Patch('foster/:fosterId/approve')
   async approveOrRejectFoster(
     @Param('fosterId') fosterId: string,
-    @Body() dto: ApproveOrRejectDto,
+    @Body() dto: FosterApproveDto,
   ) {
     return this.manageFosterService.approveOrRejectFoster(fosterId, dto);
   }
