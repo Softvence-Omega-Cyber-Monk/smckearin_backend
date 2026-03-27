@@ -92,6 +92,29 @@ export class GetFosterService {
     return successResponse(this.flattenFoster(foster), 'Foster found');
   }
 
+  @HandleError('Failed to get own foster documents')
+  async getOwnFosterDocuments(userId: string) {
+    const foster = await this.prisma.client.foster.findUniqueOrThrow({
+      where: { userId },
+    });
+
+    const documents = await this.prisma.client.fosterDocument.findMany({
+      where: { fosterId: foster.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return successResponse(documents, 'Foster documents found');
+  }
+
+  @HandleError('Failed to get single foster document')
+  async getSingleFosterDocument(documentId: string) {
+    const document = await this.prisma.client.fosterDocument.findUniqueOrThrow({
+      where: { id: documentId },
+    });
+
+    return successResponse(document, 'Foster document found');
+  }
+
   private flattenFoster = (foster: FosterWithUser) => ({
     fosterId: foster.id,
     userId: foster.user.id,

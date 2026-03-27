@@ -17,6 +17,7 @@ model Foster {
   preferredMile     Float
 
   fosterAnimalInterests FosterAnimalInterest[]
+  fosterDocuments       FosterDocument[]
 
   status ApprovalStatus @default(PENDING)
 
@@ -24,4 +25,25 @@ model Foster {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@map("fosters")
+}
+
+model FosterDocument {
+  id String @id @default(uuid())
+
+  name String
+  type String
+
+  fosterId String
+  foster   Foster @relation(fields: [fosterId], references: [id], onDelete: Cascade)
+
+  documentId  String       @unique
+  documentUrl String
+  document    FileInstance @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  status ApprovalStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("foster_documents")
 }
