@@ -26,7 +26,6 @@ const normalizeArrayValue = (value: unknown): string[] | undefined => {
         .map((item) => item.trim());
 
   const sanitized = values.filter(Boolean);
-  console.log(sanitized);
   return sanitized.length ? sanitized : undefined;
 };
 

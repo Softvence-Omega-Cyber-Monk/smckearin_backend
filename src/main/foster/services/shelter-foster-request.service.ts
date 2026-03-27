@@ -123,7 +123,7 @@ export class ShelterFosterRequestService {
     dto: CreateShelterFosterRequestDto,
   ) {
     const shelterId = await this.getShelterId(userId);
-    this.validateCreatePayload(dto);
+    this.validateCreatePayload();
 
     const animalIds = [
       ...new Set([dto.animalId, ...(dto.additionalAnimalIds ?? [])]),
@@ -209,7 +209,7 @@ export class ShelterFosterRequestService {
       );
     }
 
-    this.validateUpdatePayload(dto, existing.spayNeuterAvailable);
+    this.validateUpdatePayload();
 
     const updated = await this.prisma.client.$transaction(async (tx) => {
       let animalId = existing.animalId;
@@ -764,14 +764,11 @@ export class ShelterFosterRequestService {
       : this.toClientStatus(status);
   }
 
-  private validateCreatePayload(dto: CreateShelterFosterRequestDto) {
+  private validateCreatePayload() {
     // Both spay dates are optional now as per request
   }
 
-  private validateUpdatePayload(
-    dto: UpdateShelterFosterRequestDto,
-    existingSpayNeuterAvailable: boolean,
-  ) {
+  private validateUpdatePayload() {
     // Both spay dates are optional now as per request
   }
 
