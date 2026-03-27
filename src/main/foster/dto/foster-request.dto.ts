@@ -76,6 +76,14 @@ export class CreateShelterFosterRequestDto {
   spayNeuterDate?: string;
 
   @ApiPropertyOptional({
+    example: '2026-03-27',
+    description: 'Next spay or neuter date',
+  })
+  @IsOptional()
+  @IsDateString()
+  spayNeuterNextDate?: string;
+
+  @ApiPropertyOptional({
     example: '2026-03-15',
     description: 'Last checkup date',
   })

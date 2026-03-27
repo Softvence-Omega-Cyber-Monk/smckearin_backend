@@ -123,7 +123,7 @@ export class ShelterFosterRequestService {
     dto: CreateShelterFosterRequestDto,
   ) {
     const shelterId = await this.getShelterId(userId);
-    this.validateCreatePayload(dto);
+    this.validateCreatePayload();
 
     const animalIds = [
       ...new Set([dto.animalId, ...(dto.additionalAnimalIds ?? [])]),
@@ -146,6 +146,7 @@ export class ShelterFosterRequestService {
             estimateTransportTimeEnd: dto.estimateTransportTimeEnd,
             spayNeuterAvailable: dto.spayNeuterAvailable,
             spayNeuterDate: this.asDate(dto.spayNeuterDate),
+            spayNeuterNextDate: this.asDate(dto.spayNeuterNextDate),
             lastCheckupDate: this.asDate(dto.lastCheckupDate),
             vaccinationsDate: this.asDate(dto.vaccinationsDate),
             petPersonality: dto.petPersonality,
@@ -208,7 +209,7 @@ export class ShelterFosterRequestService {
       );
     }
 
-    this.validateUpdatePayload(dto, existing.spayNeuterAvailable);
+    this.validateUpdatePayload();
 
     const updated = await this.prisma.client.$transaction(async (tx) => {
       let animalId = existing.animalId;
@@ -242,6 +243,10 @@ export class ShelterFosterRequestService {
             dto.spayNeuterDate === undefined
               ? existing.spayNeuterDate
               : this.asDate(dto.spayNeuterDate),
+          spayNeuterNextDate:
+            dto.spayNeuterNextDate === undefined
+              ? existing.spayNeuterNextDate
+              : this.asDate(dto.spayNeuterNextDate),
           lastCheckupDate:
             dto.lastCheckupDate === undefined
               ? existing.lastCheckupDate
@@ -759,28 +764,12 @@ export class ShelterFosterRequestService {
       : this.toClientStatus(status);
   }
 
-  private validateCreatePayload(dto: CreateShelterFosterRequestDto) {
-    if (dto.spayNeuterAvailable && !dto.spayNeuterDate) {
-      throw new AppError(
-        HttpStatus.BAD_REQUEST,
-        'spayNeuterDate is required when spayNeuterAvailable is true',
-      );
-    }
+  private validateCreatePayload() {
+    // Both spay dates are optional now as per request
   }
 
-  private validateUpdatePayload(
-    dto: UpdateShelterFosterRequestDto,
-    existingSpayNeuterAvailable: boolean,
-  ) {
-    const spayAvailable =
-      dto.spayNeuterAvailable ?? existingSpayNeuterAvailable;
-
-    if (spayAvailable && dto.spayNeuterDate === '') {
-      throw new AppError(
-        HttpStatus.BAD_REQUEST,
-        'spayNeuterDate is required when spayNeuterAvailable is true',
-      );
-    }
+  private validateUpdatePayload() {
+    // Both spay dates are optional now as per request
   }
 
   private async validateShelterAnimal(
@@ -944,6 +933,7 @@ export class ShelterFosterRequestService {
       healthInfo: {
         spayNeuterAvailable: request.spayNeuterAvailable,
         spayNeuterDate: request.spayNeuterDate,
+        spayNeuterNextDate: request.spayNeuterNextDate,
         lastCheckupDate: request.lastCheckupDate,
         vaccinationsDate: request.vaccinationsDate,
       },
