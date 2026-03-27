@@ -63,6 +63,7 @@ export const ModelName = {
   FosterRequest: 'FosterRequest',
   ArrivalProof: 'ArrivalProof',
   Foster: 'Foster',
+  FosterDocument: 'FosterDocument',
   HealthReport: 'HealthReport',
   ImportJob: 'ImportJob',
   ImportRow: 'ImportRow',
@@ -350,6 +351,21 @@ export const FosterScalarFieldEnum = {
 } as const
 
 export type FosterScalarFieldEnum = (typeof FosterScalarFieldEnum)[keyof typeof FosterScalarFieldEnum]
+
+
+export const FosterDocumentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  fosterId: 'fosterId',
+  documentId: 'documentId',
+  documentUrl: 'documentUrl',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FosterDocumentScalarFieldEnum = (typeof FosterDocumentScalarFieldEnum)[keyof typeof FosterDocumentScalarFieldEnum]
 
 
 export const HealthReportScalarFieldEnum = {

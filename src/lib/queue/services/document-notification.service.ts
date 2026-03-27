@@ -20,7 +20,9 @@ export class DocumentNotificationService extends BaseNotificationService {
       | 'DRIVER_DOCUMENT_UPLOADED'
       | 'DRIVER_DOCUMENT_APPROVED'
       | 'VET_DOCUMENT_UPLOADED'
-      | 'VET_DOCUMENT_APPROVED',
+      | 'VET_DOCUMENT_APPROVED'
+      | 'FOSTER_DOCUMENT_UPLOADED'
+      | 'FOSTER_DOCUMENT_APPROVED',
     entityId: string,
     additionalData: any,
   ) {
@@ -117,7 +119,7 @@ export class DocumentNotificationService extends BaseNotificationService {
         },
         settings,
       );
-    } else {
+    } else if (eventType.includes('VET')) {
       const vet = await this.prisma.client.veterinarian.findUnique({
         where: { id: additionalData.vetId || entityId },
         include: { user: true },
@@ -152,6 +154,49 @@ export class DocumentNotificationService extends BaseNotificationService {
             documentName: additionalData.name,
             documentType: additionalData.type,
             vetId: vet.id,
+          },
+        },
+        settings,
+      );
+    } else if (eventType.includes('FOSTER')) {
+      const doc = await this.prisma.client.fosterDocument.findUnique({
+        where: { id: entityId },
+      });
+
+      if (!doc) return;
+
+      if (eventType === 'FOSTER_DOCUMENT_UPLOADED') {
+        notifType = NotificationType.FOSTER_DOCUMENT_UPLOADED;
+        title = 'New Foster Document Uploaded';
+        message = `A new document "${doc.name}" has been uploaded for a foster.`;
+        recipients = await this.getAdmins();
+      } else {
+        notifType = additionalData.approved
+          ? NotificationType.FOSTER_DOCUMENT_APPROVED
+          : NotificationType.FOSTER_DOCUMENT_REJECTED;
+        title = `Foster Document ${additionalData.approved ? 'Approved' : 'Rejected'}`;
+        message = `Your document "${doc.name}" has been ${additionalData.approved ? 'approved' : 'rejected'}.`;
+
+        const foster = await this.prisma.client.foster.findUnique({
+          where: { id: doc.fosterId },
+        });
+        if (foster) recipients = [foster.userId];
+      }
+
+      await this.createAndEmitNotification(
+        notifType,
+        title,
+        message,
+        recipients,
+        {
+          performedBy:
+            eventType === 'FOSTER_DOCUMENT_UPLOADED' ? 'FOSTER' : 'ADMIN',
+          recordType: 'FosterDocument',
+          recordId: entityId,
+          others: {
+            documentName: doc.name,
+            documentType: doc.type,
+            fosterId: doc.fosterId,
           },
         },
         settings,

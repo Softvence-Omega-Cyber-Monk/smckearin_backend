@@ -18,6 +18,7 @@ model FileInstance {
   healthReports        HealthReport?
   vetDocuments         VetDocument?
   shelterDocuments     ShelterDocument?
+  fosterDocuments      FosterDocument?
   arrivalProof         ArrivalProof?
 
   privateMessages PrivateMessage[]

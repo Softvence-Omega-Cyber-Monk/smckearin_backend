@@ -11,12 +11,23 @@ import {
   Controller,
   Delete,
   Get,
+  HttpStatus,
   Param,
   Patch,
   Post,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
+import { AppError } from '@/core/error/handle-error.app';
 import {
   CreateFosterAnimalInterestDto,
   GetFosterAnimalsDto,
@@ -30,6 +41,11 @@ import {
   GetShelterFosterRequestsDto,
   UpdateShelterFosterRequestDto,
 } from '../dto/foster-request.dto';
+import {
+  FosterApproveDto,
+  FosterDocumentApproveDto,
+  UploadFosterDocumentDto,
+} from '../dto/foster.dto';
 import { GetApprovedFosters, GetFostersDto } from '../dto/get-fosters.dto';
 import { FosterAnimalService } from '../services/foster-animal.service';
 import { GetFosterService } from '../services/get-foster.service';
@@ -303,6 +319,60 @@ export class FosterController {
     return this.manageFosterAnimalInterestService.reviewInterest(
       userId,
       interestId,
+      dto,
+    );
+  }
+
+  @ApiOperation({ summary: 'Delete foster document' })
+  @Delete('document/:documentId')
+  async deleteFosterDocument(
+    @Param('documentId') documentId: string,
+    @GetUser() authUser: JWTPayload,
+  ) {
+    return this.manageFosterService.deleteFosterDocument(documentId, authUser);
+  }
+
+  @ApiOperation({ summary: 'Get own foster documents' })
+  @ValidateFoster()
+  @Get('me/document')
+  async getOwnFosterDocuments(@GetUser('sub') userId: string) {
+    return this.fosterService.getOwnFosterDocuments(userId);
+  }
+
+  @ApiOperation({ summary: 'Get single foster document' })
+  @Get('document/:documentId')
+  async getSingleFosterDocument(@Param('documentId') documentId: string) {
+    return this.fosterService.getSingleFosterDocument(documentId);
+  }
+
+  @ApiOperation({ summary: 'Foster upload document' })
+  @ValidateFoster()
+  @ApiConsumes('multipart/form-data')
+  @Post('me/document')
+  @UseInterceptors(FileInterceptor('document'))
+  async uploadMyFosterDocument(
+    @GetUser('sub') userId: string,
+    @Body() dto: UploadFosterDocumentDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new AppError(HttpStatus.BAD_REQUEST, 'File is required');
+    }
+
+    dto.document = file;
+
+    return this.manageFosterService.uploadFosterDocument(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Approve or reject foster document (admin only)' })
+  @ValidateAdmin()
+  @Patch('document/:documentId/approve')
+  async approveOrRejectFosterDocument(
+    @Param('documentId') documentId: string,
+    @Body() dto: FosterDocumentApproveDto,
+  ) {
+    return this.manageFosterService.approveOrRejectFosterDocument(
+      documentId,
       dto,
     );
   }

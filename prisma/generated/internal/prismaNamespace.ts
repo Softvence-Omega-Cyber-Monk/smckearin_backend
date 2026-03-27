@@ -396,6 +396,7 @@ export const ModelName = {
   FosterRequest: 'FosterRequest',
   ArrivalProof: 'ArrivalProof',
   Foster: 'Foster',
+  FosterDocument: 'FosterDocument',
   HealthReport: 'HealthReport',
   ImportJob: 'ImportJob',
   ImportRow: 'ImportRow',
@@ -437,7 +438,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "fosterAnimalInterest" | "fosterRequest" | "arrivalProof" | "foster" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
+    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "fosterAnimalInterest" | "fosterRequest" | "arrivalProof" | "foster" | "fosterDocument" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1326,6 +1327,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.FosterCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.FosterCountAggregateOutputType> | number
+        }
+      }
+    }
+    FosterDocument: {
+      payload: Prisma.$FosterDocumentPayload<ExtArgs>
+      fields: Prisma.FosterDocumentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FosterDocumentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FosterDocumentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        findFirst: {
+          args: Prisma.FosterDocumentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FosterDocumentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        findMany: {
+          args: Prisma.FosterDocumentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>[]
+        }
+        create: {
+          args: Prisma.FosterDocumentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        createMany: {
+          args: Prisma.FosterDocumentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FosterDocumentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>[]
+        }
+        delete: {
+          args: Prisma.FosterDocumentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        update: {
+          args: Prisma.FosterDocumentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        deleteMany: {
+          args: Prisma.FosterDocumentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FosterDocumentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FosterDocumentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>[]
+        }
+        upsert: {
+          args: Prisma.FosterDocumentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FosterDocumentPayload>
+        }
+        aggregate: {
+          args: Prisma.FosterDocumentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFosterDocument>
+        }
+        groupBy: {
+          args: Prisma.FosterDocumentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterDocumentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FosterDocumentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FosterDocumentCountAggregateOutputType> | number
         }
       }
     }
@@ -3537,6 +3612,21 @@ export const FosterScalarFieldEnum = {
 export type FosterScalarFieldEnum = (typeof FosterScalarFieldEnum)[keyof typeof FosterScalarFieldEnum]
 
 
+export const FosterDocumentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  fosterId: 'fosterId',
+  documentId: 'documentId',
+  documentUrl: 'documentUrl',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FosterDocumentScalarFieldEnum = (typeof FosterDocumentScalarFieldEnum)[keyof typeof FosterDocumentScalarFieldEnum]
+
+
 export const HealthReportScalarFieldEnum = {
   id: 'id',
   veterinarianId: 'veterinarianId',
@@ -4725,6 +4815,7 @@ export type GlobalOmitConfig = {
   fosterRequest?: Prisma.FosterRequestOmit
   arrivalProof?: Prisma.ArrivalProofOmit
   foster?: Prisma.FosterOmit
+  fosterDocument?: Prisma.FosterDocumentOmit
   healthReport?: Prisma.HealthReportOmit
   importJob?: Prisma.ImportJobOmit
   importRow?: Prisma.ImportRowOmit
