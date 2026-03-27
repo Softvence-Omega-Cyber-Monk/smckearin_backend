@@ -21,6 +21,7 @@ model FosterRequest {
   estimateTransportTimeEnd   String?
   spayNeuterAvailable        Boolean  @default(false)
   spayNeuterDate             DateTime?
+  spayNeuterNextDate         DateTime?
   lastCheckupDate            DateTime?
   vaccinationsDate           DateTime?
 

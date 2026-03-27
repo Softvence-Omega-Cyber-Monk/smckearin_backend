@@ -8,6 +8,7 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import {
   FosterInterestStatus,
+  FosterRequestStatus,
   Prisma,
   SPECIES,
   Status,
@@ -263,6 +264,20 @@ export class FosterAnimalService {
         orderBy: { createdAt: 'desc' as const },
         take: 1,
       },
+      fosterRequests: {
+        where: {
+          status: {
+            in: [
+              FosterRequestStatus.REQUESTED,
+              FosterRequestStatus.INTERESTED,
+              FosterRequestStatus.APPROVED,
+              FosterRequestStatus.SCHEDULED,
+            ],
+          },
+        },
+        orderBy: { createdAt: 'desc' as const },
+        take: 1,
+      },
     };
   }
 
@@ -499,6 +514,7 @@ export class FosterAnimalService {
   private formatAnimalCard(animal: any) {
     const transport = this.getMostRelevantTransport(animal.transports);
     const interest = animal.fosterAnimalInterests[0] ?? null;
+    const request = animal.fosterRequests?.[0] ?? null;
 
     return {
       id: animal.id,
@@ -520,8 +536,14 @@ export class FosterAnimalService {
         name: animal.shelter?.name ?? null,
         location: animal.shelter?.address ?? null,
       },
-      estimatedTransportDate: transport?.transPortDate ?? null,
+      estimatedTransportDate:
+        request?.estimateTransportDate ?? transport?.transPortDate ?? null,
       currentInterestStatus: interest?.status ?? null,
+      healthInfo: {
+        spayNeuterAvailable: request?.spayNeuterAvailable ?? false,
+        spayNeuterDate: request?.spayNeuterDate ?? null,
+        spayNeuterNextDate: request?.spayNeuterNextDate ?? null,
+      },
       personalitySummary:
         animal.behaviorNotes ??
         animal.specialNeeds ??
@@ -534,6 +556,7 @@ export class FosterAnimalService {
     const latestHealthReport = animal.healthReports[0] ?? null;
     const latestTransport = this.getMostRelevantTransport(animal.transports);
     const currentInterest = animal.fosterAnimalInterests[0] ?? null;
+    const activeRequest = animal.fosterRequests?.[0] ?? null;
 
     return {
       id: animal.id,
@@ -555,21 +578,29 @@ export class FosterAnimalService {
         size: this.getAnimalSize(animal.weight),
       },
       healthInformation: {
-        spayNeuterDate: this.findReportDate(animal.healthReports, [
-          'spay',
-          'neuter',
-        ]),
-        lastCheckUp: latestHealthReport?.createdAt ?? null,
-        vaccinationsStatus: animal.vaccinationsUpToDate
-          ? 'Up to date'
-          : 'Unknown',
+        spayNeuterAvailable: activeRequest?.spayNeuterAvailable ?? false,
+        spayNeuterDate:
+          activeRequest?.spayNeuterDate ??
+          this.findReportDate(animal.healthReports, ['spay', 'neuter']),
+        spayNeuterNextDate: activeRequest?.spayNeuterNextDate ?? null,
+        lastCheckUp:
+          activeRequest?.lastCheckupDate ??
+          latestHealthReport?.createdAt ??
+          null,
+        vaccinationsStatus:
+          activeRequest?.vaccinationsDate?.toISOString().split('T')[0] ??
+          (animal.vaccinationsUpToDate ? 'Up to date' : 'Unknown'),
       },
       transportDetails: {
         shelterName: animal.shelter?.name ?? null,
         shelterLocation: animal.shelter?.address ?? null,
-        estimatedTransportDate: latestTransport?.transPortDate ?? null,
+        estimatedTransportDate:
+          activeRequest?.estimateTransportDate ??
+          latestTransport?.transPortDate ??
+          null,
       },
       shelterNotes:
+        activeRequest?.shelterNote ??
         animal.medicalNotes ??
         animal.behaviorNotes ??
         'No shelter notes provided yet.',

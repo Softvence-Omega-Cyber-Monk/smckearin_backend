@@ -38,6 +38,7 @@ export type FosterRequestMinAggregateOutputType = {
   estimateTransportTimeEnd: string | null
   spayNeuterAvailable: boolean | null
   spayNeuterDate: Date | null
+  spayNeuterNextDate: Date | null
   lastCheckupDate: Date | null
   vaccinationsDate: Date | null
   shelterNote: string | null
@@ -62,6 +63,7 @@ export type FosterRequestMaxAggregateOutputType = {
   estimateTransportTimeEnd: string | null
   spayNeuterAvailable: boolean | null
   spayNeuterDate: Date | null
+  spayNeuterNextDate: Date | null
   lastCheckupDate: Date | null
   vaccinationsDate: Date | null
   shelterNote: string | null
@@ -86,6 +88,7 @@ export type FosterRequestCountAggregateOutputType = {
   estimateTransportTimeEnd: number
   spayNeuterAvailable: number
   spayNeuterDate: number
+  spayNeuterNextDate: number
   lastCheckupDate: number
   vaccinationsDate: number
   shelterNote: number
@@ -112,6 +115,7 @@ export type FosterRequestMinAggregateInputType = {
   estimateTransportTimeEnd?: true
   spayNeuterAvailable?: true
   spayNeuterDate?: true
+  spayNeuterNextDate?: true
   lastCheckupDate?: true
   vaccinationsDate?: true
   shelterNote?: true
@@ -136,6 +140,7 @@ export type FosterRequestMaxAggregateInputType = {
   estimateTransportTimeEnd?: true
   spayNeuterAvailable?: true
   spayNeuterDate?: true
+  spayNeuterNextDate?: true
   lastCheckupDate?: true
   vaccinationsDate?: true
   shelterNote?: true
@@ -160,6 +165,7 @@ export type FosterRequestCountAggregateInputType = {
   estimateTransportTimeEnd?: true
   spayNeuterAvailable?: true
   spayNeuterDate?: true
+  spayNeuterNextDate?: true
   lastCheckupDate?: true
   vaccinationsDate?: true
   shelterNote?: true
@@ -257,6 +263,7 @@ export type FosterRequestGroupByOutputType = {
   estimateTransportTimeEnd: string | null
   spayNeuterAvailable: boolean
   spayNeuterDate: Date | null
+  spayNeuterNextDate: Date | null
   lastCheckupDate: Date | null
   vaccinationsDate: Date | null
   shelterNote: string
@@ -302,6 +309,7 @@ export type FosterRequestWhereInput = {
   estimateTransportTimeEnd?: Prisma.StringNullableFilter<"FosterRequest"> | string | null
   spayNeuterAvailable?: Prisma.BoolFilter<"FosterRequest"> | boolean
   spayNeuterDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
+  spayNeuterNextDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
   lastCheckupDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
   vaccinationsDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
   shelterNote?: Prisma.StringFilter<"FosterRequest"> | string
@@ -331,6 +339,7 @@ export type FosterRequestOrderByWithRelationInput = {
   estimateTransportTimeEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   spayNeuterAvailable?: Prisma.SortOrder
   spayNeuterDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  spayNeuterNextDate?: Prisma.SortOrderInput | Prisma.SortOrder
   lastCheckupDate?: Prisma.SortOrderInput | Prisma.SortOrder
   vaccinationsDate?: Prisma.SortOrderInput | Prisma.SortOrder
   shelterNote?: Prisma.SortOrder
@@ -364,6 +373,7 @@ export type FosterRequestWhereUniqueInput = Prisma.AtLeast<{
   estimateTransportTimeEnd?: Prisma.StringNullableFilter<"FosterRequest"> | string | null
   spayNeuterAvailable?: Prisma.BoolFilter<"FosterRequest"> | boolean
   spayNeuterDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
+  spayNeuterNextDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
   lastCheckupDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
   vaccinationsDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
   shelterNote?: Prisma.StringFilter<"FosterRequest"> | string
@@ -392,6 +402,7 @@ export type FosterRequestOrderByWithAggregationInput = {
   estimateTransportTimeEnd?: Prisma.SortOrderInput | Prisma.SortOrder
   spayNeuterAvailable?: Prisma.SortOrder
   spayNeuterDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  spayNeuterNextDate?: Prisma.SortOrderInput | Prisma.SortOrder
   lastCheckupDate?: Prisma.SortOrderInput | Prisma.SortOrder
   vaccinationsDate?: Prisma.SortOrderInput | Prisma.SortOrder
   shelterNote?: Prisma.SortOrder
@@ -422,6 +433,7 @@ export type FosterRequestScalarWhereWithAggregatesInput = {
   estimateTransportTimeEnd?: Prisma.StringNullableWithAggregatesFilter<"FosterRequest"> | string | null
   spayNeuterAvailable?: Prisma.BoolWithAggregatesFilter<"FosterRequest"> | boolean
   spayNeuterDate?: Prisma.DateTimeNullableWithAggregatesFilter<"FosterRequest"> | Date | string | null
+  spayNeuterNextDate?: Prisma.DateTimeNullableWithAggregatesFilter<"FosterRequest"> | Date | string | null
   lastCheckupDate?: Prisma.DateTimeNullableWithAggregatesFilter<"FosterRequest"> | Date | string | null
   vaccinationsDate?: Prisma.DateTimeNullableWithAggregatesFilter<"FosterRequest"> | Date | string | null
   shelterNote?: Prisma.StringWithAggregatesFilter<"FosterRequest"> | string
@@ -443,6 +455,7 @@ export type FosterRequestCreateInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -471,6 +484,7 @@ export type FosterRequestUncheckedCreateInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -493,6 +507,7 @@ export type FosterRequestUpdateInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -521,6 +536,7 @@ export type FosterRequestUncheckedUpdateInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -546,6 +562,7 @@ export type FosterRequestCreateManyInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -567,6 +584,7 @@ export type FosterRequestUpdateManyMutationInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -590,6 +608,7 @@ export type FosterRequestUncheckedUpdateManyInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -624,6 +643,7 @@ export type FosterRequestCountOrderByAggregateInput = {
   estimateTransportTimeEnd?: Prisma.SortOrder
   spayNeuterAvailable?: Prisma.SortOrder
   spayNeuterDate?: Prisma.SortOrder
+  spayNeuterNextDate?: Prisma.SortOrder
   lastCheckupDate?: Prisma.SortOrder
   vaccinationsDate?: Prisma.SortOrder
   shelterNote?: Prisma.SortOrder
@@ -648,6 +668,7 @@ export type FosterRequestMaxOrderByAggregateInput = {
   estimateTransportTimeEnd?: Prisma.SortOrder
   spayNeuterAvailable?: Prisma.SortOrder
   spayNeuterDate?: Prisma.SortOrder
+  spayNeuterNextDate?: Prisma.SortOrder
   lastCheckupDate?: Prisma.SortOrder
   vaccinationsDate?: Prisma.SortOrder
   shelterNote?: Prisma.SortOrder
@@ -672,6 +693,7 @@ export type FosterRequestMinOrderByAggregateInput = {
   estimateTransportTimeEnd?: Prisma.SortOrder
   spayNeuterAvailable?: Prisma.SortOrder
   spayNeuterDate?: Prisma.SortOrder
+  spayNeuterNextDate?: Prisma.SortOrder
   lastCheckupDate?: Prisma.SortOrder
   vaccinationsDate?: Prisma.SortOrder
   shelterNote?: Prisma.SortOrder
@@ -879,6 +901,7 @@ export type FosterRequestCreateWithoutAnimalInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -905,6 +928,7 @@ export type FosterRequestUncheckedCreateWithoutAnimalInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -959,6 +983,7 @@ export type FosterRequestScalarWhereInput = {
   estimateTransportTimeEnd?: Prisma.StringNullableFilter<"FosterRequest"> | string | null
   spayNeuterAvailable?: Prisma.BoolFilter<"FosterRequest"> | boolean
   spayNeuterDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
+  spayNeuterNextDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
   lastCheckupDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
   vaccinationsDate?: Prisma.DateTimeNullableFilter<"FosterRequest"> | Date | string | null
   shelterNote?: Prisma.StringFilter<"FosterRequest"> | string
@@ -980,6 +1005,7 @@ export type FosterRequestCreateWithoutArrivalProofInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -1007,6 +1033,7 @@ export type FosterRequestUncheckedCreateWithoutArrivalProofInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -1044,6 +1071,7 @@ export type FosterRequestUpdateWithoutArrivalProofInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1071,6 +1099,7 @@ export type FosterRequestUncheckedUpdateWithoutArrivalProofInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1092,6 +1121,7 @@ export type FosterRequestCreateWithoutShelterInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -1118,6 +1148,7 @@ export type FosterRequestUncheckedCreateWithoutShelterInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -1166,6 +1197,7 @@ export type FosterRequestCreateWithoutTransportInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -1193,6 +1225,7 @@ export type FosterRequestUncheckedCreateWithoutTransportInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -1230,6 +1263,7 @@ export type FosterRequestUpdateWithoutTransportInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1257,6 +1291,7 @@ export type FosterRequestUncheckedUpdateWithoutTransportInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1278,6 +1313,7 @@ export type FosterRequestCreateWithoutFosterUserInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -1304,6 +1340,7 @@ export type FosterRequestUncheckedCreateWithoutFosterUserInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -1354,6 +1391,7 @@ export type FosterRequestCreateManyAnimalInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -1375,6 +1413,7 @@ export type FosterRequestUpdateWithoutAnimalInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1401,6 +1440,7 @@ export type FosterRequestUncheckedUpdateWithoutAnimalInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1425,6 +1465,7 @@ export type FosterRequestUncheckedUpdateManyWithoutAnimalInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1448,6 +1489,7 @@ export type FosterRequestCreateManyShelterInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -1469,6 +1511,7 @@ export type FosterRequestUpdateWithoutShelterInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1495,6 +1538,7 @@ export type FosterRequestUncheckedUpdateWithoutShelterInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1519,6 +1563,7 @@ export type FosterRequestUncheckedUpdateManyWithoutShelterInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1542,6 +1587,7 @@ export type FosterRequestCreateManyFosterUserInput = {
   estimateTransportTimeEnd?: string | null
   spayNeuterAvailable?: boolean
   spayNeuterDate?: Date | string | null
+  spayNeuterNextDate?: Date | string | null
   lastCheckupDate?: Date | string | null
   vaccinationsDate?: Date | string | null
   shelterNote: string
@@ -1563,6 +1609,7 @@ export type FosterRequestUpdateWithoutFosterUserInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1589,6 +1636,7 @@ export type FosterRequestUncheckedUpdateWithoutFosterUserInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1613,6 +1661,7 @@ export type FosterRequestUncheckedUpdateManyWithoutFosterUserInput = {
   estimateTransportTimeEnd?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   spayNeuterAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   spayNeuterDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  spayNeuterNextDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastCheckupDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vaccinationsDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   shelterNote?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1639,6 +1688,7 @@ export type FosterRequestSelect<ExtArgs extends runtime.Types.Extensions.Interna
   estimateTransportTimeEnd?: boolean
   spayNeuterAvailable?: boolean
   spayNeuterDate?: boolean
+  spayNeuterNextDate?: boolean
   lastCheckupDate?: boolean
   vaccinationsDate?: boolean
   shelterNote?: boolean
@@ -1668,6 +1718,7 @@ export type FosterRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   estimateTransportTimeEnd?: boolean
   spayNeuterAvailable?: boolean
   spayNeuterDate?: boolean
+  spayNeuterNextDate?: boolean
   lastCheckupDate?: boolean
   vaccinationsDate?: boolean
   shelterNote?: boolean
@@ -1696,6 +1747,7 @@ export type FosterRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   estimateTransportTimeEnd?: boolean
   spayNeuterAvailable?: boolean
   spayNeuterDate?: boolean
+  spayNeuterNextDate?: boolean
   lastCheckupDate?: boolean
   vaccinationsDate?: boolean
   shelterNote?: boolean
@@ -1724,6 +1776,7 @@ export type FosterRequestSelectScalar = {
   estimateTransportTimeEnd?: boolean
   spayNeuterAvailable?: boolean
   spayNeuterDate?: boolean
+  spayNeuterNextDate?: boolean
   lastCheckupDate?: boolean
   vaccinationsDate?: boolean
   shelterNote?: boolean
@@ -1734,7 +1787,7 @@ export type FosterRequestSelectScalar = {
   updatedAt?: boolean
 }
 
-export type FosterRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "animalId" | "fosterUserId" | "shelterId" | "status" | "requestedAt" | "cancelledAt" | "deliveryTime" | "estimateTransportDate" | "estimateTransportTimeStart" | "estimateTransportTimeEnd" | "spayNeuterAvailable" | "spayNeuterDate" | "lastCheckupDate" | "vaccinationsDate" | "shelterNote" | "petPersonality" | "cancelReason" | "transportId" | "createdAt" | "updatedAt", ExtArgs["result"]["fosterRequest"]>
+export type FosterRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "animalId" | "fosterUserId" | "shelterId" | "status" | "requestedAt" | "cancelledAt" | "deliveryTime" | "estimateTransportDate" | "estimateTransportTimeStart" | "estimateTransportTimeEnd" | "spayNeuterAvailable" | "spayNeuterDate" | "spayNeuterNextDate" | "lastCheckupDate" | "vaccinationsDate" | "shelterNote" | "petPersonality" | "cancelReason" | "transportId" | "createdAt" | "updatedAt", ExtArgs["result"]["fosterRequest"]>
 export type FosterRequestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   animal?: boolean | Prisma.AnimalDefaultArgs<ExtArgs>
   fosterUser?: boolean | Prisma.FosterRequest$fosterUserArgs<ExtArgs>
@@ -1778,6 +1831,7 @@ export type $FosterRequestPayload<ExtArgs extends runtime.Types.Extensions.Inter
     estimateTransportTimeEnd: string | null
     spayNeuterAvailable: boolean
     spayNeuterDate: Date | null
+    spayNeuterNextDate: Date | null
     lastCheckupDate: Date | null
     vaccinationsDate: Date | null
     shelterNote: string
@@ -2227,6 +2281,7 @@ export interface FosterRequestFieldRefs {
   readonly estimateTransportTimeEnd: Prisma.FieldRef<"FosterRequest", 'String'>
   readonly spayNeuterAvailable: Prisma.FieldRef<"FosterRequest", 'Boolean'>
   readonly spayNeuterDate: Prisma.FieldRef<"FosterRequest", 'DateTime'>
+  readonly spayNeuterNextDate: Prisma.FieldRef<"FosterRequest", 'DateTime'>
   readonly lastCheckupDate: Prisma.FieldRef<"FosterRequest", 'DateTime'>
   readonly vaccinationsDate: Prisma.FieldRef<"FosterRequest", 'DateTime'>
   readonly shelterNote: Prisma.FieldRef<"FosterRequest", 'String'>

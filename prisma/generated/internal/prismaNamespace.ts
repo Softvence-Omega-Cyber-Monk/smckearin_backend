@@ -3488,6 +3488,7 @@ export const FosterRequestScalarFieldEnum = {
   estimateTransportTimeEnd: 'estimateTransportTimeEnd',
   spayNeuterAvailable: 'spayNeuterAvailable',
   spayNeuterDate: 'spayNeuterDate',
+  spayNeuterNextDate: 'spayNeuterNextDate',
   lastCheckupDate: 'lastCheckupDate',
   vaccinationsDate: 'vaccinationsDate',
   shelterNote: 'shelterNote',
