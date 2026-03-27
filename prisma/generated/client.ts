@@ -98,6 +98,11 @@ export type ArrivalProof = Prisma.ArrivalProofModel
  */
 export type Foster = Prisma.FosterModel
 /**
+ * Model FosterDocument
+ * 
+ */
+export type FosterDocument = Prisma.FosterDocumentModel
+/**
  * Model HealthReport
  * 
  */

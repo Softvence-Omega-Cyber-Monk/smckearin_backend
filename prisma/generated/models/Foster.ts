@@ -298,6 +298,7 @@ export type FosterWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Foster"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   fosterAnimalInterests?: Prisma.FosterAnimalInterestListRelationFilter
+  fosterDocuments?: Prisma.FosterDocumentListRelationFilter
 }
 
 export type FosterOrderByWithRelationInput = {
@@ -318,6 +319,7 @@ export type FosterOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestOrderByRelationAggregateInput
+  fosterDocuments?: Prisma.FosterDocumentOrderByRelationAggregateInput
 }
 
 export type FosterWhereUniqueInput = Prisma.AtLeast<{
@@ -341,6 +343,7 @@ export type FosterWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Foster"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   fosterAnimalInterests?: Prisma.FosterAnimalInterestListRelationFilter
+  fosterDocuments?: Prisma.FosterDocumentListRelationFilter
 }, "id" | "userId" | "phone">
 
 export type FosterOrderByWithAggregationInput = {
@@ -404,6 +407,7 @@ export type FosterCreateInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutFostersInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutFosterInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutFosterInput
 }
 
 export type FosterUncheckedCreateInput = {
@@ -423,6 +427,7 @@ export type FosterUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutFosterInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutFosterInput
 }
 
 export type FosterUpdateInput = {
@@ -442,6 +447,7 @@ export type FosterUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutFostersNestedInput
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutFosterNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutFosterNestedInput
 }
 
 export type FosterUncheckedUpdateInput = {
@@ -461,6 +467,7 @@ export type FosterUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutFosterNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutFosterNestedInput
 }
 
 export type FosterCreateManyInput = {
@@ -602,6 +609,20 @@ export type FosterUpdateOneRequiredWithoutFosterAnimalInterestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FosterUpdateToOneWithWhereWithoutFosterAnimalInterestsInput, Prisma.FosterUpdateWithoutFosterAnimalInterestsInput>, Prisma.FosterUncheckedUpdateWithoutFosterAnimalInterestsInput>
 }
 
+export type FosterCreateNestedOneWithoutFosterDocumentsInput = {
+  create?: Prisma.XOR<Prisma.FosterCreateWithoutFosterDocumentsInput, Prisma.FosterUncheckedCreateWithoutFosterDocumentsInput>
+  connectOrCreate?: Prisma.FosterCreateOrConnectWithoutFosterDocumentsInput
+  connect?: Prisma.FosterWhereUniqueInput
+}
+
+export type FosterUpdateOneRequiredWithoutFosterDocumentsNestedInput = {
+  create?: Prisma.XOR<Prisma.FosterCreateWithoutFosterDocumentsInput, Prisma.FosterUncheckedCreateWithoutFosterDocumentsInput>
+  connectOrCreate?: Prisma.FosterCreateOrConnectWithoutFosterDocumentsInput
+  upsert?: Prisma.FosterUpsertWithoutFosterDocumentsInput
+  connect?: Prisma.FosterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FosterUpdateToOneWithWhereWithoutFosterDocumentsInput, Prisma.FosterUpdateWithoutFosterDocumentsInput>, Prisma.FosterUncheckedUpdateWithoutFosterDocumentsInput>
+}
+
 export type FosterCreateNestedOneWithoutUserInput = {
   create?: Prisma.XOR<Prisma.FosterCreateWithoutUserInput, Prisma.FosterUncheckedCreateWithoutUserInput>
   connectOrCreate?: Prisma.FosterCreateOrConnectWithoutUserInput
@@ -650,6 +671,7 @@ export type FosterCreateWithoutFosterAnimalInterestsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutFostersInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutFosterInput
 }
 
 export type FosterUncheckedCreateWithoutFosterAnimalInterestsInput = {
@@ -668,6 +690,7 @@ export type FosterUncheckedCreateWithoutFosterAnimalInterestsInput = {
   status?: $Enums.ApprovalStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutFosterInput
 }
 
 export type FosterCreateOrConnectWithoutFosterAnimalInterestsInput = {
@@ -702,6 +725,7 @@ export type FosterUpdateWithoutFosterAnimalInterestsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutFostersNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutFosterNestedInput
 }
 
 export type FosterUncheckedUpdateWithoutFosterAnimalInterestsInput = {
@@ -720,6 +744,99 @@ export type FosterUncheckedUpdateWithoutFosterAnimalInterestsInput = {
   status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutFosterNestedInput
+}
+
+export type FosterCreateWithoutFosterDocumentsInput = {
+  id?: string
+  phone: string
+  city: string
+  state: string
+  address: string
+  animalType: string
+  sizePreference: string
+  experienceLevel?: string | null
+  age: string
+  preferredLocation: string
+  preferredMile: number
+  status?: $Enums.ApprovalStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutFostersInput
+  fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutFosterInput
+}
+
+export type FosterUncheckedCreateWithoutFosterDocumentsInput = {
+  id?: string
+  userId: string
+  phone: string
+  city: string
+  state: string
+  address: string
+  animalType: string
+  sizePreference: string
+  experienceLevel?: string | null
+  age: string
+  preferredLocation: string
+  preferredMile: number
+  status?: $Enums.ApprovalStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutFosterInput
+}
+
+export type FosterCreateOrConnectWithoutFosterDocumentsInput = {
+  where: Prisma.FosterWhereUniqueInput
+  create: Prisma.XOR<Prisma.FosterCreateWithoutFosterDocumentsInput, Prisma.FosterUncheckedCreateWithoutFosterDocumentsInput>
+}
+
+export type FosterUpsertWithoutFosterDocumentsInput = {
+  update: Prisma.XOR<Prisma.FosterUpdateWithoutFosterDocumentsInput, Prisma.FosterUncheckedUpdateWithoutFosterDocumentsInput>
+  create: Prisma.XOR<Prisma.FosterCreateWithoutFosterDocumentsInput, Prisma.FosterUncheckedCreateWithoutFosterDocumentsInput>
+  where?: Prisma.FosterWhereInput
+}
+
+export type FosterUpdateToOneWithWhereWithoutFosterDocumentsInput = {
+  where?: Prisma.FosterWhereInput
+  data: Prisma.XOR<Prisma.FosterUpdateWithoutFosterDocumentsInput, Prisma.FosterUncheckedUpdateWithoutFosterDocumentsInput>
+}
+
+export type FosterUpdateWithoutFosterDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  state?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  animalType?: Prisma.StringFieldUpdateOperationsInput | string
+  sizePreference?: Prisma.StringFieldUpdateOperationsInput | string
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.StringFieldUpdateOperationsInput | string
+  preferredLocation?: Prisma.StringFieldUpdateOperationsInput | string
+  preferredMile?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutFostersNestedInput
+  fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutFosterNestedInput
+}
+
+export type FosterUncheckedUpdateWithoutFosterDocumentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  state?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  animalType?: Prisma.StringFieldUpdateOperationsInput | string
+  sizePreference?: Prisma.StringFieldUpdateOperationsInput | string
+  experienceLevel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  age?: Prisma.StringFieldUpdateOperationsInput | string
+  preferredLocation?: Prisma.StringFieldUpdateOperationsInput | string
+  preferredMile?: Prisma.FloatFieldUpdateOperationsInput | number
+  status?: Prisma.EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutFosterNestedInput
 }
 
 export type FosterCreateWithoutUserInput = {
@@ -738,6 +855,7 @@ export type FosterCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   fosterAnimalInterests?: Prisma.FosterAnimalInterestCreateNestedManyWithoutFosterInput
+  fosterDocuments?: Prisma.FosterDocumentCreateNestedManyWithoutFosterInput
 }
 
 export type FosterUncheckedCreateWithoutUserInput = {
@@ -756,6 +874,7 @@ export type FosterUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedCreateNestedManyWithoutFosterInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedCreateNestedManyWithoutFosterInput
 }
 
 export type FosterCreateOrConnectWithoutUserInput = {
@@ -790,6 +909,7 @@ export type FosterUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUpdateManyWithoutFosterNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUpdateManyWithoutFosterNestedInput
 }
 
 export type FosterUncheckedUpdateWithoutUserInput = {
@@ -808,6 +928,7 @@ export type FosterUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   fosterAnimalInterests?: Prisma.FosterAnimalInterestUncheckedUpdateManyWithoutFosterNestedInput
+  fosterDocuments?: Prisma.FosterDocumentUncheckedUpdateManyWithoutFosterNestedInput
 }
 
 
@@ -817,10 +938,12 @@ export type FosterUncheckedUpdateWithoutUserInput = {
 
 export type FosterCountOutputType = {
   fosterAnimalInterests: number
+  fosterDocuments: number
 }
 
 export type FosterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   fosterAnimalInterests?: boolean | FosterCountOutputTypeCountFosterAnimalInterestsArgs
+  fosterDocuments?: boolean | FosterCountOutputTypeCountFosterDocumentsArgs
 }
 
 /**
@@ -838,6 +961,13 @@ export type FosterCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
  */
 export type FosterCountOutputTypeCountFosterAnimalInterestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FosterAnimalInterestWhereInput
+}
+
+/**
+ * FosterCountOutputType without action
+ */
+export type FosterCountOutputTypeCountFosterDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FosterDocumentWhereInput
 }
 
 
@@ -859,6 +989,7 @@ export type FosterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   fosterAnimalInterests?: boolean | Prisma.Foster$fosterAnimalInterestsArgs<ExtArgs>
+  fosterDocuments?: boolean | Prisma.Foster$fosterDocumentsArgs<ExtArgs>
   _count?: boolean | Prisma.FosterCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["foster"]>
 
@@ -922,6 +1053,7 @@ export type FosterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type FosterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   fosterAnimalInterests?: boolean | Prisma.Foster$fosterAnimalInterestsArgs<ExtArgs>
+  fosterDocuments?: boolean | Prisma.Foster$fosterDocumentsArgs<ExtArgs>
   _count?: boolean | Prisma.FosterCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FosterIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -936,6 +1068,7 @@ export type $FosterPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     fosterAnimalInterests: Prisma.$FosterAnimalInterestPayload<ExtArgs>[]
+    fosterDocuments: Prisma.$FosterDocumentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1349,6 +1482,7 @@ export interface Prisma__FosterClient<T, Null = never, ExtArgs extends runtime.T
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   fosterAnimalInterests<T extends Prisma.Foster$fosterAnimalInterestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foster$fosterAnimalInterestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FosterAnimalInterestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  fosterDocuments<T extends Prisma.Foster$fosterDocumentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Foster$fosterDocumentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FosterDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1810,6 +1944,30 @@ export type Foster$fosterAnimalInterestsArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.FosterAnimalInterestScalarFieldEnum | Prisma.FosterAnimalInterestScalarFieldEnum[]
+}
+
+/**
+ * Foster.fosterDocuments
+ */
+export type Foster$fosterDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FosterDocument
+   */
+  select?: Prisma.FosterDocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FosterDocument
+   */
+  omit?: Prisma.FosterDocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FosterDocumentInclude<ExtArgs> | null
+  where?: Prisma.FosterDocumentWhereInput
+  orderBy?: Prisma.FosterDocumentOrderByWithRelationInput | Prisma.FosterDocumentOrderByWithRelationInput[]
+  cursor?: Prisma.FosterDocumentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FosterDocumentScalarFieldEnum | Prisma.FosterDocumentScalarFieldEnum[]
 }
 
 /**
