@@ -1,7 +1,6 @@
 import { EventsEnum } from '@/common/enum/queue-events.enum';
 import {
   successPaginatedResponse,
-  successResponse,
   TPaginatedResponse,
 } from '@/common/utils/response.util';
 import { SocketSafe } from '@/core/socket/socket-safe.decorator';

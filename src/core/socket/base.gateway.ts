@@ -148,6 +148,15 @@ export abstract class BaseGateway
     this.server.to(socketId).emit(event, payload);
   }
 
+  public emitToUser(
+    userId: string,
+    event: EventsEnum | string,
+    payload: any,
+  ) {
+    this.server.to(userId).emit(event, payload);
+    return true;
+  }
+
   public emitToUserFirstSocket(
     userId: string,
     event: EventsEnum | string,

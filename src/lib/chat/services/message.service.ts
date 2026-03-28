@@ -186,7 +186,7 @@ export class MessageService {
 
     // RECIPIENTS sockets:
     for (const rid of finalRecipientIds) {
-      this.chatGateway.emitToUserFirstSocket(
+      this.chatGateway.emitToUser(
         rid,
         EventsEnum.MESSAGE_NEW,
         successResponse({
@@ -275,7 +275,7 @@ export class MessageService {
     // 3. Emit updates
     for (const msg of messages) {
       // Notify Sender
-      this.chatGateway.emitToUserFirstSocket(
+      this.chatGateway.emitToUser(
         msg.senderId,
         EventsEnum.MESSAGE_STATUS_UPDATE,
         successResponse({

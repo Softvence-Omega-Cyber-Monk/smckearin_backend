@@ -81,7 +81,7 @@ export class ChatGateway extends BaseGateway {
     });
 
     for (const member of teamMembers) {
-      this.emitToUserFirstSocket(member.id, event, data);
+      this.emitToUser(member.id, event, data);
     }
   }
 }
