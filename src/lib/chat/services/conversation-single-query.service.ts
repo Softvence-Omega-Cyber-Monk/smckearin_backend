@@ -387,8 +387,7 @@ export class ConversationSingleQueryService {
       if (userShelterId === conversation.shelterId) {
         // Staff identifying logic: check if initiator or receiver is a member of THIS shelter
         const initiatorIsStaff =
-          conversation.initiator?.shelterAdminOfId ===
-            conversation.shelterId ||
+          conversation.initiator?.shelterAdminOfId === conversation.shelterId ||
           conversation.initiator?.managerOfId === conversation.shelterId;
 
         const otherUser = initiatorIsStaff
