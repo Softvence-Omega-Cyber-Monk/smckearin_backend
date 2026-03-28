@@ -210,7 +210,7 @@ export class ConversationQueryService {
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
-    const [vets, totalVets] = await this.prisma.client.$transaction([
+    const [vets] = await this.prisma.client.$transaction([
       this.prisma.client.user.findMany({
         where: vetWhere,
         select: {
@@ -317,7 +317,7 @@ export class ConversationQueryService {
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
-    const [drivers, totalDrivers] = await this.prisma.client.$transaction([
+    const [drivers] = await this.prisma.client.$transaction([
       this.prisma.client.user.findMany({
         where: driverWhere,
         select: {
@@ -420,7 +420,7 @@ export class ConversationQueryService {
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
-    const [shelters, totalShelters] = await this.prisma.client.$transaction([
+    const [shelters] = await this.prisma.client.$transaction([
       this.prisma.client.shelter.findMany({
         where: shelterWhere,
         select: {
@@ -509,7 +509,7 @@ export class ConversationQueryService {
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
-    const [fosters, totalFosters] = await this.prisma.client.$transaction([
+    const [fosters] = await this.prisma.client.$transaction([
       this.prisma.client.user.findMany({
         where: fosterWhere,
         select: {
