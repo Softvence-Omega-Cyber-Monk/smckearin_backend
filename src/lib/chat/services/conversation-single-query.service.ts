@@ -62,7 +62,7 @@ export class ConversationSingleQueryService {
         },
       },
       messages: {
-        orderBy: { createdAt: 'asc' as const },
+        orderBy: { createdAt: 'desc' as const },
         include: {
           sender: {
             select: {
@@ -342,10 +342,13 @@ export class ConversationSingleQueryService {
       userShelterId,
     );
 
-    // Format messages with pagination
+    // Format messages with pagination — newest first, reversed to show chronological order
     const totalMessages = conversation.messages.length;
     const skip = (page - 1) * limit;
-    const paginatedMessages = conversation.messages.slice(skip, skip + limit);
+    // Messages are sorted desc (newest first), so page 1 = most recent messages
+    const paginatedMessages = conversation.messages
+      .slice(skip, skip + limit)
+      .reverse(); // Reverse to show oldest→newest within the page
 
     const formattedMessages: FormattedMessage[] = paginatedMessages.map(
       (msg: ConversationWithRelations['messages'][number]) =>
