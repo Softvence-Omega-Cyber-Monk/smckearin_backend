@@ -22,7 +22,7 @@ export class ConversationQueryService {
     private readonly prisma: PrismaService,
     @Inject(forwardRef(() => ChatGateway))
     private readonly chatGateway: ChatGateway,
-  ) {}
+  ) { }
 
   @SocketSafe()
   async loadConversations(client: Socket, dto: LoadConversationsDto) {
@@ -76,7 +76,7 @@ export class ConversationQueryService {
           result = await this.loadAllVets(userId, skip, limit, search);
         }
       } else if (user.role === 'SHELTER_ADMIN' || user.role === 'MANAGER') {
-        // Shelter sees both vets and drivers
+        // Shelter sees vets, drivers, and fosters
         if (type === ConversationType.VET) {
           result = await this.loadAllVets(
             userId,
@@ -85,8 +85,16 @@ export class ConversationQueryService {
             search,
             userShelterId,
           );
+        } else if (type === ConversationType.FOSTER) {
+          result = await this.loadAllFosters(
+            userId,
+            skip,
+            limit,
+            search,
+            userShelterId,
+          );
         } else {
-          // Show all drivers
+          // Default: show all drivers
           result = await this.loadAllDrivers(
             userId,
             skip,
@@ -227,23 +235,23 @@ export class ConversationQueryService {
       chatScope: ConversationScope.MAIN,
       OR: userShelterId
         ? [
-            // Shelter-based conversations
-            { shelterId: userShelterId, initiatorId: { in: vetIds } },
-            { shelterId: userShelterId, receiverId: { in: vetIds } },
-          ]
+          // Shelter-based conversations
+          { shelterId: userShelterId, initiatorId: { in: vetIds } },
+          { shelterId: userShelterId, receiverId: { in: vetIds } },
+        ]
         : [
-            // Individual user conversations
-            {
-              initiatorId: userId,
-              receiverId: { in: vetIds },
-              shelterId: null,
-            },
-            {
-              receiverId: userId,
-              initiatorId: { in: vetIds },
-              shelterId: null,
-            },
-          ],
+          // Individual user conversations
+          {
+            initiatorId: userId,
+            receiverId: { in: vetIds },
+            shelterId: null,
+          },
+          {
+            receiverId: userId,
+            initiatorId: { in: vetIds },
+            shelterId: null,
+          },
+        ],
     };
 
     const conversations = await this.prisma.client.privateConversation.findMany(
@@ -302,7 +310,7 @@ export class ConversationQueryService {
       role: 'DRIVER',
       status: 'ACTIVE',
       drivers: {
-        status: 'APPROVED',
+        status: { in: ['APPROVED', 'PENDING'] },
       },
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
@@ -332,23 +340,23 @@ export class ConversationQueryService {
       chatScope: ConversationScope.MAIN,
       OR: userShelterId
         ? [
-            // Shelter-based conversations
-            { shelterId: userShelterId, initiatorId: { in: driverIds } },
-            { shelterId: userShelterId, receiverId: { in: driverIds } },
-          ]
+          // Shelter-based conversations
+          { shelterId: userShelterId, initiatorId: { in: driverIds } },
+          { shelterId: userShelterId, receiverId: { in: driverIds } },
+        ]
         : [
-            // Individual user conversations
-            {
-              initiatorId: userId,
-              receiverId: { in: driverIds },
-              shelterId: null,
-            },
-            {
-              receiverId: userId,
-              initiatorId: { in: driverIds },
-              shelterId: null,
-            },
-          ],
+          // Individual user conversations
+          {
+            initiatorId: userId,
+            receiverId: { in: driverIds },
+            shelterId: null,
+          },
+          {
+            receiverId: userId,
+            initiatorId: { in: driverIds },
+            shelterId: null,
+          },
+        ],
     };
 
     const conversations = await this.prisma.client.privateConversation.findMany(
@@ -490,7 +498,7 @@ export class ConversationQueryService {
       role: 'FOSTER',
       status: 'ACTIVE',
       fosters: {
-        status: 'APPROVED',
+        status: { in: ['APPROVED', 'PENDING'] },
       },
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
@@ -520,21 +528,21 @@ export class ConversationQueryService {
       chatScope: ConversationScope.MAIN,
       OR: userShelterId
         ? [
-            { shelterId: userShelterId, initiatorId: { in: fosterIds } },
-            { shelterId: userShelterId, receiverId: { in: fosterIds } },
-          ]
+          { shelterId: userShelterId, initiatorId: { in: fosterIds } },
+          { shelterId: userShelterId, receiverId: { in: fosterIds } },
+        ]
         : [
-            {
-              initiatorId: userId,
-              receiverId: { in: fosterIds },
-              shelterId: null,
-            },
-            {
-              receiverId: userId,
-              initiatorId: { in: fosterIds },
-              shelterId: null,
-            },
-          ],
+          {
+            initiatorId: userId,
+            receiverId: { in: fosterIds },
+            shelterId: null,
+          },
+          {
+            receiverId: userId,
+            initiatorId: { in: fosterIds },
+            shelterId: null,
+          },
+        ],
     };
 
     const conversations = await this.prisma.client.privateConversation.findMany(
