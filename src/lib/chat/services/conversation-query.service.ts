@@ -294,7 +294,9 @@ export class ConversationQueryService {
       return a.isActive ? -1 : 1;
     });
 
-    return { list, total: totalVets };
+    // Only return contacts with an existing conversation
+    const filtered = list.filter((c) => c.conversationId !== null);
+    return { list: filtered, total: filtered.length };
   }
 
   /** ---------------- Helper: load ALL Drivers (not just existing conversations) ---------------- */
@@ -400,7 +402,9 @@ export class ConversationQueryService {
       return a.isActive ? -1 : 1;
     });
 
-    return { list, total: totalDrivers };
+    // Only return contacts with an existing conversation
+    const filtered = list.filter((c) => c.conversationId !== null);
+    return { list: filtered, total: filtered.length };
   }
 
   /** ---------------- Helper: load ALL Shelters (not just existing conversations) ---------------- */
@@ -482,7 +486,9 @@ export class ConversationQueryService {
       return a.lastMessageAt ? -1 : 1;
     });
 
-    return { list, total: totalShelters };
+    // Only return contacts with an existing conversation
+    const filtered = list.filter((c) => c.conversationId !== null);
+    return { list: filtered, total: filtered.length };
   }
 
   /** ---------------- Helper: load ALL Fosters (not just existing conversations) ---------------- */
@@ -586,7 +592,9 @@ export class ConversationQueryService {
       return a.isActive ? -1 : 1;
     });
 
-    return { list, total: totalFosters };
+    // Only return contacts with an existing conversation
+    const filtered = list.filter((c) => c.conversationId !== null);
+    return { list: filtered, total: filtered.length };
   }
 
   /** ---------------- Helper: Generate default avatar URL based on name ---------------- */
