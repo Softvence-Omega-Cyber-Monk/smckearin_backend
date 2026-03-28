@@ -180,10 +180,12 @@ export class ConversationSingleQueryService {
       limit,
     );
 
-    const payload = successResponse(
-      response,
-      'Conversation loaded successfully',
-    );
+    const payload = {
+      ...response,
+      conversationId: conversation.id,
+      message: 'Conversation loaded successfully',
+    };
+
     client.emit(EventsEnum.CONVERSATION_RESPONSE, payload);
     return payload;
   }
@@ -381,12 +383,17 @@ export class ConversationSingleQueryService {
   ): ConversationParticipant {
     // If conversation involves a shelter
     if (conversation.shelterId) {
-      // If current user is FROM the shelter, show the other user
+      // If current user is FROM the shelter, show the other user (who is NOT shelter staff)
       if (userShelterId === conversation.shelterId) {
-        const otherUser =
-          conversation.initiator?.id !== userId
-            ? conversation.initiator
-            : conversation.receiver;
+        // Staff identifying logic: check if initiator or receiver is a member of THIS shelter
+        const initiatorIsStaff =
+          conversation.initiator?.shelterAdminOfId ===
+            conversation.shelterId ||
+          conversation.initiator?.managerOfId === conversation.shelterId;
+
+        const otherUser = initiatorIsStaff
+          ? conversation.receiver
+          : conversation.initiator;
 
         if (otherUser) {
           return {

@@ -258,10 +258,9 @@ export class ConversationQueryService {
     // Create a map of vet conversations
     const convMap = new Map(
       conversations.map((c) => {
-        const vetId =
-          c.initiatorId !== userId && c.initiatorId !== userShelterId
-            ? c.initiatorId
-            : c.receiverId;
+        const vetId = vetIds.includes(c.initiatorId)
+          ? c.initiatorId
+          : c.receiverId;
         return [vetId!, c];
       }),
     );
@@ -364,10 +363,9 @@ export class ConversationQueryService {
     // Create a map of driver conversations
     const convMap = new Map(
       conversations.map((c) => {
-        const driverId =
-          c.initiatorId !== userId && c.initiatorId !== userShelterId
-            ? c.initiatorId
-            : c.receiverId;
+        const driverId = driverIds.includes(c.initiatorId)
+          ? c.initiatorId
+          : c.receiverId;
         return [driverId!, c];
       }),
     );
@@ -551,10 +549,9 @@ export class ConversationQueryService {
     // Create a map of foster conversations
     const convMap = new Map(
       conversations.map((c) => {
-        const fosterId =
-          c.initiatorId !== userId && c.initiatorId !== userShelterId
-            ? c.initiatorId
-            : c.receiverId;
+        const fosterId = fosterIds.includes(c.initiatorId)
+          ? c.initiatorId
+          : c.receiverId;
         return [fosterId!, c];
       }),
     );

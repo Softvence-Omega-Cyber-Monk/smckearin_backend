@@ -45,7 +45,7 @@ export class MessageService {
     }
 
     // 2. Determine recipients based on conversation type
-    const recipientIds: string[] = [];
+    const recipientIds = new Set<string>();
 
     if (conversation.shelterId) {
       // Shelter Conversation
@@ -54,29 +54,45 @@ export class MessageService {
         conversation.shelter?.managers.some((m) => m.id === userId);
 
       if (userIsShelterMember) {
-        const targetUserId =
-          conversation.initiatorId === userId
-            ? conversation.receiverId
-            : conversation.initiatorId;
-
-        // If for some reason target is null
-        if (targetUserId) recipientIds.push(targetUserId);
-
-        // Notify OTHER shelter staff
-        const otherStaff = [
+        // Staff members of this shelter
+        const staffIds = [
           ...(conversation.shelter?.shelterAdmins || []),
           ...(conversation.shelter?.managers || []),
-        ].filter((m) => m.id !== userId);
+        ].map((s) => s.id);
 
-        otherStaff.forEach((s) => recipientIds.push(s.id));
+        const initiatorIsStaff = staffIds.includes(conversation.initiatorId);
+        const receiverIsStaff = conversation.receiverId
+          ? staffIds.includes(conversation.receiverId)
+          : false;
+
+        let targetUserId: string | null;
+
+        if (initiatorIsStaff && !receiverIsStaff) {
+          targetUserId = conversation.receiverId;
+        } else if (!initiatorIsStaff && receiverIsStaff) {
+          targetUserId = conversation.initiatorId;
+        } else {
+          // Both are staff (private staff chat) or neither (fallback)
+          targetUserId =
+            conversation.initiatorId === userId
+              ? conversation.receiverId
+              : conversation.initiatorId;
+        }
+
+        if (targetUserId) recipientIds.add(targetUserId);
+
+        // Notify OTHER shelter staff
+        staffIds.forEach((sid) => {
+          if (sid !== userId) recipientIds.add(sid);
+        });
       } else {
-        // Message FROM User TO Shelter
+        // Message FROM User (non-staff) TO Shelter
         // Recipients = All Shelter Staff
         const staff = [
           ...(conversation.shelter?.shelterAdmins || []),
           ...(conversation.shelter?.managers || []),
         ];
-        staff.forEach((s) => recipientIds.push(s.id));
+        staff.forEach((s) => recipientIds.add(s.id));
       }
     } else {
       // Direct User-to-User
@@ -84,8 +100,13 @@ export class MessageService {
         conversation.initiatorId === userId
           ? conversation.receiverId
           : conversation.initiatorId;
-      if (targetUserId) recipientIds.push(targetUserId);
+      if (targetUserId) recipientIds.add(targetUserId);
     }
+
+    // Convert Set to Array and ensure sender is NOT a recipient
+    const finalRecipientIds = Array.from(recipientIds).filter(
+      (rid) => rid !== userId,
+    );
 
     // 3. Create Message
     const message = await this.prisma.client.privateMessage.create({
@@ -97,9 +118,9 @@ export class MessageService {
         fileId: fileId || undefined,
         // Create statuses for all recipients
         statuses: {
-          create: recipientIds.map((rid) => ({
+          create: finalRecipientIds.map((rid) => ({
             userId: rid,
-            status: MessageDeliveryStatus.SENT, // Initial status
+            status: MessageDeliveryStatus.SENT,
           })),
         },
       },
@@ -164,7 +185,7 @@ export class MessageService {
     client.emit(EventsEnum.MESSAGE_NEW, senderPayload);
 
     // RECIPIENTS sockets:
-    for (const rid of recipientIds) {
+    for (const rid of finalRecipientIds) {
       this.chatGateway.emitToUserFirstSocket(
         rid,
         EventsEnum.MESSAGE_NEW,
