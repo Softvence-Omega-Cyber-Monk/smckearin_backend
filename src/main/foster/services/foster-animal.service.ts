@@ -45,54 +45,120 @@ export class FosterAnimalService {
   async getDashboard(userId: string) {
     const foster = await this.getFosterContext(userId);
 
-    const [activeRequestCount, approvedRequests, requestPreview, recommended] =
-      await Promise.all([
-        this.prisma.client.fosterAnimalInterest.count({
-          where: {
-            fosterId: foster.id,
-            status: {
-              in: [
-                FosterInterestStatus.INTERESTED,
-                FosterInterestStatus.APPROVED,
-              ],
+    const [
+      activeInterestCount,
+      activeRequestCount,
+      approvedInterests,
+      scheduledRequests,
+      interestPreview,
+      requestPreview,
+      recommended,
+    ] = await Promise.all([
+      this.prisma.client.fosterAnimalInterest.count({
+        where: {
+          fosterId: foster.id,
+          status: {
+            in: [
+              FosterInterestStatus.INTERESTED,
+              FosterInterestStatus.APPROVED,
+            ],
+          },
+        },
+      }),
+      this.prisma.client.fosterRequest.count({
+        where: {
+          fosterUserId: userId,
+          status: {
+            in: [
+              FosterRequestStatus.REQUESTED,
+              FosterRequestStatus.INTERESTED,
+              FosterRequestStatus.APPROVED,
+              FosterRequestStatus.SCHEDULED,
+            ],
+          },
+        },
+      }),
+      this.prisma.client.fosterAnimalInterest.findMany({
+        where: {
+          fosterId: foster.id,
+          status: FosterInterestStatus.APPROVED,
+        },
+        orderBy: { createdAt: 'desc' },
+        include: this.requestInclude,
+      }),
+      this.prisma.client.fosterRequest.findMany({
+        where: {
+          fosterUserId: userId,
+          status: FosterRequestStatus.SCHEDULED,
+        },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          animal: {
+            include: {
+              shelter: true,
+              healthReports: {
+                orderBy: { createdAt: 'desc' },
+                take: 1,
+              },
             },
           },
-        }),
-        this.prisma.client.fosterAnimalInterest.findMany({
-          where: {
-            fosterId: foster.id,
-            status: FosterInterestStatus.APPROVED,
+          shelter: true,
+          transport: true,
+        },
+      }),
+      this.prisma.client.fosterAnimalInterest.findMany({
+        where: {
+          fosterId: foster.id,
+          status: {
+            in: [
+              FosterInterestStatus.INTERESTED,
+              FosterInterestStatus.APPROVED,
+            ],
           },
-          orderBy: { createdAt: 'desc' },
-          include: this.requestInclude,
-        }),
-        this.prisma.client.fosterAnimalInterest.findMany({
-          where: {
-            fosterId: foster.id,
-            status: {
-              in: [
-                FosterInterestStatus.INTERESTED,
-                FosterInterestStatus.APPROVED,
-              ],
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 5,
+        include: this.requestInclude,
+      }),
+      this.prisma.client.fosterRequest.findMany({
+        where: {
+          fosterUserId: userId,
+          status: {
+            in: [
+              FosterRequestStatus.REQUESTED,
+              FosterRequestStatus.INTERESTED,
+              FosterRequestStatus.APPROVED,
+              FosterRequestStatus.SCHEDULED,
+            ],
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 5,
+        include: {
+          animal: {
+            include: {
+              shelter: true,
             },
           },
-          orderBy: { createdAt: 'desc' },
-          take: 5,
-          include: this.requestInclude,
-        }),
-        this.getRecommendedAnimals(foster, 10),
-      ]);
+          shelter: true,
+          transport: true,
+        },
+      }),
+      this.getRecommendedAnimals(foster, 10),
+    ]);
 
     const now = new Date();
 
-    const approvedWithTransport = approvedRequests
+    // Mapping Foster Interests with transport
+    const approvedInterestsWithTransport = approvedInterests
       .map((interest) => ({
         interest,
         transport: this.getMostRelevantTransport(interest.animal.transports),
       }))
       .filter((item) => item.transport);
 
-    const upcomingArrivals = approvedWithTransport
+    // Combining scheduled foster-requests and approved interests
+    const upcomingArrivalsFromInterests = approvedInterestsWithTransport
       .filter(
         (item) =>
           item.transport &&
@@ -100,29 +166,57 @@ export class FosterAnimalService {
           item.transport.status !== TransportStatus.CANCELLED &&
           item.transport.transPortDate >= now,
       )
-      .sort(
-        (a, b) =>
-          a.transport!.transPortDate.getTime() -
-          b.transport!.transPortDate.getTime(),
-      )
       .map(({ interest, transport }) =>
         this.formatUpcomingArrival(interest, transport!),
       );
 
-    const completedCount = approvedWithTransport.filter(
+    const upcomingArrivalsFromRequests = scheduledRequests
+      .filter(
+        (req) =>
+          req.transport &&
+          req.transport.status !== TransportStatus.COMPLETED &&
+          req.transport.status !== TransportStatus.CANCELLED &&
+          req.transport.transPortDate >= now,
+      )
+      .map((req) => this.formatUpcomingArrivalFromRequest(req));
+
+    // Final merge and sort by transport date
+    const upcomingArrivals = [
+      ...upcomingArrivalsFromInterests,
+      ...upcomingArrivalsFromRequests,
+    ].sort((a, b) => a.tripTime.date.getTime() - b.tripTime.date.getTime());
+
+    const completedInterestsCount = approvedInterestsWithTransport.filter(
       ({ transport }) => transport?.status === TransportStatus.COMPLETED,
     ).length;
+
+    const completedRequestsCount = await this.prisma.client.fosterRequest.count(
+      {
+        where: {
+          fosterUserId: userId,
+          status: FosterRequestStatus.DELIVERED,
+        },
+      },
+    );
 
     return successResponse(
       {
         welcomeName: foster.user.name,
         stats: {
-          myRequests: activeRequestCount,
-          complete: completedCount,
+          myRequests: activeInterestCount + activeRequestCount,
+          complete: completedInterestsCount + completedRequestsCount,
         },
         upcomingArrivals,
-        myRequests: requestPreview.map((interest) =>
-          this.formatRequestItem(interest),
+        myRequests: [
+          ...interestPreview.map((interest) =>
+            this.formatRequestItem(interest),
+          ),
+          ...requestPreview.map((req) =>
+            this.formatRequestItemFromShelter(req),
+          ),
+        ].sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
         ),
         recommendedForYou: recommended,
       },
@@ -238,6 +332,20 @@ export class FosterAnimalService {
       },
     },
     shelter: true,
+  };
+
+  private readonly fosterRequestInclude = {
+    animal: {
+      include: {
+        shelter: true,
+        healthReports: {
+          orderBy: { createdAt: 'desc' as const },
+          take: 1,
+        },
+      },
+    },
+    shelter: true,
+    transport: true,
   };
 
   private animalInclude(fosterId: string) {
@@ -710,6 +818,57 @@ export class FosterAnimalService {
         id: interest.shelter.id,
         name: interest.shelter.name,
       },
+    };
+  }
+
+  private formatUpcomingArrivalFromRequest(request: any) {
+    return {
+      requestId: request.id,
+      animalId: request.animal.id,
+      transportId: request.transport.id,
+      name: request.animal.name,
+      breed: request.animal.breed,
+      gender: request.animal.gender,
+      age: this.formatAge(request.animal.age),
+      imageUrl: request.animal.imageUrl ?? null,
+      status: 'APPROVED',
+      tripTime: {
+        date: request.transport.transPortDate,
+        availableFromTime: request.estimateTransportTimeStart || 'Anytime',
+        availableUntilTime: request.estimateTransportTimeEnd || 'Anytime',
+      },
+      shelter: {
+        id: request.shelter.id,
+        name: request.shelter.name,
+      },
+    };
+  }
+
+  private formatRequestItemFromShelter(request: any) {
+    return {
+      id: request.id,
+      status: request.status.toLowerCase(),
+      createdAt: request.createdAt,
+      estimateTransportDate: request.estimateTransportDate,
+      animal: {
+        id: request.animal.id,
+        name: request.animal.name,
+        breed: request.animal.breed,
+        gender: request.animal.gender,
+        age: this.formatAge(request.animal.age),
+        imageUrl: request.animal.imageUrl ?? null,
+      },
+      shelter: {
+        id: request.shelter.id,
+        name: request.shelter.name,
+        location: request.shelter.address ?? null,
+      },
+      transport: request.transport
+        ? {
+            date: request.transport.transPortDate,
+            status: request.transport.status,
+          }
+        : null,
     };
   }
 
