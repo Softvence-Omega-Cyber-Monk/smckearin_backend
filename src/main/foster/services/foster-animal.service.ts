@@ -1029,7 +1029,11 @@ export class FosterAnimalService {
   }
 
   private getMostRelevantTransport(
-    transports: Array<{ transPortDate: Date; status: TransportStatus }>,
+    transports: Array<{
+      id: string;
+      transPortDate: Date;
+      status: TransportStatus;
+    }>,
   ) {
     if (!transports.length) {
       return null;
@@ -1179,6 +1183,7 @@ export class FosterAnimalService {
       },
       transport: transport
         ? {
+            id: transport.id,
             date: transport.transPortDate,
             status: transport.status,
           }
@@ -1293,6 +1298,7 @@ export class FosterAnimalService {
       },
       transport: request.transport
         ? {
+            id: request.transport.id,
             date: request.transport.transPortDate,
             status: request.transport.status,
           }
