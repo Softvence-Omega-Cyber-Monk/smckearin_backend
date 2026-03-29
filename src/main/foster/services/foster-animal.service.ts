@@ -6,6 +6,7 @@ import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
+import { PaginationDto } from '@/common/dto/pagination.dto';
 import {
   FosterInterestStatus,
   FosterRequestStatus,
@@ -47,8 +48,11 @@ export class FosterAnimalService {
   ) {}
 
   @HandleError('Failed to get foster dashboard')
-  async getDashboard(userId: string) {
+  async getDashboard(userId: string, dto: PaginationDto) {
     const foster = await this.getFosterContext(userId);
+    const page = dto.page && +dto.page > 0 ? +dto.page : 1;
+    const limit = dto.limit && +dto.limit > 0 ? +dto.limit : 5;
+    const skip = (page - 1) * limit;
 
     const [
       activeInterestCount,
@@ -122,7 +126,8 @@ export class FosterAnimalService {
           },
         },
         orderBy: { createdAt: 'desc' },
-        take: 5,
+        take: limit,
+        skip,
         include: this.requestInclude,
       }),
       this.prisma.client.fosterRequest.findMany({
@@ -138,7 +143,8 @@ export class FosterAnimalService {
           },
         },
         orderBy: { createdAt: 'desc' },
-        take: 5,
+        take: limit,
+        skip,
         include: {
           animal: {
             include: {
@@ -236,7 +242,7 @@ export class FosterAnimalService {
     const limit = dto.limit && +dto.limit > 0 ? +dto.limit : 10;
     const skip = (page - 1) * limit;
 
-    const where = this.buildAnimalWhere(dto, foster.id);
+    const where = await this.buildAnimalWhere(dto, foster.id);
 
     const [animals, total] = await this.prisma.client.$transaction([
       this.prisma.client.animal.findMany({
@@ -785,10 +791,10 @@ export class FosterAnimalService {
     return user.fosters as FosterContext;
   }
 
-  private buildAnimalWhere(
+  private async buildAnimalWhere(
     dto: GetFosterAnimalsDto,
     fosterId?: string,
-  ): Prisma.AnimalWhereInput {
+  ): Promise<Prisma.AnimalWhereInput> {
     const where: Prisma.AnimalWhereInput = {
       status: Status.AT_SHELTER,
       shelterId: { not: null },
@@ -803,6 +809,11 @@ export class FosterAnimalService {
     ];
 
     if (fosterId) {
+      const foster = await this.prisma.client.foster.findUnique({
+        where: { id: fosterId },
+        select: { userId: true },
+      });
+
       andFilters.push({
         fosterAnimalInterests: {
           none: {
@@ -816,6 +827,19 @@ export class FosterAnimalService {
           },
         },
       });
+
+      if (foster?.userId) {
+        andFilters.push({
+          fosterRequests: {
+            none: {
+              fosterUserId: foster.userId,
+              status: {
+                not: FosterRequestStatus.CANCELLED,
+              },
+            },
+          },
+        });
+      }
     }
 
     if (dto.search) {
@@ -921,21 +945,44 @@ export class FosterAnimalService {
   }
 
   private async getRecommendedAnimals(foster: FosterContext, limit: number) {
-    const dto: GetFosterAnimalsDto = {
+    const baseDto: GetFosterAnimalsDto = {
       page: 1,
       limit,
       animalTypes: this.mapPreferredAnimalTypes(foster.animalType),
       sizePreferences: this.mapPreferredSizes(foster.sizePreference),
       ageRanges: this.mapPreferredAgeRanges(foster.age),
-      locationSearch: foster.preferredLocation || undefined,
     };
 
-    const animals = await this.prisma.client.animal.findMany({
-      where: this.buildAnimalWhere(dto, foster.id),
+    // First attempt: Strict (including location)
+    let animals = await this.prisma.client.animal.findMany({
+      where: await this.buildAnimalWhere(
+        { ...baseDto, locationSearch: foster.preferredLocation || undefined },
+        foster.id,
+      ),
       take: limit,
       orderBy: [{ priorityScore: 'desc' }, { createdAt: 'desc' }],
       include: this.animalInclude(foster.id),
     });
+
+    // Fallback: Broad (without location if strict returned nothing)
+    if (animals.length === 0) {
+      animals = await this.prisma.client.animal.findMany({
+        where: await this.buildAnimalWhere(baseDto, foster.id),
+        take: limit,
+        orderBy: [{ priorityScore: 'desc' }, { createdAt: 'desc' }],
+        include: this.animalInclude(foster.id),
+      });
+    }
+
+    // Final Fallback: Ultimate (any available animals not requested by this foster)
+    if (animals.length === 0) {
+      animals = await this.prisma.client.animal.findMany({
+        where: await this.buildAnimalWhere({}, foster.id),
+        take: limit,
+        orderBy: [{ priorityScore: 'desc' }, { createdAt: 'desc' }],
+        include: this.animalInclude(foster.id),
+      });
+    }
 
     return animals.map((animal) => this.formatAnimalCard(animal));
   }

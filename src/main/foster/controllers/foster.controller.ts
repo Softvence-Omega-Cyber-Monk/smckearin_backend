@@ -25,6 +25,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { PaginationDto } from '@/common/dto/pagination.dto';
 import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { AppError } from '@/core/error/handle-error.app';
 import {
@@ -254,11 +255,14 @@ export class FosterController {
     return this.manageFosterService.deleteFoster(fosterId);
   }
 
-  @ApiOperation({ summary: 'Get foster home dashboard' })
+  @ApiOperation({ summary: 'Get foster dashboard data' })
   @ValidateFoster()
   @Get('me/dashboard')
-  async getMyDashboard(@GetUser('sub') userId: string) {
-    return this.fosterAnimalService.getDashboard(userId);
+  async getDashboard(
+    @GetUser('sub') userId: string,
+    @Query() dto: PaginationDto,
+  ) {
+    return this.fosterAnimalService.getDashboard(userId, dto);
   }
 
   @ApiOperation({ summary: 'Get animals available for foster placement' })
