@@ -20,22 +20,12 @@ import {
   GetShelterFosterRequestsDto,
   UpdateShelterFosterRequestDto,
 } from '../dto/foster-request.dto';
-
 const ACTIVE_STATUSES: FosterRequestStatus[] = [
   FosterRequestStatus.REQUESTED,
   FosterRequestStatus.INTERESTED,
   FosterRequestStatus.APPROVED,
   FosterRequestStatus.SCHEDULED,
 ];
-
-const STATUS_LABELS: Record<FosterRequestStatus, string> = {
-  REQUESTED: 'Requests',
-  INTERESTED: 'Interested',
-  APPROVED: 'Approved',
-  SCHEDULED: 'Scheduled',
-  DELIVERED: 'Completed',
-  CANCELLED: 'Cancelled',
-};
 
 @Injectable()
 export class ShelterFosterRequestService {
