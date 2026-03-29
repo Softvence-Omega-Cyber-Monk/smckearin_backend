@@ -96,7 +96,15 @@ export class TransportNotificationService extends BaseNotificationService {
         notifType = NotificationType.TRANSPORT_STATUS_UPDATED;
         title = 'Transport Status Updated';
         message = `Transport for ${transport.animal.name} is now ${additionalData.status}.`;
-        recipients = [...shelterTeam, ...(await this.getAdmins())];
+        const fr = await this.prisma.client.fosterRequest.findFirst({
+          where: { transportId },
+          select: { fosterUserId: true },
+        });
+        recipients = [
+          ...shelterTeam,
+          ...(await this.getAdmins()),
+          ...(fr?.fosterUserId ? [fr.fosterUserId] : []),
+        ];
         break;
     }
 

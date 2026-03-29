@@ -528,4 +528,46 @@ export class UserNotificationService extends BaseNotificationService {
       ['emailNotifications'], // Add a specific setting if needed, or stick to defaults
     );
   }
+
+  async notifyFosterInterestEvent(
+    action: 'APPROVED' | 'REJECTED',
+    interestId: string,
+  ) {
+    const interest = await this.prisma.client.fosterAnimalInterest.findUnique({
+      where: { id: interestId },
+      include: {
+        animal: true,
+        foster: {
+          include: { user: true },
+        },
+      },
+    });
+
+    if (!interest) return;
+
+    const notifType =
+      action === 'APPROVED'
+        ? NotificationType.FOSTER_REQUEST_APPROVED // Reuse similar type
+        : NotificationType.FOSTER_REQUEST_DECLINED;
+
+    const title = `Foster Interest ${action === 'APPROVED' ? 'Approved' : 'Rejected'}`;
+    const message = `Your expression of interest in ${interest.animal.name} has been ${action.toLowerCase()}.`;
+
+    await this.createAndEmitNotification(
+      notifType,
+      title,
+      message,
+      [interest.foster.userId],
+      {
+        performedBy: 'SHELTER',
+        recordType: 'FosterAnimalInterest',
+        recordId: interestId,
+        others: {
+          animalName: interest.animal.name,
+          action,
+        },
+      },
+      ['emailNotifications'],
+    );
+  }
 }
