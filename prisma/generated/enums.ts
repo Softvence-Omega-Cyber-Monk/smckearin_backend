@@ -12,7 +12,8 @@
 export const Status = {
   ADOPTED: 'ADOPTED',
   AT_SHELTER: 'AT_SHELTER',
-  IN_TRANSIT: 'IN_TRANSIT'
+  IN_TRANSIT: 'IN_TRANSIT',
+  FOSTERED: 'FOSTERED'
 } as const
 
 export type Status = (typeof Status)[keyof typeof Status]
@@ -141,7 +142,8 @@ export const FosterInterestStatus = {
   INTERESTED: 'INTERESTED',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED',
-  WITHDRAWN: 'WITHDRAWN'
+  WITHDRAWN: 'WITHDRAWN',
+  COMPLETED: 'COMPLETED'
 } as const
 
 export type FosterInterestStatus = (typeof FosterInterestStatus)[keyof typeof FosterInterestStatus]

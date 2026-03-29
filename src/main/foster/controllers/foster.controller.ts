@@ -32,6 +32,7 @@ import {
   GetFosterAnimalsDto,
   GetFosterRequestsDto,
   ReviewFosterInterestDto,
+  ConfirmReceiptDto,
 } from '../dto/foster-animal.dto';
 import {
   CancelShelterFosterRequestDto,
@@ -303,6 +304,41 @@ export class FosterController {
     @Query() dto: GetFosterRequestsDto,
   ) {
     return this.fosterAnimalService.getMyRequests(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get single foster request details' })
+  @ValidateFoster()
+  @Get('me/requests/:requestId')
+  async getMyRequestDetails(
+    @GetUser('sub') userId: string,
+    @Param('requestId') requestId: string,
+  ) {
+    return this.fosterAnimalService.getRequestDetails(userId, requestId);
+  }
+
+  @ApiOperation({ summary: 'Cancel/Withdraw foster request' })
+  @ValidateFoster()
+  @Patch('me/requests/:requestId/cancel')
+  async cancelMyRequest(
+    @GetUser('sub') userId: string,
+    @Param('requestId') requestId: string,
+  ) {
+    return this.fosterAnimalService.cancelRequest(userId, requestId);
+  }
+
+  @ApiOperation({ summary: 'Foster confirm animal receipt' })
+  @ValidateFoster()
+  @ApiConsumes('multipart/form-data')
+  @Post('me/requests/:requestId/confirm')
+  @UseInterceptors(FileInterceptor('proof'))
+  async confirmReceipt(
+    @GetUser('sub') userId: string,
+    @Param('requestId') requestId: string,
+    @Body() dto: ConfirmReceiptDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    dto.proof = file;
+    return this.fosterAnimalService.confirmReceipt(userId, requestId, dto);
   }
 
   @ApiOperation({

@@ -46,8 +46,11 @@ model FosterRequest {
 model ArrivalProof {
   id String @id @default(uuid())
 
-  fosterRequestId String        @unique
-  fosterRequest   FosterRequest @relation(fields: [fosterRequestId], references: [id], onDelete: Cascade)
+  fosterRequestId String?        @unique
+  fosterRequest   FosterRequest? @relation(fields: [fosterRequestId], references: [id], onDelete: Cascade)
+
+  interestId String?               @unique
+  interest   FosterAnimalInterest? @relation(fields: [interestId], references: [id], onDelete: Cascade)
 
   photoId  String?       @unique
   photoUrl String

@@ -3396,6 +3396,7 @@ export const AnimalScalarFieldEnum = {
   shelterId: 'shelterId',
   imageId: 'imageId',
   imageUrl: 'imageUrl',
+  fosteredById: 'fosteredById',
   status: 'status',
   externalAnimalId: 'externalAnimalId',
   intakeType: 'intakeType',
@@ -3580,6 +3581,7 @@ export type FosterRequestScalarFieldEnum = (typeof FosterRequestScalarFieldEnum)
 export const ArrivalProofScalarFieldEnum = {
   id: 'id',
   fosterRequestId: 'fosterRequestId',
+  interestId: 'interestId',
   photoId: 'photoId',
   photoUrl: 'photoUrl',
   notes: 'notes',

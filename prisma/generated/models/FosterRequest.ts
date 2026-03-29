@@ -704,11 +704,6 @@ export type FosterRequestMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type FosterRequestScalarRelationFilter = {
-  is?: Prisma.FosterRequestWhereInput
-  isNot?: Prisma.FosterRequestWhereInput
-}
-
 export type FosterRequestNullableScalarRelationFilter = {
   is?: Prisma.FosterRequestWhereInput | null
   isNot?: Prisma.FosterRequestWhereInput | null
@@ -766,10 +761,12 @@ export type FosterRequestCreateNestedOneWithoutArrivalProofInput = {
   connect?: Prisma.FosterRequestWhereUniqueInput
 }
 
-export type FosterRequestUpdateOneRequiredWithoutArrivalProofNestedInput = {
+export type FosterRequestUpdateOneWithoutArrivalProofNestedInput = {
   create?: Prisma.XOR<Prisma.FosterRequestCreateWithoutArrivalProofInput, Prisma.FosterRequestUncheckedCreateWithoutArrivalProofInput>
   connectOrCreate?: Prisma.FosterRequestCreateOrConnectWithoutArrivalProofInput
   upsert?: Prisma.FosterRequestUpsertWithoutArrivalProofInput
+  disconnect?: Prisma.FosterRequestWhereInput | boolean
+  delete?: Prisma.FosterRequestWhereInput | boolean
   connect?: Prisma.FosterRequestWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.FosterRequestUpdateToOneWithWhereWithoutArrivalProofInput, Prisma.FosterRequestUpdateWithoutArrivalProofInput>, Prisma.FosterRequestUncheckedUpdateWithoutArrivalProofInput>
 }

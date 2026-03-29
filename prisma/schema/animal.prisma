@@ -37,6 +37,9 @@ model Animal {
   fosterAnimalInterests  FosterAnimalInterest[]
   fosterRequests         FosterRequest[]
 
+  fosteredBy   Foster? @relation(fields: [fosteredById], references: [id], onDelete: SetNull)
+  fosteredById String?
+
   // Health Reports
   healthReports HealthReport[]
 
@@ -77,6 +80,7 @@ enum Status {
   ADOPTED
   AT_SHELTER
   IN_TRANSIT
+  FOSTERED
 }
 
 enum QuarantineStatus {

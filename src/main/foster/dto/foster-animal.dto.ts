@@ -157,3 +157,21 @@ export class ReviewFosterInterestDto {
   @IsBoolean()
   approved: boolean;
 }
+
+export class ConfirmReceiptDto {
+  @ApiPropertyOptional({
+    type: 'string',
+    format: 'binary',
+    description: 'Arrival proof photo or video',
+  })
+  @IsOptional()
+  proof?: Express.Multer.File;
+
+  @ApiPropertyOptional({
+    example: 'The dog arrived safely and is very energetic!',
+    description: 'Foster notes on arrival',
+  })
+  @IsOptional()
+  @IsString()
+  notes?: string;
+}

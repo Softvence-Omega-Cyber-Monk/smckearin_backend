@@ -14,12 +14,14 @@ import {
   Status,
   TransportStatus,
 } from '@prisma';
+import { S3Service } from '@/lib/file/services/s3.service';
 import {
   FosterAnimalAgeRangeFilter,
   FosterAnimalSizeFilter,
   GetFosterAnimalsDto,
   GetFosterRequestsDto,
   FosterRequestViewStatus,
+  ConfirmReceiptDto,
 } from '../dto/foster-animal.dto';
 
 type FosterContext = {
@@ -39,7 +41,10 @@ type FosterContext = {
 
 @Injectable()
 export class FosterAnimalService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly s3: S3Service,
+  ) {}
 
   @HandleError('Failed to get foster dashboard')
   async getDashboard(userId: string) {
@@ -315,6 +320,369 @@ export class FosterAnimalService {
       { page, limit, total },
       'Foster requests fetched successfully',
     );
+  }
+
+  @HandleError('Failed to get request details')
+  async getRequestDetails(userId: string, requestId: string) {
+    const foster = await this.getFosterContext(userId);
+
+    // Try finding in Interests first
+    const interest = await this.prisma.client.fosterAnimalInterest.findUnique({
+      where: { id: requestId },
+      include: {
+        animal: {
+          include: {
+            shelter: true,
+            healthReports: {
+              orderBy: { createdAt: 'desc' },
+              take: 1,
+            },
+            transports: {
+              orderBy: { transPortDate: 'desc' },
+              take: 5,
+            },
+          },
+        },
+        shelter: {
+          include: {
+            shelterAdmins: {
+              select: { email: true },
+              take: 1,
+            },
+          },
+        },
+      },
+    });
+
+    if (interest && interest.fosterId === foster.id) {
+      return successResponse(
+        this.formatDetailedInterest(interest),
+        'Interest details fetched successfully',
+      );
+    }
+
+    // Try finding in Shelter-initiated requests
+    const request = await this.prisma.client.fosterRequest.findUnique({
+      where: { id: requestId },
+      include: {
+        animal: {
+          include: {
+            shelter: true,
+            healthReports: {
+              orderBy: { createdAt: 'desc' },
+              take: 1,
+            },
+          },
+        },
+        shelter: {
+          include: {
+            shelterAdmins: {
+              select: { email: true },
+              take: 1,
+            },
+          },
+        },
+        transport: true,
+      },
+    });
+
+    if (request && request.fosterUserId === userId) {
+      return successResponse(
+        this.formatDetailedShelterRequest(request),
+        'Foster request details fetched successfully',
+      );
+    }
+
+    throw new AppError(HttpStatus.NOT_FOUND, 'Foster request not found');
+  }
+
+  @HandleError('Failed to cancel request')
+  async cancelRequest(userId: string, requestId: string) {
+    const foster = await this.getFosterContext(userId);
+
+    // Try finding in Interests first
+    const interest = await this.prisma.client.fosterAnimalInterest.findFirst({
+      where: { id: requestId, fosterId: foster.id },
+    });
+
+    if (interest) {
+      const updated = await this.prisma.client.fosterAnimalInterest.update({
+        where: { id: requestId },
+        data: {
+          status: FosterInterestStatus.WITHDRAWN,
+        },
+      });
+
+      return successResponse(updated, 'Interest withdrawn successfully');
+    }
+
+    // Try finding in Shelter-initiated requests
+    const request = await this.prisma.client.fosterRequest.findFirst({
+      where: { id: requestId, fosterUserId: userId },
+    });
+
+    if (request) {
+      const updated = await this.prisma.client.$transaction(async (tx) => {
+        if (request.transportId) {
+          await tx.transport.update({
+            where: { id: request.transportId },
+            data: { status: TransportStatus.CANCELLED },
+          });
+
+          await tx.transportTimeline.create({
+            data: {
+              transportId: request.transportId,
+              status: TransportStatus.CANCELLED,
+              note: 'Cancelled by foster',
+            },
+          });
+
+          await tx.animal.update({
+            where: { id: request.animalId },
+            data: { status: 'AT_SHELTER' },
+          });
+        }
+
+        return tx.fosterRequest.update({
+          where: { id: requestId },
+          data: {
+            status: FosterRequestStatus.CANCELLED,
+            cancelledAt: new Date(),
+            cancelReason: 'Cancelled by foster',
+          },
+        });
+      });
+
+      return successResponse(updated, 'Request cancelled successfully');
+    }
+
+    throw new AppError(HttpStatus.NOT_FOUND, 'Foster request not found');
+  }
+
+  @HandleError('Failed to confirm animal receipt')
+  async confirmReceipt(
+    userId: string,
+    requestId: string,
+    dto: ConfirmReceiptDto,
+  ) {
+    const foster = await this.getFosterContext(userId);
+
+    // Try finding in Interests first
+    const interest = await this.prisma.client.fosterAnimalInterest.findFirst({
+      where: { id: requestId, fosterId: foster.id },
+      include: {
+        animal: {
+          include: {
+            transports: {
+              where: { status: { not: TransportStatus.CANCELLED } },
+              orderBy: { transPortDate: 'desc' },
+              take: 1,
+            },
+          },
+        },
+      },
+    });
+
+    if (interest) {
+      if (interest.status === FosterInterestStatus.COMPLETED) {
+        throw new AppError(HttpStatus.BAD_REQUEST, 'Receipt already confirmed');
+      }
+
+      return this.prisma.client.$transaction(async (tx) => {
+        if (dto.proof) {
+          const uploaded = await this.s3.uploadFile(dto.proof);
+          await tx.arrivalProof.create({
+            data: {
+              interestId: interest.id,
+              photoId: uploaded.id,
+              photoUrl: uploaded.url,
+              notes: dto.notes,
+            },
+          });
+        }
+
+        const transport = interest.animal.transports[0];
+        if (transport) {
+          await tx.transport.update({
+            where: { id: transport.id },
+            data: {
+              status: TransportStatus.COMPLETED,
+              completedAt: new Date(),
+            },
+          });
+
+          await tx.transportTimeline.create({
+            data: {
+              transportId: transport.id,
+              status: TransportStatus.COMPLETED,
+              note: dto.notes || 'Animal received by foster',
+            },
+          });
+        }
+
+        await tx.animal.update({
+          where: { id: interest.animalId },
+          data: {
+            status: Status.FOSTERED,
+            fosteredById: foster.id,
+          },
+        });
+
+        const updated = await tx.fosterAnimalInterest.update({
+          where: { id: requestId },
+          data: {
+            status: FosterInterestStatus.COMPLETED,
+          },
+        });
+
+        return successResponse(updated, 'Receipt confirmed successfully');
+      });
+    }
+
+    // Try finding in Shelter-initiated requests
+    const request = await this.prisma.client.fosterRequest.findFirst({
+      where: { id: requestId, fosterUserId: userId },
+      include: {
+        animal: true,
+      },
+    });
+
+    if (request) {
+      if (request.status === FosterRequestStatus.DELIVERED) {
+        throw new AppError(HttpStatus.BAD_REQUEST, 'Receipt already confirmed');
+      }
+
+      return this.prisma.client.$transaction(async (tx) => {
+        if (dto.proof) {
+          const uploaded = await this.s3.uploadFile(dto.proof);
+          await tx.arrivalProof.create({
+            data: {
+              fosterRequestId: request.id,
+              photoId: uploaded.id,
+              photoUrl: uploaded.url,
+              notes: dto.notes,
+            },
+          });
+        }
+
+        if (request.transportId) {
+          await tx.transport.update({
+            where: { id: request.transportId },
+            data: {
+              status: TransportStatus.COMPLETED,
+              completedAt: new Date(),
+            },
+          });
+
+          await tx.transportTimeline.create({
+            data: {
+              transportId: request.transportId,
+              status: TransportStatus.COMPLETED,
+              note: dto.notes || 'Animal received by foster',
+            },
+          });
+        }
+
+        await tx.animal.update({
+          where: { id: request.animalId },
+          data: {
+            status: Status.FOSTERED,
+            fosteredById: foster.id,
+          },
+        });
+
+        const updated = await tx.fosterRequest.update({
+          where: { id: requestId },
+          data: {
+            status: FosterRequestStatus.DELIVERED,
+            deliveryTime: new Date(),
+          },
+        });
+
+        return successResponse(updated, 'Receipt confirmed successfully');
+      });
+    }
+
+    throw new AppError(HttpStatus.NOT_FOUND, 'Foster request not found');
+  }
+
+  private formatDetailedInterest(interest: any) {
+    const animal = interest.animal;
+    const latestHealthReport = animal.healthReports[0] ?? null;
+    const transport = this.getMostRelevantTransport(animal.transports);
+    const shelter = interest.shelter;
+    const shelterEmail = shelter?.shelterAdmins?.[0]?.email ?? null;
+
+    return {
+      id: interest.id,
+      type: 'INTEREST',
+      status: interest.status,
+      animal: {
+        id: animal.id,
+        name: animal.name,
+        breed: animal.breed,
+        age: this.formatAge(animal.age),
+        imageUrl: animal.imageUrl,
+        species: animal.species,
+      },
+      requestInformation: {
+        submitted: interest.createdAt,
+        estimatedTransportDate:
+          transport?.transPortDate ?? interest.preferredArrivalDate ?? null,
+      },
+      healthInformation: {
+        spayNeuterDate: null,
+        lastCheckUp: latestHealthReport?.createdAt ?? null,
+        vaccinationsStatus: animal.vaccinationsUpToDate
+          ? 'up to date'
+          : 'unknown',
+      },
+      shelterContact: {
+        name: shelter?.name ?? 'Unknown Shelter',
+        phone: shelter?.phone ?? null,
+        email: shelterEmail,
+      },
+      notes:
+        animal.behaviorNotes || animal.specialNeeds || 'No specific notes.',
+    };
+  }
+
+  private formatDetailedShelterRequest(request: any) {
+    const animal = request.animal;
+    const latestHealthReport = animal.healthReports[0] ?? null;
+    const shelter = request.shelter;
+    const shelterEmail = shelter?.shelterAdmins?.[0]?.email ?? null;
+
+    return {
+      id: request.id,
+      type: 'SHELTER_REQUEST',
+      status: request.status,
+      animal: {
+        id: animal.id,
+        name: animal.name,
+        breed: animal.breed,
+        age: this.formatAge(animal.age),
+        imageUrl: animal.imageUrl,
+        species: animal.species,
+      },
+      requestInformation: {
+        submitted: request.createdAt,
+        estimatedTransportDate: request.estimateTransportDate,
+      },
+      healthInformation: {
+        spayNeuterDate: request.spayNeuterDate ?? null,
+        lastCheckUp:
+          request.lastCheckupDate ?? latestHealthReport?.createdAt ?? null,
+        vaccinationsStatus: request.vaccinationsDate ? 'up to date' : 'unknown',
+      },
+      shelterContact: {
+        name: shelter?.name ?? 'Unknown Shelter',
+        phone: shelter?.phone ?? null,
+        email: shelterEmail,
+      },
+      notes:
+        request.shelterNote || request.petPersonality || 'No specific notes.',
+    };
   }
 
   private readonly requestInclude = {

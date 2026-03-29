@@ -20,6 +20,7 @@ model FosterAnimalInterest {
   status FosterInterestStatus @default(INTERESTED)
   reviewedAt DateTime?
 
+  arrivalProof ArrivalProof?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
@@ -34,4 +35,5 @@ enum FosterInterestStatus {
   APPROVED
   REJECTED
   WITHDRAWN
+  COMPLETED
 }
