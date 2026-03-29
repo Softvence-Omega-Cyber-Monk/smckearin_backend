@@ -71,6 +71,7 @@ export const ModelName = {
   Notification: 'Notification',
   UserNotification: 'UserNotification',
   NotificationSettings: 'NotificationSettings',
+  UserFcmToken: 'UserFcmToken',
   OperationEvent: 'OperationEvent',
   PaymentSettings: 'PaymentSettings',
   PricingRule: 'PricingRule',
@@ -475,6 +476,7 @@ export const NotificationSettingsScalarFieldEnum = {
   userId: 'userId',
   emailNotifications: 'emailNotifications',
   smsNotifications: 'smsNotifications',
+  pushNotifications: 'pushNotifications',
   certificateNotifications: 'certificateNotifications',
   appointmentNotifications: 'appointmentNotifications',
   tripNotifications: 'tripNotifications',
@@ -484,6 +486,18 @@ export const NotificationSettingsScalarFieldEnum = {
 } as const
 
 export type NotificationSettingsScalarFieldEnum = (typeof NotificationSettingsScalarFieldEnum)[keyof typeof NotificationSettingsScalarFieldEnum]
+
+
+export const UserFcmTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  deviceType: 'deviceType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserFcmTokenScalarFieldEnum = (typeof UserFcmTokenScalarFieldEnum)[keyof typeof UserFcmTokenScalarFieldEnum]
 
 
 export const OperationEventScalarFieldEnum = {

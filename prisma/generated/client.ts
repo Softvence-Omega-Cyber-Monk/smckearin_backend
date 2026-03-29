@@ -138,6 +138,11 @@ export type UserNotification = Prisma.UserNotificationModel
  */
 export type NotificationSettings = Prisma.NotificationSettingsModel
 /**
+ * Model UserFcmToken
+ * 
+ */
+export type UserFcmToken = Prisma.UserFcmTokenModel
+/**
  * Model OperationEvent
  * 
  */

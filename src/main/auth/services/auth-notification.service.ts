@@ -15,6 +15,7 @@ type NotificationSettingsView = {
   userId: string;
   emailNotifications: boolean;
   smsNotifications: boolean;
+  pushNotifications: boolean;
   certificateNotifications: boolean;
   appointmentNotifications: boolean;
   tripNotifications: boolean;
@@ -39,8 +40,9 @@ export class AuthNotificationService {
       : {
           id: null,
           userId,
-          emailNotifications: false,
+          emailNotifications: true,
           smsNotifications: false,
+          pushNotifications: true,
           certificateNotifications: false,
           appointmentNotifications: false,
           tripNotifications: false,
@@ -144,6 +146,27 @@ export class AuthNotificationService {
     return successResponse(null, 'All notifications marked as read');
   }
 
+  @HandleError('Failed to register FCM token')
+  async registerFcmToken(
+    userId: string,
+    dto: { token: string; deviceType?: string },
+  ) {
+    await this.prisma.client.userFcmToken.upsert({
+      where: { token: dto.token },
+      create: {
+        userId,
+        token: dto.token,
+        deviceType: dto.deviceType,
+      },
+      update: {
+        userId,
+        deviceType: dto.deviceType,
+      },
+    });
+
+    return successResponse(null, 'FCM token registered');
+  }
+
   private filterSettingsByRole(
     role: UserRole,
     settings: NotificationSettingsView,
@@ -153,6 +176,7 @@ export class AuthNotificationService {
       userId: settings.userId,
       emailNotifications: settings.emailNotifications,
       smsNotifications: settings.smsNotifications,
+      pushNotifications: settings.pushNotifications,
       createdAt: settings.createdAt,
       updatedAt: settings.updatedAt,
     };

@@ -265,6 +265,7 @@ export type UserWhereInput = {
   profilePicture?: Prisma.XOR<Prisma.FileInstanceNullableScalarRelationFilter, Prisma.FileInstanceWhereInput> | null
   notificationSettings?: Prisma.XOR<Prisma.NotificationSettingsNullableScalarRelationFilter, Prisma.NotificationSettingsWhereInput> | null
   notifications?: Prisma.UserNotificationListRelationFilter
+  fcmTokens?: Prisma.UserFcmTokenListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
   otps?: Prisma.UserOtpListRelationFilter
   conversationsInitiated?: Prisma.PrivateConversationListRelationFilter
@@ -300,6 +301,7 @@ export type UserOrderByWithRelationInput = {
   profilePicture?: Prisma.FileInstanceOrderByWithRelationInput
   notificationSettings?: Prisma.NotificationSettingsOrderByWithRelationInput
   notifications?: Prisma.UserNotificationOrderByRelationAggregateInput
+  fcmTokens?: Prisma.UserFcmTokenOrderByRelationAggregateInput
   refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput
   otps?: Prisma.UserOtpOrderByRelationAggregateInput
   conversationsInitiated?: Prisma.PrivateConversationOrderByRelationAggregateInput
@@ -338,6 +340,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   profilePicture?: Prisma.XOR<Prisma.FileInstanceNullableScalarRelationFilter, Prisma.FileInstanceWhereInput> | null
   notificationSettings?: Prisma.XOR<Prisma.NotificationSettingsNullableScalarRelationFilter, Prisma.NotificationSettingsWhereInput> | null
   notifications?: Prisma.UserNotificationListRelationFilter
+  fcmTokens?: Prisma.UserFcmTokenListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
   otps?: Prisma.UserOtpListRelationFilter
   conversationsInitiated?: Prisma.PrivateConversationListRelationFilter
@@ -412,6 +415,7 @@ export type UserCreateInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -446,6 +450,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -476,6 +481,7 @@ export type UserUpdateInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -510,6 +516,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -797,6 +804,20 @@ export type UserUpdateOneRequiredWithoutNotificationSettingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationSettingsInput, Prisma.UserUpdateWithoutNotificationSettingsInput>, Prisma.UserUncheckedUpdateWithoutNotificationSettingsInput>
 }
 
+export type UserCreateNestedOneWithoutFcmTokensInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFcmTokensInput, Prisma.UserUncheckedCreateWithoutFcmTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFcmTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFcmTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFcmTokensInput, Prisma.UserUncheckedCreateWithoutFcmTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFcmTokensInput
+  upsert?: Prisma.UserUpsertWithoutFcmTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFcmTokensInput, Prisma.UserUpdateWithoutFcmTokensInput>, Prisma.UserUncheckedUpdateWithoutFcmTokensInput>
+}
+
 export type UserCreateNestedOneWithoutOperationEventsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutOperationEventsInput, Prisma.UserUncheckedCreateWithoutOperationEventsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutOperationEventsInput
@@ -993,6 +1014,7 @@ export type UserCreateWithoutOtpsInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
@@ -1026,6 +1048,7 @@ export type UserUncheckedCreateWithoutOtpsInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
@@ -1071,6 +1094,7 @@ export type UserUpdateWithoutOtpsInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
@@ -1104,6 +1128,7 @@ export type UserUncheckedUpdateWithoutOtpsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
@@ -1133,6 +1158,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
@@ -1166,6 +1192,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
@@ -1211,6 +1238,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
@@ -1244,6 +1272,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
@@ -1273,6 +1302,7 @@ export type UserCreateWithoutDriversInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -1306,6 +1336,7 @@ export type UserUncheckedCreateWithoutDriversInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -1351,6 +1382,7 @@ export type UserUpdateWithoutDriversInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -1384,6 +1416,7 @@ export type UserUncheckedUpdateWithoutDriversInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -1412,6 +1445,7 @@ export type UserCreateWithoutProfilePictureInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -1445,6 +1479,7 @@ export type UserUncheckedCreateWithoutProfilePictureInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -1490,6 +1525,7 @@ export type UserUpdateWithoutProfilePictureInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -1523,6 +1559,7 @@ export type UserUncheckedUpdateWithoutProfilePictureInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -1553,6 +1590,7 @@ export type UserCreateWithoutFosterRequestsInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -1586,6 +1624,7 @@ export type UserUncheckedCreateWithoutFosterRequestsInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -1631,6 +1670,7 @@ export type UserUpdateWithoutFosterRequestsInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -1664,6 +1704,7 @@ export type UserUncheckedUpdateWithoutFosterRequestsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -1693,6 +1734,7 @@ export type UserCreateWithoutFostersInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -1726,6 +1768,7 @@ export type UserUncheckedCreateWithoutFostersInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -1771,6 +1814,7 @@ export type UserUpdateWithoutFostersInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -1804,6 +1848,7 @@ export type UserUncheckedUpdateWithoutFostersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -1833,6 +1878,7 @@ export type UserCreateWithoutRequestedImportJobsInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -1866,6 +1912,7 @@ export type UserUncheckedCreateWithoutRequestedImportJobsInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -1911,6 +1958,7 @@ export type UserUpdateWithoutRequestedImportJobsInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -1944,6 +1992,7 @@ export type UserUncheckedUpdateWithoutRequestedImportJobsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -1972,6 +2021,7 @@ export type UserCreateWithoutNotificationsInput = {
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -2005,6 +2055,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -2050,6 +2101,7 @@ export type UserUpdateWithoutNotificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -2083,6 +2135,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -2112,6 +2165,7 @@ export type UserCreateWithoutNotificationSettingsInput = {
   updatedAt?: Date | string
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -2145,6 +2199,7 @@ export type UserUncheckedCreateWithoutNotificationSettingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -2190,6 +2245,7 @@ export type UserUpdateWithoutNotificationSettingsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -2223,6 +2279,151 @@ export type UserUncheckedUpdateWithoutNotificationSettingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
+  drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
+  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutFcmTokensInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
+  notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
+  shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
+  managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
+  drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
+  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutFcmTokensInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureId?: string | null
+  profilePictureUrl?: string | null
+  shelterAdminOfId?: string | null
+  managerOfId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
+  drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
+  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutFcmTokensInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFcmTokensInput, Prisma.UserUncheckedCreateWithoutFcmTokensInput>
+}
+
+export type UserUpsertWithoutFcmTokensInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFcmTokensInput, Prisma.UserUncheckedUpdateWithoutFcmTokensInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFcmTokensInput, Prisma.UserUncheckedCreateWithoutFcmTokensInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFcmTokensInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFcmTokensInput, Prisma.UserUncheckedUpdateWithoutFcmTokensInput>
+}
+
+export type UserUpdateWithoutFcmTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
+  notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
+  shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
+  managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
+  drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
+  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFcmTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -2253,6 +2454,7 @@ export type UserCreateWithoutOperationEventsInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -2286,6 +2488,7 @@ export type UserUncheckedCreateWithoutOperationEventsInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -2331,6 +2534,7 @@ export type UserUpdateWithoutOperationEventsInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -2364,6 +2568,7 @@ export type UserUncheckedUpdateWithoutOperationEventsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -2393,6 +2598,7 @@ export type UserCreateWithoutConversationsInitiatedInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
@@ -2426,6 +2632,7 @@ export type UserUncheckedCreateWithoutConversationsInitiatedInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
@@ -2460,6 +2667,7 @@ export type UserCreateWithoutConversationsReceivedInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -2493,6 +2701,7 @@ export type UserUncheckedCreateWithoutConversationsReceivedInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -2538,6 +2747,7 @@ export type UserUpdateWithoutConversationsInitiatedInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
@@ -2571,6 +2781,7 @@ export type UserUncheckedUpdateWithoutConversationsInitiatedInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
@@ -2611,6 +2822,7 @@ export type UserUpdateWithoutConversationsReceivedInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -2644,6 +2856,7 @@ export type UserUncheckedUpdateWithoutConversationsReceivedInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -2673,6 +2886,7 @@ export type UserCreateWithoutMessagesSentInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -2706,6 +2920,7 @@ export type UserUncheckedCreateWithoutMessagesSentInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -2751,6 +2966,7 @@ export type UserUpdateWithoutMessagesSentInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -2784,6 +3000,7 @@ export type UserUncheckedUpdateWithoutMessagesSentInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -2813,6 +3030,7 @@ export type UserCreateWithoutMessageStatusesInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -2846,6 +3064,7 @@ export type UserUncheckedCreateWithoutMessageStatusesInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -2891,6 +3110,7 @@ export type UserUpdateWithoutMessageStatusesInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -2924,6 +3144,7 @@ export type UserUncheckedUpdateWithoutMessageStatusesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -2953,6 +3174,7 @@ export type UserCreateWithoutShelterAdminOfInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -2985,6 +3207,7 @@ export type UserUncheckedCreateWithoutShelterAdminOfInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -3025,6 +3248,7 @@ export type UserCreateWithoutManagerOfInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -3057,6 +3281,7 @@ export type UserUncheckedCreateWithoutManagerOfInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -3150,6 +3375,7 @@ export type UserCreateWithoutVeterinariansInput = {
   profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
   notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
@@ -3183,6 +3409,7 @@ export type UserUncheckedCreateWithoutVeterinariansInput = {
   updatedAt?: Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
   notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
@@ -3228,6 +3455,7 @@ export type UserUpdateWithoutVeterinariansInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -3261,6 +3489,7 @@ export type UserUncheckedUpdateWithoutVeterinariansInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -3324,6 +3553,7 @@ export type UserUpdateWithoutShelterAdminOfInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -3356,6 +3586,7 @@ export type UserUncheckedUpdateWithoutShelterAdminOfInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -3403,6 +3634,7 @@ export type UserUpdateWithoutManagerOfInput = {
   profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
   notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
@@ -3435,6 +3667,7 @@ export type UserUncheckedUpdateWithoutManagerOfInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
   notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
   conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
@@ -3473,6 +3706,7 @@ export type UserUncheckedUpdateManyWithoutManagerOfInput = {
 
 export type UserCountOutputType = {
   notifications: number
+  fcmTokens: number
   refreshTokens: number
   otps: number
   conversationsInitiated: number
@@ -3486,6 +3720,7 @@ export type UserCountOutputType = {
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+  fcmTokens?: boolean | UserCountOutputTypeCountFcmTokensArgs
   refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
   otps?: boolean | UserCountOutputTypeCountOtpsArgs
   conversationsInitiated?: boolean | UserCountOutputTypeCountConversationsInitiatedArgs
@@ -3512,6 +3747,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UserNotificationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountFcmTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserFcmTokenWhereInput
 }
 
 /**
@@ -3597,6 +3839,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   profilePicture?: boolean | Prisma.User$profilePictureArgs<ExtArgs>
   notificationSettings?: boolean | Prisma.User$notificationSettingsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  fcmTokens?: boolean | Prisma.User$fcmTokensArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
   otps?: boolean | Prisma.User$otpsArgs<ExtArgs>
   conversationsInitiated?: boolean | Prisma.User$conversationsInitiatedArgs<ExtArgs>
@@ -3679,6 +3922,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   profilePicture?: boolean | Prisma.User$profilePictureArgs<ExtArgs>
   notificationSettings?: boolean | Prisma.User$notificationSettingsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
+  fcmTokens?: boolean | Prisma.User$fcmTokensArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
   otps?: boolean | Prisma.User$otpsArgs<ExtArgs>
   conversationsInitiated?: boolean | Prisma.User$conversationsInitiatedArgs<ExtArgs>
@@ -3712,6 +3956,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     profilePicture: Prisma.$FileInstancePayload<ExtArgs> | null
     notificationSettings: Prisma.$NotificationSettingsPayload<ExtArgs> | null
     notifications: Prisma.$UserNotificationPayload<ExtArgs>[]
+    fcmTokens: Prisma.$UserFcmTokenPayload<ExtArgs>[]
     refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
     otps: Prisma.$UserOtpPayload<ExtArgs>[]
     conversationsInitiated: Prisma.$PrivateConversationPayload<ExtArgs>[]
@@ -4140,6 +4385,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   profilePicture<T extends Prisma.User$profilePictureArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$profilePictureArgs<ExtArgs>>): Prisma.Prisma__FileInstanceClient<runtime.Types.Result.GetResult<Prisma.$FileInstancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   notificationSettings<T extends Prisma.User$notificationSettingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationSettingsArgs<ExtArgs>>): Prisma.Prisma__NotificationSettingsClient<runtime.Types.Result.GetResult<Prisma.$NotificationSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  fcmTokens<T extends Prisma.User$fcmTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fcmTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserFcmTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   refreshTokens<T extends Prisma.User$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   otps<T extends Prisma.User$otpsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$otpsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserOtpPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversationsInitiated<T extends Prisma.User$conversationsInitiatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationsInitiatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrivateConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4653,6 +4899,30 @@ export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.UserNotificationScalarFieldEnum | Prisma.UserNotificationScalarFieldEnum[]
+}
+
+/**
+ * User.fcmTokens
+ */
+export type User$fcmTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserFcmToken
+   */
+  select?: Prisma.UserFcmTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserFcmToken
+   */
+  omit?: Prisma.UserFcmTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserFcmTokenInclude<ExtArgs> | null
+  where?: Prisma.UserFcmTokenWhereInput
+  orderBy?: Prisma.UserFcmTokenOrderByWithRelationInput | Prisma.UserFcmTokenOrderByWithRelationInput[]
+  cursor?: Prisma.UserFcmTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserFcmTokenScalarFieldEnum | Prisma.UserFcmTokenScalarFieldEnum[]
 }
 
 /**

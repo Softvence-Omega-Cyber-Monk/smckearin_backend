@@ -23,6 +23,7 @@ model User {
   // Notifications
   notificationSettings NotificationSettings?
   notifications        UserNotification[]
+  fcmTokens            UserFcmToken[]
 
   // Authentication
   refreshTokens RefreshToken[]

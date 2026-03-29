@@ -44,6 +44,20 @@ export class AuthLoginService {
       },
     });
 
+    // Save FCM token if provided
+    if (dto.fcmToken) {
+      await this.prisma.client.userFcmToken.upsert({
+        where: { token: dto.fcmToken },
+        create: {
+          token: dto.fcmToken,
+          userId: user.id,
+        },
+        update: {
+          userId: user.id,
+        },
+      });
+    }
+
     // Generate token
     const token = await this.utils.generateTokenPairAndSave({
       email,

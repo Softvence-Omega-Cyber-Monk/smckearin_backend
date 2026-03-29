@@ -43,6 +43,7 @@ model NotificationSettings {
   // Global settings (all users)
   emailNotifications Boolean @default(true)
   smsNotifications   Boolean @default(false)
+  pushNotifications  Boolean @default(true)
 
   // Shelter admin / Manager / Vet
   certificateNotifications Boolean @default(false)
@@ -56,4 +57,16 @@ model NotificationSettings {
   updatedAt DateTime @default(now()) @updatedAt
 
   @@map("notification_settings")
+}
+
+model UserFcmToken {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  deviceType String? // optional
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("user_fcm_tokens")
 }

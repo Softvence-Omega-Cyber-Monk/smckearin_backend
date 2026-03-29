@@ -4,6 +4,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { NotificationType } from '../enums/notification-types.enum';
 import { NotificationPayload } from '../interface/queue.payload';
 import { QueueGateway } from '../queue.gateway';
+import { FirebaseService } from '@/lib/firebase/firebase.service';
 
 @Injectable()
 export class BaseNotificationService {
@@ -12,6 +13,7 @@ export class BaseNotificationService {
   constructor(
     protected readonly prisma: PrismaService,
     protected readonly queueGateway: QueueGateway,
+    protected readonly firebaseService: FirebaseService,
   ) {}
 
   // ==================== HELPER METHODS ====================
@@ -102,7 +104,7 @@ export class BaseNotificationService {
       meta,
     };
 
-    // Send to each recipient
+    // Send via WebSocket (QueueGateway)
     for (const userId of validRecipients) {
       try {
         await this.queueGateway.notifySingleUser(
@@ -112,9 +114,49 @@ export class BaseNotificationService {
         );
       } catch (error) {
         this.logger.error(
-          `Failed to send notification to user ${userId}:`,
+          `Failed to send websocket notification to user ${userId}:`,
           error,
         );
+      }
+    }
+
+    // Send via Firebase Push (FCM)
+    const pushRecipients = await Promise.all(
+      validRecipients.map(async (userId) => {
+        const canSendPush = await this.checkNotificationSettings(userId, [
+          'pushNotifications',
+        ]);
+        return canSendPush ? userId : null;
+      }),
+    );
+
+    const pushTargetIds = pushRecipients.filter(
+      (id) => id !== null,
+    ) as string[];
+
+    if (pushTargetIds.length > 0 && this.firebaseService.isConfigured()) {
+      const fcmTokens = await this.prisma.client.userFcmToken.findMany({
+        where: { userId: { in: pushTargetIds } },
+        select: { token: true },
+      });
+
+      const tokens = fcmTokens.map((t) => t.token);
+
+      if (tokens.length > 0) {
+        try {
+          await this.firebaseService.sendToTokens(tokens, {
+            title,
+            body: message,
+            data: {
+              ...(meta || {}),
+              type: String(type),
+              createdAt: payload.createdAt.toISOString(),
+            },
+          });
+          this.logger.log(`FCM push sent to ${tokens.length} tokens`);
+        } catch (error) {
+          this.logger.error('Failed to send FCM push notification:', error);
+        }
       }
     }
 

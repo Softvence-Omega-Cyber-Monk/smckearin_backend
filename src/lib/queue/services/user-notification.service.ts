@@ -3,14 +3,16 @@ import { Injectable } from '@nestjs/common';
 import { NotificationType } from '../enums/notification-types.enum';
 import { QueueGateway } from '../queue.gateway';
 import { BaseNotificationService } from './base-notification.service';
+import { FirebaseService } from '@/lib/firebase/firebase.service';
 
 @Injectable()
 export class UserNotificationService extends BaseNotificationService {
   constructor(
     protected readonly prisma: PrismaService,
     protected readonly queueGateway: QueueGateway,
+    protected readonly firebaseService: FirebaseService,
   ) {
-    super(prisma, queueGateway);
+    super(prisma, queueGateway, firebaseService);
   }
 
   // ==================== USER REGISTRATION ====================
@@ -490,6 +492,40 @@ export class UserNotificationService extends BaseNotificationService {
         },
       },
       settingKeys,
+    );
+  }
+
+  async notifyNewMessage(
+    sender: { id: string; name: string },
+    recipients: string[],
+    payload: {
+      conversationId: string;
+      content: string;
+      transportId?: string;
+    },
+  ) {
+    const title = `New message from ${sender.name}`;
+    const message =
+      payload.content.length > 100
+        ? `${payload.content.substring(0, 97)}...`
+        : payload.content;
+
+    await this.createAndEmitNotification(
+      NotificationType.MESSAGE_RECEIVED,
+      title,
+      message,
+      recipients,
+      {
+        performedBy: sender.id,
+        recordType: 'Message',
+        recordId: payload.conversationId,
+        others: {
+          senderName: sender.name,
+          conversationId: payload.conversationId,
+          transportId: payload.transportId,
+        },
+      },
+      ['emailNotifications'], // Add a specific setting if needed, or stick to defaults
     );
   }
 }

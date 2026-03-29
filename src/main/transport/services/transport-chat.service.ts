@@ -18,6 +18,7 @@ import {
   MarkTransportChatReadDto,
   SendTransportChatMessageDto,
 } from '../dto/transport-chat.dto';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 
 type ChatUserContext = {
   id: string;
@@ -27,7 +28,10 @@ type ChatUserContext = {
 
 @Injectable()
 export class TransportChatService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly userNotificationService: UserNotificationService,
+  ) {}
 
   @HandleError('Failed to get transport chat list', 'TransportChat')
   async getMyTransportChats(userId: string, dto: GetTransportChatMessagesDto) {
@@ -279,6 +283,16 @@ export class TransportChatService {
       where: { id: conversation.id },
       data: { lastMessageId: message.id },
     });
+
+    await this.userNotificationService.notifyNewMessage(
+      { id: user.id, name: message.sender.name },
+      recipients,
+      {
+        conversationId: conversation.id,
+        content: message.content || 'File attachment',
+        transportId: conversation.transportId || undefined,
+      },
+    );
 
     return successResponse(
       {
