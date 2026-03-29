@@ -231,7 +231,7 @@ export class FosterAnimalService {
     const limit = dto.limit && +dto.limit > 0 ? +dto.limit : 10;
     const skip = (page - 1) * limit;
 
-    const where = this.buildAnimalWhere(dto);
+    const where = this.buildAnimalWhere(dto, foster.id);
 
     const [animals, total] = await this.prisma.client.$transaction([
       this.prisma.client.animal.findMany({
@@ -417,7 +417,10 @@ export class FosterAnimalService {
     return user.fosters as FosterContext;
   }
 
-  private buildAnimalWhere(dto: GetFosterAnimalsDto): Prisma.AnimalWhereInput {
+  private buildAnimalWhere(
+    dto: GetFosterAnimalsDto,
+    fosterId?: string,
+  ): Prisma.AnimalWhereInput {
     const where: Prisma.AnimalWhereInput = {
       status: Status.AT_SHELTER,
       shelterId: { not: null },
@@ -430,6 +433,22 @@ export class FosterAnimalService {
         },
       },
     ];
+
+    if (fosterId) {
+      andFilters.push({
+        fosterAnimalInterests: {
+          none: {
+            fosterId,
+            status: {
+              in: [
+                FosterInterestStatus.INTERESTED,
+                FosterInterestStatus.APPROVED,
+              ],
+            },
+          },
+        },
+      });
+    }
 
     if (dto.search) {
       where.OR = [
@@ -544,20 +563,7 @@ export class FosterAnimalService {
     };
 
     const animals = await this.prisma.client.animal.findMany({
-      where: {
-        ...this.buildAnimalWhere(dto),
-        fosterAnimalInterests: {
-          none: {
-            fosterId: foster.id,
-            status: {
-              in: [
-                FosterInterestStatus.INTERESTED,
-                FosterInterestStatus.APPROVED,
-              ],
-            },
-          },
-        },
-      },
+      where: this.buildAnimalWhere(dto, foster.id),
       take: limit,
       orderBy: [{ priorityScore: 'desc' }, { createdAt: 'desc' }],
       include: this.animalInclude(foster.id),
