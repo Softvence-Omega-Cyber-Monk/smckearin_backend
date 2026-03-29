@@ -868,6 +868,8 @@ export class ShelterFosterRequestService {
         : null,
       location,
       requestedAt: request.requestedAt,
+      cancelledAt: request.cancelledAt ?? null,
+      cancelReason: request.cancelReason ?? null,
       fosterNote: null,
       transportTime:
         request.status === FosterRequestStatus.SCHEDULED &&

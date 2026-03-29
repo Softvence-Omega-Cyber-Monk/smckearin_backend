@@ -688,6 +688,8 @@ export class FosterAnimalService {
       },
       notes:
         request.shelterNote || request.petPersonality || 'No specific notes.',
+      cancelledAt: request.cancelledAt ?? null,
+      cancelReason: request.cancelReason ?? null,
     };
   }
 
@@ -1270,6 +1272,8 @@ export class FosterAnimalService {
       id: request.id,
       status: request.status.toLowerCase(),
       createdAt: request.createdAt,
+      cancelledAt: request.cancelledAt ?? null,
+      cancelReason: request.cancelReason ?? null,
       estimateTransportDate: request.estimateTransportDate,
       animal: {
         id: request.animal.id,
