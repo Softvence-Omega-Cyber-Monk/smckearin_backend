@@ -36,6 +36,7 @@ export type FosterAnimalInterestMinAggregateOutputType = {
   receivingPhone: string | null
   status: $Enums.FosterInterestStatus | null
   reviewedAt: Date | null
+  cancelledAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,6 +53,7 @@ export type FosterAnimalInterestMaxAggregateOutputType = {
   receivingPhone: string | null
   status: $Enums.FosterInterestStatus | null
   reviewedAt: Date | null
+  cancelledAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -68,6 +70,7 @@ export type FosterAnimalInterestCountAggregateOutputType = {
   receivingPhone: number
   status: number
   reviewedAt: number
+  cancelledAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -86,6 +89,7 @@ export type FosterAnimalInterestMinAggregateInputType = {
   receivingPhone?: true
   status?: true
   reviewedAt?: true
+  cancelledAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -102,6 +106,7 @@ export type FosterAnimalInterestMaxAggregateInputType = {
   receivingPhone?: true
   status?: true
   reviewedAt?: true
+  cancelledAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -118,6 +123,7 @@ export type FosterAnimalInterestCountAggregateInputType = {
   receivingPhone?: true
   status?: true
   reviewedAt?: true
+  cancelledAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -207,6 +213,7 @@ export type FosterAnimalInterestGroupByOutputType = {
   receivingPhone: string
   status: $Enums.FosterInterestStatus
   reviewedAt: Date | null
+  cancelledAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: FosterAnimalInterestCountAggregateOutputType | null
@@ -244,6 +251,7 @@ export type FosterAnimalInterestWhereInput = {
   receivingPhone?: Prisma.StringFilter<"FosterAnimalInterest"> | string
   status?: Prisma.EnumFosterInterestStatusFilter<"FosterAnimalInterest"> | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.DateTimeNullableFilter<"FosterAnimalInterest"> | Date | string | null
+  cancelledAt?: Prisma.DateTimeNullableFilter<"FosterAnimalInterest"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"FosterAnimalInterest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FosterAnimalInterest"> | Date | string
   foster?: Prisma.XOR<Prisma.FosterScalarRelationFilter, Prisma.FosterWhereInput>
@@ -264,6 +272,7 @@ export type FosterAnimalInterestOrderByWithRelationInput = {
   receivingPhone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   foster?: Prisma.FosterOrderByWithRelationInput
@@ -287,6 +296,7 @@ export type FosterAnimalInterestWhereUniqueInput = Prisma.AtLeast<{
   receivingPhone?: Prisma.StringFilter<"FosterAnimalInterest"> | string
   status?: Prisma.EnumFosterInterestStatusFilter<"FosterAnimalInterest"> | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.DateTimeNullableFilter<"FosterAnimalInterest"> | Date | string | null
+  cancelledAt?: Prisma.DateTimeNullableFilter<"FosterAnimalInterest"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"FosterAnimalInterest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FosterAnimalInterest"> | Date | string
   foster?: Prisma.XOR<Prisma.FosterScalarRelationFilter, Prisma.FosterWhereInput>
@@ -307,6 +317,7 @@ export type FosterAnimalInterestOrderByWithAggregationInput = {
   receivingPhone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reviewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.FosterAnimalInterestCountOrderByAggregateInput
@@ -329,6 +340,7 @@ export type FosterAnimalInterestScalarWhereWithAggregatesInput = {
   receivingPhone?: Prisma.StringWithAggregatesFilter<"FosterAnimalInterest"> | string
   status?: Prisma.EnumFosterInterestStatusWithAggregatesFilter<"FosterAnimalInterest"> | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FosterAnimalInterest"> | Date | string | null
+  cancelledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"FosterAnimalInterest"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"FosterAnimalInterest"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"FosterAnimalInterest"> | Date | string
 }
@@ -342,6 +354,7 @@ export type FosterAnimalInterestCreateInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   foster: Prisma.FosterCreateNestedOneWithoutFosterAnimalInterestsInput
@@ -362,6 +375,7 @@ export type FosterAnimalInterestUncheckedCreateInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutInterestInput
@@ -376,6 +390,7 @@ export type FosterAnimalInterestUpdateInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   foster?: Prisma.FosterUpdateOneRequiredWithoutFosterAnimalInterestsNestedInput
@@ -396,6 +411,7 @@ export type FosterAnimalInterestUncheckedUpdateInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutInterestNestedInput
@@ -413,6 +429,7 @@ export type FosterAnimalInterestCreateManyInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -426,6 +443,7 @@ export type FosterAnimalInterestUpdateManyMutationInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -442,6 +460,7 @@ export type FosterAnimalInterestUncheckedUpdateManyInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -468,6 +487,7 @@ export type FosterAnimalInterestCountOrderByAggregateInput = {
   receivingPhone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reviewedAt?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -484,6 +504,7 @@ export type FosterAnimalInterestMaxOrderByAggregateInput = {
   receivingPhone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reviewedAt?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -500,6 +521,7 @@ export type FosterAnimalInterestMinOrderByAggregateInput = {
   receivingPhone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   reviewedAt?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -664,6 +686,7 @@ export type FosterAnimalInterestCreateWithoutAnimalInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   foster: Prisma.FosterCreateNestedOneWithoutFosterAnimalInterestsInput
@@ -682,6 +705,7 @@ export type FosterAnimalInterestUncheckedCreateWithoutAnimalInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutInterestInput
@@ -728,6 +752,7 @@ export type FosterAnimalInterestScalarWhereInput = {
   receivingPhone?: Prisma.StringFilter<"FosterAnimalInterest"> | string
   status?: Prisma.EnumFosterInterestStatusFilter<"FosterAnimalInterest"> | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.DateTimeNullableFilter<"FosterAnimalInterest"> | Date | string | null
+  cancelledAt?: Prisma.DateTimeNullableFilter<"FosterAnimalInterest"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"FosterAnimalInterest"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FosterAnimalInterest"> | Date | string
 }
@@ -741,6 +766,7 @@ export type FosterAnimalInterestCreateWithoutArrivalProofInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   foster: Prisma.FosterCreateNestedOneWithoutFosterAnimalInterestsInput
@@ -760,6 +786,7 @@ export type FosterAnimalInterestUncheckedCreateWithoutArrivalProofInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -789,6 +816,7 @@ export type FosterAnimalInterestUpdateWithoutArrivalProofInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   foster?: Prisma.FosterUpdateOneRequiredWithoutFosterAnimalInterestsNestedInput
@@ -808,6 +836,7 @@ export type FosterAnimalInterestUncheckedUpdateWithoutArrivalProofInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -821,6 +850,7 @@ export type FosterAnimalInterestCreateWithoutFosterInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   animal: Prisma.AnimalCreateNestedOneWithoutFosterAnimalInterestsInput
@@ -839,6 +869,7 @@ export type FosterAnimalInterestUncheckedCreateWithoutFosterInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutInterestInput
@@ -879,6 +910,7 @@ export type FosterAnimalInterestCreateWithoutShelterInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   foster: Prisma.FosterCreateNestedOneWithoutFosterAnimalInterestsInput
@@ -897,6 +929,7 @@ export type FosterAnimalInterestUncheckedCreateWithoutShelterInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   arrivalProof?: Prisma.ArrivalProofUncheckedCreateNestedOneWithoutInterestInput
@@ -939,6 +972,7 @@ export type FosterAnimalInterestCreateManyAnimalInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -952,6 +986,7 @@ export type FosterAnimalInterestUpdateWithoutAnimalInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   foster?: Prisma.FosterUpdateOneRequiredWithoutFosterAnimalInterestsNestedInput
@@ -970,6 +1005,7 @@ export type FosterAnimalInterestUncheckedUpdateWithoutAnimalInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutInterestNestedInput
@@ -986,6 +1022,7 @@ export type FosterAnimalInterestUncheckedUpdateManyWithoutAnimalInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1001,6 +1038,7 @@ export type FosterAnimalInterestCreateManyFosterInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1014,6 +1052,7 @@ export type FosterAnimalInterestUpdateWithoutFosterInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   animal?: Prisma.AnimalUpdateOneRequiredWithoutFosterAnimalInterestsNestedInput
@@ -1032,6 +1071,7 @@ export type FosterAnimalInterestUncheckedUpdateWithoutFosterInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutInterestNestedInput
@@ -1048,6 +1088,7 @@ export type FosterAnimalInterestUncheckedUpdateManyWithoutFosterInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1063,6 +1104,7 @@ export type FosterAnimalInterestCreateManyShelterInput = {
   receivingPhone: string
   status?: $Enums.FosterInterestStatus
   reviewedAt?: Date | string | null
+  cancelledAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1076,6 +1118,7 @@ export type FosterAnimalInterestUpdateWithoutShelterInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   foster?: Prisma.FosterUpdateOneRequiredWithoutFosterAnimalInterestsNestedInput
@@ -1094,6 +1137,7 @@ export type FosterAnimalInterestUncheckedUpdateWithoutShelterInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   arrivalProof?: Prisma.ArrivalProofUncheckedUpdateOneWithoutInterestNestedInput
@@ -1110,6 +1154,7 @@ export type FosterAnimalInterestUncheckedUpdateManyWithoutShelterInput = {
   receivingPhone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFosterInterestStatusFieldUpdateOperationsInput | $Enums.FosterInterestStatus
   reviewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1128,6 +1173,7 @@ export type FosterAnimalInterestSelect<ExtArgs extends runtime.Types.Extensions.
   receivingPhone?: boolean
   status?: boolean
   reviewedAt?: boolean
+  cancelledAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   foster?: boolean | Prisma.FosterDefaultArgs<ExtArgs>
@@ -1148,6 +1194,7 @@ export type FosterAnimalInterestSelectCreateManyAndReturn<ExtArgs extends runtim
   receivingPhone?: boolean
   status?: boolean
   reviewedAt?: boolean
+  cancelledAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   foster?: boolean | Prisma.FosterDefaultArgs<ExtArgs>
@@ -1167,6 +1214,7 @@ export type FosterAnimalInterestSelectUpdateManyAndReturn<ExtArgs extends runtim
   receivingPhone?: boolean
   status?: boolean
   reviewedAt?: boolean
+  cancelledAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   foster?: boolean | Prisma.FosterDefaultArgs<ExtArgs>
@@ -1186,11 +1234,12 @@ export type FosterAnimalInterestSelectScalar = {
   receivingPhone?: boolean
   status?: boolean
   reviewedAt?: boolean
+  cancelledAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type FosterAnimalInterestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fosterId" | "animalId" | "shelterId" | "preferredArrivalDate" | "availableFromTime" | "availableUntilTime" | "receivingAddress" | "receivingPhone" | "status" | "reviewedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["fosterAnimalInterest"]>
+export type FosterAnimalInterestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fosterId" | "animalId" | "shelterId" | "preferredArrivalDate" | "availableFromTime" | "availableUntilTime" | "receivingAddress" | "receivingPhone" | "status" | "reviewedAt" | "cancelledAt" | "createdAt" | "updatedAt", ExtArgs["result"]["fosterAnimalInterest"]>
 export type FosterAnimalInterestInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   foster?: boolean | Prisma.FosterDefaultArgs<ExtArgs>
   animal?: boolean | Prisma.AnimalDefaultArgs<ExtArgs>
@@ -1228,6 +1277,7 @@ export type $FosterAnimalInterestPayload<ExtArgs extends runtime.Types.Extension
     receivingPhone: string
     status: $Enums.FosterInterestStatus
     reviewedAt: Date | null
+    cancelledAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["fosterAnimalInterest"]>
@@ -1668,6 +1718,7 @@ export interface FosterAnimalInterestFieldRefs {
   readonly receivingPhone: Prisma.FieldRef<"FosterAnimalInterest", 'String'>
   readonly status: Prisma.FieldRef<"FosterAnimalInterest", 'FosterInterestStatus'>
   readonly reviewedAt: Prisma.FieldRef<"FosterAnimalInterest", 'DateTime'>
+  readonly cancelledAt: Prisma.FieldRef<"FosterAnimalInterest", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"FosterAnimalInterest", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"FosterAnimalInterest", 'DateTime'>
 }

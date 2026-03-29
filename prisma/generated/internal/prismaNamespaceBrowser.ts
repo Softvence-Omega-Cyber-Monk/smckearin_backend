@@ -284,6 +284,7 @@ export const FosterAnimalInterestScalarFieldEnum = {
   receivingPhone: 'receivingPhone',
   status: 'status',
   reviewedAt: 'reviewedAt',
+  cancelledAt: 'cancelledAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

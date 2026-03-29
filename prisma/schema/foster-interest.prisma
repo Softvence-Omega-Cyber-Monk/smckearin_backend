@@ -18,7 +18,8 @@ model FosterAnimalInterest {
   receivingPhone   String
 
   status FosterInterestStatus @default(INTERESTED)
-  reviewedAt DateTime?
+  reviewedAt  DateTime?
+  cancelledAt DateTime?
 
   arrivalProof ArrivalProof?
   createdAt DateTime @default(now())

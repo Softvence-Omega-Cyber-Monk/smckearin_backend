@@ -416,6 +416,7 @@ export class FosterAnimalService {
         where: { id: requestId },
         data: {
           status: FosterInterestStatus.WITHDRAWN,
+          cancelledAt: new Date(),
         },
       });
 
@@ -650,6 +651,7 @@ export class FosterAnimalService {
       },
       notes:
         animal.behaviorNotes || animal.specialNeeds || 'No specific notes.',
+      cancelledAt: interest.cancelledAt ?? null,
     };
   }
 
@@ -1157,6 +1159,7 @@ export class FosterAnimalService {
       status,
       interestStatus: interest.status,
       reviewedAt: interest.reviewedAt ?? null,
+      cancelledAt: interest.cancelledAt ?? null,
       createdAt: interest.createdAt,
       preferredArrivalDate: interest.preferredArrivalDate ?? null,
       availableFromTime: interest.availableFromTime,

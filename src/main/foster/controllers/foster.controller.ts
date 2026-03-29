@@ -89,6 +89,22 @@ export class FosterController {
     );
   }
 
+  @ApiOperation({ summary: 'Get shelter foster placement statistics' })
+  @ValidateManager()
+  @Get('shelter/placement-stats')
+  async getFosterPlacementStats(@GetUser('sub') userId: string) {
+    return this.shelterFosterRequestService.getFosterPlacementStats(userId);
+  }
+
+  @ApiOperation({ summary: 'Get recently completed foster placements' })
+  @ValidateManager()
+  @Get('shelter/recently-completed')
+  async getShelterRecentlyCompleted(@GetUser('sub') userId: string) {
+    return this.shelterFosterRequestService.getShelterRecentlyCompletedPlacements(
+      userId,
+    );
+  }
+
   @ApiOperation({ summary: 'Create shelter foster request (shelter only)' })
   @ValidateManager()
   @Post()
