@@ -196,15 +196,13 @@ export class MessageService {
       );
     }
 
-    // update last message if type TEXT
-    if (type === 'TEXT') {
-      await this.prisma.client.privateConversation.update({
-        where: { id: conversationId },
-        data: {
-          lastMessageId: message.id,
-        },
-      });
-    }
+    // update last message for all types
+    await this.prisma.client.privateConversation.update({
+      where: { id: conversationId },
+      data: {
+        lastMessageId: message.id,
+      },
+    });
 
     return senderPayload;
   }

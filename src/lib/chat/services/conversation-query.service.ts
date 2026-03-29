@@ -280,7 +280,7 @@ export class ConversationQueryService {
         id: vet.id,
         name: vet.name,
         type: ContactType.VET,
-        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        lastMessage: this.formatLastMessage(conv?.lastMessage),
         lastMessageAt: conv?.updatedAt || null,
         isActive: this.chatGateway.isOnline(vet.id),
         conversationId: conv?.id || null,
@@ -387,7 +387,7 @@ export class ConversationQueryService {
         id: driver.id,
         name: driver.name,
         type: ContactType.DRIVER,
-        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        lastMessage: this.formatLastMessage(conv?.lastMessage),
         lastMessageAt: conv?.updatedAt || null,
         isActive: this.chatGateway.isOnline(driver.id),
         conversationId: conv?.id || null,
@@ -472,7 +472,7 @@ export class ConversationQueryService {
         id: shelter.id,
         name: shelter.name,
         type: ContactType.SHELTER,
-        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        lastMessage: this.formatLastMessage(conv?.lastMessage),
         lastMessageAt: conv?.updatedAt || null,
         isActive: isTeamActive,
         conversationId: conv?.id || null,
@@ -577,7 +577,7 @@ export class ConversationQueryService {
         id: foster.id,
         name: foster.name,
         type: ContactType.FOSTER,
-        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        lastMessage: this.formatLastMessage(conv?.lastMessage),
         lastMessageAt: conv?.updatedAt || null,
         isActive: this.chatGateway.isOnline(foster.id),
         conversationId: conv?.id || null,
@@ -595,6 +595,26 @@ export class ConversationQueryService {
     // Only return contacts with an existing conversation
     const filtered = list.filter((c) => c.conversationId !== null);
     return { list: filtered, total: filtered.length };
+  }
+
+  /** ---------------- Helper: Format last message preview ---------------- */
+  private formatLastMessage(message: any): string {
+    if (!message) return 'No message yet';
+
+    switch (message.type) {
+      case 'IMAGE':
+        return '📷 Image';
+      case 'VIDEO':
+        return '🎥 Video';
+      case 'AUDIO':
+        return '🎵 Audio';
+      case 'FILE':
+        return '📄 File';
+      case 'VOICE':
+        return '🎤 Voice Message';
+      default:
+        return message.content || '';
+    }
   }
 
   /** ---------------- Helper: Generate default avatar URL based on name ---------------- */
