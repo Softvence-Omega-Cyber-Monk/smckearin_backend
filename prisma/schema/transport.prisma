@@ -73,6 +73,7 @@ enum PriorityLevel {
 
 enum TransportStatus {
   PENDING
+  SCHEDULED
   ACCEPTED
   CANCELLED
   PICKED_UP

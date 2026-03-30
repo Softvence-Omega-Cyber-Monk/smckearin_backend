@@ -277,6 +277,7 @@ export type PriorityLevel = (typeof PriorityLevel)[keyof typeof PriorityLevel]
 
 export const TransportStatus = {
   PENDING: 'PENDING',
+  SCHEDULED: 'SCHEDULED',
   ACCEPTED: 'ACCEPTED',
   CANCELLED: 'CANCELLED',
   PICKED_UP: 'PICKED_UP',

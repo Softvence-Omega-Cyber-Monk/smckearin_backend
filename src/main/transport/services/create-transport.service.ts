@@ -219,6 +219,7 @@ export class CreateTransportService {
         vetClearanceType: dto.vetClearanceType ?? RequiredVetClearanceType.No,
 
         vetClearanceRequestId,
+        status: TransportStatus.SCHEDULED,
       },
     });
 
@@ -232,8 +233,8 @@ export class CreateTransportService {
     await this.prisma.client.transportTimeline.create({
       data: {
         transportId: transport.id,
-        status: 'PENDING',
-        note: 'Transport created',
+        status: TransportStatus.SCHEDULED,
+        note: 'Transport created (Scheduled)',
         latitude: dto.pickUpLatitude,
         longitude: dto.pickUpLongitude,
       },

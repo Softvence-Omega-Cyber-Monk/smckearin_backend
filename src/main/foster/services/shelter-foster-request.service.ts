@@ -107,8 +107,15 @@ export class ShelterFosterRequestService {
           return status === 'REQUESTED' && !item.interestId;
         case 'INTERESTED':
           return status === 'INTERESTED' || interestStatus === 'INTERESTED';
-        case 'APPROVED':
-          return status === 'APPROVED' || interestStatus === 'APPROVED';
+        case 'APPROVED': {
+          const isApproved =
+            status === 'APPROVED' || interestStatus === 'APPROVED';
+          const isScheduled =
+            status === 'SCHEDULED' ||
+            status === 'PICKED_UP' ||
+            status === 'IN_TRANSIT';
+          return isApproved && !isScheduled;
+        }
         case 'SCHEDULED':
           return (
             status === 'SCHEDULED' ||
@@ -606,7 +613,7 @@ export class ShelterFosterRequestService {
           animals: { connect: { id: request.animalId } },
           driverId: dto.driverId,
           shelterId: request.shelterId,
-          status: TransportStatus.PENDING,
+          status: TransportStatus.SCHEDULED,
           vehicleName: dto.vehicleName,
         },
       });
@@ -614,7 +621,7 @@ export class ShelterFosterRequestService {
       await tx.transportTimeline.create({
         data: {
           transportId: transport.id,
-          status: TransportStatus.PENDING,
+          status: TransportStatus.SCHEDULED,
           note: 'Foster transport scheduled',
           latitude: pickup.lat,
           longitude: pickup.lng,
