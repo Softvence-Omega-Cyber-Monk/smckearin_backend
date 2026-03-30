@@ -1259,6 +1259,10 @@ export class FosterAnimalService {
       return FosterRequestViewStatus.CANCELLED;
     }
 
+    if (interest.status === FosterInterestStatus.COMPLETED) {
+      return FosterRequestViewStatus.COMPLETED;
+    }
+
     if (interest.status === FosterInterestStatus.APPROVED) {
       return FosterRequestViewStatus.APPROVED;
     }
