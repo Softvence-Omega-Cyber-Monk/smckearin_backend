@@ -116,7 +116,11 @@ export class ShelterFosterRequestService {
             status === 'IN_TRANSIT'
           );
         case 'COMPLETED':
-          return status === 'DELIVERED' || interestStatus === 'COMPLETED';
+          return (
+            status === 'DELIVERED' ||
+            status === 'COMPLETED' ||
+            interestStatus === 'COMPLETED'
+          );
         case 'CANCELLED':
           return (
             status === 'CANCELLED' ||
@@ -166,7 +170,9 @@ export class ShelterFosterRequestService {
     const requests = await this.prisma.client.fosterRequest.findMany({
       where: {
         shelterId,
-        status: FosterRequestStatus.DELIVERED,
+        status: {
+          in: [FosterRequestStatus.DELIVERED, FosterRequestStatus.COMPLETED],
+        },
       },
       take: 5,
       orderBy: { deliveryTime: 'desc' },
@@ -214,6 +220,7 @@ export class ShelterFosterRequestService {
       approved: 0,
       scheduled: 0,
       delivered: 0,
+      completed: 0,
       cancelled: 0,
     };
 
@@ -290,11 +297,35 @@ export class ShelterFosterRequestService {
 
   @HandleError('Failed to get foster request')
   async getShelterFosterRequest(userId: string, fosterRequestId: string) {
-    const request = await this.getOwnedRequest(userId, fosterRequestId);
-    return successResponse(
-      await this.formatDetail(request),
-      'Foster request fetched successfully',
-    );
+    const shelterId = await this.getShelterId(userId);
+
+    // Try finding in Requests table first
+    const request = await this.prisma.client.fosterRequest.findFirst({
+      where: { id: fosterRequestId, shelterId },
+      include: this.detailInclude,
+    });
+
+    if (request) {
+      return successResponse(
+        await this.formatDetail(request),
+        'Foster request fetched successfully',
+      );
+    }
+
+    // Try finding in Interest table
+    const interest = await this.prisma.client.fosterAnimalInterest.findFirst({
+      where: { id: fosterRequestId, shelterId },
+      include: this.listInterestInclude,
+    });
+
+    if (interest) {
+      return successResponse(
+        this.formatInterestListItem(interest),
+        'Foster interest fetched successfully',
+      );
+    }
+
+    throw new AppError(HttpStatus.NOT_FOUND, 'Foster record not found');
   }
 
   @HandleError('Failed to update foster request')
@@ -873,7 +904,7 @@ export class ShelterFosterRequestService {
       approved: FosterRequestStatus.APPROVED,
       scheduled: FosterRequestStatus.SCHEDULED,
       delivered: FosterRequestStatus.DELIVERED,
-      completed: FosterRequestStatus.DELIVERED,
+      completed: FosterRequestStatus.COMPLETED,
       cancelled: FosterRequestStatus.CANCELLED,
     };
 
@@ -894,11 +925,13 @@ export class ShelterFosterRequestService {
       | 'approved'
       | 'scheduled'
       | 'delivered'
+      | 'completed'
       | 'cancelled';
   }
 
   private toDisplayStatus(status: FosterRequestStatus) {
-    return status === FosterRequestStatus.DELIVERED
+    return status === FosterRequestStatus.DELIVERED ||
+      status === FosterRequestStatus.COMPLETED
       ? 'completed'
       : this.toClientStatus(status);
   }
