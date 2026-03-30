@@ -1199,6 +1199,7 @@ export class ShelterFosterRequestService {
       APPROVED: ['create_transport', 'message'],
       SCHEDULED: ['track_transport', 'message_foster', 'message_driver'],
       DELIVERED: ['message_foster', 'message_driver'],
+      COMPLETED: ['message_foster', 'message_driver'],
       CANCELLED: [],
     };
 

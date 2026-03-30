@@ -71,5 +71,6 @@ enum FosterRequestStatus {
   APPROVED
   SCHEDULED
   DELIVERED
+  COMPLETED
   CANCELLED
 }

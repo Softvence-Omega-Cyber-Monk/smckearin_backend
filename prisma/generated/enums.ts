@@ -155,6 +155,7 @@ export const FosterRequestStatus = {
   APPROVED: 'APPROVED',
   SCHEDULED: 'SCHEDULED',
   DELIVERED: 'DELIVERED',
+  COMPLETED: 'COMPLETED',
   CANCELLED: 'CANCELLED'
 } as const
 

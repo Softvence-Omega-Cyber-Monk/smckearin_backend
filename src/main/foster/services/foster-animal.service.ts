@@ -205,7 +205,7 @@ export class FosterAnimalService {
       {
         where: {
           fosterUserId: userId,
-          status: FosterRequestStatus.DELIVERED,
+          status: FosterRequestStatus.COMPLETED,
         },
       },
     );
@@ -601,7 +601,7 @@ export class FosterAnimalService {
         const updated = await tx.fosterRequest.update({
           where: { id: requestId },
           data: {
-            status: FosterRequestStatus.DELIVERED,
+            status: FosterRequestStatus.COMPLETED,
             deliveryTime: new Date(),
           },
         });
