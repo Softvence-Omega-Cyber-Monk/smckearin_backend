@@ -2,9 +2,10 @@ import {
   successPaginatedResponse,
   successResponse,
 } from '@/common/utils/response.util';
+import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { ApprovalStatus, Foster, Prisma, User } from '@prisma';
 import { GetApprovedFosters, GetFostersDto } from '../dto/get-fosters.dto';
 
@@ -78,7 +79,8 @@ export class GetFosterService {
 
   @HandleError('Failed to get single foster')
   async getSingleFoster(fosterId: string) {
-    const foster = await this.prisma.client.foster.findUniqueOrThrow({
+    // 1. Check if it's a direct Foster ID
+    const foster = await this.prisma.client.foster.findUnique({
       where: { id: fosterId },
       include: {
         user: {
@@ -89,7 +91,63 @@ export class GetFosterService {
       },
     });
 
-    return successResponse(this.flattenFoster(foster), 'Foster found');
+    if (foster) {
+      return successResponse(this.flattenFoster(foster), 'Foster found');
+    }
+
+    // 2. Check if it's a FosterAnimalInterest ID
+    const interest = await this.prisma.client.fosterAnimalInterest.findUnique({
+      where: { id: fosterId },
+      include: {
+        foster: {
+          include: {
+            user: {
+              include: {
+                profilePicture: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (interest?.foster) {
+      return successResponse(
+        this.flattenFoster(interest.foster as any),
+        'Foster found',
+      );
+    }
+
+    // 3. Check if it's a FosterRequest ID
+    const request = await this.prisma.client.fosterRequest.findUnique({
+      where: { id: fosterId },
+      include: {
+        fosterUser: {
+          include: {
+            fosters: {
+              include: {
+                user: {
+                  include: {
+                    profilePicture: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (request?.fosterUser?.fosters) {
+      // In FosterRequest, fosterUser is a User, so we need to adjust flattening
+      // but request.fosterUser.fosters should have the foster profile
+      return successResponse(
+        this.flattenFoster(request.fosterUser.fosters as any),
+        'Foster found',
+      );
+    }
+
+    throw new AppError(HttpStatus.NOT_FOUND, 'Foster record not found');
   }
 
   @HandleError('Failed to get own foster documents')

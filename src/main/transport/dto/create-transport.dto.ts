@@ -111,8 +111,9 @@ export class CreateTransportDto {
     description: 'Whether the animal is part of a bonded pair',
     example: false,
   })
+  @IsOptional()
   @IsBoolean()
-  isBondedPair: boolean;
+  isBondedPair?: boolean;
 
   @ApiPropertyOptional({
     description: 'Bonded pair animal ID (required if isBondedPair is true)',

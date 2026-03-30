@@ -1,3 +1,5 @@
+import { PaginationDto } from '@/common/dto/pagination.dto';
+import { AppError } from '@/core/error/handle-error.app';
 import {
   GetUser,
   ValidateAdmin,
@@ -5,6 +7,7 @@ import {
   ValidateFoster,
   ValidateManager,
 } from '@/core/jwt/jwt.decorator';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
 import {
   Body,
   Controller,
@@ -25,15 +28,12 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { PaginationDto } from '@/common/dto/pagination.dto';
-import { JWTPayload } from '@/core/jwt/jwt.interface';
-import { AppError } from '@/core/error/handle-error.app';
 import {
+  ConfirmReceiptDto,
   CreateFosterAnimalInterestDto,
   GetFosterAnimalsDto,
   GetFosterRequestsDto,
   ReviewFosterInterestDto,
-  ConfirmReceiptDto,
 } from '../dto/foster-animal.dto';
 import {
   CancelShelterFosterRequestDto,
@@ -78,6 +78,12 @@ export class FosterController {
       userId,
       dto,
     );
+  }
+
+  @ApiOperation({ summary: 'Get single foster by id' })
+  @Get('foster/:fosterId')
+  async getSingleFoster(@Param('fosterId') fosterId: string) {
+    return this.fosterService.getSingleFoster(fosterId);
   }
 
   @ApiOperation({ summary: 'Get shelter foster request counts by status' })
@@ -246,12 +252,6 @@ export class FosterController {
       userId,
       fosterRequestId,
     );
-  }
-
-  @ApiOperation({ summary: 'Get single foster by id' })
-  @Get('foster/:fosterId')
-  async getSingleFoster(@Param('fosterId') fosterId: string) {
-    return this.fosterService.getSingleFoster(fosterId);
   }
 
   @ApiOperation({ summary: 'Approve or reject foster (admin only)' })
