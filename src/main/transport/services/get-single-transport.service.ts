@@ -38,6 +38,7 @@ export class GetSingleTransportService {
         breed: a.breed,
         gender: a.gender,
         status: a.status,
+        photo: a.imageUrl,
       })),
 
       // Bonded pair
@@ -49,6 +50,7 @@ export class GetSingleTransportService {
             breed: transport.bondedPair.breed,
             gender: transport.bondedPair.gender,
             status: transport.bondedPair.status,
+            photo: transport.bondedPair.imageUrl,
           }
         : null,
 

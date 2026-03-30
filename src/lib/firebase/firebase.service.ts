@@ -51,7 +51,9 @@ export class FirebaseService implements OnModuleInit {
       const required = require('firebase-admin') as FirebaseAdminLike;
       this.admin = required;
 
-      const privateKey = privateKeyRaw.replace(/\\n/g, '\n');
+      const privateKey = privateKeyRaw
+        .replace(/^"|"$/g, '')
+        .replace(/\\n/g, '\n');
 
       this.firebaseApp =
         required.apps.length > 0
@@ -122,13 +124,25 @@ export class FirebaseService implements OnModuleInit {
       return null;
     }
 
-    return this.admin.messaging(this.firebaseApp).sendEachForMulticast({
-      tokens,
-      notification: {
-        title: payload.title,
-        body: payload.body,
-      },
-      data: payload.data,
-    });
+    this.logger.log(
+      `Sending multicast FCM message to ${tokens.length} tokens...`,
+    );
+    const response = await this.admin
+      .messaging(this.firebaseApp)
+      .sendEachForMulticast({
+        tokens,
+        notification: {
+          title: payload.title,
+          body: payload.body,
+        },
+        data: payload.data,
+      });
+
+    this.logger.log(
+      `FCM multicast sent. Success: ${
+        (response as any).successCount
+      }, Failure: ${(response as any).failureCount}`,
+    );
+    return response;
   }
 }
