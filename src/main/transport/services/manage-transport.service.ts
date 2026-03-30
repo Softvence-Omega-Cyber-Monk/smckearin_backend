@@ -451,6 +451,10 @@ export class ManageTransportService {
 
     // Validate Status Transition
     const allowedTransitions: Record<TransportStatus, TransportStatus[]> = {
+      [TransportStatus.SCHEDULED]: [
+        TransportStatus.ACCEPTED,
+        TransportStatus.CANCELLED,
+      ],
       [TransportStatus.ACCEPTED]: [
         TransportStatus.PICKED_UP,
         TransportStatus.CANCELLED,
@@ -461,6 +465,7 @@ export class ManageTransportService {
       ],
       [TransportStatus.IN_TRANSIT]: [TransportStatus.COMPLETED],
       [TransportStatus.PENDING]: [
+        TransportStatus.SCHEDULED,
         TransportStatus.ACCEPTED,
         TransportStatus.CANCELLED,
       ],

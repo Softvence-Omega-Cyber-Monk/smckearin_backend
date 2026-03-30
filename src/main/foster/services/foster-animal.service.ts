@@ -1244,6 +1244,7 @@ export class FosterAnimalService {
       transport &&
       [
         TransportStatus.PENDING,
+        TransportStatus.SCHEDULED,
         TransportStatus.ACCEPTED,
         TransportStatus.PICKED_UP,
         TransportStatus.IN_TRANSIT,
