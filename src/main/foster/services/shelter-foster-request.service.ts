@@ -1168,6 +1168,7 @@ export class ShelterFosterRequestService {
       status: this.toClientStatus(request.status),
       displayStatus: this.toDisplayStatus(request.status),
       availableActions: this.getAvailableActions(request.status),
+      transportId: request.transportId ?? request.transport?.id ?? null,
       animal: request.animal
         ? {
             id: request.animal.id,
