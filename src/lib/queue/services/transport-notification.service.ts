@@ -41,7 +41,11 @@ export class TransportNotificationService extends BaseNotificationService {
     let title: string;
     let message: string;
     let recipients: string[] = [];
-    const settings: string[] = ['tripNotifications', 'emailNotifications'];
+    const settings: string[] = [
+      'tripNotifications',
+      'emailNotifications',
+      'pushNotifications',
+    ];
 
     const shelterTeam = [
       ...(transport.shelter?.shelterAdmins.map((a) => a.id) || []),

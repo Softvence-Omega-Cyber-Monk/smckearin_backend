@@ -35,6 +35,7 @@ export class DocumentNotificationService extends BaseNotificationService {
     const settings: string[] = [
       'emailNotifications',
       'certificateNotifications',
+      'pushNotifications',
     ];
 
     if (eventType.includes('SHELTER')) {

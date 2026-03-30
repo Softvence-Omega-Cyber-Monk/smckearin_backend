@@ -53,7 +53,7 @@ export class UserNotificationService extends BaseNotificationService {
         recordId: entityId,
         others: { userId: user.id, userName: user.name, userEmail: user.email },
       },
-      ['emailNotifications'],
+      ['emailNotifications', 'pushNotifications'],
     );
   }
 
@@ -115,7 +115,7 @@ export class UserNotificationService extends BaseNotificationService {
           oldRole,
         },
       },
-      ['emailNotifications'],
+      ['emailNotifications', 'pushNotifications'],
     );
 
     // Also notify the affected member
@@ -133,7 +133,7 @@ export class UserNotificationService extends BaseNotificationService {
           recordId: member.id,
           others: { shelterId, shelterName: shelter.name, newRole, oldRole },
         },
-        ['emailNotifications'],
+        ['emailNotifications', 'pushNotifications'],
       );
     }
   }
@@ -184,7 +184,7 @@ export class UserNotificationService extends BaseNotificationService {
           oldRole,
         },
       },
-      ['emailNotifications'],
+      ['emailNotifications', 'pushNotifications'],
     );
 
     // Also notify the affected admin
@@ -202,7 +202,7 @@ export class UserNotificationService extends BaseNotificationService {
           recordId: admin.id,
           others: { newRole, oldRole },
         },
-        ['emailNotifications'],
+        ['emailNotifications', 'pushNotifications'],
       );
     }
   }
@@ -248,7 +248,7 @@ export class UserNotificationService extends BaseNotificationService {
           recordId: entityId,
           others: { shelterName: entity.name, approved },
         },
-        ['emailNotifications'],
+        ['emailNotifications', 'pushNotifications'],
       );
       return;
     } else if (entityType === 'DRIVER') {
@@ -302,7 +302,7 @@ export class UserNotificationService extends BaseNotificationService {
         recordId: entityId,
         others: { approved },
       },
-      ['emailNotifications'],
+      ['emailNotifications', 'pushNotifications'],
     );
   }
 
@@ -356,7 +356,7 @@ export class UserNotificationService extends BaseNotificationService {
         recordId: type === 'SHELTER' ? details.shelterId : userId,
         others: { name: details.name, email: details.email },
       },
-      ['emailNotifications'],
+      ['emailNotifications', 'pushNotifications'],
     );
   }
 
@@ -400,7 +400,11 @@ export class UserNotificationService extends BaseNotificationService {
     let title: string;
     let message: string;
     let recipients: string[] = [];
-    const settingKeys = ['tripNotifications', 'emailNotifications'];
+    const settingKeys = [
+      'tripNotifications',
+      'emailNotifications',
+      'pushNotifications',
+    ];
 
     switch (action) {
       case 'CREATED':
@@ -525,7 +529,7 @@ export class UserNotificationService extends BaseNotificationService {
           transportId: payload.transportId,
         },
       },
-      ['emailNotifications'], // Add a specific setting if needed, or stick to defaults
+      ['emailNotifications', 'pushNotifications'], // Add a specific setting if needed, or stick to defaults
     );
   }
 
@@ -567,7 +571,7 @@ export class UserNotificationService extends BaseNotificationService {
           action,
         },
       },
-      ['emailNotifications'],
+      ['emailNotifications', 'pushNotifications'],
     );
   }
 }

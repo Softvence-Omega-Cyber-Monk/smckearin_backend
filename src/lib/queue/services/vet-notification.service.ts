@@ -48,6 +48,7 @@ export class VetNotificationService extends BaseNotificationService {
     const settings: string[] = [
       'emailNotifications',
       'certificateNotifications',
+      'pushNotifications',
     ];
 
     if (eventType === 'STATUS_CHANGED') {
@@ -132,6 +133,7 @@ export class VetNotificationService extends BaseNotificationService {
     const settings: string[] = [
       'appointmentNotifications',
       'emailNotifications',
+      'pushNotifications',
     ];
 
     switch (eventType) {
@@ -233,6 +235,7 @@ export class VetNotificationService extends BaseNotificationService {
     const settings: string[] = [
       'emailNotifications',
       'certificateNotifications',
+      'pushNotifications',
     ];
 
     switch (eventType) {

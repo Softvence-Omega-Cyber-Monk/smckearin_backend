@@ -93,6 +93,8 @@ export class GetTransportService {
       transportDate: t.transPortDate,
       transportTime: t.transPortTime,
       shelterName: t.shelter?.name ?? null,
+      animalPhotos: t.animals.map((a: any) => a.imageUrl) || [],
+      bondedPairPhoto: t.bondedPair?.imageUrl ?? null,
     };
   }
 
