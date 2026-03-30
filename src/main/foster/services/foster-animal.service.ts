@@ -1,12 +1,13 @@
+import { PaginationDto } from '@/common/dto/pagination.dto';
 import {
   successPaginatedResponse,
   successResponse,
 } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
+import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { PaginationDto } from '@/common/dto/pagination.dto';
 import {
   FosterInterestStatus,
   FosterRequestStatus,
@@ -15,14 +16,13 @@ import {
   Status,
   TransportStatus,
 } from '@prisma';
-import { S3Service } from '@/lib/file/services/s3.service';
 import {
+  ConfirmReceiptDto,
   FosterAnimalAgeRangeFilter,
   FosterAnimalSizeFilter,
+  FosterRequestViewStatus,
   GetFosterAnimalsDto,
   GetFosterRequestsDto,
-  FosterRequestViewStatus,
-  ConfirmReceiptDto,
 } from '../dto/foster-animal.dto';
 
 type FosterContext = {
@@ -291,31 +291,68 @@ export class FosterAnimalService {
     const foster = await this.getFosterContext(userId);
     const page = dto.page && +dto.page > 0 ? +dto.page : 1;
     const limit = dto.limit && +dto.limit > 0 ? +dto.limit : 10;
-    const where: Prisma.FosterAnimalInterestWhereInput = {
-      fosterId: foster.id,
-      status: {
-        in: [
-          FosterInterestStatus.INTERESTED,
-          FosterInterestStatus.APPROVED,
-          FosterInterestStatus.REJECTED,
-          FosterInterestStatus.WITHDRAWN,
-        ],
-      },
-    };
 
+    // 1. Fetch Interests
     const interests = await this.prisma.client.fosterAnimalInterest.findMany({
-      where,
+      where: {
+        fosterId: foster.id,
+        status: {
+          in: [
+            FosterInterestStatus.INTERESTED,
+            FosterInterestStatus.APPROVED,
+            FosterInterestStatus.REJECTED,
+            FosterInterestStatus.WITHDRAWN,
+            FosterInterestStatus.COMPLETED,
+          ],
+        },
+      },
       orderBy: { createdAt: 'desc' },
       include: this.requestInclude,
     });
 
-    const mappedRequests = interests.map((interest) =>
+    // 2. Fetch Shelter-initiated Requests
+    const requests = await this.prisma.client.fosterRequest.findMany({
+      where: {
+        fosterUserId: userId,
+        status: {
+          in: [
+            FosterRequestStatus.REQUESTED,
+            FosterRequestStatus.INTERESTED,
+            FosterRequestStatus.APPROVED,
+            FosterRequestStatus.SCHEDULED,
+            FosterRequestStatus.COMPLETED,
+            FosterRequestStatus.CANCELLED,
+          ],
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      include: this.fosterRequestInclude,
+    });
+
+    // 3. Map and Combine
+    const mappedInterests = interests.map((interest) =>
       this.formatRequestItem(interest),
     );
 
-    const filteredRequests = dto.status
-      ? mappedRequests.filter((request) => request.status === dto.status)
-      : mappedRequests;
+    const mappedShelterRequests = requests.map((req) =>
+      this.formatRequestItemFromShelter(req),
+    );
+
+    const combinedRequests = [
+      ...mappedInterests,
+      ...mappedShelterRequests,
+    ].sort(
+      (a: any, b: any) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+
+    // 4. Filter by status if provided
+    const statusFilter = dto.status?.toUpperCase();
+    const filteredRequests = statusFilter
+      ? combinedRequests.filter(
+          (request: any) => request.status?.toUpperCase() === statusFilter,
+        )
+      : combinedRequests;
 
     const total = filteredRequests.length;
     const skip = (page - 1) * limit;
@@ -1278,7 +1315,8 @@ export class FosterAnimalService {
   private formatRequestItemFromShelter(request: any) {
     return {
       id: request.id,
-      status: request.status.toLowerCase(),
+      status: request.status,
+      interestStatus: null,
       createdAt: request.createdAt,
       cancelledAt: request.cancelledAt ?? null,
       cancelReason: request.cancelReason ?? null,
