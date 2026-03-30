@@ -107,21 +107,16 @@ export class GetFosterService {
       where: { id },
       include: {
         animal: {
-          select: {
-            id: true,
-            name: true,
-            imageUrl: true,
-            species: true,
-            gender: true,
+          include: {
+            image: true,
+            shelter: true,
           },
         },
         foster: {
           include: {
             user: {
-              select: {
-                id: true,
-                name: true,
-                profilePictureUrl: true,
+              include: {
+                profilePicture: true,
               },
             },
           },
@@ -129,9 +124,9 @@ export class GetFosterService {
       },
     });
 
-    if (interest?.foster) {
+    if (interest) {
       return successResponse(
-        this.formatInterestListItem(interest),
+        this.formatInterestDetail(interest),
         'Foster found',
       );
     }
@@ -141,39 +136,34 @@ export class GetFosterService {
       where: { id },
       include: {
         animal: {
-          select: {
-            id: true,
-            name: true,
-            imageUrl: true,
-            species: true,
-            gender: true,
+          include: {
+            image: true,
+            shelter: true,
           },
         },
         fosterUser: {
-          select: {
-            id: true,
-            name: true,
-            profilePictureUrl: true,
-            fosters: {
-              select: {
-                city: true,
-                state: true,
-              },
-            },
+          include: {
+            profilePicture: true,
+            fosters: true,
           },
         },
         transport: {
-          select: {
-            id: true,
-            status: true,
-            transPortDate: true,
+          include: {
+            driver: {
+              include: {
+                user: true,
+              },
+            },
+            transportTimelines: {
+              orderBy: { createdAt: 'desc' },
+            },
           },
         },
       },
     });
 
     if (request) {
-      return successResponse(this.formatListItem(request), 'Foster found');
+      return successResponse(this.formatDetail(request), 'Foster found');
     }
 
     throw new AppError(HttpStatus.NOT_FOUND, 'Foster record not found');
@@ -202,7 +192,7 @@ export class GetFosterService {
     return successResponse(document, 'Foster document found');
   }
 
-  private formatListItem(request: any) {
+  private formatDetail(request: any) {
     const status = this.toClientStatus(request.status);
     const location =
       request.fosterUser?.fosters?.city && request.fosterUser?.fosters?.state
@@ -221,8 +211,22 @@ export class GetFosterService {
             photo: request.animal.imageUrl,
             type: request.animal.species,
             gender: request.animal.gender,
+            age: request.animal.age || 'Unknown',
+            weight: request.animal.weight || 'Unknown',
+            size: request.animal.size || 'medium',
           }
         : null,
+      healthInfo: {
+        spayNeuterAvailable: request.spayNeuterAvailable,
+        spayNeuterDate: request.spayNeuterDate,
+        spayNeuterNextDate: request.spayNeuterNextDate,
+        lastCheckupDate: request.lastCheckupDate,
+        vaccinationsDate: request.vaccinationsDate,
+      },
+      petPersonality: request.petPersonality || request.animal?.behaviorNotes,
+      specialNote: request.shelterNote,
+      shelterName: request.animal?.shelter?.name || 'Unknown',
+      estimateTransportDate: request.estimateTransportDate,
       fosterUser: request.fosterUser
         ? {
             id: request.fosterUser.id,
@@ -236,11 +240,10 @@ export class GetFosterService {
       ),
       createdAt: request.requestedAt || request.createdAt,
       cancelledAt: request.cancelledAt ?? null,
-      note: request.shelterNote || request.petPersonality || null,
     };
   }
 
-  private formatInterestListItem(interest: any) {
+  private formatInterestDetail(interest: any) {
     const status = interest.status.toLowerCase();
     const location =
       interest.foster?.city && interest.foster?.state
@@ -260,8 +263,22 @@ export class GetFosterService {
             photo: interest.animal.imageUrl,
             type: interest.animal.species,
             gender: interest.animal.gender,
+            age: interest.animal.age || 'Unknown',
+            weight: interest.animal.weight || 'Unknown',
+            size: interest.animal.size || 'medium',
           }
         : null,
+      healthInfo: {
+        spayNeuterAvailable: interest.animal?.spayNeuterStatus === 'YES',
+        spayNeuterDate: null,
+        spayNeuterNextDate: null,
+        lastCheckupDate: null,
+        vaccinationsDate: null,
+      },
+      petPersonality: interest.animal?.behaviorNotes,
+      specialNote: interest.animal?.specialNeeds,
+      shelterName: interest.animal?.shelter?.name || 'Unknown',
+      estimateTransportDate: interest.preferredArrivalDate,
       fosterUser: interest.foster?.user
         ? {
             id: interest.foster.user.id,
@@ -273,8 +290,6 @@ export class GetFosterService {
       requestedAt: this.formatDateTime(interest.createdAt),
       createdAt: interest.createdAt,
       cancelledAt: interest.cancelledAt ?? null,
-      note:
-        interest.animal?.behaviorNotes || interest.animal?.specialNeeds || null,
     };
   }
 
