@@ -125,8 +125,49 @@ export class GetFosterService {
     });
 
     if (interest) {
+      let previousHistory: any[] = [];
+      if (interest.foster?.userId) {
+        const previous = await this.prisma.client.fosterRequest.findMany({
+          where: {
+            fosterUserId: interest.foster.userId,
+            status: {
+              in: [
+                FosterRequestStatus.DELIVERED,
+                FosterRequestStatus.COMPLETED,
+              ],
+            },
+          },
+          include: {
+            animal: {
+              select: { name: true, imageUrl: true },
+            },
+          },
+          orderBy: { createdAt: 'desc' },
+          take: 5,
+        });
+
+        previousHistory = previous.map((item) => ({
+          animalName: item.animal?.name ?? null,
+          animalPhoto: item.animal?.imageUrl ?? null,
+          durationMonths:
+            item.deliveryTime && item.createdAt
+              ? Math.max(
+                  0,
+                  Math.round(
+                    (item.deliveryTime.getTime() - item.createdAt.getTime()) /
+                      (1000 * 60 * 60 * 24 * 30),
+                  ),
+                )
+              : null,
+          completedAt: item.deliveryTime || item.updatedAt,
+          formattedCompletedAt: this.formatDateOnly(
+            item.deliveryTime || item.updatedAt,
+          ),
+        }));
+      }
+
       return successResponse(
-        this.formatInterestDetail(interest),
+        this.formatInterestDetail(interest, previousHistory),
         'Foster found',
       );
     }
@@ -163,7 +204,52 @@ export class GetFosterService {
     });
 
     if (request) {
-      return successResponse(this.formatDetail(request), 'Foster found');
+      let previousHistory: any[] = [];
+      if (request.fosterUserId) {
+        const previous = await this.prisma.client.fosterRequest.findMany({
+          where: {
+            fosterUserId: request.fosterUserId,
+            status: {
+              in: [
+                FosterRequestStatus.DELIVERED,
+                FosterRequestStatus.COMPLETED,
+              ],
+            },
+            id: { not: request.id },
+          },
+          include: {
+            animal: {
+              select: { name: true, imageUrl: true },
+            },
+          },
+          orderBy: { createdAt: 'desc' },
+          take: 5,
+        });
+
+        previousHistory = previous.map((item) => ({
+          animalName: item.animal?.name ?? null,
+          animalPhoto: item.animal?.imageUrl ?? null,
+          durationMonths:
+            item.deliveryTime && item.createdAt
+              ? Math.max(
+                  0,
+                  Math.round(
+                    (item.deliveryTime.getTime() - item.createdAt.getTime()) /
+                      (1000 * 60 * 60 * 24 * 30),
+                  ),
+                )
+              : null,
+          completedAt: item.deliveryTime || item.updatedAt,
+          formattedCompletedAt: this.formatDateOnly(
+            item.deliveryTime || item.updatedAt,
+          ),
+        }));
+      }
+
+      return successResponse(
+        this.formatDetail(request, previousHistory),
+        'Foster found',
+      );
     }
 
     throw new AppError(HttpStatus.NOT_FOUND, 'Foster record not found');
@@ -192,7 +278,7 @@ export class GetFosterService {
     return successResponse(document, 'Foster document found');
   }
 
-  private formatDetail(request: any) {
+  private formatDetail(request: any, previousHistory: any[] = []) {
     const status = this.toClientStatus(request.status);
     const location =
       request.fosterUser?.fosters?.city && request.fosterUser?.fosters?.state
@@ -232,9 +318,41 @@ export class GetFosterService {
             id: request.fosterUser.id,
             name: request.fosterUser.name,
             avatar: request.fosterUser.profilePictureUrl,
+            experienceLabel:
+              request.fosterUser.fosters?.experienceLevel ??
+              'Experienced foster',
+            email: request.fosterUser.email,
+            phone: request.fosterUser.fosters?.phone || 'Not provided',
+            location,
+            preferences: request.fosterUser.fosters
+              ? {
+                  animalTypes: request.fosterUser.fosters.animalType,
+                  ageRange: request.fosterUser.fosters.age,
+                  locationRadius: `${request.fosterUser.fosters.preferredMile || 25}+mi in`,
+                }
+              : null,
+            previousFosterHistory: previousHistory,
           }
         : null,
       location,
+      driver: request.transport?.driver
+        ? {
+            id: request.transport.driver.id,
+            name: request.transport.driver.user?.name ?? 'Unknown',
+            email: request.transport.driver.user?.email ?? 'Not provided',
+            phone: request.transport.driver.phone || 'Not provided',
+            location: [
+              request.transport.driver.address,
+              request.transport.driver.state,
+            ]
+              .filter(Boolean)
+              .join(', '),
+            photo:
+              request.transport.driver.user?.profilePictureUrl ??
+              request.transport.driver.user?.profilePicture?.url ??
+              null,
+          }
+        : null,
       requestedAt: this.formatDateTime(
         request.requestedAt || request.createdAt,
       ),
@@ -243,7 +361,7 @@ export class GetFosterService {
     };
   }
 
-  private formatInterestDetail(interest: any) {
+  private formatInterestDetail(interest: any, previousHistory: any[] = []) {
     const status = interest.status.toLowerCase();
     const location =
       interest.foster?.city && interest.foster?.state
@@ -284,9 +402,21 @@ export class GetFosterService {
             id: interest.foster.user.id,
             name: interest.foster.user.name,
             avatar: interest.foster.user.profilePictureUrl,
+            experienceLabel:
+              interest.foster.experienceLevel ?? 'Experienced foster',
+            email: interest.foster.user.email,
+            phone: interest.foster.phone || 'Not provided',
+            location,
+            preferences: {
+              animalTypes: interest.foster.animalType,
+              ageRange: interest.foster.age,
+              locationRadius: `${interest.foster.preferredMile || 25}+mi in`,
+            },
+            previousFosterHistory: previousHistory,
           }
         : null,
       location,
+      driver: null,
       requestedAt: this.formatDateTime(interest.createdAt),
       createdAt: interest.createdAt,
       cancelledAt: interest.cancelledAt ?? null,
@@ -327,6 +457,14 @@ export class GetFosterService {
       .format(value)
       .replace(',', ' at')
       .replace(' at ', ' at ');
+  }
+
+  private formatDateOnly(value?: Date | null) {
+    if (!value) return null;
+    return new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      year: 'numeric',
+    }).format(value);
   }
 
   private flattenFoster = (foster: FosterWithUser) => ({
