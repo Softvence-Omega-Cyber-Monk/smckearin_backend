@@ -166,8 +166,21 @@ export class GetFosterService {
         }));
       }
 
+      // Find associated transport for interest
+      const transport = await this.prisma.client.transport.findFirst({
+        where: {
+          animals: { some: { id: interest.animalId } },
+          shelterId: interest.shelterId,
+        },
+        include: {
+          driver: { include: { user: true } },
+          transportTimelines: { orderBy: { createdAt: 'desc' } },
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+
       return successResponse(
-        this.formatInterestDetail(interest, previousHistory),
+        this.formatInterestDetail(interest, previousHistory, transport),
         'Foster found',
       );
     }
@@ -361,7 +374,11 @@ export class GetFosterService {
     };
   }
 
-  private formatInterestDetail(interest: any, previousHistory: any[] = []) {
+  private formatInterestDetail(
+    interest: any,
+    previousHistory: any[] = [],
+    transport: any = null,
+  ) {
     const status = interest.status.toLowerCase();
     const location =
       interest.foster?.city && interest.foster?.state
@@ -416,7 +433,21 @@ export class GetFosterService {
           }
         : null,
       location,
-      driver: null,
+      driver: transport?.driver
+        ? {
+            id: transport.driver.id,
+            name: transport.driver.user?.name ?? 'Unknown',
+            email: transport.driver.user?.email ?? 'Not provided',
+            phone: transport.driver.phone || 'Not provided',
+            location: [transport.driver.address, transport.driver.state]
+              .filter(Boolean)
+              .join(', '),
+            photo:
+              transport.driver.user?.profilePictureUrl ??
+              transport.driver.user?.profilePicture?.url ??
+              null,
+          }
+        : null,
       requestedAt: this.formatDateTime(interest.createdAt),
       createdAt: interest.createdAt,
       cancelledAt: interest.cancelledAt ?? null,
