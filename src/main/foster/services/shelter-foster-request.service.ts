@@ -788,6 +788,7 @@ export class ShelterFosterRequestService {
         imageUrl: true,
         species: true,
         gender: true,
+        status: true,
       },
     },
     fosterUser: {
@@ -820,6 +821,7 @@ export class ShelterFosterRequestService {
         imageUrl: true,
         species: true,
         gender: true,
+        status: true,
       },
     },
     foster: {
@@ -1060,12 +1062,17 @@ export class ShelterFosterRequestService {
         ? `${interest.foster.city}, ${interest.foster.state}`
         : null;
 
+    const isScheduled = interest.animal?.status === 'IN_TRANSIT';
+    const effectiveStatus = isScheduled ? 'scheduled' : status;
+
     return {
       id: interest.id,
       type: 'FOSTER_INTEREST',
-      status,
+      status: effectiveStatus,
       interestStatus: interest.status,
-      displayStatus: this.toDisplayStatusFromInterest(interest.status),
+      displayStatus: isScheduled
+        ? 'Scheduled'
+        : this.toDisplayStatusFromInterest(interest.status),
       animal: interest.animal
         ? {
             id: interest.animal.id,
