@@ -26,8 +26,12 @@ export class GetTransportService {
 
     where.OR = [
       { transportNote: { contains: search, mode: 'insensitive' } },
-      { animal: { name: { contains: search, mode: 'insensitive' } } },
-      { animal: { breed: { contains: search, mode: 'insensitive' } } },
+      {
+        animals: { some: { name: { contains: search, mode: 'insensitive' } } },
+      },
+      {
+        animals: { some: { breed: { contains: search, mode: 'insensitive' } } },
+      },
       { driver: { user: { name: { contains: search, mode: 'insensitive' } } } },
       { vet: { user: { name: { contains: search, mode: 'insensitive' } } } },
       { shelter: { name: { contains: search, mode: 'insensitive' } } },
@@ -76,7 +80,7 @@ export class GetTransportService {
   private transformTransport(t: any) {
     return {
       id: t.id,
-      animalName: t.animal?.name ?? null,
+      animalName: t.animals.map((a: any) => a.name).join(', ') || null,
       bondedPairName: t.bondedPair?.name ?? null,
       from: t.pickUpLocation,
       to: t.dropOffLocation,
@@ -89,6 +93,8 @@ export class GetTransportService {
       transportDate: t.transPortDate,
       transportTime: t.transPortTime,
       shelterName: t.shelter?.name ?? null,
+      animalPhotos: t.animals.map((a: any) => a.imageUrl) || [],
+      bondedPairPhoto: t.bondedPair?.imageUrl ?? null,
     };
   }
 
@@ -126,7 +132,7 @@ export class GetTransportService {
         take: limit,
         orderBy: { createdAt: 'desc' },
         include: {
-          animal: true,
+          animals: true,
           bondedPair: true,
           driver: { include: { user: true } },
           vet: { include: { user: true } },
@@ -162,7 +168,7 @@ export class GetTransportService {
         take: limit,
         orderBy: { createdAt: 'desc' },
         include: {
-          animal: true,
+          animals: true,
           bondedPair: true,
           driver: { include: { user: true } },
           vet: { include: { user: true } },
@@ -193,7 +199,7 @@ export class GetTransportService {
         take: limit,
         orderBy: { createdAt: 'desc' },
         include: {
-          animal: true,
+          animals: true,
           bondedPair: true,
           driver: { include: { user: true } },
           vet: { include: { user: true } },

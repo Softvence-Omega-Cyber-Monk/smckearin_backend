@@ -11,6 +11,11 @@ export class CommonNotificationSettingsDto {
   @IsOptional()
   @IsBoolean()
   smsNotifications?: boolean;
+
+  @ApiProperty({ description: 'Enable push notifications', default: true })
+  @IsOptional()
+  @IsBoolean()
+  pushNotifications?: boolean;
 }
 
 export class ShelterVetNotificationSettingsDto extends CommonNotificationSettingsDto {
@@ -53,7 +58,6 @@ export class NotificationSettingsDto extends CommonNotificationSettingsDto {
   @IsBoolean()
   tripNotifications?: boolean;
 
-  @ApiProperty({ description: 'Payment notifications', default: false })
   @IsOptional()
   @IsBoolean()
   paymentNotifications?: boolean;

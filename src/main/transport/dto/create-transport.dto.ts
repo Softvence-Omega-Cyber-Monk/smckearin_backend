@@ -10,7 +10,18 @@ import {
   IsString,
   IsUUID,
   ValidateIf,
+  IsArray,
+  ValidateNested,
 } from 'class-validator';
+
+export class TransportAnimalDto {
+  @ApiProperty({
+    description: 'Animal ID',
+    example: 'uuid-animal-id',
+  })
+  @IsUUID()
+  id: string;
+}
 
 export class CreateTransportDto {
   @ApiProperty({
@@ -87,18 +98,22 @@ export class CreateTransportDto {
   transPortDate: string;
 
   @ApiProperty({
-    description: 'Primary animal ID',
-    example: 'uuid-animal-id',
+    description: 'Array of animal objects being transported',
+    type: [TransportAnimalDto],
+    example: [{ id: 'uuid-animal-id' }],
   })
-  @IsUUID()
-  animalId: string;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => TransportAnimalDto)
+  animalId: TransportAnimalDto[];
 
   @ApiPropertyOptional({
     description: 'Whether the animal is part of a bonded pair',
     example: false,
   })
+  @IsOptional()
   @IsBoolean()
-  isBondedPair: boolean;
+  isBondedPair?: boolean;
 
   @ApiPropertyOptional({
     description: 'Bonded pair animal ID (required if isBondedPair is true)',

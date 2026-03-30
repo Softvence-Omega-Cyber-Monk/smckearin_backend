@@ -27,6 +27,7 @@ export type AggregateArrivalProof = {
 export type ArrivalProofMinAggregateOutputType = {
   id: string | null
   fosterRequestId: string | null
+  interestId: string | null
   photoId: string | null
   photoUrl: string | null
   notes: string | null
@@ -38,6 +39,7 @@ export type ArrivalProofMinAggregateOutputType = {
 export type ArrivalProofMaxAggregateOutputType = {
   id: string | null
   fosterRequestId: string | null
+  interestId: string | null
   photoId: string | null
   photoUrl: string | null
   notes: string | null
@@ -49,6 +51,7 @@ export type ArrivalProofMaxAggregateOutputType = {
 export type ArrivalProofCountAggregateOutputType = {
   id: number
   fosterRequestId: number
+  interestId: number
   photoId: number
   photoUrl: number
   notes: number
@@ -62,6 +65,7 @@ export type ArrivalProofCountAggregateOutputType = {
 export type ArrivalProofMinAggregateInputType = {
   id?: true
   fosterRequestId?: true
+  interestId?: true
   photoId?: true
   photoUrl?: true
   notes?: true
@@ -73,6 +77,7 @@ export type ArrivalProofMinAggregateInputType = {
 export type ArrivalProofMaxAggregateInputType = {
   id?: true
   fosterRequestId?: true
+  interestId?: true
   photoId?: true
   photoUrl?: true
   notes?: true
@@ -84,6 +89,7 @@ export type ArrivalProofMaxAggregateInputType = {
 export type ArrivalProofCountAggregateInputType = {
   id?: true
   fosterRequestId?: true
+  interestId?: true
   photoId?: true
   photoUrl?: true
   notes?: true
@@ -167,7 +173,8 @@ export type ArrivalProofGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 
 export type ArrivalProofGroupByOutputType = {
   id: string
-  fosterRequestId: string
+  fosterRequestId: string | null
+  interestId: string | null
   photoId: string | null
   photoUrl: string
   notes: string | null
@@ -199,20 +206,23 @@ export type ArrivalProofWhereInput = {
   OR?: Prisma.ArrivalProofWhereInput[]
   NOT?: Prisma.ArrivalProofWhereInput | Prisma.ArrivalProofWhereInput[]
   id?: Prisma.StringFilter<"ArrivalProof"> | string
-  fosterRequestId?: Prisma.StringFilter<"ArrivalProof"> | string
+  fosterRequestId?: Prisma.StringNullableFilter<"ArrivalProof"> | string | null
+  interestId?: Prisma.StringNullableFilter<"ArrivalProof"> | string | null
   photoId?: Prisma.StringNullableFilter<"ArrivalProof"> | string | null
   photoUrl?: Prisma.StringFilter<"ArrivalProof"> | string
   notes?: Prisma.StringNullableFilter<"ArrivalProof"> | string | null
   confirmedAt?: Prisma.DateTimeFilter<"ArrivalProof"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"ArrivalProof"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ArrivalProof"> | Date | string
-  fosterRequest?: Prisma.XOR<Prisma.FosterRequestScalarRelationFilter, Prisma.FosterRequestWhereInput>
+  fosterRequest?: Prisma.XOR<Prisma.FosterRequestNullableScalarRelationFilter, Prisma.FosterRequestWhereInput> | null
+  interest?: Prisma.XOR<Prisma.FosterAnimalInterestNullableScalarRelationFilter, Prisma.FosterAnimalInterestWhereInput> | null
   photo?: Prisma.XOR<Prisma.FileInstanceNullableScalarRelationFilter, Prisma.FileInstanceWhereInput> | null
 }
 
 export type ArrivalProofOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  fosterRequestId?: Prisma.SortOrder
+  fosterRequestId?: Prisma.SortOrderInput | Prisma.SortOrder
+  interestId?: Prisma.SortOrderInput | Prisma.SortOrder
   photoId?: Prisma.SortOrderInput | Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -220,12 +230,14 @@ export type ArrivalProofOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   fosterRequest?: Prisma.FosterRequestOrderByWithRelationInput
+  interest?: Prisma.FosterAnimalInterestOrderByWithRelationInput
   photo?: Prisma.FileInstanceOrderByWithRelationInput
 }
 
 export type ArrivalProofWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   fosterRequestId?: string
+  interestId?: string
   photoId?: string
   AND?: Prisma.ArrivalProofWhereInput | Prisma.ArrivalProofWhereInput[]
   OR?: Prisma.ArrivalProofWhereInput[]
@@ -235,13 +247,15 @@ export type ArrivalProofWhereUniqueInput = Prisma.AtLeast<{
   confirmedAt?: Prisma.DateTimeFilter<"ArrivalProof"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"ArrivalProof"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ArrivalProof"> | Date | string
-  fosterRequest?: Prisma.XOR<Prisma.FosterRequestScalarRelationFilter, Prisma.FosterRequestWhereInput>
+  fosterRequest?: Prisma.XOR<Prisma.FosterRequestNullableScalarRelationFilter, Prisma.FosterRequestWhereInput> | null
+  interest?: Prisma.XOR<Prisma.FosterAnimalInterestNullableScalarRelationFilter, Prisma.FosterAnimalInterestWhereInput> | null
   photo?: Prisma.XOR<Prisma.FileInstanceNullableScalarRelationFilter, Prisma.FileInstanceWhereInput> | null
-}, "id" | "fosterRequestId" | "photoId">
+}, "id" | "fosterRequestId" | "interestId" | "photoId">
 
 export type ArrivalProofOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  fosterRequestId?: Prisma.SortOrder
+  fosterRequestId?: Prisma.SortOrderInput | Prisma.SortOrder
+  interestId?: Prisma.SortOrderInput | Prisma.SortOrder
   photoId?: Prisma.SortOrderInput | Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -258,7 +272,8 @@ export type ArrivalProofScalarWhereWithAggregatesInput = {
   OR?: Prisma.ArrivalProofScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ArrivalProofScalarWhereWithAggregatesInput | Prisma.ArrivalProofScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ArrivalProof"> | string
-  fosterRequestId?: Prisma.StringWithAggregatesFilter<"ArrivalProof"> | string
+  fosterRequestId?: Prisma.StringNullableWithAggregatesFilter<"ArrivalProof"> | string | null
+  interestId?: Prisma.StringNullableWithAggregatesFilter<"ArrivalProof"> | string | null
   photoId?: Prisma.StringNullableWithAggregatesFilter<"ArrivalProof"> | string | null
   photoUrl?: Prisma.StringWithAggregatesFilter<"ArrivalProof"> | string
   notes?: Prisma.StringNullableWithAggregatesFilter<"ArrivalProof"> | string | null
@@ -274,13 +289,15 @@ export type ArrivalProofCreateInput = {
   confirmedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  fosterRequest: Prisma.FosterRequestCreateNestedOneWithoutArrivalProofInput
+  fosterRequest?: Prisma.FosterRequestCreateNestedOneWithoutArrivalProofInput
+  interest?: Prisma.FosterAnimalInterestCreateNestedOneWithoutArrivalProofInput
   photo?: Prisma.FileInstanceCreateNestedOneWithoutArrivalProofInput
 }
 
 export type ArrivalProofUncheckedCreateInput = {
   id?: string
-  fosterRequestId: string
+  fosterRequestId?: string | null
+  interestId?: string | null
   photoId?: string | null
   photoUrl: string
   notes?: string | null
@@ -296,13 +313,15 @@ export type ArrivalProofUpdateInput = {
   confirmedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fosterRequest?: Prisma.FosterRequestUpdateOneRequiredWithoutArrivalProofNestedInput
+  fosterRequest?: Prisma.FosterRequestUpdateOneWithoutArrivalProofNestedInput
+  interest?: Prisma.FosterAnimalInterestUpdateOneWithoutArrivalProofNestedInput
   photo?: Prisma.FileInstanceUpdateOneWithoutArrivalProofNestedInput
 }
 
 export type ArrivalProofUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  fosterRequestId?: Prisma.StringFieldUpdateOperationsInput | string
+  fosterRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  interestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoUrl?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -313,7 +332,8 @@ export type ArrivalProofUncheckedUpdateInput = {
 
 export type ArrivalProofCreateManyInput = {
   id?: string
-  fosterRequestId: string
+  fosterRequestId?: string | null
+  interestId?: string | null
   photoId?: string | null
   photoUrl: string
   notes?: string | null
@@ -333,7 +353,8 @@ export type ArrivalProofUpdateManyMutationInput = {
 
 export type ArrivalProofUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  fosterRequestId?: Prisma.StringFieldUpdateOperationsInput | string
+  fosterRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  interestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoUrl?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -350,6 +371,7 @@ export type ArrivalProofNullableScalarRelationFilter = {
 export type ArrivalProofCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   fosterRequestId?: Prisma.SortOrder
+  interestId?: Prisma.SortOrder
   photoId?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -361,6 +383,7 @@ export type ArrivalProofCountOrderByAggregateInput = {
 export type ArrivalProofMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   fosterRequestId?: Prisma.SortOrder
+  interestId?: Prisma.SortOrder
   photoId?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -372,6 +395,7 @@ export type ArrivalProofMaxOrderByAggregateInput = {
 export type ArrivalProofMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   fosterRequestId?: Prisma.SortOrder
+  interestId?: Prisma.SortOrder
   photoId?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -410,6 +434,38 @@ export type ArrivalProofUncheckedUpdateOneWithoutPhotoNestedInput = {
   delete?: Prisma.ArrivalProofWhereInput | boolean
   connect?: Prisma.ArrivalProofWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ArrivalProofUpdateToOneWithWhereWithoutPhotoInput, Prisma.ArrivalProofUpdateWithoutPhotoInput>, Prisma.ArrivalProofUncheckedUpdateWithoutPhotoInput>
+}
+
+export type ArrivalProofCreateNestedOneWithoutInterestInput = {
+  create?: Prisma.XOR<Prisma.ArrivalProofCreateWithoutInterestInput, Prisma.ArrivalProofUncheckedCreateWithoutInterestInput>
+  connectOrCreate?: Prisma.ArrivalProofCreateOrConnectWithoutInterestInput
+  connect?: Prisma.ArrivalProofWhereUniqueInput
+}
+
+export type ArrivalProofUncheckedCreateNestedOneWithoutInterestInput = {
+  create?: Prisma.XOR<Prisma.ArrivalProofCreateWithoutInterestInput, Prisma.ArrivalProofUncheckedCreateWithoutInterestInput>
+  connectOrCreate?: Prisma.ArrivalProofCreateOrConnectWithoutInterestInput
+  connect?: Prisma.ArrivalProofWhereUniqueInput
+}
+
+export type ArrivalProofUpdateOneWithoutInterestNestedInput = {
+  create?: Prisma.XOR<Prisma.ArrivalProofCreateWithoutInterestInput, Prisma.ArrivalProofUncheckedCreateWithoutInterestInput>
+  connectOrCreate?: Prisma.ArrivalProofCreateOrConnectWithoutInterestInput
+  upsert?: Prisma.ArrivalProofUpsertWithoutInterestInput
+  disconnect?: Prisma.ArrivalProofWhereInput | boolean
+  delete?: Prisma.ArrivalProofWhereInput | boolean
+  connect?: Prisma.ArrivalProofWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ArrivalProofUpdateToOneWithWhereWithoutInterestInput, Prisma.ArrivalProofUpdateWithoutInterestInput>, Prisma.ArrivalProofUncheckedUpdateWithoutInterestInput>
+}
+
+export type ArrivalProofUncheckedUpdateOneWithoutInterestNestedInput = {
+  create?: Prisma.XOR<Prisma.ArrivalProofCreateWithoutInterestInput, Prisma.ArrivalProofUncheckedCreateWithoutInterestInput>
+  connectOrCreate?: Prisma.ArrivalProofCreateOrConnectWithoutInterestInput
+  upsert?: Prisma.ArrivalProofUpsertWithoutInterestInput
+  disconnect?: Prisma.ArrivalProofWhereInput | boolean
+  delete?: Prisma.ArrivalProofWhereInput | boolean
+  connect?: Prisma.ArrivalProofWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ArrivalProofUpdateToOneWithWhereWithoutInterestInput, Prisma.ArrivalProofUpdateWithoutInterestInput>, Prisma.ArrivalProofUncheckedUpdateWithoutInterestInput>
 }
 
 export type ArrivalProofCreateNestedOneWithoutFosterRequestInput = {
@@ -451,12 +507,14 @@ export type ArrivalProofCreateWithoutPhotoInput = {
   confirmedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  fosterRequest: Prisma.FosterRequestCreateNestedOneWithoutArrivalProofInput
+  fosterRequest?: Prisma.FosterRequestCreateNestedOneWithoutArrivalProofInput
+  interest?: Prisma.FosterAnimalInterestCreateNestedOneWithoutArrivalProofInput
 }
 
 export type ArrivalProofUncheckedCreateWithoutPhotoInput = {
   id?: string
-  fosterRequestId: string
+  fosterRequestId?: string | null
+  interestId?: string | null
   photoUrl: string
   notes?: string | null
   confirmedAt?: Date | string
@@ -487,12 +545,74 @@ export type ArrivalProofUpdateWithoutPhotoInput = {
   confirmedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fosterRequest?: Prisma.FosterRequestUpdateOneRequiredWithoutArrivalProofNestedInput
+  fosterRequest?: Prisma.FosterRequestUpdateOneWithoutArrivalProofNestedInput
+  interest?: Prisma.FosterAnimalInterestUpdateOneWithoutArrivalProofNestedInput
 }
 
 export type ArrivalProofUncheckedUpdateWithoutPhotoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  fosterRequestId?: Prisma.StringFieldUpdateOperationsInput | string
+  fosterRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  interestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ArrivalProofCreateWithoutInterestInput = {
+  id?: string
+  photoUrl: string
+  notes?: string | null
+  confirmedAt?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  fosterRequest?: Prisma.FosterRequestCreateNestedOneWithoutArrivalProofInput
+  photo?: Prisma.FileInstanceCreateNestedOneWithoutArrivalProofInput
+}
+
+export type ArrivalProofUncheckedCreateWithoutInterestInput = {
+  id?: string
+  fosterRequestId?: string | null
+  photoId?: string | null
+  photoUrl: string
+  notes?: string | null
+  confirmedAt?: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ArrivalProofCreateOrConnectWithoutInterestInput = {
+  where: Prisma.ArrivalProofWhereUniqueInput
+  create: Prisma.XOR<Prisma.ArrivalProofCreateWithoutInterestInput, Prisma.ArrivalProofUncheckedCreateWithoutInterestInput>
+}
+
+export type ArrivalProofUpsertWithoutInterestInput = {
+  update: Prisma.XOR<Prisma.ArrivalProofUpdateWithoutInterestInput, Prisma.ArrivalProofUncheckedUpdateWithoutInterestInput>
+  create: Prisma.XOR<Prisma.ArrivalProofCreateWithoutInterestInput, Prisma.ArrivalProofUncheckedCreateWithoutInterestInput>
+  where?: Prisma.ArrivalProofWhereInput
+}
+
+export type ArrivalProofUpdateToOneWithWhereWithoutInterestInput = {
+  where?: Prisma.ArrivalProofWhereInput
+  data: Prisma.XOR<Prisma.ArrivalProofUpdateWithoutInterestInput, Prisma.ArrivalProofUncheckedUpdateWithoutInterestInput>
+}
+
+export type ArrivalProofUpdateWithoutInterestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  photoUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  confirmedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fosterRequest?: Prisma.FosterRequestUpdateOneWithoutArrivalProofNestedInput
+  photo?: Prisma.FileInstanceUpdateOneWithoutArrivalProofNestedInput
+}
+
+export type ArrivalProofUncheckedUpdateWithoutInterestInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fosterRequestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoUrl?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -507,11 +627,13 @@ export type ArrivalProofCreateWithoutFosterRequestInput = {
   confirmedAt?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  interest?: Prisma.FosterAnimalInterestCreateNestedOneWithoutArrivalProofInput
   photo?: Prisma.FileInstanceCreateNestedOneWithoutArrivalProofInput
 }
 
 export type ArrivalProofUncheckedCreateWithoutFosterRequestInput = {
   id?: string
+  interestId?: string | null
   photoId?: string | null
   photoUrl: string
   notes?: string | null
@@ -543,11 +665,13 @@ export type ArrivalProofUpdateWithoutFosterRequestInput = {
   confirmedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  interest?: Prisma.FosterAnimalInterestUpdateOneWithoutArrivalProofNestedInput
   photo?: Prisma.FileInstanceUpdateOneWithoutArrivalProofNestedInput
 }
 
 export type ArrivalProofUncheckedUpdateWithoutFosterRequestInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  interestId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoUrl?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -561,45 +685,52 @@ export type ArrivalProofUncheckedUpdateWithoutFosterRequestInput = {
 export type ArrivalProofSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   fosterRequestId?: boolean
+  interestId?: boolean
   photoId?: boolean
   photoUrl?: boolean
   notes?: boolean
   confirmedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  fosterRequest?: boolean | Prisma.FosterRequestDefaultArgs<ExtArgs>
+  fosterRequest?: boolean | Prisma.ArrivalProof$fosterRequestArgs<ExtArgs>
+  interest?: boolean | Prisma.ArrivalProof$interestArgs<ExtArgs>
   photo?: boolean | Prisma.ArrivalProof$photoArgs<ExtArgs>
 }, ExtArgs["result"]["arrivalProof"]>
 
 export type ArrivalProofSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   fosterRequestId?: boolean
+  interestId?: boolean
   photoId?: boolean
   photoUrl?: boolean
   notes?: boolean
   confirmedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  fosterRequest?: boolean | Prisma.FosterRequestDefaultArgs<ExtArgs>
+  fosterRequest?: boolean | Prisma.ArrivalProof$fosterRequestArgs<ExtArgs>
+  interest?: boolean | Prisma.ArrivalProof$interestArgs<ExtArgs>
   photo?: boolean | Prisma.ArrivalProof$photoArgs<ExtArgs>
 }, ExtArgs["result"]["arrivalProof"]>
 
 export type ArrivalProofSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   fosterRequestId?: boolean
+  interestId?: boolean
   photoId?: boolean
   photoUrl?: boolean
   notes?: boolean
   confirmedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  fosterRequest?: boolean | Prisma.FosterRequestDefaultArgs<ExtArgs>
+  fosterRequest?: boolean | Prisma.ArrivalProof$fosterRequestArgs<ExtArgs>
+  interest?: boolean | Prisma.ArrivalProof$interestArgs<ExtArgs>
   photo?: boolean | Prisma.ArrivalProof$photoArgs<ExtArgs>
 }, ExtArgs["result"]["arrivalProof"]>
 
 export type ArrivalProofSelectScalar = {
   id?: boolean
   fosterRequestId?: boolean
+  interestId?: boolean
   photoId?: boolean
   photoUrl?: boolean
   notes?: boolean
@@ -608,29 +739,34 @@ export type ArrivalProofSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ArrivalProofOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fosterRequestId" | "photoId" | "photoUrl" | "notes" | "confirmedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["arrivalProof"]>
+export type ArrivalProofOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fosterRequestId" | "interestId" | "photoId" | "photoUrl" | "notes" | "confirmedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["arrivalProof"]>
 export type ArrivalProofInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  fosterRequest?: boolean | Prisma.FosterRequestDefaultArgs<ExtArgs>
+  fosterRequest?: boolean | Prisma.ArrivalProof$fosterRequestArgs<ExtArgs>
+  interest?: boolean | Prisma.ArrivalProof$interestArgs<ExtArgs>
   photo?: boolean | Prisma.ArrivalProof$photoArgs<ExtArgs>
 }
 export type ArrivalProofIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  fosterRequest?: boolean | Prisma.FosterRequestDefaultArgs<ExtArgs>
+  fosterRequest?: boolean | Prisma.ArrivalProof$fosterRequestArgs<ExtArgs>
+  interest?: boolean | Prisma.ArrivalProof$interestArgs<ExtArgs>
   photo?: boolean | Prisma.ArrivalProof$photoArgs<ExtArgs>
 }
 export type ArrivalProofIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  fosterRequest?: boolean | Prisma.FosterRequestDefaultArgs<ExtArgs>
+  fosterRequest?: boolean | Prisma.ArrivalProof$fosterRequestArgs<ExtArgs>
+  interest?: boolean | Prisma.ArrivalProof$interestArgs<ExtArgs>
   photo?: boolean | Prisma.ArrivalProof$photoArgs<ExtArgs>
 }
 
 export type $ArrivalProofPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ArrivalProof"
   objects: {
-    fosterRequest: Prisma.$FosterRequestPayload<ExtArgs>
+    fosterRequest: Prisma.$FosterRequestPayload<ExtArgs> | null
+    interest: Prisma.$FosterAnimalInterestPayload<ExtArgs> | null
     photo: Prisma.$FileInstancePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    fosterRequestId: string
+    fosterRequestId: string | null
+    interestId: string | null
     photoId: string | null
     photoUrl: string
     notes: string | null
@@ -1031,7 +1167,8 @@ readonly fields: ArrivalProofFieldRefs;
  */
 export interface Prisma__ArrivalProofClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  fosterRequest<T extends Prisma.FosterRequestDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FosterRequestDefaultArgs<ExtArgs>>): Prisma.Prisma__FosterRequestClient<runtime.Types.Result.GetResult<Prisma.$FosterRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  fosterRequest<T extends Prisma.ArrivalProof$fosterRequestArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ArrivalProof$fosterRequestArgs<ExtArgs>>): Prisma.Prisma__FosterRequestClient<runtime.Types.Result.GetResult<Prisma.$FosterRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  interest<T extends Prisma.ArrivalProof$interestArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ArrivalProof$interestArgs<ExtArgs>>): Prisma.Prisma__FosterAnimalInterestClient<runtime.Types.Result.GetResult<Prisma.$FosterAnimalInterestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   photo<T extends Prisma.ArrivalProof$photoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ArrivalProof$photoArgs<ExtArgs>>): Prisma.Prisma__FileInstanceClient<runtime.Types.Result.GetResult<Prisma.$FileInstancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1064,6 +1201,7 @@ export interface Prisma__ArrivalProofClient<T, Null = never, ExtArgs extends run
 export interface ArrivalProofFieldRefs {
   readonly id: Prisma.FieldRef<"ArrivalProof", 'String'>
   readonly fosterRequestId: Prisma.FieldRef<"ArrivalProof", 'String'>
+  readonly interestId: Prisma.FieldRef<"ArrivalProof", 'String'>
   readonly photoId: Prisma.FieldRef<"ArrivalProof", 'String'>
   readonly photoUrl: Prisma.FieldRef<"ArrivalProof", 'String'>
   readonly notes: Prisma.FieldRef<"ArrivalProof", 'String'>
@@ -1463,6 +1601,44 @@ export type ArrivalProofDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many ArrivalProofs to delete.
    */
   limit?: number
+}
+
+/**
+ * ArrivalProof.fosterRequest
+ */
+export type ArrivalProof$fosterRequestArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FosterRequest
+   */
+  select?: Prisma.FosterRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FosterRequest
+   */
+  omit?: Prisma.FosterRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FosterRequestInclude<ExtArgs> | null
+  where?: Prisma.FosterRequestWhereInput
+}
+
+/**
+ * ArrivalProof.interest
+ */
+export type ArrivalProof$interestArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FosterAnimalInterest
+   */
+  select?: Prisma.FosterAnimalInterestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FosterAnimalInterest
+   */
+  omit?: Prisma.FosterAnimalInterestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FosterAnimalInterestInclude<ExtArgs> | null
+  where?: Prisma.FosterAnimalInterestWhereInput
 }
 
 /**

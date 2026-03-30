@@ -3,14 +3,16 @@ import { Injectable } from '@nestjs/common';
 import { NotificationType } from '../enums/notification-types.enum';
 import { QueueGateway } from '../queue.gateway';
 import { BaseNotificationService } from './base-notification.service';
+import { FirebaseService } from '@/lib/firebase/firebase.service';
 
 @Injectable()
 export class DocumentNotificationService extends BaseNotificationService {
   constructor(
     protected readonly prisma: PrismaService,
     protected readonly queueGateway: QueueGateway,
+    protected readonly firebaseService: FirebaseService,
   ) {
-    super(prisma, queueGateway);
+    super(prisma, queueGateway, firebaseService);
   }
 
   async notifyDocumentEvent(
@@ -33,6 +35,7 @@ export class DocumentNotificationService extends BaseNotificationService {
     const settings: string[] = [
       'emailNotifications',
       'certificateNotifications',
+      'pushNotifications',
     ];
 
     if (eventType.includes('SHELTER')) {

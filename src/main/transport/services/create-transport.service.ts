@@ -54,13 +54,14 @@ export class CreateTransportService {
     }
 
     // Validate animals
-    const animalsToTransport = [dto.animalId];
+    const uniqueAnimalIds = [...new Set(dto.animalId.map((a) => a.id))];
+    const animalsToTransport = [...uniqueAnimalIds];
 
     if (dto.isBondedPair && dto.bondedPairId) {
-      if (dto.animalId === dto.bondedPairId) {
+      if (uniqueAnimalIds.includes(dto.bondedPairId)) {
         throw new AppError(
           HttpStatus.BAD_REQUEST,
-          'Animal and bonded pair cannot be the same',
+          'Bonded pair animal is already included in the animals list',
         );
       }
       animalsToTransport.push(dto.bondedPairId);
@@ -203,7 +204,9 @@ export class CreateTransportService {
 
         transPortDate: new Date(dto.transPortDate),
 
-        animalId: dto.animalId,
+        animals: {
+          connect: dto.animalId.map((a) => ({ id: a.id })),
+        },
 
         isBondedPair: dto.isBondedPair ?? false,
         bondedPairId: dto.isBondedPair ? dto.bondedPairId : null,
@@ -216,6 +219,7 @@ export class CreateTransportService {
         vetClearanceType: dto.vetClearanceType ?? RequiredVetClearanceType.No,
 
         vetClearanceRequestId,
+        status: TransportStatus.SCHEDULED,
       },
     });
 
@@ -225,12 +229,23 @@ export class CreateTransportService {
       data: { status: 'IN_TRANSIT', bondedWithId: dto.bondedPairId ?? null },
     });
 
+    // Update foster interest status
+    await this.prisma.client.fosterAnimalInterest.updateMany({
+      where: {
+        animalId: { in: animalsToTransport },
+        status: 'APPROVED',
+      },
+      data: {
+        status: 'SCHEDULED',
+      },
+    });
+
     // Create initial transport timeline
     await this.prisma.client.transportTimeline.create({
       data: {
         transportId: transport.id,
-        status: 'PENDING',
-        note: 'Transport created',
+        status: TransportStatus.SCHEDULED,
+        note: 'Transport created (Scheduled)',
         latitude: dto.pickUpLatitude,
         longitude: dto.pickUpLongitude,
       },
@@ -248,7 +263,7 @@ export class CreateTransportService {
       'CREATED',
       transport.id,
       {
-        animalId: dto.animalId,
+        animalIds: animalsToTransport,
         shelterId,
         driverId: selectedDriverId ?? undefined,
         vetId: selectedVetId ?? undefined,

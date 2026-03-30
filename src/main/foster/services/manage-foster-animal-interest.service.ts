@@ -8,10 +8,14 @@ import {
   CreateFosterAnimalInterestDto,
   ReviewFosterInterestDto,
 } from '../dto/foster-animal.dto';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 
 @Injectable()
 export class ManageFosterAnimalInterestService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly userNotificationService: UserNotificationService,
+  ) {}
 
   @HandleError('Failed to submit foster interest')
   async expressInterest(
@@ -230,6 +234,11 @@ export class ManageFosterAnimalInterestService {
         },
       },
     });
+
+    await this.userNotificationService.notifyFosterInterestEvent(
+      dto.approved ? 'APPROVED' : 'REJECTED',
+      updated.id,
+    );
 
     return successResponse(
       {

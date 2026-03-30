@@ -3,14 +3,16 @@ import { Injectable } from '@nestjs/common';
 import { NotificationType } from '../enums/notification-types.enum';
 import { QueueGateway } from '../queue.gateway';
 import { BaseNotificationService } from './base-notification.service';
+import { FirebaseService } from '@/lib/firebase/firebase.service';
 
 @Injectable()
 export class UserNotificationService extends BaseNotificationService {
   constructor(
     protected readonly prisma: PrismaService,
     protected readonly queueGateway: QueueGateway,
+    protected readonly firebaseService: FirebaseService,
   ) {
-    super(prisma, queueGateway);
+    super(prisma, queueGateway, firebaseService);
   }
 
   // ==================== USER REGISTRATION ====================
@@ -51,7 +53,7 @@ export class UserNotificationService extends BaseNotificationService {
         recordId: entityId,
         others: { userId: user.id, userName: user.name, userEmail: user.email },
       },
-      ['emailNotifications'],
+      ['emailNotifications', 'pushNotifications'],
     );
   }
 
@@ -113,7 +115,7 @@ export class UserNotificationService extends BaseNotificationService {
           oldRole,
         },
       },
-      ['emailNotifications'],
+      ['emailNotifications', 'pushNotifications'],
     );
 
     // Also notify the affected member
@@ -131,7 +133,7 @@ export class UserNotificationService extends BaseNotificationService {
           recordId: member.id,
           others: { shelterId, shelterName: shelter.name, newRole, oldRole },
         },
-        ['emailNotifications'],
+        ['emailNotifications', 'pushNotifications'],
       );
     }
   }
@@ -182,7 +184,7 @@ export class UserNotificationService extends BaseNotificationService {
           oldRole,
         },
       },
-      ['emailNotifications'],
+      ['emailNotifications', 'pushNotifications'],
     );
 
     // Also notify the affected admin
@@ -200,7 +202,7 @@ export class UserNotificationService extends BaseNotificationService {
           recordId: admin.id,
           others: { newRole, oldRole },
         },
-        ['emailNotifications'],
+        ['emailNotifications', 'pushNotifications'],
       );
     }
   }
@@ -246,7 +248,7 @@ export class UserNotificationService extends BaseNotificationService {
           recordId: entityId,
           others: { shelterName: entity.name, approved },
         },
-        ['emailNotifications'],
+        ['emailNotifications', 'pushNotifications'],
       );
       return;
     } else if (entityType === 'DRIVER') {
@@ -300,7 +302,7 @@ export class UserNotificationService extends BaseNotificationService {
         recordId: entityId,
         others: { approved },
       },
-      ['emailNotifications'],
+      ['emailNotifications', 'pushNotifications'],
     );
   }
 
@@ -354,7 +356,7 @@ export class UserNotificationService extends BaseNotificationService {
         recordId: type === 'SHELTER' ? details.shelterId : userId,
         others: { name: details.name, email: details.email },
       },
-      ['emailNotifications'],
+      ['emailNotifications', 'pushNotifications'],
     );
   }
 
@@ -398,7 +400,11 @@ export class UserNotificationService extends BaseNotificationService {
     let title: string;
     let message: string;
     let recipients: string[] = [];
-    const settingKeys = ['tripNotifications', 'emailNotifications'];
+    const settingKeys = [
+      'tripNotifications',
+      'emailNotifications',
+      'pushNotifications',
+    ];
 
     switch (action) {
       case 'CREATED':
@@ -490,6 +496,82 @@ export class UserNotificationService extends BaseNotificationService {
         },
       },
       settingKeys,
+    );
+  }
+
+  async notifyNewMessage(
+    sender: { id: string; name: string },
+    recipients: string[],
+    payload: {
+      conversationId: string;
+      content: string;
+      transportId?: string;
+    },
+  ) {
+    const title = `New message from ${sender.name}`;
+    const message =
+      payload.content.length > 100
+        ? `${payload.content.substring(0, 97)}...`
+        : payload.content;
+
+    await this.createAndEmitNotification(
+      NotificationType.MESSAGE_RECEIVED,
+      title,
+      message,
+      recipients,
+      {
+        performedBy: sender.id,
+        recordType: 'Message',
+        recordId: payload.conversationId,
+        others: {
+          senderName: sender.name,
+          conversationId: payload.conversationId,
+          transportId: payload.transportId,
+        },
+      },
+      ['emailNotifications', 'pushNotifications'], // Add a specific setting if needed, or stick to defaults
+    );
+  }
+
+  async notifyFosterInterestEvent(
+    action: 'APPROVED' | 'REJECTED',
+    interestId: string,
+  ) {
+    const interest = await this.prisma.client.fosterAnimalInterest.findUnique({
+      where: { id: interestId },
+      include: {
+        animal: true,
+        foster: {
+          include: { user: true },
+        },
+      },
+    });
+
+    if (!interest) return;
+
+    const notifType =
+      action === 'APPROVED'
+        ? NotificationType.FOSTER_REQUEST_APPROVED // Reuse similar type
+        : NotificationType.FOSTER_REQUEST_DECLINED;
+
+    const title = `Foster Interest ${action === 'APPROVED' ? 'Approved' : 'Rejected'}`;
+    const message = `Your expression of interest in ${interest.animal.name} has been ${action.toLowerCase()}.`;
+
+    await this.createAndEmitNotification(
+      notifType,
+      title,
+      message,
+      [interest.foster.userId],
+      {
+        performedBy: 'SHELTER',
+        recordType: 'FosterAnimalInterest',
+        recordId: interestId,
+        others: {
+          animalName: interest.animal.name,
+          action,
+        },
+      },
+      ['emailNotifications', 'pushNotifications'],
     );
   }
 }

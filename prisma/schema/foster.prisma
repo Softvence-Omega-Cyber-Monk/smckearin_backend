@@ -18,6 +18,7 @@ model Foster {
 
   fosterAnimalInterests FosterAnimalInterest[]
   fosterDocuments       FosterDocument[]
+  fosteredAnimals       Animal[]
 
   status ApprovalStatus @default(PENDING)
 

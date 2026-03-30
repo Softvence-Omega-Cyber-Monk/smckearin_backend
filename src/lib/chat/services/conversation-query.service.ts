@@ -76,7 +76,7 @@ export class ConversationQueryService {
           result = await this.loadAllVets(userId, skip, limit, search);
         }
       } else if (user.role === 'SHELTER_ADMIN' || user.role === 'MANAGER') {
-        // Shelter sees both vets and drivers
+        // Shelter sees vets, drivers, and fosters
         if (type === ConversationType.VET) {
           result = await this.loadAllVets(
             userId,
@@ -85,8 +85,16 @@ export class ConversationQueryService {
             search,
             userShelterId,
           );
+        } else if (type === ConversationType.FOSTER) {
+          result = await this.loadAllFosters(
+            userId,
+            skip,
+            limit,
+            search,
+            userShelterId,
+          );
         } else {
-          // Show all drivers
+          // Default: show all drivers
           result = await this.loadAllDrivers(
             userId,
             skip,
@@ -202,7 +210,7 @@ export class ConversationQueryService {
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
-    const [vets, totalVets] = await this.prisma.client.$transaction([
+    const [vets] = await this.prisma.client.$transaction([
       this.prisma.client.user.findMany({
         where: vetWhere,
         select: {
@@ -258,10 +266,9 @@ export class ConversationQueryService {
     // Create a map of vet conversations
     const convMap = new Map(
       conversations.map((c) => {
-        const vetId =
-          c.initiatorId !== userId && c.initiatorId !== userShelterId
-            ? c.initiatorId
-            : c.receiverId;
+        const vetId = vetIds.includes(c.initiatorId)
+          ? c.initiatorId
+          : c.receiverId;
         return [vetId!, c];
       }),
     );
@@ -273,7 +280,7 @@ export class ConversationQueryService {
         id: vet.id,
         name: vet.name,
         type: ContactType.VET,
-        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        lastMessage: this.formatLastMessage(conv?.lastMessage),
         lastMessageAt: conv?.updatedAt || null,
         isActive: this.chatGateway.isOnline(vet.id),
         conversationId: conv?.id || null,
@@ -287,7 +294,9 @@ export class ConversationQueryService {
       return a.isActive ? -1 : 1;
     });
 
-    return { list, total: totalVets };
+    // Only return contacts with an existing conversation
+    const filtered = list.filter((c) => c.conversationId !== null);
+    return { list: filtered, total: filtered.length };
   }
 
   /** ---------------- Helper: load ALL Drivers (not just existing conversations) ---------------- */
@@ -303,12 +312,12 @@ export class ConversationQueryService {
       role: 'DRIVER',
       status: 'ACTIVE',
       drivers: {
-        status: 'APPROVED',
+        status: { in: ['APPROVED', 'PENDING'] },
       },
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
-    const [drivers, totalDrivers] = await this.prisma.client.$transaction([
+    const [drivers] = await this.prisma.client.$transaction([
       this.prisma.client.user.findMany({
         where: driverWhere,
         select: {
@@ -364,10 +373,9 @@ export class ConversationQueryService {
     // Create a map of driver conversations
     const convMap = new Map(
       conversations.map((c) => {
-        const driverId =
-          c.initiatorId !== userId && c.initiatorId !== userShelterId
-            ? c.initiatorId
-            : c.receiverId;
+        const driverId = driverIds.includes(c.initiatorId)
+          ? c.initiatorId
+          : c.receiverId;
         return [driverId!, c];
       }),
     );
@@ -379,7 +387,7 @@ export class ConversationQueryService {
         id: driver.id,
         name: driver.name,
         type: ContactType.DRIVER,
-        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        lastMessage: this.formatLastMessage(conv?.lastMessage),
         lastMessageAt: conv?.updatedAt || null,
         isActive: this.chatGateway.isOnline(driver.id),
         conversationId: conv?.id || null,
@@ -394,7 +402,9 @@ export class ConversationQueryService {
       return a.isActive ? -1 : 1;
     });
 
-    return { list, total: totalDrivers };
+    // Only return contacts with an existing conversation
+    const filtered = list.filter((c) => c.conversationId !== null);
+    return { list: filtered, total: filtered.length };
   }
 
   /** ---------------- Helper: load ALL Shelters (not just existing conversations) ---------------- */
@@ -410,7 +420,7 @@ export class ConversationQueryService {
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
-    const [shelters, totalShelters] = await this.prisma.client.$transaction([
+    const [shelters] = await this.prisma.client.$transaction([
       this.prisma.client.shelter.findMany({
         where: shelterWhere,
         select: {
@@ -462,7 +472,7 @@ export class ConversationQueryService {
         id: shelter.id,
         name: shelter.name,
         type: ContactType.SHELTER,
-        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        lastMessage: this.formatLastMessage(conv?.lastMessage),
         lastMessageAt: conv?.updatedAt || null,
         isActive: isTeamActive,
         conversationId: conv?.id || null,
@@ -476,7 +486,9 @@ export class ConversationQueryService {
       return a.lastMessageAt ? -1 : 1;
     });
 
-    return { list, total: totalShelters };
+    // Only return contacts with an existing conversation
+    const filtered = list.filter((c) => c.conversationId !== null);
+    return { list: filtered, total: filtered.length };
   }
 
   /** ---------------- Helper: load ALL Fosters (not just existing conversations) ---------------- */
@@ -492,12 +504,12 @@ export class ConversationQueryService {
       role: 'FOSTER',
       status: 'ACTIVE',
       fosters: {
-        status: 'APPROVED',
+        status: { in: ['APPROVED', 'PENDING'] },
       },
       ...(search ? { name: { contains: search, mode: 'insensitive' } } : {}),
     };
 
-    const [fosters, totalFosters] = await this.prisma.client.$transaction([
+    const [fosters] = await this.prisma.client.$transaction([
       this.prisma.client.user.findMany({
         where: fosterWhere,
         select: {
@@ -551,10 +563,9 @@ export class ConversationQueryService {
     // Create a map of foster conversations
     const convMap = new Map(
       conversations.map((c) => {
-        const fosterId =
-          c.initiatorId !== userId && c.initiatorId !== userShelterId
-            ? c.initiatorId
-            : c.receiverId;
+        const fosterId = fosterIds.includes(c.initiatorId)
+          ? c.initiatorId
+          : c.receiverId;
         return [fosterId!, c];
       }),
     );
@@ -566,7 +577,7 @@ export class ConversationQueryService {
         id: foster.id,
         name: foster.name,
         type: ContactType.FOSTER,
-        lastMessage: conv?.lastMessage?.content || 'No message yet',
+        lastMessage: this.formatLastMessage(conv?.lastMessage),
         lastMessageAt: conv?.updatedAt || null,
         isActive: this.chatGateway.isOnline(foster.id),
         conversationId: conv?.id || null,
@@ -581,7 +592,29 @@ export class ConversationQueryService {
       return a.isActive ? -1 : 1;
     });
 
-    return { list, total: totalFosters };
+    // Only return contacts with an existing conversation
+    const filtered = list.filter((c) => c.conversationId !== null);
+    return { list: filtered, total: filtered.length };
+  }
+
+  /** ---------------- Helper: Format last message preview ---------------- */
+  private formatLastMessage(message: any): string {
+    if (!message) return 'No message yet';
+
+    switch (message.type) {
+      case 'IMAGE':
+        return '📷 Image';
+      case 'VIDEO':
+        return '🎥 Video';
+      case 'AUDIO':
+        return '🎵 Audio';
+      case 'FILE':
+        return '📄 File';
+      case 'VOICE':
+        return '🎤 Voice Message';
+      default:
+        return message.content || '';
+    }
   }
 
   /** ---------------- Helper: Generate default avatar URL based on name ---------------- */

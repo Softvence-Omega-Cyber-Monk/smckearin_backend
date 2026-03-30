@@ -25,8 +25,7 @@ model Transport {
 
   transPortDate DateTime
 
-  animalId String
-  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  animals Animal[] @relation("TransportAnimals")
 
   isBondedPair Boolean @default(false)
 
@@ -47,7 +46,7 @@ model Transport {
   vetClearanceType RequiredVetClearanceType @default(No)
 
   vetClearanceRequestId String?              @unique
-  vetClearanceRequest   VetClearanceRequest? @relation(fields: [vetClearanceRequestId], references: [id], onDelete: SetNull)
+  vetClearanceRequest   VetClearanceRequest? @relation("TransportToVetClearance", fields: [vetClearanceRequestId], references: [id], onDelete: SetNull)
 
   status TransportStatus @default(PENDING)
 
@@ -74,6 +73,7 @@ enum PriorityLevel {
 
 enum TransportStatus {
   PENDING
+  SCHEDULED
   ACCEPTED
   CANCELLED
   PICKED_UP

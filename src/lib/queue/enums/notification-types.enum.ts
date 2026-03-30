@@ -76,4 +76,5 @@ export enum NotificationType {
   HEALTH_REPORT_REJECTED = 'health_report_rejected',
   HEALTH_REPORT_UPDATED = 'health_report_updated',
   HEALTH_REPORT_DELETED = 'health_report_deleted',
+  MESSAGE_RECEIVED = 'message_received',
 }

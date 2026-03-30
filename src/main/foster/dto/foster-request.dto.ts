@@ -14,9 +14,17 @@ import {
 
 export class GetShelterFosterRequestsDto extends PaginationDto {
   @ApiPropertyOptional({
-    example: 'approved',
-    description:
-      'Filter foster requests by status. Also accepts completed as an alias for delivered.',
+    enum: [
+      'ALL',
+      'REQUESTS',
+      'INTERESTED',
+      'APPROVED',
+      'SCHEDULED',
+      'COMPLETED',
+      'CANCELLED',
+    ],
+    example: 'APPROVED',
+    description: 'Filter foster requests by category.',
   })
   @IsOptional()
   @IsString()

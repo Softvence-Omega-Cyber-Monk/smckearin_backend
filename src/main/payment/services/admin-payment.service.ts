@@ -8,8 +8,7 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { UtilsService } from '@/lib/utils/services/utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { ComplexityType, TransactionStatus } from '@prisma';
-import { TransactionWhereInput } from 'prisma/generated/models';
+import { Prisma, ComplexityType, TransactionStatus } from '@prisma';
 import {
   UpdateComplexityFeeDto,
   UpdatePaymentSettingsDto,
@@ -120,7 +119,7 @@ export class AdminPaymentService {
   ): Promise<TPaginatedResponse<DetailedTransactionDto>> {
     const { limit, page, skip } = this.utils.getPagination(dto);
 
-    const where: TransactionWhereInput = {
+    const where: Prisma.TransactionWhereInput = {
       ...(dto.status && { status: dto.status }),
     };
 
@@ -131,7 +130,7 @@ export class AdminPaymentService {
           transport: {
             include: {
               pricingSnapshot: true,
-              animal: true,
+              animals: true,
               driver: {
                 include: { user: true },
               },
@@ -171,7 +170,8 @@ export class AdminPaymentService {
           shelterId: t.transport.shelterId,
           shelterName: t.transport.shelter?.name || 'Unknown',
 
-          animalName: t.transport.animal?.name || 'Unknown',
+          animalName:
+            t.transport.animals.map((a: any) => a.name).join(', ') || 'Unknown',
 
           ratePerMile: snap?.ratePerMile || 0,
           ratePerMinute: snap?.ratePerMinute || 0,

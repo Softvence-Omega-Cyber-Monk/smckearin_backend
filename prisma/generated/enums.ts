@@ -12,7 +12,8 @@
 export const Status = {
   ADOPTED: 'ADOPTED',
   AT_SHELTER: 'AT_SHELTER',
-  IN_TRANSIT: 'IN_TRANSIT'
+  IN_TRANSIT: 'IN_TRANSIT',
+  FOSTERED: 'FOSTERED'
 } as const
 
 export type Status = (typeof Status)[keyof typeof Status]
@@ -140,8 +141,10 @@ export type FileType = (typeof FileType)[keyof typeof FileType]
 export const FosterInterestStatus = {
   INTERESTED: 'INTERESTED',
   APPROVED: 'APPROVED',
+  SCHEDULED: 'SCHEDULED',
   REJECTED: 'REJECTED',
-  WITHDRAWN: 'WITHDRAWN'
+  WITHDRAWN: 'WITHDRAWN',
+  COMPLETED: 'COMPLETED'
 } as const
 
 export type FosterInterestStatus = (typeof FosterInterestStatus)[keyof typeof FosterInterestStatus]
@@ -153,6 +156,7 @@ export const FosterRequestStatus = {
   APPROVED: 'APPROVED',
   SCHEDULED: 'SCHEDULED',
   DELIVERED: 'DELIVERED',
+  COMPLETED: 'COMPLETED',
   CANCELLED: 'CANCELLED'
 } as const
 
@@ -274,6 +278,7 @@ export type PriorityLevel = (typeof PriorityLevel)[keyof typeof PriorityLevel]
 
 export const TransportStatus = {
   PENDING: 'PENDING',
+  SCHEDULED: 'SCHEDULED',
   ACCEPTED: 'ACCEPTED',
   CANCELLED: 'CANCELLED',
   PICKED_UP: 'PICKED_UP',

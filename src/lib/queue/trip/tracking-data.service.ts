@@ -73,7 +73,7 @@ export class TrackingDataService {
       const transport = await this.prisma.client.transport.findUnique({
         where: { id: transportId },
         include: {
-          animal: true,
+          animals: true,
           bondedPair: true,
           driver: {
             include: {
@@ -144,9 +144,9 @@ export class TrackingDataService {
       const result: LiveTrackingData = {
         transportId: transport.id,
 
-        animalId: transport.animal?.id,
-        animalName: transport.animal?.name,
-        animalBreed: transport.animal?.breed,
+        animalId: transport.animals[0]?.id,
+        animalName: transport.animals[0]?.name,
+        animalBreed: transport.animals[0]?.breed,
 
         bondedAnimalId: transport.bondedPairId ?? undefined,
         bondedAnimalName: transport.bondedPair?.name ?? undefined,

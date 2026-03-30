@@ -1,3 +1,5 @@
+import { PaginationDto } from '@/common/dto/pagination.dto';
+import { AppError } from '@/core/error/handle-error.app';
 import {
   GetUser,
   ValidateAdmin,
@@ -5,6 +7,7 @@ import {
   ValidateFoster,
   ValidateManager,
 } from '@/core/jwt/jwt.decorator';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
 import {
   Body,
   Controller,
@@ -25,9 +28,8 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { JWTPayload } from '@/core/jwt/jwt.interface';
-import { AppError } from '@/core/error/handle-error.app';
 import {
+  ConfirmReceiptDto,
   CreateFosterAnimalInterestDto,
   GetFosterAnimalsDto,
   GetFosterRequestsDto,
@@ -78,11 +80,36 @@ export class FosterController {
     );
   }
 
+  @ApiOperation({ summary: 'Get single foster by id' })
+  @Get('foster/:id')
+  async getSingleFoster(
+    @GetUser('sub') userId: string,
+    @Param('id') id: string,
+  ) {
+    return this.fosterService.getSingleFoster(userId, id);
+  }
+
   @ApiOperation({ summary: 'Get shelter foster request counts by status' })
   @ValidateManager()
   @Get('counts')
   async getShelterFosterRequestCounts(@GetUser('sub') userId: string) {
     return this.shelterFosterRequestService.getShelterFosterRequestCounts(
+      userId,
+    );
+  }
+
+  @ApiOperation({ summary: 'Get shelter foster placement statistics' })
+  @ValidateManager()
+  @Get('shelter/placement-stats')
+  async getFosterPlacementStats(@GetUser('sub') userId: string) {
+    return this.shelterFosterRequestService.getFosterPlacementStats(userId);
+  }
+
+  @ApiOperation({ summary: 'Get recently completed foster placements' })
+  @ValidateManager()
+  @Get('shelter/recently-completed')
+  async getShelterRecentlyCompleted(@GetUser('sub') userId: string) {
+    return this.shelterFosterRequestService.getShelterRecentlyCompletedPlacements(
       userId,
     );
   }
@@ -230,12 +257,6 @@ export class FosterController {
     );
   }
 
-  @ApiOperation({ summary: 'Get single foster by id' })
-  @Get('foster/:fosterId')
-  async getSingleFoster(@Param('fosterId') fosterId: string) {
-    return this.fosterService.getSingleFoster(fosterId);
-  }
-
   @ApiOperation({ summary: 'Approve or reject foster (admin only)' })
   @ValidateAdmin()
   @Patch('foster/:fosterId/approve')
@@ -253,11 +274,14 @@ export class FosterController {
     return this.manageFosterService.deleteFoster(fosterId);
   }
 
-  @ApiOperation({ summary: 'Get foster home dashboard' })
+  @ApiOperation({ summary: 'Get foster dashboard data' })
   @ValidateFoster()
   @Get('me/dashboard')
-  async getMyDashboard(@GetUser('sub') userId: string) {
-    return this.fosterAnimalService.getDashboard(userId);
+  async getDashboard(
+    @GetUser('sub') userId: string,
+    @Query() dto: PaginationDto,
+  ) {
+    return this.fosterAnimalService.getDashboard(userId, dto);
   }
 
   @ApiOperation({ summary: 'Get animals available for foster placement' })
@@ -303,6 +327,41 @@ export class FosterController {
     @Query() dto: GetFosterRequestsDto,
   ) {
     return this.fosterAnimalService.getMyRequests(userId, dto);
+  }
+
+  @ApiOperation({ summary: 'Get single foster request details' })
+  @ValidateFoster()
+  @Get('me/requests/:requestId')
+  async getMyRequestDetails(
+    @GetUser('sub') userId: string,
+    @Param('requestId') requestId: string,
+  ) {
+    return this.fosterAnimalService.getRequestDetails(userId, requestId);
+  }
+
+  @ApiOperation({ summary: 'Cancel/Withdraw foster request' })
+  @ValidateFoster()
+  @Patch('me/requests/:requestId/cancel')
+  async cancelMyRequest(
+    @GetUser('sub') userId: string,
+    @Param('requestId') requestId: string,
+  ) {
+    return this.fosterAnimalService.cancelRequest(userId, requestId);
+  }
+
+  @ApiOperation({ summary: 'Foster confirm animal receipt' })
+  @ValidateFoster()
+  @ApiConsumes('multipart/form-data')
+  @Post('me/requests/:requestId/confirm')
+  @UseInterceptors(FileInterceptor('proof'))
+  async confirmReceipt(
+    @GetUser('sub') userId: string,
+    @Param('requestId') requestId: string,
+    @Body() dto: ConfirmReceiptDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    dto.proof = file;
+    return this.fosterAnimalService.confirmReceipt(userId, requestId, dto);
   }
 
   @ApiOperation({

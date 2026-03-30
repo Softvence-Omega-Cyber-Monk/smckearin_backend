@@ -385,7 +385,9 @@ export class BatchOptimizationService {
             dropOffLatitude: 0,
             dropOffLongitude: 0,
             transPortDate: new Date(),
-            animalId: animal.id,
+            animals: {
+              connect: [{ id: animal.id }],
+            },
             isBondedPair: !!animal.bondedWithId,
             bondedPairId: animal.bondedWithId,
             shelterId: batch.originShelterId,

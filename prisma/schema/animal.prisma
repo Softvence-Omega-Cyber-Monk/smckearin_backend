@@ -32,10 +32,13 @@ model Animal {
   image    FileInstance? @relation(fields: [imageId], references: [id], onDelete: SetNull)
 
   // Transports
-  transports             Transport[]
+  transports             Transport[] @relation("TransportAnimals")
   transportsAsBondedPair Transport[] @relation("BondedPair")
   fosterAnimalInterests  FosterAnimalInterest[]
   fosterRequests         FosterRequest[]
+
+  fosteredBy   Foster? @relation(fields: [fosteredById], references: [id], onDelete: SetNull)
+  fosteredById String?
 
   // Health Reports
   healthReports HealthReport[]
@@ -77,6 +80,7 @@ enum Status {
   ADOPTED
   AT_SHELTER
   IN_TRANSIT
+  FOSTERED
 }
 
 enum QuarantineStatus {

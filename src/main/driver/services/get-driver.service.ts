@@ -22,7 +22,7 @@ type DriverWithFiles = Driver & {
   driverLicense: FileInstance | null;
   vehicleRegistration: FileInstance | null;
   transportCertificate: FileInstance | null;
-  transports?: (Transport & { animal: Animal })[];
+  transports?: (Transport & { animals: Animal[] })[];
   dailySchedules?: DailySchedule[];
 };
 
@@ -80,7 +80,7 @@ export class GetDriverService {
           transportCertificate: true,
           transports: {
             include: {
-              animal: true,
+              animals: true,
             },
             orderBy: {
               createdAt: 'desc',
@@ -108,33 +108,32 @@ export class GetDriverService {
 
   @HandleError('Failed to get single driver')
   async getSingleDriver(driverId: string) {
-    const driver: DriverWithFiles =
-      await this.prisma.client.driver.findUniqueOrThrow({
-        where: { id: driverId },
-        include: {
-          user: {
-            include: {
-              profilePicture: true,
-            },
-          },
-          transports: {
-            include: {
-              animal: true,
-            },
-            orderBy: {
-              createdAt: 'desc',
-            },
-          },
-          driverLicense: true,
-          vehicleRegistration: true,
-          transportCertificate: true,
-          dailySchedules: {
-            orderBy: {
-              day: 'asc',
-            },
+    const driver = await this.prisma.client.driver.findUniqueOrThrow({
+      where: { id: driverId },
+      include: {
+        user: {
+          include: {
+            profilePicture: true,
           },
         },
-      });
+        transports: {
+          include: {
+            animals: true,
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+        driverLicense: true,
+        vehicleRegistration: true,
+        transportCertificate: true,
+        dailySchedules: {
+          orderBy: {
+            day: 'asc',
+          },
+        },
+      },
+    });
 
     const flattenedDriver = await this.flattenDriver(driver);
 
@@ -173,7 +172,7 @@ export class GetDriverService {
     const recentTrips =
       driver.transports?.slice(0, 5).map((t) => ({
         id: t.id,
-        pet: t.animal?.name || 'Unknown Pet',
+        pet: t.animals.map((a: any) => a.name).join(', ') || 'Unknown Pet',
         date: t.transPortDate.toISOString().split('T')[0],
         status: t.status,
       })) || [];

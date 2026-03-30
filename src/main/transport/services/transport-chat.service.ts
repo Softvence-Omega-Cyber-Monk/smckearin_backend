@@ -18,6 +18,7 @@ import {
   MarkTransportChatReadDto,
   SendTransportChatMessageDto,
 } from '../dto/transport-chat.dto';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 
 type ChatUserContext = {
   id: string;
@@ -27,7 +28,10 @@ type ChatUserContext = {
 
 @Injectable()
 export class TransportChatService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly userNotificationService: UserNotificationService,
+  ) {}
 
   @HandleError('Failed to get transport chat list', 'TransportChat')
   async getMyTransportChats(userId: string, dto: GetTransportChatMessagesDto) {
@@ -66,7 +70,7 @@ export class TransportChatService {
               status: true,
               priorityLevel: true,
               transPortDate: true,
-              animal: { select: { id: true, name: true, breed: true } },
+              animals: { select: { id: true, name: true, breed: true } },
               shelter: { select: { id: true, name: true } },
               driver: {
                 select: {
@@ -199,7 +203,7 @@ export class TransportChatService {
           status: transport.status,
           priorityLevel: transport.priorityLevel,
           transPortDate: transport.transPortDate,
-          animal: transport.animal,
+          animals: transport.animals,
           shelter: transport.shelter,
           driver: transport.driver,
           vet: transport.vet,
@@ -279,6 +283,16 @@ export class TransportChatService {
       where: { id: conversation.id },
       data: { lastMessageId: message.id },
     });
+
+    await this.userNotificationService.notifyNewMessage(
+      { id: user.id, name: message.sender.name },
+      recipients,
+      {
+        conversationId: conversation.id,
+        content: message.content || 'File attachment',
+        transportId: conversation.transportId || undefined,
+      },
+    );
 
     return successResponse(
       {
@@ -366,7 +380,7 @@ export class TransportChatService {
         priorityLevel: true,
         transPortDate: true,
         shelterId: true,
-        animal: {
+        animals: {
           select: {
             id: true,
             name: true,

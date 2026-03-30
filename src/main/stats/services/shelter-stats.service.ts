@@ -203,7 +203,7 @@ export class ShelterStatsService {
           status: { in: ['ACCEPTED', 'PICKED_UP', 'IN_TRANSIT'] },
         },
         include: {
-          animal: true,
+          animals: true,
         },
         orderBy: { transPortDate: 'asc' },
         take: 5,
@@ -248,9 +248,9 @@ export class ShelterStatsService {
         activeTrips: activeTrips.map((trip, index) => ({
           transportId: trip.id,
           tripId: `Tr-${String(index + 1).padStart(3, '0')}`,
-          animalName: trip.animal?.name ?? null,
-          animalBreed: trip.animal?.breed ?? null,
-          animalPhoto: trip.animal?.imageUrl ?? null,
+          animalName: trip.animals.map((a: any) => a.name).join(', ') || null,
+          animalBreed: trip.animals.map((a: any) => a.breed).join(', ') || null,
+          animalPhoto: trip.animals[0]?.imageUrl ?? null,
           status: trip.status.toLowerCase(),
           pickupLocation: trip.pickUpLocation,
           dropoffLocation: trip.dropOffLocation,

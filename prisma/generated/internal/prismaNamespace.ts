@@ -404,6 +404,7 @@ export const ModelName = {
   Notification: 'Notification',
   UserNotification: 'UserNotification',
   NotificationSettings: 'NotificationSettings',
+  UserFcmToken: 'UserFcmToken',
   OperationEvent: 'OperationEvent',
   PaymentSettings: 'PaymentSettings',
   PricingRule: 'PricingRule',
@@ -438,7 +439,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "fosterAnimalInterest" | "fosterRequest" | "arrivalProof" | "foster" | "fosterDocument" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
+    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "fosterAnimalInterest" | "fosterRequest" | "arrivalProof" | "foster" | "fosterDocument" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "userFcmToken" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1922,6 +1923,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    UserFcmToken: {
+      payload: Prisma.$UserFcmTokenPayload<ExtArgs>
+      fields: Prisma.UserFcmTokenFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserFcmTokenFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserFcmTokenPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserFcmTokenFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserFcmTokenPayload>
+        }
+        findFirst: {
+          args: Prisma.UserFcmTokenFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserFcmTokenPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserFcmTokenFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserFcmTokenPayload>
+        }
+        findMany: {
+          args: Prisma.UserFcmTokenFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserFcmTokenPayload>[]
+        }
+        create: {
+          args: Prisma.UserFcmTokenCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserFcmTokenPayload>
+        }
+        createMany: {
+          args: Prisma.UserFcmTokenCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserFcmTokenCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserFcmTokenPayload>[]
+        }
+        delete: {
+          args: Prisma.UserFcmTokenDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserFcmTokenPayload>
+        }
+        update: {
+          args: Prisma.UserFcmTokenUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserFcmTokenPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserFcmTokenDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserFcmTokenUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserFcmTokenUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserFcmTokenPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserFcmTokenUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserFcmTokenPayload>
+        }
+        aggregate: {
+          args: Prisma.UserFcmTokenAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserFcmToken>
+        }
+        groupBy: {
+          args: Prisma.UserFcmTokenGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserFcmTokenGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserFcmTokenCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserFcmTokenCountAggregateOutputType> | number
+        }
+      }
+    }
     OperationEvent: {
       payload: Prisma.$OperationEventPayload<ExtArgs>
       fields: Prisma.OperationEventFieldRefs
@@ -3396,6 +3471,7 @@ export const AnimalScalarFieldEnum = {
   shelterId: 'shelterId',
   imageId: 'imageId',
   imageUrl: 'imageUrl',
+  fosteredById: 'fosteredById',
   status: 'status',
   externalAnimalId: 'externalAnimalId',
   intakeType: 'intakeType',
@@ -3542,6 +3618,7 @@ export const FosterAnimalInterestScalarFieldEnum = {
   receivingPhone: 'receivingPhone',
   status: 'status',
   reviewedAt: 'reviewedAt',
+  cancelledAt: 'cancelledAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -3580,6 +3657,7 @@ export type FosterRequestScalarFieldEnum = (typeof FosterRequestScalarFieldEnum)
 export const ArrivalProofScalarFieldEnum = {
   id: 'id',
   fosterRequestId: 'fosterRequestId',
+  interestId: 'interestId',
   photoId: 'photoId',
   photoUrl: 'photoUrl',
   notes: 'notes',
@@ -3731,6 +3809,7 @@ export const NotificationSettingsScalarFieldEnum = {
   userId: 'userId',
   emailNotifications: 'emailNotifications',
   smsNotifications: 'smsNotifications',
+  pushNotifications: 'pushNotifications',
   certificateNotifications: 'certificateNotifications',
   appointmentNotifications: 'appointmentNotifications',
   tripNotifications: 'tripNotifications',
@@ -3740,6 +3819,18 @@ export const NotificationSettingsScalarFieldEnum = {
 } as const
 
 export type NotificationSettingsScalarFieldEnum = (typeof NotificationSettingsScalarFieldEnum)[keyof typeof NotificationSettingsScalarFieldEnum]
+
+
+export const UserFcmTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  deviceType: 'deviceType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserFcmTokenScalarFieldEnum = (typeof UserFcmTokenScalarFieldEnum)[keyof typeof UserFcmTokenScalarFieldEnum]
 
 
 export const OperationEventScalarFieldEnum = {
@@ -3973,7 +4064,6 @@ export const TransportScalarFieldEnum = {
   cancellationRequestedAt: 'cancellationRequestedAt',
   cancellationRequestReviewedAt: 'cancellationRequestReviewedAt',
   transPortDate: 'transPortDate',
-  animalId: 'animalId',
   isBondedPair: 'isBondedPair',
   bondedPairId: 'bondedPairId',
   vetId: 'vetId',
@@ -4823,6 +4913,7 @@ export type GlobalOmitConfig = {
   notification?: Prisma.NotificationOmit
   userNotification?: Prisma.UserNotificationOmit
   notificationSettings?: Prisma.NotificationSettingsOmit
+  userFcmToken?: Prisma.UserFcmTokenOmit
   operationEvent?: Prisma.OperationEventOmit
   paymentSettings?: Prisma.PaymentSettingsOmit
   pricingRule?: Prisma.PricingRuleOmit

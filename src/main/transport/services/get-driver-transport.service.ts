@@ -26,8 +26,12 @@ export class GetDriverTransportService {
 
     where.OR = [
       { transportNote: { contains: search, mode: 'insensitive' } },
-      { animal: { name: { contains: search, mode: 'insensitive' } } },
-      { animal: { breed: { contains: search, mode: 'insensitive' } } },
+      {
+        animals: { some: { name: { contains: search, mode: 'insensitive' } } },
+      },
+      {
+        animals: { some: { breed: { contains: search, mode: 'insensitive' } } },
+      },
       { vet: { user: { name: { contains: search, mode: 'insensitive' } } } },
       { shelter: { name: { contains: search, mode: 'insensitive' } } },
       {
@@ -80,7 +84,10 @@ export class GetDriverTransportService {
   private formatTransport(t: any) {
     return {
       id: t.id,
-      animalName: t.animal ? `${t.animal.name} (${t.animal.breed})` : null,
+      animalName:
+        t.animals.length > 0
+          ? t.animals.map((a: any) => `${a.name} (${a.breed})`).join(', ')
+          : null,
       pickUpLocation: t.pickUpLocation,
       dropOffLocation: t.dropOffLocation,
       priority: t.priorityLevel,
@@ -121,7 +128,7 @@ export class GetDriverTransportService {
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: { animal: true },
+        include: { animals: true },
       }),
       this.prisma.client.transport.count({ where }),
     ]);
@@ -161,7 +168,7 @@ export class GetDriverTransportService {
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: { animal: true },
+        include: { animals: true },
       }),
       this.prisma.client.transport.count({ where }),
     ]);
@@ -195,7 +202,7 @@ export class GetDriverTransportService {
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: { animal: true },
+        include: { animals: true },
       }),
       this.prisma.client.transport.count({ where }),
     ]);
@@ -236,7 +243,7 @@ export class GetDriverTransportService {
         take: limit,
         orderBy: { transPortDate: 'desc' },
         include: {
-          animal: true,
+          animals: true,
           vet: { include: { user: true } },
           shelter: true,
         },

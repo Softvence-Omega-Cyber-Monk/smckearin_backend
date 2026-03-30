@@ -1,8 +1,17 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
 import { GetUser, ValidateAuth } from '@/core/jwt/jwt.decorator';
-import { Body, Controller, Get, Param, Patch, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { NotificationSettingsDto } from '../dto/notification.dto';
+import { RegisterFcmTokenDto } from '../dto/fcm-token.dto';
 import { AuthNotificationService } from '../services/auth-notification.service';
 
 @ApiTags('Auth, Notification')
@@ -48,6 +57,17 @@ export class AuthNotificationController {
   @ValidateAuth()
   asyncAllNotificationsRead(@GetUser('sub') userId: string) {
     return this.authNotificationService.markAllNotificationsRead(userId);
+  }
+
+  @ApiOperation({ summary: 'Register FCM Token' })
+  @ApiBearerAuth()
+  @Post('notification/token')
+  @ValidateAuth()
+  async registerFcmToken(
+    @GetUser('sub') userId: string,
+    @Body() dto: RegisterFcmTokenDto,
+  ) {
+    return this.authNotificationService.registerFcmToken(userId, dto);
   }
 
   @ApiOperation({ summary: 'Mark Own Notification Read' })
