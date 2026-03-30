@@ -469,6 +469,7 @@ export class GetFosterService {
     const map: Record<FosterInterestStatus, string> = {
       INTERESTED: 'Interested',
       APPROVED: 'Approved',
+      SCHEDULED: 'Scheduled',
       REJECTED: 'Rejected',
       WITHDRAWN: 'Cancelled',
       COMPLETED: 'Completed',

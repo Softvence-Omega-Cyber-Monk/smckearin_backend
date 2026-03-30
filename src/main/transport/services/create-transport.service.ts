@@ -229,6 +229,17 @@ export class CreateTransportService {
       data: { status: 'IN_TRANSIT', bondedWithId: dto.bondedPairId ?? null },
     });
 
+    // Update foster interest status
+    await this.prisma.client.fosterAnimalInterest.updateMany({
+      where: {
+        animalId: { in: animalsToTransport },
+        status: 'APPROVED',
+      },
+      data: {
+        status: 'SCHEDULED',
+      },
+    });
+
     // Create initial transport timeline
     await this.prisma.client.transportTimeline.create({
       data: {

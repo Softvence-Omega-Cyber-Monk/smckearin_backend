@@ -633,6 +633,16 @@ export class ShelterFosterRequestService {
         data: { status: 'IN_TRANSIT' },
       });
 
+      await tx.fosterAnimalInterest.updateMany({
+        where: {
+          animalId: request.animalId,
+          status: 'APPROVED',
+        },
+        data: {
+          status: 'SCHEDULED',
+        },
+      });
+
       return tx.fosterRequest.update({
         where: { id: request.id },
         data: {
@@ -1109,6 +1119,7 @@ export class ShelterFosterRequestService {
     const map: Record<FosterInterestStatus, string> = {
       INTERESTED: 'Interested',
       APPROVED: 'Approved',
+      SCHEDULED: 'Scheduled',
       REJECTED: 'Rejected',
       WITHDRAWN: 'Cancelled',
       COMPLETED: 'Completed',

@@ -141,6 +141,7 @@ export type FileType = (typeof FileType)[keyof typeof FileType]
 export const FosterInterestStatus = {
   INTERESTED: 'INTERESTED',
   APPROVED: 'APPROVED',
+  SCHEDULED: 'SCHEDULED',
   REJECTED: 'REJECTED',
   WITHDRAWN: 'WITHDRAWN',
   COMPLETED: 'COMPLETED'

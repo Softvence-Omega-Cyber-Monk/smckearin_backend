@@ -34,6 +34,7 @@ model FosterAnimalInterest {
 enum FosterInterestStatus {
   INTERESTED
   APPROVED
+  SCHEDULED
   REJECTED
   WITHDRAWN
   COMPLETED
