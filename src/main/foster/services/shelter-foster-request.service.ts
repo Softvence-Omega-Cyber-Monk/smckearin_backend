@@ -572,7 +572,7 @@ export class ShelterFosterRequestService {
           dropOffLatitude: dropoff.lat,
           dropOffLongitude: dropoff.lng,
           transPortDate: new Date(dto.transportDate),
-          animalId: request.animalId,
+          animals: { connect: { id: request.animalId } },
           driverId: dto.driverId,
           shelterId: request.shelterId,
           status: TransportStatus.PENDING,

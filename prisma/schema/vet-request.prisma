@@ -3,7 +3,7 @@ model VetClearanceRequest {
 
   vetClearance VetClearance
 
-  transports Transport?
+  transport Transport? @relation("TransportToVetClearance")
 
   veterinarianId String?
   veterinarian   Veterinarian? @relation(fields: [veterinarianId], references: [id], onDelete: SetNull)

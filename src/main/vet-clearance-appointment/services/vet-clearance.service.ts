@@ -47,12 +47,14 @@ export class VetClearanceService {
     if (dto.search) {
       where.OR = [
         {
-          transports: {
-            animal: { name: { contains: dto.search, mode: 'insensitive' } },
+          transport: {
+            animals: {
+              some: { name: { contains: dto.search, mode: 'insensitive' } },
+            },
           },
         },
         {
-          transports: {
+          transport: {
             transportNote: { contains: dto.search, mode: 'insensitive' },
           },
         },
@@ -78,7 +80,7 @@ export class VetClearanceService {
         take: limit,
         orderBy: { createdAt: 'desc' },
         include: {
-          transports: { include: { animal: true, shelter: true } },
+          transport: { include: { animals: true, shelter: true } },
           veterinarian: { include: { user: true } },
         },
       }),
@@ -90,7 +92,7 @@ export class VetClearanceService {
       const flags = this.getStatusFlags(c.status);
       return {
         id: c.id,
-        animalId: c.transports?.animalId,
+        animalId: c.transport?.animals[0]?.id,
         vetClearance: c.vetClearance,
         status: c.status,
         veterinarianId: c.veterinarianId,
@@ -98,18 +100,18 @@ export class VetClearanceService {
         notFitReasons: c.notFitReasons,
         createdAt: c.createdAt,
         updatedAt: c.updatedAt,
-        animalInfo: c.transports?.animal,
-        shelterInfo: c.transports?.shelter,
-        transPortDate: c.transports?.transPortDate,
+        animalInfo: c.transport?.animals[0] ?? null,
+        shelterInfo: c.transport?.shelter,
+        transPortDate: c.transport?.transPortDate,
         ...flags,
 
-        transport: c.transports
+        transport: c.transport
           ? {
-              id: c.transports.id,
-              transportNote: c.transports.transportNote,
-              priorityLevel: c.transports.priorityLevel,
-              status: c.transports.status,
-              transPortDate: c.transports.transPortDate,
+              id: c.transport.id,
+              transportNote: c.transport.transportNote,
+              priorityLevel: c.transport.priorityLevel,
+              status: c.transport.status,
+              transPortDate: c.transport.transPortDate,
             }
           : null,
       };
@@ -128,9 +130,9 @@ export class VetClearanceService {
       where: { id },
       include: {
         veterinarian: { include: { user: true } },
-        transports: {
+        transport: {
           include: {
-            animal: true,
+            animals: true,
             shelter: true,
           },
         },
@@ -143,19 +145,21 @@ export class VetClearanceService {
 
     const payload = {
       id: clearance.id,
-      animalId: clearance.transports?.animalId,
+      animalId: clearance.transport?.animals[0]?.id,
       status: clearance.status,
 
-      transPortDate: clearance.transports?.transPortDate ?? null,
+      transPortDate: clearance.transport?.transPortDate ?? null,
 
       veterinarianName: clearance.veterinarian?.user?.name ?? null,
 
-      transportNote: clearance.transports?.transportNote ?? null,
+      transportNote: clearance.transport?.transportNote ?? null,
 
-      animalName: clearance.transports?.animal?.name ?? null,
-      animalBreed: clearance.transports?.animal?.breed ?? null,
+      animalName:
+        clearance.transport?.animals.map((a) => a.name).join(', ') ?? null,
+      animalBreeds:
+        clearance.transport?.animals.map((a) => a.breed).join(', ') ?? null,
 
-      shelterName: clearance.transports?.shelter?.name ?? null,
+      shelterName: clearance.transport?.shelter?.name ?? null,
 
       ...this.getStatusFlags(clearance.status),
     };
@@ -206,7 +210,7 @@ export class VetClearanceService {
         return;
     }
 
-    where.transports = {
+    where.transport = {
       transPortDate: { gte: start.toJSDate(), lte: end.toJSDate() },
     };
   }

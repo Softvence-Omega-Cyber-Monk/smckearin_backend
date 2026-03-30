@@ -54,13 +54,14 @@ export class CreateTransportService {
     }
 
     // Validate animals
-    const animalsToTransport = [dto.animalId];
+    const uniqueAnimalIds = [...new Set(dto.animalId.map((a) => a.id))];
+    const animalsToTransport = [...uniqueAnimalIds];
 
     if (dto.isBondedPair && dto.bondedPairId) {
-      if (dto.animalId === dto.bondedPairId) {
+      if (uniqueAnimalIds.includes(dto.bondedPairId)) {
         throw new AppError(
           HttpStatus.BAD_REQUEST,
-          'Animal and bonded pair cannot be the same',
+          'Bonded pair animal is already included in the animals list',
         );
       }
       animalsToTransport.push(dto.bondedPairId);
@@ -203,7 +204,9 @@ export class CreateTransportService {
 
         transPortDate: new Date(dto.transPortDate),
 
-        animalId: dto.animalId,
+        animals: {
+          connect: dto.animalId.map((a) => ({ id: a.id })),
+        },
 
         isBondedPair: dto.isBondedPair ?? false,
         bondedPairId: dto.isBondedPair ? dto.bondedPairId : null,
@@ -248,7 +251,7 @@ export class CreateTransportService {
       'CREATED',
       transport.id,
       {
-        animalId: dto.animalId,
+        animalIds: animalsToTransport,
         shelterId,
         driverId: selectedDriverId ?? undefined,
         vetId: selectedVetId ?? undefined,

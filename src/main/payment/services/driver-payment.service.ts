@@ -8,8 +8,7 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { StripeService } from '@/lib/stripe/stripe.service';
 import { UtilsService } from '@/lib/utils/services/utils.service';
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { OnboardingStatus } from '@prisma';
-import { TransactionWhereInput } from 'prisma/generated/models';
+import { Prisma, OnboardingStatus } from '@prisma';
 import { CreateOnboardingLinkDto } from '../dto/driver-payment.dto';
 import {
   DetailedTransactionDto,
@@ -169,7 +168,7 @@ export class DriverPaymentService {
 
     const { limit, page, skip } = this.utils.getPagination(dto);
 
-    const where: TransactionWhereInput = {
+    const where: Prisma.TransactionWhereInput = {
       ...(dto.status && { status: dto.status }),
       transport: { driverId: driver.id },
     };
@@ -181,7 +180,7 @@ export class DriverPaymentService {
           transport: {
             include: {
               pricingSnapshot: true,
-              animal: true,
+              animals: true,
               driver: {
                 include: { user: true },
               },
@@ -221,7 +220,8 @@ export class DriverPaymentService {
           shelterId: t.transport.shelterId,
           shelterName: t.transport.shelter?.name || 'Unknown',
 
-          animalName: t.transport.animal?.name || 'Unknown',
+          animalName:
+            t.transport.animals.map((a: any) => a.name).join(', ') || 'Unknown',
 
           ratePerMile: snap?.ratePerMile || 0,
           ratePerMinute: snap?.ratePerMinute || 0,

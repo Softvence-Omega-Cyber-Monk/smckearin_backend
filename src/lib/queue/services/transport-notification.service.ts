@@ -28,7 +28,7 @@ export class TransportNotificationService extends BaseNotificationService {
     const transport = await this.prisma.client.transport.findUnique({
       where: { id: transportId },
       include: {
-        animal: true,
+        animals: true,
         shelter: { include: { shelterAdmins: true, managers: true } },
         driver: { include: { user: true } },
         vet: { include: { user: true } },
@@ -48,11 +48,13 @@ export class TransportNotificationService extends BaseNotificationService {
       ...(transport.shelter?.managers.map((m) => m.id) || []),
     ];
 
+    const animalNames = transport.animals.map((a) => a.name).join(', ');
+
     switch (eventType) {
       case 'CREATED':
         notifType = NotificationType.TRANSPORT_CREATED;
         title = 'New Transport Request Created';
-        message = `A new transport request has been created for ${transport.animal.name}.`;
+        message = `A new transport request has been created for ${animalNames}.`;
         recipients = [
           ...(transport.driver ? [transport.driver.userId] : []),
           ...(transport.vet ? [transport.vet.userId] : []),
@@ -63,7 +65,7 @@ export class TransportNotificationService extends BaseNotificationService {
       case 'DELETED':
         notifType = NotificationType.TRANSPORT_DELETED;
         title = 'Transport Request Cancelled';
-        message = `Transport request for ${transport.animal.name} has been cancelled.`;
+        message = `Transport request for ${animalNames} has been cancelled.`;
         recipients = [
           ...(transport.driver ? [transport.driver.userId] : []),
           ...(transport.vet ? [transport.vet.userId] : []),
@@ -76,14 +78,14 @@ export class TransportNotificationService extends BaseNotificationService {
           ? NotificationType.TRANSPORT_ACCEPTED
           : NotificationType.TRANSPORT_REJECTED;
         title = `Transport ${additionalData.accepted ? 'Accepted' : 'Rejected'}`;
-        message = `Driver has ${additionalData.accepted ? 'accepted' : 'rejected'} the transport request for ${transport.animal.name}.`;
+        message = `Driver has ${additionalData.accepted ? 'accepted' : 'rejected'} the transport request for ${animalNames}.`;
         recipients = [...shelterTeam, ...(await this.getAdmins())];
         break;
 
       case 'DRIVER_ASSIGNED':
         notifType = NotificationType.DRIVER_ASSIGNED;
         title = 'Driver Assigned to Transport';
-        message = `You have been assigned to transport ${transport.animal.name}.`;
+        message = `You have been assigned to transport ${animalNames}.`;
         const driver = await this.prisma.client.driver.findUnique({
           where: { id: additionalData.driverId },
           include: { user: true },
@@ -95,7 +97,7 @@ export class TransportNotificationService extends BaseNotificationService {
       case 'STATUS_UPDATE':
         notifType = NotificationType.TRANSPORT_STATUS_UPDATED;
         title = 'Transport Status Updated';
-        message = `Transport for ${transport.animal.name} is now ${additionalData.status}.`;
+        message = `Transport for ${animalNames} is now ${additionalData.status}.`;
         const fr = await this.prisma.client.fosterRequest.findFirst({
           where: { transportId },
           select: { fosterUserId: true },
@@ -118,7 +120,7 @@ export class TransportNotificationService extends BaseNotificationService {
         recordType: 'Transport',
         recordId: transportId,
         others: {
-          animalName: transport.animal.name,
+          animalName: transport.animals.map((a) => a.name).join(', '),
           shelterId: transport.shelterId,
           driverId: transport.driverId,
           vetId: transport.vetId,

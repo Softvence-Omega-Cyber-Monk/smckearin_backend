@@ -21,7 +21,7 @@ export class GetSingleTransactionService {
         transport: {
           include: {
             pricingSnapshot: true,
-            animal: true,
+            animals: true,
             driver: {
               include: { user: true },
             },
@@ -95,7 +95,9 @@ export class GetSingleTransactionService {
       shelterId: transport.shelterId,
       shelterName: transport.shelter?.name || 'Unknown Shelter',
 
-      animalName: transport.animal?.name || 'Unknown Animal',
+      animalName:
+        transport.animals.map((a: any) => a.name).join(', ') ||
+        'Unknown Animal',
 
       ratePerMile: snapshot?.ratePerMile || 0,
       ratePerMinute: snapshot?.ratePerMinute || 0,

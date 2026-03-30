@@ -32,7 +32,7 @@ model Animal {
   image    FileInstance? @relation(fields: [imageId], references: [id], onDelete: SetNull)
 
   // Transports
-  transports             Transport[]
+  transports             Transport[] @relation("TransportAnimals")
   transportsAsBondedPair Transport[] @relation("BondedPair")
   fosterAnimalInterests  FosterAnimalInterest[]
   fosterRequests         FosterRequest[]

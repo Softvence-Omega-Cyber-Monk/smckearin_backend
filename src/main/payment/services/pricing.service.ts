@@ -20,26 +20,27 @@ export class PricingService {
     pickUpLongitude: number;
     dropOffLatitude: number;
     dropOffLongitude: number;
-    animalId: string;
+    animalIds: string[];
     bondedPairId?: string | null;
     distanceMiles?: number | null;
     durationMinutes?: number | null;
   }) {
-    const [rule, complexityFees, animal, paymentSettings] =
+    const [rule, complexityFees, animals, paymentSettings] =
       await this.prisma.client.$transaction([
         this.prisma.client.pricingRule.findFirst({
           orderBy: { createdAt: 'desc' },
         }),
         this.prisma.client.animalComplexityFee.findMany(),
-        this.prisma.client.animal.findUnique({
-          where: { id: params.animalId },
+        this.prisma.client.animal.findMany({
+          where: { id: { in: params.animalIds } },
         }),
         this.prisma.client.paymentSettings.findFirst(),
       ]);
 
     if (!rule)
       throw new AppError(HttpStatus.NOT_FOUND, 'No pricing rules found');
-    if (!animal) throw new AppError(HttpStatus.NOT_FOUND, 'Animal not found');
+    if (animals.length === 0)
+      throw new AppError(HttpStatus.NOT_FOUND, 'No animals found');
 
     // Default settings if missing (should be seeded, but safety first)
     const settings = paymentSettings || {
@@ -69,18 +70,21 @@ export class PricingService {
       : 0;
     const timeCost = durationMinutes * effectiveRatePerMinute;
 
-    // Find complexity fee
-    const primaryFee = complexityFees.find(
-      (f) => f.type === animal.complexityType,
-    ) || { amount: 0, multiAnimalFlatFee: 0 };
-
-    let multiAnimalFee = 0;
-    if (params.bondedPairId) {
-      // Multi-animal fee is usually flat per additional animal
-      multiAnimalFee = primaryFee.multiAnimalFlatFee;
+    // Find complexity fee for each animal
+    let animalComplexityFee = 0;
+    for (const animal of animals) {
+      const primaryFee = complexityFees.find(
+        (f) => f.type === animal.complexityType,
+      ) || { amount: 0, multiAnimalFlatFee: 0 };
+      animalComplexityFee += primaryFee.amount;
     }
 
-    const animalComplexityFee = primaryFee.amount;
+    let multiAnimalFee = 0;
+    if (params.bondedPairId || animals.length > 1) {
+      // Multi-animal fee if it's a bonded pair or just multiple animals
+      const primaryFee = complexityFees[0] || { multiAnimalFlatFee: 0 };
+      multiAnimalFee = primaryFee.multiAnimalFlatFee * (animals.length - 1);
+    }
 
     const subtotal =
       rule.baseFare +
@@ -119,7 +123,7 @@ export class PricingService {
   async createSnapshot(transportId: string) {
     const transport = await this.prisma.client.transport.findUnique({
       where: { id: transportId },
-      include: { animal: true },
+      include: { animals: true },
     });
 
     if (!transport)
@@ -130,7 +134,7 @@ export class PricingService {
       pickUpLongitude: transport.pickUpLongitude,
       dropOffLatitude: transport.dropOffLatitude,
       dropOffLongitude: transport.dropOffLongitude,
-      animalId: transport.animalId,
+      animalIds: transport.animals.map((a: any) => a.id),
       bondedPairId: transport.bondedPairId,
       distanceMiles: transport.manualDistanceMiles,
       durationMinutes: transport.manualDurationMinutes,

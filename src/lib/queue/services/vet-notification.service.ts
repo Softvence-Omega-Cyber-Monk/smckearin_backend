@@ -25,7 +25,7 @@ export class VetNotificationService extends BaseNotificationService {
     const request = await this.prisma.client.vetClearanceRequest.findUnique({
       where: { id: requestId },
       include: {
-        transports: {
+        transport: {
           include: {
             shelter: { include: { shelterAdmins: true, managers: true } },
             driver: { include: { user: true } },
@@ -34,11 +34,11 @@ export class VetNotificationService extends BaseNotificationService {
       },
     });
 
-    if (!request || !request.transports) return;
+    if (!request || !request.transport) return;
 
     const shelterTeam = [
-      ...(request.transports.shelter?.shelterAdmins.map((a) => a.id) || []),
-      ...(request.transports.shelter?.managers.map((m) => m.id) || []),
+      ...(request.transport.shelter?.shelterAdmins.map((a) => a.id) || []),
+      ...(request.transport.shelter?.managers.map((m) => m.id) || []),
     ];
 
     let notifType: NotificationType;
@@ -60,9 +60,7 @@ export class VetNotificationService extends BaseNotificationService {
       message = `The animal has been marked as not fit for transport. Reasons: ${additionalData.notFitReasons.join(', ')}`;
       recipients = [
         ...recipients,
-        ...(request.transports.driver
-          ? [request.transports.driver.userId]
-          : []),
+        ...(request.transport.driver ? [request.transport.driver.userId] : []),
       ];
       settings.push('tripNotifications');
     }
@@ -77,8 +75,8 @@ export class VetNotificationService extends BaseNotificationService {
         recordType: 'VetClearanceRequest',
         recordId: requestId,
         others: {
-          transportId: request.transports.id,
-          shelterId: request.transports.shelterId,
+          transportId: request.transport.id,
+          shelterId: request.transport.shelterId,
           newStatus: additionalData.newStatus,
           notFitReasons: additionalData.notFitReasons,
         },
@@ -104,7 +102,7 @@ export class VetNotificationService extends BaseNotificationService {
       include: {
         request: {
           include: {
-            transports: {
+            transport: {
               include: {
                 shelter: { include: { shelterAdmins: true, managers: true } },
                 driver: { include: { user: true } },
@@ -116,14 +114,15 @@ export class VetNotificationService extends BaseNotificationService {
       },
     });
 
-    if (!appointment || !appointment.request.transports) return;
+    if (!appointment || !appointment.request.transport) return;
 
     const shelterTeam = [
-      ...(appointment.request.transports.shelter?.shelterAdmins.map(
-        (a) => a.id,
+      ...(appointment.request.transport.shelter?.shelterAdmins.map(
+        (a: any) => a.id,
       ) || []),
-      ...(appointment.request.transports.shelter?.managers.map((m) => m.id) ||
-        []),
+      ...(appointment.request.transport.shelter?.managers.map(
+        (m: any) => m.id,
+      ) || []),
     ];
 
     let notifType: NotificationType;
@@ -140,8 +139,8 @@ export class VetNotificationService extends BaseNotificationService {
         notifType = NotificationType.VET_APPOINTMENT_SCHEDULED;
         title = 'Vet Appointment Scheduled';
         message = `A vet appointment has been scheduled for ${new Date(appointment.appointmentDate).toLocaleDateString()}.`;
-        if (appointment.veterinarian) {
-          recipients = [appointment.veterinarian.userId, ...recipients];
+        if (appointment.veterinarian && appointment.veterinarian.user) {
+          recipients = [appointment.veterinarian.user.id, ...recipients];
         }
         break;
 
@@ -165,8 +164,8 @@ export class VetNotificationService extends BaseNotificationService {
         message = 'The vet appointment has been completed.';
         recipients = [
           ...recipients,
-          ...(appointment.request.transports.driver
-            ? [appointment.request.transports.driver.userId]
+          ...(appointment.request.transport.driver
+            ? [appointment.request.transport.driver.userId]
             : []),
         ];
         settings.push('tripNotifications');
@@ -191,8 +190,8 @@ export class VetNotificationService extends BaseNotificationService {
         recordId: appointmentId,
         others: {
           appointmentDate: appointment.appointmentDate,
-          transportId: appointment.request.transports.id,
-          shelterId: appointment.request.transports.shelterId,
+          transportId: appointment.request.transport.id,
+          shelterId: appointment.request.transport.shelterId,
           status: additionalData?.status,
         },
       },

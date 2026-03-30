@@ -12,7 +12,7 @@ export class GetSingleTransportService {
     const transport = await this.prisma.client.transport.findUniqueOrThrow({
       where: { id },
       include: {
-        animal: true,
+        animals: true,
         bondedPair: true,
         driver: { include: { user: true } },
         vet: { include: { user: true } },
@@ -30,17 +30,15 @@ export class GetSingleTransportService {
       vetClearanceRequired: transport.isVetClearanceRequired,
       vetClearanceType: transport.vetClearanceType,
 
-      // Animal info
-      animal: transport.animal
-        ? {
-            id: transport.animal.id,
-            name: transport.animal.name,
-            species: transport.animal.species,
-            breed: transport.animal.breed,
-            gender: transport.animal.gender,
-            status: transport.animal.status,
-          }
-        : null,
+      // Animals info
+      animals: transport.animals.map((a) => ({
+        id: a.id,
+        name: a.name,
+        species: a.species,
+        breed: a.breed,
+        gender: a.gender,
+        status: a.status,
+      })),
 
       // Bonded pair
       bondedPair: transport.bondedPair

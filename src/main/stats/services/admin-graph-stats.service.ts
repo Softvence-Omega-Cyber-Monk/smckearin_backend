@@ -42,7 +42,11 @@ export class AdminGraphStatsService {
     const { from, to } = this.getDateRange(filterDto.filter);
     const transports = await this.prisma.client.transport.findMany({
       where: { createdAt: { gte: from.toJSDate(), lte: to.toJSDate() } },
-      select: { createdAt: true, status: true, animalId: true },
+      select: {
+        createdAt: true,
+        status: true,
+        animals: { select: { id: true } },
+      },
     });
 
     const graph = this.initGraph(from, to, [
@@ -75,7 +79,7 @@ export class AdminGraphStatsService {
 
       days[dt].activeTrips += t.status !== 'COMPLETED' ? 1 : 0;
       days[dt].completedTransports += t.status === 'COMPLETED' ? 1 : 0;
-      days[dt].totalAnimalsRescued += 1;
+      days[dt].totalAnimalsRescued += t.animals.length;
     });
 
     graph.forEach((g) => {

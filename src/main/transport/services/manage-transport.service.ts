@@ -107,19 +107,17 @@ export class ManageTransportService {
       where: { id: transportId },
       select: {
         shelterId: true,
-        animalId: true,
+        animals: { select: { id: true } },
         isBondedPair: true,
         bondedPairId: true,
       },
     });
 
-    if (!transport.animalId) {
-      throw new AppError(400, 'Transport does not have a primary animal');
-    }
-
-    const animalsToReturn = [transport.animalId];
+    const animalsToReturn = transport.animals.map((a) => a.id);
     if (transport.isBondedPair && transport.bondedPairId) {
-      animalsToReturn.push(transport.bondedPairId);
+      if (!animalsToReturn.includes(transport.bondedPairId)) {
+        animalsToReturn.push(transport.bondedPairId);
+      }
     }
 
     if (this.isAdmin(authUser.role)) {
@@ -490,15 +488,17 @@ export class ManageTransportService {
         await this.prisma.client.transport.findUniqueOrThrow({
           where: { id: transportId },
           select: {
-            animalId: true,
+            animals: { select: { id: true } },
             isBondedPair: true,
             bondedPairId: true,
           },
         });
 
-      const animalsToUpdate = [transportDetails.animalId];
+      const animalsToUpdate = transportDetails.animals.map((a) => a.id);
       if (transportDetails.isBondedPair && transportDetails.bondedPairId) {
-        animalsToUpdate.push(transportDetails.bondedPairId);
+        if (!animalsToUpdate.includes(transportDetails.bondedPairId)) {
+          animalsToUpdate.push(transportDetails.bondedPairId);
+        }
       }
 
       await this.prisma.client.animal.updateMany({

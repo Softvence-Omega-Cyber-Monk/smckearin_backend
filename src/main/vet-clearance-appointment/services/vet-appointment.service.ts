@@ -37,15 +37,17 @@ export class VetAppointmentService {
       // search animal name
       {
         request: {
-          transports: {
-            animal: { name: { contains: search, mode: 'insensitive' } },
+          transport: {
+            animals: {
+              some: { name: { contains: search, mode: 'insensitive' } },
+            },
           },
         },
       },
       // search shelter name
       {
         request: {
-          transports: {
+          transport: {
             shelter: { name: { contains: search, mode: 'insensitive' } },
           },
         },
@@ -130,9 +132,9 @@ export class VetAppointmentService {
         include: {
           request: {
             include: {
-              transports: {
+              transport: {
                 include: {
-                  animal: true,
+                  animals: true,
                   shelter: true,
                 },
               },
@@ -147,7 +149,7 @@ export class VetAppointmentService {
     const transformed = appointments.map((apt) => ({
       id: apt.id,
       appointmentDate: apt.appointmentDate,
-      transportDate: apt.request?.transports?.transPortDate,
+      transportDate: apt.request?.transport?.transPortDate,
       status: apt.status,
       location: apt.location,
       latitude: apt.latitude,
@@ -156,9 +158,9 @@ export class VetAppointmentService {
       createdAt: apt.createdAt,
       updatedAt: apt.updatedAt,
 
-      animalInfo: apt.request?.transports?.animal,
-      shelterInfo: apt.request?.transports?.shelter,
-      transportInfo: apt.request?.transports,
+      animalInfo: apt.request?.transport?.animals[0] ?? null,
+      shelterInfo: apt.request?.transport?.shelter,
+      transportInfo: apt.request?.transport,
       requestId: apt.requestId,
     }));
 
@@ -183,8 +185,8 @@ export class VetAppointmentService {
       include: {
         request: {
           include: {
-            transports: {
-              include: { animal: true, shelter: true },
+            transport: {
+              include: { animals: true, shelter: true },
             },
             veterinarian: { include: { user: true } },
           },
@@ -198,7 +200,7 @@ export class VetAppointmentService {
     if (appointment.veterinarianId !== vet.id)
       throw new AppError(HttpStatus.FORBIDDEN, 'Not your appointment');
 
-    const t = appointment.request?.transports;
+    const t = appointment.request?.transport;
 
     const transformed = {
       id: appointment.id,
@@ -212,7 +214,7 @@ export class VetAppointmentService {
       createdAt: appointment.createdAt,
       updatedAt: appointment.updatedAt,
 
-      animalInfo: t?.animal || null,
+      animalInfo: t?.animals[0] || null,
       shelterInfo: t?.shelter || null,
       transportInfo: t || null,
 

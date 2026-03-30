@@ -4064,7 +4064,6 @@ export const TransportScalarFieldEnum = {
   cancellationRequestedAt: 'cancellationRequestedAt',
   cancellationRequestReviewedAt: 'cancellationRequestReviewedAt',
   transPortDate: 'transPortDate',
-  animalId: 'animalId',
   isBondedPair: 'isBondedPair',
   bondedPairId: 'bondedPairId',
   vetId: 'vetId',
