@@ -81,9 +81,12 @@ export class FosterController {
   }
 
   @ApiOperation({ summary: 'Get single foster by id' })
-  @Get('foster/:fosterId')
-  async getSingleFoster(@Param('fosterId') fosterId: string) {
-    return this.fosterService.getSingleFoster(fosterId);
+  @Get('foster/:id')
+  async getSingleFoster(
+    @GetUser('sub') userId: string,
+    @Param('id') id: string,
+  ) {
+    return this.fosterService.getSingleFoster(userId, id);
   }
 
   @ApiOperation({ summary: 'Get shelter foster request counts by status' })
