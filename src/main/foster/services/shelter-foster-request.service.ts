@@ -832,6 +832,13 @@ export class ShelterFosterRequestService {
 
   private readonly listInterestInclude = {
     animal: {
+      include: {
+        transports: {
+          orderBy: { createdAt: 'desc' as const },
+          take: 1,
+          select: { id: true, status: true },
+        },
+      },
       select: {
         id: true,
         name: true,
@@ -839,6 +846,11 @@ export class ShelterFosterRequestService {
         species: true,
         gender: true,
         status: true,
+        transports: {
+          orderBy: { createdAt: 'desc' as const },
+          take: 1,
+          select: { id: true, status: true },
+        },
       },
     },
     foster: {
@@ -1082,6 +1094,8 @@ export class ShelterFosterRequestService {
     const isScheduled = interest.animal?.status === 'IN_TRANSIT';
     const effectiveStatus = isScheduled ? 'scheduled' : status;
 
+    const activeTransport = interest.animal?.transports?.[0] ?? null;
+
     return {
       id: interest.id,
       type: 'FOSTER_INTEREST',
@@ -1090,6 +1104,7 @@ export class ShelterFosterRequestService {
       displayStatus: isScheduled
         ? 'Scheduled'
         : this.toDisplayStatusFromInterest(interest.status),
+      transportId: activeTransport?.id ?? null,
       animal: interest.animal
         ? {
             id: interest.animal.id,
