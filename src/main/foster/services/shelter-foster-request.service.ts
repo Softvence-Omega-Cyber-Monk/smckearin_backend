@@ -832,13 +832,6 @@ export class ShelterFosterRequestService {
 
   private readonly listInterestInclude = {
     animal: {
-      include: {
-        transports: {
-          orderBy: { createdAt: 'desc' as const },
-          take: 1,
-          select: { id: true, status: true },
-        },
-      },
       select: {
         id: true,
         name: true,
