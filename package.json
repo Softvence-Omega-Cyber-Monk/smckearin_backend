@@ -32,6 +32,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.958.0",
     "@googlemaps/google-maps-services-js": "^3.4.2",
+    "node-fetch": "^3.3.2",
     "@nestjs/bullmq": "^11.0.4",
     "@nestjs/cache-manager": "^3.1.0",
     "@nestjs/common": "^11.1.10",
