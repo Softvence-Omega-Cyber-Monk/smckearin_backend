@@ -495,31 +495,6 @@ export class ManageTransportService {
       data: { status },
     });
 
-    // If status is completed, mark animals as adopted
-    if (status === TransportStatus.COMPLETED) {
-      const transportDetails =
-        await this.prisma.client.transport.findUniqueOrThrow({
-          where: { id: transportId },
-          select: {
-            animals: { select: { id: true } },
-            isBondedPair: true,
-            bondedPairId: true,
-          },
-        });
-
-      const animalsToUpdate = transportDetails.animals.map((a) => a.id);
-      if (transportDetails.isBondedPair && transportDetails.bondedPairId) {
-        if (!animalsToUpdate.includes(transportDetails.bondedPairId)) {
-          animalsToUpdate.push(transportDetails.bondedPairId);
-        }
-      }
-
-      await this.prisma.client.animal.updateMany({
-        where: { id: { in: animalsToUpdate } },
-        data: { status: 'ADOPTED' },
-      });
-    }
-
     // Add Timeline
     await this.addTimeline(
       transportId,
@@ -534,20 +509,6 @@ export class ManageTransportService {
       transportId,
       { status },
     );
-
-    if (status === TransportStatus.COMPLETED) {
-      const fosterRequest = await this.prisma.client.fosterRequest.findFirst({
-        where: { transportId },
-        select: { id: true },
-      });
-
-      if (fosterRequest) {
-        await this.userNotificationService.notifyFosterRequestEvent(
-          'ARRIVED',
-          fosterRequest.id,
-        );
-      }
-    }
 
     return successResponse(updated, `Transport marked as ${status}`);
   }
