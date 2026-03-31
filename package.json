@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "nest start --watch",
+    "dev": "NODE_OPTIONS='--no-deprecation' nest start --watch",
     "build": "nest build",
     "start": "prisma generate && prisma migrate deploy && node dist/src/main",
     "start:debug": "nest start --debug --watch",
@@ -68,6 +68,7 @@
     "passport-jwt": "^4.0.1",
     "pg": "^8.16.3",
     "prisma": "^7.2.0",
+    "punycode": "^2.3.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "socket.io": "^4.8.3",
