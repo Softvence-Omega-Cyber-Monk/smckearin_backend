@@ -99,7 +99,30 @@ export class GetFosterService {
     });
 
     if (foster) {
-      return successResponse(this.flattenFoster(foster), 'Foster found');
+      // Find latest active transport for this foster
+      const activeRequest = await this.prisma.client.fosterRequest.findFirst({
+        where: {
+          fosterUserId: foster.userId,
+          status: {
+            in: [
+              FosterRequestStatus.APPROVED,
+              FosterRequestStatus.SCHEDULED,
+              FosterRequestStatus.DELIVERED,
+            ],
+          },
+          transportId: { not: null },
+        },
+        orderBy: { updatedAt: 'desc' },
+        select: { transportId: true },
+      });
+
+      return successResponse(
+        {
+          ...this.flattenFoster(foster),
+          transportId: activeRequest?.transportId ?? null,
+        },
+        'Foster found',
+      );
     }
 
     // 2. Check if it's a FosterAnimalInterest ID
@@ -366,6 +389,7 @@ export class GetFosterService {
               null,
           }
         : null,
+      transportId: request.transport?.id ?? request.transportId ?? null,
       requestedAt: this.formatDateTime(
         request.requestedAt || request.createdAt,
       ),
@@ -448,6 +472,7 @@ export class GetFosterService {
               null,
           }
         : null,
+      transportId: transport?.id ?? null,
       requestedAt: this.formatDateTime(interest.createdAt),
       createdAt: interest.createdAt,
       cancelledAt: interest.cancelledAt ?? null,
