@@ -303,6 +303,7 @@ export class FosterAnimalService {
             FosterInterestStatus.REJECTED,
             FosterInterestStatus.WITHDRAWN,
             FosterInterestStatus.COMPLETED,
+            FosterInterestStatus.SCHEDULED,
           ],
         },
       },
