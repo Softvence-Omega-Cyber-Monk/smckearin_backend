@@ -214,7 +214,11 @@ export class ManageTransportService {
       );
     }
 
-    if (!transport.driverId && transport.status !== TransportStatus.PENDING) {
+    if (
+      !transport.driverId &&
+      transport.status !== TransportStatus.PENDING &&
+      transport.status !== TransportStatus.SCHEDULED
+    ) {
       throw new AppError(
         HttpStatus.BAD_REQUEST,
         'Only pending unassigned transport can be accepted',
@@ -292,9 +296,13 @@ export class ManageTransportService {
 
     if (
       transport.status !== TransportStatus.PENDING &&
+      transport.status !== TransportStatus.SCHEDULED &&
       transport.status !== TransportStatus.CANCELLED
     ) {
-      throw new AppError(HttpStatus.FORBIDDEN, 'Transport is not pending');
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'Transport is not in a valid state (Pending/Scheduled/Cancelled)',
+      );
     }
 
     const updated = await this.prisma.client.transport.update({
@@ -305,7 +313,7 @@ export class ManageTransportService {
     // Timeline entry
     await this.addTimeline(
       transportId,
-      TransportStatus.PENDING,
+      updated.status,
       `Driver assigned: ${driverId}`,
     );
 
