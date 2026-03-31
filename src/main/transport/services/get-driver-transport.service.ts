@@ -114,7 +114,7 @@ export class GetDriverTransportService {
 
     const where: Prisma.TransportWhereInput = {
       OR: [{ driverId: null }, { driverId: driver.id }],
-      status: { in: [TransportStatus.PENDING] },
+      status: { in: [TransportStatus.PENDING, TransportStatus.SCHEDULED] },
       pickUpLatitude: { gte: latitude - deltaLat, lte: latitude + deltaLat },
       pickUpLongitude: { gte: longitude - deltaLon, lte: longitude + deltaLon },
     };
@@ -190,7 +190,7 @@ export class GetDriverTransportService {
 
     const where: Prisma.TransportWhereInput = {
       driverId: driver.id,
-      status: TransportStatus.PENDING,
+      status: { in: [TransportStatus.PENDING, TransportStatus.SCHEDULED] },
     };
 
     this.applySearch(where, dto.search);
