@@ -238,7 +238,7 @@ export type VetAppointmentGroupByOutputType = {
   _max: VetAppointmentMaxAggregateOutputType | null
 }
 
-type GetVetAppointmentGroupByPayload<T extends VetAppointmentGroupByArgs> = Prisma.PrismaPromise<
+export type GetVetAppointmentGroupByPayload<T extends VetAppointmentGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<VetAppointmentGroupByOutputType, T['by']> &
       {
@@ -1542,6 +1542,11 @@ export type VetAppointmentFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Skip the first `n` VetAppointments.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of VetAppointments.
+   */
   distinct?: Prisma.VetAppointmentScalarFieldEnum | Prisma.VetAppointmentScalarFieldEnum[]
 }
 

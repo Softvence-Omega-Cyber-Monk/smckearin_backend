@@ -227,7 +227,7 @@ export type FileInstanceGroupByOutputType = {
   _max: FileInstanceMaxAggregateOutputType | null
 }
 
-type GetFileInstanceGroupByPayload<T extends FileInstanceGroupByArgs> = Prisma.PrismaPromise<
+export type GetFileInstanceGroupByPayload<T extends FileInstanceGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<FileInstanceGroupByOutputType, T['by']> &
       {
@@ -2870,6 +2870,11 @@ export type FileInstanceFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Skip the first `n` FileInstances.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of FileInstances.
+   */
   distinct?: Prisma.FileInstanceScalarFieldEnum | Prisma.FileInstanceScalarFieldEnum[]
 }
 

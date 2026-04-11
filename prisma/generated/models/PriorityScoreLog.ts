@@ -215,7 +215,7 @@ export type PriorityScoreLogGroupByOutputType = {
   _max: PriorityScoreLogMaxAggregateOutputType | null
 }
 
-type GetPriorityScoreLogGroupByPayload<T extends PriorityScoreLogGroupByArgs> = Prisma.PrismaPromise<
+export type GetPriorityScoreLogGroupByPayload<T extends PriorityScoreLogGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PriorityScoreLogGroupByOutputType, T['by']> &
       {
@@ -1494,6 +1494,11 @@ export type PriorityScoreLogFindManyArgs<ExtArgs extends runtime.Types.Extension
    * Skip the first `n` PriorityScoreLogs.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of PriorityScoreLogs.
+   */
   distinct?: Prisma.PriorityScoreLogScalarFieldEnum | Prisma.PriorityScoreLogScalarFieldEnum[]
 }
 

@@ -196,7 +196,7 @@ export type VeterinarianGroupByOutputType = {
   _max: VeterinarianMaxAggregateOutputType | null
 }
 
-type GetVeterinarianGroupByPayload<T extends VeterinarianGroupByArgs> = Prisma.PrismaPromise<
+export type GetVeterinarianGroupByPayload<T extends VeterinarianGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<VeterinarianGroupByOutputType, T['by']> &
       {
@@ -2082,6 +2082,11 @@ export type VeterinarianFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Skip the first `n` Veterinarians.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Veterinarians.
+   */
   distinct?: Prisma.VeterinarianScalarFieldEnum | Prisma.VeterinarianScalarFieldEnum[]
 }
 

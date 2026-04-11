@@ -165,7 +165,7 @@ export type UserFcmTokenGroupByOutputType = {
   _max: UserFcmTokenMaxAggregateOutputType | null
 }
 
-type GetUserFcmTokenGroupByPayload<T extends UserFcmTokenGroupByArgs> = Prisma.PrismaPromise<
+export type GetUserFcmTokenGroupByPayload<T extends UserFcmTokenGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UserFcmTokenGroupByOutputType, T['by']> &
       {
@@ -1157,6 +1157,11 @@ export type UserFcmTokenFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Skip the first `n` UserFcmTokens.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of UserFcmTokens.
+   */
   distinct?: Prisma.UserFcmTokenScalarFieldEnum | Prisma.UserFcmTokenScalarFieldEnum[]
 }
 

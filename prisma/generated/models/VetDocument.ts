@@ -186,7 +186,7 @@ export type VetDocumentGroupByOutputType = {
   _max: VetDocumentMaxAggregateOutputType | null
 }
 
-type GetVetDocumentGroupByPayload<T extends VetDocumentGroupByArgs> = Prisma.PrismaPromise<
+export type GetVetDocumentGroupByPayload<T extends VetDocumentGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<VetDocumentGroupByOutputType, T['by']> &
       {
@@ -1369,6 +1369,11 @@ export type VetDocumentFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Skip the first `n` VetDocuments.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of VetDocuments.
+   */
   distinct?: Prisma.VetDocumentScalarFieldEnum | Prisma.VetDocumentScalarFieldEnum[]
 }
 

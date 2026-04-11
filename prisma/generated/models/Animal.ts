@@ -418,7 +418,7 @@ export type AnimalGroupByOutputType = {
   _max: AnimalMaxAggregateOutputType | null
 }
 
-type GetAnimalGroupByPayload<T extends AnimalGroupByArgs> = Prisma.PrismaPromise<
+export type GetAnimalGroupByPayload<T extends AnimalGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<AnimalGroupByOutputType, T['by']> &
       {
@@ -5159,6 +5159,11 @@ export type AnimalFindManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Skip the first `n` Animals.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Animals.
+   */
   distinct?: Prisma.AnimalScalarFieldEnum | Prisma.AnimalScalarFieldEnum[]
 }
 

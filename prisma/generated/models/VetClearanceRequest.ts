@@ -168,7 +168,7 @@ export type VetClearanceRequestGroupByOutputType = {
   _max: VetClearanceRequestMaxAggregateOutputType | null
 }
 
-type GetVetClearanceRequestGroupByPayload<T extends VetClearanceRequestGroupByArgs> = Prisma.PrismaPromise<
+export type GetVetClearanceRequestGroupByPayload<T extends VetClearanceRequestGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<VetClearanceRequestGroupByOutputType, T['by']> &
       {
@@ -1424,6 +1424,11 @@ export type VetClearanceRequestFindManyArgs<ExtArgs extends runtime.Types.Extens
    * Skip the first `n` VetClearanceRequests.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of VetClearanceRequests.
+   */
   distinct?: Prisma.VetClearanceRequestScalarFieldEnum | Prisma.VetClearanceRequestScalarFieldEnum[]
 }
 

@@ -272,7 +272,7 @@ export type TransportBatchGroupByOutputType = {
   _max: TransportBatchMaxAggregateOutputType | null
 }
 
-type GetTransportBatchGroupByPayload<T extends TransportBatchGroupByArgs> = Prisma.PrismaPromise<
+export type GetTransportBatchGroupByPayload<T extends TransportBatchGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<TransportBatchGroupByOutputType, T['by']> &
       {
@@ -1952,6 +1952,11 @@ export type TransportBatchFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Skip the first `n` TransportBatches.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of TransportBatches.
+   */
   distinct?: Prisma.TransportBatchScalarFieldEnum | Prisma.TransportBatchScalarFieldEnum[]
 }
 

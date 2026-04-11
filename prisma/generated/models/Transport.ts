@@ -394,7 +394,7 @@ export type TransportGroupByOutputType = {
   _max: TransportMaxAggregateOutputType | null
 }
 
-type GetTransportGroupByPayload<T extends TransportGroupByArgs> = Prisma.PrismaPromise<
+export type GetTransportGroupByPayload<T extends TransportGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<TransportGroupByOutputType, T['by']> &
       {
@@ -4568,6 +4568,11 @@ export type TransportFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Skip the first `n` Transports.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Transports.
+   */
   distinct?: Prisma.TransportScalarFieldEnum | Prisma.TransportScalarFieldEnum[]
 }
 

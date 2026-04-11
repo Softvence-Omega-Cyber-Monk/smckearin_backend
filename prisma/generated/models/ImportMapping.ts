@@ -178,7 +178,7 @@ export type ImportMappingGroupByOutputType = {
   _max: ImportMappingMaxAggregateOutputType | null
 }
 
-type GetImportMappingGroupByPayload<T extends ImportMappingGroupByArgs> = Prisma.PrismaPromise<
+export type GetImportMappingGroupByPayload<T extends ImportMappingGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ImportMappingGroupByOutputType, T['by']> &
       {
@@ -1381,6 +1381,11 @@ export type ImportMappingFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Skip the first `n` ImportMappings.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of ImportMappings.
+   */
   distinct?: Prisma.ImportMappingScalarFieldEnum | Prisma.ImportMappingScalarFieldEnum[]
 }
 

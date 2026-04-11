@@ -277,7 +277,7 @@ export type FosterRequestGroupByOutputType = {
   _max: FosterRequestMaxAggregateOutputType | null
 }
 
-type GetFosterRequestGroupByPayload<T extends FosterRequestGroupByArgs> = Prisma.PrismaPromise<
+export type GetFosterRequestGroupByPayload<T extends FosterRequestGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<FosterRequestGroupByOutputType, T['by']> &
       {
@@ -2483,6 +2483,11 @@ export type FosterRequestFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Skip the first `n` FosterRequests.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of FosterRequests.
+   */
   distinct?: Prisma.FosterRequestScalarFieldEnum | Prisma.FosterRequestScalarFieldEnum[]
 }
 

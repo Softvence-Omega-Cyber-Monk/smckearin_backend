@@ -244,7 +244,7 @@ export type ExternalFeedConfigGroupByOutputType = {
   _max: ExternalFeedConfigMaxAggregateOutputType | null
 }
 
-type GetExternalFeedConfigGroupByPayload<T extends ExternalFeedConfigGroupByArgs> = Prisma.PrismaPromise<
+export type GetExternalFeedConfigGroupByPayload<T extends ExternalFeedConfigGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ExternalFeedConfigGroupByOutputType, T['by']> &
       {
@@ -1440,6 +1440,11 @@ export type ExternalFeedConfigFindManyArgs<ExtArgs extends runtime.Types.Extensi
    * Skip the first `n` ExternalFeedConfigs.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of ExternalFeedConfigs.
+   */
   distinct?: Prisma.ExternalFeedConfigScalarFieldEnum | Prisma.ExternalFeedConfigScalarFieldEnum[]
 }
 

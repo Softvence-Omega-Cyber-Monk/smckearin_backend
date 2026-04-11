@@ -324,7 +324,7 @@ export type ImportJobGroupByOutputType = {
   _max: ImportJobMaxAggregateOutputType | null
 }
 
-type GetImportJobGroupByPayload<T extends ImportJobGroupByArgs> = Prisma.PrismaPromise<
+export type GetImportJobGroupByPayload<T extends ImportJobGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ImportJobGroupByOutputType, T['by']> &
       {
@@ -2562,6 +2562,11 @@ export type ImportJobFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Skip the first `n` ImportJobs.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of ImportJobs.
+   */
   distinct?: Prisma.ImportJobScalarFieldEnum | Prisma.ImportJobScalarFieldEnum[]
 }
 
