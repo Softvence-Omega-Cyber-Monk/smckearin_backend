@@ -193,7 +193,7 @@ export type PrivateConversationGroupByOutputType = {
   _max: PrivateConversationMaxAggregateOutputType | null
 }
 
-type GetPrivateConversationGroupByPayload<T extends PrivateConversationGroupByArgs> = Prisma.PrismaPromise<
+export type GetPrivateConversationGroupByPayload<T extends PrivateConversationGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PrivateConversationGroupByOutputType, T['by']> &
       {
@@ -2084,6 +2084,11 @@ export type PrivateConversationFindManyArgs<ExtArgs extends runtime.Types.Extens
    * Skip the first `n` PrivateConversations.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of PrivateConversations.
+   */
   distinct?: Prisma.PrivateConversationScalarFieldEnum | Prisma.PrivateConversationScalarFieldEnum[]
 }
 

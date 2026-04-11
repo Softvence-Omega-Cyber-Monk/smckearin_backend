@@ -247,7 +247,7 @@ export type PricingRuleGroupByOutputType = {
   _max: PricingRuleMaxAggregateOutputType | null
 }
 
-type GetPricingRuleGroupByPayload<T extends PricingRuleGroupByArgs> = Prisma.PrismaPromise<
+export type GetPricingRuleGroupByPayload<T extends PricingRuleGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PricingRuleGroupByOutputType, T['by']> &
       {
@@ -1168,6 +1168,11 @@ export type PricingRuleFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Skip the first `n` PricingRules.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of PricingRules.
+   */
   distinct?: Prisma.PricingRuleScalarFieldEnum | Prisma.PricingRuleScalarFieldEnum[]
 }
 

@@ -299,7 +299,7 @@ export type ShelterGroupByOutputType = {
   _max: ShelterMaxAggregateOutputType | null
 }
 
-type GetShelterGroupByPayload<T extends ShelterGroupByArgs> = Prisma.PrismaPromise<
+export type GetShelterGroupByPayload<T extends ShelterGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ShelterGroupByOutputType, T['by']> &
       {
@@ -5154,6 +5154,11 @@ export type ShelterFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Skip the first `n` Shelters.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Shelters.
+   */
   distinct?: Prisma.ShelterScalarFieldEnum | Prisma.ShelterScalarFieldEnum[]
 }
 

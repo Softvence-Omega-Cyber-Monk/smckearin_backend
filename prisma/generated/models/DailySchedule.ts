@@ -186,7 +186,7 @@ export type DailyScheduleGroupByOutputType = {
   _max: DailyScheduleMaxAggregateOutputType | null
 }
 
-type GetDailyScheduleGroupByPayload<T extends DailyScheduleGroupByArgs> = Prisma.PrismaPromise<
+export type GetDailyScheduleGroupByPayload<T extends DailyScheduleGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<DailyScheduleGroupByOutputType, T['by']> &
       {
@@ -1554,6 +1554,11 @@ export type DailyScheduleFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Skip the first `n` DailySchedules.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of DailySchedules.
+   */
   distinct?: Prisma.DailyScheduleScalarFieldEnum | Prisma.DailyScheduleScalarFieldEnum[]
 }
 

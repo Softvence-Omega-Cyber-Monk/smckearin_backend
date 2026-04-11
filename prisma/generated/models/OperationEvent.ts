@@ -231,7 +231,7 @@ export type OperationEventGroupByOutputType = {
   _max: OperationEventMaxAggregateOutputType | null
 }
 
-type GetOperationEventGroupByPayload<T extends OperationEventGroupByArgs> = Prisma.PrismaPromise<
+export type GetOperationEventGroupByPayload<T extends OperationEventGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<OperationEventGroupByOutputType, T['by']> &
       {
@@ -2253,6 +2253,11 @@ export type OperationEventFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Skip the first `n` OperationEvents.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of OperationEvents.
+   */
   distinct?: Prisma.OperationEventScalarFieldEnum | Prisma.OperationEventScalarFieldEnum[]
 }
 

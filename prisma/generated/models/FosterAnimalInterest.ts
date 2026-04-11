@@ -221,7 +221,7 @@ export type FosterAnimalInterestGroupByOutputType = {
   _max: FosterAnimalInterestMaxAggregateOutputType | null
 }
 
-type GetFosterAnimalInterestGroupByPayload<T extends FosterAnimalInterestGroupByArgs> = Prisma.PrismaPromise<
+export type GetFosterAnimalInterestGroupByPayload<T extends FosterAnimalInterestGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<FosterAnimalInterestGroupByOutputType, T['by']> &
       {
@@ -1917,6 +1917,11 @@ export type FosterAnimalInterestFindManyArgs<ExtArgs extends runtime.Types.Exten
    * Skip the first `n` FosterAnimalInterests.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of FosterAnimalInterests.
+   */
   distinct?: Prisma.FosterAnimalInterestScalarFieldEnum | Prisma.FosterAnimalInterestScalarFieldEnum[]
 }
 

@@ -210,7 +210,7 @@ export type TransportTimelineGroupByOutputType = {
   _max: TransportTimelineMaxAggregateOutputType | null
 }
 
-type GetTransportTimelineGroupByPayload<T extends TransportTimelineGroupByArgs> = Prisma.PrismaPromise<
+export type GetTransportTimelineGroupByPayload<T extends TransportTimelineGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<TransportTimelineGroupByOutputType, T['by']> &
       {
@@ -1242,6 +1242,11 @@ export type TransportTimelineFindManyArgs<ExtArgs extends runtime.Types.Extensio
    * Skip the first `n` TransportTimelines.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of TransportTimelines.
+   */
   distinct?: Prisma.TransportTimelineScalarFieldEnum | Prisma.TransportTimelineScalarFieldEnum[]
 }
 

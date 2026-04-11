@@ -219,7 +219,7 @@ export type ImportRowGroupByOutputType = {
   _max: ImportRowMaxAggregateOutputType | null
 }
 
-type GetImportRowGroupByPayload<T extends ImportRowGroupByArgs> = Prisma.PrismaPromise<
+export type GetImportRowGroupByPayload<T extends ImportRowGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ImportRowGroupByOutputType, T['by']> &
       {
@@ -1333,6 +1333,11 @@ export type ImportRowFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Skip the first `n` ImportRows.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of ImportRows.
+   */
   distinct?: Prisma.ImportRowScalarFieldEnum | Prisma.ImportRowScalarFieldEnum[]
 }
 

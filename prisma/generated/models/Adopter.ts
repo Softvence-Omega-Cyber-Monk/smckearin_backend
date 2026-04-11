@@ -193,7 +193,7 @@ export type AdopterGroupByOutputType = {
   _max: AdopterMaxAggregateOutputType | null
 }
 
-type GetAdopterGroupByPayload<T extends AdopterGroupByArgs> = Prisma.PrismaPromise<
+export type GetAdopterGroupByPayload<T extends AdopterGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<AdopterGroupByOutputType, T['by']> &
       {
@@ -1244,6 +1244,11 @@ export type AdopterFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Skip the first `n` Adopters.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Adopters.
+   */
   distinct?: Prisma.AdopterScalarFieldEnum | Prisma.AdopterScalarFieldEnum[]
 }
 

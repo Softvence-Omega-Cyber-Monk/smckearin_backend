@@ -186,7 +186,7 @@ export type ShelterDocumentGroupByOutputType = {
   _max: ShelterDocumentMaxAggregateOutputType | null
 }
 
-type GetShelterDocumentGroupByPayload<T extends ShelterDocumentGroupByArgs> = Prisma.PrismaPromise<
+export type GetShelterDocumentGroupByPayload<T extends ShelterDocumentGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ShelterDocumentGroupByOutputType, T['by']> &
       {
@@ -1369,6 +1369,11 @@ export type ShelterDocumentFindManyArgs<ExtArgs extends runtime.Types.Extensions
    * Skip the first `n` ShelterDocuments.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of ShelterDocuments.
+   */
   distinct?: Prisma.ShelterDocumentScalarFieldEnum | Prisma.ShelterDocumentScalarFieldEnum[]
 }
 

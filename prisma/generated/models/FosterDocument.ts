@@ -186,7 +186,7 @@ export type FosterDocumentGroupByOutputType = {
   _max: FosterDocumentMaxAggregateOutputType | null
 }
 
-type GetFosterDocumentGroupByPayload<T extends FosterDocumentGroupByArgs> = Prisma.PrismaPromise<
+export type GetFosterDocumentGroupByPayload<T extends FosterDocumentGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<FosterDocumentGroupByOutputType, T['by']> &
       {
@@ -1369,6 +1369,11 @@ export type FosterDocumentFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Skip the first `n` FosterDocuments.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of FosterDocuments.
+   */
   distinct?: Prisma.FosterDocumentScalarFieldEnum | Prisma.FosterDocumentScalarFieldEnum[]
 }
 

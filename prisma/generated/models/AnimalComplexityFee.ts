@@ -203,7 +203,7 @@ export type AnimalComplexityFeeGroupByOutputType = {
   _max: AnimalComplexityFeeMaxAggregateOutputType | null
 }
 
-type GetAnimalComplexityFeeGroupByPayload<T extends AnimalComplexityFeeGroupByArgs> = Prisma.PrismaPromise<
+export type GetAnimalComplexityFeeGroupByPayload<T extends AnimalComplexityFeeGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<AnimalComplexityFeeGroupByOutputType, T['by']> &
       {
@@ -1044,6 +1044,11 @@ export type AnimalComplexityFeeFindManyArgs<ExtArgs extends runtime.Types.Extens
    * Skip the first `n` AnimalComplexityFees.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of AnimalComplexityFees.
+   */
   distinct?: Prisma.AnimalComplexityFeeScalarFieldEnum | Prisma.AnimalComplexityFeeScalarFieldEnum[]
 }
 

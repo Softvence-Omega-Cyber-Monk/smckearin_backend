@@ -186,7 +186,7 @@ export type ArrivalProofGroupByOutputType = {
   _max: ArrivalProofMaxAggregateOutputType | null
 }
 
-type GetArrivalProofGroupByPayload<T extends ArrivalProofGroupByArgs> = Prisma.PrismaPromise<
+export type GetArrivalProofGroupByPayload<T extends ArrivalProofGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ArrivalProofGroupByOutputType, T['by']> &
       {
@@ -1404,6 +1404,11 @@ export type ArrivalProofFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Skip the first `n` ArrivalProofs.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of ArrivalProofs.
+   */
   distinct?: Prisma.ArrivalProofScalarFieldEnum | Prisma.ArrivalProofScalarFieldEnum[]
 }
 

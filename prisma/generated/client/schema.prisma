@@ -1,0 +1,1523 @@
+model Adopter {
+  id String @id @default(uuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  phone   String @unique
+  city    String
+  state   String
+  address String
+
+  housingType String
+
+  status ApprovalStatus @default(APPROVED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("adopters")
+}
+
+model AnimalComplexityFee {
+  id String @id @default(uuid())
+
+  type ComplexityType @unique
+
+  amount Float @default(0.0)
+
+  // Additional fee for each animal after the first one
+  multiAnimalFlatFee Float @default(0.0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("animal_complexity_fees")
+}
+
+model Animal {
+  id String @id @default(uuid())
+
+  name  String
+  breed String
+
+  age    Int   @default(0)
+  weight Float @default(0)
+
+  species SPECIES
+  gender  Gender
+
+  color         String?
+  specialNeeds  String?
+  medicalNotes  String?
+  behaviorNotes String?
+
+  complexityType ComplexityType @default(STANDARD)
+
+  // Bonded Pair (Self Relation)
+  bondedWithId String?
+  bondedWith   Animal?  @relation("BondedPair", fields: [bondedWithId], references: [id], onDelete: SetNull)
+  bondedBy     Animal[] @relation("BondedPair")
+
+  // Current shelter
+  shelterId String?
+  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: SetNull)
+
+  // File
+  imageId  String?       @unique
+  imageUrl String?
+  image    FileInstance? @relation(fields: [imageId], references: [id], onDelete: SetNull)
+
+  // Transports
+  transports             Transport[]            @relation("TransportAnimals")
+  transportsAsBondedPair Transport[]            @relation("BondedPair")
+  fosterAnimalInterests  FosterAnimalInterest[]
+  fosterRequests         FosterRequest[]
+
+  fosteredBy   Foster? @relation(fields: [fosteredById], references: [id], onDelete: SetNull)
+  fosteredById String?
+
+  // Health Reports
+  healthReports HealthReport[]
+
+  status Status @default(AT_SHELTER)
+
+  // External Data Tracking (for CSV/API imports)
+  externalAnimalId String?   @unique // ID from external systems
+  intakeType       String? // e.g., "Stray", "Owner Surrender", "Transfer"
+  intakeDate       DateTime? // When animal entered shelter
+
+  // Medical Readiness Fields
+  medicalHoldFlag      Boolean          @default(false)
+  quarantineStatus     QuarantineStatus @default(CLEARED)
+  vaccinationsUpToDate Boolean          @default(false)
+  rabiesExpiration     DateTime?
+  heartwormStatus      HeartwormStatus?
+  specialNeedsFlag     Boolean          @default(false)
+  clearedForTransport  Boolean          @default(false) // Auto-calculated
+
+  // Priority Scoring
+  priorityScore               Float              @default(0) // 0-100 scale
+  priorityScoreFormulaVersion String             @default("v1.0.0")
+  lengthOfStayDays            Int                @default(0) // Auto-calculated from intakeDate
+  lastScoreUpdate             DateTime?
+  priorityScoreLogs           PriorityScoreLog[]
+  operationEvents             OperationEvent[]
+
+  // Crate size for transport optimization
+  crateUnits Float @default(1) // Standard crate = 1, Large = 2, etc.
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("animals")
+}
+
+enum Status {
+  ADOPTED
+  AT_SHELTER
+  IN_TRANSIT
+  FOSTERED
+}
+
+enum QuarantineStatus {
+  CLEARED
+  QUARANTINE
+  OBSERVATION
+}
+
+enum HeartwormStatus {
+  NEGATIVE
+  POSITIVE
+  TREATMENT
+  UNKNOWN
+}
+
+model UserOtp {
+  id String @id @default(uuid())
+
+  code String // hashed OTP
+  type OtpType
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([userId])
+  @@map("user_otps")
+}
+
+model RefreshToken {
+  id    String @id @default(uuid())
+  token String @unique
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("refresh_tokens")
+}
+
+enum OtpType {
+  VERIFICATION
+  RESET
+}
+
+model DailySchedule {
+  id String @id @default(uuid())
+
+  day WorkingDay
+
+  // Operating hours for this specific day (HH:mm format)
+  startTime String
+  endTime   String
+
+  // Polymorphic ownership — exactly one of these will be set
+  driverId String?
+  driver   Driver? @relation(fields: [driverId], references: [id], onDelete: Cascade)
+
+  veterinarianId String?
+  veterinarian   Veterinarian? @relation(fields: [veterinarianId], references: [id], onDelete: Cascade)
+
+  shelterId String?
+  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("daily_schedules")
+}
+
+model Driver {
+  id String @id @default(uuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  phone   String @unique
+  state   String
+  address String
+
+  vehicleType       String
+  vehicleCapacity   Int
+  yearsOfExperience Int
+
+  previousExperience String?
+
+  // Operating Schedule (HH:mm format)
+  startTime String @default("09:00")
+  endTime   String @default("17:00")
+
+  workingDays WorkingDay[]
+
+  // Driver License
+  driverLicenseId     String?        @unique
+  driverLicenseUrl    String?
+  driverLicense       FileInstance?  @relation("DriverLicense", fields: [driverLicenseId], references: [id], onDelete: SetNull)
+  driverLicenseStatus ApprovalStatus @default(PENDING)
+
+  // Vehicle Registration
+  vehicleRegistrationId     String?        @unique
+  vehicleRegistrationUrl    String?
+  vehicleRegistration       FileInstance?  @relation("VehicleRegistration", fields: [vehicleRegistrationId], references: [id], onDelete: SetNull)
+  vehicleRegistrationStatus ApprovalStatus @default(PENDING)
+
+  // Animal Transport Certificate
+  transportCertificateId     String?        @unique
+  transportCertificateUrl    String?
+  transportCertificate       FileInstance?  @relation("TransportCertificate", fields: [transportCertificateId], references: [id], onDelete: SetNull)
+  transportCertificateStatus ApprovalStatus @default(PENDING)
+
+  // Overall driver approval status
+  status ApprovalStatus @default(PENDING)
+
+  // Real-time tracking
+  currentLatitude  Float?
+  currentLongitude Float?
+  lastLocationPing DateTime?
+
+  // For payouts of transport charges
+  stripeAccountId  String?          @unique
+  onboardingStatus OnboardingStatus @default(NOT_STARTED)
+  payoutEnabled    Boolean          @default(false)
+
+  // Transports
+  transports     Transport[]
+  dailySchedules DailySchedule[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("drivers")
+}
+
+enum WorkingDay {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum SPECIES {
+  DOG
+  CAT
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PaymentMode {
+  VOLUNTEER
+  PAID
+}
+
+enum OnboardingStatus {
+  NOT_STARTED
+  PENDING
+  COMPLETE
+}
+
+enum ComplexityType {
+  STANDARD
+  PUPPY_KITTEN
+  MEDICAL
+  SPECIAL_HANDLING
+}
+
+enum TransactionStatus {
+  PENDING // Transaction created but not yet processed
+  HOLD // Manually held by admin; payment paused
+  PROCESSING // Payment is in progress (payment intent pending confirmation)
+  CHARGED // Shelter successfully charged
+  TRANSFERRED // Driver payout completed
+  FAILED // Payment or transfer failed
+  REFUNDED // Payment refunded to shelter
+  CANCELLED // Transaction cancelled
+}
+
+model ExternalFeedConfig {
+  id String @id @default(uuid())
+
+  name     String // e.g., "24PetConnect Feed"
+  provider String // e.g., "24PETCONNECT", "ADOPT_A_PET"
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  apiUrl      String
+  apiKey      String?
+  credentials Json? // For auth if needed
+
+  pollInterval Int @default(3600) // Seconds between polls (default 1 hour)
+
+  lastSyncAt     DateTime?
+  lastSyncStatus String? // "SUCCESS", "FAILED", "PARTIAL"
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("external_feed_configs")
+}
+
+model FileInstance {
+  id String @id @default(uuid())
+
+  filename         String
+  originalFilename String
+  path             String
+  url              String
+  fileType         FileType @default(any)
+  mimeType         String
+  size             Int
+
+  user                 User?
+  shelter              Shelter?
+  driverLicense        Driver?          @relation("DriverLicense")
+  vehicleRegistration  Driver?          @relation("VehicleRegistration")
+  transportCertificate Driver?          @relation("TransportCertificate")
+  tripAnimal           Animal?
+  healthReports        HealthReport?
+  vetDocuments         VetDocument?
+  shelterDocuments     ShelterDocument?
+  fosterDocuments      FosterDocument?
+  arrivalProof         ArrivalProof?
+
+  privateMessages PrivateMessage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("file_instances")
+}
+
+enum FileType {
+  image
+  docs
+  link
+  document
+  any
+  video
+  audio
+}
+
+model FosterAnimalInterest {
+  id String @id @default(uuid())
+
+  fosterId String
+  foster   Foster @relation(fields: [fosterId], references: [id], onDelete: Cascade)
+
+  animalId String
+  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  preferredArrivalDate DateTime?
+  availableFromTime    String
+  availableUntilTime   String
+
+  receivingAddress String
+  receivingPhone   String
+
+  status      FosterInterestStatus @default(INTERESTED)
+  reviewedAt  DateTime?
+  cancelledAt DateTime?
+
+  arrivalProof ArrivalProof?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+
+  @@index([fosterId, status])
+  @@index([animalId, status])
+  @@index([shelterId, status])
+  @@map("foster_animal_interests")
+}
+
+enum FosterInterestStatus {
+  INTERESTED
+  APPROVED
+  SCHEDULED
+  REJECTED
+  WITHDRAWN
+  COMPLETED
+}
+
+model FosterRequest {
+  id String @id @default(uuid())
+
+  animalId String
+  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  fosterUserId String?
+  fosterUser   User?   @relation("UserFosterRequests", fields: [fosterUserId], references: [id], onDelete: SetNull)
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  status FosterRequestStatus @default(REQUESTED)
+
+  requestedAt  DateTime  @default(now())
+  cancelledAt  DateTime?
+  deliveryTime DateTime?
+
+  estimateTransportDate      DateTime?
+  estimateTransportTimeStart String?
+  estimateTransportTimeEnd   String?
+  spayNeuterAvailable        Boolean   @default(false)
+  spayNeuterDate             DateTime?
+  spayNeuterNextDate         DateTime?
+  lastCheckupDate            DateTime?
+  vaccinationsDate           DateTime?
+
+  shelterNote    String
+  petPersonality String
+  cancelReason   String?
+
+  transportId String?    @unique
+  transport   Transport? @relation(fields: [transportId], references: [id], onDelete: SetNull)
+
+  arrivalProof ArrivalProof?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([animalId, status])
+  @@index([fosterUserId, status])
+  @@index([shelterId, status])
+  @@map("foster_requests")
+}
+
+model ArrivalProof {
+  id String @id @default(uuid())
+
+  fosterRequestId String?        @unique
+  fosterRequest   FosterRequest? @relation(fields: [fosterRequestId], references: [id], onDelete: Cascade)
+
+  interestId String?               @unique
+  interest   FosterAnimalInterest? @relation(fields: [interestId], references: [id], onDelete: Cascade)
+
+  photoId  String?       @unique
+  photoUrl String
+  photo    FileInstance? @relation(fields: [photoId], references: [id], onDelete: SetNull)
+
+  notes String?
+
+  confirmedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  @@map("arrival_proofs")
+}
+
+enum FosterRequestStatus {
+  REQUESTED
+  INTERESTED
+  APPROVED
+  SCHEDULED
+  DELIVERED
+  COMPLETED
+  CANCELLED
+}
+
+model Foster {
+  id String @id @default(uuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  phone   String @unique
+  city    String
+  state   String
+  address String
+
+  animalType        String
+  sizePreference    String
+  experienceLevel   String?
+  age               String
+  preferredLocation String
+  preferredMile     Float
+
+  fosterAnimalInterests FosterAnimalInterest[]
+  fosterDocuments       FosterDocument[]
+  fosteredAnimals       Animal[]
+
+  status ApprovalStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("fosters")
+}
+
+model FosterDocument {
+  id String @id @default(uuid())
+
+  name String
+  type String
+
+  fosterId String
+  foster   Foster @relation(fields: [fosterId], references: [id], onDelete: Cascade)
+
+  documentId  String       @unique
+  documentUrl String
+  document    FileInstance @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  status ApprovalStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("foster_documents")
+}
+
+model HealthReport {
+  id String @id @default(uuid())
+
+  veterinarianId String
+  veterinarian   Veterinarian @relation(fields: [veterinarianId], references: [id], onDelete: Cascade)
+
+  animalId String
+  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  reportType String
+
+  note String
+
+  reportId    String?       @unique
+  reportIdUrl String?
+  report      FileInstance? @relation(fields: [reportId], references: [id], onDelete: SetNull)
+
+  status ApprovalStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("health_reports")
+}
+
+model ImportJob {
+  id String @id @default(uuid())
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  mappingTemplateId String?
+  mappingTemplate   ImportMapping? @relation(fields: [mappingTemplateId], references: [id], onDelete: SetNull)
+
+  sourceType     ImportSourceType @default(CSV)
+  sourceFileName String?
+  sourceChecksum String?
+  fileSizeBytes  Int?
+
+  idempotencyKey String @unique
+
+  requestedByUserId String?
+  requestedByUser   User?   @relation("ImportJobRequestedBy", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+
+  status ImportJobStatus @default(PENDING)
+
+  totalRows     Int @default(0)
+  processedRows Int @default(0)
+  createdCount  Int @default(0)
+  updatedCount  Int @default(0)
+  skippedCount  Int @default(0)
+  errorCount    Int @default(0)
+
+  auditLog Json?
+
+  startedAt  DateTime?
+  finishedAt DateTime?
+
+  rows   ImportRow[]
+  events OperationEvent[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([shelterId, createdAt])
+  @@index([shelterId, sourceChecksum])
+  @@map("import_jobs")
+}
+
+model ImportRow {
+  id String @id @default(uuid())
+
+  importJobId String
+  importJob   ImportJob @relation(fields: [importJobId], references: [id], onDelete: Cascade)
+
+  rowNumber  Int
+  rawData    Json
+  mappedData Json?
+
+  action     ImportRowAction
+  entityType String?
+  entityId   String?
+
+  errorMessage String?
+
+  createdAt DateTime @default(now())
+
+  @@index([importJobId, rowNumber])
+  @@index([importJobId, action])
+  @@map("import_rows")
+}
+
+enum ImportSourceType {
+  CSV
+  EXTERNAL_FEED
+}
+
+enum ImportJobStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  DUPLICATE
+}
+
+enum ImportRowAction {
+  CREATED
+  UPDATED
+  SKIPPED
+  ERROR
+}
+
+model ImportMapping {
+  id String @id @default(uuid())
+
+  name        String // e.g., "Chameleon Export Template"
+  description String?
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  // JSON mapping: { "source_column": "target_field" }
+  // Example: { "AnimalID": "externalAnimalId", "IntakeReason": "intakeType" }
+  fieldMapping Json
+
+  // Transformation rules (JSON)
+  transformations Json? // e.g., { "Species": { "Canine": "DOG", "Feline": "CAT" } }
+
+  isActive Boolean @default(true)
+
+  importJobs ImportJob[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("import_mappings")
+}
+
+model Notification {
+  id String @id @default(uuid())
+
+  type    String
+  title   String
+  message String
+
+  // Use JSON to store metadata
+  meta Json
+
+  users UserNotification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("notifications")
+}
+
+model UserNotification {
+  id String @id @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  notificationId String
+
+  read Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([userId, notificationId])
+  @@map("user_notifications")
+}
+
+model NotificationSettings {
+  id String @id @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+
+  // Global settings (all users)
+  emailNotifications Boolean @default(true)
+  smsNotifications   Boolean @default(false)
+  pushNotifications  Boolean @default(true)
+
+  // Shelter admin / Manager / Vet
+  certificateNotifications Boolean @default(false)
+  appointmentNotifications Boolean @default(true)
+
+  // Driver, Admin & Superadmin
+  tripNotifications    Boolean @default(true)
+  paymentNotifications Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("notification_settings")
+}
+
+model UserFcmToken {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token      String   @unique
+  deviceType String? // optional
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+
+  @@map("user_fcm_tokens")
+}
+
+model OperationEvent {
+  id String @id @default(uuid())
+
+  domain OperationDomain
+  action String
+  status OperationStatus
+
+  correlationId  String?
+  idempotencyKey String?
+
+  entityType String?
+  entityId   String?
+
+  payload      Json?
+  errorMessage String?
+
+  shelterId String?
+  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: SetNull)
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  animalId String?
+  animal   Animal? @relation(fields: [animalId], references: [id], onDelete: SetNull)
+
+  importJobId String?
+  importJob   ImportJob? @relation(fields: [importJobId], references: [id], onDelete: SetNull)
+
+  transportBatchId String?
+  transportBatch   TransportBatch? @relation(fields: [transportBatchId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([domain, createdAt])
+  @@index([correlationId])
+  @@index([entityType, entityId])
+  @@map("operation_events")
+}
+
+enum OperationDomain {
+  IMPORT
+  PRIORITY_SCORING
+  OPTIMIZER
+}
+
+enum OperationStatus {
+  STARTED
+  SUCCESS
+  FAILURE
+  DUPLICATE
+}
+
+model PaymentSettings {
+  id String @id @default(uuid())
+
+  // Global Feature Flags
+  driverPaymentsEnabled   Boolean @default(false)
+  platformFeesEnabled     Boolean @default(false)
+  timeBasedPricingEnabled Boolean @default(false)
+
+  // Payout
+  paymentMode    PaymentMode @default(VOLUNTEER)
+  paymentEnabled Boolean     @default(false)
+
+  // Automatic Payout Configuration
+  automaticPayoutsEnabled Boolean @default(false)
+  payoutDayOfMonth        Int     @default(1)
+
+  // Meta
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("payment_settings")
+}
+
+model PricingRule {
+  id String @id @default(uuid())
+
+  ratePerMile        Float @default(0.65)
+  ratePerMinute      Float @default(0.0)
+  baseFare           Float @default(0.0)
+  platformFeePercent Float @default(0.0)
+  minPayout          Float @default(0.0)
+
+  effectiveDate DateTime @default(now())
+
+  // To track different versions of pricing logic
+  calculationVersion Int @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("pricing_rules")
+}
+
+model PricingSnapshot {
+  id String @id @default(uuid())
+
+  transportId String    @unique
+  transport   Transport @relation(fields: [transportId], references: [id], onDelete: Cascade)
+
+  // Distance & Time recorded at time of snapshot
+  distanceMiles   Float
+  durationMinutes Float
+
+  // Rates captured at time of snapshot
+  ratePerMile   Float
+  ratePerMinute Float
+
+  // Breakdown results
+  distanceCost        Float
+  timeCost            Float
+  animalComplexityFee Float
+  multiAnimalFee      Float
+  platformFeeAmount   Float
+
+  // Final calculations
+  driverGrossPayout Float
+  totalRideCost     Float
+
+  createdAt DateTime @default(now())
+
+  @@map("pricing_snapshots")
+}
+
+model PriorityScoreLog {
+  id String @id @default(uuid())
+
+  animalId String
+  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  shelterId String?
+  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: SetNull)
+
+  formulaVersion String
+  score          Float
+
+  breakdown     Json
+  details       String[]
+  inputSnapshot Json
+
+  triggerType PriorityScoreTriggerType @default(SYSTEM)
+
+  createdAt DateTime @default(now())
+
+  @@index([animalId, createdAt])
+  @@index([shelterId, createdAt])
+  @@map("priority_score_logs")
+}
+
+enum PriorityScoreTriggerType {
+  MANUAL
+  CRON
+  SYSTEM
+}
+
+model PrivateConversation {
+  id String @id @default(uuid())
+
+  /// User who initiated the conversation
+  initiatorId String
+  initiator   User   @relation("ConversationInitiator", fields: [initiatorId], references: [id], onDelete: Cascade)
+
+  /// User who received the conversation (Optional if chatting with a shelter)
+  receiverId String?
+  receiver   User?   @relation("ConversationReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  /// Shelter participating in the conversation (Optional if chatting with a user)
+  shelterId String?
+  shelter   Shelter? @relation("ShelterConversations", fields: [shelterId], references: [id], onDelete: Cascade)
+
+  /// Conversation scope: MAIN for existing chat, TRANSPORT for ride-specific chat
+  chatScope ConversationScope @default(MAIN)
+
+  /// Transport relation for ride-specific chat (null for MAIN chat)
+  transportId String?
+  transport   Transport? @relation("TransportConversation", fields: [transportId], references: [id], onDelete: Cascade)
+
+  messages PrivateMessage[]
+
+  lastMessageId String?
+  lastMessage   PrivateMessage? @relation("PrivateLastMessage", fields: [lastMessageId], references: [id], onDelete: SetNull)
+
+  status ConversationStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([chatScope, transportId])
+  @@unique([initiatorId, receiverId, shelterId, chatScope, transportId])
+  @@index([chatScope, updatedAt])
+  @@map("private_conversations")
+}
+
+enum ConversationStatus {
+  ACTIVE
+  ARCHIVED
+  BLOCKED
+}
+
+enum ConversationScope {
+  MAIN
+  TRANSPORT
+}
+
+model PrivateMessage {
+  id String @id @default(uuid())
+
+  content String?
+  type    MessageType @default(TEXT)
+
+  fileId String?
+  file   FileInstance? @relation(fields: [fileId], references: [id], onDelete: SetNull)
+
+  conversationId String
+  conversation   PrivateConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  senderId String
+  sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  privateLastMessage PrivateConversation[]  @relation("PrivateLastMessage")
+  statuses           PrivateMessageStatus[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([conversationId, createdAt])
+  @@map("private_messages")
+}
+
+model PrivateMessageStatus {
+  id String @id @default(uuid())
+
+  messageId String
+  message   PrivateMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status MessageDeliveryStatus @default(SENT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([messageId, userId])
+  @@map("private_message_statuses")
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+  VOICE
+}
+
+enum MessageDeliveryStatus {
+  SENT
+  DELIVERED
+  SEEN
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Shelter {
+  id String @id @default(uuid())
+
+  name        String
+  address     String?
+  phone       String? @unique
+  description String?
+
+  logoId  String?       @unique
+  logoUrl String?
+  logo    FileInstance? @relation(fields: [logoId], references: [id], onDelete: SetNull)
+
+  // Operating Schedule (HH:mm format)
+  startTime String @default("09:00")
+  endTime   String @default("17:00")
+
+  workingDays WorkingDay[]
+
+  status ApprovalStatus @default(PENDING)
+
+  // For billing of transports charges
+  stripeCustomerId             String? @unique
+  stripeDefaultPaymentMethodId String? @unique
+
+  // Shelter-level admins and their team
+  shelterAdmins User[] @relation("ShelterAdmins")
+  managers      User[] @relation("Managers")
+
+  // Animals in the shelter
+  animals               Animal[]
+  fosterAnimalInterests FosterAnimalInterest[]
+  fosterRequests        FosterRequest[]
+
+  // Shelter Documents
+  shelterDocuments ShelterDocument[]
+
+  // Transports
+  transports Transport[]
+
+  // Capacity Tracking
+  totalKennels       Int   @default(0)
+  openKennels        Int   @default(0)
+  currentUtilization Float @default(0) // Percentage (0-100)
+
+  // Intake Restrictions (JSON arrays)
+  acceptsSpecies   String[] @default([]) // e.g., ["DOG", "CAT"]
+  acceptsSizes     String[] @default([]) // e.g., ["SMALL", "MEDIUM", "LARGE"]
+  acceptsBreeds    String[] @default([]) // Empty = accepts all
+  restrictedBreeds String[] @default([]) // Breeds NOT accepted
+
+  // External Feed Configurations
+  externalFeedConfigs ExternalFeedConfig[]
+
+  // Import Mappings
+  importMappings ImportMapping[]
+  importJobs     ImportJob[]
+  dailySchedules DailySchedule[]
+
+  // Transport Batches
+  originBatches      TransportBatch[] @relation("OriginBatches")
+  destinationBatches TransportBatch[] @relation("DestinationBatches")
+
+  // Conversations (Shelter as a participant)
+  conversations     PrivateConversation[] @relation("ShelterConversations")
+  operationEvents   OperationEvent[]
+  priorityScoreLogs PriorityScoreLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("shelters")
+}
+
+model ShelterDocument {
+  id String @id @default(uuid())
+
+  name String
+  type String
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  documentId  String       @unique
+  documentUrl String
+  document    FileInstance @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  status ApprovalStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("shelter_documents")
+}
+
+model Transaction {
+  id String @id @default(uuid())
+
+  transportId String    @unique
+  transport   Transport @relation(fields: [transportId], references: [id], onDelete: Cascade)
+
+  stripePaymentIntentId String? // One intent can cover multiple transactions
+  stripeTransferId      String?
+
+  amount   Float
+  currency String @default("usd")
+
+  status TransactionStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("transactions")
+}
+
+model TransportBatch {
+  id String @id @default(uuid())
+
+  name String // e.g., "Batch 2026-02-17 High Priority"
+
+  originShelterId String
+  originShelter   Shelter @relation("OriginBatches", fields: [originShelterId], references: [id], onDelete: Cascade)
+
+  destinationShelterId String
+  destinationShelter   Shelter @relation("DestinationBatches", fields: [destinationShelterId], references: [id], onDelete: Cascade)
+
+  vehicleCapacity Float // Total crate units available
+
+  // Optimization Results
+  selectedAnimalIds  String[] // Array of animal IDs
+  totalPriorityScore Float
+  totalCrateUnits    Float
+  estimatedCost      Float?
+
+  // Explainability
+  optimizationLog             Json // Detailed rationale for each animal
+  optimizationInputSnapshot   Json?
+  optimizationConstraintTrace Json?
+  optimizerVersion            String @default("heuristic-v1")
+
+  status BatchStatus @default(PENDING)
+
+  executedAt      DateTime? // When transports were created from this batch
+  operationEvents OperationEvent[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("transport_batches")
+}
+
+enum BatchStatus {
+  PENDING
+  EXECUTED
+  CANCELLED
+}
+
+model Transport {
+  id String @id @default(uuid())
+
+  transportNote String
+
+  priorityLevel PriorityLevel
+
+  pickUpLocation  String
+  pickUpLatitude  Float
+  pickUpLongitude Float
+
+  dropOffLocation  String
+  dropOffLatitude  Float
+  dropOffLongitude Float
+
+  manualDistanceMiles   Float?
+  manualDurationMinutes Float?
+  vehicleName           String?
+
+  cancellationRequestStatus     CancellationRequestStatus?
+  cancellationRequestReason     String?
+  cancellationRequestReviewNote String?
+  cancellationRequestedAt       DateTime?
+  cancellationRequestReviewedAt DateTime?
+
+  transPortDate DateTime
+
+  animals Animal[] @relation("TransportAnimals")
+
+  isBondedPair Boolean @default(false)
+
+  bondedPairId String?
+  bondedPair   Animal? @relation("BondedPair", fields: [bondedPairId], references: [id], onDelete: SetNull)
+
+  vetId String?
+  vet   Veterinarian? @relation(fields: [vetId], references: [id], onDelete: SetNull)
+
+  driverId String?
+  driver   Driver? @relation(fields: [driverId], references: [id], onDelete: SetNull)
+
+  shelterId String?
+  shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: SetNull)
+
+  isVetClearanceRequired Boolean @default(false)
+
+  vetClearanceType RequiredVetClearanceType @default(No)
+
+  vetClearanceRequestId String?              @unique
+  vetClearanceRequest   VetClearanceRequest? @relation("TransportToVetClearance", fields: [vetClearanceRequestId], references: [id], onDelete: SetNull)
+
+  status TransportStatus @default(PENDING)
+
+  pricingSnapshot PricingSnapshot?
+  transaction     Transaction?
+  fosterRequest   FosterRequest?
+
+  transportTimelines TransportTimeline[]
+  chatConversations  PrivateConversation[] @relation("TransportConversation")
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  acceptedAt  DateTime?
+  completedAt DateTime?
+
+  @@map("transports")
+}
+
+enum PriorityLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TransportStatus {
+  PENDING
+  SCHEDULED
+  ACCEPTED
+  CANCELLED
+  PICKED_UP
+  IN_TRANSIT
+  COMPLETED
+}
+
+enum CancellationRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum RequiredVetClearanceType {
+  Health
+  Vaccination
+  Both
+  No
+}
+
+model TransportTimeline {
+  id String @id @default(uuid())
+
+  transportId String
+  transport   Transport @relation(fields: [transportId], references: [id], onDelete: Cascade)
+
+  status TransportStatus
+
+  note      String?
+  latitude  Float?
+  longitude Float?
+
+  createdAt DateTime @default(now())
+
+  @@index([transportId])
+  @@map("transport_timelines")
+}
+
+model User {
+  id String @id @default(uuid())
+
+  // Identity
+  name     String @default("Unnamed User")
+  email    String @unique
+  password String // hashed password
+
+  // Role & status
+  role       UserRole
+  status     UserStatus @default(ACTIVE)
+  isVerified Boolean    @default(false)
+
+  // Activity tracking
+  lastLoginAt  DateTime?
+  lastActiveAt DateTime?
+
+  // Avatar
+  profilePictureId  String?       @unique
+  profilePictureUrl String?
+  profilePicture    FileInstance? @relation(fields: [profilePictureId], references: [id], onDelete: SetNull)
+
+  // Notifications
+  notificationSettings NotificationSettings?
+  notifications        UserNotification[]
+  fcmTokens            UserFcmToken[]
+
+  // Authentication
+  refreshTokens RefreshToken[]
+  otps          UserOtp[]
+
+  // CHAT & CALL RELATIONS
+  conversationsInitiated PrivateConversation[]  @relation("ConversationInitiator")
+  conversationsReceived  PrivateConversation[]  @relation("ConversationReceiver")
+  messagesSent           PrivateMessage[]
+  messageStatuses        PrivateMessageStatus[]
+  requestedImportJobs    ImportJob[]            @relation("ImportJobRequestedBy")
+  operationEvents        OperationEvent[]
+
+  // Shelter Association
+  shelterAdminOfId String?
+  shelterAdminOf   Shelter? @relation("ShelterAdmins", fields: [shelterAdminOfId], references: [id], onDelete: SetNull)
+
+  managerOfId String?
+  managerOf   Shelter? @relation("Managers", fields: [managerOfId], references: [id], onDelete: SetNull)
+
+  // Driver
+  drivers Driver?
+
+  // Foster
+  fosters        Foster?
+  fosterRequests FosterRequest[] @relation("UserFosterRequests")
+
+  // Adopter
+  adopters Adopter?
+
+  // Veterinarian
+  veterinarians Veterinarian?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("users")
+}
+
+enum UserRole {
+  // System-level roles
+  SUPER_ADMIN
+  ADMIN
+
+  // Shelter-level roles
+  SHELTER_ADMIN // manages MANAGERs in a shelter
+  MANAGER // managed by shelter admin
+
+  // Vet
+  VETERINARIAN
+
+  // Driver
+  DRIVER
+
+  // Foster
+  FOSTER
+
+  // ADOPTER
+  ADOPTER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  DELETED
+}
+
+model VetClearanceRequest {
+  id String @id @default(uuid())
+
+  vetClearance VetClearance
+
+  transport Transport? @relation("TransportToVetClearance")
+
+  veterinarianId String?
+  veterinarian   Veterinarian? @relation(fields: [veterinarianId], references: [id], onDelete: SetNull)
+
+  status VetClearanceRequestStatus @default(PENDING_REVIEW)
+
+  notFitReasons String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  vetAppointments VetAppointment[]
+
+  @@map("vet_clearance_requests")
+}
+
+enum VetClearance {
+  Health
+  Vaccination
+  Both
+}
+
+enum VetClearanceRequestStatus {
+  PENDING_REVIEW
+  PENDING_EVALUATION
+  REJECTED
+  CERTIFIED
+  NOT_FIT
+  NEEDS_VISIT
+}
+
+model VetAppointment {
+  id String @id @default(uuid())
+
+  requestId String              @unique
+  request   VetClearanceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  veterinarianId String?
+  veterinarian   Veterinarian? @relation(fields: [veterinarianId], references: [id], onDelete: SetNull)
+
+  appointmentDate DateTime
+
+  location  String?
+  latitude  Float?
+  longitude Float?
+
+  notes String?
+
+  status VetAppointmentStatus @default(SCHEDULED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("vet_appointments")
+}
+
+enum VetAppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  MISSED
+}
+
+model Veterinarian {
+  id String @id @default(uuid())
+
+  phone       String? @unique
+  license     String? @unique
+  description String?
+
+  // Operating Schedule (HH:mm format)
+  startTime String @default("09:00")
+  endTime   String @default("17:00")
+
+  workingDays WorkingDay[]
+
+  // Vet Clearance
+  vetClearanceRequests VetClearanceRequest[]
+  vetAppointments      VetAppointment[]
+
+  // Health Reports
+  healthReports HealthReport[]
+
+  // Vet Documents
+  vetDocuments VetDocument[]
+
+  // Assigned Transports
+  transports     Transport[]
+  dailySchedules DailySchedule[]
+
+  status ApprovalStatus @default(PENDING)
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("veterinarians")
+}
+
+model VetDocument {
+  id String @id @default(uuid())
+
+  name String
+  type String
+
+  vetId String
+  vet   Veterinarian @relation(fields: [vetId], references: [id], onDelete: Cascade)
+
+  documentId  String       @unique
+  documentUrl String
+  document    FileInstance @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  status ApprovalStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("vet_documents")
+}
