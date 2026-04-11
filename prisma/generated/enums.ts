@@ -315,7 +315,8 @@ export const UserRole = {
   MANAGER: 'MANAGER',
   VETERINARIAN: 'VETERINARIAN',
   DRIVER: 'DRIVER',
-  FOSTER: 'FOSTER'
+  FOSTER: 'FOSTER',
+  ADOPTER: 'ADOPTER'
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]

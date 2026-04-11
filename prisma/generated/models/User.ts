@@ -279,6 +279,7 @@ export type UserWhereInput = {
   drivers?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
   fosters?: Prisma.XOR<Prisma.FosterNullableScalarRelationFilter, Prisma.FosterWhereInput> | null
   fosterRequests?: Prisma.FosterRequestListRelationFilter
+  adopters?: Prisma.XOR<Prisma.AdopterNullableScalarRelationFilter, Prisma.AdopterWhereInput> | null
   veterinarians?: Prisma.XOR<Prisma.VeterinarianNullableScalarRelationFilter, Prisma.VeterinarianWhereInput> | null
 }
 
@@ -315,6 +316,7 @@ export type UserOrderByWithRelationInput = {
   drivers?: Prisma.DriverOrderByWithRelationInput
   fosters?: Prisma.FosterOrderByWithRelationInput
   fosterRequests?: Prisma.FosterRequestOrderByRelationAggregateInput
+  adopters?: Prisma.AdopterOrderByWithRelationInput
   veterinarians?: Prisma.VeterinarianOrderByWithRelationInput
 }
 
@@ -354,6 +356,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   drivers?: Prisma.XOR<Prisma.DriverNullableScalarRelationFilter, Prisma.DriverWhereInput> | null
   fosters?: Prisma.XOR<Prisma.FosterNullableScalarRelationFilter, Prisma.FosterWhereInput> | null
   fosterRequests?: Prisma.FosterRequestListRelationFilter
+  adopters?: Prisma.XOR<Prisma.AdopterNullableScalarRelationFilter, Prisma.AdopterWhereInput> | null
   veterinarians?: Prisma.XOR<Prisma.VeterinarianNullableScalarRelationFilter, Prisma.VeterinarianWhereInput> | null
 }, "id" | "email" | "profilePictureId">
 
@@ -429,6 +432,7 @@ export type UserCreateInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -462,6 +466,7 @@ export type UserUncheckedCreateInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -495,6 +500,7 @@ export type UserUpdateInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -528,6 +534,7 @@ export type UserUncheckedUpdateInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -654,6 +661,20 @@ export type UserMinOrderByAggregateInput = {
   managerOfId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserCreateNestedOneWithoutAdoptersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdoptersInput, Prisma.UserUncheckedCreateWithoutAdoptersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdoptersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAdoptersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdoptersInput, Prisma.UserUncheckedCreateWithoutAdoptersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdoptersInput
+  upsert?: Prisma.UserUpsertWithoutAdoptersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdoptersInput, Prisma.UserUpdateWithoutAdoptersInput>, Prisma.UserUncheckedUpdateWithoutAdoptersInput>
 }
 
 export type UserCreateNestedOneWithoutOtpsInput = {
@@ -998,6 +1019,154 @@ export type UserUpdateOneRequiredWithoutVeterinariansNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVeterinariansInput, Prisma.UserUpdateWithoutVeterinariansInput>, Prisma.UserUncheckedUpdateWithoutVeterinariansInput>
 }
 
+export type UserCreateWithoutAdoptersInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureUrl?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profilePicture?: Prisma.FileInstanceCreateNestedOneWithoutUserInput
+  notificationSettings?: Prisma.NotificationSettingsCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventCreateNestedManyWithoutUserInput
+  shelterAdminOf?: Prisma.ShelterCreateNestedOneWithoutShelterAdminsInput
+  managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
+  drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
+  fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
+  fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAdoptersInput = {
+  id?: string
+  name?: string
+  email: string
+  password: string
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isVerified?: boolean
+  lastLoginAt?: Date | string | null
+  lastActiveAt?: Date | string | null
+  profilePictureId?: string | null
+  profilePictureUrl?: string | null
+  shelterAdminOfId?: string | null
+  managerOfId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+  notifications?: Prisma.UserNotificationUncheckedCreateNestedManyWithoutUserInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  otps?: Prisma.UserOtpUncheckedCreateNestedManyWithoutUserInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutInitiatorInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedCreateNestedManyWithoutReceiverInput
+  messagesSent?: Prisma.PrivateMessageUncheckedCreateNestedManyWithoutSenderInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedCreateNestedManyWithoutUserInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByUserInput
+  operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
+  drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
+  fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
+  fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAdoptersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdoptersInput, Prisma.UserUncheckedCreateWithoutAdoptersInput>
+}
+
+export type UserUpsertWithoutAdoptersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAdoptersInput, Prisma.UserUncheckedUpdateWithoutAdoptersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdoptersInput, Prisma.UserUncheckedCreateWithoutAdoptersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAdoptersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAdoptersInput, Prisma.UserUncheckedUpdateWithoutAdoptersInput>
+}
+
+export type UserUpdateWithoutAdoptersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profilePicture?: Prisma.FileInstanceUpdateOneWithoutUserNestedInput
+  notificationSettings?: Prisma.NotificationSettingsUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUpdateManyWithoutUserNestedInput
+  shelterAdminOf?: Prisma.ShelterUpdateOneWithoutShelterAdminsNestedInput
+  managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
+  drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
+  fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
+  fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAdoptersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  profilePictureId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePictureUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shelterAdminOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerOfId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notificationSettings?: Prisma.NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+  notifications?: Prisma.UserNotificationUncheckedUpdateManyWithoutUserNestedInput
+  fcmTokens?: Prisma.UserFcmTokenUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  otps?: Prisma.UserOtpUncheckedUpdateManyWithoutUserNestedInput
+  conversationsInitiated?: Prisma.PrivateConversationUncheckedUpdateManyWithoutInitiatorNestedInput
+  conversationsReceived?: Prisma.PrivateConversationUncheckedUpdateManyWithoutReceiverNestedInput
+  messagesSent?: Prisma.PrivateMessageUncheckedUpdateManyWithoutSenderNestedInput
+  messageStatuses?: Prisma.PrivateMessageStatusUncheckedUpdateManyWithoutUserNestedInput
+  requestedImportJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByUserNestedInput
+  operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
+  drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
+  fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
+  fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
+}
+
 export type UserCreateWithoutOtpsInput = {
   id?: string
   name?: string
@@ -1027,6 +1196,7 @@ export type UserCreateWithoutOtpsInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1059,6 +1229,7 @@ export type UserUncheckedCreateWithoutOtpsInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1107,6 +1278,7 @@ export type UserUpdateWithoutOtpsInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1139,6 +1311,7 @@ export type UserUncheckedUpdateWithoutOtpsInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -1171,6 +1344,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1203,6 +1377,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1251,6 +1426,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1283,6 +1459,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -1315,6 +1492,7 @@ export type UserCreateWithoutDriversInput = {
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1347,6 +1525,7 @@ export type UserUncheckedCreateWithoutDriversInput = {
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1395,6 +1574,7 @@ export type UserUpdateWithoutDriversInput = {
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1427,6 +1607,7 @@ export type UserUncheckedUpdateWithoutDriversInput = {
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -1459,6 +1640,7 @@ export type UserCreateWithoutProfilePictureInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1491,6 +1673,7 @@ export type UserUncheckedCreateWithoutProfilePictureInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1539,6 +1722,7 @@ export type UserUpdateWithoutProfilePictureInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1571,6 +1755,7 @@ export type UserUncheckedUpdateWithoutProfilePictureInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -1603,6 +1788,7 @@ export type UserCreateWithoutFosterRequestsInput = {
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1635,6 +1821,7 @@ export type UserUncheckedCreateWithoutFosterRequestsInput = {
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1683,6 +1870,7 @@ export type UserUpdateWithoutFosterRequestsInput = {
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1715,6 +1903,7 @@ export type UserUncheckedUpdateWithoutFosterRequestsInput = {
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -1747,6 +1936,7 @@ export type UserCreateWithoutFostersInput = {
   managerOf?: Prisma.ShelterCreateNestedOneWithoutManagersInput
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1779,6 +1969,7 @@ export type UserUncheckedCreateWithoutFostersInput = {
   operationEvents?: Prisma.OperationEventUncheckedCreateNestedManyWithoutUserInput
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1827,6 +2018,7 @@ export type UserUpdateWithoutFostersInput = {
   managerOf?: Prisma.ShelterUpdateOneWithoutManagersNestedInput
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -1859,6 +2051,7 @@ export type UserUncheckedUpdateWithoutFostersInput = {
   operationEvents?: Prisma.OperationEventUncheckedUpdateManyWithoutUserNestedInput
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -1891,6 +2084,7 @@ export type UserCreateWithoutRequestedImportJobsInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -1923,6 +2117,7 @@ export type UserUncheckedCreateWithoutRequestedImportJobsInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -1971,6 +2166,7 @@ export type UserUpdateWithoutRequestedImportJobsInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2003,6 +2199,7 @@ export type UserUncheckedUpdateWithoutRequestedImportJobsInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2035,6 +2232,7 @@ export type UserCreateWithoutNotificationsInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2067,6 +2265,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2115,6 +2314,7 @@ export type UserUpdateWithoutNotificationsInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2147,6 +2347,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2179,6 +2380,7 @@ export type UserCreateWithoutNotificationSettingsInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2211,6 +2413,7 @@ export type UserUncheckedCreateWithoutNotificationSettingsInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2259,6 +2462,7 @@ export type UserUpdateWithoutNotificationSettingsInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2291,6 +2495,7 @@ export type UserUncheckedUpdateWithoutNotificationSettingsInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2323,6 +2528,7 @@ export type UserCreateWithoutFcmTokensInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2355,6 +2561,7 @@ export type UserUncheckedCreateWithoutFcmTokensInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2403,6 +2610,7 @@ export type UserUpdateWithoutFcmTokensInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2435,6 +2643,7 @@ export type UserUncheckedUpdateWithoutFcmTokensInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2467,6 +2676,7 @@ export type UserCreateWithoutOperationEventsInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2499,6 +2709,7 @@ export type UserUncheckedCreateWithoutOperationEventsInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2547,6 +2758,7 @@ export type UserUpdateWithoutOperationEventsInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2579,6 +2791,7 @@ export type UserUncheckedUpdateWithoutOperationEventsInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2611,6 +2824,7 @@ export type UserCreateWithoutConversationsInitiatedInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2643,6 +2857,7 @@ export type UserUncheckedCreateWithoutConversationsInitiatedInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2680,6 +2895,7 @@ export type UserCreateWithoutConversationsReceivedInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2712,6 +2928,7 @@ export type UserUncheckedCreateWithoutConversationsReceivedInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2760,6 +2977,7 @@ export type UserUpdateWithoutConversationsInitiatedInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2792,6 +3010,7 @@ export type UserUncheckedUpdateWithoutConversationsInitiatedInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2835,6 +3054,7 @@ export type UserUpdateWithoutConversationsReceivedInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -2867,6 +3087,7 @@ export type UserUncheckedUpdateWithoutConversationsReceivedInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -2899,6 +3120,7 @@ export type UserCreateWithoutMessagesSentInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -2931,6 +3153,7 @@ export type UserUncheckedCreateWithoutMessagesSentInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -2979,6 +3202,7 @@ export type UserUpdateWithoutMessagesSentInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -3011,6 +3235,7 @@ export type UserUncheckedUpdateWithoutMessagesSentInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -3043,6 +3268,7 @@ export type UserCreateWithoutMessageStatusesInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -3075,6 +3301,7 @@ export type UserUncheckedCreateWithoutMessageStatusesInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -3123,6 +3350,7 @@ export type UserUpdateWithoutMessageStatusesInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -3155,6 +3383,7 @@ export type UserUncheckedUpdateWithoutMessageStatusesInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -3187,6 +3416,7 @@ export type UserCreateWithoutShelterAdminOfInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -3219,6 +3449,7 @@ export type UserUncheckedCreateWithoutShelterAdminOfInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -3261,6 +3492,7 @@ export type UserCreateWithoutManagerOfInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianCreateNestedOneWithoutUserInput
 }
 
@@ -3293,6 +3525,7 @@ export type UserUncheckedCreateWithoutManagerOfInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
   veterinarians?: Prisma.VeterinarianUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -3389,6 +3622,7 @@ export type UserCreateWithoutVeterinariansInput = {
   drivers?: Prisma.DriverCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutVeterinariansInput = {
@@ -3421,6 +3655,7 @@ export type UserUncheckedCreateWithoutVeterinariansInput = {
   drivers?: Prisma.DriverUncheckedCreateNestedOneWithoutUserInput
   fosters?: Prisma.FosterUncheckedCreateNestedOneWithoutUserInput
   fosterRequests?: Prisma.FosterRequestUncheckedCreateNestedManyWithoutFosterUserInput
+  adopters?: Prisma.AdopterUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutVeterinariansInput = {
@@ -3469,6 +3704,7 @@ export type UserUpdateWithoutVeterinariansInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutVeterinariansInput = {
@@ -3501,6 +3737,7 @@ export type UserUncheckedUpdateWithoutVeterinariansInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyShelterAdminOfInput = {
@@ -3566,6 +3803,7 @@ export type UserUpdateWithoutShelterAdminOfInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -3598,6 +3836,7 @@ export type UserUncheckedUpdateWithoutShelterAdminOfInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -3647,6 +3886,7 @@ export type UserUpdateWithoutManagerOfInput = {
   drivers?: Prisma.DriverUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUpdateOneWithoutUserNestedInput
 }
 
@@ -3679,6 +3919,7 @@ export type UserUncheckedUpdateWithoutManagerOfInput = {
   drivers?: Prisma.DriverUncheckedUpdateOneWithoutUserNestedInput
   fosters?: Prisma.FosterUncheckedUpdateOneWithoutUserNestedInput
   fosterRequests?: Prisma.FosterRequestUncheckedUpdateManyWithoutFosterUserNestedInput
+  adopters?: Prisma.AdopterUncheckedUpdateOneWithoutUserNestedInput
   veterinarians?: Prisma.VeterinarianUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -3853,6 +4094,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   drivers?: boolean | Prisma.User$driversArgs<ExtArgs>
   fosters?: boolean | Prisma.User$fostersArgs<ExtArgs>
   fosterRequests?: boolean | Prisma.User$fosterRequestsArgs<ExtArgs>
+  adopters?: boolean | Prisma.User$adoptersArgs<ExtArgs>
   veterinarians?: boolean | Prisma.User$veterinariansArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -3936,6 +4178,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   drivers?: boolean | Prisma.User$driversArgs<ExtArgs>
   fosters?: boolean | Prisma.User$fostersArgs<ExtArgs>
   fosterRequests?: boolean | Prisma.User$fosterRequestsArgs<ExtArgs>
+  adopters?: boolean | Prisma.User$adoptersArgs<ExtArgs>
   veterinarians?: boolean | Prisma.User$veterinariansArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -3970,6 +4213,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     drivers: Prisma.$DriverPayload<ExtArgs> | null
     fosters: Prisma.$FosterPayload<ExtArgs> | null
     fosterRequests: Prisma.$FosterRequestPayload<ExtArgs>[]
+    adopters: Prisma.$AdopterPayload<ExtArgs> | null
     veterinarians: Prisma.$VeterinarianPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -4399,6 +4643,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   drivers<T extends Prisma.User$driversArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$driversArgs<ExtArgs>>): Prisma.Prisma__DriverClient<runtime.Types.Result.GetResult<Prisma.$DriverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   fosters<T extends Prisma.User$fostersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fostersArgs<ExtArgs>>): Prisma.Prisma__FosterClient<runtime.Types.Result.GetResult<Prisma.$FosterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   fosterRequests<T extends Prisma.User$fosterRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$fosterRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FosterRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  adopters<T extends Prisma.User$adoptersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adoptersArgs<ExtArgs>>): Prisma.Prisma__AdopterClient<runtime.Types.Result.GetResult<Prisma.$AdopterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   veterinarians<T extends Prisma.User$veterinariansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$veterinariansArgs<ExtArgs>>): Prisma.Prisma__VeterinarianClient<runtime.Types.Result.GetResult<Prisma.$VeterinarianPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5215,6 +5460,25 @@ export type User$fosterRequestsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.FosterRequestScalarFieldEnum | Prisma.FosterRequestScalarFieldEnum[]
+}
+
+/**
+ * User.adopters
+ */
+export type User$adoptersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Adopter
+   */
+  select?: Prisma.AdopterSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Adopter
+   */
+  omit?: Prisma.AdopterOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdopterInclude<ExtArgs> | null
+  where?: Prisma.AdopterWhereInput
 }
 
 /**

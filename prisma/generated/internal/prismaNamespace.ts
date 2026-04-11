@@ -384,6 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  Adopter: 'Adopter',
   AnimalComplexityFee: 'AnimalComplexityFee',
   Animal: 'Animal',
   UserOtp: 'UserOtp',
@@ -439,10 +440,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "fosterAnimalInterest" | "fosterRequest" | "arrivalProof" | "foster" | "fosterDocument" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "userFcmToken" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
+    modelProps: "adopter" | "animalComplexityFee" | "animal" | "userOtp" | "refreshToken" | "dailySchedule" | "driver" | "externalFeedConfig" | "fileInstance" | "fosterAnimalInterest" | "fosterRequest" | "arrivalProof" | "foster" | "fosterDocument" | "healthReport" | "importJob" | "importRow" | "importMapping" | "notification" | "userNotification" | "notificationSettings" | "userFcmToken" | "operationEvent" | "paymentSettings" | "pricingRule" | "pricingSnapshot" | "priorityScoreLog" | "privateConversation" | "privateMessage" | "privateMessageStatus" | "shelter" | "shelterDocument" | "transaction" | "transportBatch" | "transport" | "transportTimeline" | "user" | "vetClearanceRequest" | "vetAppointment" | "veterinarian" | "vetDocument"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    Adopter: {
+      payload: Prisma.$AdopterPayload<ExtArgs>
+      fields: Prisma.AdopterFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AdopterFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdopterPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AdopterFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdopterPayload>
+        }
+        findFirst: {
+          args: Prisma.AdopterFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdopterPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AdopterFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdopterPayload>
+        }
+        findMany: {
+          args: Prisma.AdopterFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdopterPayload>[]
+        }
+        create: {
+          args: Prisma.AdopterCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdopterPayload>
+        }
+        createMany: {
+          args: Prisma.AdopterCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AdopterCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdopterPayload>[]
+        }
+        delete: {
+          args: Prisma.AdopterDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdopterPayload>
+        }
+        update: {
+          args: Prisma.AdopterUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdopterPayload>
+        }
+        deleteMany: {
+          args: Prisma.AdopterDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AdopterUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AdopterUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdopterPayload>[]
+        }
+        upsert: {
+          args: Prisma.AdopterUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdopterPayload>
+        }
+        aggregate: {
+          args: Prisma.AdopterAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAdopter>
+        }
+        groupBy: {
+          args: Prisma.AdopterGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdopterGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AdopterCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdopterCountAggregateOutputType> | number
+        }
+      }
+    }
     AnimalComplexityFee: {
       payload: Prisma.$AnimalComplexityFeePayload<ExtArgs>
       fields: Prisma.AnimalComplexityFeeFieldRefs
@@ -3442,6 +3517,22 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const AdopterScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  phone: 'phone',
+  city: 'city',
+  state: 'state',
+  address: 'address',
+  housingType: 'housingType',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdopterScalarFieldEnum = (typeof AdopterScalarFieldEnum)[keyof typeof AdopterScalarFieldEnum]
+
+
 export const AnimalComplexityFeeScalarFieldEnum = {
   id: 'id',
   type: 'type',
@@ -4247,6 +4338,34 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
+ * Reference to a field of type 'ApprovalStatus'
+ */
+export type EnumApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ApprovalStatus[]'
+ */
+export type ListEnumApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
  * Reference to a field of type 'ComplexityType'
  */
 export type EnumComplexityTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ComplexityType'>
@@ -4271,20 +4390,6 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-/**
- * Reference to a field of type 'DateTime'
- */
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-/**
- * Reference to a field of type 'DateTime[]'
- */
-export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -4404,20 +4509,6 @@ export type EnumWorkingDayFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
  * Reference to a field of type 'WorkingDay[]'
  */
 export type ListEnumWorkingDayFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkingDay[]'>
-    
-
-
-/**
- * Reference to a field of type 'ApprovalStatus'
- */
-export type EnumApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalStatus'>
-    
-
-
-/**
- * Reference to a field of type 'ApprovalStatus[]'
- */
-export type ListEnumApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApprovalStatus[]'>
     
 
 
@@ -4893,6 +4984,7 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  adopter?: Prisma.AdopterOmit
   animalComplexityFee?: Prisma.AnimalComplexityFeeOmit
   animal?: Prisma.AnimalOmit
   userOtp?: Prisma.UserOtpOmit

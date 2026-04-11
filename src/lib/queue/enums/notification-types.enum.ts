@@ -4,6 +4,7 @@ export enum NotificationType {
   VET_REGISTERED = 'vet_registered',
   DRIVER_REGISTERED = 'driver_registered',
   FOSTER_REGISTERED = 'foster_registered',
+  ADOPTER_REGISTERED = 'adopter_registered',
 
   // === Team Management ===
   SHELTER_MEMBER_INVITED = 'shelter_member_invited',
@@ -51,6 +52,11 @@ export enum NotificationType {
   FOSTER_DOCUMENT_UPLOADED = 'foster_document_uploaded',
   FOSTER_DOCUMENT_APPROVED = 'foster_document_approved',
   FOSTER_DOCUMENT_REJECTED = 'foster_document_rejected',
+
+  // === Adopter Management ===
+  ADOPTER_APPROVED = 'adopter_approved',
+  ADOPTER_REJECTED = 'adopter_rejected',
+  ADOPTER_DELETED = 'adopter_deleted',
 
   // === Transport Management ===
   TRANSPORT_CREATED = 'transport_created',

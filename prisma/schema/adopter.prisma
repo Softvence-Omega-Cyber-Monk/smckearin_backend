@@ -1,0 +1,20 @@
+model Adopter {
+  id String @id @default(uuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  phone   String @unique
+  city    String
+  state   String
+  address String
+
+  housingType String
+
+  status ApprovalStatus @default(APPROVED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("adopters")
+}

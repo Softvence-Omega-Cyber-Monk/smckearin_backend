@@ -8,6 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Adopter'
 export type * from './models/AnimalComplexityFee'
 export type * from './models/Animal'
 export type * from './models/UserOtp'

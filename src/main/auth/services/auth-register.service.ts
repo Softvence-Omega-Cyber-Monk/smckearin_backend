@@ -3,16 +3,20 @@ import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
+import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 import { AuthUtilsService } from '@/lib/utils/services/auth-utils.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { FileInstance } from '@prisma';
+import {
+  AdopterAccountType,
+  AdopterRegisterDto,
+} from '../dto/adopter-register.dto';
 import { DriverRegisterDto } from '../dto/driver-register.dto';
 import {
   FosterAccountType,
   FosterRegisterDto,
 } from '../dto/foster-register.dto';
 import { RegisterDto, RegisterType } from '../dto/register.dto';
-import { UserNotificationService } from '@/lib/queue/services/user-notification.service';
 
 @Injectable()
 export class AuthRegisterService {
@@ -317,6 +321,85 @@ export class AuthRegisterService {
     return successResponse(
       { foster: result.foster, user: sanitizedUser },
       'Foster registered successfully',
+    );
+  }
+
+  @HandleError('Failed to register adopter')
+  async adopterRegister(dto: AdopterRegisterDto) {
+    if (dto.accountType !== AdopterAccountType.ADOPTER) {
+      throw new AppError(HttpStatus.BAD_REQUEST, 'Invalid account type');
+    }
+
+    if (!dto.phone) {
+      throw new AppError(HttpStatus.BAD_REQUEST, 'Phone is required');
+    }
+
+    dto.phone = dto.phone.trim();
+    if (dto.phone.startsWith('+')) {
+      dto.phone = dto.phone.slice(1);
+    }
+
+    if (!/^\d{7,15}$/.test(dto.phone)) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Phone must be a valid number without + sign',
+      );
+    }
+
+    const existingUser = await this.prisma.client.user.findUnique({
+      where: { email: dto.email },
+    });
+    if (existingUser) {
+      throw new AppError(HttpStatus.CONFLICT, 'Email already in use');
+    }
+
+    const existingAdopter = await this.prisma.client.adopter.findUnique({
+      where: { phone: dto.phone },
+    });
+    if (existingAdopter) {
+      throw new AppError(HttpStatus.CONFLICT, 'Phone number already in use');
+    }
+
+    const hashedPassword = await this.utils.hash(dto.password);
+
+    const result = await this.prisma.client.$transaction(async (tx) => {
+      const user = await tx.user.create({
+        data: {
+          email: dto.email,
+          password: hashedPassword,
+          name: dto.fullName,
+          role: 'ADOPTER',
+          notificationSettings: {
+            create: {},
+          },
+        },
+      });
+
+      const adopter = await tx.adopter.create({
+        data: {
+          userId: user.id,
+          phone: dto.phone,
+          city: dto.city,
+          state: dto.state,
+          address: dto.address,
+          housingType: dto.housingType,
+        },
+      });
+
+      return { user, adopter };
+    });
+
+    await this.notificationService.notifyUserRegistration(
+      'ADOPTER',
+      result.adopter.id,
+      result.user,
+    );
+
+    const sanitizedUser = await this.utils.sanitizeUser(result.user);
+
+    return successResponse(
+      { adopter: result.adopter, user: sanitizedUser },
+      'Adopter registered successfully',
     );
   }
 }

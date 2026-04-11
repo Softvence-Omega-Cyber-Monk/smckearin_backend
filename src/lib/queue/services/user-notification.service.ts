@@ -18,7 +18,7 @@ export class UserNotificationService extends BaseNotificationService {
   // ==================== USER REGISTRATION ====================
 
   async notifyUserRegistration(
-    type: 'SHELTER' | 'VET' | 'DRIVER' | 'FOSTER',
+    type: 'SHELTER' | 'VET' | 'DRIVER' | 'FOSTER' | 'ADOPTER',
     entityId: string,
     user: { id: string; name: string; email: string },
   ) {
@@ -49,7 +49,9 @@ export class UserNotificationService extends BaseNotificationService {
               ? 'Veterinarian'
               : type === 'DRIVER'
                 ? 'Driver'
-                : 'Foster',
+                : type === 'FOSTER'
+                  ? 'Foster'
+                  : 'Adopter',
         recordId: entityId,
         others: { userId: user.id, userName: user.name, userEmail: user.email },
       },
@@ -210,7 +212,7 @@ export class UserNotificationService extends BaseNotificationService {
   // ==================== APPROVAL STATUS ====================
 
   async notifyApprovalStatusChange(
-    entityType: 'SHELTER' | 'DRIVER' | 'VET' | 'FOSTER',
+    entityType: 'SHELTER' | 'DRIVER' | 'VET' | 'FOSTER' | 'ADOPTER',
     entityId: string,
     approved: boolean,
   ) {
@@ -273,6 +275,17 @@ export class UserNotificationService extends BaseNotificationService {
         : NotificationType.FOSTER_REJECTED;
       title = `Foster Account ${approved ? 'Approved' : 'Rejected'}`;
       message = `Your foster account has been ${approved ? 'approved' : 'rejected'}.`;
+    } else if (entityType === 'ADOPTER') {
+      entity = await this.prisma.client.adopter.findUnique({
+        where: { id: entityId },
+        include: { user: true },
+      });
+      userId = entity.userId;
+      notifType = approved
+        ? NotificationType.ADOPTER_APPROVED
+        : NotificationType.ADOPTER_REJECTED;
+      title = `Adopter Account ${approved ? 'Approved' : 'Rejected'}`;
+      message = `Your adopter account has been ${approved ? 'approved' : 'rejected'}.`;
     } else {
       entity = await this.prisma.client.veterinarian.findUnique({
         where: { id: entityId },
@@ -298,7 +311,9 @@ export class UserNotificationService extends BaseNotificationService {
             ? 'Driver'
             : entityType === 'FOSTER'
               ? 'Foster'
-              : 'Veterinarian',
+              : entityType === 'ADOPTER'
+                ? 'Adopter'
+                : 'Veterinarian',
         recordId: entityId,
         others: { approved },
       },
@@ -309,7 +324,7 @@ export class UserNotificationService extends BaseNotificationService {
   // ==================== ACCOUNT DELETION ====================
 
   async notifyAccountDeletion(
-    type: 'SHELTER' | 'DRIVER' | 'VET' | 'FOSTER',
+    type: 'SHELTER' | 'DRIVER' | 'VET' | 'FOSTER' | 'ADOPTER',
     userId: string,
     details: {
       name: string;
@@ -325,7 +340,9 @@ export class UserNotificationService extends BaseNotificationService {
           ? NotificationType.DRIVER_DELETED
           : type === 'VET'
             ? NotificationType.VET_DELETED
-            : NotificationType.FOSTER_DELETED;
+            : type === 'FOSTER'
+              ? NotificationType.FOSTER_DELETED
+              : NotificationType.ADOPTER_DELETED;
 
     const title = `${type.charAt(0) + type.slice(1).toLowerCase()} Account Deleted`;
     const message =
@@ -352,7 +369,9 @@ export class UserNotificationService extends BaseNotificationService {
               ? 'Driver'
               : type === 'VET'
                 ? 'Veterinarian'
-                : 'Foster',
+                : type === 'FOSTER'
+                  ? 'Foster'
+                  : 'Adopter',
         recordId: type === 'SHELTER' ? details.shelterId : userId,
         others: { name: details.name, email: details.email },
       },
