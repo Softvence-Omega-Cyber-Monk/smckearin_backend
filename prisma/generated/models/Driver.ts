@@ -971,10 +971,6 @@ export type DriverUpdateworkingDaysInput = {
   push?: $Enums.WorkingDay | $Enums.WorkingDay[]
 }
 
-export type EnumApprovalStatusFieldUpdateOperationsInput = {
-  set?: $Enums.ApprovalStatus
-}
-
 export type NullableFloatFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number

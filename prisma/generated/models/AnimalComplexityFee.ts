@@ -377,10 +377,6 @@ export type AnimalComplexityFeeSumOrderByAggregateInput = {
   multiAnimalFlatFee?: Prisma.SortOrder
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
 export type EnumComplexityTypeFieldUpdateOperationsInput = {
   set?: $Enums.ComplexityType
 }
@@ -391,10 +387,6 @@ export type FloatFieldUpdateOperationsInput = {
   decrement?: number
   multiply?: number
   divide?: number
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
 }
 
 

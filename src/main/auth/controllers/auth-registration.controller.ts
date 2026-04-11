@@ -11,6 +11,7 @@ import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DriverRegisterDto } from '../dto/driver-register.dto';
 import { FosterRegisterDto } from '../dto/foster-register.dto';
 import { RegisterDto } from '../dto/register.dto';
+import { AdopterRegisterDto } from '../dto/adopter-register.dto';
 import { AuthRegisterService } from '../services/auth-register.service';
 
 @ApiTags('Auth, Registration')
@@ -65,5 +66,11 @@ export class AuthRegistrationController {
   @Post('foster/register')
   async fosterRegister(@Body() body: FosterRegisterDto) {
     return this.authRegisterService.fosterRegister(body);
+  }
+
+  @ApiOperation({ summary: 'Register as adopter' })
+  @Post('adopter/register')
+  async adopterRegister(@Body() body: AdopterRegisterDto) {
+    return this.authRegisterService.adopterRegister(body);
   }
 }

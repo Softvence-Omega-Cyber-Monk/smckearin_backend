@@ -16,6 +16,7 @@ import { TransportModule } from './transport/transport.module';
 import { UploadModule } from './upload/upload.module';
 import { VetClearanceAppointmentModule } from './vet-clearance-appointment/vet-clearance-appointment.module';
 import { VetModule } from './vet/vet.module';
+import { AdopterModule } from './adopter/adopter.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { VetModule } from './vet/vet.module';
     OperationsModule,
     PriorityScoringModule,
     TransportOptimizerModule,
+    AdopterModule,
   ],
 })
 export class MainModule {}

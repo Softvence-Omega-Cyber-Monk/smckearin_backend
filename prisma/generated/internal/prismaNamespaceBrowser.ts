@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Adopter: 'Adopter',
   AnimalComplexityFee: 'AnimalComplexityFee',
   Animal: 'Animal',
   UserOtp: 'UserOtp',
@@ -107,6 +108,22 @@ export const TransactionIsolationLevel = {
 } as const
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const AdopterScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  phone: 'phone',
+  city: 'city',
+  state: 'state',
+  address: 'address',
+  housingType: 'housingType',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdopterScalarFieldEnum = (typeof AdopterScalarFieldEnum)[keyof typeof AdopterScalarFieldEnum]
 
 
 export const AnimalComplexityFeeScalarFieldEnum = {
