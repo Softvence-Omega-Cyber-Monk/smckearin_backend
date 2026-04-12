@@ -22,12 +22,10 @@ export class AdopterChatController {
     @GetUser('sub') userId: string,
     @Query() dto: GetAdoptionChatMessagesDto,
   ) {
-    return this.conversationQueryService.loadConversations(
-      {
-        data: { userId },
-      } as any,
-      { ...dto, type: ConversationType.ADOPTION },
-    );
+    return this.conversationQueryService.getConversationsInternal(userId, {
+      ...dto,
+      type: ConversationType.ADOPTION,
+    });
   }
 
   @ApiOperation({ summary: 'Init or load single adoption chat by adoption id' })
@@ -37,10 +35,8 @@ export class AdopterChatController {
     @Param('adoptionId') adoptionId: string,
     @Query() dto: GetAdoptionChatMessagesDto,
   ) {
-    return this.conversationSingleQueryService.loadSingleConversation(
-      {
-        data: { userId },
-      } as any,
+    return this.conversationSingleQueryService.getSingleConversationInternal(
+      userId,
       {
         id: adoptionId,
         type: ConversationType.ADOPTION,

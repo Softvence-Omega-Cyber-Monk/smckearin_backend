@@ -27,6 +27,14 @@ export class ConversationQueryService {
   @SocketSafe()
   async loadConversations(client: Socket, dto: LoadConversationsDto) {
     const userId = client.data.userId;
+    const result = await this.getConversationsInternal(userId, dto);
+
+    client.emit(EventsEnum.CONVERSATION_LIST_RESPONSE, result);
+    return result;
+  }
+
+  /** Core extraction of conversation listing logic to support both REST and Socket */
+  async getConversationsInternal(userId: string, dto: LoadConversationsDto) {
     const { page = 1, limit = 20, type } = dto;
     const skip = (page - 1) * limit;
     const search = dto?.search ? dto.search?.trim() : '';
@@ -143,7 +151,7 @@ export class ConversationQueryService {
       }
     }
 
-    const payload = successPaginatedResponse(
+    return successPaginatedResponse(
       result.list,
       {
         page,
@@ -152,9 +160,6 @@ export class ConversationQueryService {
       },
       `Conversations fetched successfully for user ${userId}`,
     );
-
-    client.emit(EventsEnum.CONVERSATION_LIST_RESPONSE, payload);
-    return payload;
   }
 
   /** ---------------- Helper: load All Available Contacts (merged view) ---------------- */
