@@ -6,4 +6,5 @@ export enum UserEnum {
   MANAGER = 'MANAGER',
   ADMIN = 'ADMIN',
   SUPER_ADMIN = 'SUPER_ADMIN',
+  ADOPTER = 'ADOPTER',
 }

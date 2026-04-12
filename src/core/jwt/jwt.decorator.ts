@@ -84,3 +84,7 @@ export function ValidateDriver() {
 export function ValidateFoster() {
   return ValidateAuth(UserEnum.FOSTER, UserEnum.ADMIN, UserEnum.SUPER_ADMIN);
 }
+
+export function ValidateAdopter() {
+  return ValidateAuth(UserEnum.ADOPTER, UserEnum.ADMIN, UserEnum.SUPER_ADMIN);
+}

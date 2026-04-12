@@ -43,6 +43,8 @@ model Animal {
   // Health Reports
   healthReports HealthReport[]
 
+  adoption Adoption?
+
   status Status @default(AT_SHELTER)
 
   // External Data Tracking (for CSV/API imports)
