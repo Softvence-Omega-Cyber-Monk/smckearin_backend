@@ -569,6 +569,7 @@ exports.Prisma.PrivateConversationScalarFieldEnum = {
   shelterId: 'shelterId',
   chatScope: 'chatScope',
   transportId: 'transportId',
+  adoptionId: 'adoptionId',
   lastMessageId: 'lastMessageId',
   status: 'status',
   createdAt: 'createdAt',
@@ -955,7 +956,8 @@ exports.PriorityScoreTriggerType = exports.$Enums.PriorityScoreTriggerType = {
 
 exports.ConversationScope = exports.$Enums.ConversationScope = {
   MAIN: 'MAIN',
-  TRANSPORT: 'TRANSPORT'
+  TRANSPORT: 'TRANSPORT',
+  ADOPTION: 'ADOPTION'
 };
 
 exports.ConversationStatus = exports.$Enums.ConversationStatus = {
