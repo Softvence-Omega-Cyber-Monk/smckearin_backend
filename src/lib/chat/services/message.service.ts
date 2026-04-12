@@ -171,6 +171,7 @@ export class MessageService {
       isFromDriver: message.sender.role === 'DRIVER',
       isFromVet: message.sender.role === 'VETERINARIAN',
       isFromFoster: message.sender.role === 'FOSTER',
+      isFromAdopter: message.sender.role === 'ADOPTER',
       isRead: false,
       readBy: [], // Newly created
       createdAt: message.createdAt,
