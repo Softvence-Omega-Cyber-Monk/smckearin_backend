@@ -13,10 +13,62 @@ model Adopter {
 
   status ApprovalStatus @default(APPROVED)
 
+  adoptions        Adoption[]
+  adoptionRequests AdoptionRequest[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
   @@map("adopters")
+}
+
+model Adoption {
+  id String @id @default(uuid())
+
+  animalId String @unique
+  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  adopterId String?
+  adopter   Adopter? @relation(fields: [adopterId], references: [id], onDelete: SetNull)
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  status AdoptionStatus @default(PENDING)
+
+  spayNeuterAvailable Boolean   @default(false)
+  spayNeuterDate      DateTime?
+  lastCheckupDate     DateTime?
+  vaccinationsDate    DateTime?
+
+  personality String?
+  about       String?
+  specialNote String?
+
+  requests AdoptionRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("adoptions")
+}
+
+model AdoptionRequest {
+  id String @id @default(uuid())
+
+  adoptionId String
+  adoption   Adoption @relation(fields: [adoptionId], references: [id], onDelete: Cascade)
+
+  adopterId String
+  adopter   Adopter @relation(fields: [adopterId], references: [id], onDelete: Cascade)
+
+  note   String?
+  status AdoptionStatus @default(REQUESTED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("adoption_requests")
 }
 
 model AnimalComplexityFee {
@@ -79,6 +131,8 @@ model Animal {
 
   // Health Reports
   healthReports HealthReport[]
+
+  adoption Adoption?
 
   status Status @default(AT_SHELTER)
 
@@ -275,6 +329,7 @@ enum Gender {
 enum SPECIES {
   DOG
   CAT
+  OTHER
 }
 
 enum ApprovalStatus {
@@ -310,6 +365,16 @@ enum TransactionStatus {
   FAILED // Payment or transfer failed
   REFUNDED // Payment refunded to shelter
   CANCELLED // Transaction cancelled
+}
+
+enum AdoptionStatus {
+  AVAILABLE
+  REQUESTED
+  ADOPTED
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
 }
 
 model ExternalFeedConfig {
@@ -1097,6 +1162,7 @@ model Shelter {
   conversations     PrivateConversation[] @relation("ShelterConversations")
   operationEvents   OperationEvent[]
   priorityScoreLogs PriorityScoreLog[]
+  adoptions         Adoption[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

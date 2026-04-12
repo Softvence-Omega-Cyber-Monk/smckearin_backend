@@ -133,6 +133,33 @@ exports.Prisma.AdopterScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AdoptionScalarFieldEnum = {
+  id: 'id',
+  animalId: 'animalId',
+  adopterId: 'adopterId',
+  shelterId: 'shelterId',
+  status: 'status',
+  spayNeuterAvailable: 'spayNeuterAvailable',
+  spayNeuterDate: 'spayNeuterDate',
+  lastCheckupDate: 'lastCheckupDate',
+  vaccinationsDate: 'vaccinationsDate',
+  personality: 'personality',
+  about: 'about',
+  specialNote: 'specialNote',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AdoptionRequestScalarFieldEnum = {
+  id: 'id',
+  adoptionId: 'adoptionId',
+  adopterId: 'adopterId',
+  note: 'note',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AnimalComplexityFeeScalarFieldEnum = {
   id: 'id',
   type: 'type',
@@ -784,6 +811,16 @@ exports.ApprovalStatus = exports.$Enums.ApprovalStatus = {
   REJECTED: 'REJECTED'
 };
 
+exports.AdoptionStatus = exports.$Enums.AdoptionStatus = {
+  AVAILABLE: 'AVAILABLE',
+  REQUESTED: 'REQUESTED',
+  ADOPTED: 'ADOPTED',
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  COMPLETED: 'COMPLETED'
+};
+
 exports.ComplexityType = exports.$Enums.ComplexityType = {
   STANDARD: 'STANDARD',
   PUPPY_KITTEN: 'PUPPY_KITTEN',
@@ -793,7 +830,8 @@ exports.ComplexityType = exports.$Enums.ComplexityType = {
 
 exports.SPECIES = exports.$Enums.SPECIES = {
   DOG: 'DOG',
-  CAT: 'CAT'
+  CAT: 'CAT',
+  OTHER: 'OTHER'
 };
 
 exports.Gender = exports.$Enums.Gender = {
@@ -1028,6 +1066,8 @@ exports.VetAppointmentStatus = exports.$Enums.VetAppointmentStatus = {
 
 exports.Prisma.ModelName = {
   Adopter: 'Adopter',
+  Adoption: 'Adoption',
+  AdoptionRequest: 'AdoptionRequest',
   AnimalComplexityFee: 'AnimalComplexityFee',
   Animal: 'Animal',
   UserOtp: 'UserOtp',

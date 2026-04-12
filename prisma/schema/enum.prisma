@@ -16,6 +16,7 @@ enum Gender {
 enum SPECIES {
   DOG
   CAT
+  OTHER
 }
 
 enum ApprovalStatus {
@@ -51,4 +52,14 @@ enum TransactionStatus {
   FAILED // Payment or transfer failed
   REFUNDED // Payment refunded to shelter
   CANCELLED // Transaction cancelled
+}
+
+enum AdoptionStatus {
+  AVAILABLE
+  REQUESTED
+  ADOPTED
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
 }

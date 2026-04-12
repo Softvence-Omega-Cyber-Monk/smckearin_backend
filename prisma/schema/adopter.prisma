@@ -13,8 +13,60 @@ model Adopter {
 
   status ApprovalStatus @default(APPROVED)
 
+  adoptions        Adoption[]
+  adoptionRequests AdoptionRequest[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
   @@map("adopters")
+}
+
+model Adoption {
+  id String @id @default(uuid())
+
+  animalId String @unique
+  animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  adopterId String?
+  adopter   Adopter? @relation(fields: [adopterId], references: [id], onDelete: SetNull)
+
+  shelterId String
+  shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
+
+  status AdoptionStatus @default(PENDING)
+
+  spayNeuterAvailable Boolean   @default(false)
+  spayNeuterDate      DateTime?
+  lastCheckupDate     DateTime?
+  vaccinationsDate    DateTime?
+
+  personality String?
+  about       String?
+  specialNote String?
+
+  requests AdoptionRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("adoptions")
+}
+
+model AdoptionRequest {
+  id String @id @default(uuid())
+
+  adoptionId String
+  adoption   Adoption @relation(fields: [adoptionId], references: [id], onDelete: Cascade)
+
+  adopterId String
+  adopter   Adopter @relation(fields: [adopterId], references: [id], onDelete: Cascade)
+
+  note   String?
+  status AdoptionStatus @default(REQUESTED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("adoption_requests")
 }
