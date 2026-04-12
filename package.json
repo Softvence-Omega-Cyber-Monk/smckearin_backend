@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "NODE_OPTIONS='--no-deprecation' nest start --watch",
     "build": "nest build",
-    "start": "prisma generate && prisma migrate deploy && node dist/src/main",
+    "start": "prisma generate && prisma migrate deploy && node dist/main",
     "start:debug": "nest start --debug --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
