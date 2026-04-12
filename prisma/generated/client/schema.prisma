@@ -47,6 +47,8 @@ model Adoption {
 
   requests AdoptionRequest[]
 
+  conversations PrivateConversation[] @relation("AdoptionConversation")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
@@ -1002,6 +1004,10 @@ model PrivateConversation {
   transportId String?
   transport   Transport? @relation("TransportConversation", fields: [transportId], references: [id], onDelete: Cascade)
 
+  /// Adoption relation for animal-specific chat (null for general chat)
+  adoptionId String?
+  adoption   Adoption? @relation("AdoptionConversation", fields: [adoptionId], references: [id], onDelete: Cascade)
+
   messages PrivateMessage[]
 
   lastMessageId String?
@@ -1012,8 +1018,8 @@ model PrivateConversation {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  @@unique([chatScope, transportId])
-  @@unique([initiatorId, receiverId, shelterId, chatScope, transportId])
+  @@unique([chatScope, transportId, adoptionId])
+  @@unique([initiatorId, receiverId, shelterId, chatScope, transportId, adoptionId])
   @@index([chatScope, updatedAt])
   @@map("private_conversations")
 }
@@ -1027,6 +1033,7 @@ enum ConversationStatus {
 enum ConversationScope {
   MAIN
   TRANSPORT
+  ADOPTION
 }
 
 model PrivateMessage {

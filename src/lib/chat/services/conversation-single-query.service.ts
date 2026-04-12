@@ -148,6 +148,11 @@ export class ConversationSingleQueryService {
         userId,
         targetId,
       );
+    } else if (type === ConversationType.ADOPTION) {
+      conversation = await this.findOrCreateAdoptionConversation(
+        userId,
+        targetId,
+      );
     } else if (
       type === ConversationType.VET ||
       type === ConversationType.DRIVER
@@ -215,6 +220,57 @@ export class ConversationSingleQueryService {
           // receiverId is null when chatting with a shelter
         },
         include: this.conversationInclude,
+      });
+    }
+
+    return conversation as ConversationWithRelations;
+  }
+
+  /** Find or create conversation for a specific ADOPTION listing */
+  private async findOrCreateAdoptionConversation(
+    userId: string,
+    adoptionId: string,
+  ): Promise<ConversationWithRelations> {
+    // 1. Get adoption details to find the shelter
+    const adoption = await this.prisma.client.adoption.findUniqueOrThrow({
+      where: { id: adoptionId },
+      select: { shelterId: true },
+    });
+
+    // 2. Find existing conversation with this user, shelter, and adoption ID
+    let conversation = await this.prisma.client.privateConversation.findFirst({
+      where: {
+        chatScope: ConversationScope.ADOPTION,
+        shelterId: adoption.shelterId,
+        adoptionId: adoptionId,
+        OR: [{ initiatorId: userId }, { receiverId: userId }],
+      },
+      include: {
+        ...this.conversationInclude,
+        adoption: {
+          include: { animal: true },
+        },
+      },
+    });
+
+    // 3. Create if not exists
+    if (!conversation) {
+      this.logger.debug(
+        `Creating new adoption conversation for adoption ${adoptionId}`,
+      );
+      conversation = await this.prisma.client.privateConversation.create({
+        data: {
+          initiatorId: userId,
+          shelterId: adoption.shelterId,
+          adoptionId: adoptionId,
+          chatScope: ConversationScope.ADOPTION,
+        },
+        include: {
+          ...this.conversationInclude,
+          adoption: {
+            include: { animal: true },
+          },
+        },
       });
     }
 
@@ -357,14 +413,25 @@ export class ConversationSingleQueryService {
 
     const response: SingleConversationResponse = {
       conversationId: conversation.id,
-      type: conversation.shelterId
-        ? ConversationType.SHELTER
-        : participant?.role === 'VETERINARIAN'
-          ? ConversationType.VET
-          : participant?.role === 'DRIVER'
-            ? ConversationType.DRIVER
-            : ConversationType.FOSTER,
+      type:
+        conversation.chatScope === ConversationScope.ADOPTION
+          ? ConversationType.ADOPTION
+          : conversation.shelterId
+            ? ConversationType.SHELTER
+            : participant?.role === 'VETERINARIAN'
+              ? ConversationType.VET
+              : participant?.role === 'DRIVER'
+                ? ConversationType.DRIVER
+                : ConversationType.FOSTER,
       participant,
+      adoption: conversation.adoption
+        ? {
+            id: conversation.adoption.id,
+            name: conversation.adoption.animal.name,
+            breed: conversation.adoption.animal.breed,
+            imageUrl: conversation.adoption.animal.imageUrl,
+          }
+        : undefined,
       messages: formattedMessages,
       createdAt: conversation.createdAt,
       updatedAt: conversation.updatedAt,
@@ -410,7 +477,11 @@ export class ConversationSingleQueryService {
                 ? ChatParticipantType.VET
                 : otherUser.role === 'DRIVER'
                   ? ChatParticipantType.DRIVER
-                  : ChatParticipantType.FOSTER,
+                  : otherUser.role === 'FOSTER'
+                    ? ChatParticipantType.FOSTER
+                    : otherUser.role === 'ADOPTER'
+                      ? ChatParticipantType.ADOPTER
+                      : ChatParticipantType.USER,
           };
         }
       } else {
@@ -482,6 +553,7 @@ export class ConversationSingleQueryService {
     const isFromVet = msg.sender?.role === 'VETERINARIAN';
     const isFromDriver = msg.sender?.role === 'DRIVER';
     const isFromFoster = msg.sender?.role === 'FOSTER';
+    const isFromAdopter = msg.sender?.role === 'ADOPTER';
 
     // Format readBy
     const readBy: ReadByParticipant[] = msg.statuses
@@ -515,6 +587,13 @@ export class ConversationSingleQueryService {
             id: reader.id,
             name: reader.name,
             type: ChatParticipantType.FOSTER,
+          };
+        }
+        if (reader.role === 'ADOPTER') {
+          return {
+            id: reader.id,
+            name: reader.name,
+            type: ChatParticipantType.ADOPTER,
           };
         }
 
@@ -558,6 +637,7 @@ export class ConversationSingleQueryService {
       isFromDriver,
       isFromVet,
       isFromFoster,
+      isFromAdopter,
       isRead: readBy.length > 0 && readBy.some((r) => r.id !== msg.senderId),
       readBy: readBy,
       createdAt: msg.createdAt,

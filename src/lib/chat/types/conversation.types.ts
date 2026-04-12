@@ -15,6 +15,8 @@ export enum ContactType {
   SHELTER = 'SHELTER',
   FOSTER = 'FOSTER',
   USER = 'USER',
+  ADOPTION = 'ADOPTION',
+  ADOPTER = 'ADOPTER',
 }
 
 export interface LoadContactsResult {

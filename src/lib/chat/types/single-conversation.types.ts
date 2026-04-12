@@ -5,9 +5,17 @@ export interface SingleConversationResponse {
   conversationId: string;
   type: ConversationType;
   participant: ConversationParticipant; // Single participant (the other user/shelter)
+  adoption?: AdoptionInfo; // Added for adoption context
   messages: FormattedMessage[];
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface AdoptionInfo {
+  id: string;
+  name: string;
+  breed: string;
+  imageUrl: string | null;
 }
 
 export enum ChatParticipantType {
@@ -16,6 +24,7 @@ export enum ChatParticipantType {
   SHELTER = 'SHELTER',
   FOSTER = 'FOSTER',
   USER = 'USER',
+  ADOPTER = 'ADOPTER',
 }
 
 export interface ConversationParticipant {
@@ -53,6 +62,7 @@ export interface FormattedMessage {
   isFromDriver: boolean;
   isFromVet: boolean;
   isFromFoster: boolean;
+  isFromAdopter: boolean;
   isRead: boolean;
   readBy: ReadByParticipant[];
   createdAt: Date;
@@ -105,6 +115,11 @@ export type ConversationWithRelations = Prisma.PrivateConversationGetPayload<{
             id: true;
           };
         };
+      };
+    };
+    adoption: {
+      include: {
+        animal: true;
       };
     };
     messages: {

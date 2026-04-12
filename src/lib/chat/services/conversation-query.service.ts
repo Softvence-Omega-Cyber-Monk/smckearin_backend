@@ -76,7 +76,7 @@ export class ConversationQueryService {
           result = await this.loadAllVets(userId, skip, limit, search);
         }
       } else if (user.role === 'SHELTER_ADMIN' || user.role === 'MANAGER') {
-        // Shelter sees vets, drivers, and fosters
+        // Shelter sees vets, drivers, fosters, and adopters
         if (type === ConversationType.VET) {
           result = await this.loadAllVets(
             userId,
@@ -93,6 +93,14 @@ export class ConversationQueryService {
             search,
             userShelterId,
           );
+        } else if (type === ConversationType.ADOPTION) {
+          result = await this.loadAdoptionConversations(
+            userId,
+            userShelterId,
+            skip,
+            limit,
+            search,
+          );
         } else {
           // Default: show all drivers
           result = await this.loadAllDrivers(
@@ -108,6 +116,18 @@ export class ConversationQueryService {
           result = await this.loadAllDrivers(userId, skip, limit, search);
         } else {
           // Fosters can only contact Shelters
+          result = await this.loadAllShelters(userId, skip, limit, search);
+        }
+      } else if (user.role === 'ADOPTER') {
+        if (type === ConversationType.ADOPTION) {
+          result = await this.loadAdoptionConversations(
+            userId,
+            null,
+            skip,
+            limit,
+            search,
+          );
+        } else {
           result = await this.loadAllShelters(userId, skip, limit, search);
         }
       } else {
@@ -179,6 +199,13 @@ export class ConversationQueryService {
         this.loadAllDrivers(userId, 0, 999, search),
       ]);
       contacts.push(...shelters.list, ...drivers.list);
+    } else if (userRole === 'ADOPTER') {
+      // Adopters can contact: Shelters
+      const [shelters, adoptions] = await Promise.all([
+        this.loadAllShelters(userId, 0, 999, search),
+        this.loadAdoptionConversations(userId, null, 0, 999, search),
+      ]);
+      contacts.push(...shelters.list, ...adoptions.list);
     }
 
     // Sort all contacts: Online first, then by createdAt desc (or default order)
@@ -595,6 +622,67 @@ export class ConversationQueryService {
     // Only return contacts with an existing conversation
     const filtered = list.filter((c) => c.conversationId !== null);
     return { list: filtered, total: filtered.length };
+  }
+
+  /** ---------------- Helper: load Adoption Conversations ---------------- */
+  private async loadAdoptionConversations(
+    userId: string,
+    userShelterId: string | null = null,
+    skip = 0,
+    limit = 20,
+    search = '',
+  ): Promise<LoadContactsResult> {
+    const where: Prisma.PrivateConversationWhereInput = {
+      chatScope: ConversationScope.ADOPTION,
+      ...(userShelterId
+        ? { shelterId: userShelterId }
+        : { OR: [{ initiatorId: userId }, { receiverId: userId }] }),
+    };
+
+    if (search) {
+      where.adoption = {
+        animal: {
+          name: { contains: search, mode: 'insensitive' },
+        },
+      };
+    }
+
+    const [conversations, total] = await this.prisma.client.$transaction([
+      this.prisma.client.privateConversation.findMany({
+        where,
+        include: {
+          adoption: { include: { animal: true } },
+          lastMessage: { include: { sender: { select: { name: true } } } },
+          initiator: { select: { id: true, name: true, role: true } },
+          receiver: { select: { id: true, name: true, role: true } },
+        },
+        orderBy: { updatedAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.client.privateConversation.count({ where }),
+    ]);
+
+    const list: Contact[] = conversations.map((conv) => {
+      // Determine other participant
+      const otherUser =
+        conv.initiatorId === userId ? conv.receiver : conv.initiator;
+
+      return {
+        id: conv.adoptionId!,
+        name: `${conv.adoption?.animal.name} (${otherUser?.name || 'User'})`,
+        type: ContactType.ADOPTION,
+        lastMessage: this.formatLastMessage(conv.lastMessage),
+        lastMessageAt: conv.updatedAt,
+        isActive: otherUser ? this.chatGateway.isOnline(otherUser.id) : false,
+        conversationId: conv.id,
+        avatarUrl:
+          conv.adoption?.animal.imageUrl ||
+          this.getDefaultAvatar(conv.adoption?.animal.name || 'Animal'),
+      };
+    });
+
+    return { list, total };
   }
 
   /** ---------------- Helper: Format last message preview ---------------- */
