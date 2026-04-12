@@ -439,12 +439,11 @@ export class TransportChatService {
     user: ChatUserContext,
     transport: Awaited<ReturnType<TransportChatService['getTransportForChat']>>,
   ) {
-    const existing = await this.prisma.client.privateConversation.findUnique({
+    const existing = await this.prisma.client.privateConversation.findFirst({
       where: {
-        chatScope_transportId: {
-          chatScope: ConversationScope.TRANSPORT,
-          transportId: transport.id,
-        },
+        chatScope: ConversationScope.TRANSPORT,
+        transportId: transport.id,
+        adoptionId: null,
       },
     });
 

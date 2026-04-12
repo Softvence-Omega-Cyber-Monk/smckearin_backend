@@ -12,5 +12,11 @@ import { MessageService } from './services/message.service';
     ConversationQueryService,
     ConversationSingleQueryService,
   ],
+  exports: [
+    ChatGateway,
+    MessageService,
+    ConversationQueryService,
+    ConversationSingleQueryService,
+  ],
 })
 export class ChatModule {}
