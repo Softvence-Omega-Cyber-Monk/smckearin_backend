@@ -1,22 +1,8 @@
 import { GetUser, ValidateAuth } from '@/core/jwt/jwt.decorator';
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import {
-  GetAdoptionChatMessagesDto,
-  MarkAdoptionChatReadDto,
-  SendAdoptionChatMessageDto,
-} from '../dto/adopter-chat.dto';
-import { AdopterService } from '../services/adopter.service';
+import { GetAdoptionChatMessagesDto } from '../dto/adopter-chat.dto';
 import { ConversationSingleQueryService } from '@/lib/chat/services/conversation-single-query.service';
-import { MessageService } from '@/lib/chat/services/message.service';
 import { ConversationType } from '@/lib/chat/dto/conversation.dto';
 import { ConversationQueryService } from '@/lib/chat/services/conversation-query.service';
 
@@ -28,7 +14,6 @@ export class AdopterChatController {
   constructor(
     private readonly conversationQueryService: ConversationQueryService,
     private readonly conversationSingleQueryService: ConversationSingleQueryService,
-    private readonly messageService: MessageService,
   ) {}
 
   @ApiOperation({ summary: 'Get all adoption conversations for current user' })
