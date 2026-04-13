@@ -230,3 +230,45 @@ export class UpdateShelterProfileDto {
   @IsString()
   description?: string;
 }
+
+export class UpdateAdopterProfileDto extends UpdateProfileDto {
+  @ApiPropertyOptional({
+    example: '1234567890',
+    description: 'Optional phone number',
+  })
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @ApiPropertyOptional({
+    example: 'New York',
+    description: 'Optional city',
+  })
+  @IsOptional()
+  @IsString()
+  city?: string;
+
+  @ApiPropertyOptional({
+    example: 'NY',
+    description: 'Optional state',
+  })
+  @IsOptional()
+  @IsString()
+  state?: string;
+
+  @ApiPropertyOptional({
+    example: '123 Main St, New York, NY',
+    description: 'Optional address',
+  })
+  @IsOptional()
+  @IsString()
+  address?: string;
+
+  @ApiPropertyOptional({
+    example: 'Apartment',
+    description: 'Optional housing type',
+  })
+  @IsOptional()
+  @IsString()
+  housingType?: string;
+}

@@ -117,6 +117,17 @@ export class ConversationSingleQueryService {
     dto: InitOrLoadSingleConversationDto,
   ) {
     const userId = client.data.userId;
+    const result = await this.getSingleConversationInternal(userId, dto);
+
+    client.emit(EventsEnum.CONVERSATION_RESPONSE, result);
+    return result;
+  }
+
+  /** Core logic for loading a single conversation, used by both REST and Socket */
+  async getSingleConversationInternal(
+    userId: string,
+    dto: InitOrLoadSingleConversationDto,
+  ) {
     const { id: targetId, type, page = 1, limit = 50 } = dto;
 
     this.logger.debug(
@@ -160,13 +171,13 @@ export class ConversationSingleQueryService {
       conversation = await this.findOrCreateUserConversation(
         userId,
         targetId,
-        userShelterId,
+        type,
       );
     } else if (type === ConversationType.FOSTER) {
       conversation = await this.findOrCreateUserConversation(
         userId,
         targetId,
-        userShelterId,
+        type,
       );
     } else {
       throw new Error(`Invalid conversation type: ${type}`);
@@ -184,14 +195,11 @@ export class ConversationSingleQueryService {
       limit,
     );
 
-    const payload = {
+    return {
       ...response,
       conversationId: conversation.id,
       message: 'Conversation loaded successfully',
     };
-
-    client.emit(EventsEnum.CONVERSATION_RESPONSE, payload);
-    return payload;
   }
 
   /** Find or create conversation with a SHELTER */

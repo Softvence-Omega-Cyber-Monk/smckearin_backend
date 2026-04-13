@@ -186,6 +186,7 @@ export class AuthUtilsService {
             logo: true,
           },
         },
+        adopters: true,
         profilePicture: true,
       },
     });
@@ -196,6 +197,7 @@ export class AuthUtilsService {
       veterinarians,
       shelterAdminOf,
       managerOf,
+      adopters,
       ...mainUser
     } = user;
     const sanitizedUser = await this.sanitizeUser(mainUser);
@@ -331,6 +333,23 @@ export class AuthUtilsService {
             logoUrl: managerOf.logoUrl,
           };
           isApproved = managerOf.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
+      case 'ADOPTER':
+        if (adopters) {
+          roleData = {
+            adopterId: adopters.id,
+            phone: adopters.phone,
+            city: adopters.city,
+            state: adopters.state,
+            address: adopters.address,
+            housingType: adopters.housingType,
+            status: adopters.status,
+          };
+          isApproved = adopters.status === 'APPROVED';
         } else {
           isApproved = false;
         }

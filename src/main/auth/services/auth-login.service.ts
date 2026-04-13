@@ -41,6 +41,7 @@ export class AuthLoginService {
         managerOf: true,
         profilePicture: true,
         veterinarians: true,
+        adopters: true,
       },
     });
 
@@ -116,6 +117,14 @@ export class AuthLoginService {
         }
         break;
 
+      case 'ADOPTER':
+        if (updatedUser.adopters) {
+          isApproved = updatedUser.adopters.status === 'APPROVED';
+        } else {
+          isApproved = false;
+        }
+        break;
+
       default:
         isApproved = true;
     }
@@ -146,6 +155,8 @@ export class AuthLoginService {
         return 'DRIVER';
       case 'FOSTER':
         return 'FOSTER';
+      case 'ADOPTER':
+        return 'ADOPTER';
       default:
         return 'UNKNOWN';
     }
