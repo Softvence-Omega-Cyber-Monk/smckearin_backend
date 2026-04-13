@@ -1,3 +1,4 @@
+import { PaginationDto } from '@/common/dto/pagination.dto';
 import {
   successPaginatedResponse,
   successResponse,
@@ -6,11 +7,11 @@ import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { Prisma, SPECIES } from '@prisma';
-import { PaginationDto } from '@/common/dto/pagination.dto';
+import { AdoptionStatus, Prisma, SPECIES } from '@prisma';
 import {
   AdopterSpeciesFilter,
   GetAvailableAdoptionsDto,
+  GetMyRequestsDto,
   GetShelterAdoptionsDto,
   ShelterAdoptionFilter,
   SubmitAdoptionRequestDto,
@@ -241,7 +242,7 @@ export class AdopterService {
   @HandleError('Failed to fetch available adoptions')
   async getAvailableAdoptions(dto: GetAvailableAdoptionsDto) {
     const where: Prisma.AdoptionWhereInput = {
-      status: { in: ['AVAILABLE', 'REQUESTED'] },
+      status: 'AVAILABLE',
     };
 
     const animalWhere: Prisma.AnimalWhereInput = {};
@@ -341,7 +342,7 @@ export class AdopterService {
   }
 
   @HandleError('Failed to fetch my requests')
-  async getMyRequests(userId: string, dto: PaginationDto) {
+  async getMyRequests(userId: string, dto: GetMyRequestsDto) {
     const adopter = await this.prisma.client.adopter.findUnique({
       where: { userId },
     });
@@ -355,6 +356,14 @@ export class AdopterService {
     const skip = (page - 1) * limit;
 
     const where: Prisma.AdoptionRequestWhereInput = { adopterId: adopter.id };
+
+    if (dto.search) {
+      where.adoption = {
+        animal: {
+          name: { contains: dto.search, mode: 'insensitive' },
+        },
+      };
+    }
 
     const [requests, total] = await this.prisma.client.$transaction([
       this.prisma.client.adoptionRequest.findMany({
@@ -381,6 +390,56 @@ export class AdopterService {
     );
   }
 
+  @HandleError('Failed to fetch shelter available animals')
+  async getShelterAvailableAnimals(userId: string, dto: PaginationDto) {
+    const shelterId = await this.getShelterId(userId);
+
+    const page = dto.page && +dto.page > 0 ? +dto.page : 1;
+    const limit = dto.limit && +dto.limit > 0 ? +dto.limit : 10;
+    const skip = (page - 1) * limit;
+
+    const where: Prisma.AnimalWhereInput = {
+      shelterId,
+      adoption: { is: null },
+    };
+
+    const [animals, total] = await this.prisma.client.$transaction([
+      this.prisma.client.animal.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+        include: { image: true },
+      }),
+      this.prisma.client.animal.count({ where }),
+    ]);
+
+    return successPaginatedResponse(
+      animals,
+      { page, limit, total },
+      'Available animals for adoption fetched successfully',
+    );
+  }
+
+  @HandleError('Failed to delete adoption record')
+  async deleteAdoption(userId: string, id: string) {
+    const shelterId = await this.getShelterId(userId);
+
+    const adoption = await this.prisma.client.adoption.findFirst({
+      where: { id, shelterId },
+    });
+
+    if (!adoption) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Adoption record not found');
+    }
+
+    await this.prisma.client.adoption.delete({
+      where: { id },
+    });
+
+    return successResponse(null, 'Adoption record deleted successfully');
+  }
+
   private async getShelterId(userId: string): Promise<string> {
     const user = await this.prisma.client.user.findUnique({
       where: { id: userId },
@@ -404,5 +463,39 @@ export class AdopterService {
     }
 
     return shelterId;
+  }
+
+  @HandleError('Failed to fetch requests count')
+  async getRequestsCount(userId: string) {
+    const adopter = await this.prisma.client.adopter.findUnique({
+      where: { userId },
+    });
+
+    if (!adopter) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Adopter profile not found');
+    }
+
+    const count = await this.prisma.client.adoptionRequest.count({
+      where: { adopterId: adopter.id, status: AdoptionStatus.REQUESTED },
+    });
+
+    return successResponse({ count }, 'Requests count fetched successfully');
+  }
+
+  @HandleError('Failed to fetch adoption details for adopter')
+  async getAdoptionDetailsForAdopter(id: string) {
+    const adoption = await this.prisma.client.adoption.findUnique({
+      where: { id },
+      include: {
+        animal: true,
+        shelter: true,
+      },
+    });
+
+    if (!adoption) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Adoption record not found');
+    }
+
+    return successResponse(adoption, 'Adoption details fetched successfully');
   }
 }
