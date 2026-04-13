@@ -1,5 +1,6 @@
 import {
   GetUser,
+  ValidateAdopter,
   ValidateAdmin,
   ValidateAuth,
   ValidateDriver,
@@ -26,6 +27,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import {
+  UpdateAdopterProfileDto,
   UpdateDriverProfileDto,
   UpdateFosterProfileDto,
   UpdateProfileDto,
@@ -117,6 +119,24 @@ export class AuthProfileController {
     @UploadedFile() file?: Express.Multer.File,
   ) {
     return this.authUpdateProfileService.updateFosterProfile(userId, dto, file);
+  }
+
+  @ApiOperation({ summary: 'Update Adopter profile' })
+  @ApiBearerAuth()
+  @Patch('adopter/profile')
+  @ValidateAdopter()
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
+  async updateAdopterProfile(
+    @GetUser('sub') userId: string,
+    @Body() dto: UpdateAdopterProfileDto,
+    @UploadedFile() file?: Express.Multer.File,
+  ) {
+    return this.authUpdateProfileService.updateAdopterProfile(
+      userId,
+      dto,
+      file,
+    );
   }
 
   @ApiOperation({ summary: 'Update Shelter profile' })

@@ -13,6 +13,7 @@ import {
   UpdateProfileDto,
   UpdateShelterProfileDto,
   UpdateVetProfileDto,
+  UpdateAdopterProfileDto,
 } from '../dto/update-profile.dto';
 
 @Injectable()
@@ -36,11 +37,12 @@ export class AuthUpdateProfileService {
     if (
       user.role === 'VETERINARIAN' ||
       user.role === 'DRIVER' ||
-      user.role === 'FOSTER'
+      user.role === 'FOSTER' ||
+      user.role === 'ADOPTER'
     ) {
       throw new AppError(
         HttpStatus.BAD_REQUEST,
-        'Drivers, veterinarians, and fosters cannot update this profile',
+        'Specialized roles cannot update this profile, use their specific update endpoints',
       );
     }
 
@@ -340,9 +342,6 @@ export class AuthUpdateProfileService {
       if (shelter.logoId) {
         await this.s3.deleteFile(shelter.logoId);
       }
-      // if (user.profilePictureId) {
-      //   await this.s3.deleteFile(user.profilePictureId);
-      // }
     }
 
     // Prepare update data
@@ -354,17 +353,6 @@ export class AuthUpdateProfileService {
     if (fileInstance) {
       updateData.logo = { connect: fileInstance };
       updateData.logoUrl = fileInstance.url;
-      // await this.prisma.client.user.update({
-      //   where: { id: user.id },
-      //   data: {
-      //     profilePicture: {
-      //       connect: {
-      //         id: fileInstance.id,
-      //       },
-      //     },
-      //     profilePictureUrl: fileInstance.url,
-      //   },
-      // });
     }
 
     const updatedShelter = await this.prisma.client.shelter.update({
@@ -376,6 +364,69 @@ export class AuthUpdateProfileService {
     return successResponse(
       updatedShelter,
       'Shelter profile updated successfully',
+    );
+  }
+
+  @HandleError('Failed to update adopter profile', 'Adopter')
+  async updateAdopterProfile(
+    userId: string,
+    dto: UpdateAdopterProfileDto,
+    file?: Express.Multer.File,
+  ) {
+    const user = await this.prisma.client.user.findUniqueOrThrow({
+      where: { id: userId },
+      include: { adopters: true },
+    });
+
+    if (!user.adopters) {
+      throw new AppError(HttpStatus.BAD_REQUEST, 'Adopter profile not found');
+    }
+
+    if (dto.phone) {
+      const existingAdopter = await this.prisma.client.adopter.findFirst({
+        where: { phone: dto.phone },
+      });
+      if (existingAdopter && existingAdopter.id !== user.adopters.id) {
+        throw new AppError(HttpStatus.CONFLICT, 'Phone already in use');
+      }
+    }
+
+    let fileInstance: FileInstance | undefined;
+    if (file) {
+      fileInstance = await this.s3.uploadFile(file);
+      if (user.profilePictureId) {
+        await this.s3.deleteFile(user.profilePictureId);
+      }
+    }
+
+    const updatedUserData: Prisma.UserUpdateInput = {};
+    if (dto.name?.trim()) updatedUserData.name = dto.name.trim();
+    if (fileInstance) {
+      updatedUserData.profilePictureUrl = fileInstance.url;
+      updatedUserData.profilePicture = { connect: fileInstance };
+    }
+
+    const updatedAdopterData: Prisma.AdopterUpdateInput = {};
+    if (dto.phone) updatedAdopterData.phone = dto.phone;
+    if (dto.city) updatedAdopterData.city = dto.city;
+    if (dto.state) updatedAdopterData.state = dto.state;
+    if (dto.address) updatedAdopterData.address = dto.address;
+    if (dto.housingType) updatedAdopterData.housingType = dto.housingType;
+
+    const updatedUser = await this.prisma.client.user.update({
+      where: { id: user.id },
+      data: {
+        ...updatedUserData,
+        adopters: {
+          update: updatedAdopterData,
+        },
+      },
+      include: { adopters: true, profilePicture: true },
+    });
+
+    return successResponse(
+      await this.authUtils.sanitizeUser(updatedUser),
+      'Adopter profile updated successfully',
     );
   }
 }
