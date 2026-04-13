@@ -51,3 +51,10 @@ export class SubmitAdoptionRequestDto {
   @IsOptional()
   note?: string;
 }
+
+export class GetMyRequestsDto extends PaginationDto {
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  search?: string;
+}

@@ -1,12 +1,13 @@
+import { PaginationDto } from '@/common/dto/pagination.dto';
 import {
   GetUser,
   ValidateAdopter,
   ValidateManager,
 } from '@/core/jwt/jwt.decorator';
-import { PaginationDto } from '@/common/dto/pagination.dto';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -16,6 +17,7 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   GetAvailableAdoptionsDto,
+  GetMyRequestsDto,
   GetShelterAdoptionsDto,
   SubmitAdoptionRequestDto,
 } from '../dto/adoption-filter.dto';
@@ -50,6 +52,18 @@ export class AdopterController {
     return this.adopterService.getShelterAdoptions(userId, dto);
   }
 
+  @Get('shelter/available/animal/adoptions')
+  @ValidateManager()
+  @ApiOperation({
+    summary: 'Get animals available for creating new adoption records',
+  })
+  async getShelterAvailableAnimals(
+    @GetUser('sub') userId: string,
+    @Query() dto: PaginationDto,
+  ) {
+    return this.adopterService.getShelterAvailableAnimals(userId, dto);
+  }
+
   @Get('shelter/adoptions/:id')
   @ValidateManager()
   @ApiOperation({ summary: 'Get single adoption details' })
@@ -80,6 +94,16 @@ export class AdopterController {
     return this.adopterService.rejectAdoptionRequest(userId, requestId);
   }
 
+  @Delete('shelter/adoptions/:id')
+  @ValidateManager()
+  @ApiOperation({ summary: 'Delete an adoption record' })
+  async deleteAdoption(
+    @GetUser('sub') userId: string,
+    @Param('id') id: string,
+  ) {
+    return this.adopterService.deleteAdoption(userId, id);
+  }
+
   // --- Adopter Panel ---
 
   @Get('available')
@@ -103,8 +127,24 @@ export class AdopterController {
   @ApiOperation({ summary: 'Get all adoption requests submitted by me' })
   async getMyRequests(
     @GetUser('sub') userId: string,
-    @Query() dto: PaginationDto,
+    @Query() dto: GetMyRequestsDto,
   ) {
     return this.adopterService.getMyRequests(userId, dto);
+  }
+
+  @Get('requests/count')
+  @ValidateAdopter()
+  @ApiOperation({
+    summary: 'Get total count of adoption requests submitted by me',
+  })
+  async getRequestsCount(@GetUser('sub') userId: string) {
+    return this.adopterService.getRequestsCount(userId);
+  }
+
+  @Get('adoptions/:id')
+  @ValidateAdopter()
+  @ApiOperation({ summary: 'Get single adoption details for adopter' })
+  async getAdoptionDetailsForAdopter(@Param('id') id: string) {
+    return this.adopterService.getAdoptionDetailsForAdopter(id);
   }
 }
