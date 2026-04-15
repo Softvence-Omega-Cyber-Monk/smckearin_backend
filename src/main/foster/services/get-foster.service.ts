@@ -329,6 +329,7 @@ export class GetFosterService {
       animal: request.animal
         ? {
             id: request.animal.id,
+            sid: request.animal.sid,
             name: request.animal.name,
             photo: request.animal.imageUrl,
             type: request.animal.species,
@@ -418,6 +419,7 @@ export class GetFosterService {
       animal: interest.animal
         ? {
             id: interest.animal.id,
+            sid: interest.animal.sid,
             name: interest.animal.name,
             photo: interest.animal.imageUrl,
             type: interest.animal.species,
