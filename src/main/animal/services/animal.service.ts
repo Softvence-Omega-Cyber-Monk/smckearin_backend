@@ -32,6 +32,7 @@ export class AnimalService {
     });
 
     const shelterId = user.shelterAdminOfId ?? user.managerOfId;
+    console.log(shelterId);
 
     if (!shelterId) {
       throw new AppError(
