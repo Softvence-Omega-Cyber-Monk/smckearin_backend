@@ -13,7 +13,7 @@ export class AnimalService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly s3: S3Service,
-  ) { }
+  ) {}
 
   @HandleError('Error creating animal')
   async createAnimal(
@@ -32,7 +32,6 @@ export class AnimalService {
     });
 
     const shelterId = user.shelterAdminOfId ?? user.managerOfId;
-    console.log('shelterId', shelterId);
 
     if (!shelterId) {
       throw new AppError(
