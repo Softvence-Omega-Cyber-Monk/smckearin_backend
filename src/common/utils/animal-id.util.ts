@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma';
 
 export async function generateUniqueAnimalSid(prisma: any): Promise<string> {
   let sid: string = '';
