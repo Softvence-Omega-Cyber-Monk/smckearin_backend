@@ -669,6 +669,7 @@ export class FosterAnimalService {
         age: this.formatAge(animal.age),
         imageUrl: animal.imageUrl,
         species: animal.species,
+        sid: animal.sid,
       },
       requestInformation: {
         submitted: interest.createdAt,
@@ -1100,6 +1101,7 @@ export class FosterAnimalService {
       weight: animal.weight,
       size: this.getAnimalSize(animal.weight),
       imageUrl: animal.imageUrl ?? null,
+      sid: animal.sid,
       imageUrls: animal.imageUrl ? [animal.imageUrl] : [],
       badgeRow: [
         animal.breed,
@@ -1143,6 +1145,7 @@ export class FosterAnimalService {
       weight: animal.weight,
       size: this.getAnimalSize(animal.weight),
       imageUrls: animal.imageUrl ? [animal.imageUrl] : [],
+      sid: animal.sid,
       personality:
         animal.behaviorNotes ??
         animal.specialNeeds ??
@@ -1213,6 +1216,7 @@ export class FosterAnimalService {
         gender: interest.animal.gender,
         age: this.formatAge(interest.animal.age),
         imageUrl: interest.animal.imageUrl ?? null,
+        sid: interest.animal.sid,
       },
       shelter: {
         id: interest.shelter.id,
@@ -1282,6 +1286,7 @@ export class FosterAnimalService {
       gender: interest.animal.gender,
       age: this.formatAge(interest.animal.age),
       imageUrl: interest.animal.imageUrl ?? null,
+      sid: interest.animal.sid,
       status: 'APPROVED',
       tripTime: {
         date: transport.transPortDate,
@@ -1305,6 +1310,7 @@ export class FosterAnimalService {
       gender: request.animal.gender,
       age: this.formatAge(request.animal.age),
       imageUrl: request.animal.imageUrl ?? null,
+      sid: request.animal.sid,
       status: 'APPROVED',
       tripTime: {
         date: request.transport.transPortDate,
@@ -1334,6 +1340,7 @@ export class FosterAnimalService {
         gender: request.animal.gender,
         age: this.formatAge(request.animal.age),
         imageUrl: request.animal.imageUrl ?? null,
+        sid: request.animal.sid,
       },
       shelter: {
         id: request.shelter.id,

@@ -4,6 +4,7 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
+import { generateUniqueAnimalSid } from '@/common/utils/animal-id.util';
 import { FileInstance, Prisma } from '@prisma';
 import { CreateAnimalDto, UpdateAnimalDto } from '../dto/create-animal.dto';
 
@@ -62,6 +63,8 @@ export class AnimalService {
         behaviorNotes: dto.behaviorNotes ?? null,
 
         shelterId,
+
+        sid: await generateUniqueAnimalSid(this.prisma.client),
 
         // File association
         imageId: fileInstance?.id ?? null,

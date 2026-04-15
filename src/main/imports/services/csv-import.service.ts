@@ -6,6 +6,7 @@ import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
+import { generateUniqueAnimalSid } from '@/common/utils/animal-id.util';
 import {
   ImportJobStatus,
   ImportRowAction,
@@ -473,6 +474,9 @@ export class CsvImportService {
 
       // Crate units
       crateUnits: data.crateUnits || 1,
+
+      // Unique ID
+      sid: await generateUniqueAnimalSid(this.prisma.client),
     };
 
     if (externalAnimalId) {

@@ -112,6 +112,12 @@ export class AdopterController {
     return this.adopterService.getAvailableAdoptions(dto);
   }
 
+  @Get('available/:id')
+  @ApiOperation({ summary: 'Get details of an available animal' })
+  async getAvailableAdoptionDetails(@Param('id') id: string) {
+    return this.adopterService.getAvailableAdoptionDetails(id);
+  }
+
   @Post('request')
   @ValidateAdopter()
   @ApiOperation({ summary: 'Submit an adoption request' })
@@ -141,10 +147,21 @@ export class AdopterController {
     return this.adopterService.getRequestsCount(userId);
   }
 
-  @Get('adoptions/:id')
+  @Get('adoptions/request/:id')
   @ValidateAdopter()
-  @ApiOperation({ summary: 'Get single adoption details for adopter' })
+  @ApiOperation({
+    summary: 'Get single adoption request details for adopter',
+  })
   async getAdoptionDetailsForAdopter(@Param('id') id: string) {
     return this.adopterService.getAdoptionDetailsForAdopter(id);
+  }
+
+  @Get('adoptions/count')
+  @ValidateAdopter()
+  @ApiOperation({
+    summary: 'Get total count of successful adoptions by me',
+  })
+  async getAdoptionsCount(@GetUser('sub') userId: string) {
+    return this.adopterService.getAdoptionsCount(userId);
   }
 }
