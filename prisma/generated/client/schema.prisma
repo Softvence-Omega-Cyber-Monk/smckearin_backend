@@ -90,7 +90,8 @@ model AnimalComplexityFee {
 }
 
 model Animal {
-  id String @id @default(uuid())
+  id  String  @id @default(uuid())
+  sid String? @unique
 
   name  String
   breed String

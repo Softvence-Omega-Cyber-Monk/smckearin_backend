@@ -70,7 +70,9 @@ export class TransportChatService {
               status: true,
               priorityLevel: true,
               transPortDate: true,
-              animals: { select: { id: true, name: true, breed: true } },
+              animals: {
+                select: { id: true, name: true, breed: true, sid: true },
+              },
               shelter: { select: { id: true, name: true } },
               driver: {
                 select: {
@@ -385,6 +387,7 @@ export class TransportChatService {
             id: true,
             name: true,
             breed: true,
+            sid: true,
           },
         },
         shelter: {

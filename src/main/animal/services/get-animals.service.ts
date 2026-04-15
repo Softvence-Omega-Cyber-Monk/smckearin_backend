@@ -46,6 +46,7 @@ export class GetAnimalsService {
       where.OR = [
         { name: { contains: dto.search, mode: 'insensitive' } },
         { breed: { contains: dto.search, mode: 'insensitive' } },
+        { sid: { contains: dto.search, mode: 'insensitive' } },
       ];
     }
 
@@ -107,6 +108,7 @@ export class GetAnimalsService {
       where.OR = [
         { name: { contains: search, mode: 'insensitive' } },
         { breed: { contains: search, mode: 'insensitive' } },
+        { sid: { contains: search, mode: 'insensitive' } },
       ];
     }
 
@@ -150,6 +152,7 @@ export class GetAnimalsService {
       where.OR = [
         { name: { contains: dto.search, mode: 'insensitive' } },
         { breed: { contains: dto.search, mode: 'insensitive' } },
+        { sid: { contains: dto.search, mode: 'insensitive' } },
       ];
     }
 
@@ -166,6 +169,7 @@ export class GetAnimalsService {
         age: true,
         imageUrl: true,
         shelterId: true,
+        sid: true,
       },
     });
 
@@ -180,6 +184,7 @@ export class GetAnimalsService {
           type: animal.species,
           gender: animal.gender,
           age: animal.age,
+          sid: animal.sid,
         })),
       },
       'Animals available for foster fetched successfully',
@@ -212,6 +217,7 @@ export class GetAnimalsService {
       where.OR = [
         { name: { contains: dto.search, mode: 'insensitive' } },
         { breed: { contains: dto.search, mode: 'insensitive' } },
+        { sid: { contains: dto.search, mode: 'insensitive' } },
       ];
     }
 

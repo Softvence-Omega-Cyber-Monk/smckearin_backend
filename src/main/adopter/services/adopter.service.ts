@@ -8,6 +8,7 @@ import { HandleError } from '@/core/error/handle-error.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { AdoptionStatus, Prisma, SPECIES } from '@prisma';
+import { DateTime } from 'luxon';
 import {
   AdopterSpeciesFilter,
   GetAvailableAdoptionsDto,
@@ -484,10 +485,60 @@ export class AdopterService {
 
   @HandleError('Failed to fetch adoption details for adopter')
   async getAdoptionDetailsForAdopter(id: string) {
+    // Try to find as AdoptionRequest first
+    const request = await this.prisma.client.adoptionRequest.findUnique({
+      where: { id },
+      include: {
+        adoption: {
+          include: {
+            animal: {
+              include: { image: true },
+            },
+            shelter: true,
+          },
+        },
+      },
+    });
+
+    if (request) {
+      return successResponse(
+        this.formatAdoptionDetail(request.adoption, request),
+        'Adoption request details fetched successfully',
+      );
+    }
+
+    // Fallback if ID is Adoption ID (though endpoint name suggests Request ID)
     const adoption = await this.prisma.client.adoption.findUnique({
       where: { id },
       include: {
-        animal: true,
+        animal: {
+          include: { image: true },
+        },
+        shelter: true,
+      },
+    });
+
+    if (!adoption) {
+      throw new AppError(
+        HttpStatus.NOT_FOUND,
+        'Adoption request or record not found',
+      );
+    }
+
+    return successResponse(
+      this.formatAdoptionDetail(adoption),
+      'Adoption details fetched successfully',
+    );
+  }
+
+  @HandleError('Failed to fetch available adoption details')
+  async getAvailableAdoptionDetails(id: string) {
+    const adoption = await this.prisma.client.adoption.findUnique({
+      where: { id },
+      include: {
+        animal: {
+          include: { image: true },
+        },
         shelter: true,
       },
     });
@@ -496,6 +547,81 @@ export class AdopterService {
       throw new AppError(HttpStatus.NOT_FOUND, 'Adoption record not found');
     }
 
-    return successResponse(adoption, 'Adoption details fetched successfully');
+    return successResponse(
+      this.formatAdoptionDetail(adoption),
+      'Available adoption details fetched successfully',
+    );
+  }
+
+  private formatAdoptionDetail(adoption: any, request?: any) {
+    const animal = adoption.animal;
+    const shelter = adoption.shelter;
+
+    const details: any = {
+      animal: {
+        id: animal.id,
+        name: animal.name,
+        breed: animal.breed,
+        location:
+          shelter.city && shelter.state
+            ? `${shelter.city}, ${shelter.state}`
+            : 'Unknown',
+        age: `${animal.age} years`,
+        weight: `${animal.weight} lbs`,
+        size: this.getAnimalSize(animal.weight),
+        imageUrl: animal.imageUrl,
+      },
+      personality: adoption.personality || 'No information provided',
+      about: adoption.about || `Learn more about ${animal.name}`,
+      healthInformation: {
+        spayNeuterDate: adoption.spayNeuterDate
+          ? `Yes (${DateTime.fromJSDate(adoption.spayNeuterDate).toFormat('LLL d, yyyy')})`
+          : 'No',
+        lastCheckUp: adoption.lastCheckupDate
+          ? DateTime.fromJSDate(adoption.lastCheckupDate).toFormat(
+              'LLL d, yyyy',
+            )
+          : 'Pending',
+        vaccinations: animal.vaccinationsUpToDate ? 'up to date' : 'no',
+      },
+      shelterNotes:
+        adoption.specialNote || 'No specific notes from the shelter.',
+    };
+
+    if (request) {
+      details.requestedInformation = {
+        submitted: DateTime.fromJSDate(request.createdAt).toFormat(
+          'LLL d, yyyy',
+        ),
+      };
+      details.status = request.status;
+    } else {
+      details.status = adoption.status;
+    }
+
+    return details;
+  }
+
+  private getAnimalSize(weight: number) {
+    if (weight < 20) return 'small';
+    if (weight <= 50) return 'medium';
+    return 'large';
+  }
+
+  @HandleError('Failed to fetch adoptions count')
+  async getAdoptionsCount(userId: string) {
+    const adopter = await this.prisma.client.adopter.findUnique({
+      where: { userId },
+    });
+
+    if (!adopter) {
+      throw new AppError(HttpStatus.NOT_FOUND, 'Adopter profile not found');
+    }
+
+    const count = await this.prisma.client.adoption.count({
+      where: { adopterId: adopter.id, status: AdoptionStatus.ADOPTED },
+    });
+
+    return successResponse({ count }, 'Adoptions count fetched successfully');
   }
 }

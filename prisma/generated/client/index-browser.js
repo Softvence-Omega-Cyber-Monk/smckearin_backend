@@ -171,6 +171,7 @@ exports.Prisma.AnimalComplexityFeeScalarFieldEnum = {
 
 exports.Prisma.AnimalScalarFieldEnum = {
   id: 'id',
+  sid: 'sid',
   name: 'name',
   breed: 'breed',
   age: 'age',

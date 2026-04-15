@@ -3,6 +3,7 @@ import { PrismaService } from '@/lib/prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Prisma } from '@prisma';
+import { generateUniqueAnimalSid } from '@/common/utils/animal-id.util';
 import axios from 'axios';
 
 @Injectable()
@@ -154,6 +155,7 @@ export class ExternalFeedSyncService {
           await this.prisma.client.animal.create({
             data: {
               ...normalizedData,
+              sid: await generateUniqueAnimalSid(this.prisma.client),
               shelterId,
             } as unknown as Prisma.AnimalCreateInput,
           });
