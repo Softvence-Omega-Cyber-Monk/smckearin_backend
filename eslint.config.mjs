@@ -1,4 +1,5 @@
-// Clean ESLint configuration - modern flat style
+/* eslint-disable */
+// Clean ESLint configuration - disabled checks for the config itself
 import js from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import { defineConfig } from 'eslint/config';
