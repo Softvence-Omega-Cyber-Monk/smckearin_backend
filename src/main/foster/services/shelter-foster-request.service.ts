@@ -195,6 +195,7 @@ export class ShelterFosterRequestService {
         id: request.id,
         animal: {
           id: request.animal.id,
+          sid: request.animal.sid,
           name: request.animal.name,
           breed: request.animal.breed,
           imageUrl: request.animal.imageUrl,
@@ -801,6 +802,7 @@ export class ShelterFosterRequestService {
     animal: {
       select: {
         id: true,
+        sid: true,
         name: true,
         imageUrl: true,
         species: true,
@@ -834,6 +836,7 @@ export class ShelterFosterRequestService {
     animal: {
       select: {
         id: true,
+        sid: true,
         name: true,
         imageUrl: true,
         species: true,
@@ -1050,6 +1053,7 @@ export class ShelterFosterRequestService {
       animal: request.animal
         ? {
             id: request.animal.id,
+            sid: request.animal.sid,
             name: request.animal.name,
             photo: request.animal.imageUrl,
             type: request.animal.species,
@@ -1101,6 +1105,7 @@ export class ShelterFosterRequestService {
       animal: interest.animal
         ? {
             id: interest.animal.id,
+            sid: interest.animal.sid,
             name: interest.animal.name,
             photo: interest.animal.imageUrl,
             type: interest.animal.species,
@@ -1180,6 +1185,7 @@ export class ShelterFosterRequestService {
       animal: request.animal
         ? {
             id: request.animal.id,
+            sid: request.animal.sid,
             name: request.animal.name,
             photo: request.animal.imageUrl,
             type: request.animal.species,

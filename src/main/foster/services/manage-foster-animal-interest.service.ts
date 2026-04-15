@@ -124,6 +124,7 @@ export class ManageFosterAnimalInterestService {
         },
         animal: {
           id: interest.animal.id,
+          sid: interest.animal.sid,
           name: interest.animal.name,
         },
         shelter: {
@@ -253,6 +254,7 @@ export class ManageFosterAnimalInterestService {
         },
         animal: {
           id: updated.animal.id,
+          sid: updated.animal.sid,
           name: updated.animal.name,
         },
         latestTransport: updated.animal.transports[0]

@@ -711,6 +711,7 @@ export class FosterAnimalService {
         age: this.formatAge(animal.age),
         imageUrl: animal.imageUrl,
         species: animal.species,
+        sid: animal.sid,
       },
       requestInformation: {
         submitted: request.createdAt,
