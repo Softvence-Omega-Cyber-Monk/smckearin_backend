@@ -190,13 +190,19 @@ export class ConversationQueryService {
       ]);
       contacts.push(...shelters.list, ...vets.list, ...fosters.list);
     } else if (userRole === 'SHELTER_ADMIN' || userRole === 'MANAGER') {
-      // Shelters can contact: Vets + Drivers + Fosters
-      const [vets, drivers, fosters] = await Promise.all([
+      // Shelters can contact: Vets + Drivers + Fosters + Adopters (via Adoptions)
+      const [vets, drivers, fosters, adoptions] = await Promise.all([
         this.loadAllVets(userId, 0, 999, search, userShelterId),
         this.loadAllDrivers(userId, 0, 999, search, userShelterId),
         this.loadAllFosters(userId, 0, 999, search, userShelterId),
+        this.loadAdoptionConversations(userId, userShelterId, 0, 999, search),
       ]);
-      contacts.push(...vets.list, ...drivers.list, ...fosters.list);
+      contacts.push(
+        ...vets.list,
+        ...drivers.list,
+        ...fosters.list,
+        ...adoptions.list,
+      );
     } else if (userRole === 'FOSTER') {
       // Fosters can contact: Shelters + Drivers
       const [shelters, drivers] = await Promise.all([
@@ -660,6 +666,12 @@ export class ConversationQueryService {
           lastMessage: { include: { sender: { select: { name: true } } } },
           initiator: { select: { id: true, name: true, role: true } },
           receiver: { select: { id: true, name: true, role: true } },
+          shelter: {
+            include: {
+              shelterAdmins: { select: { id: true } },
+              managers: { select: { id: true } },
+            },
+          },
         },
         orderBy: { updatedAt: 'desc' },
         skip,
@@ -669,9 +681,24 @@ export class ConversationQueryService {
     ]);
 
     const list: Contact[] = conversations.map((conv) => {
-      // Determine other participant
-      const otherUser =
+      // Determine other participant (the one who is not staff, or the other side of the chat)
+      const staffIds = [
+        ...(conv.shelter?.shelterAdmins?.map((a: { id: string }) => a.id) ||
+          []),
+        ...(conv.shelter?.managers?.map((m: { id: string }) => m.id) || []),
+      ];
+
+      // fallback: if we're in shelter context, the "other" is the one who is NOT a staff member
+      let otherUser =
         conv.initiatorId === userId ? conv.receiver : conv.initiator;
+
+      if (!otherUser && userShelterId) {
+        // Current user is staff, find the participant who is NOT staff
+        otherUser =
+          conv.initiator && !staffIds.includes(conv.initiator.id)
+            ? conv.initiator
+            : conv.receiver;
+      }
 
       return {
         id: conv.adoptionId!,

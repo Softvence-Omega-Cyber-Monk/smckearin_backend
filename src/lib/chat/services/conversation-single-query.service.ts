@@ -518,10 +518,33 @@ export class ConversationSingleQueryService {
       }
     } else {
       // No shelter involved, show the other user
-      const otherUser =
+      let otherUser =
         conversation.initiator?.id === userId
           ? conversation.receiver
           : conversation.initiator;
+
+      // For Adoption scope specifically, if we are shelter staff and otherUser is still null or staff, try harder
+      if (
+        conversation.chatScope === ConversationScope.ADOPTION &&
+        userShelterId
+      ) {
+        const staffIds = [
+          ...(conversation.shelter?.shelterAdmins?.map(
+            (a: { id: string }) => a.id,
+          ) || []),
+          ...(conversation.shelter?.managers?.map(
+            (m: { id: string }) => m.id,
+          ) || []),
+        ];
+
+        if (!otherUser || staffIds.includes(otherUser.id)) {
+          otherUser =
+            conversation.initiator &&
+            !staffIds.includes(conversation.initiator.id)
+              ? conversation.initiator
+              : conversation.receiver;
+        }
+      }
 
       if (otherUser) {
         return {
@@ -539,7 +562,9 @@ export class ConversationSingleQueryService {
                 ? ChatParticipantType.DRIVER
                 : otherUser.role === 'FOSTER'
                   ? ChatParticipantType.FOSTER
-                  : ChatParticipantType.USER,
+                  : otherUser.role === 'ADOPTER'
+                    ? ChatParticipantType.ADOPTER
+                    : ChatParticipantType.USER,
         };
       }
     }
