@@ -40,14 +40,37 @@ export class MessageService {
         },
       });
 
-    if (conversation.chatScope !== ConversationScope.MAIN) {
-      throw new Error('Conversation is not available in main chat');
-    }
-
     // 2. Determine recipients based on conversation type
     const recipientIds = new Set<string>();
 
-    if (conversation.shelterId) {
+    if (conversation.chatScope === ConversationScope.TRANSPORT) {
+      // For Transport chat, recipients are all shelter staff + the initiator/receiver who is NOT staff
+      if (conversation.shelterId) {
+        const staffIds = [
+          ...(conversation.shelter?.shelterAdmins || []),
+          ...(conversation.shelter?.managers || []),
+        ].map((s) => s.id);
+
+        staffIds.forEach((sid) => recipientIds.add(sid));
+      }
+
+      if (conversation.initiatorId) recipientIds.add(conversation.initiatorId);
+      if (conversation.receiverId) recipientIds.add(conversation.receiverId);
+    } else if (conversation.chatScope === ConversationScope.ADOPTION) {
+      // For Adoption chat, recipients are all shelter staff + the adopter (initiator or receiver)
+      if (conversation.shelterId) {
+        const staffIds = [
+          ...(conversation.shelter?.shelterAdmins || []),
+          ...(conversation.shelter?.managers || []),
+        ].map((s) => s.id);
+
+        staffIds.forEach((sid) => recipientIds.add(sid));
+      }
+
+      // Adopters are always linked via initiator or receiver in these scoped chats
+      if (conversation.initiatorId) recipientIds.add(conversation.initiatorId);
+      if (conversation.receiverId) recipientIds.add(conversation.receiverId);
+    } else if (conversation.shelterId) {
       // Shelter Conversation
       const userIsShelterMember =
         conversation.shelter?.shelterAdmins.some((a) => a.id === userId) ||
