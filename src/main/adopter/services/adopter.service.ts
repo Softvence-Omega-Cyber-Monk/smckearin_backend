@@ -560,6 +560,7 @@ export class AdopterService {
     const details: any = {
       animal: {
         id: animal.id,
+        sid: animal.sid,
         name: animal.name,
         breed: animal.breed,
         location:
