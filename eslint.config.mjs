@@ -1,18 +1,20 @@
-// Clean ESLint configuration - verified
+// Clean ESLint configuration - modern flat style
 import js from '@eslint/js';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import { defineConfig, globalIgnores } from 'eslint/config';
+import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
-  globalIgnores([
-    'node_modules/*',
-    'dist/*',
-    'logs/*',
-    'prisma/*',
-    'scripts/*',
-  ]),
+  {
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/logs/**',
+      '**/prisma/**',
+      '**/scripts/**',
+    ],
+  },
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
     ...js.configs.recommended,
