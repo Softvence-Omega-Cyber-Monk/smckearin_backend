@@ -1,10 +1,10 @@
+import { generateUniqueAnimalSid } from '@/common/utils/animal-id.util';
 import { successResponse } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
 import { S3Service } from '@/lib/file/services/s3.service';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { generateUniqueAnimalSid } from '@/common/utils/animal-id.util';
 import { FileInstance, Prisma } from '@prisma';
 import { CreateAnimalDto, UpdateAnimalDto } from '../dto/create-animal.dto';
 
