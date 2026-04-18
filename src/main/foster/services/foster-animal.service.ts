@@ -385,6 +385,15 @@ export class FosterAnimalService {
               orderBy: { transPortDate: 'desc' },
               take: 5,
             },
+            fosterRequests: {
+              where: {
+                status: {
+                  in: ['REQUESTED', 'INTERESTED', 'APPROVED', 'SCHEDULED'],
+                },
+              },
+              orderBy: { createdAt: 'desc' },
+              take: 1,
+            },
           },
         },
         shelter: {
@@ -677,11 +686,18 @@ export class FosterAnimalService {
           transport?.transPortDate ?? interest.preferredArrivalDate ?? null,
       },
       healthInformation: {
-        spayNeuterDate: null,
-        lastCheckUp: latestHealthReport?.createdAt ?? null,
-        vaccinationsStatus: animal.vaccinationsUpToDate
-          ? 'up to date'
-          : 'unknown',
+        spayNeuterDate:
+          animal.fosterRequests?.[0]?.spayNeuterDate ??
+          this.findReportDate(animal.healthReports, ['spay', 'neuter']),
+        lastCheckUp:
+          animal.fosterRequests?.[0]?.lastCheckupDate ??
+          latestHealthReport?.createdAt ??
+          null,
+        vaccinationsStatus:
+          animal.fosterRequests?.[0]?.vaccinationsDate
+            ?.toISOString()
+            .split('T')[0] ??
+          (animal.vaccinationsUpToDate ? 'up to date' : 'unknown'),
       },
       shelterContact: {
         name: shelter?.name ?? 'Unknown Shelter',
