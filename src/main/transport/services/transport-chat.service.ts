@@ -48,6 +48,15 @@ export class TransportChatService {
       const access: Prisma.PrivateConversationWhereInput[] = [
         { initiatorId: userId },
         { receiverId: userId },
+        {
+          transport: {
+            OR: [
+              { driver: { userId: userId } },
+              { vet: { userId: userId } },
+              { fosterRequest: { fosterUserId: userId } },
+            ],
+          },
+        },
       ];
 
       if (user.shelterId) {
@@ -244,7 +253,11 @@ export class TransportChatService {
       user,
       transport,
     );
-    const recipients = await this.getRecipientIds(conversation, user.id);
+    const recipients = await this.getRecipientIds(
+      conversation,
+      user.id,
+      transport.fosterRequest?.fosterUserId,
+    );
 
     const message = await this.prisma.client.privateMessage.create({
       data: {
@@ -412,6 +425,12 @@ export class TransportChatService {
             user: { select: { id: true, name: true } },
           },
         },
+        fosterRequest: {
+          select: {
+            id: true,
+            fosterUserId: true,
+          },
+        },
       },
     });
   }
@@ -428,8 +447,14 @@ export class TransportChatService {
       !!user.shelterId && user.shelterId === transport.shelterId;
     const canAccessByDriver = transport.driver?.userId === user.id;
     const canAccessByVet = transport.vet?.userId === user.id;
+    const canAccessByFoster = transport.fosterRequest?.fosterUserId === user.id;
 
-    if (!canAccessByShelter && !canAccessByDriver && !canAccessByVet) {
+    if (
+      !canAccessByShelter &&
+      !canAccessByDriver &&
+      !canAccessByVet &&
+      !canAccessByFoster
+    ) {
       throw new AppError(
         HttpStatus.FORBIDDEN,
         'You are not allowed to access this transport chat',
@@ -477,11 +502,14 @@ export class TransportChatService {
     transport: Awaited<ReturnType<TransportChatService['getTransportForChat']>>,
   ): string {
     if (user.shelterId) {
-      const rideUserId = transport.driver?.userId ?? transport.vet?.userId;
+      const rideUserId =
+        transport.driver?.userId ??
+        transport.vet?.userId ??
+        transport.fosterRequest?.fosterUserId;
       if (!rideUserId) {
         throw new AppError(
           HttpStatus.BAD_REQUEST,
-          'Assign a driver or veterinarian first to start transport chat',
+          'Assign a driver, veterinarian or foster first to start transport chat',
         );
       }
       return rideUserId;
@@ -509,6 +537,7 @@ export class TransportChatService {
       receiverId: string | null;
     },
     senderId: string,
+    fosterUserId?: string | null,
   ): Promise<string[]> {
     const recipients = new Set<string>();
 
@@ -538,6 +567,11 @@ export class TransportChatService {
 
     if (directCounterpart && directCounterpart !== senderId) {
       recipients.add(directCounterpart);
+    }
+
+    // Include Foster
+    if (fosterUserId && fosterUserId !== senderId) {
+      recipients.add(fosterUserId);
     }
 
     return [...recipients];
