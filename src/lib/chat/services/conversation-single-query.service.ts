@@ -5,14 +5,26 @@ import {
 } from '@/common/utils/response.util';
 import { SocketSafe } from '@/core/socket/socket-safe.decorator';
 import { PrismaService } from '@/lib/prisma/prisma.service';
-import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
-import { ConversationScope, MessageDeliveryStatus, Prisma } from '@prisma';
+import {
+  forwardRef,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
+import {
+  ConversationScope,
+  MessageDeliveryStatus,
+  Prisma,
+  UserRole,
+} from '@prisma';
 import { Socket } from 'socket.io';
 import { ChatGateway } from '../chat.gateway';
 import {
   ConversationType,
   InitOrLoadSingleConversationDto,
 } from '../dto/conversation.dto';
+import { AppError } from '@/core/error/handle-error.app';
 import {
   ChatParticipantType,
   ConversationParticipant,
@@ -151,6 +163,26 @@ export class ConversationSingleQueryService {
     const userShelterId =
       currentUser.shelterAdminOfId ?? currentUser.managerOfId ?? null;
 
+    // Determine target user role for permission check (if not chatting with a shelter or specific adoption)
+    let targetUser: { id: string; role: UserRole } | null = null;
+    if (
+      type === ConversationType.VET ||
+      type === ConversationType.DRIVER ||
+      type === ConversationType.FOSTER
+    ) {
+      const actualTarget = await this.prisma.client.user.findUnique({
+        where: { id: targetId },
+        select: { id: true, role: true },
+      });
+      if (!actualTarget) {
+        throw new AppError(HttpStatus.NOT_FOUND, 'Target user not found');
+      }
+      targetUser = actualTarget;
+    }
+
+    // Role-based permission enforcement
+    this.validateChatPermissions(currentUser, targetUser, type);
+
     let conversation: ConversationWithRelations;
 
     // Find or create conversation based on type
@@ -166,21 +198,19 @@ export class ConversationSingleQueryService {
       );
     } else if (
       type === ConversationType.VET ||
-      type === ConversationType.DRIVER
+      type === ConversationType.DRIVER ||
+      type === ConversationType.FOSTER
     ) {
       conversation = await this.findOrCreateUserConversation(
         userId,
         targetId,
-        type,
-      );
-    } else if (type === ConversationType.FOSTER) {
-      conversation = await this.findOrCreateUserConversation(
-        userId,
-        targetId,
-        type,
+        userShelterId,
       );
     } else {
-      throw new Error(`Invalid conversation type: ${type}`);
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        `Invalid conversation type: ${type}`,
+      );
     }
 
     // Sync Read Status (Mark unseen messages as SEEN)
@@ -424,13 +454,13 @@ export class ConversationSingleQueryService {
       type:
         conversation.chatScope === ConversationScope.ADOPTION
           ? ConversationType.ADOPTION
-          : conversation.shelterId
-            ? ConversationType.SHELTER
-            : participant?.role === 'VETERINARIAN'
-              ? ConversationType.VET
-              : participant?.role === 'DRIVER'
-                ? ConversationType.DRIVER
-                : ConversationType.FOSTER,
+          : participant?.role === 'VETERINARIAN'
+            ? ConversationType.VET
+            : participant?.role === 'DRIVER'
+              ? ConversationType.DRIVER
+              : participant?.role === 'FOSTER'
+                ? ConversationType.FOSTER
+                : ConversationType.SHELTER,
       participant,
       adoption: conversation.adoption
         ? {
@@ -676,6 +706,89 @@ export class ConversationSingleQueryService {
       createdAt: msg.createdAt,
       updatedAt: msg.updatedAt,
     };
+  }
+
+  /** Enforce chat rules based on user roles */
+  private validateChatPermissions(
+    user: { id: string; role: UserRole },
+    targetUser: { id: string; role: UserRole } | null,
+    type: ConversationType,
+  ) {
+    // Admins can do anything
+    if (user.role === UserRole.ADMIN || user.role === UserRole.SUPER_ADMIN) {
+      return;
+    }
+
+    // 1. Shelter chat to Driver and foster
+    if (
+      user.role === UserRole.SHELTER_ADMIN ||
+      user.role === UserRole.MANAGER
+    ) {
+      // Can chat with everyone except maybe random users who are not in the list
+      // But based on the requirement, we explicitly allow Driver and Foster.
+      // Adopters are also allowed via SHELTER or ADOPTION types.
+      return;
+    }
+
+    // 2. Foster chat to Shelter and Driver
+    if (user.role === UserRole.FOSTER) {
+      if (
+        type === ConversationType.SHELTER ||
+        type === ConversationType.ADOPTION
+      ) {
+        return;
+      }
+      if (
+        type === ConversationType.DRIVER &&
+        targetUser?.role === UserRole.DRIVER
+      ) {
+        return;
+      }
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'Fosters can only chat with shelters and drivers',
+      );
+    }
+
+    // 3. Driver chat to Shelter and Foster (implied by bidirectional)
+    if (user.role === UserRole.DRIVER) {
+      if (
+        type === ConversationType.SHELTER ||
+        type === ConversationType.ADOPTION
+      ) {
+        return;
+      }
+      if (
+        type === ConversationType.FOSTER &&
+        targetUser?.role === UserRole.FOSTER
+      ) {
+        return;
+      }
+      if (
+        type === ConversationType.VET &&
+        targetUser?.role === UserRole.VETERINARIAN
+      ) {
+        return;
+      }
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'Drivers can only chat with shelters, fosters and veterinarians',
+      );
+    }
+
+    // 4. Adopter chat to Shelter
+    if (user.role === UserRole.ADOPTER) {
+      if (
+        type === ConversationType.SHELTER ||
+        type === ConversationType.ADOPTION
+      ) {
+        return;
+      }
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'Adopters can only chat with shelters',
+      );
+    }
   }
 
   /** Generate default avatar URL based on name */

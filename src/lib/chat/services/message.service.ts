@@ -37,6 +37,13 @@ export class MessageService {
               managers: { select: { id: true } },
             },
           },
+          transport: {
+            include: {
+              fosterRequest: { select: { fosterUserId: true } },
+              driver: { select: { userId: true } },
+              vet: { select: { userId: true } },
+            },
+          },
         },
       });
 
@@ -53,9 +60,20 @@ export class MessageService {
 
         staffIds.forEach((sid) => recipientIds.add(sid));
       }
-
       if (conversation.initiatorId) recipientIds.add(conversation.initiatorId);
       if (conversation.receiverId) recipientIds.add(conversation.receiverId);
+
+      // Also include Foster if this transport is for a foster request
+      if (conversation.transport?.fosterRequest?.fosterUserId) {
+        recipientIds.add(conversation.transport.fosterRequest.fosterUserId);
+      }
+      // Include Driver and Vet if not already added
+      if (conversation.transport?.driver?.userId) {
+        recipientIds.add(conversation.transport.driver.userId);
+      }
+      if (conversation.transport?.vet?.userId) {
+        recipientIds.add(conversation.transport.vet.userId);
+      }
     } else if (conversation.chatScope === ConversationScope.ADOPTION) {
       // For Adoption chat, recipients are all shelter staff + the adopter (initiator or receiver)
       if (conversation.shelterId) {
