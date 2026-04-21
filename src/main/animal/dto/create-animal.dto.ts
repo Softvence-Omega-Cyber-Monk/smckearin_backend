@@ -15,6 +15,15 @@ export class CreateAnimalDto {
   @IsString()
   name: string;
 
+  @ApiPropertyOptional({
+    description:
+      'Manual Animal ID (SID). If not provided, one will be auto-generated.',
+    example: 'A-12345',
+  })
+  @IsOptional()
+  @IsString()
+  sid?: string;
+
   @ApiProperty({ description: 'Breed of the animal', example: 'Labrador' })
   @IsString()
   breed: string;
