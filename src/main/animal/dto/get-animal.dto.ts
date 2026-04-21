@@ -5,10 +5,29 @@ import { Type } from 'class-transformer';
 import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
 export class GetAnimalDto extends PaginationDto {
-  @ApiPropertyOptional({ description: 'Search query', example: 'Buddy' })
+  @ApiPropertyOptional({
+    description: 'Global search (name, breed, or sid)',
+    example: 'Buddy',
+  })
   @IsOptional()
   @IsString()
   search?: string;
+
+  @ApiPropertyOptional({
+    description: 'Specific name to filter by',
+    example: 'Buddy',
+  })
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @ApiPropertyOptional({
+    description: 'Specific Animal ID (SID) to filter by',
+    example: 'A-123',
+  })
+  @IsOptional()
+  @IsString()
+  sid?: string;
 
   @ApiPropertyOptional({
     description: 'Filter by species',
@@ -38,10 +57,29 @@ export class GetAnimalDto extends PaginationDto {
 }
 
 export class GetPendingAnimalDto {
-  @ApiPropertyOptional({ description: 'Search query', example: 'Buddy' })
+  @ApiPropertyOptional({
+    description: 'Global search (name, breed, or sid)',
+    example: 'Buddy',
+  })
   @IsOptional()
   @IsString()
   search?: string;
+
+  @ApiPropertyOptional({
+    description: 'Specific name to filter by',
+    example: 'Buddy',
+  })
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @ApiPropertyOptional({
+    description: 'Specific Animal ID (SID) to filter by',
+    example: 'A-123',
+  })
+  @IsOptional()
+  @IsString()
+  sid?: string;
 
   @ApiPropertyOptional({ description: 'Max number of results', example: 10 })
   @IsOptional()

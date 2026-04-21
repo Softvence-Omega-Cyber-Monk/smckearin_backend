@@ -50,6 +50,14 @@ export class GetAnimalsService {
       ];
     }
 
+    if (dto.name) {
+      where.name = { contains: dto.name.trim(), mode: 'insensitive' };
+    }
+
+    if (dto.sid) {
+      where.sid = { contains: dto.sid.trim(), mode: 'insensitive' };
+    }
+
     if (dto.species) {
       where.species = dto.species;
     }
@@ -102,14 +110,21 @@ export class GetAnimalsService {
     };
 
     const limit = dto.limit && +dto.limit > 0 ? +dto.limit : 10;
-    const search = dto.search;
 
-    if (search) {
+    if (dto.search) {
       where.OR = [
-        { name: { contains: search, mode: 'insensitive' } },
-        { breed: { contains: search, mode: 'insensitive' } },
-        { sid: { contains: search, mode: 'insensitive' } },
+        { name: { contains: dto.search, mode: 'insensitive' } },
+        { breed: { contains: dto.search, mode: 'insensitive' } },
+        { sid: { contains: dto.search, mode: 'insensitive' } },
       ];
+    }
+
+    if (dto.name) {
+      where.name = { contains: dto.name.trim(), mode: 'insensitive' };
+    }
+
+    if (dto.sid) {
+      where.sid = { contains: dto.sid.trim(), mode: 'insensitive' };
     }
 
     const animals = await this.prisma.client.animal.findMany({
@@ -154,6 +169,14 @@ export class GetAnimalsService {
         { breed: { contains: dto.search, mode: 'insensitive' } },
         { sid: { contains: dto.search, mode: 'insensitive' } },
       ];
+    }
+
+    if (dto.name) {
+      where.name = { contains: dto.name.trim(), mode: 'insensitive' };
+    }
+
+    if (dto.sid) {
+      where.sid = { contains: dto.sid.trim(), mode: 'insensitive' };
     }
 
     const animals = await this.prisma.client.animal.findMany({
@@ -219,6 +242,14 @@ export class GetAnimalsService {
         { breed: { contains: dto.search, mode: 'insensitive' } },
         { sid: { contains: dto.search, mode: 'insensitive' } },
       ];
+    }
+
+    if (dto.name) {
+      where.name = { contains: dto.name.trim(), mode: 'insensitive' };
+    }
+
+    if (dto.sid) {
+      where.sid = { contains: dto.sid.trim(), mode: 'insensitive' };
     }
 
     if (dto.species) where.species = dto.species;

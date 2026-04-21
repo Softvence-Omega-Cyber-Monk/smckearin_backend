@@ -1,4 +1,7 @@
-import { generateUniqueAnimalSid } from '@/common/utils/animal-id.util';
+import {
+  checkAnimalSidExists,
+  generateUniqueAnimalSid,
+} from '@/common/utils/animal-id.util';
 import { successResponse } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
@@ -64,15 +67,39 @@ export class AnimalService {
 
         shelterId,
 
-        sid: await generateUniqueAnimalSid(this.prisma.client),
+        sid: dto.sid
+          ? await this.validateAndGetSid(dto.sid)
+          : await generateUniqueAnimalSid(this.prisma.client),
 
         // File association
         imageId: fileInstance?.id ?? null,
-        imageUrl: imageUrl ?? null,
+        imageUrl: fileInstance?.url ?? null,
       },
     });
 
     return successResponse(animal, 'Animal created successfully');
+  }
+
+  private async validateAndGetSid(sid: string, currentAnimalId?: string) {
+    const trimmedSid = sid.trim();
+    if (!trimmedSid) return generateUniqueAnimalSid(this.prisma.client);
+
+    const exists = await this.prisma.client.animal.findFirst({
+      where: {
+        sid: trimmedSid,
+        NOT: currentAnimalId ? { id: currentAnimalId } : undefined,
+      },
+      select: { id: true },
+    });
+
+    if (exists) {
+      throw new AppError(
+        HttpStatus.CONFLICT,
+        `Animal ID "${trimmedSid}" is already in use`,
+      );
+    }
+
+    return trimmedSid;
   }
 
   @HandleError('Error updating animal')
@@ -102,16 +129,17 @@ export class AnimalService {
     }
 
     // Fetch the animal to ensure it exists and belongs to user's shelter
-    const animal = await this.prisma.client.animal.findUniqueOrThrow({
+    const oldAnimal = await this.prisma.client.animal.findUniqueOrThrow({
       where: { id: animalId },
       select: {
         id: true,
         shelterId: true,
         imageId: true,
+        sid: true,
       },
     });
 
-    if (animal.shelterId !== shelterId) {
+    if (oldAnimal.shelterId !== shelterId) {
       throw new AppError(
         HttpStatus.FORBIDDEN,
         'You do not have permission to update this animal',
@@ -122,9 +150,6 @@ export class AnimalService {
     let fileInstance: FileInstance | undefined;
     if (file) {
       fileInstance = await this.s3.uploadFile(file);
-      if (animal.imageId) {
-        await this.s3.deleteFile(animal.imageId);
-      }
     }
 
     // Prepare selective update data
@@ -143,6 +168,11 @@ export class AnimalService {
       updateData.medicalNotes = dto.medicalNotes.trim();
     if (dto.behaviorNotes?.trim())
       updateData.behaviorNotes = dto.behaviorNotes.trim();
+
+    if (dto.sid) {
+      updateData.sid = await this.validateAndGetSid(dto.sid, animalId);
+    }
+
     if (fileInstance) {
       updateData.image = { connect: { id: fileInstance.id } };
       updateData.imageUrl = fileInstance.url;
@@ -154,6 +184,15 @@ export class AnimalService {
       data: updateData,
       include: { image: true, shelter: true, bondedWith: true },
     });
+
+    // Cleanup old image only after successful DB update
+    if (fileInstance && oldAnimal.imageId) {
+      try {
+        await this.s3.deleteFile(oldAnimal.imageId);
+      } catch (err) {
+        console.error(`Failed to delete old image ${oldAnimal.imageId}:`, err);
+      }
+    }
 
     return successResponse(updatedAnimal, 'Animal updated successfully');
   }
@@ -196,14 +235,21 @@ export class AnimalService {
       );
     }
 
-    if (animal.imageId) {
-      await this.s3.deleteFile(animal.imageId);
-    }
-
     // Delete the animal
     await this.prisma.client.animal.delete({
       where: { id: animalId },
     });
+
+    if (animal.imageId) {
+      try {
+        await this.s3.deleteFile(animal.imageId);
+      } catch (err) {
+        console.error(
+          `Failed to delete image ${animal.imageId} after animal deletion:`,
+          err,
+        );
+      }
+    }
 
     return successResponse(null, 'Animal deleted successfully');
   }
