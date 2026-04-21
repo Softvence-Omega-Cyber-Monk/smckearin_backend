@@ -1,7 +1,4 @@
-import {
-  checkAnimalSidExists,
-  generateUniqueAnimalSid,
-} from '@/common/utils/animal-id.util';
+import { generateUniqueAnimalSid } from '@/common/utils/animal-id.util';
 import { successResponse } from '@/common/utils/response.util';
 import { AppError } from '@/core/error/handle-error.app';
 import { HandleError } from '@/core/error/handle-error.decorator';
@@ -45,10 +42,8 @@ export class AnimalService {
 
     // Handle file upload
     let fileInstance: FileInstance | undefined;
-    let imageUrl: string | undefined;
     if (file) {
       fileInstance = await this.s3.uploadFile(file);
-      imageUrl = fileInstance.url;
     }
 
     // Create the animal

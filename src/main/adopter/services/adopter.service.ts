@@ -585,6 +585,10 @@ export class AdopterService {
           : 'Pending',
         vaccinations: animal.vaccinationsUpToDate ? 'up to date' : 'no',
       },
+      shelter: {
+        id: shelter.id,
+        role: 'SHELTER',
+      },
       shelterNotes:
         adoption.specialNote || 'No specific notes from the shelter.',
     };
