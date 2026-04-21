@@ -168,7 +168,8 @@ export class ConversationSingleQueryService {
     if (
       type === ConversationType.VET ||
       type === ConversationType.DRIVER ||
-      type === ConversationType.FOSTER
+      type === ConversationType.FOSTER ||
+      type === ConversationType.ADOPTER
     ) {
       const actualTarget = await this.prisma.client.user.findUnique({
         where: { id: targetId },
@@ -199,7 +200,8 @@ export class ConversationSingleQueryService {
     } else if (
       type === ConversationType.VET ||
       type === ConversationType.DRIVER ||
-      type === ConversationType.FOSTER
+      type === ConversationType.FOSTER ||
+      type === ConversationType.ADOPTER
     ) {
       conversation = await this.findOrCreateUserConversation(
         userId,
@@ -460,7 +462,9 @@ export class ConversationSingleQueryService {
               ? ConversationType.DRIVER
               : participant?.role === 'FOSTER'
                 ? ConversationType.FOSTER
-                : ConversationType.SHELTER,
+                : participant?.role === 'ADOPTER'
+                  ? ConversationType.ADOPTER
+                  : ConversationType.SHELTER,
       participant,
       adoption: conversation.adoption
         ? {

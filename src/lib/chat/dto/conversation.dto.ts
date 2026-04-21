@@ -8,6 +8,7 @@ export enum ConversationType {
   SHELTER = 'SHELTER',
   FOSTER = 'FOSTER',
   ADOPTION = 'ADOPTION',
+  ADOPTER = 'ADOPTER',
 }
 
 /** ---------------- Load multiple conversations (with pagination + search) ---------------- */
