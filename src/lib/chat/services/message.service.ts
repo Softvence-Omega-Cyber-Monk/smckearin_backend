@@ -178,6 +178,7 @@ export class MessageService {
       sender: {
         id: message.sender.id,
         name: message.sender.name,
+        role: message.sender.role,
         avatarUrl:
           message.sender.profilePictureUrl ||
           this.getDefaultAvatar(message.sender.name),
@@ -284,9 +285,11 @@ export class MessageService {
             ? ChatParticipantType.DRIVER
             : readerUser.role === 'FOSTER'
               ? ChatParticipantType.FOSTER
-              : readerUser.shelterAdminOfId || readerUser.managerOfId
-                ? ChatParticipantType.SHELTER
-                : ChatParticipantType.USER,
+              : readerUser.role === 'ADOPTER'
+                ? ChatParticipantType.ADOPTER
+                : readerUser.shelterAdminOfId || readerUser.managerOfId
+                  ? ChatParticipantType.SHELTER
+                  : ChatParticipantType.USER,
     };
 
     // 3. Emit updates
