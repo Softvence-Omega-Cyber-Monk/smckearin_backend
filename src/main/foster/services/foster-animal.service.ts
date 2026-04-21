@@ -704,8 +704,10 @@ export class FosterAnimalService {
         phone: shelter?.phone ?? null,
         email: shelterEmail,
       },
+      petPersonality:
+        animal.behaviorNotes || 'No personality information provided.',
       notes:
-        animal.behaviorNotes || animal.specialNeeds || 'No specific notes.',
+        animal.specialNeeds || animal.behaviorNotes || 'No specific notes.',
       cancelledAt: interest.cancelledAt ?? null,
     };
   }
@@ -744,6 +746,8 @@ export class FosterAnimalService {
         phone: shelter?.phone ?? null,
         email: shelterEmail,
       },
+      petPersonality:
+        request.petPersonality || 'No personality information provided.',
       notes:
         request.shelterNote || request.petPersonality || 'No specific notes.',
       cancelledAt: request.cancelledAt ?? null,
