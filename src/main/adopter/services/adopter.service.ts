@@ -257,9 +257,12 @@ export class AdopterService {
     }
 
     if (dto.search) {
+      const searchTerm = dto.search.trim();
       animalWhere.OR = [
-        { name: { contains: dto.search, mode: 'insensitive' } },
-        { sid: { contains: dto.search, mode: 'insensitive' } },
+        { name: { contains: searchTerm, mode: 'insensitive' } },
+        { breed: { contains: searchTerm, mode: 'insensitive' } },
+        { sid: { contains: searchTerm, mode: 'insensitive' } },
+        { externalAnimalId: { contains: searchTerm, mode: 'insensitive' } },
       ];
     }
 
@@ -362,11 +365,14 @@ export class AdopterService {
     const where: Prisma.AdoptionRequestWhereInput = { adopterId: adopter.id };
 
     if (dto.search) {
+      const searchTerm = dto.search.trim();
       where.adoption = {
         animal: {
           OR: [
-            { name: { contains: dto.search, mode: 'insensitive' } },
-            { sid: { contains: dto.search, mode: 'insensitive' } },
+            { name: { contains: searchTerm, mode: 'insensitive' } },
+            { breed: { contains: searchTerm, mode: 'insensitive' } },
+            { sid: { contains: searchTerm, mode: 'insensitive' } },
+            { externalAnimalId: { contains: searchTerm, mode: 'insensitive' } },
           ],
         },
       };
