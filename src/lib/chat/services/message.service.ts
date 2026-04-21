@@ -47,79 +47,59 @@ export class MessageService {
         },
       });
 
-    // 2. Determine recipients based on conversation type
-    const recipientIds = new Set<string>();
+    // 2. Resolve Shelter Staff (if any)
+    const staffIds = new Set<string>();
+    if (conversation.shelterId && conversation.shelter) {
+      [
+        ...(conversation.shelter.shelterAdmins || []),
+        ...(conversation.shelter.managers || []),
+      ].forEach((s) => {
+        if (s.id !== userId) staffIds.add(s.id);
+      });
+    }
+
+    // 3. Determine recipients based on scope
+    const recipientIds = new Set<string>(staffIds);
 
     if (conversation.chatScope === ConversationScope.TRANSPORT) {
-      // For Transport chat, recipients are all shelter staff + the initiator/receiver who is NOT staff
-      if (conversation.shelterId) {
-        const staffIds = [
-          ...(conversation.shelter?.shelterAdmins || []),
-          ...(conversation.shelter?.managers || []),
-        ].map((s) => s.id);
-
-        staffIds.forEach((sid) => recipientIds.add(sid));
-      }
-      if (conversation.initiatorId) recipientIds.add(conversation.initiatorId);
-      if (conversation.receiverId) recipientIds.add(conversation.receiverId);
-
-      // Also include Foster if this transport is for a foster request
-      if (conversation.transport?.fosterRequest?.fosterUserId) {
+      // Include explicitly linked roles in Transport
+      if (
+        conversation.transport?.fosterRequest?.fosterUserId &&
+        conversation.transport.fosterRequest.fosterUserId !== userId
+      ) {
         recipientIds.add(conversation.transport.fosterRequest.fosterUserId);
       }
-      // Include Driver and Vet if not already added
-      if (conversation.transport?.driver?.userId) {
+      if (
+        conversation.transport?.driver?.userId &&
+        conversation.transport.driver.userId !== userId
+      ) {
         recipientIds.add(conversation.transport.driver.userId);
       }
-      if (conversation.transport?.vet?.userId) {
+      if (
+        conversation.transport?.vet?.userId &&
+        conversation.transport.vet.userId !== userId
+      ) {
         recipientIds.add(conversation.transport.vet.userId);
       }
-    } else if (conversation.chatScope === ConversationScope.ADOPTION) {
-      // For Adoption chat, recipients are all shelter staff + the adopter (initiator or receiver)
-      if (conversation.shelterId) {
-        const staffIds = [
-          ...(conversation.shelter?.shelterAdmins || []),
-          ...(conversation.shelter?.managers || []),
-        ].map((s) => s.id);
-
-        staffIds.forEach((sid) => recipientIds.add(sid));
-      }
-
-      // Adopters are always linked via initiator or receiver in these scoped chats
-      if (conversation.initiatorId) recipientIds.add(conversation.initiatorId);
-      if (conversation.receiverId) recipientIds.add(conversation.receiverId);
-    } else if (conversation.shelterId) {
-      // Shelter Team Identification
-      const staffIds = [
-        ...(conversation.shelter?.shelterAdmins || []),
-        ...(conversation.shelter?.managers || []),
-      ].map((s) => s.id);
-
-      // 1. Always notify the shelter team (except sender)
-      staffIds.forEach((sid) => {
-        if (sid !== userId) recipientIds.add(sid);
-      });
-
-      // 2. Identify and notify the specific non-staff participant (Foster/Adopter/Driver/Vet)
-      // Check initiator and receiver; the one not in staffIds is the external party
-      const participants = [
-        conversation.initiatorId,
-        conversation.receiverId,
-      ].filter(Boolean) as string[];
-
-      participants.forEach((pid) => {
-        if (!staffIds.includes(pid) && pid !== userId) {
-          recipientIds.add(pid);
-        }
-      });
-    } else {
-      // Direct User-to-User (no shelter involved)
-      const targetUserId =
-        conversation.initiatorId === userId
-          ? conversation.receiverId
-          : conversation.initiatorId;
-      if (targetUserId) recipientIds.add(targetUserId);
     }
+
+    // Always include the defined initiator/receiver if they are NOT staff members
+    // (This identifies the Foster, Adopter, etc. in Shelter 1-to-1 chats)
+    const participants = [
+      conversation.initiatorId,
+      conversation.receiverId,
+    ].filter(Boolean) as string[];
+
+    participants.forEach((pid) => {
+      // If the participant is not staff and not the sender, they are the external target
+      const isStaff =
+        conversation.shelter?.shelterAdmins?.some((a) => a.id === pid) ||
+        conversation.shelter?.managers?.some((m) => m.id === pid);
+
+      if (!isStaff && pid !== userId) {
+        recipientIds.add(pid);
+      }
+    });
 
     // Convert Set to Array and ensure sender is NOT a recipient
     const finalRecipientIds = Array.from(recipientIds).filter(
