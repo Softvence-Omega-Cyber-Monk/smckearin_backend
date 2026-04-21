@@ -47,7 +47,7 @@ export enum FosterAnimalAgeRangeFilter {
 export class GetFosterAnimalsDto extends PaginationDto {
   @ApiPropertyOptional({
     example: 'Buddy',
-    description: 'Search by animal name or breed',
+    description: 'Search by animal name, breed, or ID (SID)',
   })
   @IsOptional()
   @IsString()
