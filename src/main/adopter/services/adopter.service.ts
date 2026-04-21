@@ -257,7 +257,10 @@ export class AdopterService {
     }
 
     if (dto.search) {
-      animalWhere.name = { contains: dto.search, mode: 'insensitive' };
+      animalWhere.OR = [
+        { name: { contains: dto.search, mode: 'insensitive' } },
+        { sid: { contains: dto.search, mode: 'insensitive' } },
+      ];
     }
 
     if (Object.keys(animalWhere).length > 0) {
@@ -361,7 +364,10 @@ export class AdopterService {
     if (dto.search) {
       where.adoption = {
         animal: {
-          name: { contains: dto.search, mode: 'insensitive' },
+          OR: [
+            { name: { contains: dto.search, mode: 'insensitive' } },
+            { sid: { contains: dto.search, mode: 'insensitive' } },
+          ],
         },
       };
     }

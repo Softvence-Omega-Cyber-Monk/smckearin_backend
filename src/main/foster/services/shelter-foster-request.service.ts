@@ -50,7 +50,12 @@ export class ShelterFosterRequestService {
           shelterId,
           ...(dto.search
             ? {
-                animal: { name: { contains: dto.search, mode: 'insensitive' } },
+                animal: {
+                  OR: [
+                    { name: { contains: dto.search, mode: 'insensitive' } },
+                    { sid: { contains: dto.search, mode: 'insensitive' } },
+                  ],
+                },
               }
             : {}),
         },

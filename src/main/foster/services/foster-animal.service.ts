@@ -906,6 +906,7 @@ export class FosterAnimalService {
       where.OR = [
         { name: { contains: dto.search, mode: 'insensitive' } },
         { breed: { contains: dto.search, mode: 'insensitive' } },
+        { sid: { contains: dto.search, mode: 'insensitive' } },
       ];
     }
 
