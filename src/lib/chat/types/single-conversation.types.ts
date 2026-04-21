@@ -72,6 +72,7 @@ export interface FormattedMessage {
 export interface MessageSender {
   id: string;
   name: string;
+  role: string;
   avatarUrl: string;
 }
 

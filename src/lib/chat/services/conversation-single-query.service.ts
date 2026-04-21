@@ -693,6 +693,7 @@ export class ConversationSingleQueryService {
       sender: {
         id: msg.sender.id,
         name: msg.sender.name,
+        role: msg.sender.role,
         avatarUrl:
           msg.sender.profilePictureUrl ||
           this.getDefaultAvatar(msg.sender.name),
