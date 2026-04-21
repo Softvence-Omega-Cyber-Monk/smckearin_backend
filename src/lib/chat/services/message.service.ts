@@ -89,54 +89,31 @@ export class MessageService {
       if (conversation.initiatorId) recipientIds.add(conversation.initiatorId);
       if (conversation.receiverId) recipientIds.add(conversation.receiverId);
     } else if (conversation.shelterId) {
-      // Shelter Conversation
-      const userIsShelterMember =
-        conversation.shelter?.shelterAdmins.some((a) => a.id === userId) ||
-        conversation.shelter?.managers.some((m) => m.id === userId);
+      // Shelter Team Identification
+      const staffIds = [
+        ...(conversation.shelter?.shelterAdmins || []),
+        ...(conversation.shelter?.managers || []),
+      ].map((s) => s.id);
 
-      if (userIsShelterMember) {
-        // Staff members of this shelter
-        const staffIds = [
-          ...(conversation.shelter?.shelterAdmins || []),
-          ...(conversation.shelter?.managers || []),
-        ].map((s) => s.id);
+      // 1. Always notify the shelter team (except sender)
+      staffIds.forEach((sid) => {
+        if (sid !== userId) recipientIds.add(sid);
+      });
 
-        const initiatorIsStaff = staffIds.includes(conversation.initiatorId);
-        const receiverIsStaff = conversation.receiverId
-          ? staffIds.includes(conversation.receiverId)
-          : false;
+      // 2. Identify and notify the specific non-staff participant (Foster/Adopter/Driver/Vet)
+      // Check initiator and receiver; the one not in staffIds is the external party
+      const participants = [
+        conversation.initiatorId,
+        conversation.receiverId,
+      ].filter(Boolean) as string[];
 
-        let targetUserId: string | null;
-
-        if (initiatorIsStaff && !receiverIsStaff) {
-          targetUserId = conversation.receiverId;
-        } else if (!initiatorIsStaff && receiverIsStaff) {
-          targetUserId = conversation.initiatorId;
-        } else {
-          // Both are staff (private staff chat) or neither (fallback)
-          targetUserId =
-            conversation.initiatorId === userId
-              ? conversation.receiverId
-              : conversation.initiatorId;
+      participants.forEach((pid) => {
+        if (!staffIds.includes(pid) && pid !== userId) {
+          recipientIds.add(pid);
         }
-
-        if (targetUserId) recipientIds.add(targetUserId);
-
-        // Notify OTHER shelter staff
-        staffIds.forEach((sid) => {
-          if (sid !== userId) recipientIds.add(sid);
-        });
-      } else {
-        // Message FROM User (non-staff) TO Shelter
-        // Recipients = All Shelter Staff
-        const staff = [
-          ...(conversation.shelter?.shelterAdmins || []),
-          ...(conversation.shelter?.managers || []),
-        ];
-        staff.forEach((s) => recipientIds.add(s.id));
-      }
+      });
     } else {
-      // Direct User-to-User
+      // Direct User-to-User (no shelter involved)
       const targetUserId =
         conversation.initiatorId === userId
           ? conversation.receiverId
