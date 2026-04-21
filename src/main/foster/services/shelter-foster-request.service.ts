@@ -52,8 +52,27 @@ export class ShelterFosterRequestService {
             ? {
                 animal: {
                   OR: [
-                    { name: { contains: dto.search, mode: 'insensitive' } },
-                    { sid: { contains: dto.search, mode: 'insensitive' } },
+                    {
+                      name: {
+                        contains: dto.search.trim(),
+                        mode: 'insensitive',
+                      },
+                    },
+                    {
+                      breed: {
+                        contains: dto.search.trim(),
+                        mode: 'insensitive',
+                      },
+                    },
+                    {
+                      sid: { contains: dto.search.trim(), mode: 'insensitive' },
+                    },
+                    {
+                      externalAnimalId: {
+                        contains: dto.search.trim(),
+                        mode: 'insensitive',
+                      },
+                    },
                   ],
                 },
               }

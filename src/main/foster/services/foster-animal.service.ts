@@ -903,10 +903,12 @@ export class FosterAnimalService {
     }
 
     if (dto.search) {
+      const searchTerm = dto.search.trim();
       where.OR = [
-        { name: { contains: dto.search, mode: 'insensitive' } },
-        { breed: { contains: dto.search, mode: 'insensitive' } },
-        { sid: { contains: dto.search, mode: 'insensitive' } },
+        { name: { contains: searchTerm, mode: 'insensitive' } },
+        { breed: { contains: searchTerm, mode: 'insensitive' } },
+        { sid: { contains: searchTerm, mode: 'insensitive' } },
+        { externalAnimalId: { contains: searchTerm, mode: 'insensitive' } },
       ];
     }
 
