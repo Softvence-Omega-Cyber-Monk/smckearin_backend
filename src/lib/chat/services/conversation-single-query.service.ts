@@ -390,37 +390,19 @@ export class ConversationSingleQueryService {
 
   /** Mark all unseen messages in this conversation for this user as SEEN */
   private async markMessagesAsSeen(userId: string, conversationId: string) {
-    const unseenMessages = await this.prisma.client.privateMessage.findMany({
+    // Optimized: Use updateMany to mark all unseen messages in one go
+    await this.prisma.client.privateMessageStatus.updateMany({
       where: {
-        conversationId: conversationId,
-        statuses: {
-          some: {
-            userId: userId,
-            status: { not: MessageDeliveryStatus.SEEN },
-          },
+        userId: userId,
+        status: { not: MessageDeliveryStatus.SEEN },
+        message: {
+          conversationId: conversationId,
         },
       },
-      select: { id: true },
+      data: {
+        status: MessageDeliveryStatus.SEEN,
+      },
     });
-
-    for (const message of unseenMessages) {
-      await this.prisma.client.privateMessageStatus.upsert({
-        where: {
-          messageId_userId: {
-            messageId: message.id,
-            userId: userId,
-          },
-        },
-        update: {
-          status: MessageDeliveryStatus.SEEN,
-        },
-        create: {
-          userId: userId,
-          messageId: message.id,
-          status: MessageDeliveryStatus.SEEN,
-        },
-      });
-    }
   }
 
   /** Format conversation response with proper participant display logic */
@@ -493,17 +475,22 @@ export class ConversationSingleQueryService {
     userShelterId: string | null,
   ): ConversationParticipant {
     // If conversation involves a shelter
-    if (conversation.shelterId) {
-      // If current user is FROM the shelter, show the other user (who is NOT shelter staff)
-      if (userShelterId === conversation.shelterId) {
-        // Staff identifying logic: check if initiator or receiver is a member of THIS shelter
-        const initiatorIsStaff =
-          conversation.initiator?.shelterAdminOfId === conversation.shelterId ||
-          conversation.initiator?.managerOfId === conversation.shelterId;
+    if (conversation.shelterId && conversation.shelter) {
+      const shelter = conversation.shelter;
+      const staffIds = [
+        ...(shelter.shelterAdmins?.map((a) => a.id) || []),
+        ...(shelter.managers?.map((m) => m.id) || []),
+      ];
 
-        const otherUser = initiatorIsStaff
-          ? conversation.receiver
-          : conversation.initiator;
+      // If current user is FROM the shelter, show the other user (who is NOT shelter staff)
+      if (
+        userShelterId === conversation.shelterId ||
+        staffIds.includes(userId)
+      ) {
+        // Find whichever participant is NOT in the staff list
+        const otherUser = !staffIds.includes(conversation.initiatorId)
+          ? conversation.initiator
+          : conversation.receiver;
 
         if (otherUser) {
           return {
@@ -528,82 +515,58 @@ export class ConversationSingleQueryService {
         }
       } else {
         // Current user is NOT from the shelter, show the shelter
-        if (conversation.shelter) {
-          // Check if ANY member (manager or admin) is online
-          const teamIds = [
-            ...(conversation.shelter.shelterAdmins?.map((a) => a.id) || []),
-            ...(conversation.shelter.managers?.map((m) => m.id) || []),
-          ];
-          const isTeamActive = teamIds.some((id: string) =>
-            this.chatGateway.isOnline(id),
-          );
+        // Check if ANY member (manager or admin) is online
+        const isTeamActive = staffIds.some((id: string) =>
+          this.chatGateway.isOnline(id),
+        );
 
-          return {
-            id: conversation.shelter.id,
-            name: conversation.shelter.name,
-            role: 'SHELTER_ADMIN',
-            avatarUrl:
-              conversation.shelter.logoUrl ||
-              this.getDefaultAvatar(conversation.shelter.name),
-            isActive: isTeamActive,
-            type: ChatParticipantType.SHELTER,
-          };
-        }
-      }
-    } else {
-      // No shelter involved, show the other user
-      let otherUser =
-        conversation.initiator?.id === userId
-          ? conversation.receiver
-          : conversation.initiator;
-
-      // For Adoption scope specifically, if we are shelter staff and otherUser is still null or staff, try harder
-      if (
-        conversation.chatScope === ConversationScope.ADOPTION &&
-        userShelterId
-      ) {
-        const staffIds = [
-          ...(conversation.shelter?.shelterAdmins?.map(
-            (a: { id: string }) => a.id,
-          ) || []),
-          ...(conversation.shelter?.managers?.map(
-            (m: { id: string }) => m.id,
-          ) || []),
-        ];
-
-        if (!otherUser || staffIds.includes(otherUser.id)) {
-          otherUser =
-            conversation.initiator &&
-            !staffIds.includes(conversation.initiator.id)
-              ? conversation.initiator
-              : conversation.receiver;
-        }
-      }
-
-      if (otherUser) {
         return {
-          id: otherUser.id,
-          name: otherUser.name,
-          role: otherUser.role,
-          avatarUrl:
-            otherUser.profilePictureUrl ||
-            this.getDefaultAvatar(otherUser.name),
-          isActive: this.chatGateway.isOnline(otherUser.id),
-          type:
-            otherUser.role === 'VETERINARIAN'
-              ? ChatParticipantType.VET
-              : otherUser.role === 'DRIVER'
-                ? ChatParticipantType.DRIVER
-                : otherUser.role === 'FOSTER'
-                  ? ChatParticipantType.FOSTER
-                  : otherUser.role === 'ADOPTER'
-                    ? ChatParticipantType.ADOPTER
-                    : ChatParticipantType.USER,
+          id: shelter.id,
+          name: shelter.name,
+          role: 'SHELTER_ADMIN',
+          avatarUrl: shelter.logoUrl || this.getDefaultAvatar(shelter.name),
+          isActive: isTeamActive,
+          type: ChatParticipantType.SHELTER,
         };
       }
     }
 
-    throw new Error('Could not determine conversation participant');
+    // No shelter involved or fallback: show the "other" person in the 1-to-1
+    const otherUser =
+      conversation.initiator?.id === userId
+        ? conversation.receiver
+        : conversation.initiator;
+
+    if (otherUser) {
+      return {
+        id: otherUser.id,
+        name: otherUser.name,
+        role: otherUser.role,
+        avatarUrl:
+          otherUser.profilePictureUrl || this.getDefaultAvatar(otherUser.name),
+        isActive: this.chatGateway.isOnline(otherUser.id),
+        type:
+          otherUser.role === 'VETERINARIAN'
+            ? ChatParticipantType.VET
+            : otherUser.role === 'DRIVER'
+              ? ChatParticipantType.DRIVER
+              : otherUser.role === 'FOSTER'
+                ? ChatParticipantType.FOSTER
+                : otherUser.role === 'ADOPTER'
+                  ? ChatParticipantType.ADOPTER
+                  : ChatParticipantType.USER,
+      };
+    }
+
+    // Ultimate fallback for safety (prevent timeout)
+    return {
+      id: conversation.initiatorId,
+      name: conversation.initiator?.name || 'User',
+      role: conversation.initiator?.role || 'USER',
+      avatarUrl: this.getDefaultAvatar(conversation.initiator?.name || 'User'),
+      isActive: false,
+      type: ChatParticipantType.USER,
+    };
   }
 
   /** Format individual message */
