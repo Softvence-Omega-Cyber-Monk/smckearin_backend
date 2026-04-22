@@ -1,4 +1,3 @@
-import { PaginationDto } from '@/common/dto/pagination.dto';
 import {
   GetUser,
   ValidateAdopter,
