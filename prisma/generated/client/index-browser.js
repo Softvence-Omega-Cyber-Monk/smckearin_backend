@@ -313,7 +313,7 @@ exports.Prisma.FosterAnimalInterestScalarFieldEnum = {
   receivingPhone: 'receivingPhone',
   status: 'status',
   reviewedAt: 'reviewedAt',
-  cancelledAt: 'cancelledAt',
+  canceledAt: 'canceledAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -325,7 +325,7 @@ exports.Prisma.FosterRequestScalarFieldEnum = {
   shelterId: 'shelterId',
   status: 'status',
   requestedAt: 'requestedAt',
-  cancelledAt: 'cancelledAt',
+  canceledAt: 'canceledAt',
   deliveryTime: 'deliveryTime',
   estimateTransportDate: 'estimateTransportDate',
   estimateTransportTimeStart: 'estimateTransportTimeStart',
@@ -908,7 +908,7 @@ exports.FosterRequestStatus = exports.$Enums.FosterRequestStatus = {
   SCHEDULED: 'SCHEDULED',
   DELIVERED: 'DELIVERED',
   COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
+  CANCELED: 'CANCELED'
 };
 
 exports.ImportSourceType = exports.$Enums.ImportSourceType = {
@@ -990,13 +990,13 @@ exports.TransactionStatus = exports.$Enums.TransactionStatus = {
   TRANSFERRED: 'TRANSFERRED',
   FAILED: 'FAILED',
   REFUNDED: 'REFUNDED',
-  CANCELLED: 'CANCELLED'
+  CANCELED: 'CANCELED'
 };
 
 exports.BatchStatus = exports.$Enums.BatchStatus = {
   PENDING: 'PENDING',
   EXECUTED: 'EXECUTED',
-  CANCELLED: 'CANCELLED'
+  CANCELED: 'CANCELED'
 };
 
 exports.PriorityLevel = exports.$Enums.PriorityLevel = {
@@ -1022,7 +1022,7 @@ exports.TransportStatus = exports.$Enums.TransportStatus = {
   PENDING: 'PENDING',
   SCHEDULED: 'SCHEDULED',
   ACCEPTED: 'ACCEPTED',
-  CANCELLED: 'CANCELLED',
+  CANCELED: 'CANCELED',
   PICKED_UP: 'PICKED_UP',
   IN_TRANSIT: 'IN_TRANSIT',
   COMPLETED: 'COMPLETED'
@@ -1063,7 +1063,7 @@ exports.VetClearanceRequestStatus = exports.$Enums.VetClearanceRequestStatus = {
 exports.VetAppointmentStatus = exports.$Enums.VetAppointmentStatus = {
   SCHEDULED: 'SCHEDULED',
   COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED',
+  CANCELED: 'CANCELED',
   MISSED: 'MISSED'
 };
 

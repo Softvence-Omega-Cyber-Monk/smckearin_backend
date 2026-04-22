@@ -387,7 +387,7 @@ export class UserNotificationService extends BaseNotificationService {
       | 'SCHEDULED'
       | 'ARRIVED'
       | 'DELIVERED'
-      | 'CANCELLED',
+      | 'CANCELED',
     fosterRequestId: string,
   ) {
     const fosterRequest = await this.prisma.client.fosterRequest.findUnique({
@@ -480,10 +480,10 @@ export class UserNotificationService extends BaseNotificationService {
           ...fosterRequest.shelter.managers.map((user) => user.id),
         ];
         break;
-      case 'CANCELLED':
-        notifType = NotificationType.FOSTER_REQUEST_CANCELLED;
-        title = 'Foster Request Cancelled';
-        message = `The foster request for ${fosterRequest.animal.name} has been cancelled.`;
+      case 'CANCELED':
+        notifType = NotificationType.FOSTER_REQUEST_CANCELED;
+        title = 'Foster Request Canceled';
+        message = `The foster request for ${fosterRequest.animal.name} has been canceled.`;
         recipients = [
           ...(fosterRequest.fosterUserId ? [fosterRequest.fosterUserId] : []),
           ...(fosterRequest.transport?.driver?.userId

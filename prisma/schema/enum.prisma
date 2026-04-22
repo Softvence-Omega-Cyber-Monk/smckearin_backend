@@ -51,7 +51,7 @@ enum TransactionStatus {
   TRANSFERRED // Driver payout completed
   FAILED // Payment or transfer failed
   REFUNDED // Payment refunded to shelter
-  CANCELLED // Transaction cancelled
+  CANCELED // Transaction canceled
 }
 
 enum AdoptionStatus {

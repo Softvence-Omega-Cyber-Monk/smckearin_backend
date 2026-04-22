@@ -21,7 +21,7 @@ export class GetShelterFosterRequestsDto extends PaginationDto {
       'APPROVED',
       'SCHEDULED',
       'COMPLETED',
-      'CANCELLED',
+      'CANCELED',
     ],
     example: 'APPROVED',
     description: 'Filter foster requests by category.',
@@ -139,7 +139,7 @@ export class UpdateShelterFosterRequestDto extends PartialType(
 export class CancelShelterFosterRequestDto {
   @ApiPropertyOptional({
     example: 'Transport no longer needed',
-    description: 'Why the foster request is being cancelled',
+    description: 'Why the foster request is being canceled',
   })
   @IsOptional()
   @IsString()

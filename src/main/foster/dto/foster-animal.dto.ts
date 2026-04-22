@@ -135,14 +135,14 @@ export enum FosterRequestViewStatus {
   APPROVED = 'APPROVED',
   SCHEDULED = 'SCHEDULED',
   COMPLETED = 'COMPLETED',
-  CANCELLED = 'CANCELLED',
+  CANCELED = 'CANCELED',
 }
 
 export class GetFosterRequestsDto extends PaginationDto {
   @ApiPropertyOptional({
     enum: FosterRequestViewStatus,
     description:
-      'Filter by request status as shown to foster users, including scheduled, completed, and cancelled',
+      'Filter by request status as shown to foster users, including scheduled, completed, and canceled',
   })
   @IsOptional()
   @IsEnum(FosterRequestViewStatus)

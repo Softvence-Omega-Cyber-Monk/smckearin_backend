@@ -69,10 +69,10 @@ export class ManageVetAppointmentService {
 
     const updated = await this.prisma.client.vetAppointment.update({
       where: { id: appointmentId },
-      data: { status: 'CANCELLED' },
+      data: { status: 'CANCELED' },
     });
 
-    // TODO: NOTIFICATION - Vet Appointment Cancelled
+    // TODO: NOTIFICATION - Vet Appointment Canceled
     // What: Send notification about appointment cancellation
     // Recipients:
     //   1. All SHELTER_ADMIN and MANAGER users of the related transport's shelter (fetch via appointment -> request -> transport -> shelterId)
@@ -80,11 +80,11 @@ export class ManageVetAppointmentService {
     // Settings: appointmentNotifications, emailNotifications
     // Meta: { appointmentId, requestId: (fetch from appointment), transportId: (fetch from request), shelterId: (fetch from transport), veterinarianId: (fetch from appointment) }
     await this.vetNotificationService.notifyAppointmentEvent(
-      'CANCELLED',
+      'CANCELED',
       appointmentId,
     );
 
-    return successResponse(updated, 'Appointment cancelled');
+    return successResponse(updated, 'Appointment canceled');
   }
 
   @HandleError('Failed to complete appointment')

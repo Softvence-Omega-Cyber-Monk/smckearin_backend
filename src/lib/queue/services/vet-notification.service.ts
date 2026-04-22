@@ -92,7 +92,7 @@ export class VetNotificationService extends BaseNotificationService {
     eventType:
       | 'SCHEDULED'
       | 'STATUS_UPDATED'
-      | 'CANCELLED'
+      | 'CANCELED'
       | 'COMPLETED'
       | 'MISSED',
     appointmentId: string,
@@ -153,10 +153,10 @@ export class VetNotificationService extends BaseNotificationService {
         recipients = [...recipients, ...(await this.getAdmins())];
         break;
 
-      case 'CANCELLED':
-        notifType = NotificationType.VET_APPOINTMENT_CANCELLED;
-        title = 'Vet Appointment Cancelled';
-        message = 'The vet appointment has been cancelled.';
+      case 'CANCELED':
+        notifType = NotificationType.VET_APPOINTMENT_CANCELED;
+        title = 'Vet Appointment Canceled';
+        message = 'The vet appointment has been canceled.';
         recipients = [...recipients, ...(await this.getAdmins())];
         break;
 
