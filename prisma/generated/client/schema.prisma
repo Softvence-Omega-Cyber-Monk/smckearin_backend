@@ -367,7 +367,7 @@ enum TransactionStatus {
   TRANSFERRED // Driver payout completed
   FAILED // Payment or transfer failed
   REFUNDED // Payment refunded to shelter
-  CANCELLED // Transaction cancelled
+  CANCELED // Transaction canceled
 }
 
 enum AdoptionStatus {
@@ -466,9 +466,9 @@ model FosterAnimalInterest {
   receivingAddress String
   receivingPhone   String
 
-  status      FosterInterestStatus @default(INTERESTED)
-  reviewedAt  DateTime?
-  cancelledAt DateTime?
+  status     FosterInterestStatus @default(INTERESTED)
+  reviewedAt DateTime?
+  canceledAt DateTime?
 
   arrivalProof ArrivalProof?
   createdAt    DateTime      @default(now())
@@ -504,7 +504,7 @@ model FosterRequest {
   status FosterRequestStatus @default(REQUESTED)
 
   requestedAt  DateTime  @default(now())
-  cancelledAt  DateTime?
+  canceledAt   DateTime?
   deliveryTime DateTime?
 
   estimateTransportDate      DateTime?
@@ -563,7 +563,7 @@ enum FosterRequestStatus {
   SCHEDULED
   DELIVERED
   COMPLETED
-  CANCELLED
+  CANCELED
 }
 
 model Foster {
@@ -1258,7 +1258,7 @@ model TransportBatch {
 enum BatchStatus {
   PENDING
   EXECUTED
-  CANCELLED
+  CANCELED
 }
 
 model Transport {
@@ -1338,7 +1338,7 @@ enum TransportStatus {
   PENDING
   SCHEDULED
   ACCEPTED
-  CANCELLED
+  CANCELED
   PICKED_UP
   IN_TRANSIT
   COMPLETED
@@ -1533,7 +1533,7 @@ model VetAppointment {
 enum VetAppointmentStatus {
   SCHEDULED
   COMPLETED
-  CANCELLED
+  CANCELED
   MISSED
 }
 

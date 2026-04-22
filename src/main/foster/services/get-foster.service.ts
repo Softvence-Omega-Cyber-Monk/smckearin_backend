@@ -395,7 +395,7 @@ export class GetFosterService {
         request.requestedAt || request.createdAt,
       ),
       createdAt: request.requestedAt || request.createdAt,
-      cancelledAt: request.cancelledAt ?? null,
+      canceledAt: request.canceledAt ?? null,
     };
   }
 
@@ -477,7 +477,7 @@ export class GetFosterService {
       transportId: transport?.id ?? null,
       requestedAt: this.formatDateTime(interest.createdAt),
       createdAt: interest.createdAt,
-      cancelledAt: interest.cancelledAt ?? null,
+      canceledAt: interest.canceledAt ?? null,
     };
   }
 
@@ -498,7 +498,7 @@ export class GetFosterService {
       APPROVED: 'Approved',
       SCHEDULED: 'Scheduled',
       REJECTED: 'Rejected',
-      WITHDRAWN: 'Cancelled',
+      WITHDRAWN: 'Canceled',
       COMPLETED: 'Completed',
     };
     return map[status] || status.toLowerCase();

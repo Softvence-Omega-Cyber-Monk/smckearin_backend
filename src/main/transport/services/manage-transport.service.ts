@@ -132,7 +132,7 @@ export class ManageTransportService {
         await trx.transportTimeline.create({
           data: {
             transportId,
-            status: TransportStatus.CANCELLED,
+            status: TransportStatus.CANCELED,
             note: 'Transport deleted by admin',
           },
         });
@@ -163,7 +163,7 @@ export class ManageTransportService {
       await trx.transportTimeline.create({
         data: {
           transportId,
-          status: TransportStatus.CANCELLED,
+          status: TransportStatus.CANCELED,
           note: 'Transport deleted by shelter user',
         },
       });
@@ -231,7 +231,7 @@ export class ManageTransportService {
         driverId: transport.driverId ?? driver.id,
         status: dto.approved
           ? TransportStatus.ACCEPTED
-          : TransportStatus.CANCELLED,
+          : TransportStatus.CANCELED,
         acceptedAt: dto.approved ? new Date() : null,
       },
     });
@@ -297,11 +297,11 @@ export class ManageTransportService {
     if (
       transport.status !== TransportStatus.PENDING &&
       transport.status !== TransportStatus.SCHEDULED &&
-      transport.status !== TransportStatus.CANCELLED
+      transport.status !== TransportStatus.CANCELED
     ) {
       throw new AppError(
         HttpStatus.FORBIDDEN,
-        'Transport is not in a valid state (Pending/Scheduled/Cancelled)',
+        'Transport is not in a valid state (Pending/Scheduled/Canceled)',
       );
     }
 
@@ -416,7 +416,7 @@ export class ManageTransportService {
     }
 
     const nextStatus = dto.approved
-      ? TransportStatus.CANCELLED
+      ? TransportStatus.CANCELED
       : transport.status;
     const requestStatus = dto.approved ? 'APPROVED' : 'REJECTED';
 
@@ -461,11 +461,11 @@ export class ManageTransportService {
     const allowedTransitions: Record<TransportStatus, TransportStatus[]> = {
       [TransportStatus.SCHEDULED]: [
         TransportStatus.ACCEPTED,
-        TransportStatus.CANCELLED,
+        TransportStatus.CANCELED,
       ],
       [TransportStatus.ACCEPTED]: [
         TransportStatus.PICKED_UP,
-        TransportStatus.CANCELLED,
+        TransportStatus.CANCELED,
       ],
       [TransportStatus.PICKED_UP]: [
         TransportStatus.IN_TRANSIT,
@@ -475,9 +475,9 @@ export class ManageTransportService {
       [TransportStatus.PENDING]: [
         TransportStatus.SCHEDULED,
         TransportStatus.ACCEPTED,
-        TransportStatus.CANCELLED,
+        TransportStatus.CANCELED,
       ],
-      [TransportStatus.CANCELLED]: [],
+      [TransportStatus.CANCELED]: [],
       [TransportStatus.COMPLETED]: [],
     };
 

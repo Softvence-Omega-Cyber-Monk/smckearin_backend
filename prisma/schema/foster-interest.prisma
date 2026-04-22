@@ -19,7 +19,7 @@ model FosterAnimalInterest {
 
   status FosterInterestStatus @default(INTERESTED)
   reviewedAt  DateTime?
-  cancelledAt DateTime?
+  canceledAt DateTime?
 
   arrivalProof ArrivalProof?
   createdAt DateTime @default(now())

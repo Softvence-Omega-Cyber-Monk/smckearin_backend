@@ -13,7 +13,7 @@ model FosterRequest {
   status FosterRequestStatus @default(REQUESTED)
 
   requestedAt DateTime @default(now())
-  cancelledAt DateTime?
+  canceledAt DateTime?
   deliveryTime DateTime?
 
   estimateTransportDate      DateTime?
@@ -72,5 +72,5 @@ enum FosterRequestStatus {
   SCHEDULED
   DELIVERED
   COMPLETED
-  CANCELLED
+  CANCELED
 }

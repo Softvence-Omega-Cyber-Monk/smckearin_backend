@@ -37,5 +37,5 @@ model TransportBatch {
 enum BatchStatus {
   PENDING
   EXECUTED
-  CANCELLED
+  CANCELED
 }

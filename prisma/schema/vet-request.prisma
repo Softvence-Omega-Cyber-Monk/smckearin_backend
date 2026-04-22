@@ -63,6 +63,6 @@ model VetAppointment {
 enum VetAppointmentStatus {
   SCHEDULED
   COMPLETED
-  CANCELLED
+  CANCELED
   MISSED
 }

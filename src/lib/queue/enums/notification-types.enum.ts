@@ -48,7 +48,7 @@ export enum NotificationType {
   FOSTER_REQUEST_SCHEDULED = 'foster_request_scheduled',
   FOSTER_REQUEST_ARRIVED = 'foster_request_arrived',
   FOSTER_REQUEST_DELIVERED = 'foster_request_delivered',
-  FOSTER_REQUEST_CANCELLED = 'foster_request_cancelled',
+  FOSTER_REQUEST_CANCELED = 'foster_request_canceled',
   FOSTER_DOCUMENT_UPLOADED = 'foster_document_uploaded',
   FOSTER_DOCUMENT_APPROVED = 'foster_document_approved',
   FOSTER_DOCUMENT_REJECTED = 'foster_document_rejected',
@@ -73,7 +73,7 @@ export enum NotificationType {
   // === Appointments ===
   VET_APPOINTMENT_SCHEDULED = 'vet_appointment_scheduled',
   VET_APPOINTMENT_STATUS_UPDATED = 'vet_appointment_status_updated',
-  VET_APPOINTMENT_CANCELLED = 'vet_appointment_cancelled',
+  VET_APPOINTMENT_CANCELED = 'vet_appointment_canceled',
   VET_APPOINTMENT_COMPLETED = 'vet_appointment_completed',
   VET_APPOINTMENT_MISSED = 'vet_appointment_missed',
 

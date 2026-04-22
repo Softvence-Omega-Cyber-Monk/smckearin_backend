@@ -174,7 +174,7 @@ export class FosterAnimalService {
         (item) =>
           item.transport &&
           item.transport.status !== TransportStatus.COMPLETED &&
-          item.transport.status !== TransportStatus.CANCELLED &&
+          item.transport.status !== TransportStatus.CANCELED &&
           item.transport.transPortDate >= now,
       )
       .map(({ interest, transport }) =>
@@ -186,7 +186,7 @@ export class FosterAnimalService {
         (req) =>
           req.transport &&
           req.transport.status !== TransportStatus.COMPLETED &&
-          req.transport.status !== TransportStatus.CANCELLED &&
+          req.transport.status !== TransportStatus.CANCELED &&
           req.transport.transPortDate >= now,
       )
       .map((req) => this.formatUpcomingArrivalFromRequest(req));
@@ -322,7 +322,7 @@ export class FosterAnimalService {
             FosterRequestStatus.APPROVED,
             FosterRequestStatus.SCHEDULED,
             FosterRequestStatus.COMPLETED,
-            FosterRequestStatus.CANCELLED,
+            FosterRequestStatus.CANCELED,
           ],
         },
       },
@@ -463,7 +463,7 @@ export class FosterAnimalService {
         where: { id: requestId },
         data: {
           status: FosterInterestStatus.WITHDRAWN,
-          cancelledAt: new Date(),
+          canceledAt: new Date(),
         },
       });
 
@@ -480,14 +480,14 @@ export class FosterAnimalService {
         if (request.transportId) {
           await tx.transport.update({
             where: { id: request.transportId },
-            data: { status: TransportStatus.CANCELLED },
+            data: { status: TransportStatus.CANCELED },
           });
 
           await tx.transportTimeline.create({
             data: {
               transportId: request.transportId,
-              status: TransportStatus.CANCELLED,
-              note: 'Cancelled by foster',
+              status: TransportStatus.CANCELED,
+              note: 'Canceled by foster',
             },
           });
 
@@ -500,14 +500,14 @@ export class FosterAnimalService {
         return tx.fosterRequest.update({
           where: { id: requestId },
           data: {
-            status: FosterRequestStatus.CANCELLED,
-            cancelledAt: new Date(),
-            cancelReason: 'Cancelled by foster',
+            status: FosterRequestStatus.CANCELED,
+            canceledAt: new Date(),
+            cancelReason: 'Canceled by foster',
           },
         });
       });
 
-      return successResponse(updated, 'Request cancelled successfully');
+      return successResponse(updated, 'Request canceled successfully');
     }
 
     throw new AppError(HttpStatus.NOT_FOUND, 'Foster request not found');
@@ -528,7 +528,7 @@ export class FosterAnimalService {
         animal: {
           include: {
             transports: {
-              where: { status: { not: TransportStatus.CANCELLED } },
+              where: { status: { not: TransportStatus.CANCELED } },
               orderBy: { transPortDate: 'desc' },
               take: 1,
             },
@@ -708,7 +708,7 @@ export class FosterAnimalService {
         animal.behaviorNotes || 'No personality information provided.',
       notes:
         animal.specialNeeds || animal.behaviorNotes || 'No specific notes.',
-      cancelledAt: interest.cancelledAt ?? null,
+      canceledAt: interest.canceledAt ?? null,
     };
   }
 
@@ -750,7 +750,7 @@ export class FosterAnimalService {
         request.petPersonality || 'No personality information provided.',
       notes:
         request.shelterNote || request.petPersonality || 'No specific notes.',
-      cancelledAt: request.cancelledAt ?? null,
+      canceledAt: request.canceledAt ?? null,
       cancelReason: request.cancelReason ?? null,
     };
   }
@@ -898,7 +898,7 @@ export class FosterAnimalService {
             none: {
               fosterUserId: foster.userId,
               status: {
-                not: FosterRequestStatus.CANCELLED,
+                not: FosterRequestStatus.CANCELED,
               },
             },
           },
@@ -1105,7 +1105,7 @@ export class FosterAnimalService {
     const activeTransport = transports.find(
       (transport) =>
         transport.status !== TransportStatus.COMPLETED &&
-        transport.status !== TransportStatus.CANCELLED,
+        transport.status !== TransportStatus.CANCELED,
     );
 
     return activeTransport ?? transports[0];
@@ -1228,7 +1228,7 @@ export class FosterAnimalService {
       status,
       interestStatus: interest.status,
       reviewedAt: interest.reviewedAt ?? null,
-      cancelledAt: interest.cancelledAt ?? null,
+      canceledAt: interest.canceledAt ?? null,
       createdAt: interest.createdAt,
       preferredArrivalDate: interest.preferredArrivalDate ?? null,
       availableFromTime: interest.availableFromTime,
@@ -1261,8 +1261,8 @@ export class FosterAnimalService {
     interest: { status: FosterInterestStatus },
     transport: { status: TransportStatus } | null,
   ): FosterRequestViewStatus {
-    if (transport?.status === TransportStatus.CANCELLED) {
-      return FosterRequestViewStatus.CANCELLED;
+    if (transport?.status === TransportStatus.CANCELED) {
+      return FosterRequestViewStatus.CANCELED;
     }
 
     if (transport?.status === TransportStatus.COMPLETED) {
@@ -1286,7 +1286,7 @@ export class FosterAnimalService {
       interest.status === FosterInterestStatus.REJECTED ||
       interest.status === FosterInterestStatus.WITHDRAWN
     ) {
-      return FosterRequestViewStatus.CANCELLED;
+      return FosterRequestViewStatus.CANCELED;
     }
 
     if (interest.status === FosterInterestStatus.COMPLETED) {
@@ -1354,7 +1354,7 @@ export class FosterAnimalService {
       status: request.status,
       interestStatus: null,
       createdAt: request.createdAt,
-      cancelledAt: request.cancelledAt ?? null,
+      canceledAt: request.canceledAt ?? null,
       cancelReason: request.cancelReason ?? null,
       estimateTransportDate: request.estimateTransportDate,
       animal: {

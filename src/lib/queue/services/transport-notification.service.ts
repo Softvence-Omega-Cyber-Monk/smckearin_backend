@@ -68,8 +68,8 @@ export class TransportNotificationService extends BaseNotificationService {
 
       case 'DELETED':
         notifType = NotificationType.TRANSPORT_DELETED;
-        title = 'Transport Request Cancelled';
-        message = `Transport request for ${animalNames} has been cancelled.`;
+        title = 'Transport Request Canceled';
+        message = `Transport request for ${animalNames} has been canceled.`;
         recipients = [
           ...(transport.driver ? [transport.driver.userId] : []),
           ...(transport.vet ? [transport.vet.userId] : []),

@@ -152,9 +152,9 @@ export class ShelterFosterRequestService {
             status === 'COMPLETED' ||
             interestStatus === 'COMPLETED'
           );
-        case 'CANCELLED':
+        case 'CANCELED':
           return (
-            status === 'CANCELLED' ||
+            status === 'CANCELED' ||
             interestStatus === 'REJECTED' ||
             interestStatus === 'WITHDRAWN'
           );
@@ -253,7 +253,7 @@ export class ShelterFosterRequestService {
       scheduled: 0,
       delivered: 0,
       completed: 0,
-      cancelled: 0,
+      canceled: 0,
     };
 
     for (const row of grouped) {
@@ -452,14 +452,14 @@ export class ShelterFosterRequestService {
     if (existing.status === FosterRequestStatus.DELIVERED) {
       throw new AppError(
         HttpStatus.BAD_REQUEST,
-        'Delivered foster requests cannot be cancelled',
+        'Delivered foster requests cannot be canceled',
       );
     }
 
-    if (existing.status === FosterRequestStatus.CANCELLED) {
+    if (existing.status === FosterRequestStatus.CANCELED) {
       throw new AppError(
         HttpStatus.BAD_REQUEST,
-        'Foster request is already cancelled',
+        'Foster request is already canceled',
       );
     }
 
@@ -469,7 +469,7 @@ export class ShelterFosterRequestService {
     ) {
       throw new AppError(
         HttpStatus.BAD_REQUEST,
-        'Only requested or scheduled foster requests can be cancelled',
+        'Only requested or scheduled foster requests can be canceled',
       );
     }
 
@@ -477,14 +477,14 @@ export class ShelterFosterRequestService {
       if (existing.transportId) {
         await tx.transport.update({
           where: { id: existing.transportId },
-          data: { status: TransportStatus.CANCELLED },
+          data: { status: TransportStatus.CANCELED },
         });
 
         await tx.transportTimeline.create({
           data: {
             transportId: existing.transportId,
-            status: TransportStatus.CANCELLED,
-            note: dto.cancelReason || 'Transport cancelled from foster request',
+            status: TransportStatus.CANCELED,
+            note: dto.cancelReason || 'Transport canceled from foster request',
           },
         });
 
@@ -497,8 +497,8 @@ export class ShelterFosterRequestService {
       return tx.fosterRequest.update({
         where: { id: existing.id },
         data: {
-          status: FosterRequestStatus.CANCELLED,
-          cancelledAt: new Date(),
+          status: FosterRequestStatus.CANCELED,
+          canceledAt: new Date(),
           cancelReason: dto.cancelReason,
         },
         include: this.detailInclude,
@@ -506,13 +506,13 @@ export class ShelterFosterRequestService {
     });
 
     await this.userNotificationService.notifyFosterRequestEvent(
-      'CANCELLED',
+      'CANCELED',
       updated.id,
     );
 
     return successResponse(
       await this.formatDetail(updated),
-      'Foster request cancelled successfully',
+      'Foster request canceled successfully',
     );
   }
 
@@ -956,7 +956,7 @@ export class ShelterFosterRequestService {
       scheduled: FosterRequestStatus.SCHEDULED,
       delivered: FosterRequestStatus.DELIVERED,
       completed: FosterRequestStatus.COMPLETED,
-      cancelled: FosterRequestStatus.CANCELLED,
+      canceled: FosterRequestStatus.CANCELED,
     };
 
     if (!map[normalized]) {
@@ -977,7 +977,7 @@ export class ShelterFosterRequestService {
       | 'scheduled'
       | 'delivered'
       | 'completed'
-      | 'cancelled';
+      | 'canceled';
   }
 
   private toDisplayStatus(status: FosterRequestStatus) {
@@ -1094,7 +1094,7 @@ export class ShelterFosterRequestService {
       location,
       requestedAt: this.formatDateTime(request.requestedAt),
       createdAt: request.requestedAt,
-      cancelledAt: request.cancelledAt ?? null,
+      canceledAt: request.canceledAt ?? null,
       cancelReason: request.cancelReason ?? null,
       note: request.shelterNote || request.petPersonality || null,
       transportTime:
@@ -1146,7 +1146,7 @@ export class ShelterFosterRequestService {
       location,
       requestedAt: this.formatDateTime(interest.createdAt),
       createdAt: interest.createdAt,
-      cancelledAt: interest.cancelledAt ?? null,
+      canceledAt: interest.canceledAt ?? null,
       note:
         interest.animal?.behaviorNotes || interest.animal?.specialNeeds || null,
     };
@@ -1158,7 +1158,7 @@ export class ShelterFosterRequestService {
       APPROVED: 'Approved',
       SCHEDULED: 'Scheduled',
       REJECTED: 'Rejected',
-      WITHDRAWN: 'Cancelled',
+      WITHDRAWN: 'Canceled',
       COMPLETED: 'Completed',
     };
     return map[status] || status.toLowerCase();
@@ -1283,7 +1283,7 @@ export class ShelterFosterRequestService {
             photo: request.transport.driver.user?.profilePictureUrl ?? null,
           }
         : null,
-      cancelledAt: request.cancelledAt,
+      canceledAt: request.canceledAt,
       createdAt: request.createdAt,
       updatedAt: request.updatedAt,
     };
@@ -1297,7 +1297,7 @@ export class ShelterFosterRequestService {
       SCHEDULED: ['track_transport', 'message_foster', 'message_driver'],
       DELIVERED: ['message_foster', 'message_driver'],
       COMPLETED: ['message_foster', 'message_driver'],
-      CANCELLED: [],
+      CANCELED: [],
     };
 
     return map[status];
