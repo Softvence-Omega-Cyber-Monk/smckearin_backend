@@ -288,7 +288,7 @@ export class FosterAnimalService {
 
   @HandleError('Failed to get foster requests')
   async getMyRequests(userId: string, dto: GetFosterRequestsDto) {
-    const foster = await this.getFosterContext(userId);
+    await this.getFosterContext(userId);
     const page = dto.page && +dto.page > 0 ? +dto.page : 1;
     const limit = dto.limit && +dto.limit > 0 ? +dto.limit : 10;
 
