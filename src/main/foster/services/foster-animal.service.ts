@@ -873,7 +873,7 @@ export class FosterAnimalService {
           {
             fosterRequests: {
               some: {
-                fosterUserId: foster?.userId,
+                OR: [{ fosterUserId: foster?.userId }, { fosterUserId: null }],
                 status: { not: FosterRequestStatus.CANCELED },
               },
             },
