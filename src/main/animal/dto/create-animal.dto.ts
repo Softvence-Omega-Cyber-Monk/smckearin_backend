@@ -7,6 +7,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Matches,
   Min,
 } from 'class-validator';
 
@@ -17,11 +18,15 @@ export class CreateAnimalDto {
 
   @ApiPropertyOptional({
     description:
-      'Manual Animal ID (SID). If not provided, one will be auto-generated.',
-    example: 'A-12345',
+      'Manual Animal ID (SID). Must be 10 characters and include lowercase, uppercase, and digits.',
+    example: 'aB12345678',
   })
   @IsOptional()
   @IsString()
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9]{10}$/, {
+    message:
+      'sid must be exactly 10 characters and include at least one lowercase letter, one uppercase letter, and one digit.',
+  })
   sid?: string;
 
   @ApiProperty({ description: 'Breed of the animal', example: 'Labrador' })
