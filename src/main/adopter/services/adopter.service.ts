@@ -12,6 +12,7 @@ import { DateTime } from 'luxon';
 import {
   AdopterSpeciesFilter,
   GetAvailableAdoptionsDto,
+  GetAvailableAnimalsDto,
   GetMyRequestsDto,
   GetShelterAdoptionsDto,
   ShelterAdoptionFilter,
@@ -258,12 +259,20 @@ export class AdopterService {
 
     if (dto.search) {
       const searchTerm = dto.search.trim();
-      animalWhere.OR = [
+      const searchOR: Prisma.AnimalWhereInput[] = [
         { name: { contains: searchTerm, mode: 'insensitive' } },
         { breed: { contains: searchTerm, mode: 'insensitive' } },
         { sid: { contains: searchTerm, mode: 'insensitive' } },
         { externalAnimalId: { contains: searchTerm, mode: 'insensitive' } },
       ];
+
+      if (searchTerm.toLowerCase() === 'dog') {
+        searchOR.push({ species: 'DOG' });
+      } else if (searchTerm.toLowerCase() === 'cat') {
+        searchOR.push({ species: 'CAT' });
+      }
+
+      animalWhere.OR = searchOR;
     }
 
     if (Object.keys(animalWhere).length > 0) {
@@ -366,14 +375,22 @@ export class AdopterService {
 
     if (dto.search) {
       const searchTerm = dto.search.trim();
+      const searchOR: Prisma.AnimalWhereInput[] = [
+        { name: { contains: searchTerm, mode: 'insensitive' } },
+        { breed: { contains: searchTerm, mode: 'insensitive' } },
+        { sid: { contains: searchTerm, mode: 'insensitive' } },
+        { externalAnimalId: { contains: searchTerm, mode: 'insensitive' } },
+      ];
+
+      if (searchTerm.toLowerCase() === 'dog') {
+        searchOR.push({ species: 'DOG' });
+      } else if (searchTerm.toLowerCase() === 'cat') {
+        searchOR.push({ species: 'CAT' });
+      }
+
       where.adoption = {
         animal: {
-          OR: [
-            { name: { contains: searchTerm, mode: 'insensitive' } },
-            { breed: { contains: searchTerm, mode: 'insensitive' } },
-            { sid: { contains: searchTerm, mode: 'insensitive' } },
-            { externalAnimalId: { contains: searchTerm, mode: 'insensitive' } },
-          ],
+          OR: searchOR,
         },
       };
     }
@@ -404,7 +421,10 @@ export class AdopterService {
   }
 
   @HandleError('Failed to fetch shelter available animals')
-  async getShelterAvailableAnimals(userId: string, dto: PaginationDto) {
+  async getShelterAvailableAnimals(
+    userId: string,
+    dto: GetAvailableAnimalsDto,
+  ) {
     const shelterId = await this.getShelterId(userId);
 
     const page = dto.page && +dto.page > 0 ? +dto.page : 1;
@@ -415,6 +435,32 @@ export class AdopterService {
       shelterId,
       adoption: { is: null },
     };
+
+    if (dto.species && dto.species !== AdopterSpeciesFilter.ALL) {
+      if (dto.species === AdopterSpeciesFilter.OTHERS) {
+        where.species = 'OTHER';
+      } else {
+        where.species = dto.species.toUpperCase() as SPECIES;
+      }
+    }
+
+    if (dto.search) {
+      const searchTerm = dto.search.trim();
+      const searchOR: Prisma.AnimalWhereInput[] = [
+        { name: { contains: searchTerm, mode: 'insensitive' } },
+        { breed: { contains: searchTerm, mode: 'insensitive' } },
+        { sid: { contains: searchTerm, mode: 'insensitive' } },
+        { externalAnimalId: { contains: searchTerm, mode: 'insensitive' } },
+      ];
+
+      if (searchTerm.toLowerCase() === 'dog') {
+        searchOR.push({ species: 'DOG' });
+      } else if (searchTerm.toLowerCase() === 'cat') {
+        searchOR.push({ species: 'CAT' });
+      }
+
+      where.OR = searchOR;
+    }
 
     const [animals, total] = await this.prisma.client.$transaction([
       this.prisma.client.animal.findMany({
