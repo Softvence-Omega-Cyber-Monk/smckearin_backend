@@ -33,6 +33,7 @@ export class GetSingleTransportService {
       // Animals info
       animals: transport.animals.map((a) => ({
         id: a.id,
+        sid: a.sid,
         name: a.name,
         species: a.species,
         breed: a.breed,
@@ -45,6 +46,7 @@ export class GetSingleTransportService {
       bondedPair: transport.bondedPair
         ? {
             id: transport.bondedPair.id,
+            sid: transport.bondedPair.sid,
             name: transport.bondedPair.name,
             species: transport.bondedPair.species,
             breed: transport.bondedPair.breed,

@@ -58,3 +58,18 @@ export class GetMyRequestsDto extends PaginationDto {
   @IsOptional()
   search?: string;
 }
+
+export class GetAvailableAnimalsDto extends PaginationDto {
+  @ApiPropertyOptional({
+    enum: AdopterSpeciesFilter,
+    default: AdopterSpeciesFilter.ALL,
+  })
+  @IsEnum(AdopterSpeciesFilter)
+  @IsOptional()
+  species?: AdopterSpeciesFilter;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  search?: string;
+}

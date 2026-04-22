@@ -17,6 +17,7 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   GetAvailableAdoptionsDto,
+  GetAvailableAnimalsDto,
   GetMyRequestsDto,
   GetShelterAdoptionsDto,
   SubmitAdoptionRequestDto,
@@ -59,7 +60,7 @@ export class AdopterController {
   })
   async getShelterAvailableAnimals(
     @GetUser('sub') userId: string,
-    @Query() dto: PaginationDto,
+    @Query() dto: GetAvailableAnimalsDto,
   ) {
     return this.adopterService.getShelterAvailableAnimals(userId, dto);
   }
