@@ -344,13 +344,13 @@ export class ManageTransportService {
 
     await this.validateDriverOwnership(transport.driverId, authUser.sub);
 
-    const cancellableStatuses: TransportStatus[] = [
+    const cancelableStatuses: TransportStatus[] = [
       TransportStatus.ACCEPTED,
       TransportStatus.PICKED_UP,
       TransportStatus.IN_TRANSIT,
     ];
 
-    if (!cancellableStatuses.includes(transport.status)) {
+    if (!cancelableStatuses.includes(transport.status)) {
       throw new AppError(
         HttpStatus.BAD_REQUEST,
         'Cancellation request is only allowed for active trips',
