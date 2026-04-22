@@ -292,26 +292,7 @@ export class FosterAnimalService {
     const page = dto.page && +dto.page > 0 ? +dto.page : 1;
     const limit = dto.limit && +dto.limit > 0 ? +dto.limit : 10;
 
-    // 1. Fetch Interests
-    const interests = await this.prisma.client.fosterAnimalInterest.findMany({
-      where: {
-        fosterId: foster.id,
-        status: {
-          in: [
-            FosterInterestStatus.INTERESTED,
-            FosterInterestStatus.APPROVED,
-            FosterInterestStatus.REJECTED,
-            FosterInterestStatus.WITHDRAWN,
-            FosterInterestStatus.COMPLETED,
-            FosterInterestStatus.SCHEDULED,
-          ],
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-      include: this.requestInclude,
-    });
-
-    // 2. Fetch Shelter-initiated Requests
+    // 1. Fetch Shelter-initiated Requests
     const requests = await this.prisma.client.fosterRequest.findMany({
       where: {
         fosterUserId: userId,
@@ -330,19 +311,12 @@ export class FosterAnimalService {
       include: this.fosterRequestInclude,
     });
 
-    // 3. Map and Combine
-    const mappedInterests = interests.map((interest) =>
-      this.formatRequestItem(interest),
-    );
-
+    // 2. Map RequestsToItems
     const mappedShelterRequests = requests.map((req) =>
       this.formatRequestItemFromShelter(req),
     );
 
-    const combinedRequests = [
-      ...mappedInterests,
-      ...mappedShelterRequests,
-    ].sort(
+    const combinedRequests = [...mappedShelterRequests].sort(
       (a: any, b: any) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     );
@@ -875,19 +849,6 @@ export class FosterAnimalService {
               some: {
                 fosterUserId: foster?.userId,
                 status: { not: FosterRequestStatus.CANCELED },
-              },
-            },
-          },
-          {
-            fosterAnimalInterests: {
-              some: {
-                fosterId,
-                status: {
-                  notIn: [
-                    FosterInterestStatus.REJECTED,
-                    FosterInterestStatus.WITHDRAWN,
-                  ],
-                },
               },
             },
           },
