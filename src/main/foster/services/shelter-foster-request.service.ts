@@ -42,7 +42,8 @@ export class ShelterFosterRequestService {
     dto: GetShelterFosterRequestsDto,
   ) {
     const shelterId = await this.getShelterId(userId);
-    const filter = dto.status?.toUpperCase() || 'ALL';
+    let filter = dto.status?.toUpperCase() || 'ALL';
+    if (filter === 'CANCELLED') filter = 'CANCELED';
 
     const [requests, interests] = await Promise.all([
       this.prisma.client.fosterRequest.findMany({
@@ -128,24 +129,19 @@ export class ShelterFosterRequestService {
 
       switch (filter) {
         case 'REQUESTS':
-          return status === 'REQUESTED' && !item.interestId;
+          return status === 'REQUESTED';
         case 'INTERESTED':
           return status === 'INTERESTED' || interestStatus === 'INTERESTED';
         case 'APPROVED': {
           const isApproved =
             status === 'APPROVED' || interestStatus === 'APPROVED';
+          // Filter out if it's already scheduled/in-transit (those belong in SCHEDULED case)
           const isScheduled =
-            status === 'SCHEDULED' ||
-            status === 'PICKED_UP' ||
-            status === 'IN_TRANSIT';
+            status === 'SCHEDULED' || item.transportId !== null;
           return isApproved && !isScheduled;
         }
         case 'SCHEDULED':
-          return (
-            status === 'SCHEDULED' ||
-            status === 'PICKED_UP' ||
-            status === 'IN_TRANSIT'
-          );
+          return status === 'SCHEDULED' || item.transportId !== null;
         case 'COMPLETED':
           return (
             status === 'DELIVERED' ||
