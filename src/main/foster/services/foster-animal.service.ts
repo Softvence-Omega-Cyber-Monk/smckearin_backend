@@ -859,21 +859,52 @@ export class FosterAnimalService {
     dto: GetFosterAnimalsDto,
     fosterId?: string,
   ): Promise<Prisma.AnimalWhereInput> {
-    const where: Prisma.AnimalWhereInput = {
-      fosteredById: fosterId,
-      status: Status.FOSTERED,
-    };
+    const foster = await this.prisma.client.foster.findUnique({
+      where: { id: fosterId },
+      select: { userId: true },
+    });
 
-    const andFilters: Prisma.AnimalWhereInput[] = [];
+    const where: Prisma.AnimalWhereInput = {};
+
+    const andFilters: Prisma.AnimalWhereInput[] = [
+      {
+        OR: [
+          { fosteredById: fosterId },
+          {
+            fosterRequests: {
+              some: {
+                fosterUserId: foster?.userId,
+                status: { not: FosterRequestStatus.CANCELED },
+              },
+            },
+          },
+          {
+            fosterAnimalInterests: {
+              some: {
+                fosterId,
+                status: {
+                  notIn: [
+                    FosterInterestStatus.REJECTED,
+                    FosterInterestStatus.WITHDRAWN,
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      },
+    ];
 
     if (dto.search) {
       const searchTerm = dto.search.trim();
-      where.OR = [
-        { name: { contains: searchTerm, mode: 'insensitive' } },
-        { breed: { contains: searchTerm, mode: 'insensitive' } },
-        { sid: { contains: searchTerm, mode: 'insensitive' } },
-        { externalAnimalId: { contains: searchTerm, mode: 'insensitive' } },
-      ];
+      andFilters.push({
+        OR: [
+          { name: { contains: searchTerm, mode: 'insensitive' } },
+          { breed: { contains: searchTerm, mode: 'insensitive' } },
+          { sid: { contains: searchTerm, mode: 'insensitive' } },
+          { externalAnimalId: { contains: searchTerm, mode: 'insensitive' } },
+        ],
+      });
     }
 
     if (dto.animalTypes?.length) {
