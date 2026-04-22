@@ -258,7 +258,7 @@ export class FosterAnimalService {
     return successPaginatedResponse(
       animals.map((animal) => this.formatAnimalCard(animal)),
       { page, limit, total },
-      'Available foster animals fetched successfully',
+      'My foster animals fetched successfully',
     );
   }
 
@@ -860,51 +860,11 @@ export class FosterAnimalService {
     fosterId?: string,
   ): Promise<Prisma.AnimalWhereInput> {
     const where: Prisma.AnimalWhereInput = {
-      status: Status.AT_SHELTER,
-      shelterId: { not: null },
+      fosteredById: fosterId,
+      status: Status.FOSTERED,
     };
 
-    const andFilters: Prisma.AnimalWhereInput[] = [
-      {
-        shelter: {
-          status: 'APPROVED',
-        },
-      },
-    ];
-
-    if (fosterId) {
-      const foster = await this.prisma.client.foster.findUnique({
-        where: { id: fosterId },
-        select: { userId: true },
-      });
-
-      andFilters.push({
-        fosterAnimalInterests: {
-          none: {
-            fosterId,
-            status: {
-              in: [
-                FosterInterestStatus.INTERESTED,
-                FosterInterestStatus.APPROVED,
-              ],
-            },
-          },
-        },
-      });
-
-      if (foster?.userId) {
-        andFilters.push({
-          fosterRequests: {
-            none: {
-              fosterUserId: foster.userId,
-              status: {
-                not: FosterRequestStatus.CANCELED,
-              },
-            },
-          },
-        });
-      }
-    }
+    const andFilters: Prisma.AnimalWhereInput[] = [];
 
     if (dto.search) {
       const searchTerm = dto.search.trim();
