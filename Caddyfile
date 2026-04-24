@@ -32,7 +32,7 @@ api.rescuetransit.ai {
 }
 
 # Primary website
-app.rescuetransit.ai{
+app.rescuetransit.ai {
   root * /var/www/html/dist
   try_files {path} /index.html
   file_server
@@ -44,6 +44,7 @@ app.rescuetransit.ai{
 
 # Secondary domains → redirect to primary
 
-www.rescuetransit.ai{
-  reverse_proxy: 13.62.62.158:3005
+www.rescuetransit.ai {
+  reverse_proxy 13.62.62.158:3005
 }
+
