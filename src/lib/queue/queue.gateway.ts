@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { PrismaService } from '../prisma/prisma.service';
+import { CORS_ORIGINS } from '@/common/constants/cors-origins';
 import {
   DriverLocationUpdateDto,
   TransportIdDto,
@@ -18,21 +19,7 @@ import { TrackingDataService } from './trip/tracking-data.service';
 
 @WebSocketGateway({
   cors: {
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://localhost:3002',
-      'http://localhost:4173',
-      'http://localhost:5173',
-      'http://localhost:5174',
-      'http://13.62.62.158:3000',
-      'http://13.62.62.158:3001',
-      'http://13.62.62.158:3002',
-      'http://13.62.62.158:4173',
-      'http://13.62.62.158:5173',
-      'http://13.62.62.158:5174',
-      'https://rescuetransit.ai',
-    ],
+    origin: CORS_ORIGINS,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   },

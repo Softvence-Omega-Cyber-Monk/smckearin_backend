@@ -1,0 +1,18 @@
+export const CORS_ORIGINS = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:3002',
+  'http://localhost:4173',
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://13.62.62.158:3000',
+  'http://13.62.62.158:3001',
+  'http://13.62.62.158:3002',
+  'http://13.62.62.158:4173',
+  'http://13.62.62.158:5173',
+  'http://13.62.62.158:5174',
+  'https://rescuetransit.ai',
+  'https://www.rescuetransit.ai',
+  'https://app.rescuetransit.ai',
+  'https://www.app.rescuetransit.ai',
+];
