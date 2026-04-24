@@ -31,6 +31,8 @@ async function bootstrap() {
       'http://13.62.62.158:5174',
       'https://rescuetransit.ai',
       'https://www.rescuetransit.ai',
+      'https://app.rescuetransit.ai',
+      'https://www.app.rescuetransit.ai',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
