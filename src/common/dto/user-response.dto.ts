@@ -45,4 +45,15 @@ export class UserResponseDto {
 
   @Expose()
   updatedAt: Date;
+
+  @Expose()
+  paymentSettings?: {
+    driverPaymentsEnabled: boolean;
+    platformFeesEnabled: boolean;
+    timeBasedPricingEnabled: boolean;
+    paymentMode: string;
+    paymentEnabled: boolean;
+    automaticPayoutsEnabled: boolean;
+    payoutDayOfMonth: number;
+  };
 }
