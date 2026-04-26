@@ -160,36 +160,39 @@ export class AuthUtilsService {
     const where: any = {};
     where[key] = value;
 
-    const user = await this.prisma.client.user.findUniqueOrThrow({
-      where,
-      include: {
-        drivers: {
-          include: {
-            driverLicense: true,
-            vehicleRegistration: true,
-            transportCertificate: true,
+    const [user, paymentSettings] = await Promise.all([
+      this.prisma.client.user.findUniqueOrThrow({
+        where,
+        include: {
+          drivers: {
+            include: {
+              driverLicense: true,
+              vehicleRegistration: true,
+              transportCertificate: true,
+            },
           },
-        },
-        fosters: true,
-        veterinarians: {
-          include: {
-            vetDocuments: true,
+          fosters: true,
+          veterinarians: {
+            include: {
+              vetDocuments: true,
+            },
           },
-        },
-        shelterAdminOf: {
-          include: {
-            logo: true,
+          shelterAdminOf: {
+            include: {
+              logo: true,
+            },
           },
-        },
-        managerOf: {
-          include: {
-            logo: true,
+          managerOf: {
+            include: {
+              logo: true,
+            },
           },
+          adopters: true,
+          profilePicture: true,
         },
-        adopters: true,
-        profilePicture: true,
-      },
-    });
+      }),
+      this.prisma.client.paymentSettings.findFirst(),
+    ]);
 
     const {
       drivers,
@@ -355,6 +358,121 @@ export class AuthUtilsService {
         }
         break;
 
+      case 'SUPER_ADMIN':
+      case 'ADMIN':
+        if (fosters) {
+          roleData = {
+            fosterId: fosters.id,
+            phone: fosters.phone,
+            city: fosters.city,
+            state: fosters.state,
+            address: fosters.address,
+            animalType: fosters.animalType,
+            sizePreference: fosters.sizePreference,
+            age: fosters.age,
+            experienceLevel: fosters.experienceLevel,
+            preferredLocation: fosters.preferredLocation,
+            preferredMile: fosters.preferredMile,
+            status: fosters.status,
+          };
+        } else if (drivers) {
+          const driverLicenseUrl = drivers.driverLicenseUrl ?? null;
+          const vehicleRegistrationUrl = drivers.vehicleRegistrationUrl ?? null;
+          const transportCertificateUrl =
+            drivers.transportCertificateUrl ?? null;
+
+          roleData = {
+            driverId: drivers.id,
+            phone: drivers.phone,
+            state: drivers.state,
+            address: drivers.address,
+            vehicleType: drivers.vehicleType,
+            vehicleCapacity: drivers.vehicleCapacity,
+            yearsOfExperience: drivers.yearsOfExperience,
+            previousExperience: drivers.previousExperience,
+            startTime: drivers.startTime,
+            endTime: drivers.endTime,
+            workingDays: drivers.workingDays,
+            needsDriverLicense: !driverLicenseUrl,
+            driverLicense: {
+              id: drivers.driverLicenseId ?? null,
+              url: driverLicenseUrl,
+              status: drivers.driverLicenseStatus,
+              uploadedAt: drivers.driverLicense?.updatedAt,
+              documentType: drivers.driverLicense?.mimeType,
+            },
+            needsVehicleRegistration: !vehicleRegistrationUrl,
+            vehicleRegistration: {
+              id: drivers.vehicleRegistrationId ?? null,
+              url: vehicleRegistrationUrl,
+              status: drivers.vehicleRegistrationStatus,
+              uploadedAt: drivers.vehicleRegistration?.updatedAt,
+              documentType: drivers.vehicleRegistration?.mimeType,
+            },
+            needsTransportCertificate: !transportCertificateUrl,
+            transportCertificate: {
+              id: drivers.transportCertificateId ?? null,
+              url: transportCertificateUrl,
+              status: drivers.transportCertificateStatus,
+              uploadedAt: drivers.transportCertificate?.updatedAt,
+              documentType: drivers.transportCertificate?.mimeType,
+            },
+            status: drivers.status,
+          };
+        } else if (veterinarians) {
+          roleData = {
+            vetId: veterinarians.id,
+            phone: veterinarians.phone,
+            license: veterinarians.license,
+            description: veterinarians.description,
+            startTime: veterinarians.startTime,
+            endTime: veterinarians.endTime,
+            workingDays: veterinarians.workingDays,
+            status: veterinarians.status,
+            vetDocuments: veterinarians.vetDocuments,
+          };
+        } else if (adopters) {
+          roleData = {
+            adopterId: adopters.id,
+            phone: adopters.phone,
+            city: adopters.city,
+            state: adopters.state,
+            address: adopters.address,
+            housingType: adopters.housingType,
+            status: adopters.status,
+          };
+        } else if (shelterAdminOf) {
+          roleData = {
+            shelterId: shelterAdminOf.id,
+            name: shelterAdminOf.name,
+            address: shelterAdminOf.address,
+            phone: shelterAdminOf.phone,
+            description: shelterAdminOf.description,
+            startTime: shelterAdminOf.startTime,
+            endTime: shelterAdminOf.endTime,
+            workingDays: shelterAdminOf.workingDays,
+            status: shelterAdminOf.status,
+            logoUrl: shelterAdminOf.logoUrl,
+          };
+        } else if (managerOf) {
+          roleData = {
+            shelterId: managerOf.id,
+            name: managerOf.name,
+            address: managerOf.address,
+            phone: managerOf.phone,
+            description: managerOf.description,
+            startTime: managerOf.startTime,
+            endTime: managerOf.endTime,
+            workingDays: managerOf.workingDays,
+            status: managerOf.status,
+            logoUrl: managerOf.logoUrl,
+          };
+        } else {
+          roleData = null;
+        }
+        isApproved = true;
+        break;
+
       default:
         roleData = null;
         isApproved = true;
@@ -365,6 +483,18 @@ export class AuthUtilsService {
         ...sanitizedUser,
         roleData,
         isApproved,
+        paymentSettings: {
+          driverPaymentsEnabled:
+            paymentSettings?.driverPaymentsEnabled ?? false,
+          platformFeesEnabled: paymentSettings?.platformFeesEnabled ?? false,
+          timeBasedPricingEnabled:
+            paymentSettings?.timeBasedPricingEnabled ?? false,
+          paymentMode: paymentSettings?.paymentMode ?? 'VOLUNTEER',
+          paymentEnabled: paymentSettings?.paymentEnabled ?? false,
+          automaticPayoutsEnabled:
+            paymentSettings?.automaticPayoutsEnabled ?? false,
+          payoutDayOfMonth: paymentSettings?.payoutDayOfMonth ?? 0,
+        },
       },
       'User profile fetched successfully',
     );
