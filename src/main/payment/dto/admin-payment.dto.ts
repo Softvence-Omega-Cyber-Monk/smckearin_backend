@@ -22,6 +22,26 @@ export class UpdatePaymentSettingsDto {
   @ApiPropertyOptional()
   @IsBoolean()
   @IsOptional()
+  shelterPaymentEnabled?: boolean;
+
+  @ApiPropertyOptional()
+  @IsBoolean()
+  @IsOptional()
+  veterinarianPaymentEnabled?: boolean;
+
+  @ApiPropertyOptional()
+  @IsBoolean()
+  @IsOptional()
+  fosterPaymentEnabled?: boolean;
+
+  @ApiPropertyOptional()
+  @IsBoolean()
+  @IsOptional()
+  adopterPaymentEnabled?: boolean;
+
+  @ApiPropertyOptional()
+  @IsBoolean()
+  @IsOptional()
   platformFeesEnabled?: boolean;
 
   @ApiPropertyOptional()

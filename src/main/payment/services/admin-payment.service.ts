@@ -34,6 +34,10 @@ export class AdminPaymentService {
       settings = await this.prisma.client.paymentSettings.create({
         data: {
           driverPaymentsEnabled: false,
+          shelterPaymentEnabled: false,
+          veterinarianPaymentEnabled: false,
+          fosterPaymentEnabled: false,
+          adopterPaymentEnabled: false,
           platformFeesEnabled: false,
           timeBasedPricingEnabled: false,
         },

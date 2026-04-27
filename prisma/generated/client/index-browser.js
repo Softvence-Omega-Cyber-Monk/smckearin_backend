@@ -511,6 +511,10 @@ exports.Prisma.OperationEventScalarFieldEnum = {
 exports.Prisma.PaymentSettingsScalarFieldEnum = {
   id: 'id',
   driverPaymentsEnabled: 'driverPaymentsEnabled',
+  shelterPaymentEnabled: 'shelterPaymentEnabled',
+  veterinarianPaymentEnabled: 'veterinarianPaymentEnabled',
+  fosterPaymentEnabled: 'fosterPaymentEnabled',
+  adopterPaymentEnabled: 'adopterPaymentEnabled',
   platformFeesEnabled: 'platformFeesEnabled',
   timeBasedPricingEnabled: 'timeBasedPricingEnabled',
   paymentMode: 'paymentMode',
