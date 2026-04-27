@@ -10,7 +10,7 @@ api.rescuetransit.ai {
   }
 
   handle /bot* {
-    reverse_proxy 13.62.62.158:3050/bot {
+    reverse_proxy 13.62.62.158:3050 {
       header_up X-Real-IP {remote}
       header_up X-Forwarded-For {remote}
       header_up X-Forwarded-Proto {scheme}
