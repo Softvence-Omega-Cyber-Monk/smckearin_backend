@@ -486,6 +486,13 @@ export class AuthUtilsService {
         paymentSettings: {
           driverPaymentsEnabled:
             paymentSettings?.driverPaymentsEnabled ?? false,
+          shelterPaymentEnabled:
+            paymentSettings?.shelterPaymentEnabled ?? false,
+          veterinarianPaymentEnabled:
+            paymentSettings?.veterinarianPaymentEnabled ?? false,
+          fosterPaymentEnabled: paymentSettings?.fosterPaymentEnabled ?? false,
+          adopterPaymentEnabled:
+            paymentSettings?.adopterPaymentEnabled ?? false,
           platformFeesEnabled: paymentSettings?.platformFeesEnabled ?? false,
           timeBasedPricingEnabled:
             paymentSettings?.timeBasedPricingEnabled ?? false,
