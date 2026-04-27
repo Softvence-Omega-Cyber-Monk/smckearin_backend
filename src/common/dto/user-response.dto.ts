@@ -49,6 +49,10 @@ export class UserResponseDto {
   @Expose()
   paymentSettings?: {
     driverPaymentsEnabled: boolean;
+    shelterPaymentEnabled: boolean;
+    veterinarianPaymentEnabled: boolean;
+    fosterPaymentEnabled: boolean;
+    adopterPaymentEnabled: boolean;
     platformFeesEnabled: boolean;
     timeBasedPricingEnabled: boolean;
     paymentMode: string;

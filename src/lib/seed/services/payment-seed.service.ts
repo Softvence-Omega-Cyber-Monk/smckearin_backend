@@ -20,6 +20,10 @@ export class PaymentSeedService implements OnModuleInit {
       await this.prisma.client.paymentSettings.create({
         data: {
           driverPaymentsEnabled: false,
+          shelterPaymentEnabled: false,
+          veterinarianPaymentEnabled: false,
+          fosterPaymentEnabled: false,
+          adopterPaymentEnabled: false,
           platformFeesEnabled: false,
           timeBasedPricingEnabled: false,
           paymentMode: 'VOLUNTEER',
