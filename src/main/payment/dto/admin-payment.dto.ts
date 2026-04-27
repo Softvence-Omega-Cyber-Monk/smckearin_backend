@@ -65,10 +65,10 @@ export class UpdatePaymentSettingsDto {
   automaticPayoutsEnabled?: boolean;
 
   @ApiPropertyOptional({
-    description: 'Day of the month to run payouts (1-28)',
+    description: 'Day of the month to run payouts (0-28)',
   })
   @IsNumber()
-  @Min(1)
+  @Min(0)
   @IsOptional()
   payoutDayOfMonth?: number;
 }

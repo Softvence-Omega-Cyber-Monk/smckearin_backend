@@ -33,13 +33,17 @@ export class AdminPaymentService {
     if (!settings) {
       settings = await this.prisma.client.paymentSettings.create({
         data: {
-          driverPaymentsEnabled: false,
-          shelterPaymentEnabled: false,
-          veterinarianPaymentEnabled: false,
-          fosterPaymentEnabled: false,
-          adopterPaymentEnabled: false,
-          platformFeesEnabled: false,
-          timeBasedPricingEnabled: false,
+          driverPaymentsEnabled: true,
+          shelterPaymentEnabled: true,
+          veterinarianPaymentEnabled: true,
+          fosterPaymentEnabled: true,
+          adopterPaymentEnabled: true,
+          platformFeesEnabled: true,
+          timeBasedPricingEnabled: true,
+          paymentMode: 'VOLUNTEER',
+          paymentEnabled: true,
+          automaticPayoutsEnabled: true,
+          payoutDayOfMonth: 0,
         },
       });
     }
