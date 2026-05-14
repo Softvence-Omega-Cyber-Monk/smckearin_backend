@@ -2,6 +2,8 @@
 FROM node:24-slim AS builder
 
 # Enable corepack and activate pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # Set working directory
@@ -34,6 +36,8 @@ RUN pnpm build
 FROM node:24-slim AS production
 
 # Enable corepack and activate pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # Set working directory
