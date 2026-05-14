@@ -9,6 +9,7 @@ import { GetDriverTransportService } from './services/get-driver-transport.servi
 import { GetLiveTrackingService } from './services/get-live-tracking.service';
 import { GetSingleTransportService } from './services/get-single-transport.service';
 import { GetTransportService } from './services/get-transport.service';
+import { LegManagementService } from './services/leg-management.service';
 import { ManageTransportService } from './services/manage-transport.service';
 import { TransportChatService } from './services/transport-chat.service';
 
@@ -22,6 +23,7 @@ import { TransportChatService } from './services/transport-chat.service';
     GetDriverTransportService,
     ManageTransportService,
     GetLiveTrackingService,
+    LegManagementService,
     TransportChatService,
     TrackingDataService,
     QueueGateway,

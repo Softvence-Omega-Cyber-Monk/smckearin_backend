@@ -57,6 +57,9 @@ model Transport {
   transportTimelines TransportTimeline[]
   chatConversations  PrivateConversation[] @relation("TransportConversation")
 
+  isMultiLeg Boolean @default(false)
+  legs       TransportLeg[]
+
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now()) @updatedAt
   acceptedAt  DateTime?

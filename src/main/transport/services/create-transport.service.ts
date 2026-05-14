@@ -53,6 +53,14 @@ export class CreateTransportService {
       throw new AppError(HttpStatus.FORBIDDEN, 'Shelter is not approved');
     }
 
+    // Validate multi-leg requirements
+    if (dto.isMultiLeg && (!dto.legs || dto.legs.length === 0)) {
+      throw new AppError(
+        HttpStatus.BAD_REQUEST,
+        'Multi-leg transport must have at least one leg',
+      );
+    }
+
     // Validate animals
     const uniqueAnimalIds = [...new Set(dto.animalId.map((a) => a.id))];
     const animalsToTransport = [...uniqueAnimalIds];
@@ -185,6 +193,50 @@ export class CreateTransportService {
       }
     }
 
+    // Validate leg drivers if multi-leg
+    if (dto.isMultiLeg && dto.legs) {
+      const legDriverIds = dto.legs
+        .map((leg) => leg.driverId)
+        .filter((id): id is string => !!id);
+
+      if (legDriverIds.length > 0) {
+        const uniqueLegDriverIds = [...new Set(legDriverIds)];
+        const legDrivers = await this.prisma.client.driver.findMany({
+          where: {
+            id: { in: uniqueLegDriverIds },
+            status: ApprovalStatus.APPROVED,
+          },
+          select: { id: true },
+        });
+
+        if (legDrivers.length !== uniqueLegDriverIds.length) {
+          throw new AppError(
+            HttpStatus.BAD_REQUEST,
+            'One or more leg drivers are not found or not approved',
+          );
+        }
+      }
+    }
+
+    // Build legs create data for multi-leg transports
+    const legsCreateData =
+      dto.isMultiLeg && dto.legs
+        ? {
+            create: dto.legs
+              .sort((a, b) => a.sequenceOrder - b.sequenceOrder)
+              .map((leg) => ({
+                sequenceOrder: leg.sequenceOrder,
+                pickUpLocation: leg.pickUpLocation,
+                pickUpLatitude: leg.pickUpLatitude,
+                pickUpLongitude: leg.pickUpLongitude,
+                dropOffLocation: leg.dropOffLocation,
+                dropOffLatitude: leg.dropOffLatitude,
+                dropOffLongitude: leg.dropOffLongitude,
+                driverId: leg.driverId ?? null,
+              })),
+          }
+        : undefined;
+
     // Create transport
     const transport = await this.prisma.client.transport.create({
       data: {
@@ -220,7 +272,12 @@ export class CreateTransportService {
 
         vetClearanceRequestId,
         status: TransportStatus.SCHEDULED,
+        isMultiLeg: dto.isMultiLeg ?? false,
+        legs: legsCreateData,
       },
+      include: dto.isMultiLeg
+        ? { legs: { orderBy: { sequenceOrder: 'asc' } } }
+        : undefined,
     });
 
     // Update animal status

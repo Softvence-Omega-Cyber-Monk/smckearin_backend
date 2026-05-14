@@ -698,6 +698,7 @@ exports.Prisma.TransportScalarFieldEnum = {
   vetClearanceType: 'vetClearanceType',
   vetClearanceRequestId: 'vetClearanceRequestId',
   status: 'status',
+  isMultiLeg: 'isMultiLeg',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   acceptedAt: 'acceptedAt',
@@ -712,6 +713,24 @@ exports.Prisma.TransportTimelineScalarFieldEnum = {
   latitude: 'latitude',
   longitude: 'longitude',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.TransportLegScalarFieldEnum = {
+  id: 'id',
+  transportId: 'transportId',
+  sequenceOrder: 'sequenceOrder',
+  status: 'status',
+  pickUpLocation: 'pickUpLocation',
+  pickUpLatitude: 'pickUpLatitude',
+  pickUpLongitude: 'pickUpLongitude',
+  dropOffLocation: 'dropOffLocation',
+  dropOffLatitude: 'dropOffLatitude',
+  dropOffLongitude: 'dropOffLongitude',
+  driverId: 'driverId',
+  actualPickUpAt: 'actualPickUpAt',
+  actualDropOffAt: 'actualDropOffAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
@@ -1032,6 +1051,16 @@ exports.TransportStatus = exports.$Enums.TransportStatus = {
   COMPLETED: 'COMPLETED'
 };
 
+exports.TransportLegStatus = exports.$Enums.TransportLegStatus = {
+  PENDING: 'PENDING',
+  ASSIGNED: 'ASSIGNED',
+  PICKED_UP: 'PICKED_UP',
+  IN_TRANSIT: 'IN_TRANSIT',
+  DELIVERED: 'DELIVERED',
+  COMPLETED: 'COMPLETED',
+  CANCELED: 'CANCELED'
+};
+
 exports.UserRole = exports.$Enums.UserRole = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
@@ -1110,6 +1139,7 @@ exports.Prisma.ModelName = {
   TransportBatch: 'TransportBatch',
   Transport: 'Transport',
   TransportTimeline: 'TransportTimeline',
+  TransportLeg: 'TransportLeg',
   User: 'User',
   VetClearanceRequest: 'VetClearanceRequest',
   VetAppointment: 'VetAppointment',

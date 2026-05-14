@@ -1,0 +1,41 @@
+enum TransportLegStatus {
+  PENDING
+  ASSIGNED
+  PICKED_UP
+  IN_TRANSIT
+  DELIVERED
+  COMPLETED
+  CANCELED
+}
+
+model TransportLeg {
+  id String @id @default(uuid())
+
+  transportId String
+  transport   Transport @relation(fields: [transportId], references: [id], onDelete: Cascade)
+
+  sequenceOrder Int
+
+  status TransportLegStatus @default(PENDING)
+
+  pickUpLocation  String
+  pickUpLatitude  Float
+  pickUpLongitude Float
+
+  dropOffLocation  String
+  dropOffLatitude  Float
+  dropOffLongitude Float
+
+  driverId String?
+  driver   Driver? @relation(fields: [driverId], references: [id], onDelete: SetNull)
+
+  actualPickUpAt  DateTime?
+  actualDropOffAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([transportId])
+  @@index([driverId])
+  @@map("transport_legs")
+}

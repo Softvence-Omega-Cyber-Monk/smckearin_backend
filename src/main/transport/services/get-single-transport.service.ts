@@ -18,6 +18,18 @@ export class GetSingleTransportService {
         vet: { include: { user: true } },
         shelter: true,
         transportTimelines: { orderBy: { createdAt: 'asc' } },
+        legs: {
+          include: {
+            driver: {
+              include: {
+                user: {
+                  select: { name: true, email: true, profilePictureUrl: true },
+                },
+              },
+            },
+          },
+          orderBy: { sequenceOrder: 'asc' },
+        },
       },
     });
 
@@ -27,6 +39,7 @@ export class GetSingleTransportService {
       transportNote: transport.transportNote,
       priority: transport.priorityLevel,
       status: transport.status,
+      isMultiLeg: transport.isMultiLeg,
       vetClearanceRequired: transport.isVetClearanceRequired,
       vetClearanceType: transport.vetClearanceType,
 
@@ -108,6 +121,37 @@ export class GetSingleTransportService {
           longitude: transport.dropOffLongitude,
         },
       },
+
+      // Multi-leg info
+      legs: transport.isMultiLeg
+        ? transport.legs.map((leg) => ({
+            id: leg.id,
+            sequenceOrder: leg.sequenceOrder,
+            status: leg.status,
+            pickUp: {
+              location: leg.pickUpLocation,
+              latitude: leg.pickUpLatitude,
+              longitude: leg.pickUpLongitude,
+            },
+            dropOff: {
+              location: leg.dropOffLocation,
+              latitude: leg.dropOffLatitude,
+              longitude: leg.dropOffLongitude,
+            },
+            driver: leg.driver
+              ? {
+                  id: leg.driver.id,
+                  name: leg.driver.user?.name ?? null,
+                  email: leg.driver.user?.email ?? null,
+                  profilePictureUrl: leg.driver.user?.profilePictureUrl ?? null,
+                }
+              : null,
+            actualPickUpAt: leg.actualPickUpAt,
+            actualDropOffAt: leg.actualDropOffAt,
+            createdAt: leg.createdAt,
+            updatedAt: leg.updatedAt,
+          }))
+        : [],
 
       // Transport timeline
       timeline: [
