@@ -1,10 +1,12 @@
 # ====== BUILD STAGE ======
 FROM node:24-slim AS builder
 
-# Enable corepack and activate pnpm
+# Set PNPM environment
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Install pnpm via npm (more robust than corepack in some environments)
+RUN npm install -g pnpm
 
 # Set working directory
 WORKDIR /app
@@ -17,11 +19,11 @@ COPY package.json pnpm-lock.yaml .npmrc ./
 COPY prisma.config.ts ./
 COPY prisma ./prisma
 
-# Allow pnpm to build packages
-RUN pnpm config set allowed-builds '*' -g
+# Install dependencies (skip build scripts to avoid approval prompt)
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
-# Install dependencies
-RUN pnpm install --frozen-lockfile
+# Run only the build scripts we actually need
+RUN pnpm rebuild bcrypt prisma @prisma/engines
 
 # Generate Prisma Client (dummy DATABASE_URL is sufficient for code generation)
 RUN DATABASE_URL="postgresql://user:password@localhost:5432/db" pnpm prisma generate
@@ -35,10 +37,12 @@ RUN pnpm build
 # ====== PRODUCTION STAGE ======
 FROM node:24-slim AS production
 
-# Enable corepack and activate pnpm
+# Set PNPM environment
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Install pnpm via npm
+RUN npm install -g pnpm
 
 # Set working directory
 WORKDIR /app
@@ -54,8 +58,11 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma.config.ts ./
 COPY --from=builder /app/prisma ./prisma
 
-# Install production dependencies (--ignore-scripts skips prepare/husky)
+# Install production dependencies
 RUN pnpm install --frozen-lockfile --prod --ignore-scripts
+
+# Rebuild native modules needed at runtime
+RUN pnpm rebuild bcrypt @prisma/engines
 
 # Expose the port
 EXPOSE 3000
