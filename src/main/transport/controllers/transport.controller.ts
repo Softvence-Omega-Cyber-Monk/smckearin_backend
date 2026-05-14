@@ -28,12 +28,17 @@ import {
   GetTransportByLocationDto,
   GetTransportDto,
 } from '../dto/get-transport.dto';
+import {
+  AssignLegDriverDto,
+  UpdateTransportLegStatusDto,
+} from '../dto/transport-leg.dto';
 import { UpdateTransportStatusQueryDto } from '../dto/update-timeline.dto';
 import { CreateTransportService } from '../services/create-transport.service';
 import { GetDriverTransportService } from '../services/get-driver-transport.service';
 import { GetLiveTrackingService } from '../services/get-live-tracking.service';
 import { GetSingleTransportService } from '../services/get-single-transport.service';
 import { GetTransportService } from '../services/get-transport.service';
+import { LegManagementService } from '../services/leg-management.service';
 import { ManageTransportService } from '../services/manage-transport.service';
 
 @ApiTags('Transport')
@@ -48,6 +53,7 @@ export class TransportController {
     private readonly getDriverTransportService: GetDriverTransportService,
     private readonly manageTransportService: ManageTransportService,
     private readonly getLiveTrackingService: GetLiveTrackingService,
+    private readonly legManagementService: LegManagementService,
   ) {}
 
   @ApiOperation({ summary: 'Create transport (shelter)' })
@@ -170,6 +176,37 @@ export class TransportController {
   async getSingleTransport(@Param('id') transportId: string) {
     return this.getSingleTransportService.getSingleTransport(transportId);
   }
+
+  // ── Multi-Leg Endpoints ──────────────────────────────────
+
+  @ApiOperation({ summary: 'Get all legs for a transport' })
+  @ValidateAuth()
+  @Get(':transportId/legs')
+  async getTransportLegs(@Param('transportId') transportId: string) {
+    return this.legManagementService.getTransportLegs(transportId);
+  }
+
+  @ApiOperation({ summary: 'Assign driver to a transport leg (shelter)' })
+  @ValidateManager()
+  @Patch('legs/:legId/assign-driver')
+  async assignDriverToLeg(
+    @Param('legId') legId: string,
+    @Body() dto: AssignLegDriverDto,
+  ) {
+    return this.legManagementService.assignDriverToLeg(legId, dto);
+  }
+
+  @ApiOperation({ summary: 'Update transport leg status (driver)' })
+  @ValidateDriver()
+  @Patch('legs/:legId/status')
+  async updateLegStatus(
+    @Param('legId') legId: string,
+    @Body() dto: UpdateTransportLegStatusDto,
+  ) {
+    return this.legManagementService.updateLegStatus(legId, dto);
+  }
+
+  // ── End Multi-Leg Endpoints ──────────────────────────────
 
   @ApiOperation({ summary: 'Delete transport by admin or shelter' })
   @ValidateManager()

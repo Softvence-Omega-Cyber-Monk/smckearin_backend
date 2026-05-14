@@ -13,6 +13,7 @@ import {
   IsArray,
   ValidateNested,
 } from 'class-validator';
+import { CreateTransportLegDto } from './transport-leg.dto';
 
 export class TransportAnimalDto {
   @ApiProperty({
@@ -162,4 +163,22 @@ export class CreateTransportDto {
   @IsOptional()
   @IsEnum(RequiredVetClearanceType)
   vetClearanceType?: RequiredVetClearanceType;
+
+  @ApiPropertyOptional({
+    description: 'Whether this is a multi-leg transport',
+    example: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  isMultiLeg?: boolean;
+
+  @ApiPropertyOptional({
+    description: 'Array of legs for multi-leg transport',
+    type: [CreateTransportLegDto],
+  })
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateTransportLegDto)
+  legs?: CreateTransportLegDto[];
 }
