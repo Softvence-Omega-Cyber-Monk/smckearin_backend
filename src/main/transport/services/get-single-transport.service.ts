@@ -48,6 +48,7 @@ export class GetSingleTransportService {
         id: a.id,
         sid: a.sid,
         name: a.name,
+        age: a.age,
         species: a.species,
         breed: a.breed,
         gender: a.gender,
