@@ -95,6 +95,24 @@ export class GetTransportService {
       shelterName: t.shelter?.name ?? null,
       animalPhotos: t.animals.map((a: any) => a.imageUrl) || [],
       bondedPairPhoto: t.bondedPair?.imageUrl ?? null,
+      isMultiLeg: t.isMultiLeg ?? false,
+      legs: t.legs
+        ? t.legs.map((leg: any) => ({
+            id: leg.id,
+            sequenceOrder: leg.sequenceOrder,
+            status: leg.status,
+            pickUpLocation: leg.pickUpLocation,
+            pickUpLatitude: leg.pickUpLatitude,
+            pickUpLongitude: leg.pickUpLongitude,
+            dropOffLocation: leg.dropOffLocation,
+            dropOffLatitude: leg.dropOffLatitude,
+            dropOffLongitude: leg.dropOffLongitude,
+            driverName: leg.driver?.user?.name ?? null,
+            driverPhone: leg.driver?.phone ?? null,
+            actualPickUpAt: leg.actualPickUpAt,
+            actualDropOffAt: leg.actualDropOffAt,
+          }))
+        : [],
     };
   }
 
@@ -136,6 +154,10 @@ export class GetTransportService {
           bondedPair: true,
           driver: { include: { user: true } },
           vet: { include: { user: true } },
+          legs: {
+            include: { driver: { include: { user: true } } },
+            orderBy: { sequenceOrder: 'asc' },
+          },
         },
       }),
       this.prisma.client.transport.count({ where }),
@@ -172,6 +194,10 @@ export class GetTransportService {
           bondedPair: true,
           driver: { include: { user: true } },
           vet: { include: { user: true } },
+          legs: {
+            include: { driver: { include: { user: true } } },
+            orderBy: { sequenceOrder: 'asc' },
+          },
         },
       }),
       this.prisma.client.transport.count({ where }),
@@ -204,6 +230,10 @@ export class GetTransportService {
           driver: { include: { user: true } },
           vet: { include: { user: true } },
           shelter: true,
+          legs: {
+            include: { driver: { include: { user: true } } },
+            orderBy: { sequenceOrder: 'asc' },
+          },
         },
       }),
       this.prisma.client.transport.count({ where }),
