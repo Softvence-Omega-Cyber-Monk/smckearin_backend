@@ -53,8 +53,10 @@ export class CreateTransportService {
       throw new AppError(HttpStatus.FORBIDDEN, 'Shelter is not approved');
     }
 
+    const isMultiLeg = !!(dto.isMultiLeg || (dto.legs && dto.legs.length > 0));
+
     // Validate multi-leg requirements
-    if (dto.isMultiLeg && (!dto.legs || dto.legs.length === 0)) {
+    if (isMultiLeg && (!dto.legs || dto.legs.length === 0)) {
       throw new AppError(
         HttpStatus.BAD_REQUEST,
         'Multi-leg transport must have at least one leg',
@@ -120,11 +122,31 @@ export class CreateTransportService {
     }
 
     if (shouldAutoAssignDriver) {
-      const driver = await this.findBestDriver(
-        dto.pickUpLatitude,
-        dto.pickUpLongitude,
-      );
-      selectedDriverId = driver.id;
+      let driverToAssign: string | null = null;
+
+      // For multi-leg transports, if a driver is provided in the first leg, use it
+      if (isMultiLeg && dto.legs && dto.legs.length > 0) {
+        const sortedLegs = [...dto.legs].sort(
+          (a, b) => a.sequenceOrder - b.sequenceOrder,
+        );
+        const firstLegDriverId = this.normalizeSelectionValue(
+          sortedLegs[0].driverId,
+        );
+
+        if (firstLegDriverId && !this.isAnyoneSelection(firstLegDriverId)) {
+          driverToAssign = firstLegDriverId;
+        }
+      }
+
+      if (driverToAssign) {
+        selectedDriverId = driverToAssign;
+      } else {
+        const driver = await this.findBestDriver(
+          dto.pickUpLatitude,
+          dto.pickUpLongitude,
+        );
+        selectedDriverId = driver.id;
+      }
     }
 
     if (isVetClearanceRequired && shouldAutoAssignVet) {
@@ -194,7 +216,7 @@ export class CreateTransportService {
     }
 
     // Validate leg drivers if multi-leg
-    if (dto.isMultiLeg && dto.legs) {
+    if (isMultiLeg && dto.legs) {
       const legDriverIds = dto.legs
         .map((leg) => leg.driverId)
         .filter((id): id is string => !!id);
@@ -220,7 +242,7 @@ export class CreateTransportService {
 
     // Build legs create data for multi-leg transports
     const legsCreateData =
-      dto.isMultiLeg && dto.legs
+      isMultiLeg && dto.legs
         ? {
             create: dto.legs
               .sort((a, b) => a.sequenceOrder - b.sequenceOrder)
@@ -272,10 +294,10 @@ export class CreateTransportService {
 
         vetClearanceRequestId,
         status: TransportStatus.SCHEDULED,
-        isMultiLeg: dto.isMultiLeg ?? false,
+        isMultiLeg: isMultiLeg,
         legs: legsCreateData,
       },
-      include: dto.isMultiLeg
+      include: isMultiLeg
         ? { legs: { orderBy: { sequenceOrder: 'asc' } } }
         : undefined,
     });
