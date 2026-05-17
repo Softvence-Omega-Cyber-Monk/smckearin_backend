@@ -45,16 +45,17 @@ export class GetSingleTransportService {
 
     let status = transport.status as string;
 
+    let currentDriverId: string | null = null;
     if (transport.isMultiLeg && authUser && authUser.role === 'DRIVER') {
       const driverObj = await this.prisma.client.driver.findUnique({
         where: { userId: authUser.sub },
       });
       if (driverObj) {
+        currentDriverId = driverObj.id;
         const myLeg = transport.legs.find(
           (leg) => leg.driverId === driverObj.id,
         );
         if (myLeg) {
-          legsData = [myLeg];
           pickUpLocation = myLeg.pickUpLocation;
           pickUpLatitude = myLeg.pickUpLatitude;
           pickUpLongitude = myLeg.pickUpLongitude;
@@ -174,14 +175,17 @@ export class GetSingleTransportService {
               latitude: leg.dropOffLatitude,
               longitude: leg.dropOffLongitude,
             },
-            driver: leg.driver
-              ? {
-                  id: leg.driver.id,
-                  name: leg.driver.user?.name ?? null,
-                  email: leg.driver.user?.email ?? null,
-                  profilePictureUrl: leg.driver.user?.profilePictureUrl ?? null,
-                }
-              : null,
+            driver:
+              leg.driver &&
+              (authUser?.role !== 'DRIVER' || leg.driverId === currentDriverId)
+                ? {
+                    id: leg.driver.id,
+                    name: leg.driver.user?.name ?? null,
+                    email: leg.driver.user?.email ?? null,
+                    profilePictureUrl:
+                      leg.driver.user?.profilePictureUrl ?? null,
+                  }
+                : null,
             actualPickUpAt: leg.actualPickUpAt,
             actualDropOffAt: leg.actualDropOffAt,
             createdAt: leg.createdAt,
