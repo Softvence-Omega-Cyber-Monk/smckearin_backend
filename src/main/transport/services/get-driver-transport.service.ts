@@ -97,84 +97,18 @@ export class GetDriverTransportService {
     };
   }
 
-  private formatTransport(
-    t: any,
-    driverId?: string,
-    locationParams?: {
-      latMin: number;
-      latMax: number;
-      lonMin: number;
-      lonMax: number;
-    },
-  ) {
+  private formatTransport(t: any, driverId?: string) {
     let pickUpLocation = t.pickUpLocation;
     let dropOffLocation = t.dropOffLocation;
     let status = t.status;
     const isMultiLeg = t.isMultiLeg || false;
-    let legsData: any[] = [];
 
-    if (isMultiLeg && t.legs) {
-      let myLeg: any = null;
-
-      if (driverId) {
-        myLeg = t.legs.find((leg: any) => leg.driverId === driverId);
-      }
-
-      if (!myLeg && locationParams) {
-        const { latMin, latMax, lonMin, lonMax } = locationParams;
-        myLeg = t.legs.find(
-          (leg: any) =>
-            !leg.driverId &&
-            ['PENDING', 'SCHEDULED'].includes(leg.status) &&
-            leg.pickUpLatitude >= latMin &&
-            leg.pickUpLatitude <= latMax &&
-            leg.pickUpLongitude >= lonMin &&
-            leg.pickUpLongitude <= lonMax,
-        );
-      }
-
-      // Fallback
-      if (!myLeg) {
-        myLeg = t.legs.find(
-          (leg: any) =>
-            !leg.driverId && ['PENDING', 'SCHEDULED'].includes(leg.status),
-        );
-      }
-
+    if (isMultiLeg && t.legs && driverId) {
+      const myLeg = t.legs.find((leg: any) => leg.driverId === driverId);
       if (myLeg) {
         pickUpLocation = myLeg.pickUpLocation;
         dropOffLocation = myLeg.dropOffLocation;
         status = myLeg.status;
-        legsData = [
-          {
-            id: myLeg.id,
-            sequenceOrder: myLeg.sequenceOrder,
-            status: myLeg.status,
-            pickUp: {
-              location: myLeg.pickUpLocation,
-              latitude: myLeg.pickUpLatitude,
-              longitude: myLeg.pickUpLongitude,
-            },
-            dropOff: {
-              location: myLeg.dropOffLocation,
-              latitude: myLeg.dropOffLatitude,
-              longitude: myLeg.dropOffLongitude,
-            },
-            driver: myLeg.driver
-              ? {
-                  id: myLeg.driver.id,
-                  name: myLeg.driver.user?.name ?? null,
-                  email: myLeg.driver.user?.email ?? null,
-                  profilePictureUrl:
-                    myLeg.driver.user?.profilePictureUrl ?? null,
-                }
-              : null,
-            actualPickUpAt: myLeg.actualPickUpAt,
-            actualDropOffAt: myLeg.actualDropOffAt,
-            createdAt: myLeg.createdAt,
-            updatedAt: myLeg.updatedAt,
-          },
-        ];
       }
     }
 
@@ -191,7 +125,6 @@ export class GetDriverTransportService {
       status,
       transportDate: t.transPortDate,
       isMultiLeg,
-      legs: legsData,
     };
   }
 
@@ -211,38 +144,11 @@ export class GetDriverTransportService {
     const deltaLon = radiusKm / (111 * Math.cos((latitude * Math.PI) / 180));
 
     const where: Prisma.TransportWhereInput = {
-      OR: [
-        {
-          isMultiLeg: false,
-          OR: [{ driverId: null }, { driverId: driver.id }],
-          status: { in: [TransportStatus.PENDING, TransportStatus.SCHEDULED] },
-          pickUpLatitude: {
-            gte: latitude - deltaLat,
-            lte: latitude + deltaLat,
-          },
-          pickUpLongitude: {
-            gte: longitude - deltaLon,
-            lte: longitude + deltaLon,
-          },
-        },
-        {
-          isMultiLeg: true,
-          legs: {
-            some: {
-              OR: [{ driverId: null }, { driverId: driver.id }],
-              status: { in: ['PENDING', 'SCHEDULED'] },
-              pickUpLatitude: {
-                gte: latitude - deltaLat,
-                lte: latitude + deltaLat,
-              },
-              pickUpLongitude: {
-                gte: longitude - deltaLon,
-                lte: longitude + deltaLon,
-              },
-            },
-          },
-        },
-      ],
+      isMultiLeg: false,
+      OR: [{ driverId: null }, { driverId: driver.id }],
+      status: { in: [TransportStatus.PENDING, TransportStatus.SCHEDULED] },
+      pickUpLatitude: { gte: latitude - deltaLat, lte: latitude + deltaLat },
+      pickUpLongitude: { gte: longitude - deltaLon, lte: longitude + deltaLon },
     };
 
     this.applySearch(where, dto.search);
@@ -254,23 +160,13 @@ export class GetDriverTransportService {
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: {
-          animals: true,
-          legs: { include: { driver: { include: { user: true } } } },
-        },
+        include: { animals: true, legs: true },
       }),
       this.prisma.client.transport.count({ where }),
     ]);
 
-    const locationParams = {
-      latMin: latitude - deltaLat,
-      latMax: latitude + deltaLat,
-      lonMin: longitude - deltaLon,
-      lonMax: longitude + deltaLon,
-    };
-
     return successPaginatedResponse(
-      transports.map((t) => this.formatTransport(t, driver.id, locationParams)),
+      transports.map((t) => this.formatTransport(t, driver.id)),
       { page, limit, total },
       'Transports fetched',
     );
@@ -326,10 +222,7 @@ export class GetDriverTransportService {
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: {
-          animals: true,
-          legs: { include: { driver: { include: { user: true } } } },
-        },
+        include: { animals: true, legs: true },
       }),
       this.prisma.client.transport.count({ where }),
     ]);
@@ -377,10 +270,7 @@ export class GetDriverTransportService {
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: {
-          animals: true,
-          legs: { include: { driver: { include: { user: true } } } },
-        },
+        include: { animals: true, legs: true },
       }),
       this.prisma.client.transport.count({ where }),
     ]);
@@ -430,7 +320,7 @@ export class GetDriverTransportService {
         orderBy: { transPortDate: 'desc' },
         include: {
           animals: true,
-          legs: { include: { driver: { include: { user: true } } } },
+          legs: true,
           vet: { include: { user: true } },
           shelter: true,
         },
