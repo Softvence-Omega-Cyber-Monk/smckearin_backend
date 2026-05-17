@@ -27,7 +27,7 @@ model Shelter {
   managers      User[] @relation("Managers")
 
   // Animals in the shelter
-  animals Animal[]
+  animals               Animal[]
   fosterAnimalInterests FosterAnimalInterest[]
   fosterRequests        FosterRequest[]
 
@@ -61,8 +61,8 @@ model Shelter {
   destinationBatches TransportBatch[] @relation("DestinationBatches")
 
   // Conversations (Shelter as a participant)
-  conversations PrivateConversation[] @relation("ShelterConversations")
-  operationEvents OperationEvent[]
+  conversations     PrivateConversation[] @relation("ShelterConversations")
+  operationEvents   OperationEvent[]
   priorityScoreLogs PriorityScoreLog[]
   adoptions         Adoption[]
 

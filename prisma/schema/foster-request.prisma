@@ -5,21 +5,21 @@ model FosterRequest {
   animal   Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
 
   fosterUserId String?
-  fosterUser   User? @relation("UserFosterRequests", fields: [fosterUserId], references: [id], onDelete: SetNull)
+  fosterUser   User?   @relation("UserFosterRequests", fields: [fosterUserId], references: [id], onDelete: SetNull)
 
   shelterId String
   shelter   Shelter @relation(fields: [shelterId], references: [id], onDelete: Cascade)
 
   status FosterRequestStatus @default(REQUESTED)
 
-  requestedAt DateTime @default(now())
-  canceledAt DateTime?
+  requestedAt  DateTime  @default(now())
+  canceledAt   DateTime?
   deliveryTime DateTime?
 
   estimateTransportDate      DateTime?
   estimateTransportTimeStart String?
   estimateTransportTimeEnd   String?
-  spayNeuterAvailable        Boolean  @default(false)
+  spayNeuterAvailable        Boolean   @default(false)
   spayNeuterDate             DateTime?
   spayNeuterNextDate         DateTime?
   lastCheckupDate            DateTime?

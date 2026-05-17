@@ -17,13 +17,13 @@ model FosterAnimalInterest {
   receivingAddress String
   receivingPhone   String
 
-  status FosterInterestStatus @default(INTERESTED)
-  reviewedAt  DateTime?
+  status     FosterInterestStatus @default(INTERESTED)
+  reviewedAt DateTime?
   canceledAt DateTime?
 
   arrivalProof ArrivalProof?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
 
   @@index([fosterId, status])
   @@index([animalId, status])

@@ -8,10 +8,10 @@ model PriorityScoreLog {
   shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: SetNull)
 
   formulaVersion String
-  score Float
+  score          Float
 
-  breakdown Json
-  details   String[]
+  breakdown     Json
+  details       String[]
   inputSnapshot Json
 
   triggerType PriorityScoreTriggerType @default(SYSTEM)
@@ -28,4 +28,3 @@ enum PriorityScoreTriggerType {
   CRON
   SYSTEM
 }
-

@@ -5,7 +5,7 @@ model OperationEvent {
   action String
   status OperationStatus
 
-  correlationId String?
+  correlationId  String?
   idempotencyKey String?
 
   entityType String?
@@ -18,7 +18,7 @@ model OperationEvent {
   shelter   Shelter? @relation(fields: [shelterId], references: [id], onDelete: SetNull)
 
   userId String?
-  user   User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   animalId String?
   animal   Animal? @relation(fields: [animalId], references: [id], onDelete: SetNull)
@@ -49,4 +49,3 @@ enum OperationStatus {
   FAILURE
   DUPLICATE
 }
-

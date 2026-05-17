@@ -2,13 +2,13 @@ model PaymentSettings {
   id String @id @default(uuid())
 
   // Global Feature Flags
-  driverPaymentsEnabled       Boolean @default(false)
+  driverPaymentsEnabled      Boolean @default(false)
   shelterPaymentEnabled      Boolean @default(false)
   veterinarianPaymentEnabled Boolean @default(false)
   fosterPaymentEnabled       Boolean @default(false)
   adopterPaymentEnabled      Boolean @default(false)
-  platformFeesEnabled         Boolean @default(false)
-  timeBasedPricingEnabled     Boolean @default(false)
+  platformFeesEnabled        Boolean @default(false)
+  timeBasedPricingEnabled    Boolean @default(false)
 
   // Payout
   paymentMode    PaymentMode @default(VOLUNTEER)

@@ -1101,8 +1101,9 @@ enum MessageDeliveryStatus {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/client"
+  provider        = "prisma-client-js"
+  output          = "../generated/client"
+  previewFeatures = ["prismaSchemaFolder"]
 }
 
 datasource db {
@@ -1391,6 +1392,8 @@ enum TransportLegStatus {
   DELIVERED
   COMPLETED
   CANCELED
+  SCHEDULED
+  ACCEPTED
 }
 
 model TransportLeg {

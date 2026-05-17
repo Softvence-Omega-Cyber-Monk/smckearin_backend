@@ -6,6 +6,8 @@ enum TransportLegStatus {
   DELIVERED
   COMPLETED
   CANCELED
+  SCHEDULED
+  ACCEPTED
 }
 
 model TransportLeg {

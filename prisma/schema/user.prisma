@@ -48,7 +48,7 @@ model User {
   drivers Driver?
 
   // Foster
-  fosters Foster?
+  fosters        Foster?
   fosterRequests FosterRequest[] @relation("UserFosterRequests")
 
   // Adopter

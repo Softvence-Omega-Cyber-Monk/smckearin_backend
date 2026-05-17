@@ -17,11 +17,11 @@ model Transport {
   manualDurationMinutes Float?
   vehicleName           String?
 
-  cancellationRequestStatus         CancellationRequestStatus?
-  cancellationRequestReason         String?
-  cancellationRequestReviewNote     String?
-  cancellationRequestedAt           DateTime?
-  cancellationRequestReviewedAt     DateTime?
+  cancellationRequestStatus     CancellationRequestStatus?
+  cancellationRequestReason     String?
+  cancellationRequestReviewNote String?
+  cancellationRequestedAt       DateTime?
+  cancellationRequestReviewedAt DateTime?
 
   transPortDate DateTime
 
@@ -57,7 +57,7 @@ model Transport {
   transportTimelines TransportTimeline[]
   chatConversations  PrivateConversation[] @relation("TransportConversation")
 
-  isMultiLeg Boolean @default(false)
+  isMultiLeg Boolean        @default(false)
   legs       TransportLeg[]
 
   createdAt   DateTime  @default(now())
