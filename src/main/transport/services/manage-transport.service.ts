@@ -192,6 +192,8 @@ export class ManageTransportService {
         id: true,
         driverId: true,
         status: true,
+        isMultiLeg: true,
+        legs: { select: { driverId: true } },
       },
     });
 
@@ -200,14 +202,17 @@ export class ManageTransportService {
       select: { id: true },
     });
 
-    if (transport.driverId && transport.driverId !== driver.id) {
+    const isTransportDriver = transport.driverId === driver.id;
+    const isLegDriver = transport.isMultiLeg && transport.legs.some((leg) => leg.driverId === driver.id);
+
+    if (transport.driverId && !isTransportDriver && !isLegDriver) {
       throw new AppError(
         HttpStatus.FORBIDDEN,
         'You are not allowed to modify this transport',
       );
     }
 
-    if (!transport.driverId && !dto.approved) {
+    if (!transport.driverId && !isLegDriver && !dto.approved) {
       throw new AppError(
         HttpStatus.BAD_REQUEST,
         'Unassigned transport can only be accepted',
@@ -216,6 +221,7 @@ export class ManageTransportService {
 
     if (
       !transport.driverId &&
+      !isLegDriver &&
       transport.status !== TransportStatus.PENDING &&
       transport.status !== TransportStatus.SCHEDULED
     ) {
@@ -225,10 +231,14 @@ export class ManageTransportService {
       );
     }
 
+    const updatedDriverId = transport.isMultiLeg
+      ? transport.driverId
+      : (transport.driverId ?? driver.id);
+
     const updated = await this.prisma.client.transport.update({
       where: { id: transportId },
       data: {
-        driverId: transport.driverId ?? driver.id,
+        driverId: updatedDriverId,
         status: dto.approved
           ? TransportStatus.ACCEPTED
           : TransportStatus.CANCELED,
