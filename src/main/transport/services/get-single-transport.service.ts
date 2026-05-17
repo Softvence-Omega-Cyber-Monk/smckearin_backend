@@ -34,7 +34,7 @@ export class GetSingleTransportService {
       },
     });
 
-    let legsData = transport.isMultiLeg ? transport.legs : [];
+    const legsData = transport.isMultiLeg ? transport.legs : [];
     let pickUpLocation = transport.pickUpLocation;
     let pickUpLatitude = transport.pickUpLatitude;
     let pickUpLongitude = transport.pickUpLongitude;
