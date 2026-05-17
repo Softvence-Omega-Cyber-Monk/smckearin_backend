@@ -193,11 +193,18 @@ export class GetDriverTransportService {
         },
         {
           isMultiLeg: true,
+          status: {
+            in: [
+              TransportStatus.ACCEPTED,
+              TransportStatus.PICKED_UP,
+              TransportStatus.IN_TRANSIT,
+            ],
+          },
           legs: {
             some: {
               driverId: driver.id,
               status: {
-                in: ['PICKED_UP', 'IN_TRANSIT'],
+                in: ['PENDING', 'ASSIGNED', 'PICKED_UP', 'IN_TRANSIT'],
               },
             },
           },
@@ -242,6 +249,7 @@ export class GetDriverTransportService {
         },
         {
           isMultiLeg: true,
+          status: { in: [TransportStatus.PENDING, TransportStatus.SCHEDULED] },
           legs: {
             some: {
               driverId: driver.id,
