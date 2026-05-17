@@ -203,7 +203,9 @@ export class ManageTransportService {
     });
 
     const isTransportDriver = transport.driverId === driver.id;
-    const isLegDriver = transport.isMultiLeg && transport.legs.some((leg) => leg.driverId === driver.id);
+    const isLegDriver =
+      transport.isMultiLeg &&
+      transport.legs.some((leg) => leg.driverId === driver.id);
 
     if (transport.driverId && !isTransportDriver && !isLegDriver) {
       throw new AppError(
