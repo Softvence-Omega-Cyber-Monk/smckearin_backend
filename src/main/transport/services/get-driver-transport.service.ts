@@ -28,10 +28,14 @@ export class GetDriverTransportService {
       OR: [
         { transportNote: { contains: search, mode: 'insensitive' } },
         {
-          animals: { some: { name: { contains: search, mode: 'insensitive' } } },
+          animals: {
+            some: { name: { contains: search, mode: 'insensitive' } },
+          },
         },
         {
-          animals: { some: { breed: { contains: search, mode: 'insensitive' } } },
+          animals: {
+            some: { breed: { contains: search, mode: 'insensitive' } },
+          },
         },
         { vet: { user: { name: { contains: search, mode: 'insensitive' } } } },
         { shelter: { name: { contains: search, mode: 'insensitive' } } },
