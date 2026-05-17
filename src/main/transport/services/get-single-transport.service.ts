@@ -65,6 +65,10 @@ export class GetSingleTransportService {
           dropOffLongitude = myLeg.dropOffLongitude;
 
           status = myLeg.status as string;
+
+          if (myLeg.driver) {
+            transport.driver = myLeg.driver as any;
+          }
         }
       }
     }
