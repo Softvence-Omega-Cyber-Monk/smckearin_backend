@@ -101,7 +101,7 @@ export class GetDriverTransportService {
     let pickUpLocation = t.pickUpLocation;
     let dropOffLocation = t.dropOffLocation;
     let status = t.status;
-    let isMultiLeg = t.isMultiLeg || false;
+    const isMultiLeg = t.isMultiLeg || false;
 
     if (isMultiLeg && t.legs && driverId) {
       const myLeg = t.legs.find((leg: any) => leg.driverId === driverId);
