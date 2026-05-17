@@ -24,22 +24,34 @@ export class GetDriverTransportService {
   private applySearch(where: Prisma.TransportWhereInput, search?: string) {
     if (!search) return;
 
-    where.OR = [
-      { transportNote: { contains: search, mode: 'insensitive' } },
-      {
-        animals: { some: { name: { contains: search, mode: 'insensitive' } } },
-      },
-      {
-        animals: { some: { breed: { contains: search, mode: 'insensitive' } } },
-      },
-      { vet: { user: { name: { contains: search, mode: 'insensitive' } } } },
-      { shelter: { name: { contains: search, mode: 'insensitive' } } },
-      {
-        driver: {
-          user: { name: { contains: search, mode: 'insensitive' } },
+    const searchCondition: Prisma.TransportWhereInput = {
+      OR: [
+        { transportNote: { contains: search, mode: 'insensitive' } },
+        {
+          animals: { some: { name: { contains: search, mode: 'insensitive' } } },
         },
-      },
-    ];
+        {
+          animals: { some: { breed: { contains: search, mode: 'insensitive' } } },
+        },
+        { vet: { user: { name: { contains: search, mode: 'insensitive' } } } },
+        { shelter: { name: { contains: search, mode: 'insensitive' } } },
+        {
+          driver: {
+            user: { name: { contains: search, mode: 'insensitive' } },
+          },
+        },
+      ],
+    };
+
+    if (where.AND) {
+      if (Array.isArray(where.AND)) {
+        where.AND.push(searchCondition);
+      } else {
+        where.AND = [where.AND as any, searchCondition];
+      }
+    } else {
+      where.AND = [searchCondition];
+    }
   }
 
   private applyDateFilter(
@@ -81,19 +93,34 @@ export class GetDriverTransportService {
     };
   }
 
-  private formatTransport(t: any) {
+  private formatTransport(t: any, driverId?: string) {
+    let pickUpLocation = t.pickUpLocation;
+    let dropOffLocation = t.dropOffLocation;
+    let status = t.status;
+    let isMultiLeg = t.isMultiLeg || false;
+
+    if (isMultiLeg && t.legs && driverId) {
+      const myLeg = t.legs.find((leg: any) => leg.driverId === driverId);
+      if (myLeg) {
+        pickUpLocation = myLeg.pickUpLocation;
+        dropOffLocation = myLeg.dropOffLocation;
+        status = myLeg.status;
+      }
+    }
+
     return {
       id: t.id,
       animalName:
-        t.animals.length > 0
-          ? t.animals.map((a: any) => `${a.name} (${a.breed})`).join(', ')
-          : null,
-      pickUpLocation: t.pickUpLocation,
-      dropOffLocation: t.dropOffLocation,
+        t.animals && t.animals.length > 0
+          ? t.animals.map((a: any) => `${a.name} (${a.breed})`)
+          : [],
+      pickUpLocation,
+      dropOffLocation,
       priority: t.priorityLevel,
       transportNote: t.transportNote,
-      status: t.status,
+      status,
       transportDate: t.transPortDate,
+      isMultiLeg,
     };
   }
 
@@ -128,13 +155,13 @@ export class GetDriverTransportService {
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: { animals: true },
+        include: { animals: true, legs: true },
       }),
       this.prisma.client.transport.count({ where }),
     ]);
 
     return successPaginatedResponse(
-      transports.map(this.formatTransport),
+      transports.map((t) => this.formatTransport(t, driver.id)),
       { page, limit, total },
       'Transports fetched',
     );
@@ -149,14 +176,29 @@ export class GetDriverTransportService {
     const { page, limit, skip } = this.getPagination(dto);
 
     const where: Prisma.TransportWhereInput = {
-      driverId: driver.id,
-      status: {
-        in: [
-          TransportStatus.ACCEPTED,
-          TransportStatus.PICKED_UP,
-          TransportStatus.IN_TRANSIT,
-        ],
-      },
+      OR: [
+        {
+          driverId: driver.id,
+          status: {
+            in: [
+              TransportStatus.ACCEPTED,
+              TransportStatus.PICKED_UP,
+              TransportStatus.IN_TRANSIT,
+            ],
+          },
+        },
+        {
+          isMultiLeg: true,
+          legs: {
+            some: {
+              driverId: driver.id,
+              status: {
+                in: ['PICKED_UP', 'IN_TRANSIT'],
+              },
+            },
+          },
+        },
+      ],
     };
 
     this.applySearch(where, dto.search);
@@ -168,13 +210,13 @@ export class GetDriverTransportService {
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: { animals: true },
+        include: { animals: true, legs: true },
       }),
       this.prisma.client.transport.count({ where }),
     ]);
 
     return successPaginatedResponse(
-      transports.map(this.formatTransport),
+      transports.map((t) => this.formatTransport(t, driver.id)),
       { page, limit, total },
       'Active transports fetched',
     );
@@ -189,8 +231,21 @@ export class GetDriverTransportService {
     const { page, limit, skip } = this.getPagination(dto);
 
     const where: Prisma.TransportWhereInput = {
-      driverId: driver.id,
-      status: { in: [TransportStatus.PENDING, TransportStatus.SCHEDULED] },
+      OR: [
+        {
+          driverId: driver.id,
+          status: { in: [TransportStatus.PENDING, TransportStatus.SCHEDULED] },
+        },
+        {
+          isMultiLeg: true,
+          legs: {
+            some: {
+              driverId: driver.id,
+              status: { in: ['PENDING', 'ASSIGNED'] },
+            },
+          },
+        },
+      ],
     };
 
     this.applySearch(where, dto.search);
@@ -202,13 +257,13 @@ export class GetDriverTransportService {
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: { animals: true },
+        include: { animals: true, legs: true },
       }),
       this.prisma.client.transport.count({ where }),
     ]);
 
     return successPaginatedResponse(
-      transports.map(this.formatTransport),
+      transports.map((t) => this.formatTransport(t, driver.id)),
       { page, limit, total },
       'Assigned transports fetched',
     );
@@ -226,7 +281,15 @@ export class GetDriverTransportService {
     const { page, limit, skip } = this.getPagination(dto);
 
     const where: Prisma.TransportWhereInput = {
-      driverId: driver.id,
+      OR: [
+        { driverId: driver.id },
+        {
+          isMultiLeg: true,
+          legs: {
+            some: { driverId: driver.id },
+          },
+        },
+      ],
     };
 
     if (dto.status) {
@@ -244,6 +307,7 @@ export class GetDriverTransportService {
         orderBy: { transPortDate: 'desc' },
         include: {
           animals: true,
+          legs: true,
           vet: { include: { user: true } },
           shelter: true,
         },
@@ -252,7 +316,7 @@ export class GetDriverTransportService {
     ]);
 
     return successPaginatedResponse(
-      transports.map(this.formatTransport),
+      transports.map((t) => this.formatTransport(t, driver.id)),
       { page, limit, total },
       'Driver transport history fetched',
     );
