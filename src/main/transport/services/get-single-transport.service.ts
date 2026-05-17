@@ -1,5 +1,6 @@
 import { successResponse } from '@/common/utils/response.util';
 import { HandleError } from '@/core/error/handle-error.decorator';
+import { JWTPayload } from '@/core/jwt/jwt.interface';
 import { PrismaService } from '@/lib/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
 
@@ -8,7 +9,7 @@ export class GetSingleTransportService {
   constructor(private readonly prisma: PrismaService) {}
 
   @HandleError('Failed to get transport')
-  async getSingleTransport(id: string) {
+  async getSingleTransport(id: string, authUser?: JWTPayload) {
     const transport = await this.prisma.client.transport.findUniqueOrThrow({
       where: { id },
       include: {
@@ -33,12 +34,46 @@ export class GetSingleTransportService {
       },
     });
 
+    let legsData = transport.isMultiLeg ? transport.legs : [];
+    let pickUpLocation = transport.pickUpLocation;
+    let pickUpLatitude = transport.pickUpLatitude;
+    let pickUpLongitude = transport.pickUpLongitude;
+
+    let dropOffLocation = transport.dropOffLocation;
+    let dropOffLatitude = transport.dropOffLatitude;
+    let dropOffLongitude = transport.dropOffLongitude;
+
+    let status = transport.status as string;
+
+    if (transport.isMultiLeg && authUser && authUser.role === 'DRIVER') {
+      const driverObj = await this.prisma.client.driver.findUnique({
+        where: { userId: authUser.sub },
+      });
+      if (driverObj) {
+        const myLeg = transport.legs.find(
+          (leg) => leg.driverId === driverObj.id,
+        );
+        if (myLeg) {
+          legsData = [myLeg];
+          pickUpLocation = myLeg.pickUpLocation;
+          pickUpLatitude = myLeg.pickUpLatitude;
+          pickUpLongitude = myLeg.pickUpLongitude;
+
+          dropOffLocation = myLeg.dropOffLocation;
+          dropOffLatitude = myLeg.dropOffLatitude;
+          dropOffLongitude = myLeg.dropOffLongitude;
+
+          status = myLeg.status as string;
+        }
+      }
+    }
+
     // Transform for frontend-friendly output
     const transformed = {
       id: transport.id,
       transportNote: transport.transportNote,
       priority: transport.priorityLevel,
-      status: transport.status,
+      status: status,
       isMultiLeg: transport.isMultiLeg,
       vetClearanceRequired: transport.isVetClearanceRequired,
       vetClearanceType: transport.vetClearanceType,
@@ -112,20 +147,20 @@ export class GetSingleTransportService {
       // Route info
       route: {
         from: {
-          location: transport.pickUpLocation,
-          latitude: transport.pickUpLatitude,
-          longitude: transport.pickUpLongitude,
+          location: pickUpLocation,
+          latitude: pickUpLatitude,
+          longitude: pickUpLongitude,
         },
         to: {
-          location: transport.dropOffLocation,
-          latitude: transport.dropOffLatitude,
-          longitude: transport.dropOffLongitude,
+          location: dropOffLocation,
+          latitude: dropOffLatitude,
+          longitude: dropOffLongitude,
         },
       },
 
       // Multi-leg info
       legs: transport.isMultiLeg
-        ? transport.legs.map((leg) => ({
+        ? legsData.map((leg) => ({
             id: leg.id,
             sequenceOrder: leg.sequenceOrder,
             status: leg.status,

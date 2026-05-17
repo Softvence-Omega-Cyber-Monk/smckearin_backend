@@ -7,15 +7,15 @@ model ImportJob {
   mappingTemplateId String?
   mappingTemplate   ImportMapping? @relation(fields: [mappingTemplateId], references: [id], onDelete: SetNull)
 
-  sourceType ImportSourceType @default(CSV)
+  sourceType     ImportSourceType @default(CSV)
   sourceFileName String?
   sourceChecksum String?
-  fileSizeBytes   Int?
+  fileSizeBytes  Int?
 
   idempotencyKey String @unique
 
   requestedByUserId String?
-  requestedByUser   User? @relation("ImportJobRequestedBy", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+  requestedByUser   User?   @relation("ImportJobRequestedBy", fields: [requestedByUserId], references: [id], onDelete: SetNull)
 
   status ImportJobStatus @default(PENDING)
 
@@ -48,11 +48,11 @@ model ImportRow {
   importJobId String
   importJob   ImportJob @relation(fields: [importJobId], references: [id], onDelete: Cascade)
 
-  rowNumber Int
-  rawData   Json
+  rowNumber  Int
+  rawData    Json
   mappedData Json?
 
-  action ImportRowAction
+  action     ImportRowAction
   entityType String?
   entityId   String?
 
@@ -84,4 +84,3 @@ enum ImportRowAction {
   SKIPPED
   ERROR
 }
-

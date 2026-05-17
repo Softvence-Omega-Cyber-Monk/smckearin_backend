@@ -16,8 +16,15 @@ import {
   Patch,
   Post,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import {
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import {
   RequestTransportCancellationDto,
   ReviewTransportCancellationDto,
@@ -173,8 +180,14 @@ export class TransportController {
   @ApiOperation({ summary: 'Get single transport' })
   @ValidateAuth()
   @Get('single/:id')
-  async getSingleTransport(@Param('id') transportId: string) {
-    return this.getSingleTransportService.getSingleTransport(transportId);
+  async getSingleTransport(
+    @GetUser() authUser: JWTPayload,
+    @Param('id') transportId: string,
+  ) {
+    return this.getSingleTransportService.getSingleTransport(
+      transportId,
+      authUser,
+    );
   }
 
   // ── Multi-Leg Endpoints ──────────────────────────────────
@@ -197,6 +210,8 @@ export class TransportController {
   }
 
   @ApiOperation({ summary: 'Update transport leg status (driver)' })
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(AnyFilesInterceptor())
   @ValidateDriver()
   @Patch('legs/:legId/status')
   async updateLegStatus(

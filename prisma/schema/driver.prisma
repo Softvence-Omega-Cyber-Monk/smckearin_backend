@@ -52,8 +52,8 @@ model Driver {
   payoutEnabled    Boolean          @default(false)
 
   // Transports
-  transports    Transport[]
-  transportLegs TransportLeg[]
+  transports     Transport[]
+  transportLegs  TransportLeg[]
   dailySchedules DailySchedule[]
 
   createdAt DateTime @default(now())

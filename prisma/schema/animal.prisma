@@ -1,5 +1,5 @@
 model Animal {
-  id String @id @default(uuid())
+  id  String  @id @default(uuid())
   sid String? @unique
 
   name  String
@@ -33,8 +33,8 @@ model Animal {
   image    FileInstance? @relation(fields: [imageId], references: [id], onDelete: SetNull)
 
   // Transports
-  transports             Transport[] @relation("TransportAnimals")
-  transportsAsBondedPair Transport[] @relation("BondedPair")
+  transports             Transport[]            @relation("TransportAnimals")
+  transportsAsBondedPair Transport[]            @relation("BondedPair")
   fosterAnimalInterests  FosterAnimalInterest[]
   fosterRequests         FosterRequest[]
 
