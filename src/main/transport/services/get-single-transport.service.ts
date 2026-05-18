@@ -34,7 +34,7 @@ export class GetSingleTransportService {
       },
     });
 
-    const legsData = transport.isMultiLeg ? transport.legs : [];
+    let legsData = transport.isMultiLeg ? transport.legs : [];
     let pickUpLocation = transport.pickUpLocation;
     let pickUpLatitude = transport.pickUpLatitude;
     let pickUpLongitude = transport.pickUpLongitude;
@@ -52,6 +52,7 @@ export class GetSingleTransportService {
       });
       if (driverObj) {
         currentDriverId = driverObj.id;
+        legsData = legsData.filter((leg) => leg.driverId === driverObj.id);
         const myLeg = transport.legs.find(
           (leg) => leg.driverId === driverObj.id,
         );
