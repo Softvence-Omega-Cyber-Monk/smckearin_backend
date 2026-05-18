@@ -137,11 +137,15 @@ export class ShelterFosterRequestService {
             status === 'APPROVED' || interestStatus === 'APPROVED';
           // Filter out if it's already scheduled/in-transit (those belong in SCHEDULED case)
           const isScheduled =
-            status === 'SCHEDULED' || item.transportId !== null;
+            status === 'SCHEDULED' ||
+            (item.transportId !== null && item.transportId !== undefined);
           return isApproved && !isScheduled;
         }
         case 'SCHEDULED':
-          return status === 'SCHEDULED' || item.transportId !== null;
+          return (
+            status === 'SCHEDULED' ||
+            (item.transportId !== null && item.transportId !== undefined)
+          );
         case 'COMPLETED':
           return (
             status === 'DELIVERED' ||
@@ -1072,6 +1076,7 @@ export class ShelterFosterRequestService {
       status,
       displayStatus: this.toDisplayStatus(request.status),
       canCreateTransport: request.status === FosterRequestStatus.APPROVED,
+      transportId: request.transportId ?? request.transport?.id ?? null,
       animal: request.animal
         ? {
             id: request.animal.id,
