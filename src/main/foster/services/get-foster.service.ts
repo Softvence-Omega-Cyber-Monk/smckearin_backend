@@ -486,10 +486,11 @@ export class GetFosterService {
   }
 
   private toDisplayStatus(status: FosterRequestStatus) {
-    const raw = status === FosterRequestStatus.DELIVERED ||
+    const raw =
+      status === FosterRequestStatus.DELIVERED ||
       status === FosterRequestStatus.COMPLETED
-      ? 'completed'
-      : this.toClientStatus(status);
+        ? 'completed'
+        : this.toClientStatus(status);
     return raw.charAt(0).toUpperCase() + raw.slice(1);
   }
 
