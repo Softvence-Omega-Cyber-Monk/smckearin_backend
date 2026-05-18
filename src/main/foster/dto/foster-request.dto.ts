@@ -1,6 +1,6 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
@@ -27,6 +27,16 @@ export class GetShelterFosterRequestsDto extends PaginationDto {
     description: 'Filter foster requests by category.',
   })
   @IsOptional()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      const normalized = value.trim().toUpperCase();
+      if (normalized === 'CANCELLED' || normalized === 'CANCELED') {
+        return 'CANCELED';
+      }
+      return normalized;
+    }
+    return value;
+  })
   @IsString()
   status?: string;
 
