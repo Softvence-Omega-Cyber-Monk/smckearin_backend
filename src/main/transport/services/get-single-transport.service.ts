@@ -54,11 +54,11 @@ export class GetSingleTransportService {
       if (driverObj) {
         currentDriverId = driverObj.id;
         legsData = legsData.filter((leg) => leg.driverId === driverObj.id);
-        
+
         const driverLegIndices = transport.legs
           .map((leg, index) => (leg.driverId === driverObj.id ? index : -1))
           .filter((index) => index !== -1);
-          
+
         animalsData = transport.animals.filter((_, index) =>
           driverLegIndices.includes(index),
         );
