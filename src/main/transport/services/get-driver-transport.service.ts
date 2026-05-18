@@ -197,6 +197,7 @@ export class GetDriverTransportService {
     const where: Prisma.TransportWhereInput = {
       OR: [
         {
+          isMultiLeg: false,
           driverId: driver.id,
           status: {
             in: [
@@ -261,6 +262,7 @@ export class GetDriverTransportService {
     const where: Prisma.TransportWhereInput = {
       OR: [
         {
+          isMultiLeg: false,
           driverId: driver.id,
           status: { in: [TransportStatus.PENDING, TransportStatus.SCHEDULED] },
         },
