@@ -102,21 +102,35 @@ export class GetDriverTransportService {
     let dropOffLocation = t.dropOffLocation;
     let status = t.status;
     const isMultiLeg = t.isMultiLeg || false;
+    let animalsData = t.animals || [];
 
     if (isMultiLeg && t.legs && driverId) {
-      const myLeg = t.legs.find((leg: any) => leg.driverId === driverId);
+      const sortedLegs = [...t.legs].sort(
+        (a: any, b: any) => a.sequenceOrder - b.sequenceOrder,
+      );
+      const myLeg = sortedLegs.find((leg: any) => leg.driverId === driverId);
       if (myLeg) {
         pickUpLocation = myLeg.pickUpLocation;
         dropOffLocation = myLeg.dropOffLocation;
         status = myLeg.status;
       }
+
+      const driverLegIndices = sortedLegs
+        .map((leg: any, index: number) =>
+          leg.driverId === driverId ? index : -1,
+        )
+        .filter((index: number) => index !== -1);
+
+      animalsData = animalsData.filter((_: any, index: number) =>
+        driverLegIndices.includes(index),
+      );
     }
 
     return {
       id: t.id,
       animalName:
-        t.animals && t.animals.length > 0
-          ? t.animals.map((a: any) => `${a.name} (${a.breed})`)
+        animalsData && animalsData.length > 0
+          ? animalsData.map((a: any) => `${a.name} (${a.breed})`)
           : [],
       pickUpLocation,
       dropOffLocation,
@@ -196,6 +210,8 @@ export class GetDriverTransportService {
           isMultiLeg: true,
           status: {
             in: [
+              TransportStatus.PENDING,
+              TransportStatus.SCHEDULED,
               TransportStatus.ACCEPTED,
               TransportStatus.PICKED_UP,
               TransportStatus.IN_TRANSIT,
@@ -205,7 +221,7 @@ export class GetDriverTransportService {
             some: {
               driverId: driver.id,
               status: {
-                in: ['PENDING', 'ASSIGNED', 'PICKED_UP', 'IN_TRANSIT'],
+                in: ['ACCEPTED', 'PICKED_UP', 'IN_TRANSIT'],
               },
             },
           },

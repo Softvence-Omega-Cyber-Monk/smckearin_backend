@@ -90,6 +90,10 @@ export class LegManagementService {
       updateData.actualDropOffAt = new Date();
     }
 
+    if (dto.status === TransportLegStatus.CANCELED) {
+      updateData.driverId = null;
+    }
+
     const updatedLeg = await this.prisma.client.transportLeg.update({
       where: { id: legId },
       data: updateData,
