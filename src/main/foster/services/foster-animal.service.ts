@@ -1339,10 +1339,49 @@ export class FosterAnimalService {
     };
   }
 
+  private getFosterRequestStatusFromRequest(
+    request: any,
+  ): FosterRequestViewStatus {
+    const transport = request.transport;
+    if (transport?.status === TransportStatus.CANCELED) {
+      return FosterRequestViewStatus.CANCELED;
+    }
+    if (transport?.status === TransportStatus.COMPLETED) {
+      return FosterRequestViewStatus.COMPLETED;
+    }
+    if (
+      transport &&
+      [
+        TransportStatus.PENDING,
+        TransportStatus.SCHEDULED,
+        TransportStatus.ACCEPTED,
+        TransportStatus.PICKED_UP,
+        TransportStatus.IN_TRANSIT,
+      ].includes(transport.status)
+    ) {
+      return FosterRequestViewStatus.SCHEDULED;
+    }
+
+    const status = request.status;
+    if (status === FosterRequestStatus.CANCELED) {
+      return FosterRequestViewStatus.CANCELED;
+    }
+    if (
+      status === FosterRequestStatus.DELIVERED ||
+      status === FosterRequestStatus.COMPLETED
+    ) {
+      return FosterRequestViewStatus.COMPLETED;
+    }
+    if (status === FosterRequestStatus.APPROVED) {
+      return FosterRequestViewStatus.APPROVED;
+    }
+    return FosterRequestViewStatus.INTERESTED;
+  }
+
   private formatRequestItemFromShelter(request: any) {
     return {
       id: request.id,
-      status: request.status,
+      status: this.getFosterRequestStatusFromRequest(request),
       interestStatus: null,
       createdAt: request.createdAt,
       canceledAt: request.canceledAt ?? null,

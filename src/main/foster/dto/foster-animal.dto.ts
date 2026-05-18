@@ -145,6 +145,16 @@ export class GetFosterRequestsDto extends PaginationDto {
       'Filter by request status as shown to foster users, including scheduled, completed, and canceled',
   })
   @IsOptional()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      const normalized = value.trim().toUpperCase();
+      if (normalized === 'CANCELLED' || normalized === 'CANCELED') {
+        return FosterRequestViewStatus.CANCELED;
+      }
+      return normalized as FosterRequestViewStatus;
+    }
+    return value;
+  })
   @IsEnum(FosterRequestViewStatus)
   status?: FosterRequestViewStatus;
 }

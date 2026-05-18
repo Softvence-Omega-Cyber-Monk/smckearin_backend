@@ -124,8 +124,8 @@ export class ShelterFosterRequestService {
     if (filter === 'ALL') return items;
 
     return items.filter((item) => {
-      const status = item.status.toUpperCase();
-      const interestStatus = item.interestStatus?.toUpperCase();
+      const status = item.status?.toUpperCase() || '';
+      const interestStatus = item.interestStatus?.toUpperCase() || '';
 
       switch (filter) {
         case 'REQUESTS':
@@ -977,10 +977,12 @@ export class ShelterFosterRequestService {
   }
 
   private toDisplayStatus(status: FosterRequestStatus) {
-    return status === FosterRequestStatus.DELIVERED ||
+    const raw =
+      status === FosterRequestStatus.DELIVERED ||
       status === FosterRequestStatus.COMPLETED
-      ? 'completed'
-      : this.toClientStatus(status);
+        ? 'completed'
+        : this.toClientStatus(status);
+    return raw.charAt(0).toUpperCase() + raw.slice(1);
   }
 
   private validateCreatePayload() {
