@@ -46,6 +46,7 @@ export class GetSingleTransportService {
     let status = transport.status as string;
 
     let currentDriverId: string | null = null;
+    let animalsData = transport.animals;
     if (transport.isMultiLeg && authUser && authUser.role === 'DRIVER') {
       const driverObj = await this.prisma.client.driver.findUnique({
         where: { userId: authUser.sub },
@@ -53,6 +54,15 @@ export class GetSingleTransportService {
       if (driverObj) {
         currentDriverId = driverObj.id;
         legsData = legsData.filter((leg) => leg.driverId === driverObj.id);
+
+        const driverLegIndices = transport.legs
+          .map((leg, index) => (leg.driverId === driverObj.id ? index : -1))
+          .filter((index) => index !== -1);
+
+        animalsData = transport.animals.filter((_, index) =>
+          driverLegIndices.includes(index),
+        );
+
         const myLeg = transport.legs.find(
           (leg) => leg.driverId === driverObj.id,
         );
@@ -85,7 +95,7 @@ export class GetSingleTransportService {
       vetClearanceType: transport.vetClearanceType,
 
       // Animals info
-      animals: transport.animals.map((a) => ({
+      animals: animalsData.map((a) => ({
         id: a.id,
         sid: a.sid,
         name: a.name,
