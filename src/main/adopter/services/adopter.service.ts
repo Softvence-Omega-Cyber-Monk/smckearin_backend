@@ -623,7 +623,7 @@ export class AdopterService {
         location:
           shelter.city && shelter.state
             ? `${shelter.city}, ${shelter.state}`
-            : 'Unknown',
+            : shelter.address || 'Unknown',
         age: `${animal.age} years`,
         weight: `${animal.weight} lbs`,
         size: this.getAnimalSize(animal.weight),
@@ -644,6 +644,10 @@ export class AdopterService {
       },
       shelter: {
         id: shelter.id,
+        name: shelter.name,
+        phone: shelter.phone || null,
+        address: shelter.address || null,
+        logoUrl: shelter.logoUrl || null,
         role: 'SHELTER',
       },
       shelterNotes:
